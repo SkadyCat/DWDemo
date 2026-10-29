@@ -1,0 +1,9 @@
+{
+  "id": "trig_crowd",
+  "name": "附近敌人数量达到n个时，触发挂载技能",
+  "description": "角色词条：附近敌人数量达到n个时，触发挂载技能。附近 = 6 米；数量回落后可再次触发",
+  "params": { "n": 6 },
+  "sheet": [
+    { "trigger": "trig_crowd" }
+  ]
+}

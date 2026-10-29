@@ -1,0 +1,8 @@
+{
+  "id": "poison",
+  "name": "中毒",
+  "description": "每层独立计时的毒素持续伤害（层数与伤害由战斗词条运行时结算，此处只记录层数与剩余时间）。",
+  "category": "ailment",
+  "stacking": "stack",
+  "maxStacks": 100
+}

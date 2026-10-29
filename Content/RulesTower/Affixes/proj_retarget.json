@@ -1,0 +1,12 @@
+{
+  "id": "proj_retarget",
+  "name": "投射物重新索敌次数 +n次",
+  "description": "角色词条：投射物重新索敌次数 +n次",
+  "params": { "n": 2 },
+  "sheet": [
+    {
+      "stat": "proj.retarget",
+      "value": { "param": "n" }
+    }
+  ]
+}

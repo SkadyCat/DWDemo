@@ -1,0 +1,12 @@
+{
+  "id": "block_reduction",
+  "name": "格挡伤害减免 +n个百分点",
+  "description": "角色词条：格挡伤害减免 +n个百分点。基础减免 70%，最多 100%",
+  "params": { "n": 10 },
+  "sheet": [
+    {
+      "stat": "block.reduction",
+      "value": { "param": "n" }
+    }
+  ]
+}

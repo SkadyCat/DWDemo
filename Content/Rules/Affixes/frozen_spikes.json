@@ -1,0 +1,9 @@
+{
+  "id": "frozen_spikes",
+  "name": "命中冻结敌人时，额外发射n枚冰刺",
+  "description": "角色词条：命中冻结敌人时，额外发射n枚冰刺。冰刺：向四周飞出，造成该次伤害 40% 的冰霜伤害",
+  "params": { "n": 3 },
+  "sheet": [
+    { "trigger": "frozen_spikes" }
+  ]
+}

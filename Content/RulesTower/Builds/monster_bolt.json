@@ -1,0 +1,10 @@
+{
+  "id": "monster_bolt",
+  "name": "怪物飞弹",
+  "active": "monster_bolt",
+  "traits": [
+    "monster_bolt",
+    "multiple_projectiles",
+    "monster_nova"
+  ]
+}

@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RuleStudio · DungeonWorldOpus 规则工作室</title>
+<link rel="stylesheet" href="/app.css">
+<link rel="stylesheet" href="/play.css">
+<link rel="stylesheet" href="/battle-dungeon-map.css">
+<link rel="stylesheet" href="/battle-map-cores.css">
+<link rel="stylesheet" href="/battle-map-events.css">
+<link rel="stylesheet" href="/atlas-map.css">
+<link rel="stylesheet" href="/audio/controls.css">
+<link rel="stylesheet" href="/battle-functions.css">
+<link rel="stylesheet" href="/battle-trait-equipment.css">
+<link rel="stylesheet" href="/battle-character.css">
+<link rel="stylesheet" href="/assets/ui/equipment-masks/catalog.css">
+<link rel="stylesheet" href="/battle-equipment-quality.css">
+<link rel="stylesheet" href="/battle-build-guide.css">
+<link rel="stylesheet" href="/battle-skill-tooltip.css">
+<link rel="stylesheet" href="/battle-icon-picker.css">
+<link rel="stylesheet" href="/tower-rewards.css">
+<link rel="stylesheet" href="/quests/style.css">
+<link rel="stylesheet" href="/hideout/style.css">
+<link rel="stylesheet" href="/inventory-notices.css">
+<link rel="stylesheet" href="/monsters.css">
+<link rel="stylesheet" href="/craft.css">
+<link rel="stylesheet" href="/families.css">
+<link rel="stylesheet" href="/drop-studio.css">
+<link rel="stylesheet" href="/affix-categories.css">
+<link rel="stylesheet" href="/talents/page.css">
+<script type="module" src="/app.mjs"></script>
+</head>
+<body>
+<aside class="sidebar">
+  <div class="brand">
+    <div class="logo"><svg viewBox="0 0 24 24"><path d="M12 2 3 7v10l9 5 9-5V7z"/><path d="m3 7 9 5 9-5M12 12v10"/></svg></div>
+    <div><b>RuleStudio</b><span>DungeonWorldOpus</span></div>
+  </div>
+  <nav id="tabs">
+    <div class="nav-group">内容编辑</div>
+    <button data-tab="skills" class="on"><svg viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>技能<em>Builds</em></button>
+    <button data-tab="equipment"><svg viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/></svg>装备<em>Equipment</em></button>
+    <button data-tab="items"><svg viewBox="0 0 24 24"><path d="m12 2 8 5v10l-8 5-8-5V7z"/><path d="m4 7 8 5 8-5M12 12v10"/></svg>物品<em>Items</em></button>
+    <button data-tab="monsters"><svg viewBox="0 0 24 24"><path d="m5 7-2-4 6 2h6l6-2-2 4v8l-7 6-7-6zM8 10h1M15 10h1M9 15h6"/></svg>怪物<em>Monsters</em></button>
+    <button data-tab="drops"><svg viewBox="0 0 24 24"><path d="m12 3 8 5v9l-8 4-8-4V8zM4 8l8 5 8-5M12 13v8"/><path d="M8 5l8 5"/></svg>掉落池<em>Loot</em></button>
+    <button data-tab="families"><svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="3"/><circle cx="5" cy="18" r="3"/><circle cx="19" cy="18" r="3"/><path d="m10 8-4 7m8-7 4 7M8 18h8"/></svg>特性族<em>Families</em></button>
+    <button data-tab="engine"><svg viewBox="0 0 24 24"><path d="M8 6 2 12l6 6M16 6l6 6-6 6M14 4l-4 16"/></svg>特性与编译<em>Traits</em></button>
+    <div class="nav-group">游玩</div>
+    <button data-tab="talents"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="3" r="1.5"/><circle cx="20" cy="17" r="1.5"/><circle cx="4" cy="17" r="1.5"/><path d="M12 5v4m3 5 4 2M9 14l-4 2"/></svg>天赋星盘<em>Talents</em></button>
+    <button data-tab="battle"><svg viewBox="0 0 24 24"><path d="M14.5 17.5 3 6V3h3l11.5 11.5M13 19l6-6M16 16l4 4M19 21l2-2"/></svg>3D 战斗<em>Battle</em></button>
+    <button data-tab="hideout"><svg viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v11H3V10Zm6 11v-7h6v7M7 10h2m6 0h2"/></svg>藏身处<em>Hideout</em></button>
+    <button data-tab="shop"><svg viewBox="0 0 24 24"><path d="M3 9h18l-1.5 11h-15zM8 9V6a4 4 0 0 1 8 0v3"/></svg>商店<em>Shop</em></button>
+    <button data-tab="craft"><svg viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/><circle cx="12" cy="12" r="5"/><path d="m12 9 1 2 2 1-2 1-1 2-1-2-2-1 2-1z"/></svg>洗炼<em>Craft</em></button>
+    <a href="/vfx.html" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:10px;padding:10px 14px;color:#92cfff;text-decoration:none;font-size:13px">✧ 特效预览 <small style="margin-left:auto;opacity:.6">VFX</small></a>
+    <div class="nav-group">运行与验证</div>
+    <a href="/bdhunter.html" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:10px;padding:10px 14px;color:#92cfff;text-decoration:none;font-size:13px">⌕ BD Hunter <small style="margin-left:auto;opacity:.6">词缀分析</small></a>
+    <button data-tab="combat"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></svg>基础战斗<em>Combat</em></button>
+    <button data-tab="sim"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M8 12h4M10 10v4M15 11h.01M17 13h.01"/></svg>模拟<em>Arena</em></button>
+    <button data-tab="parity"><svg viewBox="0 0 24 24"><path d="M4 12h6M14 12h6M10 8l-4 4 4 4M14 8l4 4-4 4"/></svg>一致性<em>Parity</em></button>
+  </nav>
+  <div id="libstatus" class="status">加载规则库…</div>
+</aside>
+
+<main>
+  <!-- ================= 编辑器（Vue） ================= -->
+  <section id="tab-skills" class="tab editor-tab on"><div id="editor-skill"></div></section>
+  <section id="tab-equipment" class="tab editor-tab"><div id="editor-equipment"></div></section>
+  <section id="tab-items" class="tab editor-tab"><div id="editor-item"></div></section>
+  <section id="tab-monsters" class="tab editor-tab"><div id="monster-root"></div></section>
+  <section id="tab-drops" class="tab editor-tab"><div id="drops-root"></div></section>
+  <section id="tab-families" class="tab editor-tab"><div id="families-root"></div></section>
+  <section id="tab-battle" class="tab editor-tab"><div id="battle-root"></div></section>
+  <section id="tab-hideout" class="tab editor-tab"><div id="hideout-root"></div></section>
+  <section id="tab-shop" class="tab editor-tab"><div id="shop-root"></div></section>
+  <section id="tab-craft" class="tab editor-tab"><div id="craft-root"></div></section>
+
+  <!-- ================= 特性与编译 ================= -->
+  <section id="tab-engine" class="tab">
+    <aside class="panel list">
+      <h3>技能 <small>Content/Rules/Builds</small></h3>
+      <div id="buildList"></div>
+      <h3>状态 <small>Content/Rules/Statuses</small></h3>
+      <div id="statusList"></div>
+      <h3>特性 <small>Traits / Timed / Affixes · 共 <span id="traitCount">0</span></small></h3>
+      <input id="traitFilter" placeholder="筛选特性（名称、id、内容）…">
+      <div id="traitList"></div>
+    </aside>
+    <div class="panel editor">
+      <div class="row between">
+        <h3 id="editTitle">—</h3>
+        <div class="row gap">
+          <span id="editState" class="muted"></span>
+          <button id="editValidate">校验</button>
+          <button id="editSave" class="primary">保存到 Content/Rules</button>
+        </div>
+      </div>
+      <textarea id="editText" spellcheck="false"></textarea>
+      <div id="editError" class="error" hidden></div>
+    </div>
+    <div class="panel plan">
+      <div class="row between">
+        <h3>编译计划</h3>
+        <div class="row gap"><label>技能 <select id="planBuild"></select></label></div>
+      </div>
+      <div id="planExtras" class="chips"></div>
+      <div id="planError" class="error" hidden></div>
+      <div id="planView"></div>
+    </div>
+  </section>
+
+  <!-- ================= 基础战斗 ================= -->
+  <section id="tab-combat" class="tab">
+    <aside class="panel controls">
+      <h3>构筑</h3>
+      <label>技能 <select id="cbBuild"></select></label>
+      <div id="cbExtras" class="chips"></div>
+      <h3>目标</h3>
+      <label>排布 <select id="cbLayout"><option value="lane">直线（12×2m）</option><option value="ring">螺旋环</option><option value="pack">密集群</option></select></label>
+      <label>数量 <input id="cbCount" type="number" value="12" min="1" max="200"></label>
+      <label>生命 <input id="cbHealth" type="number" value="60" min="1"></label>
+      <label>抗性 火/冰/雷/毒 <input id="cbResist" value="0,0,0,0"></label>
+      <h3>施法</h3>
+      <label>次数 <input id="cbCasts" type="number" value="1" min="1" max="60"></label>
+      <label>间隔（帧） <input id="cbInterval" type="number" value="20" min="1"></label>
+      <label>种子 <input id="cbSeed" type="number" value="7"></label>
+      <button id="cbRun" class="primary wide">施放</button>
+      <div id="cbSummary" class="summary"></div>
+    </aside>
+    <div class="panel stage">
+      <canvas id="cbCanvas" width="900" height="420"></canvas>
+      <div class="row gap">
+        <button id="cbPlay">回放</button>
+        <input id="cbScrub" type="range" min="0" max="0" value="0" class="grow">
+        <span id="cbFrame" class="muted mono">0</span>
+      </div>
+      <div class="split">
+        <div><h4>伤害记录 <small>FDWDamageRecord</small></h4><div id="cbRows" class="table"></div></div>
+        <div><h4>因果追踪 <small>规则触发 · 伤害 · 状态 · 生成</small></h4><div id="cbTrace" class="table"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 模拟 ================= -->
+  <section id="tab-sim" class="tab">
+    <div class="panel stage sim">
+      <canvas id="simCanvas" width="1280" height="760" tabindex="0"></canvas>
+      <div id="simHud" class="hud"></div>
+      <div id="simDead" class="dead" hidden>英雄倒下 · 按 R 复活</div>
+    </div>
+    <aside class="panel controls">
+      <h3>操作</h3>
+      <p class="muted">WASD 移动 · 鼠标瞄准 · 左键/空格施法 · 1–0 开关特性 · R 复活</p>
+      <div id="simToggles" class="toggles"></div>
+      <label class="check"><input id="simAuto" type="checkbox"> 自动施法（旋转）</label>
+      <label class="check"><input id="simGod" type="checkbox"> 无敌</label>
+      <label>怪物上限 <input id="simMax" type="number" value="300" min="0" max="2000"></label>
+      <div class="row gap"><button id="simPause">暂停</button><button id="simReset">重置</button></div>
+      <h3>帧报告 <small>FDWRuleFrameReport</small></h3>
+      <div id="simReport" class="kv mono"></div>
+    </aside>
+  </section>
+
+  <!-- ================= 一致性 ================= -->
+  <section id="tab-parity" class="tab">
+    <div class="panel wide-panel">
+      <h3>Web 解释器 ↔ UE 原生运行时</h3>
+      <p class="muted">同一份 <code>parity/scenarios.json</code> 分别由 UE 自动化测试 <code>DWB.Rules.WebParity</code> 与本解释器执行，逐条比较伤害记录（帧、目标、施法者、数值、元素、暴击、击杀）、每帧统计、计划哈希与世界状态哈希。</p>
+      <div class="row gap"><button id="parityRun" class="primary">在浏览器中重跑 Web 侧</button><span id="parityWeb" class="muted"></span></div>
+      <div id="parityReport"></div>
+    </div>
+  </section>
+</main>
+<div id="toast" hidden></div>
+<div id="vtoast"></div>
+</body>
+</html>

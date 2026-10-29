@@ -1,0 +1,207 @@
+{
+  "families": [
+    {
+      "id": "elemental",
+      "name": "元素",
+      "description": "火焰、冰霜、闪电、虚空"
+    },
+    {
+      "id": "martial",
+      "name": "武斗",
+      "description": "物理、近战、流血与破甲"
+    },
+    {
+      "id": "affliction",
+      "name": "异常",
+      "description": "冰缓、感电、点燃、冻结、中毒等异常状态"
+    },
+    {
+      "id": "ballistic",
+      "name": "投射",
+      "description": "投射物、连锁、法术与法杖"
+    },
+    {
+      "id": "offense",
+      "name": "攻势",
+      "description": "伤害、暴击、速度、范围、击杀"
+    },
+    {
+      "id": "barrier",
+      "name": "护盾",
+      "description": "护盾上限、回充、再生、偷取与溢出"
+    },
+    {
+      "id": "vitality",
+      "name": "生机",
+      "description": "气血、偷取、恢复与药剂"
+    },
+    {
+      "id": "guard",
+      "name": "守御",
+      "description": "抗性、格挡、闪避、护甲、减伤"
+    },
+    {
+      "id": "mind",
+      "name": "心法",
+      "description": "属性、魔力与技能消耗"
+    },
+    {
+      "id": "proc",
+      "name": "触发",
+      "description": "触发效果与持续时间"
+    }
+  ],
+  "tags": {
+    "fire": {
+      "name": "火焰",
+      "family": "elemental"
+    },
+    "frost": {
+      "name": "冰霜",
+      "family": "elemental"
+    },
+    "lightning": {
+      "name": "闪电",
+      "family": "elemental"
+    },
+    "void": {
+      "name": "虚空",
+      "family": "elemental"
+    },
+    "physical": {
+      "name": "物理",
+      "family": "martial"
+    },
+    "melee": {
+      "name": "近战",
+      "family": "martial"
+    },
+    "sunder": {
+      "name": "破甲",
+      "family": "martial"
+    },
+    "ailment": {
+      "name": "异常",
+      "family": "affliction"
+    },
+    "poison": {
+      "name": "中毒",
+      "family": "affliction"
+    },
+    "projectile": {
+      "name": "投射物",
+      "family": "ballistic"
+    },
+    "chain": {
+      "name": "连锁",
+      "family": "ballistic"
+    },
+    "spell": {
+      "name": "法术",
+      "family": "ballistic"
+    },
+    "staff": {
+      "name": "法杖",
+      "family": "ballistic"
+    },
+    "damage": {
+      "name": "伤害",
+      "family": "offense"
+    },
+    "critical": {
+      "name": "暴击",
+      "family": "offense"
+    },
+    "speed": {
+      "name": "速度",
+      "family": "offense"
+    },
+    "area": {
+      "name": "范围",
+      "family": "offense"
+    },
+    "kill": {
+      "name": "击杀",
+      "family": "offense"
+    },
+    "shield": {
+      "name": "护盾",
+      "family": "barrier"
+    },
+    "life": {
+      "name": "气血",
+      "family": "vitality"
+    },
+    "leech": {
+      "name": "偷取",
+      "family": "vitality"
+    },
+    "recovery": {
+      "name": "恢复",
+      "family": "vitality"
+    },
+    "flask": {
+      "name": "药剂",
+      "family": "vitality"
+    },
+    "defense": {
+      "name": "防御",
+      "family": "guard"
+    },
+    "attribute": {
+      "name": "属性",
+      "family": "mind"
+    },
+    "mana": {
+      "name": "魔力",
+      "family": "mind"
+    },
+    "cost": {
+      "name": "消耗",
+      "family": "mind"
+    },
+    "trigger": {
+      "name": "触发",
+      "family": "proc"
+    },
+    "duration": {
+      "name": "持续",
+      "family": "proc"
+    },
+    "poison_flask": {
+      "name": "毒瓶",
+      "family": "affliction"
+    }
+  },
+  "traits": {
+    "aura_fire": ["mind"],
+    "aura_frost": ["mind"],
+    "aura_lightning": ["mind"],
+    "aura_poison": ["mind"],
+    "aura_physical": ["mind"],
+    "aura_void": ["mind"],
+    "aura_evasion": ["mind"],
+    "aura_resist_fire": ["mind"],
+    "aura_resist_frost": ["mind"],
+    "aura_resist_lightning": ["mind"],
+    "aura_resist_poison": ["mind"],
+    "aura_resist_all": ["mind"],
+    "aura_armour": ["mind"],
+    "aura_shield": ["mind"],
+    "bleed": [
+      "ailment"
+    ],
+    "hobble": [
+      "ailment"
+    ],
+    "brittle": [
+      "ailment"
+    ],
+    "shatter": [
+      "ailment"
+    ],
+    "timed_hit_curse": [
+      "sunder"
+    ]
+  }
+}

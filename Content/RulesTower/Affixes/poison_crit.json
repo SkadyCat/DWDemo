@@ -1,0 +1,12 @@
+{
+  "id": "poison_crit",
+  "name": "暴击施加的中毒伤害 +n%",
+  "description": "角色词条：暴击施加的中毒伤害 +n%",
+  "params": { "n": 50 },
+  "sheet": [
+    {
+      "stat": "poison.crit_damage",
+      "value": { "param": "n" }
+    }
+  ]
+}

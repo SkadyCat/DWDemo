@@ -1,0 +1,9 @@
+{
+  "id": "shield_on_hit_taken_evasion",
+  "name": "受到命中时，恢复相当于闪避值n%的护盾",
+  "description": "角色词条：受到命中时，恢复相当于闪避值n%的护盾",
+  "params": { "n": 2 },
+  "sheet": [
+    { "stat": "shield.on_hit_taken_evasion_percent", "value": { "param": "n" } }
+  ]
+}

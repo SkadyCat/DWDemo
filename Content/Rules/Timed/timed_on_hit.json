@@ -1,0 +1,15 @@
+{
+  "id": "timed_on_hit",
+  "name": "附带持续时间·命中后",
+  "description": "附带持续时间：命中敌人后，自身获得缝合的特性，持续 duration 秒。chance 为触发概率（%）。再次触发刷新时间，不叠加。",
+  "params": { "duration": 3, "chance": 100 },
+  "rules": [
+    {
+      "id": "grant_on_hit",
+      "event": "hit",
+      "chain": { "maxDepth": 4 },
+      "conditions": [ { "op": "chance", "probability": { "param": "chance" } } ],
+      "actions": [ { "op": "grant_traits", "origin": "owner", "traits": "stitched", "duration": { "param": "duration" } } ]
+    }
+  ]
+}

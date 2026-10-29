@@ -1,0 +1,9 @@
+{
+  "id": "area_move_forward",
+  "name": "范围技能向指定方向移动",
+  "description": "角色词条：范围技能向指定方向移动。变为持续 2 秒的区域，沿瞄准方向移动",
+  "params": {},
+  "sheet": [
+    { "stat": "area.move_forward", "value": 1 }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "id": "rime_thunder_annihilation_ring",
+  "name": "霜雷·鸣灭指环",
+  "description": "消耗目标异常状态时，有100%概率触发雷霆新星。固定传奇特性聚合创建雷霆新星与感电，概率不随装备 T 阶变化；新星的伤害、范围与感电数值按 T 阶生成。其余五条词缀正常随机，洗炼保留固定传奇特性。需要另外获得施加、消费异常状态的能力，触发仍有冷却和魔力消耗。",
+  "slot": "ring",
+  "rarity": "legendary",
+  "level": 1,
+  "tier": 1,
+  "tags": ["闪电", "触发族"],
+  "skills": [],
+  "bases": ["lightning_base"],
+  "legendary": {
+    "id": "legendary_consumed_nova",
+    "with": ["create_lightning_nova", "shock"]
+  },
+  "traits": [{
+    "id": "legendary_consumed_nova",
+    "with": ["create_lightning_nova", "shock"]
+  }]
+}

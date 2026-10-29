@@ -1,0 +1,12 @@
+{
+  "id": "freeze_elite",
+  "name": "对精英敌人的冻结积累效率 +n%",
+  "description": "角色词条：对精英敌人的冻结积累效率 +n%。精英基础积累效率只有 50%",
+  "params": { "n": 60 },
+  "sheet": [
+    {
+      "stat": "freeze.elite",
+      "value": { "param": "n" }
+    }
+  ]
+}

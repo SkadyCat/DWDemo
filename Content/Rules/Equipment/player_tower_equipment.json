@@ -1,0 +1,14 @@
+{
+  "id": "player_tower_equipment",
+  "name": "玩家塔地图属性",
+  "description": "玩家的塔地图固定装备，当前没有配置增益。",
+  "slot": "tower",
+  "rarity": "common",
+  "level": 1,
+  "tier": 1,
+  "tags": [
+    "固定装备"
+  ],
+  "skills": [],
+  "traits": []
+}

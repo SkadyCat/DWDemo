@@ -1,0 +1,9 @@
+{
+  "id": "shield_on_crit",
+  "name": "暴击时恢复护盾 +n点",
+  "description": "角色词条：暴击时恢复护盾 +n点",
+  "params": { "n": 8 },
+  "sheet": [
+    { "stat": "shield.on_crit", "value": { "param": "n" } }
+  ]
+}

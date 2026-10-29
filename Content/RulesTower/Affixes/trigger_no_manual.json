@@ -1,0 +1,12 @@
+{
+  "id": "trigger_no_manual",
+  "name": "触发技能无法手动施放，但伤害额外提高n%",
+  "description": "角色词条：触发技能无法手动施放，但伤害额外提高n%。挂载在触发词条中的技能不能放入技能槽手动施放",
+  "params": { "n": 30 },
+  "sheet": [
+    {
+      "stat": "trigger.no_manual",
+      "value": { "param": "n" }
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "id": "storm_totem_lightning",
+  "parent": "summon_storm_totem",
+  "name": "图腾·落雷",
+  "description": "辅助引雷图腾，使其每次攻击时触发落雷；基础闪电伤害 +damage。damage 为基础伤害（点）。直接命中锁定敌人，造成闪电伤害；不创建投射物，命中可联动既有感电特性。",
+  "params": {
+    "damage": 15
+  },
+  "rules": [
+    {
+      "id": "storm_totem_lightning_on_attack",
+      "event": "storm_totem_attack",
+      "actions": [
+        {
+          "op": "damage_target",
+          "element": "lightning",
+          "tags": [
+            "lightning",
+            "spell"
+          ],
+          "amount": {
+            "param": "damage"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "id": "map_core_equipment_t10",
+  "name": "地图核心 T10",
+  "description": "地图固定装备。普通怪物数量 +900%，不额外增加气血和伤害。",
+  "slot": "map",
+  "rarity": "common",
+  "level": 1,
+  "tier": 10,
+  "tags": [
+    "固定装备",
+    "地图"
+  ],
+  "skills": [],
+  "traits": [
+    {
+      "id": "map_monster_packs",
+      "params": {
+        "n": 900
+      }
+    },
+    {
+      "id": "map_monster_life",
+      "params": {
+        "n": 0
+      }
+    },
+    {
+      "id": "map_monster_damage",
+      "params": {
+        "n": 0
+      }
+    },
+    {
+      "id": "map_boss_map_drop_chance",
+      "params": {
+        "n": 60
+      }
+    }
+  ]
+}

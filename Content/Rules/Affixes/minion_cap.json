@@ -1,0 +1,12 @@
+{
+  "id": "minion_cap",
+  "name": "召唤物数量上限 +n个",
+  "description": "角色词条：召唤物数量上限 +n个",
+  "params": { "n": 1 },
+  "sheet": [
+    {
+      "stat": "minion.cap",
+      "value": { "param": "n" }
+    }
+  ]
+}

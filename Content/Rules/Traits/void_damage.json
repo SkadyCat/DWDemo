@@ -1,0 +1,15 @@
+{
+  "id": "void_damage",
+  "name": "虚空伤害",
+  "description": "命中时追加虚空伤害。追加命中使用独立事件，避免再次触发自身。",
+  "params": { "amount": 10 },
+  "rules": [
+    {
+      "id": "void_damage_on_hit",
+      "event": "hit",
+      "actions": [
+        { "op": "damage_target", "element": "void", "tags": ["void"], "emitEvent": "void_damage_hit", "amount": { "param": "amount" } }
+      ]
+    }
+  ]
+}

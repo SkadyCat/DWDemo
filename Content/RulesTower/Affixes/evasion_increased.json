@@ -1,0 +1,12 @@
+{
+  "id": "evasion_increased",
+  "name": "闪避值 +n%",
+  "description": "角色词条：闪避值 +n%",
+  "params": { "n": 30 },
+  "sheet": [
+    {
+      "stat": "evasion.increased",
+      "value": { "param": "n" }
+    }
+  ]
+}

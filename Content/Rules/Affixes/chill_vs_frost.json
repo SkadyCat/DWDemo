@@ -1,0 +1,12 @@
+{
+  "id": "chill_vs_frost",
+  "name": "对冰缓敌人的冰霜伤害 +n%",
+  "description": "角色词条：对冰缓敌人的冰霜伤害 +n%",
+  "params": { "n": 30 },
+  "sheet": [
+    {
+      "stat": "chill.vs_frost",
+      "value": { "param": "n" }
+    }
+  ]
+}

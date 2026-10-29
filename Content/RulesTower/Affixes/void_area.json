@@ -1,0 +1,12 @@
+{
+  "id": "void_area",
+  "name": "虚空技能范围面积 +n%",
+  "description": "角色词条：虚空技能范围面积 +n%",
+  "params": { "n": 30 },
+  "sheet": [
+    {
+      "stat": "void.area",
+      "value": { "param": "n" }
+    }
+  ]
+}

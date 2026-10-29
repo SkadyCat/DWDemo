@@ -1,0 +1,12 @@
+{
+  "id": "area_line_width",
+  "name": "直线范围宽度 +n米",
+  "description": "角色词条：直线范围宽度 +n米。直线技能基础宽 1.2 米",
+  "params": { "n": 0.5 },
+  "sheet": [
+    {
+      "stat": "area.line_width",
+      "value": { "param": "n" }
+    }
+  ]
+}

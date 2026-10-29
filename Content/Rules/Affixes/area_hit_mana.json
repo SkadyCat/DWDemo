@@ -1,0 +1,12 @@
+{
+  "id": "area_hit_mana",
+  "name": "范围每命中一个敌人，恢复魔力 +n点",
+  "description": "角色词条：范围每命中一个敌人，恢复魔力 +n点",
+  "params": { "n": 1 },
+  "sheet": [
+    {
+      "stat": "area.per_hit_mana",
+      "value": { "param": "n" }
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "id": "hit_mirror_ground",
+  "name": "命中时，有n%概率生成镜像地面",
+  "description": "命中时，有n%概率生成镜像地面。chance为概率%；radius为米；duration和cooldown为秒。带接触地面特性的投射物每次进入复制一枚；原体与复制体均须退出再进入才再次复制，不限制复制代数；复制保留伤害、元素、运动与已消耗寿命，拥有独立正常命中批次，沿用世界载体容量。地面本身不造成伤害",
+  "params": {
+    "chance": 25,
+    "radius": 2,
+    "duration": 4,
+    "cooldown": 1
+  },
+  "sheet": [
+    {
+      "trigger": "hit_mirror_ground"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "id": "trigger_streak",
+  "name": "连续触发同一技能时，伤害 +n%，最多提高n%",
+  "description": "角色词条：连续触发同一技能时，伤害 +n%，最多提高n%",
+  "params": { "n": 10, "max": 50 },
+  "sheet": [
+    { "trigger": "trigger_streak" }
+  ]
+}

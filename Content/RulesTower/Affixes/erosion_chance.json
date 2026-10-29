@@ -1,0 +1,12 @@
+{
+  "id": "erosion_chance",
+  "name": "命中时，侵蚀概率 +n个百分点",
+  "description": "角色词条：命中时，侵蚀概率 +n个百分点。侵蚀：每层独立计时，基础持续 3 秒，每秒造成命中 15% 的虚空伤害",
+  "params": { "n": 20 },
+  "sheet": [
+    {
+      "stat": "erosion.chance",
+      "value": { "param": "n" }
+    }
+  ]
+}

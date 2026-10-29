@@ -1,0 +1,8 @@
+{
+  "id": "monster_strike",
+  "name": "怪物近战",
+  "active": "monster_strike",
+  "traits": [
+    "monster_strike"
+  ]
+}

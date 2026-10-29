@@ -1,0 +1,9 @@
+{
+  "id": "minion_prefer_low",
+  "name": "召唤物优先攻击低血敌人",
+  "description": "角色词条：召唤物优先攻击低血敌人",
+  "params": {},
+  "sheet": [
+    { "stat": "minion.prefer_low", "value": 1 }
+  ]
+}

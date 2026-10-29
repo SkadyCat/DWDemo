@@ -1,0 +1,24 @@
+{
+  "id": "cinder_surge_grips",
+  "name": "燎原·复燃手",
+  "description": "燎原配装的手套，额外生成区域并重复结算，提高重复伤害与区域重叠效能；另有范围内敌人数量及单目标增伤。所有词条均使用现有默认值，无套装效果。",
+  "slot": "gloves",
+  "rarity": "rare",
+  "level": 30,
+  "tags": [
+    "火焰",
+    "范围"
+  ],
+  "skills": [],
+  "traits": [
+    "area_extra_zones",
+    "area_overlap",
+    "area_repeats",
+    "area_repeat_damage",
+    "area_per_enemy",
+    "area_single"
+  ],
+  "bases": [
+    "armour"
+  ]
+}

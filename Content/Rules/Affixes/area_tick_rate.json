@@ -1,0 +1,12 @@
+{
+  "id": "area_tick_rate",
+  "name": "范围技能持续伤害频率 +n%",
+  "description": "角色词条：范围技能持续伤害频率 +n%。持续区域每秒伤害不变，结算间隔缩短",
+  "params": { "n": 30 },
+  "sheet": [
+    {
+      "stat": "area.tick_rate",
+      "value": { "param": "n" }
+    }
+  ]
+}

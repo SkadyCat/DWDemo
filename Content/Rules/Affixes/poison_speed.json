@@ -1,0 +1,12 @@
+{
+  "id": "poison_speed",
+  "name": "中毒伤害结算速度 +n%",
+  "description": "角色词条：中毒伤害结算速度 +n%。总伤害不变，更快打完",
+  "params": { "n": 30 },
+  "sheet": [
+    {
+      "stat": "poison.speed",
+      "value": { "param": "n" }
+    }
+  ]
+}

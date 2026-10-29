@@ -1,0 +1,16 @@
+{
+  "id": "inc_void",
+  "name": "虚空伤害 +n%",
+  "description": "角色词条：虚空伤害 +n%",
+  "params": {
+    "n": 25
+  },
+  "sheet": [
+    {
+      "stat": "damage.increased.void",
+      "value": {
+        "param": "n"
+      }
+    }
+  ]
+}

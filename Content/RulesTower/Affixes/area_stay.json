@@ -1,0 +1,9 @@
+{
+  "id": "area_stay",
+  "name": "敌人在范围内每停留n秒，受到该技能的伤害 +n%",
+  "description": "角色词条：敌人在范围内每停留n秒，受到该技能的伤害 +n%",
+  "params": { "seconds": 1, "n": 15 },
+  "sheet": [
+    { "trigger": "area_stay" }
+  ]
+}

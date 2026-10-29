@@ -1,0 +1,9 @@
+{
+  "id": "trig_damage_taken",
+  "name": "每累计受到n点命中伤害，触发挂载技能",
+  "description": "角色词条：每累计受到n点命中伤害，触发挂载技能",
+  "params": { "per": 150 },
+  "sheet": [
+    { "trigger": "trig_damage_taken" }
+  ]
+}

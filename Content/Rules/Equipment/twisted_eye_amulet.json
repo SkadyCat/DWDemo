@@ -1,0 +1,16 @@
+{
+  "id": "twisted_eye_amulet",
+  "name": "扭曲之瞳",
+  "description": "主动施放技能时，有概率召唤1只持续5秒的无敌扭曲之眼，最低阶触发概率60%～64%。它视为敌对怪物，跟随玩家后方并发射追踪投射物，可配合逆矢指环的矢量操控。触发概率按T阶生成，沿用现有触发冷却与魔力消耗；其余五条词缀正常随机，洗炼保留固定传奇词条。",
+  "slot": "amulet",
+  "rarity": "legendary",
+  "level": 1,
+  "tier": 1,
+  "tags": ["触发族"],
+  "skills": [],
+  "bases": ["mana_base"],
+  "legendary": { "id": "legendary_twisted_eye", "with": ["summon_twisted_eyes"] },
+  "traits": [
+    { "id": "legendary_twisted_eye", "with": ["summon_twisted_eyes"] }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "id": "summon_myriad_gloves",
+  "name": "召唤·万剑并锋手",
+  "description": "召唤万剑：既有哨卫发射冰锥，多重、发射位置、汇聚与追踪通过原有投射物词条聚合。五件T10固定部分提供3个控制名额、同类上限3，每座首轮143枚冰锥；施法速度与冷却恢复合计+195%，每座约0.34秒一轮。连续召唤三次建立三座哨卫。核心在固定基底与单条传奇，五条品质词缀正常随机，洗炼保留核心。",
+  "slot": "gloves",
+  "rarity": "legendary",
+  "level": 1,
+  "tier": 10,
+  "tags": [
+    "召唤",
+    "冰霜",
+    "投射物"
+  ],
+  "skills": [],
+  "bases": [
+    {
+      "id": "proj_count",
+      "params": {
+        "n": 2
+      },
+      "with": [],
+      "tier": 10
+    },
+    {
+      "id": "minion_damage",
+      "params": {
+        "n": 58
+      },
+      "with": [],
+      "tier": 10
+    },
+    {
+      "id": "minion_life",
+      "params": {
+        "n": 58
+      },
+      "with": [],
+      "tier": 10
+    },
+    {
+      "id": "minion_cast_speed",
+      "params": {
+        "n": 39
+      },
+      "with": [],
+      "tier": 10
+    }
+  ],
+  "legendary": {
+    "id": "proj_origins",
+    "params": {
+      "n": 2
+    },
+    "with": [],
+    "tier": 10
+  },
+  "traits": [
+    {
+      "id": "proj_origins",
+      "params": {
+        "n": 2
+      },
+      "with": [],
+      "tier": 10
+    }
+  ]
+}

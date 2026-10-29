@@ -1,0 +1,52 @@
+// Generated from Content/MapEvents/events.json by Tools/UI/Author-MapEventMarkers.mjs.
+export const MAP_EVENT_CONFIG = {
+  "schemaVersion": 1,
+  "chancePercent": 75,
+  "minEvents": 1,
+  "maxEvents": 2,
+  "definitions": [
+    {
+      "id": "reforge_altar",
+      "kind": "altar",
+      "name": "百炼法坛",
+      "description": "放入一件背包装备并锁定，用法坛提供的通货无限次制作；收取后本坛结束。",
+      "weight": 30,
+      "minFloor": 1,
+      "currencies": [
+        "chaos_orb",
+        "quad_affix_orb"
+      ]
+    },
+    {
+      "id": "sealed_vault",
+      "kind": "vault",
+      "name": "封印宝库",
+      "description": "击败守库者，开启宝库，从三件稀有装备中挑选一件。",
+      "weight": 25,
+      "minFloor": 1,
+      "guards": 6,
+      "rarity": "rare",
+      "candidateCount": 3,
+      "chooseCount": 1
+    },
+    {
+      "id": "legendary_reliquary",
+      "kind": "choice",
+      "name": "遗珍神龛",
+      "description": "揭开三件随机传奇，选择一件收入背包。候选生成后固定，不可通过关闭界面重抽。",
+      "weight": 20,
+      "minFloor": 1,
+      "rarity": "legendary",
+      "candidateCount": 3,
+      "chooseCount": 1
+    },
+    {
+      "id": "confluence_altar",
+      "kind": "fusion",
+      "name": "万相合成祭坛",
+      "description": "放入两件同部位装备并锁定，左右随机抽取任意条数词条，消耗两件并合成新装备；固定传奇词条也可能传承，可得到多个传奇词条。",
+      "weight": 25,
+      "minFloor": 1
+    }
+  ]
+};

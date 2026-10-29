@@ -1,0 +1,12 @@
+{
+  "id": "area_line_length",
+  "name": "直线范围长度 +n米",
+  "description": "角色词条：直线范围长度 +n米。直线技能基础长 7 米",
+  "params": { "n": 2 },
+  "sheet": [
+    {
+      "stat": "area.line_length",
+      "value": { "param": "n" }
+    }
+  ]
+}

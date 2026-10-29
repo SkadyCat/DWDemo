@@ -1,0 +1,9 @@
+{
+  "id": "full_shield_crit",
+  "name": "满护盾时，暴击率 +n%",
+  "description": "角色词条：满护盾时，暴击率 +n%",
+  "params": { "n": 5 },
+  "sheet": [
+    { "stat": "shield.full.critical_chance", "value": { "param": "n" } }
+  ]
+}

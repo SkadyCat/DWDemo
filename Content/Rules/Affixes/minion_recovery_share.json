@@ -1,0 +1,12 @@
+{
+  "id": "minion_recovery_share",
+  "name": "你恢复气血时，恢复量的n%同时用于治疗召唤物",
+  "description": "角色词条：你恢复气血时，恢复量的n%同时用于治疗召唤物",
+  "params": { "n": 30 },
+  "sheet": [
+    {
+      "stat": "minion.recovery_share",
+      "value": { "param": "n" }
+    }
+  ]
+}

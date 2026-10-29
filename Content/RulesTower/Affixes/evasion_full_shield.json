@@ -1,0 +1,12 @@
+{
+  "id": "evasion_full_shield",
+  "name": "满护盾时，闪避值 +n%",
+  "description": "角色词条：满护盾时，闪避值 +n%",
+  "params": { "n": 40 },
+  "sheet": [
+    {
+      "stat": "evasion.full_shield",
+      "value": { "param": "n" }
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "id": "player_stun_buildup",
+  "name": "受击积累晕眩",
+  "description": "玩家的非持续受击伤害按1倍计入晕眩；护盾吸收的伤害仍累计，闪避及零伤害不累计。",
+  "params": { "n": 1 },
+  "sheet": [{ "stat": "stun.buildup", "value": { "param": "n" } }]
+}

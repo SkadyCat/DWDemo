@@ -1,0 +1,9 @@
+{
+  "id": "full_shield_damage",
+  "name": "满护盾时，伤害 +n%",
+  "description": "角色词条：满护盾时，伤害 +n%",
+  "params": { "n": 20 },
+  "sheet": [
+    { "stat": "shield.full.damage", "value": { "param": "n" } }
+  ]
+}

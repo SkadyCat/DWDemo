@@ -1,0 +1,15 @@
+{
+  "id": "spirit_claw",
+  "parent": "summon_spirit",
+  "name": "灵仆·利爪",
+  "description": "辅助灵仆，使其每次攻击时触发利爪；基础物理伤害 +damage。damage 为基础物理伤害（点），对锁定的敌人生效；技能威力更高时取技能威力。",
+  "params": { "damage": 14 },
+  "rules": [
+    {
+      "id": "spirit_claw_strike", "event": "spirit_attack",
+      "actions": [
+        { "op": "damage_target", "element": "physical", "tags": ["physical", "melee"], "amount": { "max": [{ "param": "damage" }, { "event": "amount" }] } }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "id": "frostthorn_staff",
+  "name": "霜棘法杖",
+  "description": "绑定冰锥术。词条按装备品质与 T 阶随机生成；传奇品质固定带有冰霜精通。",
+  "slot": "weapon",
+  "rarity": "common",
+  "level": 1,
+  "tier": 1,
+  "tags": [
+    "冰霜",
+    "法杖"
+  ],
+  "skills": [
+    "frost_lance"
+  ],
+  "legendary": "cold_mastery",
+  "traits": [],
+  "bases": [
+    "flat_frost"
+  ]
+}

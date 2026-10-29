@@ -1,0 +1,9 @@
+{
+  "id": "minion_kill_life",
+  "name": "召唤物每击败一个敌人，气血上限 +n%，最多提高n%",
+  "description": "角色词条：召唤物每击败一个敌人，气血上限 +n%，最多提高n%",
+  "params": { "n": 5, "max": 50 },
+  "sheet": [
+    { "trigger": "minion_kill_life" }
+  ]
+}

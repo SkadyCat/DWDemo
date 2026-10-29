@@ -1,0 +1,9 @@
+{
+  "id": "trigger_at_event",
+  "name": "触发技能在触发事件发生的位置释放",
+  "description": "角色词条：触发技能在触发事件发生的位置释放",
+  "params": {},
+  "sheet": [
+    { "stat": "trigger.at_event", "value": 1 }
+  ]
+}

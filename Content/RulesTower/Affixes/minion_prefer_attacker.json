@@ -1,0 +1,9 @@
+{
+  "id": "minion_prefer_attacker",
+  "name": "召唤物优先攻击正在攻击你的敌人",
+  "description": "角色词条：召唤物优先攻击正在攻击你的敌人。4 秒内命中过你的敌人",
+  "params": {},
+  "sheet": [
+    { "stat": "minion.prefer_attacker", "value": 1 }
+  ]
+}

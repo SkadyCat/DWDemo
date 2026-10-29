@@ -1,0 +1,9 @@
+{
+  "id": "void_extra_physical",
+  "name": "获得相当于物理伤害n%的额外虚空伤害",
+  "description": "角色词条：获得相当于物理伤害n%的额外虚空伤害",
+  "params": { "n": 15, "source": 3, "element": 5 },
+  "sheet": [
+    { "trigger": "extra_damage" }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "id": "shield_taken_physical",
+  "name": "护盾承受的物理伤害 -n%",
+  "description": "角色词条：护盾承受的物理伤害 -n%。同样的伤害，护盾少掉 n%。",
+  "params": { "n": 15 },
+  "sheet": [
+    { "stat": "shield.taken_physical_reduction", "value": { "param": "n" } }
+  ]
+}

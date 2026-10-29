@@ -1,0 +1,9 @@
+{
+  "id": "life_regen_not_recently_hit",
+  "name": "近期未受到伤害时，每秒恢复最大气血的n%",
+  "description": "角色词条：近期未受到伤害时，每秒恢复最大气血的n%",
+  "params": { "n": 2 },
+  "sheet": [
+    { "stat": "life.regen_no_recent_hit_percent", "value": { "param": "n" } }
+  ]
+}

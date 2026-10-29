@@ -1,0 +1,34 @@
+{
+  "id": "ember_apocalypse",
+  "name": "焚界血炉",
+  "description": "每 0.55 秒施放烈焰爆发，附加火焰并点燃；T10 气血三件套把最大生命转为火焰点伤、增伤与范围，火焰和元素倍率继续放大。",
+  "enabled": true,
+  "weight": 1,
+  "minFloor": 11,
+  "health": 100,
+  "speed": 285,
+  "stopDistance": 160,
+  "color": "#ff733a",
+  "equipment": {
+    "lineage": "monster_lineage_ember_apocalypse",
+    "rarity": null,
+    "tower": "monster_tower_equipment"
+  },
+  "traits": [
+    {
+      "id": "monster_seek_range",
+      "params": {
+        "n": 20
+      }
+    }
+  ],
+  "skills": [
+    {
+      "id": "flame_burst",
+      "enabled": true,
+      "range": 450,
+      "cooldown": 0.55,
+      "power": 10
+    }
+  ]
+}

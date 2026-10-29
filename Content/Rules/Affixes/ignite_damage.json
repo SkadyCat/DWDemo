@@ -1,0 +1,12 @@
+{
+  "id": "ignite_damage",
+  "name": "点燃伤害 +n%",
+  "description": "角色词条：点燃伤害 +n%",
+  "params": { "n": 30 },
+  "sheet": [
+    {
+      "stat": "ignite.damage",
+      "value": { "param": "n" }
+    }
+  ]
+}

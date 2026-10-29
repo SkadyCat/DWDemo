@@ -1,0 +1,9 @@
+{
+  "id": "life_on_kill_percent",
+  "name": "击败敌人时恢复最大气血的n%",
+  "description": "角色词条：击败敌人时恢复最大气血的n%",
+  "params": { "n": 2 },
+  "sheet": [
+    { "stat": "life.on_kill_percent", "value": { "param": "n" } }
+  ]
+}

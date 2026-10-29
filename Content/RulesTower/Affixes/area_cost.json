@@ -1,0 +1,12 @@
+{
+  "id": "area_cost",
+  "name": "范围技能消耗 -n%",
+  "description": "角色词条：范围技能消耗 -n%",
+  "params": { "n": 25 },
+  "sheet": [
+    {
+      "stat": "area.cost",
+      "value": { "param": "n" }
+    }
+  ]
+}

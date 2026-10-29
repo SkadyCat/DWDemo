@@ -1,0 +1,12 @@
+{
+  "id": "minion_accuracy",
+  "name": "召唤物命中率 +n%",
+  "description": "角色词条：召唤物命中率 +n%。召唤物基础命中率 90%",
+  "params": { "n": 10 },
+  "sheet": [
+    {
+      "stat": "minion.accuracy",
+      "value": { "param": "n" }
+    }
+  ]
+}

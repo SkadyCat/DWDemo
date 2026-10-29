@@ -1,0 +1,12 @@
+{
+  "id": "area_hit_life",
+  "name": "范围每命中一个敌人，恢复气血 +n点",
+  "description": "角色词条：范围每命中一个敌人，恢复气血 +n点",
+  "params": { "n": 3 },
+  "sheet": [
+    {
+      "stat": "area.per_hit_life",
+      "value": { "param": "n" }
+    }
+  ]
+}

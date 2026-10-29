@@ -1,0 +1,9 @@
+{
+  "id": "chain_overflow",
+  "name": "闪电连锁没有其他目标时，剩余连锁次数转为伤害加成",
+  "description": "角色词条：闪电连锁没有其他目标时，剩余连锁次数转为伤害加成。每剩余一次，最后一跳伤害 +20%",
+  "params": {},
+  "sheet": [
+    { "stat": "chain.overflow", "value": 1 }
+  ]
+}

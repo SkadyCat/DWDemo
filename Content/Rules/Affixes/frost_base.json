@@ -1,0 +1,12 @@
+{
+  "id": "frost_base",
+  "name": "基础冰霜伤害 +n点",
+  "description": "角色词条：基础冰霜伤害 +n点",
+  "params": { "n": 8 },
+  "sheet": [
+    {
+      "stat": "damage.flat.frost",
+      "value": { "param": "n" }
+    }
+  ]
+}

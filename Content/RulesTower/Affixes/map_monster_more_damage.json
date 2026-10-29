@@ -1,0 +1,16 @@
+{
+  "id": "map_monster_more_damage",
+  "name": "地图怪物伤害额外提高 n%",
+  "description": "地图物品专属词缀：对本次地图生成的怪物生效，包括首领。",
+  "params": {
+    "n": 10
+  },
+  "sheet": [
+    {
+      "stat": "minion.more",
+      "value": {
+        "param": "n"
+      }
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "id": "area_repeat_damage",
+  "name": "每次重复，范围伤害 +n%",
+  "description": "角色词条：每次重复，范围伤害 +n%",
+  "params": { "n": 20 },
+  "sheet": [
+    {
+      "stat": "area.repeat_damage",
+      "value": { "param": "n" }
+    }
+  ]
+}

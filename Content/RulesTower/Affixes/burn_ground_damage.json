@@ -1,0 +1,12 @@
+{
+  "id": "burn_ground_damage",
+  "name": "燃烧地面伤害 +n%",
+  "description": "角色词条：燃烧地面伤害 +n%",
+  "params": { "n": 40 },
+  "sheet": [
+    {
+      "stat": "burn.ground_damage",
+      "value": { "param": "n" }
+    }
+  ]
+}

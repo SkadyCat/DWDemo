@@ -1,0 +1,9 @@
+{
+  "id": "missing_life_leech_speed",
+  "name": "每损失n%气血，气血偷取速度 +n%",
+  "description": "角色词条：每损失n%气血，气血偷取速度 +n%",
+  "params": { "per": 10, "amount": 10 },
+  "sheet": [
+    { "stat": "life.missing.leech_speed", "value": { "div": [{ "param": "amount" }, { "param": "per" }] } }
+  ]
+}

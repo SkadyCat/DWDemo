@@ -1,0 +1,12 @@
+{
+  "id": "chill_cap",
+  "name": "冰缓效果上限 +n个百分点",
+  "description": "角色词条：冰缓效果上限 +n个百分点。基础上限 70%",
+  "params": { "n": 10 },
+  "sheet": [
+    {
+      "stat": "chill.cap",
+      "value": { "param": "n" }
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "id": "trigger_chance",
+  "name": "触发概率 +n个百分点",
+  "description": "角色词条：触发概率 +n个百分点。作用于所有概率触发",
+  "params": { "n": 10 },
+  "sheet": [
+    {
+      "stat": "trigger.chance",
+      "value": { "param": "n" }
+    }
+  ]
+}

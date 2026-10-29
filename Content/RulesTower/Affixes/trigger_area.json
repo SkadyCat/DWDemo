@@ -1,0 +1,12 @@
+{
+  "id": "trigger_area",
+  "name": "触发技能范围面积 +n%",
+  "description": "角色词条：触发技能范围面积 +n%",
+  "params": { "n": 30 },
+  "sheet": [
+    {
+      "stat": "trigger.area",
+      "value": { "param": "n" }
+    }
+  ]
+}

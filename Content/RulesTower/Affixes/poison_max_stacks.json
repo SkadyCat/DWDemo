@@ -1,0 +1,12 @@
+{
+  "id": "poison_max_stacks",
+  "name": "中毒最大层数 +n层",
+  "description": "角色词条：中毒最大层数 +n层。基础 10 层",
+  "params": { "n": 5 },
+  "sheet": [
+    {
+      "stat": "poison.max_stacks",
+      "value": { "param": "n" }
+    }
+  ]
+}

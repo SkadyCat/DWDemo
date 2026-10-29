@@ -1,0 +1,9 @@
+{
+  "id": "proj_hit_zone",
+  "name": "投射物命中后，在目标位置留下持续伤害区域",
+  "description": "角色词条：投射物命中后，在目标位置留下持续伤害区域。半径 1.2 米，2 秒，每秒造成该次伤害 20%",
+  "params": {},
+  "sheet": [
+    { "stat": "proj.hit_zone", "value": 1 }
+  ]
+}

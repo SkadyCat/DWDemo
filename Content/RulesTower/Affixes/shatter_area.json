@@ -1,0 +1,12 @@
+{
+  "id": "shatter_area",
+  "name": "碎冰爆炸范围面积 +n%",
+  "description": "角色词条：碎冰爆炸范围面积 +n%",
+  "params": { "n": 40 },
+  "sheet": [
+    {
+      "stat": "shatter.area",
+      "value": { "param": "n" }
+    }
+  ]
+}

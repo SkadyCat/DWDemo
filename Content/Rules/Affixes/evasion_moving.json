@@ -1,0 +1,12 @@
+{
+  "id": "evasion_moving",
+  "name": "移动时，闪避值 +n%",
+  "description": "角色词条：移动时，闪避值 +n%",
+  "params": { "n": 40 },
+  "sheet": [
+    {
+      "stat": "evasion.moving",
+      "value": { "param": "n" }
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "id": "burn_ground",
+  "name": "燃烧敌人死亡时，留下持续n秒的燃烧地面",
+  "description": "角色词条：燃烧敌人死亡时，留下持续n秒的燃烧地面。半径 2 米，每秒造成技能威力 30% 的火焰伤害",
+  "params": { "seconds": 3 },
+  "sheet": [
+    { "trigger": "burn_ground" }
+  ]
+}

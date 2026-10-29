@@ -1,0 +1,4 @@
+{
+  "id": "self_targeted_cast", "name": "自身施法", "description": "技能以施法者自身为目标，无需选中敌人。",
+  "params": { "n": 1 }, "sheet": [{ "stat": "skill.self_target", "value": { "param": "n" } }]
+}

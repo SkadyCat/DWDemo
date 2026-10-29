@@ -1,0 +1,9 @@
+{
+  "id": "proj_orbit",
+  "name": "投射物环绕角色飞行",
+  "description": "角色词条：投射物环绕角色飞行。环绕半径 2 米，每秒 1 圈；可每 0.5 秒重复命中同一目标",
+  "params": {},
+  "sheet": [
+    { "stat": "proj.orbit", "value": 1 }
+  ]
+}

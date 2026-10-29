@@ -1,0 +1,9 @@
+{
+  "id": "area_per_enemy",
+  "name": "范围内每有一个敌人，伤害 +n%，最多提高n%",
+  "description": "角色词条：范围内每有一个敌人，伤害 +n%，最多提高n%",
+  "params": { "n": 4, "max": 40 },
+  "sheet": [
+    { "trigger": "area_per_enemy" }
+  ]
+}

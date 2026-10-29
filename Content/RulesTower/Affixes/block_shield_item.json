@@ -1,0 +1,12 @@
+{
+  "id": "block_shield_item",
+  "name": "盾牌提供的格挡率 +n个百分点",
+  "description": "角色词条：盾牌提供的格挡率 +n个百分点。副手装备盾牌（非武器）时，盾牌提供 15 点攻击格挡率",
+  "params": { "n": 5 },
+  "sheet": [
+    {
+      "stat": "block.shield_item",
+      "value": { "param": "n" }
+    }
+  ]
+}

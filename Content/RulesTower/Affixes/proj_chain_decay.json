@@ -1,0 +1,12 @@
+{
+  "id": "proj_chain_decay",
+  "name": "投射物连锁后伤害衰减 -n%",
+  "description": "角色词条：投射物连锁后伤害衰减 -n%。基础每连锁一次伤害衰减 15%",
+  "params": { "n": 50 },
+  "sheet": [
+    {
+      "stat": "proj.chain_decay",
+      "value": { "param": "n" }
+    }
+  ]
+}

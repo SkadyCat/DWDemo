@@ -1,0 +1,53 @@
+{
+  "id": "bloodthirst_gauntlets",
+  "name": "嗜血护手",
+  "description": "气血流示例：偷取、击杀回血、低血增伤与免死。",
+  "slot": "gloves",
+  "rarity": "rare",
+  "level": 20,
+  "tags": [
+    "气血",
+    "偷取"
+  ],
+  "traits": [
+    {
+      "id": "life_base",
+      "params": {
+        "n": 80
+      }
+    },
+    {
+      "id": "leech_life_all",
+      "params": {
+        "n": 3
+      }
+    },
+    {
+      "id": "leech_life_speed",
+      "params": {
+        "n": 50
+      }
+    },
+    {
+      "id": "life_on_kill_percent",
+      "params": {
+        "n": 3
+      }
+    },
+    {
+      "id": "low_life_damage",
+      "params": {
+        "n": 40
+      }
+    },
+    {
+      "id": "cheat_death_keep",
+      "params": {
+        "cooldown": 30
+      }
+    }
+  ],
+  "bases": [
+    "armour"
+  ]
+}

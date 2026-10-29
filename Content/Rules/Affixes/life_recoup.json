@@ -1,0 +1,10 @@
+{
+  "id": "life_recoup",
+  "name": "受到命中伤害的n%在接下来n秒内恢复为气血",
+  "description": "角色词条：受到命中伤害的n%在接下来n秒内恢复为气血",
+  "params": { "percent": 10, "seconds": 4 },
+  "sheet": [
+    { "stat": "recoup.life.all", "value": { "param": "percent" } },
+    { "stat": "recoup.life.seconds", "value": { "param": "seconds" } }
+  ]
+}

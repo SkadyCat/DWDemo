@@ -1,0 +1,9 @@
+{
+  "id": "ignite_consume",
+  "name": "消耗目标点燃，立即结算剩余伤害的n%",
+  "description": "角色词条：消耗目标点燃，立即结算剩余伤害的n%。火焰命中点燃目标时消耗",
+  "params": { "n": 80 },
+  "sheet": [
+    { "trigger": "ignite_consume" }
+  ]
+}

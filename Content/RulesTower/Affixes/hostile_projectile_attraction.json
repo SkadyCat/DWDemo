@@ -1,0 +1,4 @@
+{
+  "id": "hostile_projectile_attraction", "name": "吸引敌对投射物", "description": "状态生效时，场上已有和新生成的敌对投射物持续转向自身；保持原速度、伤害、所有者、碰撞及寿命。己方投射物不受影响。",
+  "params": { "n": 1 }, "sheet": [{ "stat": "projectile.hostile_attraction", "value": { "param": "n" } }]
+}

@@ -1,0 +1,12 @@
+{
+  "id": "minion_death_area",
+  "name": "召唤物死亡爆炸范围面积 +n%",
+  "description": "角色词条：召唤物死亡爆炸范围面积 +n%",
+  "params": { "n": 40 },
+  "sheet": [
+    {
+      "stat": "minion.death_area",
+      "value": { "param": "n" }
+    }
+  ]
+}

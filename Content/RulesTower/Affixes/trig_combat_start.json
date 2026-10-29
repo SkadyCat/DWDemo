@@ -1,0 +1,9 @@
+{
+  "id": "trig_combat_start",
+  "name": "进入战斗时，触发挂载技能",
+  "description": "角色词条：进入战斗时，触发挂载技能。5 秒未命中或受击后再次命中/受击",
+  "params": {},
+  "sheet": [
+    { "trigger": "trig_combat_start" }
+  ]
+}

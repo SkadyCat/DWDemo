@@ -1,0 +1,21 @@
+{
+  "id": "venomglass_flask",
+  "name": "蚀骨琉璃瓶",
+  "description": "绑定主动技能毒瓶。词条按装备品质与 T 阶随机生成；传奇品质固定带有中毒伤害。",
+  "slot": "weapon",
+  "rarity": "common",
+  "level": 1,
+  "tier": 1,
+  "tags": [
+    "中毒",
+    "投掷"
+  ],
+  "skills": [
+    "poison_flask"
+  ],
+  "legendary": "poison_damage",
+  "traits": [],
+  "bases": [
+    "flat_poison"
+  ]
+}

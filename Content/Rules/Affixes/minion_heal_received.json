@@ -1,0 +1,12 @@
+{
+  "id": "minion_heal_received",
+  "name": "召唤物受到的治疗效果 +n%",
+  "description": "角色词条：召唤物受到的治疗效果 +n%",
+  "params": { "n": 30 },
+  "sheet": [
+    {
+      "stat": "minion.heal_received",
+      "value": { "param": "n" }
+    }
+  ]
+}

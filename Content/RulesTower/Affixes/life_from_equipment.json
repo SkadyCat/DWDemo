@@ -1,0 +1,9 @@
+{
+  "id": "life_from_equipment",
+  "name": "装备提供的气血 +n%",
+  "description": "角色词条：装备提供的气血 +n%。只放大装备上“基础气血 +n点”提供的部分。",
+  "params": { "n": 30 },
+  "sheet": [
+    { "stat": "life.equipment_increased", "value": { "param": "n" } }
+  ]
+}

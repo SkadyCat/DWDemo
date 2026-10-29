@@ -1,0 +1,12 @@
+{
+  "id": "minion_hit_your_shield",
+  "name": "召唤物命中时，你恢复护盾 +n点",
+  "description": "角色词条：召唤物命中时，你恢复护盾 +n点",
+  "params": { "n": 2 },
+  "sheet": [
+    {
+      "stat": "minion.hit_your_shield",
+      "value": { "param": "n" }
+    }
+  ]
+}

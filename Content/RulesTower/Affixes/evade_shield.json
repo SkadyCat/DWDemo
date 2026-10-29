@@ -1,0 +1,12 @@
+{
+  "id": "evade_shield",
+  "name": "闪避成功时，恢复护盾 +n点",
+  "description": "角色词条：闪避成功时，恢复护盾 +n点",
+  "params": { "n": 15 },
+  "sheet": [
+    {
+      "stat": "shield.on_evade",
+      "value": { "param": "n" }
+    }
+  ]
+}

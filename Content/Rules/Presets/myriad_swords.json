@@ -1,0 +1,698 @@
+{
+  "skills": [
+    "frost_lance",
+    null,
+    null,
+    null
+  ],
+  "equipment": {
+    "weapon": "myriad_swords_weapon_bdt1",
+    "helmet": "myriad_swords_helmet_bdt1",
+    "chest": "myriad_swords_chest_bdt1",
+    "gloves": "myriad_swords_gloves_bdt1",
+    "boots": "myriad_swords_boots_bdt1"
+  },
+  "instances": {
+    "myriad_swords_weapon_bdt1": {
+      "uid": "myriad_swords_weapon_bdt1",
+      "baseId": "frostthorn_staff",
+      "name": "万剑·霜锋",
+      "slot": "weapon",
+      "level": 1,
+      "rarity": "rare",
+      "tier": 1,
+      "identified": true,
+      "skill": "frost_lance",
+      "bases": [
+        {
+          "id": "flat_frost",
+          "name": "基础冰霜伤害 +n",
+          "traits": [
+            {
+              "id": "flat_frost",
+              "params": {
+                "n": 4
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "life_base",
+          "name": "基础气血 +n点",
+          "traits": [
+            {
+              "id": "life_base",
+              "params": {
+                "n": 34
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        }
+      ],
+      "affixes": [
+        {
+          "id": "multiple_projectiles",
+          "name": "多重投射",
+          "traits": [
+            {
+              "id": "multiple_projectiles",
+              "params": {
+                "count": 2,
+                "spread": 28,
+                "damage_multiplier": 0.43
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "proj_count",
+          "name": "投射物数量 +n个",
+          "traits": [
+            {
+              "id": "proj_count",
+              "params": {
+                "n": 1
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "proj_origins",
+          "name": "投射物发射位置数量 +n个",
+          "traits": [
+            {
+              "id": "proj_origins",
+              "params": {
+                "n": 1
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "proj_volleys",
+          "name": "投射物连续发射次数 +n次",
+          "traits": [
+            {
+              "id": "proj_volleys",
+              "params": {
+                "n": 1
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "proj_volley_interval",
+          "name": "投射物连续发射间隔 -n%",
+          "traits": [
+            {
+              "id": "proj_volley_interval",
+              "params": {
+                "n": 23
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "proj_layout_converge",
+          "name": "投射物从目标周围向中心发射",
+          "traits": [
+            {
+              "id": "proj_layout_converge",
+              "params": {},
+              "with": []
+            }
+          ]
+        }
+      ],
+      "legendary": null
+    },
+    "myriad_swords_helmet_bdt1": {
+      "uid": "myriad_swords_helmet_bdt1",
+      "baseId": "cinder_guard_helmet",
+      "name": "万剑·锁星冠",
+      "slot": "helmet",
+      "level": 30,
+      "rarity": "rare",
+      "tier": 1,
+      "identified": true,
+      "skill": "",
+      "bases": [
+        {
+          "id": "shield_base",
+          "name": "基础护盾 +n点",
+          "traits": [
+            {
+              "id": "shield_base",
+              "params": {
+                "n": 34
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "life_base",
+          "name": "基础气血 +n点",
+          "traits": [
+            {
+              "id": "life_base",
+              "params": {
+                "n": 34
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        }
+      ],
+      "affixes": [
+        {
+          "id": "proj_homing_range",
+          "name": "投射物追踪距离 +n%",
+          "traits": [
+            {
+              "id": "proj_homing_range",
+              "params": {
+                "n": 28
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "proj_homing_turn",
+          "name": "投射物追踪转向速度 +n%",
+          "traits": [
+            {
+              "id": "proj_homing_turn",
+              "params": {
+                "n": 28
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "proj_retarget_on_death",
+          "name": "投射物目标死亡后，重新追踪附近敌人",
+          "traits": [
+            {
+              "id": "proj_retarget_on_death",
+              "params": {},
+              "with": []
+            }
+          ]
+        },
+        {
+          "id": "proj_damage",
+          "name": "投射物伤害 +n%",
+          "traits": [
+            {
+              "id": "proj_damage",
+              "params": {
+                "n": 14
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "inc_frost",
+          "name": "冰霜伤害 +n%",
+          "traits": [
+            {
+              "id": "inc_frost",
+              "params": {
+                "n": 14
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "more_frost",
+          "name": "冰霜伤害额外提高 n%",
+          "traits": [
+            {
+              "id": "more_frost",
+              "params": {
+                "n": 5
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        }
+      ],
+      "legendary": null
+    },
+    "myriad_swords_chest_bdt1": {
+      "uid": "myriad_swords_chest_bdt1",
+      "baseId": "cinder_guard_chest",
+      "name": "万剑·护生衣",
+      "slot": "chest",
+      "level": 30,
+      "rarity": "rare",
+      "tier": 1,
+      "identified": true,
+      "skill": "",
+      "bases": [
+        {
+          "id": "shield_base",
+          "name": "基础护盾 +n点",
+          "traits": [
+            {
+              "id": "shield_base",
+              "params": {
+                "n": 34
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "life_base",
+          "name": "基础气血 +n点",
+          "traits": [
+            {
+              "id": "life_base",
+              "params": {
+                "n": 34
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        }
+      ],
+      "affixes": [
+        {
+          "id": "life_increased",
+          "name": "气血上限 +n%",
+          "traits": [
+            {
+              "id": "life_increased",
+              "params": {
+                "n": 11
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "life_more",
+          "name": "气血上限额外提高 n%",
+          "traits": [
+            {
+              "id": "life_more",
+              "params": {
+                "n": 5
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "life_regen_percent",
+          "name": "每秒恢复最大气血的n%",
+          "traits": [
+            {
+              "id": "life_regen_percent",
+              "params": {
+                "n": 1
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "shield_increased",
+          "name": "护盾上限 +n%",
+          "traits": [
+            {
+              "id": "shield_increased",
+              "params": {
+                "n": 17
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "life_on_hit",
+          "name": "命中时恢复气血 +n点",
+          "traits": [
+            {
+              "id": "life_on_hit",
+              "params": {
+                "n": 2
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "proj_hit_life",
+          "name": "投射物命中时，恢复气血 +n点",
+          "traits": [
+            {
+              "id": "proj_hit_life",
+              "params": {
+                "n": 1
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        }
+      ],
+      "legendary": null
+    },
+    "myriad_swords_gloves_bdt1": {
+      "uid": "myriad_swords_gloves_bdt1",
+      "baseId": "bloodthirst_gauntlets",
+      "name": "万剑·散锋护手",
+      "slot": "gloves",
+      "level": 20,
+      "rarity": "rare",
+      "tier": 1,
+      "identified": true,
+      "skill": "",
+      "bases": [
+        {
+          "id": "armour",
+          "name": "护甲 +n",
+          "traits": [
+            {
+              "id": "armour",
+              "params": {
+                "n": 115
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "life_base",
+          "name": "基础气血 +n点",
+          "traits": [
+            {
+              "id": "life_base",
+              "params": {
+                "n": 34
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        }
+      ],
+      "affixes": [
+        {
+          "id": "proj_expire_secondary",
+          "name": "投射物消失时向周围发射n个次级投射物",
+          "traits": [
+            {
+              "id": "proj_expire_secondary",
+              "params": {
+                "n": 2
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "pierce",
+          "name": "穿透",
+          "traits": [
+            {
+              "id": "pierce",
+              "params": {
+                "count": 1
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "proj_secondary_pierce",
+          "name": "次级投射物有n%概率继承穿透",
+          "traits": [
+            {
+              "id": "proj_secondary_pierce",
+              "params": {
+                "n": 28
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "proj_batch_cap",
+          "name": "同一目标可被同批投射物命中的数量上限 +n个",
+          "traits": [
+            {
+              "id": "proj_batch_cap",
+              "params": {
+                "n": 1
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "proj_batch_decay",
+          "name": "同批投射物重复命中同一目标时，后续伤害衰减 -n%",
+          "traits": [
+            {
+              "id": "proj_batch_decay",
+              "params": {
+                "n": 28
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "proj_more",
+          "name": "投射物伤害额外提高 n%",
+          "traits": [
+            {
+              "id": "proj_more",
+              "params": {
+                "n": 9
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        }
+      ],
+      "legendary": null
+    },
+    "myriad_swords_boots_bdt1": {
+      "uid": "myriad_swords_boots_bdt1",
+      "baseId": "warden_boots",
+      "name": "万剑·踏霜靴",
+      "slot": "boots",
+      "level": 3,
+      "rarity": "rare",
+      "tier": 1,
+      "identified": true,
+      "skill": "",
+      "bases": [
+        {
+          "id": "evasion",
+          "name": "基础闪避 +n点",
+          "traits": [
+            {
+              "id": "evasion",
+              "params": {
+                "n": 115
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "life_base",
+          "name": "基础气血 +n点",
+          "traits": [
+            {
+              "id": "life_base",
+              "params": {
+                "n": 34
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        }
+      ],
+      "affixes": [
+        {
+          "id": "fire_resistance",
+          "name": "火焰抗性",
+          "traits": [
+            {
+              "id": "fire_resistance",
+              "params": {
+                "resistance": 14
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "frost_resistance",
+          "name": "冰霜抗性",
+          "traits": [
+            {
+              "id": "frost_resistance",
+              "params": {
+                "resistance": 14
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "lightning_resistance",
+          "name": "闪电抗性",
+          "traits": [
+            {
+              "id": "lightning_resistance",
+              "params": {
+                "resistance": 14
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "poison_resistance",
+          "name": "中毒抗性",
+          "traits": [
+            {
+              "id": "poison_resistance",
+              "params": {
+                "resistance": 14
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "proj_hit_mana",
+          "name": "投射物命中时，恢复魔力 +n点",
+          "traits": [
+            {
+              "id": "proj_hit_mana",
+              "params": {
+                "n": 0.28
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "proj_cost",
+          "name": "投射物技能消耗 -n%",
+          "traits": [
+            {
+              "id": "proj_cost",
+              "params": {
+                "n": 14
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        }
+      ],
+      "legendary": null
+    }
+  },
+  "belt": [],
+  "authored": {
+    "source": "generated-existing-traits",
+    "family": "projectile",
+    "name": "万剑归宗",
+    "minimumTier": 1
+  }
+}

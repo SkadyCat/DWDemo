@@ -1,0 +1,9 @@
+{
+  "id": "proj_distance_damage",
+  "name": "投射物每飞行n米，伤害 +n%，最多提高n%",
+  "description": "角色词条：投射物每飞行n米，伤害 +n%，最多提高n%",
+  "params": { "meters": 2, "n": 8, "max": 40 },
+  "sheet": [
+    { "trigger": "proj_distance_damage" }
+  ]
+}

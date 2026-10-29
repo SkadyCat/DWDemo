@@ -1,0 +1,9 @@
+{
+  "id": "poison_death_copy",
+  "name": "中毒敌人死亡时，将其n层中毒复制给附近敌人",
+  "description": "角色词条：中毒敌人死亡时，将其n层中毒复制给附近敌人",
+  "params": { "n": 3 },
+  "sheet": [
+    { "trigger": "poison_death_copy" }
+  ]
+}

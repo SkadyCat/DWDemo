@@ -1,0 +1,12 @@
+{
+  "id": "proj_secondary_pierce",
+  "name": "次级投射物有n%概率继承穿透",
+  "description": "角色词条：次级投射物有n%概率继承穿透",
+  "params": { "n": 50 },
+  "sheet": [
+    {
+      "stat": "proj.secondary_inherit_pierce",
+      "value": { "param": "n" }
+    }
+  ]
+}

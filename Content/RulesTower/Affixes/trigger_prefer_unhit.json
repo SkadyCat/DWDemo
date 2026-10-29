@@ -1,0 +1,9 @@
+{
+  "id": "trigger_prefer_unhit",
+  "name": "触发技能优先选择未被命中的敌人",
+  "description": "角色词条：触发技能优先选择未被命中的敌人。未被你命中过的敌人",
+  "params": {},
+  "sheet": [
+    { "stat": "trigger.prefer_unhit", "value": 1 }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "id": "area_sequence",
+  "name": "范围技能沿指定方向依次释放",
+  "description": "角色词条：范围技能沿指定方向依次释放。沿瞄准方向依次释放 4 次",
+  "params": {},
+  "sheet": [
+    { "stat": "area.sequence_line", "value": 1 }
+  ]
+}

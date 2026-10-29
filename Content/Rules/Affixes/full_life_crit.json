@@ -1,0 +1,9 @@
+{
+  "id": "full_life_crit",
+  "name": "满血时，暴击率 +n%",
+  "description": "角色词条：满血时，暴击率 +n%",
+  "params": { "n": 5 },
+  "sheet": [
+    { "stat": "life.full.critical_chance", "value": { "param": "n" } }
+  ]
+}

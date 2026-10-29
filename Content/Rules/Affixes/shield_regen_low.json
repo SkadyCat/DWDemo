@@ -1,0 +1,9 @@
+{
+  "id": "shield_regen_low",
+  "name": "低护盾时，护盾再生速度 +n%",
+  "description": "角色词条：低护盾时，护盾再生速度 +n%。低护盾：护盾不高于最大值的 35%。",
+  "params": { "n": 50 },
+  "sheet": [
+    { "stat": "shield.regen_low_speed", "value": { "param": "n" } }
+  ]
+}

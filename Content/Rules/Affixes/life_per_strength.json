@@ -1,0 +1,9 @@
+{
+  "id": "life_per_strength",
+  "name": "每n点力量获得基础气血 +n点",
+  "description": "角色词条：每n点力量获得基础气血 +n点",
+  "params": { "per": 2, "amount": 1 },
+  "sheet": [
+    { "stat": "life.per_strength", "value": { "div": [{ "param": "amount" }, { "param": "per" }] } }
+  ]
+}

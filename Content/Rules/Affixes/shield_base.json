@@ -1,0 +1,9 @@
+{
+  "id": "shield_base",
+  "name": "基础护盾 +n点",
+  "description": "角色词条：基础护盾 +n点。装备上的基础护盾还会被“装备提供的护盾 +n%”放大。",
+  "params": { "n": 60 },
+  "sheet": [
+    { "stat": "shield.base", "value": { "param": "n" } }
+  ]
+}

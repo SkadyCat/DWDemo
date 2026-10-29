@@ -1,0 +1,12 @@
+{
+  "id": "minion_attack_speed",
+  "name": "召唤物攻击速度 +n%",
+  "description": "角色词条：召唤物攻击速度 +n%。近战召唤物",
+  "params": { "n": 20 },
+  "sheet": [
+    {
+      "stat": "minion.attack_speed",
+      "value": { "param": "n" }
+    }
+  ]
+}

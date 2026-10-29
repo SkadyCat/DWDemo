@@ -1,0 +1,12 @@
+{
+  "id": "poison_kill_spread",
+  "name": "击败中毒敌人时，有n%概率将中毒传播给附近敌人",
+  "description": "角色词条：击败中毒敌人时，有n%概率将中毒传播给附近敌人。传播其一半层数",
+  "params": { "n": 50 },
+  "sheet": [
+    {
+      "stat": "poison.kill_spread_chance",
+      "value": { "param": "n" }
+    }
+  ]
+}

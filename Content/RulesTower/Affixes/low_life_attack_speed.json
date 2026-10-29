@@ -1,0 +1,9 @@
+{
+  "id": "low_life_attack_speed",
+  "name": "低血时，攻击速度 +n%",
+  "description": "角色词条：低血时，攻击速度 +n%。当前引擎不区分攻击和法术，攻击速度与施法速度都作用于出手频率。",
+  "params": { "n": 15 },
+  "sheet": [
+    { "stat": "life.low.attack_speed", "value": { "param": "n" } }
+  ]
+}

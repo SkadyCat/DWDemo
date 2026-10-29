@@ -1,0 +1,9 @@
+{
+  "id": "summon_twisted_eyes",
+  "name": "触发－召唤扭曲之眼",
+  "description": "挂载到现有触发词条：每次召唤1只持续5秒的无敌扭曲之眼。它视为敌对怪物，跟随玩家后方并发射追踪投射物。",
+  "active": "summon_twisted_eyes",
+  "traits": [
+    "summon_twisted_eyes"
+  ]
+}

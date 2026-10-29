@@ -1,0 +1,10 @@
+{
+  "id": "cast_consume_current_life",
+  "name": "施放技能时，消耗当前气血的n%，该次技能伤害额外提高n%",
+  "description": "角色词条：施放技能时，消耗当前气血的n%，该次技能伤害额外提高n%。消耗后气血不足 1 时不消耗，也不加伤害。",
+  "params": { "percent": 5, "damage": 20 },
+  "sheet": [
+    { "stat": "cast.current_life_cost_percent", "value": { "param": "percent" } },
+    { "stat": "cast.current_life_cost_damage", "value": { "param": "damage" } }
+  ]
+}

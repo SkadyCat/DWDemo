@@ -1,0 +1,12 @@
+{
+  "id": "block_reflect_physical",
+  "name": "格挡成功时，对攻击者造成物理伤害 +n点",
+  "description": "角色词条：格挡成功时，对攻击者造成物理伤害 +n点",
+  "params": { "n": 20 },
+  "sheet": [
+    {
+      "stat": "block.reflect_physical",
+      "value": { "param": "n" }
+    }
+  ]
+}

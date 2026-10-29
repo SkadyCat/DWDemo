@@ -1,0 +1,41 @@
+/* A moving glint occupies only a narrow edge. Item quality surfaces stay intact. */
+:is(.b3-bag-cell, .b3-char-bag-item, .ho-slot).inventory-new > .inventory-new-edge {
+  --inventory-glow: var(--quality-color, var(--rc, var(--item-color, #b8d5ef)));
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: block;
+  box-sizing: border-box;
+  width: auto;
+  height: auto;
+  margin: 0;
+  padding: 1.5px;
+  border: 0;
+  border-radius: inherit;
+  background: transparent;
+  box-shadow: none;
+  overflow: hidden;
+  pointer-events: none;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+}
+.inventory-new-edge::before {
+  content: "";
+  position: absolute;
+  inset: -50%;
+  background: conic-gradient(transparent 0deg 205deg,
+    color-mix(in srgb, var(--inventory-glow) 30%, transparent) 245deg,
+    var(--inventory-glow) 285deg, #f5fbff 306deg, transparent 324deg 360deg);
+  animation: inventory-edge-orbit 2.6s linear infinite;
+}
+.inventory-new:nth-child(3n + 2) > .inventory-new-edge::before { animation-delay: -.85s; }
+.inventory-new:nth-child(3n) > .inventory-new-edge::before { animation-delay: -1.7s; }
+@keyframes inventory-edge-orbit {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .inventory-new-edge::before { animation: none; transform: rotate(35deg); }
+}

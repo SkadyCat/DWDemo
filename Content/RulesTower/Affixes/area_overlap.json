@@ -1,0 +1,12 @@
+{
+  "id": "area_overlap",
+  "name": "重叠区域对同一目标的伤害效能 +n%",
+  "description": "角色词条：重叠区域对同一目标的伤害效能 +n%。0.25 秒内被同一技能的其他区域再次命中时，基础只造成 50% 伤害",
+  "params": { "n": 50 },
+  "sheet": [
+    {
+      "stat": "area.overlap",
+      "value": { "param": "n" }
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "id": "area_more",
+  "name": "范围伤害额外提高 n%",
+  "description": "角色词条：范围伤害额外提高 n%",
+  "params": { "n": 15 },
+  "sheet": [
+    {
+      "stat": "area.more",
+      "value": { "param": "n" }
+    }
+  ]
+}

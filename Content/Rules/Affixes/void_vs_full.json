@@ -1,0 +1,12 @@
+{
+  "id": "void_vs_full",
+  "name": "对满血敌人的虚空伤害 +n%",
+  "description": "角色词条：对满血敌人的虚空伤害 +n%",
+  "params": { "n": 40 },
+  "sheet": [
+    {
+      "stat": "void.vs_full",
+      "value": { "param": "n" }
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "id": "evade_buff_cast",
+  "name": "闪避成功时，施法速度 +n%，持续n秒",
+  "description": "角色词条：闪避成功时，施法速度 +n%，持续n秒",
+  "params": { "n": 15, "duration": 3 },
+  "sheet": [
+    { "trigger": "evade_buff_cast" }
+  ]
+}

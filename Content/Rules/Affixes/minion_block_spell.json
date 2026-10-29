@@ -1,0 +1,12 @@
+{
+  "id": "minion_block_spell",
+  "name": "召唤物法术格挡率 +n个百分点",
+  "description": "角色词条：召唤物法术格挡率 +n个百分点",
+  "params": { "n": 15 },
+  "sheet": [
+    {
+      "stat": "minion.block_spell",
+      "value": { "param": "n" }
+    }
+  ]
+}

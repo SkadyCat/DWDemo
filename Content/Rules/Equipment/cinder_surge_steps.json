@@ -1,0 +1,24 @@
+{
+  "id": "cinder_surge_steps",
+  "name": "燎原·踏焰靴",
+  "description": "燎原配装的鞋子，缩短扩散间隔、扩大面积、强化范围伤害并穿透火焰抗性；范围命中恢复气血和魔力。所有词条均使用现有默认值，无套装效果。",
+  "slot": "boots",
+  "rarity": "rare",
+  "level": 30,
+  "tags": [
+    "火焰",
+    "范围"
+  ],
+  "skills": [],
+  "traits": [
+    "area_spread_interval",
+    "area_size_more",
+    "fire_pen",
+    "area_hit_life",
+    "area_hit_mana",
+    "area_more"
+  ],
+  "bases": [
+    "evasion"
+  ]
+}

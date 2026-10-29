@@ -1,0 +1,16 @@
+{
+  "id": "shield_from_life_regen",
+  "name": "气血再生的n%同时用于恢复护盾",
+  "description": "角色词条：气血再生的n%同时用于恢复护盾",
+  "params": {
+    "n": 50
+  },
+  "sheet": [
+    {
+      "stat": "shield.from_life_regen_percent",
+      "value": {
+        "param": "n"
+      }
+    }
+  ]
+}

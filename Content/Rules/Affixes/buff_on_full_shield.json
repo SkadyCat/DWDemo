@@ -1,0 +1,9 @@
+{
+  "id": "buff_on_full_shield",
+  "name": "达到满护盾时，获得持续n秒的增益",
+  "description": "角色词条：达到满护盾时，获得持续n秒的增益。缝合任意特性作为增益内容。",
+  "params": { "duration": 4 },
+  "sheet": [
+    { "trigger": "buff_on_full_shield" }
+  ]
+}

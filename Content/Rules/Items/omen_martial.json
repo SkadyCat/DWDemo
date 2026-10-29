@@ -1,0 +1,10 @@
+{
+  "id": "omen_martial",
+  "name": "武斗预兆",
+  "description": "与混沌石一起使用：本次洗炼只会出现武斗族的特性（物理与近战）。",
+  "category": "omen",
+  "rarity": "magic",
+  "stack": 20,
+  "tags": ["武斗族"],
+  "traits": []
+}

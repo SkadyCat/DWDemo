@@ -1,0 +1,12 @@
+{
+  "id": "erosion_duration",
+  "name": "侵蚀持续时间 +n%",
+  "description": "角色词条：侵蚀持续时间 +n%",
+  "params": { "n": 30 },
+  "sheet": [
+    {
+      "stat": "erosion.duration",
+      "value": { "param": "n" }
+    }
+  ]
+}

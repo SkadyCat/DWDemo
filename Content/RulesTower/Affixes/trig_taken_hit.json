@@ -1,0 +1,9 @@
+{
+  "id": "trig_taken_hit",
+  "name": "受到命中时，有n%概率触发挂载技能",
+  "description": "角色词条：受到命中时，有n%概率触发挂载技能",
+  "params": { "chance": 25 },
+  "sheet": [
+    { "trigger": "trig_taken_hit" }
+  ]
+}

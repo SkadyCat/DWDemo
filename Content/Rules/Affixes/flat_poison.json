@@ -1,0 +1,7 @@
+{
+  "id": "flat_poison",
+  "name": "基础毒素伤害 +n",
+  "description": "角色词条：基础毒素伤害 +n。沿用现有毒素附加点伤结算。",
+  "params": { "n": 8 },
+  "sheet": [ { "stat": "damage.flat.poison", "value": { "param": "n" } } ]
+}

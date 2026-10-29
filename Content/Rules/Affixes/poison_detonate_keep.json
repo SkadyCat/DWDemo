@@ -1,0 +1,12 @@
+{
+  "id": "poison_detonate_keep",
+  "name": "引爆后，有n%概率保留被消耗的中毒",
+  "description": "角色词条：引爆后，有n%概率保留被消耗的中毒",
+  "params": { "n": 25 },
+  "sheet": [
+    {
+      "stat": "poison.detonate_keep_chance",
+      "value": { "param": "n" }
+    }
+  ]
+}

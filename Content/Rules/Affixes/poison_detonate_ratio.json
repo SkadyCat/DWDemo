@@ -1,0 +1,12 @@
+{
+  "id": "poison_detonate_ratio",
+  "name": "引爆结算被消耗中毒剩余伤害的n%",
+  "description": "角色词条：引爆结算被消耗中毒剩余伤害的n%。基础结算剩余伤害的 60%",
+  "params": { "n": 30 },
+  "sheet": [
+    {
+      "stat": "poison.detonate_ratio",
+      "value": { "param": "n" }
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "id": "summon_sentinel",
+  "name": "召唤哨卫",
+  "description": "在施法位置召唤一座固定哨卫，存在 duration 秒（默认 8）。哨卫每隔 interval 秒（默认 1）锁定 range 米（默认 10）内最近的存活敌人并发动一次攻击；范围内没有敌人时等待。哨卫自身没有攻击，攻击内容由“哨卫·”开头的特性决定（冰锥、落雷、火焰新星……），可以同时配置多个，每次攻击全部触发；这些特性可以写在技能里，也可以由装备提供。最多同时存在 cap 座（默认 1），超出时替换最早的一座并保留其攻击节奏，不会因重复施法加快攻击。",
+  "params": { "duration": 8, "interval": 1, "range": 10, "cap": 1, "cooldown": 1 },
+  "rules": [
+    {
+      "id": "summon_sentinel_on_cast", "event": "cast",
+      "actions": [
+        { "op": "summon", "kind": "sentinel", "event": "sentinel_attack", "tags": ["summon"], "duration": { "param": "duration" }, "interval": { "param": "interval" }, "radius": { "param": "range" }, "cap": { "param": "cap" } }
+      ]
+    }
+  ]
+}

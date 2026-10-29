@@ -1,0 +1,9 @@
+{
+  "id": "trig_freeze",
+  "name": "冻结敌人时，有n%概率触发挂载技能",
+  "description": "角色词条：冻结敌人时，有n%概率触发挂载技能",
+  "params": { "chance": 50 },
+  "sheet": [
+    { "trigger": "trig_freeze" }
+  ]
+}

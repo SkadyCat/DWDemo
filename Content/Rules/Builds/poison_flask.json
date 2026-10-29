@@ -1,0 +1,11 @@
+{
+  "id": "poison_flask",
+  "name": "毒瓶",
+  "description": "投掷毒瓶 + 毒瓶破裂 + 毒瓶施毒。瓶体命中造成 8 点毒伤；撞击或飞行结束时在 2.4 米范围造成 18 点毒伤，并施加持续 2 秒的中毒。支持投射物、范围与中毒词条。",
+  "active": "throw_poison_flask",
+  "traits": [
+    "throw_poison_flask",
+    "poison_flask_burst",
+    "poison_flask_poison"
+  ]
+}

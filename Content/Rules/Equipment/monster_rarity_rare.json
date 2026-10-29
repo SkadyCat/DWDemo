@@ -1,0 +1,14 @@
+{
+  "id": "monster_rarity_rare",
+  "name": "稀有怪物",
+  "description": "稀有度固定槽装备。沿用现有战斗数值；未额外配置特性。",
+  "slot": "rarity",
+  "rarity": "rare",
+  "level": 1,
+  "tier": 1,
+  "tags": [
+    "固定装备"
+  ],
+  "skills": [],
+  "traits": []
+}

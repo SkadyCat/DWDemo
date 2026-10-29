@@ -1,0 +1,36 @@
+{
+  "id": "multiple_projectiles",
+  "name": "多重投射",
+  "description": "所有继承构筑属性的投射物每次发射增加 4 枚，扩散设为 50 度，投射物伤害乘以 0.75；包括召唤物发射的投射物。",
+  "modifiers": [
+    {
+      "target": "projectile",
+      "stat": "count",
+      "op": "add",
+      "value": {
+        "param": "count"
+      }
+    },
+    {
+      "target": "projectile",
+      "stat": "spread",
+      "op": "set",
+      "value": {
+        "param": "spread"
+      }
+    },
+    {
+      "target": "projectile",
+      "stat": "damage",
+      "op": "multiply",
+      "value": {
+        "param": "damage_multiplier"
+      }
+    }
+  ],
+  "params": {
+    "count": 4,
+    "spread": 50,
+    "damage_multiplier": 0.75
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "id": "frost_cooldown",
+  "name": "冰霜技能冷却恢复速度 +n%",
+  "description": "角色词条：冰霜技能冷却恢复速度 +n%",
+  "params": { "n": 30 },
+  "sheet": [
+    {
+      "stat": "frost.cooldown",
+      "value": { "param": "n" }
+    }
+  ]
+}

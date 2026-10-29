@@ -1,0 +1,25 @@
+{
+  "tool": "built-in image_gen.imagegen",
+  "created": "2026-10-25",
+  "note": "Original RGBA outputs copied without image transformations. Colors identify treasure type, not gameplay elements.",
+  "assets": [
+    {
+      "file": "portal-sword.png",
+      "treasuryVariant": 0,
+      "color": "ice-blue",
+      "prompt": "Use case: precise-object-edit. Edit target: the provided isolated game VFX magic circle texture. Change only its colors and emitted glow to the specified palette. Preserve the exact distinctive sigil structure, linework, proportions, front-facing orthographic orientation, empty transparent center, and all transparent cutouts. Make hue strong and immediately readable at small size against a dark game scene; bright highlights retain the main hue instead of becoming white. Place the whole complete sigil and its glow inside the square with a small transparent margin, no clipping. Actual transparent RGBA background, no scene, no floor, no text, no checkerboard, no watermark. Sword portal: dominant saturated ice cyan and electric azure blue, cool blue metal and cyan luminous runes. Absolutely remove the gold/orange palette. This is the blue member of a blue/green/orange trio."
+    },
+    {
+      "file": "portal-bow.png",
+      "treasuryVariant": 1,
+      "color": "emerald-green",
+      "prompt": "Use case: precise-object-edit. Edit target: the provided isolated game VFX magic circle texture. Change only its colors and emitted glow to the specified palette. Preserve the exact distinctive sigil structure, linework, proportions, front-facing orthographic orientation, empty transparent center, and all transparent cutouts. Make hue strong and immediately readable at small size against a dark game scene; bright highlights retain the main hue instead of becoming white. Place the whole complete sigil and its glow inside the square with a small transparent margin, no clipping. Actual transparent RGBA background, no scene, no floor, no text, no checkerboard, no watermark. Bow portal: dominant saturated emerald and jade green, mint green luminous strings and runes. Absolutely remove the gold/orange palette. This is the green member of a blue/green/orange trio."
+    },
+    {
+      "file": "portal-axe.png",
+      "treasuryVariant": 2,
+      "color": "scarlet-orange",
+      "prompt": "Use case: precise-object-edit. Edit target: the provided isolated game VFX magic circle texture. Change only its colors and emitted glow to the specified palette. Preserve the exact distinctive sigil structure, linework, proportions, front-facing orthographic orientation, empty transparent center, and all transparent cutouts. Make hue strong and immediately readable at small size against a dark game scene; bright highlights retain the main hue instead of becoming white. Place the whole complete sigil and its glow inside the square with a small transparent margin, no clipping. Actual transparent RGBA background, no scene, no floor, no text, no checkerboard, no watermark. Axe portal: dominant saturated scarlet and fiery red-orange with copper-red metal, crimson outer glow and orange luminous cuts. Avoid pale yellow gold. This is the red-orange member of a blue/green/orange trio."
+    }
+  ]
+}

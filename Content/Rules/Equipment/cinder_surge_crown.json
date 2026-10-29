@@ -1,0 +1,24 @@
+{
+  "id": "cinder_surge_crown",
+  "name": "燎原·炽冕",
+  "description": "燎原配装的头盔，扩大范围面积和基础半径，增加扩散次数，缩短生效延迟并降低边缘伤害衰减。所有词条均使用现有默认值，无套装效果。",
+  "slot": "helmet",
+  "rarity": "rare",
+  "level": 30,
+  "tags": [
+    "火焰",
+    "范围"
+  ],
+  "skills": [],
+  "traits": [
+    "area_size",
+    "area_size_more",
+    "area_base_radius",
+    "area_delay",
+    "area_spreads",
+    "area_falloff"
+  ],
+  "bases": [
+    "shield_base"
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "id": "minion_flat_frost",
+  "name": "召唤物基础冰霜伤害 +n点",
+  "description": "角色词条：召唤物基础冰霜伤害 +n点",
+  "params": { "n": 6 },
+  "sheet": [
+    {
+      "stat": "minion.flat.frost",
+      "value": { "param": "n" }
+    }
+  ]
+}

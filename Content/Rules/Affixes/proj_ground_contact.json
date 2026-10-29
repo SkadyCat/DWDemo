@@ -1,0 +1,12 @@
+{
+  "id": "proj_ground_contact",
+  "name": "接触地面",
+  "description": "接触地面。投射物按实际扫掠、碰撞半径和高度响应地面进入；每块地面分别记录，驻留不重复触发，离开再进入可重触发。与地面染色、镜像地面等独立特性聚合",
+  "params": {},
+  "sheet": [
+    {
+      "stat": "proj.ground_contact",
+      "value": 1
+    }
+  ]
+}

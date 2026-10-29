@@ -1,0 +1,12 @@
+{
+  "id": "proj_cost",
+  "name": "投射物技能消耗 -n%",
+  "description": "角色词条：投射物技能消耗 -n%",
+  "params": { "n": 25 },
+  "sheet": [
+    {
+      "stat": "proj.cost",
+      "value": { "param": "n" }
+    }
+  ]
+}

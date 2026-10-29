@@ -1,0 +1,13 @@
+import { reloadStore, store } from '/editors.mjs';
+import { player, ensureStarted } from '/player.mjs';
+import { mountBattle } from '/battle3d.mjs';
+import { createAtlas, enterAtlasNode, completeAtlasNode } from '/atlas-state.mjs';
+import { ATLAS_STORAGE_KEY } from '/atlas-session.mjs';
+import { loadTalentTree } from '/talents/state.mjs';
+if(location.hostname!=='127.0.0.1'||location.port!=='5348')throw Error('Isolated loopback fixture only');
+await reloadStore();await loadTalentTree();ensureStarted(store.catalog,store.collections,store.library);
+let state=completeAtlasNode(enterAtlasNode(createAtlas(41),'0:0'));
+state=enterAtlasNode(state,state.nodes.find(n=>n.status==='available').id);
+localStorage.setItem(ATLAS_STORAGE_KEY,JSON.stringify(state));
+player.owned.item={};player.mapDeviceSlots={};player.bagLayout=null;
+const page=mountBattle(document.querySelector('#battle-root'));page.show();

@@ -1,0 +1,23 @@
+{
+  "id": "cinder_guard_amulet",
+  "name": "燎原攻守·回焰坠",
+  "description": "燎原攻守配装：六条现有可洗词条，均采用默认参数；没有套装加成。绑定现有技能。",
+  "slot": "amulet",
+  "rarity": "rare",
+  "level": 30,
+  "tags": [
+    "火焰",
+    "范围"
+  ],
+  "skills": [
+    "sentinel"
+  ],
+  "traits": [
+    "hit_next_reduce",
+    "life_increased",
+    "life_added_fire",
+    "fire_pen",
+    "area_end_explosion",
+    "area_at_target"
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "id": "monster_lineage_void_caster",
+  "name": "虚空术士谱系",
+  "description": "T1 基础气血 +30点、虚空点伤 +4点、基础护盾 +30点；沿用虚空弹与范围爆发。",
+  "slot": "lineage",
+  "rarity": "common",
+  "level": 1,
+  "tier": 1,
+  "tags": [
+    "固定装备"
+  ],
+  "skills": [],
+  "traits": [
+    {
+      "id": "life_base",
+      "tier": 1,
+      "params": {
+        "n": 30
+      }
+    },
+    {
+      "id": "flat_void",
+      "tier": 1,
+      "params": {
+        "n": 4
+      }
+    },
+    {
+      "id": "shield_base",
+      "tier": 1,
+      "params": {
+        "n": 30
+      }
+    }
+  ]
+}

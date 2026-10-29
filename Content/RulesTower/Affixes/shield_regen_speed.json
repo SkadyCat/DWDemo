@@ -1,0 +1,9 @@
+{
+  "id": "shield_regen_speed",
+  "name": "护盾再生速度 +n%",
+  "description": "角色词条：护盾再生速度 +n%",
+  "params": { "n": 30 },
+  "sheet": [
+    { "stat": "shield.regen_speed", "value": { "param": "n" } }
+  ]
+}

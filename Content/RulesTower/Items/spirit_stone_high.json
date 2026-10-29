@@ -1,0 +1,10 @@
+{
+  "id": "spirit_stone_high",
+  "name": "上品灵石",
+  "description": "已用下品、中品灵石选定两条后，从其余随机词条中选定第三条洗炼词条，此后用上品灵石反复洗炼该条。每件装备最多指定洗炼三条，保留其他词条、装备T阶和固定传奇词条。",
+  "category": "currency",
+  "rarity": "rare",
+  "stack": 99,
+  "craft": { "op": "reroll", "grade": 3 },
+  "traits": []
+}

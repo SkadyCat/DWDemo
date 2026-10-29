@@ -1,0 +1,12 @@
+{
+  "id": "proj_split_distance",
+  "name": "分裂投射物飞行距离 +n%",
+  "description": "角色词条：分裂投射物飞行距离 +n%",
+  "params": { "n": 40 },
+  "sheet": [
+    {
+      "stat": "proj.split_distance",
+      "value": { "param": "n" }
+    }
+  ]
+}

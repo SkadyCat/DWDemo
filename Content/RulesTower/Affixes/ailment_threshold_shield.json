@@ -1,0 +1,9 @@
+{
+  "id": "ailment_threshold_shield",
+  "name": "最大护盾的n%计入异常状态门槛",
+  "description": "角色词条：最大护盾的n%计入异常状态门槛。异常门槛 = 最大气血 + 最大护盾×n%；施加到自己身上的异常强度 × 最大气血/门槛。",
+  "params": { "n": 50 },
+  "sheet": [
+    { "stat": "threshold.ailment_shield_percent", "value": { "param": "n" } }
+  ]
+}

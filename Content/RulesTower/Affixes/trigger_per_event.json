@@ -1,0 +1,12 @@
+{
+  "id": "trigger_per_event",
+  "name": "同一次事件可触发的技能数量 +n个",
+  "description": "角色词条：同一次事件可触发的技能数量 +n个。同一事件基础只有 1 个触发词条生效",
+  "params": { "n": 1 },
+  "sheet": [
+    {
+      "stat": "trigger.per_event",
+      "value": { "param": "n" }
+    }
+  ]
+}

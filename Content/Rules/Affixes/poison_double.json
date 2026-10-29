@@ -1,0 +1,12 @@
+{
+  "id": "poison_double",
+  "name": "施加中毒时，有n%概率使本次施加层数翻倍",
+  "description": "角色词条：施加中毒时，有n%概率使本次施加层数翻倍",
+  "params": { "n": 25 },
+  "sheet": [
+    {
+      "stat": "poison.double_chance",
+      "value": { "param": "n" }
+    }
+  ]
+}

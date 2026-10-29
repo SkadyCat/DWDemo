@@ -1,0 +1,12 @@
+{
+  "id": "chill_effect",
+  "name": "冰缓效果 +n%",
+  "description": "角色词条：冰缓效果 +n%",
+  "params": { "n": 30 },
+  "sheet": [
+    {
+      "stat": "chill.effect",
+      "value": { "param": "n" }
+    }
+  ]
+}

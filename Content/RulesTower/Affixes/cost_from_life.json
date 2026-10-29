@@ -1,0 +1,9 @@
+{
+  "id": "cost_from_life",
+  "name": "技能消耗的n%由气血支付",
+  "description": "角色词条：技能消耗的n%由气血支付。技能基础消耗 2 魔力。",
+  "params": { "n": 50 },
+  "sheet": [
+    { "stat": "cost.life_percent", "value": { "param": "n" } }
+  ]
+}

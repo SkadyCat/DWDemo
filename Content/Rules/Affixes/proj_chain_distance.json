@@ -1,0 +1,12 @@
+{
+  "id": "proj_chain_distance",
+  "name": "投射物连锁距离 +n%",
+  "description": "角色词条：投射物连锁距离 +n%",
+  "params": { "n": 40 },
+  "sheet": [
+    {
+      "stat": "proj.chain_distance",
+      "value": { "param": "n" }
+    }
+  ]
+}

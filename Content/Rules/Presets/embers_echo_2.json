@@ -1,0 +1,833 @@
+{
+  "skills": [
+    "flame_burst",
+    null,
+    null,
+    null
+  ],
+  "equipment": {
+    "weapon": "legendary_embers_echo_v5_2_weapon_bdt1",
+    "helmet": "legendary_embers_echo_v5_2_helmet_bdt1",
+    "chest": "legendary_embers_echo_v5_2_chest_bdt1",
+    "gloves": "legendary_embers_echo_v5_2_gloves_bdt1",
+    "boots": "legendary_embers_echo_v5_2_boots_bdt1"
+  },
+  "instances": {
+    "legendary_embers_echo_v5_2_weapon_bdt1": {
+      "uid": "legendary_embers_echo_v5_2_weapon_bdt1",
+      "baseId": "embers_echo_2_weapon",
+      "name": "余烬回响·焰核法杖·Ⅱ阶",
+      "slot": "weapon",
+      "level": 1,
+      "rarity": "legendary",
+      "tier": 1,
+      "skill": "flame_burst",
+      "affixes": [
+        {
+          "id": "minion_spawn_blast",
+          "name": "召唤物生成时，释放一次范围攻击",
+          "traits": [
+            {
+              "id": "minion_spawn_blast",
+              "params": {},
+              "with": []
+            }
+          ]
+        },
+        {
+          "id": "area_consume_remaining",
+          "name": "范围技能消耗全部剩余持续时间，立即结算剩余伤害",
+          "traits": [
+            {
+              "id": "area_consume_remaining",
+              "params": {},
+              "with": []
+            }
+          ]
+        },
+        {
+          "id": "poison_pool",
+          "name": "中毒敌人死亡时，留下持续n秒的毒池",
+          "traits": [
+            {
+              "id": "poison_pool",
+              "params": {
+                "seconds": 2
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "poison_crit",
+          "name": "暴击施加的中毒伤害 +n%",
+          "traits": [
+            {
+              "id": "poison_crit",
+              "params": {
+                "n": 28
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "sentinel_lightning",
+          "name": "哨卫·落雷",
+          "traits": [
+            {
+              "id": "sentinel_lightning",
+              "params": {
+                "amount": 6
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        }
+      ],
+      "legendary": {
+        "id": "legendary:embers_echo_2_weapon",
+        "name": "每累计恢复n点魔力，触发挂载技能",
+        "traits": [
+          {
+            "params": {
+              "per": 34
+            },
+            "duration": 0,
+            "with": [
+              {
+                "id": "create_flame_burst",
+                "params": {
+                  "radius": 1.1,
+                  "damage": 12,
+                  "cooldown": 0.4
+                },
+                "duration": 0,
+                "with": [],
+                "tier": 1
+              }
+            ],
+            "id": "trig_mana_restored",
+            "tier": 1
+          }
+        ],
+        "tier": 1
+      },
+      "identified": true,
+      "bases": [
+        {
+          "id": "flat_fire",
+          "name": "基础火焰伤害 +n",
+          "traits": [
+            {
+              "params": {
+                "n": 4
+              },
+              "duration": 0,
+              "with": [],
+              "id": "flat_fire",
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "trigger_cooldown_flat",
+          "name": "触发冷却时间 -n秒",
+          "traits": [
+            {
+              "params": {
+                "n": 0.11
+              },
+              "duration": 0,
+              "with": [],
+              "id": "trigger_cooldown_flat",
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "trigger_resource_reduction",
+          "name": "触发所需累计资源量 -n%",
+          "traits": [
+            {
+              "params": {
+                "n": 11
+              },
+              "duration": 0,
+              "with": [],
+              "id": "trigger_resource_reduction",
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "area_repeats",
+          "name": "范围技能重复次数 +n次",
+          "traits": [
+            {
+              "params": {
+                "n": 1
+              },
+              "duration": 0,
+              "with": [],
+              "id": "area_repeats",
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        }
+      ]
+    },
+    "legendary_embers_echo_v5_2_helmet_bdt1": {
+      "uid": "legendary_embers_echo_v5_2_helmet_bdt1",
+      "baseId": "embers_echo_2_helmet",
+      "name": "余烬回响·鸣焰冠·Ⅱ阶",
+      "slot": "helmet",
+      "level": 1,
+      "rarity": "legendary",
+      "tier": 1,
+      "skill": "",
+      "affixes": [
+        {
+          "id": "trigger_seek",
+          "name": "触发技能索敌距离 +n%",
+          "traits": [
+            {
+              "id": "trigger_seek",
+              "params": {
+                "n": 23
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "spirit_claw",
+          "name": "灵仆·利爪",
+          "traits": [
+            {
+              "id": "spirit_claw",
+              "params": {
+                "damage": 8
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "minion_death_explode",
+          "name": "召唤物死亡时，引发爆炸",
+          "traits": [
+            {
+              "id": "minion_death_explode",
+              "params": {},
+              "with": []
+            }
+          ]
+        },
+        {
+          "id": "shattering_kills",
+          "name": "冰缓碎裂",
+          "traits": [
+            {
+              "id": "chill",
+              "params": {
+                "slow": 17,
+                "duration": 1
+              },
+              "with": [],
+              "tier": 1
+            },
+            {
+              "id": "shatter",
+              "params": {
+                "radius": 1.49,
+                "amount": 12
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "leech_shield_cap",
+          "name": "护盾每秒偷取上限 +n%",
+          "traits": [
+            {
+              "id": "leech_shield_cap",
+              "params": {
+                "n": 17
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        }
+      ],
+      "legendary": {
+        "id": "legendary:embers_echo_2_helmet",
+        "name": "触发所需累计资源量 -n%",
+        "traits": [
+          {
+            "params": {
+              "n": 11
+            },
+            "duration": 0,
+            "with": [],
+            "id": "trigger_resource_reduction",
+            "tier": 1
+          }
+        ],
+        "tier": 1
+      },
+      "identified": true,
+      "bases": [
+        {
+          "id": "shield_base",
+          "name": "基础护盾 +n点",
+          "traits": [
+            {
+              "params": {
+                "n": 34
+              },
+              "duration": 0,
+              "with": [],
+              "id": "shield_base",
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "trigger_store_event",
+          "name": "触发失败时，储存本次事件直到成功触发",
+          "traits": [
+            {
+              "params": {},
+              "duration": 0,
+              "with": [],
+              "id": "trigger_store_event"
+            }
+          ]
+        },
+        {
+          "id": "area_repeats",
+          "name": "范围技能重复次数 +n次",
+          "traits": [
+            {
+              "params": {
+                "n": 1
+              },
+              "duration": 0,
+              "with": [],
+              "id": "area_repeats",
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        }
+      ]
+    },
+    "legendary_embers_echo_v5_2_chest_bdt1": {
+      "uid": "legendary_embers_echo_v5_2_chest_bdt1",
+      "baseId": "embers_echo_2_chest",
+      "name": "余烬回响·烬织长衣·Ⅱ阶",
+      "slot": "chest",
+      "level": 1,
+      "rarity": "legendary",
+      "tier": 1,
+      "skill": "",
+      "affixes": [
+        {
+          "id": "chain_rehit",
+          "name": "闪电允许再次连锁至已命中的目标",
+          "traits": [
+            {
+              "id": "chain_rehit",
+              "params": {},
+              "with": []
+            }
+          ]
+        },
+        {
+          "id": "more_physical",
+          "name": "物理伤害额外提高 n%",
+          "traits": [
+            {
+              "id": "more_physical",
+              "params": {
+                "n": 5
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "proj_explode_on_expire",
+          "name": "投射物消失时，引发爆炸",
+          "traits": [
+            {
+              "id": "proj_explode_on_expire",
+              "params": {},
+              "with": []
+            }
+          ]
+        },
+        {
+          "id": "poison_flask_poison",
+          "name": "毒瓶施毒",
+          "traits": [
+            {
+              "id": "poison_flask_poison",
+              "params": {
+                "duration": 1
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "minion_inherit_flat",
+          "name": "召唤物继承你n%的附加伤害",
+          "traits": [
+            {
+              "id": "minion_inherit_flat",
+              "params": {
+                "n": 28
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        }
+      ],
+      "legendary": {
+        "id": "legendary:embers_echo_2_chest",
+        "name": "触发所需累计资源量 -n%",
+        "traits": [
+          {
+            "params": {
+              "n": 11
+            },
+            "duration": 0,
+            "with": [],
+            "id": "trigger_resource_reduction",
+            "tier": 1
+          }
+        ],
+        "tier": 1
+      },
+      "identified": true,
+      "bases": [
+        {
+          "id": "shield_base",
+          "name": "基础护盾 +n点",
+          "traits": [
+            {
+              "params": {
+                "n": 34
+              },
+              "duration": 0,
+              "with": [],
+              "id": "shield_base",
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        }
+      ]
+    },
+    "legendary_embers_echo_v5_2_gloves_bdt1": {
+      "uid": "legendary_embers_echo_v5_2_gloves_bdt1",
+      "baseId": "embers_echo_2_gloves",
+      "name": "余烬回响·叠焰护手·Ⅱ阶",
+      "slot": "gloves",
+      "level": 1,
+      "rarity": "legendary",
+      "tier": 1,
+      "skill": "",
+      "affixes": [
+        {
+          "id": "minion_heal_received",
+          "name": "召唤物受到的治疗效果 +n%",
+          "traits": [
+            {
+              "id": "minion_heal_received",
+              "params": {
+                "n": 17
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "trigger_damage",
+          "name": "触发技能伤害 +n%",
+          "traits": [
+            {
+              "id": "trigger_damage",
+              "params": {
+                "n": 17
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "missing_shield_regen",
+          "name": "每损失n%护盾，护盾再生速度 +n%",
+          "traits": [
+            {
+              "id": "missing_shield_regen",
+              "params": {
+                "per": 5,
+                "amount": 5
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "minion_take_for_you",
+          "name": "召唤物替你承担受到命中伤害的n%",
+          "traits": [
+            {
+              "id": "minion_take_for_you",
+              "params": {
+                "n": 9
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "proj_split_chance",
+          "name": "投射物分裂概率 +n个百分点",
+          "traits": [
+            {
+              "id": "proj_split_chance",
+              "params": {
+                "n": 17
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        }
+      ],
+      "legendary": {
+        "id": "legendary:embers_echo_2_gloves",
+        "name": "每秒恢复最大气血的n%",
+        "traits": [
+          {
+            "params": {
+              "n": 1
+            },
+            "duration": 0,
+            "with": [],
+            "id": "life_regen_percent",
+            "tier": 1
+          }
+        ],
+        "tier": 1
+      },
+      "identified": true,
+      "bases": [
+        {
+          "id": "armour",
+          "name": "护甲 +n",
+          "traits": [
+            {
+              "params": {
+                "n": 115
+              },
+              "duration": 0,
+              "with": [],
+              "id": "armour",
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "life_base",
+          "name": "基础气血 +n点",
+          "traits": [
+            {
+              "params": {
+                "n": 34
+              },
+              "duration": 0,
+              "with": [],
+              "id": "life_base",
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "life_increased",
+          "name": "气血上限 +n%",
+          "traits": [
+            {
+              "params": {
+                "n": 11
+              },
+              "duration": 0,
+              "with": [],
+              "id": "life_increased",
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        }
+      ]
+    },
+    "legendary_embers_echo_v5_2_boots_bdt1": {
+      "uid": "legendary_embers_echo_v5_2_boots_bdt1",
+      "baseId": "embers_echo_2_boots",
+      "name": "余烬回响·疾火靴·Ⅱ阶",
+      "slot": "boots",
+      "level": 1,
+      "rarity": "legendary",
+      "tier": 1,
+      "skill": "",
+      "affixes": [
+        {
+          "id": "fire_pen",
+          "name": "火焰抗性穿透 +n个百分点",
+          "traits": [
+            {
+              "id": "fire_pen",
+              "params": {
+                "n": 8
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "poison_threshold_detonate",
+          "name": "中毒达到n层时，消耗全部中毒并引爆",
+          "traits": [
+            {
+              "id": "poison_threshold_detonate",
+              "params": {
+                "stacks": 5
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "erosion_damage",
+          "name": "侵蚀伤害 +n%",
+          "traits": [
+            {
+              "id": "erosion_damage",
+              "params": {
+                "n": 17
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "minion_kill_temp",
+          "name": "召唤物击败敌人时，有n%概率生成临时召唤物",
+          "traits": [
+            {
+              "id": "minion_kill_temp",
+              "params": {
+                "n": 9
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "spirit_claw",
+          "name": "灵仆·利爪",
+          "traits": [
+            {
+              "id": "spirit_claw",
+              "params": {
+                "damage": 8
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        }
+      ],
+      "legendary": {
+        "id": "legendary:embers_echo_2_boots",
+        "name": "护甲 +n",
+        "traits": [
+          {
+            "params": {
+              "n": 115
+            },
+            "duration": 0,
+            "with": [],
+            "id": "armour",
+            "tier": 1
+          }
+        ],
+        "tier": 1
+      },
+      "identified": true,
+      "bases": [
+        {
+          "id": "evasion",
+          "name": "基础闪避 +n点",
+          "traits": [
+            {
+              "params": {
+                "n": 115
+              },
+              "duration": 0,
+              "with": [],
+              "id": "evasion",
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "fire_resistance",
+          "name": "火焰抗性",
+          "traits": [
+            {
+              "params": {
+                "resistance": 14
+              },
+              "duration": 0,
+              "with": [],
+              "id": "fire_resistance",
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "frost_resistance",
+          "name": "冰霜抗性",
+          "traits": [
+            {
+              "params": {
+                "resistance": 14
+              },
+              "duration": 0,
+              "with": [],
+              "id": "frost_resistance",
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "lightning_resistance",
+          "name": "闪电抗性",
+          "traits": [
+            {
+              "params": {
+                "resistance": 14
+              },
+              "duration": 0,
+              "with": [],
+              "id": "lightning_resistance",
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "poison_resistance",
+          "name": "中毒抗性",
+          "traits": [
+            {
+              "params": {
+                "resistance": 14
+              },
+              "duration": 0,
+              "with": [],
+              "id": "poison_resistance",
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        }
+      ]
+    }
+  },
+  "belt": [],
+  "authored": {
+    "source": "generated-existing-traits",
+    "family": "embers_echo",
+    "name": "余烬回响·Ⅱ阶",
+    "grade": 2,
+    "mechanism": "范围重复",
+    "startupCasts": 2,
+    "seed": {
+      "base": 1,
+      "overrides": {
+        "chest": 999
+      }
+    },
+    "expectedTargetRolls": 45,
+    "requiredAffixes": [
+      {
+        "slot": "chest",
+        "affix": "more_elemental",
+        "family": "elemental",
+        "expected": 45
+      }
+    ],
+    "excludedAffixes": [
+      "area_to_ring",
+      "area_to_sector",
+      "area_at_self"
+    ],
+    "revision": 5,
+    "minimumTier": 1
+  }
+}

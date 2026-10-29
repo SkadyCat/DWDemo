@@ -1,0 +1,7 @@
+{
+  "id": "map_monster_damage",
+  "name": "地图召唤物伤害 +n%",
+  "description": "地图装备词条：增加地图生成的怪物命中伤害，包括首领。",
+  "params": { "n": 20 },
+  "sheet": [{ "stat": "minion.damage", "value": { "param": "n" } }]
+}

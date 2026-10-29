@@ -1,0 +1,9 @@
+{
+  "id": "trig_shield_broken",
+  "name": "护盾被敌人击破时，触发挂载技能",
+  "description": "角色词条：护盾被敌人击破时，触发挂载技能",
+  "params": {},
+  "sheet": [
+    { "trigger": "trig_shield_broken" }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "id": "proj_chain_secondary",
+  "name": "投射物每次连锁后，生成n个次级投射物",
+  "description": "角色词条：投射物每次连锁后，生成n个次级投射物",
+  "params": { "n": 2 },
+  "sheet": [
+    { "trigger": "proj_chain_secondary" }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "enabled": false,
+  "bucket": "your-bucket-1250000000",
+  "region": "ap-guangzhou",
+  "baseUrl": "https://your-assets-domain.example.com/rulestudio",
+  "origins": ["http://127.0.0.1:5291", "http://43.139.72.98:5590"]
+}

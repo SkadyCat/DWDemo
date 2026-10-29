@@ -1,0 +1,12 @@
+{
+  "id": "fire_center",
+  "name": "火焰范围中心区域伤害 +n%",
+  "description": "角色词条：火焰范围中心区域伤害 +n%",
+  "params": { "n": 50 },
+  "sheet": [
+    {
+      "stat": "fire.center_damage",
+      "value": { "param": "n" }
+    }
+  ]
+}

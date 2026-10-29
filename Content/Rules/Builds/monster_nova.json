@@ -1,0 +1,8 @@
+{
+  "id": "monster_nova",
+  "name": "首领新星",
+  "active": "monster_nova",
+  "traits": [
+    "monster_nova"
+  ]
+}

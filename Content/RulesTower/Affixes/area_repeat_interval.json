@@ -1,0 +1,12 @@
+{
+  "id": "area_repeat_interval",
+  "name": "范围技能重复间隔 -n%",
+  "description": "角色词条：范围技能重复间隔 -n%。基础重复间隔 0.35 秒",
+  "params": { "n": 30 },
+  "sheet": [
+    {
+      "stat": "area.repeat_interval",
+      "value": { "param": "n" }
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "id": "poison_spread_times",
+  "name": "中毒传播次数 +n次",
+  "description": "角色词条：中毒传播次数 +n次。传播得到的中毒可以再次传播的次数，基础 0",
+  "params": { "n": 1 },
+  "sheet": [
+    {
+      "stat": "poison.spread_times",
+      "value": { "param": "n" }
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>角色装备选中 · 独立验收</title><link rel="stylesheet" href="/app.css"><link rel="stylesheet" href="/play.css"><link rel="stylesheet" href="/battle-character.css"><link rel="stylesheet" href="/assets/ui/equipment-masks/catalog.css"><link rel="stylesheet" href="/battle-equipment-quality.css"><style>body{display:block;background:#111821}#selection-receipt{position:fixed;bottom:4px;left:12px;z-index:20000;font-size:11px;color:#9bb8c7}</style></head><body><div id="app"></div><script type="module">
+import {createApp,ref,reactive,computed} from '/vendor/vue.esm-browser.prod.js';
+import {reloadStore,store} from '/editors.mjs';
+import {player,ensureStarted} from '/player.mjs';
+import {registerEquipmentDropLibrary,rollEquipment} from '/equipment-generation.mjs';
+import {inventoryEntries,filterInventoryEntries,characterPanel,ItemInspector} from '/battle-panels.mjs';
+import {iconSrc} from '/game-icons.mjs';
+import {PLAYER_GEAR_SLOTS,EQUIPMENT_RARITY_NAMES} from '/engine/index.mjs';
+import {Battle} from '/sim/battle.mjs';
+import {BattleCharacterPanel} from '/battle-character-panel.mjs';
+import {BattleWindow} from '/battle-window.mjs';
+import {BattleItemPanel} from '/battle-item-panel.mjs';
+if(location.hostname!=='127.0.0.1'||location.port!=='5354')throw Error('Character selection QA requires isolated origin 5354');
+await reloadStore();ensureStarted(store.catalog,store.collections,store.library);registerEquipmentDropLibrary(store.files,store.library,store.affixCategories);
+if(new URLSearchParams(location.search).has('craft'))for(const category of ['currency','omen']){const material=[...store.collections.item.values()].find(entry=>entry.doc.category===category)?.doc;if(material)player.owned.item[material.id]=3;}
+const templates=[...store.collections.equipment.values()].map(e=>e.doc).filter(d=>PLAYER_GEAR_SLOTS.some(s=>s.id===d.slot)).slice(0,14);
+for(const [i,doc]of templates.entries()){const item=rollEquipment(doc,store.library,{uid:'selection-qa-'+i,tier:1,random:()=>.45});player.instances[item.uid]=item;}
+const battle=new Battle(store.files,{collections:store.collections,instances:player.instances,maxMonsters:0,spawnRate:0});battle.setLoadout(player.loadout);
+createApp({components:{BattleCharacterPanel,BattleWindow,BattleItemPanel},setup(){
+ const selectedKey=ref(''),query=ref(''),filter=ref('equipment'),inspector=reactive(new ItemInspector()),readOnly=!new URLSearchParams(location.search).has('craft');
+ const entries=computed(()=>inventoryEntries(player,store.collections).map(i=>({...i,icon:iconSrc(i.kind,i)})));
+ const ordinary=computed(()=>entries.value.filter(i=>!i.equipped));
+ const inventory=computed(()=>filterInventoryEntries(ordinary.value.filter(i=>filter.value==='all'||i.kind==='equipment'&&(filter.value==='equipment'||i.slot===filter.value)),query.value,store.library));
+ const equipment=computed(()=>PLAYER_GEAR_SLOTS.map(s=>{const item=entries.value.find(i=>i.kind==='equipment'&&i.id===player.loadout.equipment[s.id]);return {slot:s.id,slotName:s.name,item,name:item?.name||'',tier:item?.tier||0,rarity:item?.rarity||'',rarityName:EQUIPMENT_RARITY_NAMES[item?.rarity]||'',icon:item?.icon||''}}));
+ const detail=computed(()=>entries.value.find(i=>i.key===inspector.key));
+ function inspect(item,event,pin=false){if(!item)return;if(pin)inspector.close();inspector.enter(item.key,event.currentTarget.getBoundingClientRect(),innerWidth,innerHeight);if(pin)inspector.pin();}
+ return {selectedKey,query,filter,inspector,inventory,equipment,ordinary,detail,inspect,player,readOnly,character:characterPanel(battle)};
+},template:`<BattleWindow title="角色" kind="character"><BattleCharacterPanel :character="character" :equipment="equipment" :inventory="inventory" :inventory-total="ordinary.length" :selected-key="selectedKey" v-model:query="query" v-model:filter="filter" @select="selectedKey=$event" @inspect="inspect" @leave="inspector.leave($event)" @context="item=>selectedKey=item.key"/></BattleWindow><BattleItemPanel v-if="detail" :item="detail" :pinned="inspector.pinned" :position="{left:inspector.x+'px',top:inspector.y+'px'}" :inventory="player" :read-only="readOnly" @close="inspector.close()"/><output id="selection-receipt">独立验收 · 选中 {{selectedKey||'无'}} · 详情 {{inspector.pinned?'固定':'未固定'}}</output>`}).mount('#app');
+</script></body></html>

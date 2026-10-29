@@ -1,0 +1,9 @@
+{
+  "id": "evade_count_cast",
+  "name": "每累计闪避n次，触发一次辅助技能",
+  "description": "角色词条：每累计闪避n次，触发一次辅助技能",
+  "params": { "per": 5 },
+  "sheet": [
+    { "trigger": "trig_evades_count" }
+  ]
+}

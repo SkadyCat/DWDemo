@@ -1,0 +1,12 @@
+{
+  "id": "minion_proj_speed",
+  "name": "召唤物投射物飞行速度 +n%",
+  "description": "角色词条：召唤物投射物飞行速度 +n%",
+  "params": { "n": 25 },
+  "sheet": [
+    {
+      "stat": "minion.proj_speed",
+      "value": { "param": "n" }
+    }
+  ]
+}

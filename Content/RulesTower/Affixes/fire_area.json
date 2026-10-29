@@ -1,0 +1,12 @@
+{
+  "id": "fire_area",
+  "name": "火焰技能范围面积 +n%",
+  "description": "角色词条：火焰技能范围面积 +n%",
+  "params": { "n": 30 },
+  "sheet": [
+    {
+      "stat": "fire.area",
+      "value": { "param": "n" }
+    }
+  ]
+}

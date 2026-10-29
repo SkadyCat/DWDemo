@@ -1,0 +1,16 @@
+{
+  "id": "fire_turret_clockwork_gloves",
+  "name": "召唤·燎火机枢手",
+  "description": "命中敌人时，有概率触发召唤火球炮台，自动聚合炮台·火球和溅射。固定基底提供护甲、控制单位名额和同一次事件的触发名额。传奇特性固定，下方五条品质词缀正常随机；数值按装备 T 阶生成，洗炼保留固定基底和传奇特性。",
+  "slot": "gloves",
+  "rarity": "legendary",
+  "level": 1,
+  "tier": 1,
+  "tags": ["触发族", "火焰", "投射物"],
+  "skills": [],
+  "bases": ["armour", "control_unit_cap", "trigger_per_event"],
+  "legendary": { "id": "trig_hit", "with": ["summon_fire_turret", "fire_turret_fireball", "splash"] },
+  "traits": [
+    { "id": "trig_hit", "with": ["summon_fire_turret", "fire_turret_fireball", "splash"] }
+  ]
+}

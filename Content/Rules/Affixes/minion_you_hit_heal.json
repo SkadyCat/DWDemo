@@ -1,0 +1,12 @@
+{
+  "id": "minion_you_hit_heal",
+  "name": "你命中敌人时，附近召唤物恢复气血 +n点",
+  "description": "角色词条：你命中敌人时，附近召唤物恢复气血 +n点。附近 = 8 米",
+  "params": { "n": 3 },
+  "sheet": [
+    {
+      "stat": "minion.you_hit_heal",
+      "value": { "param": "n" }
+    }
+  ]
+}

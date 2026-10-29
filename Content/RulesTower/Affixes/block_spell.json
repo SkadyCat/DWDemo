@@ -1,0 +1,12 @@
+{
+  "id": "block_spell",
+  "name": "法术格挡率 +n个百分点",
+  "description": "角色词条：法术格挡率 +n个百分点",
+  "params": { "n": 10 },
+  "sheet": [
+    {
+      "stat": "block.spell",
+      "value": { "param": "n" }
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "id": "evade_cap",
+  "name": "闪避率上限 +n个百分点",
+  "description": "角色词条：闪避率上限 +n个百分点。基础上限 75%",
+  "params": { "n": 5 },
+  "sheet": [
+    {
+      "stat": "evade.cap",
+      "value": { "param": "n" }
+    }
+  ]
+}

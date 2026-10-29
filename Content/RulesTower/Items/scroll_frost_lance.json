@@ -1,0 +1,13 @@
+{
+  "id": "scroll_frost_lance",
+  "name": "冰锥卷轴",
+  "description": "使用时施放一次强化冰缓的冰锥术。",
+  "category": "consumable",
+  "rarity": "magic",
+  "stack": 10,
+  "skill": "frost_lance",
+  "traits": [
+    { "id": "chill", "params": { "slow": 45 } },
+    "cast_on_shield_broken"
+  ]
+}

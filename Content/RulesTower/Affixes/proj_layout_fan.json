@@ -1,0 +1,9 @@
+{
+  "id": "proj_layout_fan",
+  "name": "投射物以扇形排列发射",
+  "description": "角色词条：投射物以扇形排列发射",
+  "params": {},
+  "sheet": [
+    { "stat": "proj.layout_fan", "value": 1 }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "id": "monster_bolt",
+  "name": "怪物飞弹",
+  "description": "怪物远程攻击：朝目标发射一枚投射物，伤害取怪物攻击威力。",
+  "rules": [
+    {
+      "id": "bolt",
+      "event": "cast",
+      "actions": [
+        {
+          "op": "emit",
+          "kind": "monster_bolt",
+          "element": "void",
+          "inheritance": "explicit",
+          "tags": [
+            "spell"
+          ],
+          "count": {
+            "param": "count"
+          },
+          "speed": {
+            "param": "speed"
+          },
+          "lifetime": {
+            "param": "lifetime"
+          },
+          "radius": {
+            "param": "radius"
+          },
+          "damage": {
+            "event": "amount"
+          }
+        }
+      ]
+    }
+  ],
+  "params": {
+    "count": 1,
+    "speed": 13,
+    "lifetime": 2.2,
+    "radius": 0.3
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "id": "poison_burst_end",
+  "name": "中毒不再造成持续伤害，结束时一次性结算",
+  "description": "角色词条：中毒不再造成持续伤害，结束时一次性结算",
+  "params": {},
+  "sheet": [
+    { "stat": "poison.burst_end", "value": 1 }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "id": "minion_per_minion_damage",
+  "name": "每拥有一个召唤物，召唤物伤害 +n%，最多提高n%",
+  "description": "角色词条：每拥有一个召唤物，召唤物伤害 +n%，最多提高n%",
+  "params": { "n": 5, "max": 30 },
+  "sheet": [
+    { "trigger": "minion_per_minion_damage" }
+  ]
+}

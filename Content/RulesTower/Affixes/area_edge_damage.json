@@ -1,0 +1,12 @@
+{
+  "id": "area_edge_damage",
+  "name": "范围边缘区域伤害 +n%",
+  "description": "角色词条：范围边缘区域伤害 +n%",
+  "params": { "n": 25 },
+  "sheet": [
+    {
+      "stat": "area.edge_damage",
+      "value": { "param": "n" }
+    }
+  ]
+}

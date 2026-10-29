@@ -1,0 +1,24 @@
+.b3-skill-picker.b3-icon-picker { width: 294px; min-width: 0; max-width: calc(100vw - 24px); max-height: min(360px,calc(100vh - 200px)); border-color: #405466; border-radius: 8px; background: #0e1720fa; box-shadow: 0 12px 28px #0009; }
+.b3-picker-tools { display: flex; flex: none; justify-content: flex-end; gap: 4px; padding: 5px 6px 0; }
+.b3-picker-tool { display: grid; place-items: center; width: 26px; height: 26px; padding: 4px; border: 1px solid transparent; border-radius: 4px; color: #8095a8; background: transparent; cursor: pointer; }
+.b3-picker-tool svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.b3-picker-tool:hover:not(:disabled),.b3-picker-tool:focus-visible { color: #d4e2ee; background: #273744; outline: 1px solid #53758b; }
+.b3-picker-tool:disabled { color: #3b4c59; cursor: default; }
+.b3-picker-icon-grid { display: grid; grid-template-columns: repeat(var(--picker-columns),minmax(0,1fr)); gap: 8px; min-height: 0; padding: 8px 10px 10px; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: #435a6c transparent; }
+.b3-picker-icon-grid > button { position: relative; display: block; box-sizing: border-box; width: 100%; aspect-ratio: 1; padding: 2px; border: 1px solid #374b5a; border-radius: 6px; background: #0a1018; cursor: pointer; transition: border-color .1s,box-shadow .1s; }
+.b3-picker-icon-grid > button > img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 3px; }
+.b3-picker-icon-grid > button:hover,.b3-picker-icon-grid > button:focus-visible { border-color: #a6d8e7; box-shadow: 0 0 0 1px #79c9db66,0 0 12px #79c9db26; outline: none; }
+.b3-picker-icon-grid > button[aria-pressed=true] { border-color: #79c9db; box-shadow: 0 0 0 1px #79c9db55; }
+.b3-picker-placeholder { width: 100%; aspect-ratio: 1; box-sizing: border-box; border: 1px solid #263847; border-radius: 6px; background: #0a121b80; pointer-events: none; }
+.b3-picker-check { position: absolute; right: -3px; bottom: -3px; width: 15px; height: 15px; padding: 1px; border: 1px solid #79c9db; border-radius: 4px; color: #a4ebf5; background: #162a32; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.b3-picker-empty { grid-column: 1/-1; margin: 0; padding: 7px 0; color: #8b9fae; font: 11px/1.6 var(--sans); }
+.b3-picker-hover { position: fixed; z-index: 94; box-sizing: border-box; width: 264px; max-width: calc(100vw - 24px); overflow-y: auto; padding: 12px; border: 1px solid #536c7e; border-radius: 6px; background: #101a23fa; color: #becdd8; box-shadow: 0 10px 30px #0009; font: 11px/1.7 var(--sans); pointer-events: none; }
+.b3-picker-hover > header { display: flex; align-items: center; gap: 9px; }
+.b3-picker-hover > header > img { flex: none; width: 32px; height: 32px; border: 1px solid #435d70; border-radius: 4px; }
+.b3-picker-hover header b { display: block; color: #d7eaf6; font-size: 13px; font-weight: 600; }
+.b3-picker-hover header small { color: #8babc0; font-size: 10px; }
+.b3-picker-hover > p { margin: 9px 0 0; white-space: pre-line; color: #afbfcd; overflow-wrap: anywhere; }
+.b3-picker-hover dl { margin: 9px 0 0; padding-top: 7px; border-top: 1px solid #2c3e4c; }
+.b3-picker-hover dl > div { display: flex; justify-content: space-between; gap: 12px; }
+.b3-picker-hover dt { color: #7893a7; }.b3-picker-hover dd { margin: 0; color: #bfd6e4; text-align: right; }
+.b3-picker-hover footer { margin-top: 9px; padding-top: 7px; border-top: 1px solid #2c3e4c; color: #79c9db; font-size: 10px; }

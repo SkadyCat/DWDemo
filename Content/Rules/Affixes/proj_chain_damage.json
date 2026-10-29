@@ -1,0 +1,12 @@
+{
+  "id": "proj_chain_damage",
+  "name": "投射物每次连锁，伤害 +n%",
+  "description": "角色词条：投射物每次连锁，伤害 +n%。最多 +100%",
+  "params": { "n": 15 },
+  "sheet": [
+    {
+      "stat": "proj.chain_damage",
+      "value": { "param": "n" }
+    }
+  ]
+}

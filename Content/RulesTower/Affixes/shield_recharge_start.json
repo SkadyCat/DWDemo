@@ -1,0 +1,9 @@
+{
+  "id": "shield_recharge_start",
+  "name": "护盾回充启动速度 +n%",
+  "description": "角色词条：护盾回充启动速度 +n%。基础延迟 2 秒，延迟 ÷ (1 + n%)。",
+  "params": { "n": 30 },
+  "sheet": [
+    { "stat": "shield.recharge_start", "value": { "param": "n" } }
+  ]
+}

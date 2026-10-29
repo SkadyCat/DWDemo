@@ -1,0 +1,12 @@
+{
+  "id": "proj_pierce_damage",
+  "name": "投射物每穿透一个敌人，伤害 +n%",
+  "description": "角色词条：投射物每穿透一个敌人，伤害 +n%。最多 +100%",
+  "params": { "n": 15 },
+  "sheet": [
+    {
+      "stat": "proj.pierce_damage",
+      "value": { "param": "n" }
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "id": "poison_spread_targets",
+  "name": "中毒传播目标数量 +n个",
+  "description": "角色词条：中毒传播目标数量 +n个。基础 2 个",
+  "params": { "n": 2 },
+  "sheet": [
+    {
+      "stat": "poison.spread_targets",
+      "value": { "param": "n" }
+    }
+  ]
+}

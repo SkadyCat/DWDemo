@@ -1,0 +1,17 @@
+{
+  "id": "hit_shocked_ground",
+  "name": "命中时，有n%概率生成感电地面",
+  "description": "命中时，有n%概率生成感电地面。chance为概率%；radius为米；duration和cooldown为秒，同一词条共用冷却。每0.5秒施加0.75秒感电，amount为感电强度；离开后按异常剩余时间结束。最多128块新触发地面，超出替换最早一块",
+  "params": {
+    "chance": 25,
+    "radius": 2,
+    "duration": 4,
+    "cooldown": 1,
+    "amount": 20
+  },
+  "sheet": [
+    {
+      "trigger": "hit_shocked_ground"
+    }
+  ]
+}

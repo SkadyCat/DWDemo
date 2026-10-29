@@ -1,0 +1,12 @@
+{
+  "id": "proj_split_times",
+  "name": "投射物分裂次数 +n次",
+  "description": "角色词条：投射物分裂次数 +n次。一条弹道可以分裂的次数，基础 1 次",
+  "params": { "n": 1 },
+  "sheet": [
+    {
+      "stat": "proj.split_times",
+      "value": { "param": "n" }
+    }
+  ]
+}

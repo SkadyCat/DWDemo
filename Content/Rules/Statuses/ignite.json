@@ -1,0 +1,10 @@
+{
+  "id": "ignite",
+  "name": "点燃",
+  "description": "每秒造成强度数值的火焰伤害，每 0.5 秒结算一次，受火焰抗性与感电影响；不暴击，也不触发命中/击杀规则。",
+  "category": "ailment",
+  "stacking": "strongest",
+  "effects": [
+    { "type": "damage_over_time", "element": "fire", "interval": 0.5 }
+  ]
+}

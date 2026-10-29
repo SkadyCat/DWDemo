@@ -1,0 +1,12 @@
+{
+  "id": "shock_chance",
+  "name": "命中时，感电概率 +n个百分点",
+  "description": "角色词条：命中时，感电概率 +n个百分点。任意命中都可能感电（受到的伤害 +20%）",
+  "params": { "n": 20 },
+  "sheet": [
+    {
+      "stat": "shock.chance",
+      "value": { "param": "n" }
+    }
+  ]
+}

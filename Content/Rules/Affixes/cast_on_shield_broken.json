@@ -1,0 +1,9 @@
+{
+  "id": "cast_on_shield_broken",
+  "name": "护盾被敌人击破时，触发一次辅助技能，冷却n秒",
+  "description": "角色词条：护盾被敌人击破时，触发一次辅助技能，冷却n秒。缝合一个主动特性（以及任意辅助特性）作为被触发的辅助技能。",
+  "params": { "cooldown": 5 },
+  "sheet": [
+    { "trigger": "cast_on_shield_broken" }
+  ]
+}

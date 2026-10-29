@@ -1,0 +1,9 @@
+{
+  "id": "minion_age_damage",
+  "name": "召唤物每存活n秒，伤害 +n%，最多提高n%",
+  "description": "角色词条：召唤物每存活n秒，伤害 +n%，最多提高n%",
+  "params": { "seconds": 1, "n": 5, "max": 40 },
+  "sheet": [
+    { "trigger": "minion_age_damage" }
+  ]
+}

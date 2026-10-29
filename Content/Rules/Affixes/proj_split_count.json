@@ -1,0 +1,12 @@
+{
+  "id": "proj_split_count",
+  "name": "每次分裂产生的投射物数量 +n个",
+  "description": "角色词条：每次分裂产生的投射物数量 +n个",
+  "params": { "n": 1 },
+  "sheet": [
+    {
+      "stat": "proj.split_count",
+      "value": { "param": "n" }
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "id": "area_kill_cooldown",
+  "name": "范围每击败一个敌人，剩余冷却时间 -n秒",
+  "description": "角色词条：范围每击败一个敌人，剩余冷却时间 -n秒",
+  "params": { "n": 0.3 },
+  "sheet": [
+    {
+      "stat": "area.kill_cooldown",
+      "value": { "param": "n" }
+    }
+  ]
+}

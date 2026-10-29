@@ -1,0 +1,9 @@
+{
+  "id": "poison_resistance",
+  "name": "中毒抗性",
+  "description": "目标的防御构筑增加中毒抗性；正抗性按百分比减伤，默认上限为 75%。",
+  "params": { "resistance": 25 },
+  "modifiers": [
+    { "target": "element", "element": "poison", "stat": "resistance", "op": "add", "value": { "param": "resistance" } }
+  ]
+}

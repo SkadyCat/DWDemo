@@ -1,0 +1,12 @@
+{
+  "id": "minion_regen_percent",
+  "name": "召唤物每秒恢复最大气血的n%",
+  "description": "角色词条：召唤物每秒恢复最大气血的n%",
+  "params": { "n": 2 },
+  "sheet": [
+    {
+      "stat": "minion.regen_percent",
+      "value": { "param": "n" }
+    }
+  ]
+}

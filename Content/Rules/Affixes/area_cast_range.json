@@ -1,0 +1,12 @@
+{
+  "id": "area_cast_range",
+  "name": "范围技能施放距离 +n%",
+  "description": "角色词条：范围技能施放距离 +n%。范围技能落点距离，基础 6 米",
+  "params": { "n": 30 },
+  "sheet": [
+    {
+      "stat": "area.cast_range",
+      "value": { "param": "n" }
+    }
+  ]
+}

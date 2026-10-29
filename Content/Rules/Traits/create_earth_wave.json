@@ -1,0 +1,14 @@
+{
+  "id": "create_earth_wave",
+  "name": "裂地波",
+  "description": "向瞄准方向掀起一道直线地裂，对直线范围（默认长 7 米、宽 1.2 米）内的敌人造成 damage 点物理伤害。cooldown 为冷却秒数。直线范围技能：受直线长度 / 宽度及其他范围词条影响。",
+  "params": { "radius": 1.2, "damage": 22, "cooldown": 0.6 },
+  "rules": [
+    {
+      "id": "earth_wave_on_cast", "event": "cast",
+      "actions": [
+        { "op": "damage_area", "element": "physical", "tags": ["physical", "melee", "line"], "radius": { "param": "radius" }, "amount": { "max": [{ "param": "damage" }, { "event": "amount" }] } }
+      ]
+    }
+  ]
+}

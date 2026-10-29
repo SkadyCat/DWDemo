@@ -1,0 +1,88 @@
+{
+  "id": "monster_lineage_bloodfeast_tyrant",
+  "name": "血铸屠王谱系",
+  "description": "每 0.45 秒重击，T10 气血三件套提供厚血；最大生命转物理点伤和增伤，配合物理点伤、物理增伤及独立倍率。中毒抗性 +50%。",
+  "slot": "lineage",
+  "rarity": "unique",
+  "level": 1,
+  "tier": 10,
+  "tags": [
+    "固定装备",
+    "怪物"
+  ],
+  "skills": [],
+  "traits": [
+    {
+      "id": "poison_resistance",
+      "tier": 10,
+      "params": {
+        "resistance": 50
+      }
+    },
+    {
+      "id": "life_base",
+      "tier": 10,
+      "params": {
+        "n": 120
+      }
+    },
+    {
+      "id": "life_increased",
+      "tier": 10,
+      "params": {
+        "n": 40
+      }
+    },
+    {
+      "id": "life_more",
+      "tier": 10,
+      "params": {
+        "n": 20
+      }
+    },
+    {
+      "id": "life_added_physical",
+      "tier": 10,
+      "params": {
+        "n": 4
+      }
+    },
+    {
+      "id": "damage_per_life",
+      "tier": 10,
+      "params": {
+        "per": 200,
+        "amount": 8
+      }
+    },
+    {
+      "id": "area_per_life",
+      "tier": 10,
+      "params": {
+        "per": 200,
+        "amount": 4
+      }
+    },
+    {
+      "id": "flat_physical",
+      "tier": 10,
+      "params": {
+        "n": 16
+      }
+    },
+    {
+      "id": "inc_physical",
+      "tier": 10,
+      "params": {
+        "n": 50
+      }
+    },
+    {
+      "id": "more_physical",
+      "tier": 10,
+      "params": {
+        "n": 20
+      }
+    }
+  ]
+}

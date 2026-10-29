@@ -1,0 +1,12 @@
+{
+  "id": "poison_increased",
+  "name": "中毒伤害 +n%",
+  "description": "角色词条：中毒伤害 +n%",
+  "params": { "n": 30 },
+  "sheet": [
+    {
+      "stat": "poison.damage",
+      "value": { "param": "n" }
+    }
+  ]
+}

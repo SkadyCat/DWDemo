@@ -1,0 +1,9 @@
+{
+  "id": "proj_pierce_secondary",
+  "name": "投射物每穿透n个敌人，生成一次次级投射物",
+  "description": "角色词条：投射物每穿透n个敌人，生成一次次级投射物",
+  "params": { "per": 2 },
+  "sheet": [
+    { "trigger": "proj_pierce_secondary" }
+  ]
+}

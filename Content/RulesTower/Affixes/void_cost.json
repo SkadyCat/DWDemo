@@ -1,0 +1,12 @@
+{
+  "id": "void_cost",
+  "name": "虚空技能消耗 -n%",
+  "description": "角色词条：虚空技能消耗 -n%",
+  "params": { "n": 25 },
+  "sheet": [
+    {
+      "stat": "void.cost",
+      "value": { "param": "n" }
+    }
+  ]
+}

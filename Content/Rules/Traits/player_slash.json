@@ -1,0 +1,15 @@
+{
+  "id": "player_slash",
+  "name": "斩击",
+  "description": "近战挥砍：在角色前方结算一次范围伤害。伤害取施法威力（武器/招式伤害）。",
+  "params": { "radius": 2.2 },
+  "rules": [
+    {
+      "id": "slash",
+      "event": "cast",
+      "actions": [
+        { "op": "damage_area", "element": "physical", "tags": ["melee", "physical"], "emitEvent": "slash_hit", "radius": { "param": "radius" }, "amount": { "event": "amount" } }
+      ]
+    }
+  ]
+}

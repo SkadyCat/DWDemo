@@ -1,0 +1,9 @@
+{
+  "id": "block_next_attack_more",
+  "name": "格挡成功后，下一次攻击伤害额外提高n%",
+  "description": "角色词条：格挡成功后，下一次攻击伤害额外提高n%",
+  "params": { "n": 40 },
+  "sheet": [
+    { "trigger": "block_next_attack_more" }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "id": "minion_damage",
+  "name": "召唤物伤害 +n%",
+  "description": "角色词条：召唤物伤害 +n%",
+  "params": { "n": 30 },
+  "sheet": [
+    {
+      "stat": "minion.damage",
+      "value": { "param": "n" }
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>BD Hunter · 词缀优先级</title>
+  <link rel="stylesheet" href="/bdhunter/style.css">
+  <script type="module" src="/bdhunter/app.mjs"></script>
+</head>
+<body>
+  <main>
+    <header class="masthead"><div><span class="eyebrow">RULESTUDIO / BUILD ANALYSIS</span><h1>BD Hunter<span>词缀优先级</span></h1><p>用当前装备与真实战斗规则，对照每条词缀带来的变化。</p></div><nav class="masthead-links" aria-label="页面导航"><a class="guide-entry" href="/?bd=synergy_rime_thunder">游戏内构筑 <span>霜雷交响 →</span></a><a href="/">返回 RuleStudio ↗</a></nav></header>
+    <section class="controls" aria-label="分析设置">
+      <div class="control-row">
+        <label class="preset-label">构筑<select id="preset" aria-label="构筑"><option>读取预设…</option></select></label>
+        <label>每组时长<input id="duration" type="number" min="3" max="120" value="30"><span class="unit">秒</span></label>
+        <label>随机样本<select id="samples"><option value="3">3 组 · 标准</option><option value="1">1 组 · 快速</option></select></label>
+        <button id="start" class="primary" disabled>开始分析</button><button id="cancel" disabled>取消</button><button id="export" disabled>导出 JSON</button>
+      </div>
+      <details><summary>场景与操作设置</summary><div class="advanced">
+        <label>普通目标抗性 %<input id="resistance" type="number" min="0" max="90" value="20"></label>
+        <label>高抗目标抗性 %<input id="high-resistance" type="number" min="0" max="90" value="60"></label>
+        <label>密集目标数<input id="targets" type="number" min="2" max="48" value="12"></label>
+        <label>每秒压力原始伤害<input id="pressure" type="number" min="1" max="10000" value="300"></label>
+        <label>候选词缀阶级<select id="tier"><option value="10">T10 中位值</option><option value="5">T5 中位值</option><option value="1">T1 中位值</option></select></label>
+        <label>替换参照<select id="reference"><option value="">自动选择</option></select></label>
+        <label>主技能操作<select id="input"><option value="continuous">持续施法</option><option value="opening">起手 3 秒后松手</option><option value="sacrifice">先召唤，随后每秒献祭</option></select></label>
+      </div><p>目标静止、高生命、不反击；压力场景另外每秒输入一次伤害，轮换物理、火、冰、雷、毒。该压力不受敌人冻结和减速影响。</p></details>
+      <div class="progress-row"><span id="status" role="status" aria-live="polite">读取规则库…</span><span id="progress-label"></span></div><progress id="progress" max="1" value="0" hidden></progress>
+    </section>
+    <div id="error" class="error" role="alert" hidden></div>
+    <section id="empty" class="empty"><span class="empty-icon">⌕</span><h2>从词缀看到联动</h2><p>移除一条，判断依赖；替换一条，比较收益。输出与生存分开看。</p><p class="muted">分析在后台计算，可以取消；装备和玩家存档不会改变。</p></section>
+    <div id="report" hidden>
+      <div class="report-heading"><div><h2 id="report-name"></h2><p id="report-meta"></p></div><span id="freshness" class="badge"></span></div>
+      <section id="metrics" class="metrics" aria-label="基准结果"></section>
+      <div class="notice">排名针对这套实际装备。移除实验用于诊断；候选每次只替换一个槽位，多个收益不能相加。目标不会死亡，因此击杀相关收益不在本轮内。</div>
+      <section class="panel">
+        <div class="section-heading"><div><span class="eyebrow">01 / CURRENT AFFIXES</span><h2>先保留哪些词缀</h2><p>数值表示移除该词缀后，DPS 相对当前构筑的变化。负数越大，越值得保留。</p></div><label>排序参考<select id="sort"><option value="single">单体输出</option><option value="pack">密集群体</option><option value="resistant">高抗单体</option></select></label></div>
+        <div class="table-wrap"><table><thead><tr><th>优先级</th><th>词缀 / 部位</th><th>单体变化</th><th>群体变化</th><th>高抗变化</th><th>压力存活</th><th>最低生命变化</th></tr></thead><tbody id="removals"></tbody></table></div>
+      </section>
+      <section class="panel">
+        <div class="section-heading"><div><span class="eyebrow">02 / ONE-SLOT REPLACEMENTS</span><h2>下一条可以换什么</h2><p id="replacement-note"></p></div><span id="candidate-count" class="muted"></span></div>
+        <div class="table-wrap"><table><thead><tr><th>候选词缀</th><th>单体收益</th><th>群体收益</th><th>高抗收益</th><th>压力存活</th><th>最低生命变化</th></tr></thead><tbody id="replacements"></tbody></table></div>
+        <p id="skipped" class="footnote"></p>
+      </section>
+      <section id="groups-panel" class="panel" hidden><div class="section-heading"><div><span class="eyebrow">03 / INTERACTIONS</span><h2>词缀之间的前置与替代关系</h2><p>同时改变多个词缀，确认两条路径是否互为备用，以及新增词缀是否依赖已有词缀。</p></div></div><div class="table-wrap"><table><thead><tr><th>组合变化</th><th>单体变化</th><th>群体变化</th><th>高抗变化</th><th>压力存活</th><th>最低生命变化</th></tr></thead><tbody id="groups"></tbody></table></div></section>
+      <section class="panel"><div class="section-heading"><div><span class="eyebrow">04 / MECHANICS</span><h2>伤害与触发链</h2><p>下面是基准装备的实际机制计数，方便区分“单次伤害不够”和“没有触发”。</p></div></div>
+        <div class="mechanics-grid"><div><h3>单体伤害构成</h3><div id="elements"></div><div id="chain" class="chain"></div></div><div class="table-wrap"><table><thead><tr><th>场景</th><th>施法</th><th>冻结</th><th>消费冻结</th><th>消费感电</th><th>触发</th></tr></thead><tbody id="mechanics"></tbody></table></div></div>
+      </section>
+      <details class="panel method"><summary>分析方法与适用范围</summary><ul id="methodology"></ul><p id="fingerprint" class="footnote"></p></details>
+    </div>
+    <footer>BD Hunter · 所有结果来自当前规则运行时的对照实验</footer>
+  </main>
+</body>
+</html>

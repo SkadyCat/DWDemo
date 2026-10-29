@@ -1,0 +1,12 @@
+{
+  "id": "minion_flat_void",
+  "name": "召唤物基础虚空伤害 +n点",
+  "description": "角色词条：召唤物基础虚空伤害 +n点",
+  "params": { "n": 6 },
+  "sheet": [
+    {
+      "stat": "minion.flat.void",
+      "value": { "param": "n" }
+    }
+  ]
+}

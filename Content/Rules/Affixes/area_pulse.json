@@ -1,0 +1,9 @@
+{
+  "id": "area_pulse",
+  "name": "范围技能向外扩张后再次向内收缩",
+  "description": "角色词条：范围技能向外扩张后再次向内收缩",
+  "params": {},
+  "sheet": [
+    { "stat": "area.pulse", "value": 1 }
+  ]
+}

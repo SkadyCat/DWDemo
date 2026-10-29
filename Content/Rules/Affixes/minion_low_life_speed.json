@@ -1,0 +1,12 @@
+{
+  "id": "minion_low_life_speed",
+  "name": "召唤物低血时，攻击速度 +n%",
+  "description": "角色词条：召唤物低血时，攻击速度 +n%",
+  "params": { "n": 30 },
+  "sheet": [
+    {
+      "stat": "minion.low_life_speed",
+      "value": { "param": "n" }
+    }
+  ]
+}

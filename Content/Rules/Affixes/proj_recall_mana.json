@@ -1,0 +1,12 @@
+{
+  "id": "proj_recall_mana",
+  "name": "收回投射物时，恢复魔力 +n点",
+  "description": "角色词条：收回投射物时，恢复魔力 +n点。返回的投射物回到角色身边时",
+  "params": { "n": 1 },
+  "sheet": [
+    {
+      "stat": "proj.recall_mana",
+      "value": { "param": "n" }
+    }
+  ]
+}

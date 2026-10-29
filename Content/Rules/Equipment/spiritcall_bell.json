@@ -1,0 +1,21 @@
+{
+  "id": "spiritcall_bell",
+  "name": "引魂铃",
+  "description": "绑定召唤灵仆。词条按装备品质与 T 阶随机生成；传奇品质固定带有召唤物伤害提高。",
+  "slot": "weapon",
+  "rarity": "common",
+  "level": 1,
+  "tier": 1,
+  "tags": [
+    "召唤",
+    "法铃"
+  ],
+  "skills": [
+    "spirit_servant"
+  ],
+  "legendary": "minion_damage",
+  "traits": [],
+  "bases": [
+    "flat_physical"
+  ]
+}

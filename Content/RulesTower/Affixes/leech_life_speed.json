@@ -1,0 +1,9 @@
+{
+  "id": "leech_life_speed",
+  "name": "气血偷取速度 +n%",
+  "description": "角色词条：气血偷取速度 +n%",
+  "params": { "n": 30 },
+  "sheet": [
+    { "stat": "leech.life.speed", "value": { "param": "n" } }
+  ]
+}

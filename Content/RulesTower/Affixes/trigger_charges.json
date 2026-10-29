@@ -1,0 +1,12 @@
+{
+  "id": "trigger_charges",
+  "name": "触发技能可储存次数 +n次",
+  "description": "角色词条：触发技能可储存次数 +n次。基础储存 1 次，冷却恢复一次",
+  "params": { "n": 1 },
+  "sheet": [
+    {
+      "stat": "trigger.charges",
+      "value": { "param": "n" }
+    }
+  ]
+}

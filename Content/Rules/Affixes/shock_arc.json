@@ -1,0 +1,12 @@
+{
+  "id": "shock_arc",
+  "name": "命中感电敌人时，有n%概率向附近敌人释放电弧",
+  "description": "角色词条：命中感电敌人时，有n%概率向附近敌人释放电弧。电弧：对 5 米内最近的敌人造成该次伤害 50% 的闪电伤害",
+  "params": { "n": 25 },
+  "sheet": [
+    {
+      "stat": "shock.arc_chance",
+      "value": { "param": "n" }
+    }
+  ]
+}

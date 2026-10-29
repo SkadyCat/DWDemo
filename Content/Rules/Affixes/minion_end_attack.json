@@ -1,0 +1,9 @@
+{
+  "id": "minion_end_attack",
+  "name": "召唤物持续时间结束时，释放一次强化攻击",
+  "description": "角色词条：召唤物持续时间结束时，释放一次强化攻击。对 6 米内敌人造成技能威力 2 倍的伤害",
+  "params": {},
+  "sheet": [
+    { "stat": "minion.end_attack", "value": 1 }
+  ]
+}

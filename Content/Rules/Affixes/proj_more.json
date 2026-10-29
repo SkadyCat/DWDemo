@@ -1,0 +1,12 @@
+{
+  "id": "proj_more",
+  "name": "投射物伤害额外提高 n%",
+  "description": "角色词条：投射物伤害额外提高 n%",
+  "params": { "n": 15 },
+  "sheet": [
+    {
+      "stat": "proj.more",
+      "value": { "param": "n" }
+    }
+  ]
+}

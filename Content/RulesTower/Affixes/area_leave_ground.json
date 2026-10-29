@@ -1,0 +1,9 @@
+{
+  "id": "area_leave_ground",
+  "name": "范围技能结束后留下持续伤害区域",
+  "description": "角色词条：范围技能结束后留下持续伤害区域。留下 3 秒区域，每秒造成 20% 伤害",
+  "params": {},
+  "sheet": [
+    { "stat": "area.leave_ground", "value": 1 }
+  ]
+}

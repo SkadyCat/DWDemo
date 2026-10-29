@@ -1,0 +1,12 @@
+{
+  "id": "evade_mana",
+  "name": "闪避成功时，恢复魔力 +n点",
+  "description": "角色词条：闪避成功时，恢复魔力 +n点",
+  "params": { "n": 5 },
+  "sheet": [
+    {
+      "stat": "mana.on_evade",
+      "value": { "param": "n" }
+    }
+  ]
+}

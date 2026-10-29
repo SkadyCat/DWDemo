@@ -1,0 +1,9 @@
+{
+  "id": "evasion_shield",
+  "name": "每n点闪避值，获得基础护盾 +n点",
+  "description": "角色词条：每n点闪避值，获得基础护盾 +n点",
+  "params": { "per": 10, "n": 1 },
+  "sheet": [
+    { "stat": "evasion.shield_per", "value": { "div": [{ "param": "n" }, { "param": "per" }] } }
+  ]
+}

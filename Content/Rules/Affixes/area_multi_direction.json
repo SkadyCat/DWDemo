@@ -1,0 +1,9 @@
+{
+  "id": "area_multi_direction",
+  "name": "范围技能向角色周围多个方向释放",
+  "description": "角色词条：范围技能向角色周围多个方向释放。在角色周围 4 个方向各释放一次",
+  "params": {},
+  "sheet": [
+    { "stat": "area.multi_direction", "value": 1 }
+  ]
+}

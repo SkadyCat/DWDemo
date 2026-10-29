@@ -1,0 +1,9 @@
+{
+  "id": "evasion_attack_speed",
+  "name": "每n点闪避值，攻击速度 +n%",
+  "description": "角色词条：每n点闪避值，攻击速度 +n%",
+  "params": { "per": 100, "n": 1 },
+  "sheet": [
+    { "stat": "evasion.attack_speed_per", "value": { "div": [{ "param": "n" }, { "param": "per" }] } }
+  ]
+}

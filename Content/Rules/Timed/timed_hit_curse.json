@@ -1,0 +1,15 @@
+{
+  "id": "timed_hit_curse",
+  "name": "附带持续时间·命中施加给目标",
+  "description": "附带持续时间：命中时让目标获得缝合的特性，持续 duration 秒（减益）。目标身上生效的是属性部分，例如把抗性调成负数就是破甲。chance 为触发概率（%）。",
+  "params": { "duration": 3, "chance": 100 },
+  "rules": [
+    {
+      "id": "curse_on_hit",
+      "event": "hit",
+      "chain": { "maxDepth": 4 },
+      "conditions": [ { "op": "chance", "probability": { "param": "chance" } } ],
+      "actions": [ { "op": "grant_traits", "traits": "stitched", "duration": { "param": "duration" } } ]
+    }
+  ]
+}

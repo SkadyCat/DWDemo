@@ -1,0 +1,9 @@
+{
+  "id": "shield_damage_taken",
+  "name": "拥有护盾时，受到的伤害 -n%",
+  "description": "角色词条：拥有护盾时，受到的伤害 -n%",
+  "params": { "n": 8 },
+  "sheet": [
+    { "stat": "shield.any.damage_taken_reduction", "value": { "param": "n" } }
+  ]
+}

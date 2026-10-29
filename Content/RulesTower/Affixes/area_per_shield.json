@@ -1,0 +1,24 @@
+{
+  "id": "area_per_shield",
+  "name": "每n点最大护盾，技能范围面积 +n%",
+  "description": "角色词条：每n点最大护盾，技能范围面积 +n%。面积换算为半径：面积 +100% 约等于半径 +41%",
+  "params": {
+    "per": 100,
+    "amount": 3
+  },
+  "sheet": [
+    {
+      "stat": "area.per_shield",
+      "value": {
+        "div": [
+          {
+            "param": "amount"
+          },
+          {
+            "param": "per"
+          }
+        ]
+      }
+    }
+  ]
+}

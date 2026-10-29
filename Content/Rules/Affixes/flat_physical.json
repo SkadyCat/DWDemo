@@ -1,0 +1,16 @@
+{
+  "id": "flat_physical",
+  "name": "基础物理伤害 +n",
+  "description": "角色词条：基础物理伤害 +n",
+  "params": {
+    "n": 8
+  },
+  "sheet": [
+    {
+      "stat": "damage.flat.physical",
+      "value": {
+        "param": "n"
+      }
+    }
+  ]
+}

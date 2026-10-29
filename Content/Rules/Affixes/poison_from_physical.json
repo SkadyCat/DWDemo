@@ -1,0 +1,12 @@
+{
+  "id": "poison_from_physical",
+  "name": "物理伤害的n%计入中毒基础伤害",
+  "description": "角色词条：物理伤害的n%计入中毒基础伤害",
+  "params": { "n": 20 },
+  "sheet": [
+    {
+      "stat": "poison.from_physical",
+      "value": { "param": "n" }
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "id": "minion_cast_speed",
+  "name": "召唤物施法速度 +n%",
+  "description": "角色词条：召唤物施法速度 +n%。施法召唤物（哨卫）",
+  "params": { "n": 20 },
+  "sheet": [
+    {
+      "stat": "minion.cast_speed",
+      "value": { "param": "n" }
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "id": "erosion_enemy_shield",
+  "name": "侵蚀敌人的护盾恢复效率 -n%",
+  "description": "角色词条：侵蚀敌人的护盾恢复效率 -n%",
+  "params": { "n": 50 },
+  "sheet": [
+    {
+      "stat": "erosion.enemy_shield_regen",
+      "value": { "param": "n" }
+    }
+  ]
+}

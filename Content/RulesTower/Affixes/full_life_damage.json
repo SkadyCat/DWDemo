@@ -1,0 +1,9 @@
+{
+  "id": "full_life_damage",
+  "name": "满血时，伤害 +n%",
+  "description": "角色词条：满血时，伤害 +n%",
+  "params": { "n": 20 },
+  "sheet": [
+    { "stat": "life.full.damage", "value": { "param": "n" } }
+  ]
+}

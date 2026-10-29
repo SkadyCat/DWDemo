@@ -1,0 +1,12 @@
+{
+  "id": "area_spread_interval",
+  "name": "范围扩散间隔 -n%",
+  "description": "角色词条：范围扩散间隔 -n%。基础扩散间隔 0.25 秒",
+  "params": { "n": 30 },
+  "sheet": [
+    {
+      "stat": "area.spread_interval",
+      "value": { "param": "n" }
+    }
+  ]
+}

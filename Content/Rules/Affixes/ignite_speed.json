@@ -1,0 +1,12 @@
+{
+  "id": "ignite_speed",
+  "name": "点燃伤害结算速度 +n%",
+  "description": "角色词条：点燃伤害结算速度 +n%。总伤害不变，更快打完",
+  "params": { "n": 30 },
+  "sheet": [
+    {
+      "stat": "ignite.speed",
+      "value": { "param": "n" }
+    }
+  ]
+}

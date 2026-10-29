@@ -1,0 +1,12 @@
+{
+  "id": "minion_elemental",
+  "name": "召唤物元素伤害 +n%",
+  "description": "角色词条：召唤物元素伤害 +n%",
+  "params": { "n": 30 },
+  "sheet": [
+    {
+      "stat": "minion.inc.elemental",
+      "value": { "param": "n" }
+    }
+  ]
+}

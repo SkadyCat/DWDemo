@@ -1,0 +1,10 @@
+{
+  "id": "stun",
+  "name": "眩晕",
+  "description": "无法移动和行动。",
+  "category": "ailment",
+  "stacking": "strongest",
+  "effects": [
+    { "type": "control", "control": "stun" }
+  ]
+}

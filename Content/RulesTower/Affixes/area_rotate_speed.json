@@ -1,0 +1,12 @@
+{
+  "id": "area_rotate_speed",
+  "name": "范围旋转速度 +n%",
+  "description": "角色词条：范围旋转速度 +n%。持续扇形基础每秒旋转 90 度",
+  "params": { "n": 50 },
+  "sheet": [
+    {
+      "stat": "area.rotate_speed",
+      "value": { "param": "n" }
+    }
+  ]
+}

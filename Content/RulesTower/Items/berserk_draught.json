@@ -1,0 +1,12 @@
+{
+  "id": "berserk_draught",
+  "name": "狂怒药剂",
+  "description": "饮用后 15 秒内：每次击杀获得 3 秒闪电伤害，以及“命中时 30% 几率让自己 2 秒内冰缓更强”。",
+  "category": "consumable",
+  "rarity": "magic",
+  "stack": 10,
+  "tags": ["药剂", "击杀"],
+  "traits": [
+    { "id": "timed_on_kill", "params": { "duration": 3 }, "duration": 15, "with": [{ "id": "lightning_damage", "params": { "amount": 20 } }, { "id": "timed_on_hit", "params": { "duration": 2, "chance": 30 }, "with": [{ "id": "chill", "params": { "slow": 45 } }] }] }
+  ]
+}

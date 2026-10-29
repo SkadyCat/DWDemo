@@ -1,0 +1,9 @@
+{
+  "id": "block_recoup_life",
+  "name": "格挡阻止伤害的n%在接下来n秒内恢复为气血",
+  "description": "角色词条：格挡阻止伤害的n%在接下来n秒内恢复为气血",
+  "params": { "n": 30, "seconds": 4 },
+  "sheet": [
+    { "trigger": "block_recoup_life" }
+  ]
+}

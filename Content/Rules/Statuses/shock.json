@@ -1,0 +1,11 @@
+{
+  "id": "shock",
+  "name": "感电",
+  "description": "受到的所有伤害按强度百分比提高（上限 50%），包括持续伤害。",
+  "category": "ailment",
+  "stacking": "strongest",
+  "cap": 50,
+  "effects": [
+    { "type": "damage_taken", "scale": 1 }
+  ]
+}

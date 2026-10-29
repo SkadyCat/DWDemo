@@ -1,0 +1,16 @@
+{
+  "id": "projectile_reflect",
+  "name": "投射物反射",
+  "description": "投射物命中敌人后沿原方向反向弹回（不追踪施法者），途中可以命中其他敌人（不会重复命中同一敌人，与 UE 一致）。count = 可反射次数。",
+  "params": { "count": 1 },
+  "modifiers": [ { "target": "projectile", "stat": "reflection_count", "op": "add", "value": { "param": "count" } } ],
+  "rules": [
+    {
+      "id": "reflect_on_hit",
+      "event": "hit",
+      "chain": { "maxDepth": 8 },
+      "conditions": [ { "op": "tag", "tag": "projectile" } ],
+      "actions": [ { "op": "redirect", "mode": "reflect" } ]
+    }
+  ]
+}

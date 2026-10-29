@@ -1,0 +1,12 @@
+{
+  "id": "minion_flat_physical",
+  "name": "召唤物基础物理伤害 +n点",
+  "description": "角色词条：召唤物基础物理伤害 +n点",
+  "params": { "n": 6 },
+  "sheet": [
+    {
+      "stat": "minion.flat.physical",
+      "value": { "param": "n" }
+    }
+  ]
+}

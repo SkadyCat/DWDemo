@@ -1,0 +1,9 @@
+{
+  "id": "earth_wave",
+  "name": "裂地波",
+  "description": "向前方掀起直线地裂的近战范围技能。",
+  "active": "create_earth_wave",
+  "traits": [
+    "create_earth_wave"
+  ]
+}

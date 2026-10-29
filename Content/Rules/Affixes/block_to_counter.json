@@ -1,0 +1,12 @@
+{
+  "id": "block_to_counter",
+  "name": "格挡阻止伤害的n%附加至下一次反击",
+  "description": "角色词条：格挡阻止伤害的n%附加至下一次反击",
+  "params": { "n": 50 },
+  "sheet": [
+    {
+      "stat": "block.to_counter",
+      "value": { "param": "n" }
+    }
+  ]
+}

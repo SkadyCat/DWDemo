@@ -1,0 +1,9 @@
+{
+  "id": "proj_decel",
+  "name": "投射物随飞行时间逐渐减速",
+  "description": "角色词条：投射物随飞行时间逐渐减速。每秒速度降低 40%，伤害随之提高 20%",
+  "params": {},
+  "sheet": [
+    { "stat": "proj.decel", "value": 1 }
+  ]
+}

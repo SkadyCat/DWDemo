@@ -1,0 +1,7 @@
+{
+  "id": "map_monster_packs",
+  "name": "怪物群 +n%",
+  "description": "地图装备词条：增加三波普通怪物的总数量，不复制首领；每层总数上限 300。",
+  "params": { "n": 100 },
+  "sheet": [{ "stat": "map.monster_packs", "value": { "param": "n" } }]
+}

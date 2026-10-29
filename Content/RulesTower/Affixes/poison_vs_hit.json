@@ -1,0 +1,12 @@
+{
+  "id": "poison_vs_hit",
+  "name": "对中毒敌人的命中伤害 +n%",
+  "description": "角色词条：对中毒敌人的命中伤害 +n%",
+  "params": { "n": 25 },
+  "sheet": [
+    {
+      "stat": "poison.vs_hit",
+      "value": { "param": "n" }
+    }
+  ]
+}

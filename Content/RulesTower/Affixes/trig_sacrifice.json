@@ -1,0 +1,9 @@
+{
+  "id": "trig_sacrifice",
+  "name": "主动牺牲召唤物时，触发挂载技能",
+  "description": "角色词条：主动牺牲召唤物时，触发挂载技能",
+  "params": {},
+  "sheet": [
+    { "trigger": "trig_sacrifice" }
+  ]
+}

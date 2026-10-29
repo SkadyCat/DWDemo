@@ -1,0 +1,9 @@
+{
+  "id": "recharging_cast_speed",
+  "name": "护盾回充期间，施法速度 +n%",
+  "description": "角色词条：护盾回充期间，施法速度 +n%",
+  "params": { "n": 15 },
+  "sheet": [
+    { "stat": "shield.recharging.cast_speed", "value": { "param": "n" } }
+  ]
+}

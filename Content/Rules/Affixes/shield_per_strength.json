@@ -1,0 +1,9 @@
+{
+  "id": "shield_per_strength",
+  "name": "每n点力量获得基础护盾 +n点",
+  "description": "角色词条：每n点力量获得基础护盾 +n点",
+  "params": { "per": 5, "amount": 1 },
+  "sheet": [
+    { "stat": "shield.per_strength", "value": { "div": [{ "param": "amount" }, { "param": "per" }] } }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "id": "sentinel_fire_nova",
+  "parent": "summon_sentinel",
+  "name": "哨卫·火焰新星",
+  "description": "辅助哨卫，使其每次攻击时触发火焰新星；基础火焰伤害 +amount，基础半径 +radius 米。amount 为基础火焰伤害（点），radius 为以哨卫自身为中心的半径（米），对范围内所有敌人生效。只在锁定范围内有敌人时爆发；半径受范围加成影响，算作命中。",
+  "params": { "amount": 10, "radius": 2.5 },
+  "rules": [
+    {
+      "id": "sentinel_fire_nova_burst", "event": "sentinel_attack",
+      "actions": [
+        { "op": "damage_area", "element": "fire", "tags": ["fire", "spell"], "radius": { "param": "radius" }, "amount": { "param": "amount" } }
+      ]
+    }
+  ]
+}

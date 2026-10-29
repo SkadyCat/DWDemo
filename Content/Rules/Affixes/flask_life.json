@@ -1,0 +1,9 @@
+{
+  "id": "flask_life",
+  "name": "药剂：n秒内恢复气血 +n点",
+  "description": "角色词条：药剂：n秒内恢复气血 +n点。补充词条：放在消耗品上，使用时开始恢复；下面的药剂词条作用于它。",
+  "params": { "amount": 150, "seconds": 3 },
+  "sheet": [
+    { "trigger": "flask_life" }
+  ]
+}

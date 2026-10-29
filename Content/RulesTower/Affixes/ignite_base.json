@@ -1,0 +1,12 @@
+{
+  "id": "ignite_base",
+  "name": "基础点燃伤害 +n点/秒",
+  "description": "角色词条：基础点燃伤害 +n点/秒",
+  "params": { "n": 5 },
+  "sheet": [
+    {
+      "stat": "ignite.base",
+      "value": { "param": "n" }
+    }
+  ]
+}

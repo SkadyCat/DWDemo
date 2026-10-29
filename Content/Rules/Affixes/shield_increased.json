@@ -1,0 +1,9 @@
+{
+  "id": "shield_increased",
+  "name": "护盾上限 +n%",
+  "description": "角色词条：护盾上限 +n%",
+  "params": { "n": 30 },
+  "sheet": [
+    { "stat": "shield.increased", "value": { "param": "n" } }
+  ]
+}

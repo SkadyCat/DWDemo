@@ -1,0 +1,12 @@
+{
+  "id": "area_crit_multi",
+  "name": "范围技能暴击伤害 +n%",
+  "description": "角色词条：范围技能暴击伤害 +n%",
+  "params": { "n": 30 },
+  "sheet": [
+    {
+      "stat": "area.crit_multi",
+      "value": { "param": "n" }
+    }
+  ]
+}

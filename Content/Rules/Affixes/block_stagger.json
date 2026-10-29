@@ -1,0 +1,12 @@
+{
+  "id": "block_stagger",
+  "name": "格挡硬直时间 -n%",
+  "description": "角色词条：格挡硬直时间 -n%。基础硬直 0.25 秒",
+  "params": { "n": 40 },
+  "sheet": [
+    {
+      "stat": "block.stagger",
+      "value": { "param": "n" }
+    }
+  ]
+}

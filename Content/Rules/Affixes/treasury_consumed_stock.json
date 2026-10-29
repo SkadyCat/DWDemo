@@ -1,0 +1,37 @@
+{
+  "id": "treasury_consumed_stock",
+  "name": "消耗目标异常状态时，宝库层数 +n",
+  "description": "实际消耗目标的中毒、感电、点燃、冻结或侵蚀时，为已经启动的宝库增加amount层并刷新闲置计时。amount单位为层；每次真实消费事件加一次，不是按消耗层数倍增。没有实际消费、没有启动宝库均不触发，受宝库自身层数上限限制。",
+  "params": {
+    "amount": 1
+  },
+  "rules": [
+    {
+      "id": "treasury_stock_on_consumed",
+      "event": "ailment_consumed",
+      "chain": {
+        "maxDepth": 4
+      },
+      "conditions": [
+        {
+          "op": "state",
+          "key": "weapons",
+          "channel": "royal_treasury",
+          "scope": "owner",
+          "compare": "gte",
+          "value": 1
+        }
+      ],
+      "actions": [
+        {
+          "op": "emit_event",
+          "event": "treasury_feed",
+          "amount": {
+            "param": "amount"
+          }
+        }
+      ]
+    }
+  ],
+  "parent": "treasury_stock"
+}

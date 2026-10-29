@@ -1,0 +1,11 @@
+{
+  "id": "spirit_servant",
+  "name": "召唤灵仆",
+  "description": "召唤会追击敌人的近战灵仆。",
+  "active": "summon_spirit",
+  "traits": [
+    "summon_spirit",
+    "spirit_claw",
+    "splash"
+  ]
+}

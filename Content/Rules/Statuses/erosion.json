@@ -1,0 +1,8 @@
+{
+  "id": "erosion",
+  "name": "侵蚀",
+  "description": "每层独立计时的虚空持续伤害，并压制气血与护盾恢复（层数与伤害由战斗词条运行时结算）。",
+  "category": "ailment",
+  "stacking": "stack",
+  "maxStacks": 100
+}

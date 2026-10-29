@@ -1,0 +1,110 @@
+{
+  "id": "monster_lineage_abyssal_return",
+  "name": "归墟绞盘谱系",
+  "description": "9 枚穿透冰锥命中后回归，追加虚空伤害；T10 气血三件套叠加生命转虚空点伤、气血增伤，随塔层血量继续膨胀。基础护盾 +120点。",
+  "slot": "lineage",
+  "rarity": "unique",
+  "level": 1,
+  "tier": 10,
+  "tags": [
+    "固定装备",
+    "怪物"
+  ],
+  "skills": [],
+  "traits": [
+    {
+      "id": "shield_base",
+      "tier": 10,
+      "params": {
+        "n": 120
+      }
+    },
+    {
+      "id": "multiple_projectiles",
+      "tier": 10,
+      "params": {
+        "count": 8,
+        "spread": 100,
+        "damage_multiplier": 1.5
+      }
+    },
+    {
+      "id": "pierce",
+      "tier": 10,
+      "params": {
+        "count": 4
+      }
+    },
+    {
+      "id": "projectile_return",
+      "tier": 10,
+      "params": {
+        "count": 2
+      }
+    },
+    {
+      "id": "void_damage",
+      "tier": 10,
+      "params": {
+        "amount": 20
+      }
+    },
+    {
+      "id": "flat_void",
+      "tier": 10,
+      "params": {
+        "n": 16
+      }
+    },
+    {
+      "id": "inc_void",
+      "tier": 10,
+      "params": {
+        "n": 50
+      }
+    },
+    {
+      "id": "more_void",
+      "tier": 10,
+      "params": {
+        "n": 20
+      }
+    },
+    {
+      "id": "life_base",
+      "tier": 10,
+      "params": {
+        "n": 120
+      }
+    },
+    {
+      "id": "life_increased",
+      "tier": 10,
+      "params": {
+        "n": 40
+      }
+    },
+    {
+      "id": "life_more",
+      "tier": 10,
+      "params": {
+        "n": 20
+      }
+    },
+    {
+      "id": "life_added_void",
+      "tier": 10,
+      "params": {
+        "n": 4
+      }
+    },
+    {
+      "id": "damage_per_life",
+      "tier": 10,
+      "params": {
+        "per": 200,
+        "amount": 8
+      }
+    }
+  ]
+}

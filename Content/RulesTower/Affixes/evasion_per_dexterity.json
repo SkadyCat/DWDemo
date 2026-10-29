@@ -1,0 +1,9 @@
+{
+  "id": "evasion_per_dexterity",
+  "name": "每n点敏捷获得基础闪避 +n点",
+  "description": "角色词条：每n点敏捷获得基础闪避 +n点",
+  "params": { "per": 1, "n": 5 },
+  "sheet": [
+    { "stat": "evasion.per_dexterity", "value": { "div": [{ "param": "n" }, { "param": "per" }] } }
+  ]
+}

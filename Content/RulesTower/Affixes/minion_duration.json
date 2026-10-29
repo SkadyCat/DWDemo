@@ -1,0 +1,12 @@
+{
+  "id": "minion_duration",
+  "name": "召唤物持续时间 +n%",
+  "description": "角色词条：召唤物持续时间 +n%",
+  "params": { "n": 30 },
+  "sheet": [
+    {
+      "stat": "minion.duration",
+      "value": { "param": "n" }
+    }
+  ]
+}

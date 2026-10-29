@@ -1,0 +1,36 @@
+{
+  "checkedAt": "2026-10-25T08:23:22.104Z",
+  "url": "http://127.0.0.1:5291/?view=battle&panel=talents",
+  "layout": "scattered-orbits-v1",
+  "nodes": 1000,
+  "legendary": 100,
+  "smallRings": 100,
+  "connections": 1089,
+  "mechanicsUnchanged": true,
+  "originalMechanicsSha256": "9b996a1549cdc9e7e6b8ba8dcc7a659a707be4decb64753f7290f019e7231712",
+  "currentMechanicsSha256": "9b996a1549cdc9e7e6b8ba8dcc7a659a707be4decb64753f7290f019e7231712",
+  "allocationRevisionUnchanged": true,
+  "tests": {
+    "command": "npm run test:talents",
+    "passed": 13,
+    "failed": 0
+  },
+  "browser": {
+    "overviewNodeCount": 1000,
+    "overviewLegendaryCount": 100,
+    "overviewConnectionCount": 1089,
+    "liveAllocation": "strength 0 -> 10",
+    "freeAttributeReplacement": "strength 10 -> 0; dexterity 0 -> 10; spent stays 1",
+    "refund": "all attributes return to 0",
+    "pausedBattleClock": "0:00 throughout open-window checks",
+    "pCloses": true,
+    "escCloses": true,
+    "hudReopens": true,
+    "sidebarReopensInBattle": true,
+    "temporaryTalentsCleared": true
+  },
+  "proofs": [
+    "proof/talents-battle-overview.png",
+    "proof/talents-battle-live.png"
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "id": "minion_take_for_you",
+  "name": "召唤物替你承担受到命中伤害的n%",
+  "description": "角色词条：召唤物替你承担受到命中伤害的n%。由 8 米内气血最高的召唤物承担",
+  "params": { "n": 15 },
+  "sheet": [
+    {
+      "stat": "minion.take_for_you",
+      "value": { "param": "n" }
+    }
+  ]
+}

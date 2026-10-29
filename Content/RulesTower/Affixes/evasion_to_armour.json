@@ -1,0 +1,12 @@
+{
+  "id": "evasion_to_armour",
+  "name": "闪避值的n%转化为护甲",
+  "description": "角色词条：闪避值的n%转化为护甲",
+  "params": { "n": 30 },
+  "sheet": [
+    {
+      "stat": "evasion.to_armour",
+      "value": { "param": "n" }
+    }
+  ]
+}

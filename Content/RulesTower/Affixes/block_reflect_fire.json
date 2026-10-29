@@ -1,0 +1,12 @@
+{
+  "id": "block_reflect_fire",
+  "name": "格挡成功时，对攻击者造成火焰伤害 +n点",
+  "description": "角色词条：格挡成功时，对攻击者造成火焰伤害 +n点",
+  "params": { "n": 20 },
+  "sheet": [
+    {
+      "stat": "block.reflect_fire",
+      "value": { "param": "n" }
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "id": "treasury_hit_stock",
+  "name": "每累计命中n次，宝库层数 +1",
+  "description": "投射物每累计命中hits次，通过补层事件为已经启动的宝库增加amount层并刷新闲置计时。hits单位为次，amount单位为层；计数由施法者共享，不按帧累计，不产生额外命中。未启动时不计数，受宝库自身层数上限限制。",
+  "params": {
+    "hits": 3,
+    "amount": 1
+  },
+  "rules": [
+    {
+      "id": "treasury_stock_on_hits",
+      "event": "hit",
+      "chain": {
+        "maxDepth": 4
+      },
+      "conditions": [
+        {
+          "op": "tag",
+          "tag": "projectile"
+        },
+        {
+          "op": "state",
+          "key": "weapons",
+          "channel": "royal_treasury",
+          "scope": "owner",
+          "compare": "gte",
+          "value": 1
+        }
+      ],
+      "actions": [
+        {
+          "op": "counter",
+          "key": "stock_hits",
+          "scope": "owner",
+          "channel": "royal_treasury",
+          "value": 1,
+          "threshold": {
+            "param": "hits"
+          },
+          "then": [
+            {
+              "op": "emit_event",
+              "event": "treasury_feed",
+              "amount": {
+                "param": "amount"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "parent": "treasury_stock"
+}

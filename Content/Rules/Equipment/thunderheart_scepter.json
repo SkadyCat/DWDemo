@@ -1,0 +1,14 @@
+{
+  "id": "thunderheart_scepter",
+  "name": "鸣核权杖",
+  "description": "绑定雷霆新星。词条按现有品质与 T 阶生成；传奇品质固定带有闪电伤害额外提高。",
+  "slot": "weapon",
+  "rarity": "common",
+  "level": 1,
+  "tier": 1,
+  "tags": ["闪电", "法杖"],
+  "skills": ["lightning_nova"],
+  "legendary": "more_lightning",
+  "traits": [],
+  "bases": ["flat_lightning"]
+}

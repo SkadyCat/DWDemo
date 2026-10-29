@@ -1,0 +1,10 @@
+{
+  "id": "quad_affix_orb",
+  "name": "陨星石",
+  "description": "消耗1个，将装备的随机词缀重新生成为4条不重复词缀，清除原来的洗炼选定记录。数值词缀在T1至装备T阶中随机抽阶；保留绑定技能、基础属性和固定传奇词条。品质按实际词缀更新：4条随机词缀为稀有，带固定传奇词条仍为传奇。",
+  "category": "currency",
+  "rarity": "rare",
+  "stack": 99,
+  "craft": { "op": "roll_affixes", "count": 4 },
+  "traits": []
+}

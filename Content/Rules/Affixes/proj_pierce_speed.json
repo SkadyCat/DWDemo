@@ -1,0 +1,12 @@
+{
+  "id": "proj_pierce_speed",
+  "name": "投射物每穿透一个敌人，飞行速度 +n%",
+  "description": "角色词条：投射物每穿透一个敌人，飞行速度 +n%",
+  "params": { "n": 15 },
+  "sheet": [
+    {
+      "stat": "proj.pierce_speed",
+      "value": { "param": "n" }
+    }
+  ]
+}

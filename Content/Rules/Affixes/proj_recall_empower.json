@@ -1,0 +1,9 @@
+{
+  "id": "proj_recall_empower",
+  "name": "每收回n个投射物，强化下一次技能",
+  "description": "角色词条：每收回n个投射物，强化下一次技能。强化：下一次技能伤害额外提高 n%",
+  "params": { "per": 5, "n": 30 },
+  "sheet": [
+    { "trigger": "proj_recall_empower" }
+  ]
+}

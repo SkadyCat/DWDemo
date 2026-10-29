@@ -1,0 +1,9 @@
+{
+  "id": "trig_recharge_start",
+  "name": "护盾开始回充时，触发挂载技能",
+  "description": "角色词条：护盾开始回充时，触发挂载技能",
+  "params": {},
+  "sheet": [
+    { "trigger": "trig_recharge_start" }
+  ]
+}

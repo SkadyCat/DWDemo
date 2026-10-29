@@ -1,0 +1,16 @@
+{
+  "id": "evasion",
+  "name": "基础闪避 +n点",
+  "description": "角色词条：基础闪避 +n点。闪避值换算攻击闪避率：闪避值 ÷ (闪避值 + 600) × 100",
+  "params": {
+    "n": 200
+  },
+  "sheet": [
+    {
+      "stat": "defense.evasion",
+      "value": {
+        "param": "n"
+      }
+    }
+  ]
+}

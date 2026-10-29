@@ -1,0 +1,11 @@
+{
+  "id": "map_t07_magic",
+  "name": "地图 T7 · 魔法",
+  "description": "使用时消耗 1 张，进入第 7 层地图。生成时随机附带 1–2 条地图专属词缀。",
+  "category": "map",
+  "rarity": "magic",
+  "tier": 7,
+  "stack": 1,
+  "tags": [],
+  "traits": []
+}

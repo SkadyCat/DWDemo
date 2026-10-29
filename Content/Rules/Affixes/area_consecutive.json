@@ -1,0 +1,12 @@
+{
+  "id": "area_consecutive",
+  "name": "同一目标连续受到该范围命中时，后续伤害 +n%",
+  "description": "角色词条：同一目标连续受到该范围命中时，后续伤害 +n%",
+  "params": { "n": 10 },
+  "sheet": [
+    {
+      "stat": "area.consecutive",
+      "value": { "param": "n" }
+    }
+  ]
+}

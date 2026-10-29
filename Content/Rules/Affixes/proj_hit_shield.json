@@ -1,0 +1,12 @@
+{
+  "id": "proj_hit_shield",
+  "name": "投射物命中时，恢复护盾 +n点",
+  "description": "角色词条：投射物命中时，恢复护盾 +n点",
+  "params": { "n": 2 },
+  "sheet": [
+    {
+      "stat": "proj.hit_shield",
+      "value": { "param": "n" }
+    }
+  ]
+}

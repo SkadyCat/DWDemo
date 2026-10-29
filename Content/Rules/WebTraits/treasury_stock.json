@@ -1,0 +1,91 @@
+{
+  "id": "treasury_stock",
+  "name": "宝库收纳",
+  "description": "每次施放为自己的宝库增加层数并刷新闲置计时，上限10层。amount 为每次增加层数，cap 为层数上限，duration 为停手后的等待时间（基础5秒），decay_interval 为开始衰减后每消失一层的间隔（基础2秒）；任意层数停手第5秒减第一层，随后每2秒减一层。rate 为每秒基础期望系数（基础1），实际基础出射期望为 rate ×（当前层数+1）枚/秒，即1层约2枚/秒、10层约11枚/秒；采用种子化泊松到达，逐枚在随机时刻发射，不固定周期齐射，不承诺每一秒恰好固定数量。range 为随机索敌半径（米），cooldown 为主动冷却（秒）。每枚独立随机索敌；再次施放只加层和刷新闲置计时，保留未用完的随机等待量。自动出射不额外施法、支付资源或刷新闲置计时；层数归零停止。 独立自叠层特性通过 treasury_feed 事件为已经启动的宝库补层，实际补层刷新闲置计时；没有这些特性时自动出射本身不补层。",
+  "params": {
+    "amount": 1,
+    "cap": 10,
+    "duration": 5,
+    "decay_interval": 2,
+    "range": 24,
+    "cooldown": 0.65,
+    "rate": 1
+  },
+  "sheet": [{ "grant_skill": "treasury_enuma_elish" }],
+  "rules": [
+    {
+      "id": "treasury_collect",
+      "event": "cast",
+      "conditions": [{ "op": "active", "key": "treasury_stock" }],
+      "actions": [
+        {
+          "op": "maintain_emitter",
+          "key": "weapons",
+          "channel": "royal_treasury",
+          "scope": "owner",
+          "event": "treasury_volley",
+          "targeting": "random",
+          "value": {
+            "param": "amount"
+          },
+          "cap": {
+            "param": "cap"
+          },
+          "duration": {
+            "param": "duration"
+          },
+          "decay_interval": {
+            "param": "decay_interval"
+          },
+          "radius": {
+            "param": "range"
+          },
+          "rate": {
+            "mul": [
+              {
+                "param": "rate"
+              },
+              {
+                "add": [
+                  1,
+                  {
+                    "event": "amount"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "treasury_feed",
+      "event": "treasury_feed",
+      "actions": [
+        {
+          "op": "maintain_emitter",
+          "mode": "feed",
+          "key": "weapons",
+          "channel": "royal_treasury",
+          "scope": "owner",
+          "value": {
+            "event": "amount"
+          }
+        }
+      ],
+      "chain": {
+        "maxDepth": 8
+      },
+      "conditions": [
+        {
+          "op": "state",
+          "key": "weapons",
+          "channel": "royal_treasury",
+          "scope": "owner",
+          "compare": "gte",
+          "value": 1
+        }
+      ]
+    }
+  ]
+}

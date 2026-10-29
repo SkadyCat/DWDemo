@@ -1,0 +1,7 @@
+{
+  "id": "wind_breath",
+  "name": "风之息",
+  "description": "光环 · 受击后向四周推出风波，对5米内敌人反弹攻击者本次原始伤害的80%。包含护盾承伤，减伤不降低反弹基数。每道风波对每个敌人只命中一次，不额外增伤或暴击。Q/E/F/G切换，开启封印50%总魔力。",
+  "active": "wind_breath",
+  "traits": ["wind_breath", "hit_retaliation_nova"]
+}

@@ -1,0 +1,12 @@
+{
+  "id": "minion_crit",
+  "name": "召唤物暴击率 +n%",
+  "description": "角色词条：召唤物暴击率 +n%。召唤物基础暴击率 5%",
+  "params": { "n": 50 },
+  "sheet": [
+    {
+      "stat": "minion.crit",
+      "value": { "param": "n" }
+    }
+  ]
+}

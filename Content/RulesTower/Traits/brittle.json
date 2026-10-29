@@ -1,0 +1,16 @@
+{
+  "id": "brittle",
+  "name": "易碎",
+  "description": "冰冷命中已冰缓的目标时，追加该次伤害 50% 的冰冷伤害。依赖冰缓：两个特性单独都不强，合在一起才成立。",
+  "params": { "ratio": 0.5 },
+  "rules": [
+    {
+      "id": "brittle_bonus",
+      "event": "hit",
+      "conditions": [ { "op": "tag", "tag": "cold" }, { "op": "status", "key": "chill" } ],
+      "actions": [
+        { "op": "damage_target", "element": "cold", "emitEvent": "brittle_hit", "amount": { "mul": [ { "event": "damage" }, { "param": "ratio" } ] } }
+      ]
+    }
+  ]
+}

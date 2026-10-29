@@ -1,0 +1,8 @@
+{
+  "id": "player_slash",
+  "name": "斩击",
+  "active": "player_slash",
+  "traits": [
+    "player_slash"
+  ]
+}

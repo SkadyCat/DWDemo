@@ -1,0 +1,9 @@
+{
+  "id": "proj_layout_line",
+  "name": "投射物沿直线依次发射",
+  "description": "角色词条：投射物沿直线依次发射。同一方向依次发射，间隔 0.06 秒",
+  "params": {},
+  "sheet": [
+    { "stat": "proj.layout_line", "value": 1 }
+  ]
+}

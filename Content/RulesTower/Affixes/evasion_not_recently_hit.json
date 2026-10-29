@@ -1,0 +1,12 @@
+{
+  "id": "evasion_not_recently_hit",
+  "name": "近期未被命中时，闪避值 +n%",
+  "description": "角色词条：近期未被命中时，闪避值 +n%。近期 = 4 秒",
+  "params": { "n": 40 },
+  "sheet": [
+    {
+      "stat": "evasion.not_recently_hit",
+      "value": { "param": "n" }
+    }
+  ]
+}

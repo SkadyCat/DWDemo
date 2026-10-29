@@ -1,0 +1,12 @@
+{
+  "id": "minion_spirit",
+  "name": "召唤物精神占用 -n%",
+  "description": "角色词条：召唤物精神占用 -n%。精神 100 点，每个召唤物占用 20 点；精神不足时不能召唤",
+  "params": { "n": 20 },
+  "sheet": [
+    {
+      "stat": "minion.spirit",
+      "value": { "param": "n" }
+    }
+  ]
+}

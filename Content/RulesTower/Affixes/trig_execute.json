@@ -1,0 +1,9 @@
+{
+  "id": "trig_execute",
+  "name": "终结敌人时，有n%概率触发挂载技能",
+  "description": "角色词条：终结敌人时，有n%概率触发挂载技能。终结 = 虚空终结击杀",
+  "params": { "chance": 100 },
+  "sheet": [
+    { "trigger": "trig_execute" }
+  ]
+}

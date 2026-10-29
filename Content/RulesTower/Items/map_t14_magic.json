@@ -1,0 +1,11 @@
+{
+  "id": "map_t14_magic",
+  "name": "地图 T14 · 魔法",
+  "description": "使用时消耗 1 张，进入第 14 层地图。生成时随机附带 1–2 条地图专属词缀。",
+  "category": "map",
+  "rarity": "magic",
+  "tier": 14,
+  "stack": 1,
+  "tags": [],
+  "traits": []
+}

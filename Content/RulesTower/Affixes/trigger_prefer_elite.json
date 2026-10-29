@@ -1,0 +1,9 @@
+{
+  "id": "trigger_prefer_elite",
+  "name": "触发技能优先选择精英敌人",
+  "description": "角色词条：触发技能优先选择精英敌人",
+  "params": {},
+  "sheet": [
+    { "stat": "trigger.prefer_elite", "value": 1 }
+  ]
+}

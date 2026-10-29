@@ -1,0 +1,12 @@
+{
+  "id": "area_cooldown",
+  "name": "范围技能冷却恢复速度 +n%",
+  "description": "角色词条：范围技能冷却恢复速度 +n%",
+  "params": { "n": 30 },
+  "sheet": [
+    {
+      "stat": "area.cooldown",
+      "value": { "param": "n" }
+    }
+  ]
+}

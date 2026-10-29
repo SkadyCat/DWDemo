@@ -1,0 +1,10 @@
+{
+  "id": "omen_ballistic",
+  "name": "投射预兆",
+  "description": "与混沌石一起使用：本次洗炼只会出现投射族的特性（投射物数量、穿透、弹射、回归）。",
+  "category": "omen",
+  "rarity": "magic",
+  "stack": 20,
+  "tags": ["投射族"],
+  "traits": []
+}

@@ -1,0 +1,41 @@
+{
+  "id": "myriad_swords_t1_chest",
+  "name": "万剑·列阵衣",
+  "description": "万剑基础版：必要的数量、发射位置与追踪机制由固定基底词缀提供，洗炼不会改变；下方五条品质词缀正常随机生成。商店与怪物掉落共用。五件 T1 固有词缀叠加，单击首批同时 30 枚冰锥。",
+  "slot": "chest",
+  "rarity": "legendary",
+  "level": 1,
+  "tier": 1,
+  "tags": [
+    "护盾"
+  ],
+  "skills": [],
+  "legendary": {
+    "id": "proj_origins",
+    "params": {
+      "n": 1
+    },
+    "with": [],
+    "tier": 1
+  },
+  "traits": [
+    {
+      "id": "proj_origins",
+      "params": {
+        "n": 1
+      },
+      "with": [],
+      "tier": 1
+    }
+  ],
+  "bases": [
+    {
+      "id": "proj_origins",
+      "params": {
+        "n": 1
+      },
+      "with": [],
+      "tier": 1
+    }
+  ]
+}

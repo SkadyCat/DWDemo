@@ -1,0 +1,16 @@
+{
+  "id": "storm_totem_march_boots",
+  "name": "召唤·鸣霆行军靴",
+  "description": "命中敌人时，有概率触发召唤引雷图腾，自动聚合图腾·落雷和感电。固定基底提供闪避并降低召唤物精神占用。与另外三件命中召唤传奇同穿时，T1 固定基底即可提供共计 4 个控制名额和同一事件最多 4 条触发名额。传奇特性固定，下方五条品质词缀正常随机；数值按装备 T 阶生成，洗炼保留固定基底和传奇特性。",
+  "slot": "boots",
+  "rarity": "legendary",
+  "level": 1,
+  "tier": 1,
+  "tags": ["触发族", "闪电"],
+  "skills": [],
+  "bases": ["evasion", "minion_spirit"],
+  "legendary": { "id": "trig_hit", "with": ["summon_storm_totem", "storm_totem_lightning", "shock"] },
+  "traits": [
+    { "id": "trig_hit", "with": ["summon_storm_totem", "storm_totem_lightning", "shock"] }
+  ]
+}

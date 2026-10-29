@@ -1,0 +1,21 @@
+{
+  "id": "freeze",
+  "name": "冻结",
+  "description": "冰冷命中已被冰缓到一定强度的目标时，有概率将其冻结：完全无法移动和行动。",
+  "params": { "chance": 30, "chill": 20, "duration": 1.2 },
+  "rules": [
+    {
+      "id": "freeze_chilled_on_cold_hit",
+      "event": "hit",
+      "chain": { "maxDepth": 4 },
+      "conditions": [
+        { "op": "tag", "tag": "cold" },
+        { "op": "status", "key": "chill", "compare": "gte", "value": { "param": "chill" } },
+        { "op": "chance", "value": { "param": "chance" } }
+      ],
+      "actions": [
+        { "op": "apply_status", "key": "freeze", "value": 1, "duration": { "param": "duration" } }
+      ]
+    }
+  ]
+}

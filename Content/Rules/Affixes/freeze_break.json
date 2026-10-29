@@ -1,0 +1,12 @@
+{
+  "id": "freeze_break",
+  "name": "打破冻结时，造成冰霜伤害 +n点",
+  "description": "角色词条：打破冻结时，造成冰霜伤害 +n点。单次命中造成目标最大气血 10% 以上伤害时打破冻结",
+  "params": { "n": 30 },
+  "sheet": [
+    {
+      "stat": "freeze.break_damage",
+      "value": { "param": "n" }
+    }
+  ]
+}

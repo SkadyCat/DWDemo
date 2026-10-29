@@ -1,0 +1,9 @@
+{
+  "id": "shield_recharge_delay",
+  "name": "护盾回充延迟 -n秒",
+  "description": "角色词条：护盾回充延迟 -n秒",
+  "params": { "n": 0.5 },
+  "sheet": [
+    { "stat": "shield.recharge_delay_reduction", "value": { "param": "n" } }
+  ]
+}

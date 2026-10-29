@@ -1,0 +1,9 @@
+{
+  "id": "area_follow_self",
+  "name": "范围技能跟随角色移动",
+  "description": "角色词条：范围技能跟随角色移动。变为持续 2 秒的区域，每 0.5 秒结算一次",
+  "params": {},
+  "sheet": [
+    { "stat": "area.follow_self", "value": 1 }
+  ]
+}

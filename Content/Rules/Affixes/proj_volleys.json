@@ -1,0 +1,12 @@
+{
+  "id": "proj_volleys",
+  "name": "投射物连续发射次数 +n次",
+  "description": "角色词条：投射物连续发射次数 +n次。同一次施放再发射一轮，基础间隔 0.15 秒",
+  "params": { "n": 1 },
+  "sheet": [
+    {
+      "stat": "proj.volleys",
+      "value": { "param": "n" }
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "id": "lightning_nova",
+  "name": "雷霆新星",
+  "description": "雷霆新星 = 创建雷霆新星 + 感电。在落点释放范围闪电，可由触发词条挂载。",
+  "active": "create_lightning_nova",
+  "traits": ["create_lightning_nova", "shock"]
+}

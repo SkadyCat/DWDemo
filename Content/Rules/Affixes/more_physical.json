@@ -1,0 +1,16 @@
+{
+  "id": "more_physical",
+  "name": "物理伤害额外提高 n%",
+  "description": "角色词条：物理伤害额外提高 n%",
+  "params": {
+    "n": 10
+  },
+  "sheet": [
+    {
+      "stat": "damage.more.physical",
+      "value": {
+        "param": "n"
+      }
+    }
+  ]
+}

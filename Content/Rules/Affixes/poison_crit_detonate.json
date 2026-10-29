@@ -1,0 +1,9 @@
+{
+  "id": "poison_crit_detonate",
+  "name": "暴击中毒敌人时，有n%概率引爆n层中毒",
+  "description": "角色词条：暴击中毒敌人时，有n%概率引爆n层中毒",
+  "params": { "chance": 50, "layers": 5 },
+  "sheet": [
+    { "trigger": "poison_crit_detonate" }
+  ]
+}

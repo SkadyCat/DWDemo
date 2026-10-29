@@ -1,0 +1,12 @@
+{
+  "id": "trigger_resource_reduction",
+  "name": "触发所需累计资源量 -n%",
+  "description": "角色词条：触发所需累计资源量 -n%。最多 -90%",
+  "params": { "n": 20 },
+  "sheet": [
+    {
+      "stat": "trigger.resource_reduction",
+      "value": { "param": "n" }
+    }
+  ]
+}

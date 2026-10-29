@@ -1,0 +1,9 @@
+{
+  "id": "life_on_cast",
+  "name": "施放技能时恢复气血 +n点",
+  "description": "角色词条：施放技能时恢复气血 +n点",
+  "params": { "n": 2 },
+  "sheet": [
+    { "stat": "life.on_cast", "value": { "param": "n" } }
+  ]
+}

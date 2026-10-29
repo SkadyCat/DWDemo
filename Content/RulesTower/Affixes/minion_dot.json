@@ -1,0 +1,12 @@
+{
+  "id": "minion_dot",
+  "name": "召唤物持续伤害 +n%",
+  "description": "角色词条：召唤物持续伤害 +n%",
+  "params": { "n": 30 },
+  "sheet": [
+    {
+      "stat": "minion.dot",
+      "value": { "param": "n" }
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "id": "minion_prefer_status",
+  "name": "召唤物优先攻击带有指定异常状态的敌人",
+  "description": "角色词条：召唤物优先攻击带有指定异常状态的敌人。status：0 任意异常 1 中毒 2 感电 3 冰缓 4 点燃 5 侵蚀",
+  "params": { "status": 0 },
+  "sheet": [
+    { "trigger": "minion_prefer_status" }
+  ]
+}

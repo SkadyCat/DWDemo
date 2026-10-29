@@ -1,0 +1,12 @@
+{
+  "id": "poison_spread_interval",
+  "name": "中毒传播间隔 -n%",
+  "description": "角色词条：中毒传播间隔 -n%。基础间隔 0.3 秒",
+  "params": { "n": 40 },
+  "sheet": [
+    {
+      "stat": "poison.spread_interval",
+      "value": { "param": "n" }
+    }
+  ]
+}

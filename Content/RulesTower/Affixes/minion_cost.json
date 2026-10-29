@@ -1,0 +1,12 @@
+{
+  "id": "minion_cost",
+  "name": "召唤技能消耗 -n%",
+  "description": "角色词条：召唤技能消耗 -n%",
+  "params": { "n": 25 },
+  "sheet": [
+    {
+      "stat": "minion.cost",
+      "value": { "param": "n" }
+    }
+  ]
+}

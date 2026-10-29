@@ -1,0 +1,12 @@
+{
+  "id": "minion_evasion",
+  "name": "召唤物闪避值 +n%",
+  "description": "角色词条：召唤物闪避值 +n%。召唤物基础闪避值 100",
+  "params": { "n": 50 },
+  "sheet": [
+    {
+      "stat": "minion.evasion",
+      "value": { "param": "n" }
+    }
+  ]
+}

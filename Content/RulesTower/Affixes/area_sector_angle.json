@@ -1,0 +1,12 @@
+{
+  "id": "area_sector_angle",
+  "name": "扇形范围角度 +n度",
+  "description": "角色词条：扇形范围角度 +n度。基础扇形 90 度",
+  "params": { "n": 30 },
+  "sheet": [
+    {
+      "stat": "area.sector_angle",
+      "value": { "param": "n" }
+    }
+  ]
+}

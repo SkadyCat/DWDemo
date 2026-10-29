@@ -1,0 +1,9 @@
+{
+  "id": "proj_return_rehit",
+  "name": "投射物返回时，再次命中沿途敌人",
+  "description": "角色词条：投射物返回时，再次命中沿途敌人",
+  "params": {},
+  "sheet": [
+    { "stat": "proj.return_rehit", "value": 1 }
+  ]
+}

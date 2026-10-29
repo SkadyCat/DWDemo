@@ -1,0 +1,12 @@
+{
+  "id": "proj_count",
+  "name": "投射物数量 +n个",
+  "description": "角色词条：投射物数量 +n个",
+  "params": { "n": 1 },
+  "sheet": [
+    {
+      "stat": "proj.count",
+      "value": { "param": "n" }
+    }
+  ]
+}

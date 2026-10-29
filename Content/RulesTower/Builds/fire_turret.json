@@ -1,0 +1,11 @@
+{
+  "id": "fire_turret",
+  "name": "召唤火球炮台",
+  "description": "召唤火球炮台，固定在原地自动攻击范围内的敌人。火球命中附带既有溅射。",
+  "active": "summon_fire_turret",
+  "traits": [
+    "summon_fire_turret",
+    "fire_turret_fireball",
+    "splash"
+  ]
+}

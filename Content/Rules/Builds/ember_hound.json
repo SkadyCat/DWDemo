@@ -1,0 +1,10 @@
+{
+  "id": "ember_hound",
+  "name": "召唤赤焰战犬",
+  "description": "召唤赤焰战犬，追击并近身攻击敌人。",
+  "active": "summon_ember_hound",
+  "traits": [
+    "summon_ember_hound",
+    "ember_hound_bite"
+  ]
+}

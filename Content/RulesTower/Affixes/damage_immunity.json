@@ -1,0 +1,4 @@
+{
+  "id": "damage_immunity", "name": "伤害无敌", "description": "状态生效时免受命中和持续伤害，护盾与气血不因受伤损失，也不累计受击晕眩。",
+  "params": { "n": 1 }, "sheet": [{ "stat": "defense.damage_immunity", "value": { "param": "n" } }]
+}

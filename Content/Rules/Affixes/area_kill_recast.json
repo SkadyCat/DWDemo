@@ -1,0 +1,12 @@
+{
+  "id": "area_kill_recast",
+  "name": "范围技能击败敌人时，有n%概率在其位置再次释放",
+  "description": "角色词条：范围技能击败敌人时，有n%概率在其位置再次释放。再次释放的区域不会继续因击杀再次释放",
+  "params": { "n": 20 },
+  "sheet": [
+    {
+      "stat": "area.kill_recast_chance",
+      "value": { "param": "n" }
+    }
+  ]
+}

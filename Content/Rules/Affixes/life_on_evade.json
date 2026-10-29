@@ -1,0 +1,9 @@
+{
+  "id": "life_on_evade",
+  "name": "闪避成功时恢复气血 +n点",
+  "description": "角色词条：闪避成功时恢复气血 +n点",
+  "params": { "n": 15 },
+  "sheet": [
+    { "stat": "life.on_evade", "value": { "param": "n" } }
+  ]
+}

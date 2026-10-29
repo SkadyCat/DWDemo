@@ -1,0 +1,12 @@
+{
+  "id": "minion_command_response",
+  "name": "召唤物指令响应时间 -n%",
+  "description": "角色词条：召唤物指令响应时间 -n%。指令：你施放技能时，召唤物在 0.6 秒后转攻你标记的目标（你最近命中的敌人）",
+  "params": { "n": 50 },
+  "sheet": [
+    {
+      "stat": "minion.command_response",
+      "value": { "param": "n" }
+    }
+  ]
+}

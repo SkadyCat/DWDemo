@@ -1,0 +1,12 @@
+{
+  "id": "minion_death_damage",
+  "name": "召唤物死亡爆炸造成其最大气血n%的伤害",
+  "description": "角色词条：召唤物死亡爆炸造成其最大气血n%的伤害。加到基础 30% 上",
+  "params": { "n": 20 },
+  "sheet": [
+    {
+      "stat": "minion.death_damage",
+      "value": { "param": "n" }
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "id": "chain_distance",
+  "name": "闪电连锁距离 +n%",
+  "description": "角色词条：闪电连锁距离 +n%",
+  "params": { "n": 40 },
+  "sheet": [
+    {
+      "stat": "chain.distance",
+      "value": { "param": "n" }
+    }
+  ]
+}

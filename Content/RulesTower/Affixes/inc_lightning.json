@@ -1,0 +1,16 @@
+{
+  "id": "inc_lightning",
+  "name": "闪电伤害 +n%",
+  "description": "角色词条：闪电伤害 +n%",
+  "params": {
+    "n": 25
+  },
+  "sheet": [
+    {
+      "stat": "damage.increased.lightning",
+      "value": {
+        "param": "n"
+      }
+    }
+  ]
+}

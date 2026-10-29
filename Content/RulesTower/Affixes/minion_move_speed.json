@@ -1,0 +1,12 @@
+{
+  "id": "minion_move_speed",
+  "name": "召唤物移动速度 +n%",
+  "description": "角色词条：召唤物移动速度 +n%。近战召唤物基础 4 米/秒；哨卫不移动",
+  "params": { "n": 30 },
+  "sheet": [
+    {
+      "stat": "minion.move_speed",
+      "value": { "param": "n" }
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "id": "leech_life_cap",
+  "name": "气血每秒偷取上限 +n%",
+  "description": "角色词条：气血每秒偷取上限 +n%",
+  "params": { "n": 30 },
+  "sheet": [
+    { "stat": "leech.life.cap", "value": { "param": "n" } }
+  ]
+}

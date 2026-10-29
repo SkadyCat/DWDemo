@@ -1,0 +1,12 @@
+{
+  "id": "fire_pen",
+  "name": "火焰抗性穿透 +n个百分点",
+  "description": "角色词条：火焰抗性穿透 +n个百分点",
+  "params": { "n": 15 },
+  "sheet": [
+    {
+      "stat": "damage.pen.fire",
+      "value": { "param": "n" }
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "id": "minion_leech",
+  "name": "召唤物造成伤害的n%偷取为自身气血",
+  "description": "角色词条：召唤物造成伤害的n%偷取为自身气血",
+  "params": { "n": 5 },
+  "sheet": [
+    {
+      "stat": "minion.leech",
+      "value": { "param": "n" }
+    }
+  ]
+}

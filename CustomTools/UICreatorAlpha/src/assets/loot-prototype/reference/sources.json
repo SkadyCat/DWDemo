@@ -1,0 +1,260 @@
+{
+  "source": "G:/DungeonWorldBeta/CustomTools/RuleStudio",
+  "capturedAt": "2026-10-25T06:43:29.353Z",
+  "rules": 1028,
+  "modules": [
+    {
+      "source": "engine/affix-categories.mjs",
+      "target": "engine/affix-categories.js",
+      "sha256": "cca09f87df40bcb4f2c22da6173b2ea2bd954af4af60e0cb65dabb65dae25590",
+      "snapshotSha256": "aef8490744f1fd996e6daaff445e62de8a209d516a0d8a388abf2c3428cd6373",
+      "change": "module extension only: .mjs → .js for the existing static server MIME contract"
+    },
+    {
+      "source": "engine/character.mjs",
+      "target": "engine/character.js",
+      "sha256": "bb2621b8cf6bf8e3a705733f6182eabb0bfb15013b0b3e284c1061804cf7c72b",
+      "snapshotSha256": "11a4d5ed19c0ede26a8c163e49774e397afb25547730a0e37997d553e7be1a21",
+      "change": "module extension only: .mjs → .js for the existing static server MIME contract"
+    },
+    {
+      "source": "engine/collections.mjs",
+      "target": "engine/collections.js",
+      "sha256": "e1acb3972aabd4650d5ffd804d44d68130d6bec1b1ba100b12137d2a353155ce",
+      "snapshotSha256": "34c68eea106946acbb1816e543c306f33a0af59731d955cde95271109989b5b5",
+      "change": "module extension only: .mjs → .js for the existing static server MIME contract"
+    },
+    {
+      "source": "engine/combat-catalog.mjs",
+      "target": "engine/combat-catalog.js",
+      "sha256": "922f936ef5dfca8ddf263ff6271310b2d1bc19aa068a2aa1c83eb551fb088cde",
+      "snapshotSha256": "922f936ef5dfca8ddf263ff6271310b2d1bc19aa068a2aa1c83eb551fb088cde",
+      "change": "module extension only: .mjs → .js for the existing static server MIME contract"
+    },
+    {
+      "source": "engine/combat/damage-values.mjs",
+      "target": "engine/combat/damage-values.js",
+      "sha256": "f048e5ad1dbccfd68ca5e4d8acb151a02dc4675b757376edb6c53c2ef0ce78cb",
+      "snapshotSha256": "e5c3566c7798763b7ed5d8a2cb3290dc42f263ac81a76dd8ca4e956c9dc26c6a",
+      "change": "module extension only: .mjs → .js for the existing static server MIME contract"
+    },
+    {
+      "source": "engine/compiler.mjs",
+      "target": "engine/compiler.js",
+      "sha256": "e7697a2345a90e756d1850bda41f9aef416c00c78726cb28f1b46195d2d2d4bb",
+      "snapshotSha256": "cfd47df326e1f5355a9a3c53bf5a61333398cc65e287b65fba22a7246aee92bd",
+      "change": "module extension only: .mjs → .js for the existing static server MIME contract"
+    },
+    {
+      "source": "engine/crafting.mjs",
+      "target": "engine/crafting.js",
+      "sha256": "2e838c99e94536455f8abb736568c978168ea96583eb4b02b4a1605a0f3f8837",
+      "snapshotSha256": "1c587113bdaab475cc971f9a739a540f3e877848633742a1c64ea393b8c8716e",
+      "change": "module extension only: .mjs → .js for the existing static server MIME contract"
+    },
+    {
+      "source": "engine/equipment-slots.mjs",
+      "target": "engine/equipment-slots.js",
+      "sha256": "0bbdf8f4f2da60a9e26ecf06386f28bae034c549848fdfb8fa0ca26a605f75a0",
+      "snapshotSha256": "0bbdf8f4f2da60a9e26ecf06386f28bae034c549848fdfb8fa0ca26a605f75a0",
+      "change": "module extension only: .mjs → .js for the existing static server MIME contract"
+    },
+    {
+      "source": "engine/equipment-trade.mjs",
+      "target": "engine/equipment-trade.js",
+      "sha256": "1f486e641eb1f01e292d08610b6d352c2301fb3037fc72c9878592e21247910a",
+      "snapshotSha256": "08575fcc56c2d32c94576e0c900f1b19ffa9020d805fe1a5305cb1a38d60f630",
+      "change": "module extension only: .mjs → .js for the existing static server MIME contract"
+    },
+    {
+      "source": "engine/equipment.mjs",
+      "target": "engine/equipment.js",
+      "sha256": "0396494896fbac8a020b5b60042bf2ecdfdd9f5988949aaa557be5b94da7d788",
+      "snapshotSha256": "987ea4025a0299cdddde5195ca1a2e0b62e8876a463c95f2e0fc91dab5dd9f16",
+      "change": "module extension only: .mjs → .js for the existing static server MIME contract"
+    },
+    {
+      "source": "engine/falling.mjs",
+      "target": "engine/falling.js",
+      "sha256": "5caf48c27e58e8953ffbe03efdb5ced18c3a4b63ebac56719ce30f937fb565c1",
+      "snapshotSha256": "5caf48c27e58e8953ffbe03efdb5ced18c3a4b63ebac56719ce30f937fb565c1",
+      "change": "module extension only: .mjs → .js for the existing static server MIME contract"
+    },
+    {
+      "source": "engine/floor-rewards.mjs",
+      "target": "engine/floor-rewards.js",
+      "sha256": "98bac0394fed373d3f0c422e1d81f47797f27e42cd4523c1f272761f8ffcc2cd",
+      "snapshotSha256": "e359c9299c96ad78d1feb966462d39064a849af0d7b1bf2d3b618dedda974c68",
+      "change": "module extension only: .mjs → .js for the existing static server MIME contract"
+    },
+    {
+      "source": "engine/index.mjs",
+      "target": "engine/index.js",
+      "sha256": "d890746417dae1402fcc66d849c1de63f7b505eca06bd7994579972290f11da0",
+      "snapshotSha256": "b287118a465ea354229225a24e06a80e1e1e210a8e3388030edd3dced8bcad21",
+      "change": "module extension only: .mjs → .js for the existing static server MIME contract"
+    },
+    {
+      "source": "engine/library.mjs",
+      "target": "engine/library.js",
+      "sha256": "0c38f7c9e475b8c9f142af28f8cd30915834ef56dbe5fba356b4509b45af3a48",
+      "snapshotSha256": "698912bd65f7bb94c85ab29378a61d8e9d2f4803a23346ba70726d7ec69ab65b",
+      "change": "module extension only: .mjs → .js for the existing static server MIME contract"
+    },
+    {
+      "source": "engine/loadout.mjs",
+      "target": "engine/loadout.js",
+      "sha256": "1ed63e3adb4d80259b428f0c42e9a7f948e13e7433f8aaec6457828f6408810e",
+      "snapshotSha256": "a9b1351e7455cec1bd600706948345270fef520f225f99cadfe5a3c2f727a263",
+      "change": "module extension only: .mjs → .js for the existing static server MIME contract"
+    },
+    {
+      "source": "engine/loot-hunter.mjs",
+      "target": "engine/loot-hunter.js",
+      "sha256": "6c08951d042e7fde536ab755189969075a12775b03e4f9bc61c7bbd5528da635",
+      "snapshotSha256": "6c08951d042e7fde536ab755189969075a12775b03e4f9bc61c7bbd5528da635",
+      "change": "module extension only: .mjs → .js for the existing static server MIME contract"
+    },
+    {
+      "source": "engine/map-unit.mjs",
+      "target": "engine/map-unit.js",
+      "sha256": "17cad57cf458a6eb9a2b38c85de9de02e8967249824e1516e2d1d4242446225f",
+      "snapshotSha256": "7710e80a391586d418eb5823d782156466a07d45c80e9e46d7b71aec4f911f62",
+      "change": "module extension only: .mjs → .js for the existing static server MIME contract"
+    },
+    {
+      "source": "engine/monsters.mjs",
+      "target": "engine/monsters.js",
+      "sha256": "f45464b3ad538f77432f82575c7f6ee816d7d7a82f3d10c0c690bd7f7448808e",
+      "snapshotSha256": "756725e0bbc35b0cde731feca500416c4f284720e1591538f2dd891bcb6d0c7f",
+      "change": "module extension only: .mjs → .js for the existing static server MIME contract"
+    },
+    {
+      "source": "engine/parabolic.mjs",
+      "target": "engine/parabolic.js",
+      "sha256": "d7451005b76a66add99231d62d2c7e9b254f4517bc9650e38b975ae62e218c02",
+      "snapshotSha256": "d7451005b76a66add99231d62d2c7e9b254f4517bc9650e38b975ae62e218c02",
+      "change": "module extension only: .mjs → .js for the existing static server MIME contract"
+    },
+    {
+      "source": "engine/pawn-equipment.mjs",
+      "target": "engine/pawn-equipment.js",
+      "sha256": "f26411db49dd078e591610091b784ac5566692a05399dba261f6416f06cee58e",
+      "snapshotSha256": "b4aac938e379a5ddfffc2825877ef863d5809c637f2cccfa7d5dc88eebd4e5e4",
+      "change": "module extension only: .mjs → .js for the existing static server MIME contract"
+    },
+    {
+      "source": "engine/progression.mjs",
+      "target": "engine/progression.js",
+      "sha256": "14fff2a6cb8b8d5688ac7bd09a6342b7481c057c484a1e428debfb48c868d000",
+      "snapshotSha256": "75c55f0195bd8e090c75163cd22bb75399b1f5c3d6a192ac864c4797188294ee",
+      "change": "module extension only: .mjs → .js for the existing static server MIME contract"
+    },
+    {
+      "source": "engine/reader.mjs",
+      "target": "engine/reader.js",
+      "sha256": "6fa1d649dca1eed01f91ae7e6782240660bec02090927294ed4d22acc0688852",
+      "snapshotSha256": "3c760ab6fbc936fb5aeb47a5140b28b67766e82902707e5d4c7fbb5b77182373",
+      "change": "module extension only: .mjs → .js for the existing static server MIME contract"
+    },
+    {
+      "source": "engine/samples.mjs",
+      "target": "engine/samples.js",
+      "sha256": "7b408305ce15384e4823581f6b753417afdedfea097bb31a028c593a7b3d7381",
+      "snapshotSha256": "2d9f778476043613b4b6f5798f3b9f3e2df59f582444a97f269fbe6d37208592",
+      "change": "module extension only: .mjs → .js for the existing static server MIME contract"
+    },
+    {
+      "source": "engine/shop.mjs",
+      "target": "engine/shop.js",
+      "sha256": "5150a079d4d9f55cc0c42b4e67de729541c82e7fbe07707bb13aec256452acda",
+      "snapshotSha256": "a9194f3083a0b5fa383171640b3f9575920f35ff1486fb4081a47ed43de57d36",
+      "change": "module extension only: .mjs → .js for the existing static server MIME contract"
+    },
+    {
+      "source": "engine/stats.mjs",
+      "target": "engine/stats.js",
+      "sha256": "930d1d04a299cffb30904a6eb3a5bb8b139ca9875db03787decbba231f75a8d1",
+      "snapshotSha256": "ca9242eec02877c278e20243ba8b60575b8270db03e37ff4a6c91697393ce854",
+      "change": "module extension only: .mjs → .js for the existing static server MIME contract"
+    },
+    {
+      "source": "engine/statuses.mjs",
+      "target": "engine/statuses.js",
+      "sha256": "2af9b757017a806b8936e1f277db65998f8fa81a294f535f536c37f7720f5c3e",
+      "snapshotSha256": "59af5abb0ebea80236bd92a7c98dfa442558bef3d9c07a795f86cbb7a3639253",
+      "change": "module extension only: .mjs → .js for the existing static server MIME contract"
+    },
+    {
+      "source": "engine/summon-hit-affixes.mjs",
+      "target": "engine/summon-hit-affixes.js",
+      "sha256": "7bccb106576f6fc4b0cae760e640dc73d1995ef2a8314a7bb876477b54bd6a10",
+      "snapshotSha256": "7bccb106576f6fc4b0cae760e640dc73d1995ef2a8314a7bb876477b54bd6a10",
+      "change": "module extension only: .mjs → .js for the existing static server MIME contract"
+    },
+    {
+      "source": "engine/tags.mjs",
+      "target": "engine/tags.js",
+      "sha256": "2f6adfd7d267399f34d45cfffb6ff1f5994b1d433b5c39adde751b0679306c43",
+      "snapshotSha256": "36770d8e20adbeeaaafec423412d3ec19ea1231a1c13b7bdea6292f5c2d511f5",
+      "change": "module extension only: .mjs → .js for the existing static server MIME contract"
+    },
+    {
+      "source": "engine/trait-tiers.mjs",
+      "target": "engine/trait-tiers.js",
+      "sha256": "711eb2cbb58b32a1808b911319a739fb3572c8d76515d05f57e54a486728d895",
+      "snapshotSha256": "711eb2cbb58b32a1808b911319a739fb3572c8d76515d05f57e54a486728d895",
+      "change": "module extension only: .mjs → .js for the existing static server MIME contract"
+    },
+    {
+      "source": "engine/trigger-skill-affixes.mjs",
+      "target": "engine/trigger-skill-affixes.js",
+      "sha256": "897d7bacd16016a557b64b6982dad26b3c189c2d4d2cd8c15afbd3aefadef9ec",
+      "snapshotSha256": "897d7bacd16016a557b64b6982dad26b3c189c2d4d2cd8c15afbd3aefadef9ec",
+      "change": "module extension only: .mjs → .js for the existing static server MIME contract"
+    },
+    {
+      "source": "engine/types.mjs",
+      "target": "engine/types.js",
+      "sha256": "83430b6dbed31d819bf599c5214660a18aa1a953babdfceaff1be4fcce161cae",
+      "snapshotSha256": "83430b6dbed31d819bf599c5214660a18aa1a953babdfceaff1be4fcce161cae",
+      "change": "module extension only: .mjs → .js for the existing static server MIME contract"
+    },
+    {
+      "source": "engine/world.mjs",
+      "target": "engine/world.js",
+      "sha256": "3dccf57295a204dd6db60bd6c11b0ca68d783e9132aedb85cdb3c3e109168119",
+      "snapshotSha256": "5648a852f523c30f1a05d54da16542d4c23e7bf3dbc0187d89ed5685b8d204f2",
+      "change": "module extension only: .mjs → .js for the existing static server MIME contract"
+    },
+    {
+      "source": "public/affix-text.mjs",
+      "target": "public/affix-text.js",
+      "sha256": "4a99bc580b724da2a53450109d011c509266ac6baf5e8e99390425039a76e051",
+      "snapshotSha256": "4a99bc580b724da2a53450109d011c509266ac6baf5e8e99390425039a76e051",
+      "change": "module extension only: .mjs → .js for the existing static server MIME contract"
+    },
+    {
+      "source": "public/ground-loot.mjs",
+      "target": "public/ground-loot.js",
+      "sha256": "a3f39609a6a247e9647d92b4dfeeecf6e688b9840bb43702ad09416f0eab4a63",
+      "snapshotSha256": "0409be4fad2266b7975678d8a462091a64fe8b71201eabb45c0e2ce0a8674c0e",
+      "change": "module extension only: .mjs → .js for the existing static server MIME contract"
+    },
+    {
+      "source": "public/prefabs/loot-markers.mjs",
+      "target": "public/prefabs/loot-markers.js",
+      "sha256": "f25ecb50405418af7f07b149d6ba8c337a68ddadf3658ca83a3814ef9a4aa62e",
+      "snapshotSha256": "08d70ff12ea767176ac3710c5015b5c51616f1a4ae008c98e55d6820e1666ef9",
+      "change": "module extension + export existing seedOf / trajectory for SVG review; function bodies unchanged"
+    },
+    {
+      "source": "public/prefabs/loot-style.mjs",
+      "target": "public/prefabs/loot-style.js",
+      "sha256": "04e25eae9d80d6c0deef3cbb114fde3e589469d9575d4dc39c2322757afcf1e8",
+      "snapshotSha256": "04e25eae9d80d6c0deef3cbb114fde3e589469d9575d4dc39c2322757afcf1e8",
+      "change": "module extension only: .mjs → .js for the existing static server MIME contract"
+    }
+  ],
+  "scope": "UICreator authoring prototype only; never shipped into the UE gameplay runtime"
+}

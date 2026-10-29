@@ -1,0 +1,9 @@
+{
+  "id": "trig_channel",
+  "name": "持续引导技能每满n秒，触发挂载技能",
+  "description": "角色词条：持续引导技能每满n秒，触发挂载技能。持续按住施法即为引导",
+  "params": { "seconds": 1.5 },
+  "sheet": [
+    { "trigger": "trig_channel" }
+  ]
+}

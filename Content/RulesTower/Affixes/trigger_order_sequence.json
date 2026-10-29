@@ -1,0 +1,9 @@
+{
+  "id": "trigger_order_sequence",
+  "name": "挂载技能按配置顺序依次触发",
+  "description": "角色词条：挂载技能按配置顺序依次触发。需要挂载多个技能",
+  "params": {},
+  "sheet": [
+    { "stat": "trigger.order_sequence", "value": 1 }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "id": "shield_from_overflow_life_regen",
+  "name": "满血时，溢出的气血再生的n%用于恢复护盾",
+  "description": "角色词条：满血时，溢出的气血再生的n%用于恢复护盾",
+  "params": {
+    "n": 100
+  },
+  "sheet": [
+    {
+      "stat": "shield.from_overflow_life_regen_percent",
+      "value": {
+        "param": "n"
+      }
+    }
+  ]
+}

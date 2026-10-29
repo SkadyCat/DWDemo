@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "slots": {
+    "chest": ["defense"],
+    "boots": ["defense"],
+    "belt": ["defense"],
+    "gloves": ["attack", "special"],
+    "weapon": ["attack", "special"],
+    "ring": ["special"],
+    "amulet": ["special"]
+  }
+}

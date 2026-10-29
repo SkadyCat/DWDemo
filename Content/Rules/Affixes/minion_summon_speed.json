@@ -1,0 +1,12 @@
+{
+  "id": "minion_summon_speed",
+  "name": "召唤技能施放速度 +n%",
+  "description": "角色词条：召唤技能施放速度 +n%",
+  "params": { "n": 20 },
+  "sheet": [
+    {
+      "stat": "minion.summon_speed",
+      "value": { "param": "n" }
+    }
+  ]
+}

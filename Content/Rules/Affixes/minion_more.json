@@ -1,0 +1,12 @@
+{
+  "id": "minion_more",
+  "name": "召唤物伤害额外提高 n%",
+  "description": "角色词条：召唤物伤害额外提高 n%",
+  "params": { "n": 20 },
+  "sheet": [
+    {
+      "stat": "minion.more",
+      "value": { "param": "n" }
+    }
+  ]
+}

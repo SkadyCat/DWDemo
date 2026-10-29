@@ -1,0 +1,11 @@
+.b3-audio-controls { display:flex; align-items:center; gap:8px; width:100%; min-height:32px; padding:5px 8px; box-sizing:border-box; border:1px solid var(--border,#293548); border-radius:6px; background:#0b111bea; color:#9cacc1; pointer-events:auto; cursor:default; font-size:10px; }
+.b3-audio-controls button { display:grid; place-items:center; flex:none; width:24px; height:24px; padding:3px; border:0; background:transparent; color:#a9d4d8; cursor:pointer; }
+.b3-audio-controls button[aria-pressed=true] { color:#86909e; }
+.b3-audio-controls svg { width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; }
+.b3-audio-controls label { display:flex; align-items:center; gap:8px; flex:1; min-width:0; }
+.b3-audio-controls input[type=range] { flex:1; width:40px; min-width:0; padding:0; accent-color:#7dc3c7; cursor:pointer; }
+.b3-audio-controls output { min-width:28px; text-align:right; font-variant-numeric:tabular-nums; }
+.b3-audio-controls :focus-visible { outline:1px solid #7dc3c7; outline-offset:2px; }
+.b3-audio-settings { display:grid; gap:10px; padding:12px 0; border-top:1px solid var(--border,#293548); }
+.b3-audio-settings .field { display:flex; align-items:center; gap:12px; }
+.b3-audio-settings input[type=range] { flex:1; min-width:70px; accent-color:#7dc3c7; }

@@ -1,0 +1,9 @@
+{
+  "id": "evasion_crit",
+  "name": "每n点闪避值，暴击率 +n个百分点",
+  "description": "角色词条：每n点闪避值，暴击率 +n个百分点",
+  "params": { "per": 200, "n": 1 },
+  "sheet": [
+    { "stat": "evasion.crit_per", "value": { "div": [{ "param": "n" }, { "param": "per" }] } }
+  ]
+}

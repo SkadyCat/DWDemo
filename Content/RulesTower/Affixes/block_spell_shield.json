@@ -1,0 +1,9 @@
+{
+  "id": "block_spell_shield",
+  "name": "每n个百分点法术格挡率，最大护盾 +n%",
+  "description": "角色词条：每n个百分点法术格挡率，最大护盾 +n%",
+  "params": { "per": 5, "n": 3 },
+  "sheet": [
+    { "stat": "block.shield_per_spell", "value": { "div": [{ "param": "n" }, { "param": "per" }] } }
+  ]
+}

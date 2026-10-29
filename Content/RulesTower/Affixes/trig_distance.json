@@ -1,0 +1,9 @@
+{
+  "id": "trig_distance",
+  "name": "每移动n米，触发挂载技能",
+  "description": "角色词条：每移动n米，触发挂载技能",
+  "params": { "meters": 10 },
+  "sheet": [
+    { "trigger": "trig_distance" }
+  ]
+}

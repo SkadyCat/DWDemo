@@ -1,0 +1,12 @@
+{
+  "id": "erosion_damage",
+  "name": "侵蚀伤害 +n%",
+  "description": "角色词条：侵蚀伤害 +n%",
+  "params": { "n": 30 },
+  "sheet": [
+    {
+      "stat": "erosion.damage",
+      "value": { "param": "n" }
+    }
+  ]
+}

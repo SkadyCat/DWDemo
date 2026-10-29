@@ -1,0 +1,12 @@
+{
+  "id": "area_expand_max",
+  "name": "范围扩张最大面积 +n%",
+  "description": "角色词条：范围扩张最大面积 +n%",
+  "params": { "n": 30 },
+  "sheet": [
+    {
+      "stat": "area.expand_max",
+      "value": { "param": "n" }
+    }
+  ]
+}

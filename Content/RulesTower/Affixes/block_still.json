@@ -1,0 +1,12 @@
+{
+  "id": "block_still",
+  "name": "静止时，格挡率 +n个百分点",
+  "description": "角色词条：静止时，格挡率 +n个百分点。同时作用于攻击与法术格挡",
+  "params": { "n": 8 },
+  "sheet": [
+    {
+      "stat": "block.still",
+      "value": { "param": "n" }
+    }
+  ]
+}

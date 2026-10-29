@@ -1,0 +1,9 @@
+{
+  "id": "proj_chain_rehit",
+  "name": "投射物允许连锁至已命中的敌人",
+  "description": "角色词条：投射物允许连锁至已命中的敌人",
+  "params": {},
+  "sheet": [
+    { "stat": "proj.chain_rehit", "value": 1 }
+  ]
+}

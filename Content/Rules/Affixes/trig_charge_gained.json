@@ -1,0 +1,9 @@
+{
+  "id": "trig_charge_gained",
+  "name": "获得充能时，有n%概率触发挂载技能",
+  "description": "角色词条：获得充能时，有n%概率触发挂载技能",
+  "params": { "chance": 30 },
+  "sheet": [
+    { "trigger": "trig_charge_gained" }
+  ]
+}

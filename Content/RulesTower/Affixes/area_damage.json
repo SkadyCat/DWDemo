@@ -1,0 +1,12 @@
+{
+  "id": "area_damage",
+  "name": "范围伤害 +n%",
+  "description": "角色词条：范围伤害 +n%",
+  "params": { "n": 25 },
+  "sheet": [
+    {
+      "stat": "area.damage",
+      "value": { "param": "n" }
+    }
+  ]
+}

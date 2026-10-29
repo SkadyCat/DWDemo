@@ -1,0 +1,16 @@
+{
+  "id": "monster_seek_range",
+  "name": "怪物基础索敌范围 n米",
+  "description": "配置怪物自身的水平索敌范围；多条相加，0米时不索敌。未配置时兼容全局默认值。",
+  "params": {
+    "n": 20
+  },
+  "sheet": [
+    {
+      "stat": "monster.seek_range",
+      "value": {
+        "param": "n"
+      }
+    }
+  ]
+}

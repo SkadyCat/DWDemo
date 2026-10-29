@@ -1,0 +1,15 @@
+{
+  "id": "freeze_consume_shards",
+  "name": "消耗冻结·破冰碎片",
+  "description": "命中冻结目标时，消耗其冻结，在命中位置产生大范围破冰碎片，对 radius 米内每个敌人造成一次 damage 点冰霜伤害。碎片是范围破冰表现，不对同一敌人重复结算。没有冻结不触发。反应伤害不再次触发这三种异常消费反应。",
+  "params": { "radius": 5, "damage": 30 },
+  "rules": [{
+    "id": "freeze_consume_shards_on_hit",
+    "event": "hit",
+    "chain": { "channel": "ailment_reaction", "maxDepth": 1 },
+    "conditions": [{ "op": "status", "key": "freeze" }],
+    "actions": [{ "op": "consume_status", "key": "freeze", "value": "all", "then": [
+      { "op": "damage_area", "element": "cold", "tags": ["cold", "spell"], "radius": { "param": "radius" }, "amount": { "param": "damage" } }
+    ] }]
+  }]
+}

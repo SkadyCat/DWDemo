@@ -1,0 +1,12 @@
+{
+  "id": "area_repeats",
+  "name": "范围技能重复次数 +n次",
+  "description": "角色词条：范围技能重复次数 +n次",
+  "params": { "n": 1 },
+  "sheet": [
+    {
+      "stat": "area.repeats",
+      "value": { "param": "n" }
+    }
+  ]
+}

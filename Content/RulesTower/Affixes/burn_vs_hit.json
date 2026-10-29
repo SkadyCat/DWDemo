@@ -1,0 +1,12 @@
+{
+  "id": "burn_vs_hit",
+  "name": "对燃烧敌人的命中伤害 +n%",
+  "description": "角色词条：对燃烧敌人的命中伤害 +n%",
+  "params": { "n": 20 },
+  "sheet": [
+    {
+      "stat": "burn.vs_hit",
+      "value": { "param": "n" }
+    }
+  ]
+}

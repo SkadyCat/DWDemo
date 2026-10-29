@@ -1,0 +1,9 @@
+{
+  "id": "minion_sacrifice_elite",
+  "name": "每累计牺牲n个召唤物，生成一个强化召唤物",
+  "description": "角色词条：每累计牺牲n个召唤物，生成一个强化召唤物。强化召唤物伤害与气血 ×2，不计入数量上限",
+  "params": { "per": 3 },
+  "sheet": [
+    { "trigger": "minion_sacrifice_elite" }
+  ]
+}

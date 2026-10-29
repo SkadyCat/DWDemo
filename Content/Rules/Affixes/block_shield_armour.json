@@ -1,0 +1,12 @@
+{
+  "id": "block_shield_armour",
+  "name": "格挡成功时，恢复相当于护甲n%的护盾",
+  "description": "角色词条：格挡成功时，恢复相当于护甲n%的护盾",
+  "params": { "n": 5 },
+  "sheet": [
+    {
+      "stat": "shield.on_block_armour_percent",
+      "value": { "param": "n" }
+    }
+  ]
+}

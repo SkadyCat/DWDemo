@@ -1,0 +1,12 @@
+{
+  "id": "lightning_max",
+  "name": "闪电伤害上限 +n%",
+  "description": "角色词条：闪电伤害上限 +n%。闪电命中伤害在 50%~150% 间浮动；上限提高 n%",
+  "params": { "n": 40 },
+  "sheet": [
+    {
+      "stat": "lightning.max",
+      "value": { "param": "n" }
+    }
+  ]
+}

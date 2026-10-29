@@ -1,0 +1,14 @@
+{
+  "id": "vector_control_ring",
+  "name": "逆矢指环",
+  "description": "绑定光环「矢量操控」。装备后可在 Q/E/F/G 装配并切换，卸下后失去光环。词条按品质与 T 阶随机生成；传奇品质固定增加投射物飞行速度。",
+  "slot": "ring",
+  "rarity": "common",
+  "level": 1,
+  "tier": 1,
+  "tags": [],
+  "skills": ["vector_control"],
+  "bases": ["mana_base"],
+  "legendary": "proj_speed",
+  "traits": []
+}

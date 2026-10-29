@@ -1,0 +1,9 @@
+{
+  "id": "proj_return_secondary",
+  "name": "投射物返回途中，向附近敌人释放次级投射物",
+  "description": "角色词条：投射物返回途中，向附近敌人释放次级投射物。每 0.3 秒向 5 米内最近的敌人发射 n 枚",
+  "params": { "n": 1 },
+  "sheet": [
+    { "trigger": "proj_return_secondary" }
+  ]
+}

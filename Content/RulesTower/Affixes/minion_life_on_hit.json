@@ -1,0 +1,12 @@
+{
+  "id": "minion_life_on_hit",
+  "name": "召唤物命中时，恢复自身气血 +n点",
+  "description": "角色词条：召唤物命中时，恢复自身气血 +n点",
+  "params": { "n": 4 },
+  "sheet": [
+    {
+      "stat": "minion.life_on_hit",
+      "value": { "param": "n" }
+    }
+  ]
+}

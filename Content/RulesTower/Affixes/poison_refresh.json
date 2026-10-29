@@ -1,0 +1,9 @@
+{
+  "id": "poison_refresh",
+  "name": "再次施加中毒时，刷新已有中毒的持续时间",
+  "description": "角色词条：再次施加中毒时，刷新已有中毒的持续时间",
+  "params": {},
+  "sheet": [
+    { "stat": "poison.refresh", "value": 1 }
+  ]
+}

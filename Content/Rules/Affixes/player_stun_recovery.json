@@ -1,0 +1,11 @@
+{
+  "id": "player_stun_recovery",
+  "name": "晕眩积累消退",
+  "description": "1秒未受非持续命中伤害后，晕眩条在3秒内恢复完整；命中会扣除晕眩条并重新等待1秒，持续伤害不扣除晕眩条，也不中断恢复。晕眩条为空时不重复触发晕眩，恢复后再次被打空可再次触发。",
+  "params": { "delay": 1, "seconds": 3, "restore": 3 },
+  "sheet": [
+    { "stat": "stun.decay_delay", "value": { "param": "delay" } },
+    { "stat": "stun.decay_seconds", "value": { "param": "seconds" } },
+    { "stat": "stun.restore_seconds", "value": { "param": "restore" } }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "id": "proj_split_time_trigger",
+  "name": "投射物存在n秒后发生分裂",
+  "description": "角色词条：投射物存在n秒后发生分裂",
+  "params": { "seconds": 0.4 },
+  "sheet": [
+    { "trigger": "proj_split_after_time" }
+  ]
+}

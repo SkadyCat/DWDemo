@@ -1,0 +1,11 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><title>晕眩覆盖 · UICreator</title><link rel="stylesheet" href="/app.css"><link rel="stylesheet" href="/play.css"><style>
+body{display:block;overflow:auto;padding:40px;background:#101720}h1{font-size:22px}p{color:#8d9fb2}.samples{max-width:960px;display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:30px}.sample{background:#14212d;border:1px solid #2a3b4c;border-radius:10px;padding:24px;height:250px}.sample h2{font-size:14px;color:#d8e4ef}.stage{height:80px;position:relative;margin-top:10px}.hb{left:50%;top:60%;transform:scale(3)}.note{color:#91a4b8;font-size:12px;margin-top:22px}.ratio{color:#f7d046;margin-top:18px}.hud-sample{margin-top:16px}.hud-sample .b3-hp{height:8px}.hud-sample small{color:#a6f5cc}</style>
+<h1>晕眩覆盖在血条上</h1><p>覆盖长度 = 当前晕眩值 ÷ 最大生命值；初始 80 / 400 = 20%。受击缩短，恢复增长。</p><section class="samples" id="samples"></section><p class="note">头顶控件放大 3 倍，下方为 HUD 血条；两处使用同一 UICreator 覆盖控件。黄色透明度 55%。</p><script type="module">
+import {mountStunOverlay,updateStunOverlay} from '/battle-stun-overlay.mjs';
+for(const [title,remaining,life]of [['未受击：80 / 80',80,400],['受击后：40 / 80',40,360],['晕眩中：0 / 80',0,320],['低生命：40 / 80',40,80],['恢复中：60 / 80',60,80],['已恢复：80 / 80',80,80]]){
+  const card=document.createElement('article');card.className='sample';
+  card.innerHTML=`<h2>${title}</h2><div class="stage"><div class="hb hb-hero"><div class="hb-shield"><i></i></div><div class="hb-bar"><i style="width:${100*life/400}%"></i><div class="hb-crust" role="progressbar" aria-label="${title}头顶晕眩"></div></div></div></div><div class="hud-sample"><small>气血 ${life} / 400</small><div class="b3-hp b3-life"><i style="width:${100*life/400}%"></i><div class="hb-crust" role="progressbar" aria-label="${title}HUD晕眩"></div></div></div><div class="ratio">晕眩 ${remaining} ÷ 生命 400 = ${100*remaining/400}%</div>`;
+  document.getElementById('samples').append(card);
+  for(const overlay of card.querySelectorAll('.hb-crust')){mountStunOverlay(overlay);updateStunOverlay(overlay,{enabled:true,remaining,amount:80-remaining,maxLife:400});}
+}
+</script></html>

@@ -1,0 +1,34 @@
+{
+  "id": "abyssal_return",
+  "name": "归墟绞盘",
+  "description": "9 枚穿透冰锥命中后回归，追加虚空伤害；T10 气血三件套叠加生命转虚空点伤、气血增伤，随塔层血量继续膨胀。",
+  "enabled": true,
+  "weight": 1,
+  "minFloor": 11,
+  "health": 100,
+  "speed": 230,
+  "stopDistance": 600,
+  "color": "#9f6dff",
+  "equipment": {
+    "lineage": "monster_lineage_abyssal_return",
+    "rarity": null,
+    "tower": "monster_tower_equipment"
+  },
+  "traits": [
+    {
+      "id": "monster_seek_range",
+      "params": {
+        "n": 20
+      }
+    }
+  ],
+  "skills": [
+    {
+      "id": "frost_lance",
+      "enabled": true,
+      "range": 900,
+      "cooldown": 1,
+      "power": 10
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "id": "minion_teleport",
+  "name": "召唤物距离你超过n米时，传送至你身边",
+  "description": "角色词条：召唤物距离你超过n米时，传送至你身边",
+  "params": { "meters": 12 },
+  "sheet": [
+    { "trigger": "minion_teleport" }
+  ]
+}

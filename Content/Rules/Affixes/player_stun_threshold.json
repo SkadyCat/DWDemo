@@ -1,0 +1,10 @@
+{
+  "id": "player_stun_threshold",
+  "name": "晕眩阈值与攻击打断",
+  "description": "覆层耐久为最大生命的20%；受击打空时覆层破碎，晕眩0.5秒，并打断尚未释放的当前攻击。",
+  "params": { "n": 20, "seconds": 0.5 },
+  "sheet": [
+    { "stat": "stun.threshold_life_percent", "value": { "param": "n" } },
+    { "stat": "stun.duration", "value": { "param": "seconds" } }
+  ]
+}

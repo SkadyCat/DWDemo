@@ -1,0 +1,12 @@
+{
+  "id": "area_size",
+  "name": "范围面积 +n%",
+  "description": "角色词条：范围面积 +n%。面积换算为半径：面积 +100% 约等于半径 +41%",
+  "params": { "n": 30 },
+  "sheet": [
+    {
+      "stat": "area.size",
+      "value": { "param": "n" }
+    }
+  ]
+}

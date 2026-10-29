@@ -1,0 +1,7 @@
+{
+  "id": "grant_sacrifice",
+  "name": "获得主动技能：献祭",
+  "description": "装备时获得主动技能“献祭”，可装配到普通主动技能槽。卸下装备或洗掉本词条后失去该技能；同技能多份授予不叠加，不额外占用快捷键。",
+  "params": {},
+  "sheet": [{ "grant_skill": "sacrifice" }]
+}

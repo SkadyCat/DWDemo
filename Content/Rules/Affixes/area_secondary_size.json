@@ -1,0 +1,12 @@
+{
+  "id": "area_secondary_size",
+  "name": "次级范围面积 +n%",
+  "description": "角色词条：次级范围面积 +n%",
+  "params": { "n": 40 },
+  "sheet": [
+    {
+      "stat": "area.secondary_size",
+      "value": { "param": "n" }
+    }
+  ]
+}

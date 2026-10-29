@@ -1,0 +1,9 @@
+{
+  "id": "shield_recharge_on_kill",
+  "name": "击败敌人时，有n%概率立即开始护盾回充",
+  "description": "角色词条：击败敌人时，有n%概率立即开始护盾回充",
+  "params": { "n": 20 },
+  "sheet": [
+    { "stat": "shield.recharge_on_kill", "value": { "param": "n" } }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "id": "minion_crit_cast",
+  "name": "召唤物暴击时，有n%概率触发一次辅助技能",
+  "description": "角色词条：召唤物暴击时，有n%概率触发一次辅助技能",
+  "params": { "chance": 30 },
+  "sheet": [
+    { "trigger": "trig_summon_crit" }
+  ]
+}

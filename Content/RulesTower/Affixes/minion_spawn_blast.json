@@ -1,0 +1,9 @@
+{
+  "id": "minion_spawn_blast",
+  "name": "召唤物生成时，释放一次范围攻击",
+  "description": "角色词条：召唤物生成时，释放一次范围攻击。半径 2.5 米，造成技能威力的伤害（召唤物元素）",
+  "params": {},
+  "sheet": [
+    { "stat": "minion.spawn_blast", "value": 1 }
+  ]
+}

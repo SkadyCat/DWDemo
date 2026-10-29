@@ -1,0 +1,41 @@
+{
+  "id": "summon_iron_guard",
+  "name": "召唤铁刃守卫",
+  "description": "召唤一只铁刃守卫。会移动并追击附近敌人的近战召唤物，贴近后攻击；攻击内容由“铁卫·斩击”特性提供。duration 为存在时间（秒），interval 为基础攻击间隔（秒），range 为索敌半径（米），cap 为同种同时存在的数量，cooldown 为手动召唤冷却（秒）。超出 cap 时替换最早的一只并沿用攻击节奏；无敌人时不攻击。可与攻击特性一同缝入现有触发词条，由触发条件决定何时召唤；没有额外内置触发条件。",
+  "params": {
+    "duration": 10,
+    "interval": 0.8,
+    "range": 8,
+    "cap": 1,
+    "cooldown": 1
+  },
+  "rules": [
+    {
+      "id": "summon_iron_guard_on_cast",
+      "event": "cast",
+      "actions": [
+        {
+          "op": "summon",
+          "kind": "iron_guard",
+          "event": "iron_guard_attack",
+          "tags": [
+            "summon",
+            "melee"
+          ],
+          "duration": {
+            "param": "duration"
+          },
+          "interval": {
+            "param": "interval"
+          },
+          "radius": {
+            "param": "range"
+          },
+          "cap": {
+            "param": "cap"
+          }
+        }
+      ]
+    }
+  ]
+}

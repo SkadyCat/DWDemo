@@ -1,0 +1,9 @@
+{
+  "id": "proj_prefer_unhit",
+  "name": "投射物优先连锁至未命中的敌人",
+  "description": "角色词条：投射物优先连锁至未命中的敌人。与“允许连锁至已命中的敌人”同时存在时，先找未命中的",
+  "params": {},
+  "sheet": [
+    { "stat": "proj.prefer_unhit", "value": 1 }
+  ]
+}

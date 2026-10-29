@@ -1,0 +1,9 @@
+{
+  "id": "poison_no_damage",
+  "name": "中毒不再造成伤害，每层改为提高目标受到的命中伤害",
+  "description": "角色词条：中毒不再造成伤害，每层改为提高目标受到的命中伤害。每层提高 n%，最多 60%",
+  "params": { "n": 3 },
+  "sheet": [
+    { "trigger": "poison_no_damage" }
+  ]
+}

@@ -1,0 +1,8853 @@
+{
+ "schema": 1,
+ "scenarios": [
+  {
+   "id": "splash_frost",
+   "commit": true,
+   "frames": 180,
+   "dt": 0.016666666666666666,
+   "plans": [
+    {
+     "key": "p",
+     "build": "frost_lance",
+     "extra": [
+      "splash",
+      "fire_damage"
+     ],
+     "params": {}
+    }
+   ],
+   "owners": [
+    {
+     "key": "hero",
+     "externalId": 1,
+     "team": 0,
+     "position": [
+      0,
+      0,
+      0
+     ],
+     "aim": [
+      1,
+      0,
+      0
+     ]
+    }
+   ],
+   "targets": [
+    {
+     "id": 100,
+     "position": [
+      3,
+      0,
+      0
+     ],
+     "radius": 0.2,
+     "health": 10000,
+     "team": 1
+    },
+    {
+     "id": 101,
+     "position": [
+      3,
+      1.2,
+      0
+     ],
+     "radius": 0.2,
+     "health": 10000,
+     "team": 1
+    },
+    {
+     "id": 102,
+     "position": [
+      5,
+      0,
+      0
+     ],
+     "radius": 0.2,
+     "health": 10000,
+     "team": 1
+    },
+    {
+     "id": 103,
+     "position": [
+      3,
+      4,
+      0
+     ],
+     "radius": 0.2,
+     "health": 10000,
+     "team": 1
+    },
+    {
+     "id": 104,
+     "position": [
+      3,
+      -1,
+      0
+     ],
+     "radius": 0.2,
+     "health": 10000,
+     "team": 0
+    }
+   ],
+   "casts": [
+    {
+     "frame": 0,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0,
+      0
+     ],
+     "seed": 17,
+     "power": 16
+    }
+   ],
+   "statusQuery": [
+    "chill",
+    "poison"
+   ]
+  },
+  {
+   "id": "splash_multi_pierce",
+   "commit": true,
+   "frames": 180,
+   "dt": 0.016666666666666666,
+   "plans": [
+    {
+     "key": "p",
+     "build": "frost_lance",
+     "extra": [
+      "splash",
+      "multiple_projectiles",
+      "pierce"
+     ],
+     "params": {}
+    }
+   ],
+   "owners": [
+    {
+     "key": "hero",
+     "externalId": 1,
+     "team": 0,
+     "position": [
+      0,
+      0,
+      0
+     ],
+     "aim": [
+      1,
+      0,
+      0
+     ]
+    }
+   ],
+   "targets": [
+    {
+     "id": 100,
+     "position": [
+      3,
+      0,
+      0
+     ],
+     "radius": 0.2,
+     "health": 10000,
+     "team": 1
+    },
+    {
+     "id": 101,
+     "position": [
+      3,
+      1.2,
+      0
+     ],
+     "radius": 0.2,
+     "health": 10000,
+     "team": 1
+    },
+    {
+     "id": 102,
+     "position": [
+      5,
+      0,
+      0
+     ],
+     "radius": 0.2,
+     "health": 10000,
+     "team": 1
+    },
+    {
+     "id": 103,
+     "position": [
+      3,
+      4,
+      0
+     ],
+     "radius": 0.2,
+     "health": 10000,
+     "team": 1
+    },
+    {
+     "id": 104,
+     "position": [
+      3,
+      -1,
+      0
+     ],
+     "radius": 0.2,
+     "health": 10000,
+     "team": 0
+    }
+   ],
+   "casts": [
+    {
+     "frame": 0,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0,
+      0
+     ],
+     "seed": 17,
+     "power": 16
+    }
+   ],
+   "statusQuery": [
+    "chill",
+    "poison"
+   ]
+  },
+  {
+   "id": "splash_void",
+   "commit": true,
+   "frames": 180,
+   "dt": 0.016666666666666666,
+   "plans": [
+    {
+     "key": "p",
+     "build": "monster_bolt",
+     "extra": [
+      "splash"
+     ],
+     "params": {}
+    }
+   ],
+   "owners": [
+    {
+     "key": "hero",
+     "externalId": 1,
+     "team": 0,
+     "position": [
+      0,
+      0,
+      0
+     ],
+     "aim": [
+      1,
+      0,
+      0
+     ]
+    }
+   ],
+   "targets": [
+    {
+     "id": 100,
+     "position": [
+      3,
+      0,
+      0
+     ],
+     "radius": 0.2,
+     "health": 10000,
+     "team": 1
+    },
+    {
+     "id": 101,
+     "position": [
+      3,
+      1.2,
+      0
+     ],
+     "radius": 0.2,
+     "health": 10000,
+     "team": 1
+    },
+    {
+     "id": 102,
+     "position": [
+      5,
+      0,
+      0
+     ],
+     "radius": 0.2,
+     "health": 10000,
+     "team": 1
+    },
+    {
+     "id": 103,
+     "position": [
+      3,
+      4,
+      0
+     ],
+     "radius": 0.2,
+     "health": 10000,
+     "team": 1
+    },
+    {
+     "id": 104,
+     "position": [
+      3,
+      -1,
+      0
+     ],
+     "radius": 0.2,
+     "health": 10000,
+     "team": 0
+    }
+   ],
+   "casts": [
+    {
+     "frame": 0,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0,
+      0
+     ],
+     "seed": 17,
+     "power": 16
+    }
+   ],
+   "statusQuery": [
+    "chill",
+    "poison"
+   ]
+  },
+  {
+   "id": "splash_sentinel",
+   "commit": true,
+   "frames": 180,
+   "dt": 0.016666666666666666,
+   "plans": [
+    {
+     "key": "p",
+     "build": "sentinel",
+     "extra": [
+      "splash"
+     ],
+     "params": {}
+    }
+   ],
+   "owners": [
+    {
+     "key": "hero",
+     "externalId": 1,
+     "team": 0,
+     "position": [
+      0,
+      0,
+      0
+     ],
+     "aim": [
+      1,
+      0,
+      0
+     ]
+    }
+   ],
+   "targets": [
+    {
+     "id": 100,
+     "position": [
+      3,
+      0,
+      0
+     ],
+     "radius": 0.2,
+     "health": 10000,
+     "team": 1
+    },
+    {
+     "id": 101,
+     "position": [
+      3,
+      1.2,
+      0
+     ],
+     "radius": 0.2,
+     "health": 10000,
+     "team": 1
+    },
+    {
+     "id": 102,
+     "position": [
+      5,
+      0,
+      0
+     ],
+     "radius": 0.2,
+     "health": 10000,
+     "team": 1
+    },
+    {
+     "id": 103,
+     "position": [
+      3,
+      4,
+      0
+     ],
+     "radius": 0.2,
+     "health": 10000,
+     "team": 1
+    },
+    {
+     "id": 104,
+     "position": [
+      3,
+      -1,
+      0
+     ],
+     "radius": 0.2,
+     "health": 10000,
+     "team": 0
+    }
+   ],
+   "casts": [
+    {
+     "frame": 0,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0,
+      0
+     ],
+     "seed": 17,
+     "power": 16
+    }
+   ],
+   "statusQuery": [
+    "chill",
+    "poison"
+   ]
+  },
+  {
+   "id": "splash_params",
+   "commit": true,
+   "frames": 180,
+   "dt": 0.016666666666666666,
+   "plans": [
+    {
+     "key": "p",
+     "build": "frost_lance",
+     "extra": [
+      "splash"
+     ],
+     "params": {
+      "splash": {
+       "radius": 3,
+       "ratio": 0.25
+      }
+     }
+    }
+   ],
+   "owners": [
+    {
+     "key": "hero",
+     "externalId": 1,
+     "team": 0,
+     "position": [
+      0,
+      0,
+      0
+     ],
+     "aim": [
+      1,
+      0,
+      0
+     ]
+    }
+   ],
+   "targets": [
+    {
+     "id": 100,
+     "position": [
+      3,
+      0,
+      0
+     ],
+     "radius": 0.2,
+     "health": 10000,
+     "team": 1
+    },
+    {
+     "id": 101,
+     "position": [
+      3,
+      1.2,
+      0
+     ],
+     "radius": 0.2,
+     "health": 10000,
+     "team": 1
+    },
+    {
+     "id": 102,
+     "position": [
+      5,
+      0,
+      0
+     ],
+     "radius": 0.2,
+     "health": 10000,
+     "team": 1
+    },
+    {
+     "id": 103,
+     "position": [
+      3,
+      4,
+      0
+     ],
+     "radius": 0.2,
+     "health": 10000,
+     "team": 1
+    },
+    {
+     "id": 104,
+     "position": [
+      3,
+      -1,
+      0
+     ],
+     "radius": 0.2,
+     "health": 10000,
+     "team": 0
+    }
+   ],
+   "casts": [
+    {
+     "frame": 0,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0,
+      0
+     ],
+     "seed": 17,
+     "power": 16
+    }
+   ],
+   "statusQuery": [
+    "chill",
+    "poison"
+   ]
+  },
+  {
+   "id": "splash_ignores_area",
+   "commit": true,
+   "frames": 180,
+   "dt": 0.016666666666666666,
+   "plans": [
+    {
+     "key": "p",
+     "build": "flame_burst",
+     "extra": [
+      "splash"
+     ],
+     "params": {}
+    }
+   ],
+   "owners": [
+    {
+     "key": "hero",
+     "externalId": 1,
+     "team": 0,
+     "position": [
+      0,
+      0,
+      0
+     ],
+     "aim": [
+      1,
+      0,
+      0
+     ]
+    }
+   ],
+   "targets": [
+    {
+     "id": 100,
+     "position": [
+      3,
+      0,
+      0
+     ],
+     "radius": 0.2,
+     "health": 10000,
+     "team": 1
+    },
+    {
+     "id": 101,
+     "position": [
+      3,
+      1.2,
+      0
+     ],
+     "radius": 0.2,
+     "health": 10000,
+     "team": 1
+    },
+    {
+     "id": 102,
+     "position": [
+      5,
+      0,
+      0
+     ],
+     "radius": 0.2,
+     "health": 10000,
+     "team": 1
+    },
+    {
+     "id": 103,
+     "position": [
+      3,
+      4,
+      0
+     ],
+     "radius": 0.2,
+     "health": 10000,
+     "team": 1
+    },
+    {
+     "id": 104,
+     "position": [
+      3,
+      -1,
+      0
+     ],
+     "radius": 0.2,
+     "health": 10000,
+     "team": 0
+    }
+   ],
+   "casts": [
+    {
+     "frame": 0,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      3,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0,
+      0
+     ],
+     "seed": 17,
+     "power": 16
+    }
+   ],
+   "statusQuery": [
+    "chill",
+    "poison"
+   ]
+  },
+  {
+   "id": "sentinel_live",
+   "commit": true,
+   "frames": 120,
+   "dt": 0.016666666666666666,
+   "plans": [
+    {
+     "key": "p",
+     "build": "sentinel"
+    }
+   ],
+   "owners": [
+    {
+     "key": "hero",
+     "externalId": 1,
+     "team": 0,
+     "position": [
+      0,
+      0,
+      0
+     ],
+     "aim": [
+      1,
+      0,
+      0
+     ]
+    }
+   ],
+   "targets": [
+    {
+     "id": 200,
+     "position": [
+      3,
+      0,
+      0
+     ],
+     "radius": 0.45,
+     "health": 500,
+     "team": 1
+    }
+   ],
+   "casts": [
+    {
+     "frame": 0,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0,
+      0
+     ],
+     "seed": 90
+    }
+   ],
+   "statusQuery": [
+    "chill"
+   ]
+  },
+  {
+   "id": "sentinel",
+   "commit": true,
+   "frames": 660,
+   "dt": 0.016666666666666666,
+   "plans": [
+    {
+     "key": "p",
+     "build": "sentinel"
+    }
+   ],
+   "owners": [
+    {
+     "key": "hero",
+     "externalId": 1,
+     "team": 0,
+     "position": [
+      0,
+      0,
+      0
+     ],
+     "aim": [
+      1,
+      0,
+      0
+     ]
+    }
+   ],
+   "targets": [
+    {
+     "id": 200,
+     "position": [
+      3,
+      0,
+      0
+     ],
+     "radius": 0.45,
+     "health": 32,
+     "team": 1
+    },
+    {
+     "id": 201,
+     "position": [
+      0,
+      5,
+      0
+     ],
+     "radius": 0.45,
+     "health": 500,
+     "team": 1
+    },
+    {
+     "id": 202,
+     "position": [
+      0,
+      1,
+      0
+     ],
+     "radius": 0.45,
+     "health": 500,
+     "team": 0
+    },
+    {
+     "id": 203,
+     "position": [
+      15,
+      0,
+      0
+     ],
+     "radius": 0.45,
+     "health": 500,
+     "team": 1
+    }
+   ],
+   "casts": [
+    {
+     "frame": 0,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0,
+      0
+     ],
+     "seed": 91
+    },
+    {
+     "frame": 120,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      1,
+      1,
+      0
+     ],
+     "direction": [
+      1,
+      0,
+      0
+     ],
+     "seed": 92
+    }
+   ],
+   "statusQuery": [
+    "chill"
+   ]
+  },
+  {
+   "id": "frost_lance_lane",
+   "commit": true,
+   "frames": 90,
+   "dt": 0.016666666666666666,
+   "plans": [
+    {
+     "key": "p",
+     "build": "frost_lance"
+    }
+   ],
+   "owners": [
+    {
+     "key": "hero",
+     "externalId": 1,
+     "team": 0,
+     "position": [
+      0,
+      0,
+      0
+     ],
+     "aim": [
+      1,
+      0,
+      0
+     ]
+    }
+   ],
+   "targets": [
+    {
+     "id": 1,
+     "position": [
+      2,
+      0,
+      0
+     ],
+     "radius": 0.45,
+     "health": 60,
+     "team": 1
+    },
+    {
+     "id": 2,
+     "position": [
+      4,
+      0.6,
+      0
+     ],
+     "radius": 0.45,
+     "health": 60,
+     "team": 1
+    },
+    {
+     "id": 3,
+     "position": [
+      6,
+      -0.6,
+      0
+     ],
+     "radius": 0.45,
+     "health": 60,
+     "team": 1
+    },
+    {
+     "id": 4,
+     "position": [
+      8,
+      0,
+      0
+     ],
+     "radius": 0.45,
+     "health": 60,
+     "team": 1
+    },
+    {
+     "id": 5,
+     "position": [
+      10,
+      0.6,
+      0
+     ],
+     "radius": 0.45,
+     "health": 60,
+     "team": 1
+    },
+    {
+     "id": 6,
+     "position": [
+      12,
+      -0.6,
+      0
+     ],
+     "radius": 0.45,
+     "health": 60,
+     "team": 1
+    },
+    {
+     "id": 7,
+     "position": [
+      14,
+      0,
+      0
+     ],
+     "radius": 0.45,
+     "health": 60,
+     "team": 1
+    },
+    {
+     "id": 8,
+     "position": [
+      16,
+      0.6,
+      0
+     ],
+     "radius": 0.45,
+     "health": 60,
+     "team": 1
+    },
+    {
+     "id": 9,
+     "position": [
+      18,
+      -0.6,
+      0
+     ],
+     "radius": 0.45,
+     "health": 60,
+     "team": 1
+    },
+    {
+     "id": 10,
+     "position": [
+      20,
+      0,
+      0
+     ],
+     "radius": 0.45,
+     "health": 60,
+     "team": 1
+    },
+    {
+     "id": 11,
+     "position": [
+      22,
+      0.6,
+      0
+     ],
+     "radius": 0.45,
+     "health": 60,
+     "team": 1
+    },
+    {
+     "id": 12,
+     "position": [
+      24,
+      -0.6,
+      0
+     ],
+     "radius": 0.45,
+     "health": 60,
+     "team": 1
+    }
+   ],
+   "casts": [
+    {
+     "frame": 0,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0,
+      0
+     ],
+     "seed": 7
+    }
+   ],
+   "statusQuery": [
+    "chill"
+   ]
+  },
+  {
+   "id": "all_traits_lane",
+   "commit": true,
+   "frames": 90,
+   "dt": 0.016666666666666666,
+   "plans": [
+    {
+     "key": "p",
+     "build": "frost_lance",
+     "extra": [
+      "multiple_projectiles",
+      "pierce",
+      "ricochet",
+      "brittle",
+      "shatter",
+      "cold_mastery"
+     ]
+    }
+   ],
+   "owners": [
+    {
+     "key": "hero",
+     "externalId": 1,
+     "team": 0,
+     "position": [
+      0,
+      0,
+      0
+     ],
+     "aim": [
+      1,
+      0,
+      0
+     ]
+    }
+   ],
+   "targets": [
+    {
+     "id": 1,
+     "position": [
+      2,
+      0,
+      0
+     ],
+     "radius": 0.45,
+     "health": 60,
+     "team": 1
+    },
+    {
+     "id": 2,
+     "position": [
+      4,
+      0.6,
+      0
+     ],
+     "radius": 0.45,
+     "health": 60,
+     "team": 1
+    },
+    {
+     "id": 3,
+     "position": [
+      6,
+      -0.6,
+      0
+     ],
+     "radius": 0.45,
+     "health": 60,
+     "team": 1
+    },
+    {
+     "id": 4,
+     "position": [
+      8,
+      0,
+      0
+     ],
+     "radius": 0.45,
+     "health": 60,
+     "team": 1
+    },
+    {
+     "id": 5,
+     "position": [
+      10,
+      0.6,
+      0
+     ],
+     "radius": 0.45,
+     "health": 60,
+     "team": 1
+    },
+    {
+     "id": 6,
+     "position": [
+      12,
+      -0.6,
+      0
+     ],
+     "radius": 0.45,
+     "health": 60,
+     "team": 1
+    },
+    {
+     "id": 7,
+     "position": [
+      14,
+      0,
+      0
+     ],
+     "radius": 0.45,
+     "health": 60,
+     "team": 1
+    },
+    {
+     "id": 8,
+     "position": [
+      16,
+      0.6,
+      0
+     ],
+     "radius": 0.45,
+     "health": 60,
+     "team": 1
+    },
+    {
+     "id": 9,
+     "position": [
+      18,
+      -0.6,
+      0
+     ],
+     "radius": 0.45,
+     "health": 60,
+     "team": 1
+    },
+    {
+     "id": 10,
+     "position": [
+      20,
+      0,
+      0
+     ],
+     "radius": 0.45,
+     "health": 60,
+     "team": 1
+    },
+    {
+     "id": 11,
+     "position": [
+      22,
+      0.6,
+      0
+     ],
+     "radius": 0.45,
+     "health": 60,
+     "team": 1
+    },
+    {
+     "id": 12,
+     "position": [
+      24,
+      -0.6,
+      0
+     ],
+     "radius": 0.45,
+     "health": 60,
+     "team": 1
+    }
+   ],
+   "casts": [
+    {
+     "frame": 0,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0,
+      0
+     ],
+     "seed": 7
+    }
+   ],
+   "statusQuery": [
+    "chill"
+   ]
+  },
+  {
+   "id": "stacked_sample_ring",
+   "commit": false,
+   "frames": 180,
+   "dt": 0.016666666666666666,
+   "plans": [
+    {
+     "key": "p",
+     "sample": "stacked"
+    }
+   ],
+   "owners": [
+    {
+     "key": "hero",
+     "externalId": 100,
+     "team": 0,
+     "position": [
+      0,
+      0,
+      0
+     ],
+     "aim": [
+      1,
+      0,
+      0
+     ]
+    }
+   ],
+   "targets": [
+    {
+     "id": 1,
+     "position": [
+      3,
+      0,
+      0
+     ],
+     "radius": 0.5,
+     "health": 60,
+     "team": 1
+    },
+    {
+     "id": 2,
+     "position": [
+      -2.39645,
+      2.19534,
+      0
+     ],
+     "radius": 0.5,
+     "health": 60,
+     "team": 1
+    },
+    {
+     "id": 3,
+     "position": [
+      0.30599,
+      -3.4866,
+      0
+     ],
+     "radius": 0.5,
+     "health": 60,
+     "team": 1
+    },
+    {
+     "id": 4,
+     "position": [
+      2.28165,
+      2.976,
+      0
+     ],
+     "radius": 0.5,
+     "health": 60,
+     "team": 1
+    },
+    {
+     "id": 5,
+     "position": [
+      -3.93885,
+      -0.69672,
+      0
+     ],
+     "radius": 0.5,
+     "health": 60,
+     "team": 1
+    },
+    {
+     "id": 6,
+     "position": [
+      3.58596,
+      -2.2811,
+      0
+     ],
+     "radius": 0.5,
+     "health": 60,
+     "team": 1
+    },
+    {
+     "id": 7,
+     "position": [
+      -1.16821,
+      4.34572,
+      0
+     ],
+     "radius": 0.5,
+     "health": 60,
+     "team": 1
+    },
+    {
+     "id": 8,
+     "position": [
+      -2.18932,
+      -4.21538,
+      0
+     ],
+     "radius": 0.5,
+     "health": 60,
+     "team": 1
+    },
+    {
+     "id": 9,
+     "position": [
+      4.69661,
+      1.71518,
+      0
+     ],
+     "radius": 0.5,
+     "health": 60,
+     "team": 1
+    },
+    {
+     "id": 10,
+     "position": [
+      -4.85281,
+      2.00318,
+      0
+     ],
+     "radius": 0.5,
+     "health": 60,
+     "team": 1
+    },
+    {
+     "id": 11,
+     "position": [
+      2.33114,
+      -4.98154,
+      0
+     ],
+     "radius": 0.5,
+     "health": 60,
+     "team": 1
+    },
+    {
+     "id": 12,
+     "position": [
+      1.7209,
+      5.48644,
+      0
+     ],
+     "radius": 0.5,
+     "health": 60,
+     "team": 1
+    },
+    {
+     "id": 13,
+     "position": [
+      -5.19128,
+      -3.00843,
+      0
+     ],
+     "radius": 0.5,
+     "health": 60,
+     "team": 1
+    },
+    {
+     "id": 14,
+     "position": [
+      6.10422,
+      -1.34201,
+      0
+     ],
+     "radius": 0.5,
+     "health": 60,
+     "team": 1
+    },
+    {
+     "id": 15,
+     "position": [
+      -3.73832,
+      5.31742,
+      0
+     ],
+     "radius": 0.5,
+     "health": 60,
+     "team": 1
+    },
+    {
+     "id": 16,
+     "position": [
+      -0.86747,
+      -6.69403,
+      0
+     ],
+     "radius": 0.5,
+     "health": 60,
+     "team": 1
+    },
+    {
+     "id": 17,
+     "position": [
+      5.35256,
+      4.51111,
+      0
+     ],
+     "radius": 0.5,
+     "health": 60,
+     "team": 1
+    },
+    {
+     "id": 18,
+     "position": [
+      -7.24381,
+      0.29958,
+      0
+     ],
+     "radius": 0.5,
+     "health": 60,
+     "team": 1
+    },
+    {
+     "id": 19,
+     "position": [
+      5.3162,
+      -5.29037,
+      0
+     ],
+     "radius": 0.5,
+     "health": 60,
+     "team": 1
+    },
+    {
+     "id": 20,
+     "position": [
+      -0.35795,
+      7.74173,
+      0
+     ],
+     "radius": 0.5,
+     "health": 60,
+     "team": 1
+    },
+    {
+     "id": 21,
+     "position": [
+      -5.1257,
+      -6.14225,
+      0
+     ],
+     "radius": 0.5,
+     "health": 60,
+     "team": 1
+    },
+    {
+     "id": 22,
+     "position": [
+      8.17633,
+      1.10007,
+      0
+     ],
+     "radius": 0.5,
+     "health": 60,
+     "team": 1
+    },
+    {
+     "id": 23,
+     "position": [
+      -6.97727,
+      4.85466,
+      0
+     ],
+     "radius": 0.5,
+     "health": 60,
+     "team": 1
+    },
+    {
+     "id": 24,
+     "position": [
+      1.92042,
+      -8.53666,
+      0
+     ],
+     "radius": 0.5,
+     "health": 60,
+     "team": 1
+    },
+    {
+     "id": 25,
+     "position": [
+      4.47467,
+      7.8088,
+      0
+     ],
+     "radius": 0.5,
+     "health": 60,
+     "team": 1
+    },
+    {
+     "id": 26,
+     "position": [
+      -8.81242,
+      -2.81135,
+      0
+     ],
+     "radius": 0.5,
+     "health": 60,
+     "team": 1
+    },
+    {
+     "id": 27,
+     "position": [
+      8.62399,
+      -3.98457,
+      0
+     ],
+     "radius": 0.5,
+     "health": 60,
+     "team": 1
+    },
+    {
+     "id": 28,
+     "position": [
+      -3.76404,
+      8.99414,
+      0
+     ],
+     "radius": 0.5,
+     "health": 60,
+     "team": 1
+    },
+    {
+     "id": 29,
+     "position": [
+      -3.38458,
+      -9.40981,
+      0
+     ],
+     "radius": 0.5,
+     "health": 60,
+     "team": 1
+    },
+    {
+     "id": 30,
+     "position": [
+      9.07322,
+      4.76855,
+      0
+     ],
+     "radius": 0.5,
+     "health": 60,
+     "team": 1
+    },
+    {
+     "id": 31,
+     "position": [
+      -10.15317,
+      2.67642,
+      0
+     ],
+     "radius": 0.5,
+     "health": 60,
+     "team": 1
+    },
+    {
+     "id": 32,
+     "position": [
+      5.81394,
+      -9.04216,
+      0
+     ],
+     "radius": 0.5,
+     "health": 60,
+     "team": 1
+    },
+    {
+     "id": 33,
+     "position": [
+      1.86322,
+      10.84105,
+      0
+     ],
+     "radius": 0.5,
+     "health": 60,
+     "team": 1
+    },
+    {
+     "id": 34,
+     "position": [
+      -8.89456,
+      -6.88834,
+      0
+     ],
+     "radius": 0.5,
+     "health": 60,
+     "team": 1
+    },
+    {
+     "id": 35,
+     "position": [
+      11.46073,
+      -0.94959,
+      0
+     ],
+     "radius": 0.5,
+     "health": 60,
+     "team": 1
+    },
+    {
+     "id": 36,
+     "position": [
+      -7.97911,
+      8.62533,
+      0
+     ],
+     "radius": 0.5,
+     "health": 60,
+     "team": 1
+    },
+    {
+     "id": 37,
+     "position": [
+      0.05844,
+      -11.99986,
+      0
+     ],
+     "radius": 0.5,
+     "health": 60,
+     "team": 1
+    },
+    {
+     "id": 38,
+     "position": [
+      8.23067,
+      9.07296,
+      0
+     ],
+     "radius": 0.5,
+     "health": 60,
+     "team": 1
+    },
+    {
+     "id": 39,
+     "position": [
+      -12.44667,
+      -1.15344,
+      0
+     ],
+     "radius": 0.5,
+     "health": 60,
+     "team": 1
+    },
+    {
+     "id": 40,
+     "position": [
+      10.15606,
+      -7.70823,
+      0
+     ],
+     "radius": 0.5,
+     "health": 60,
+     "team": 1
+    }
+   ],
+   "casts": [
+    {
+     "frame": 0,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0,
+      0
+     ],
+     "seed": 7
+    }
+   ]
+  },
+  {
+   "id": "budget_defers",
+   "commit": false,
+   "frames": 900,
+   "dt": 0.016666666666666666,
+   "config": {
+    "WorkPerFrame": 50
+   },
+   "plans": [
+    {
+     "key": "p",
+     "sample": "stacked"
+    }
+   ],
+   "owners": [
+    {
+     "key": "hero",
+     "externalId": 1,
+     "team": 0,
+     "position": [
+      0,
+      0,
+      0
+     ],
+     "aim": [
+      1,
+      0,
+      0
+     ]
+    }
+   ],
+   "targets": [
+    {
+     "id": 1,
+     "position": [
+      3,
+      0,
+      0
+     ],
+     "radius": 0.4,
+     "health": 20,
+     "team": 1
+    },
+    {
+     "id": 2,
+     "position": [
+      3.5,
+      0,
+      0
+     ],
+     "radius": 0.4,
+     "health": 20,
+     "team": 1
+    },
+    {
+     "id": 3,
+     "position": [
+      4,
+      0,
+      0
+     ],
+     "radius": 0.4,
+     "health": 20,
+     "team": 1
+    },
+    {
+     "id": 4,
+     "position": [
+      4.5,
+      0,
+      0
+     ],
+     "radius": 0.4,
+     "health": 20,
+     "team": 1
+    },
+    {
+     "id": 5,
+     "position": [
+      5,
+      0,
+      0
+     ],
+     "radius": 0.4,
+     "health": 20,
+     "team": 1
+    },
+    {
+     "id": 6,
+     "position": [
+      5.5,
+      0,
+      0
+     ],
+     "radius": 0.4,
+     "health": 20,
+     "team": 1
+    },
+    {
+     "id": 7,
+     "position": [
+      6,
+      0,
+      0
+     ],
+     "radius": 0.4,
+     "health": 20,
+     "team": 1
+    },
+    {
+     "id": 8,
+     "position": [
+      6.5,
+      0,
+      0
+     ],
+     "radius": 0.4,
+     "health": 20,
+     "team": 1
+    },
+    {
+     "id": 9,
+     "position": [
+      7,
+      0,
+      0
+     ],
+     "radius": 0.4,
+     "health": 20,
+     "team": 1
+    },
+    {
+     "id": 10,
+     "position": [
+      7.5,
+      0,
+      0
+     ],
+     "radius": 0.4,
+     "health": 20,
+     "team": 1
+    },
+    {
+     "id": 11,
+     "position": [
+      8,
+      0,
+      0
+     ],
+     "radius": 0.4,
+     "health": 20,
+     "team": 1
+    },
+    {
+     "id": 12,
+     "position": [
+      8.5,
+      0,
+      0
+     ],
+     "radius": 0.4,
+     "health": 20,
+     "team": 1
+    },
+    {
+     "id": 13,
+     "position": [
+      9,
+      0,
+      0
+     ],
+     "radius": 0.4,
+     "health": 20,
+     "team": 1
+    },
+    {
+     "id": 14,
+     "position": [
+      9.5,
+      0,
+      0
+     ],
+     "radius": 0.4,
+     "health": 20,
+     "team": 1
+    },
+    {
+     "id": 15,
+     "position": [
+      10,
+      0,
+      0
+     ],
+     "radius": 0.4,
+     "health": 20,
+     "team": 1
+    },
+    {
+     "id": 16,
+     "position": [
+      10.5,
+      0,
+      0
+     ],
+     "radius": 0.4,
+     "health": 20,
+     "team": 1
+    },
+    {
+     "id": 17,
+     "position": [
+      11,
+      0,
+      0
+     ],
+     "radius": 0.4,
+     "health": 20,
+     "team": 1
+    },
+    {
+     "id": 18,
+     "position": [
+      11.5,
+      0,
+      0
+     ],
+     "radius": 0.4,
+     "health": 20,
+     "team": 1
+    },
+    {
+     "id": 19,
+     "position": [
+      12,
+      0,
+      0
+     ],
+     "radius": 0.4,
+     "health": 20,
+     "team": 1
+    },
+    {
+     "id": 20,
+     "position": [
+      12.5,
+      0,
+      0
+     ],
+     "radius": 0.4,
+     "health": 20,
+     "team": 1
+    },
+    {
+     "id": 21,
+     "position": [
+      13,
+      0,
+      0
+     ],
+     "radius": 0.4,
+     "health": 20,
+     "team": 1
+    },
+    {
+     "id": 22,
+     "position": [
+      13.5,
+      0,
+      0
+     ],
+     "radius": 0.4,
+     "health": 20,
+     "team": 1
+    },
+    {
+     "id": 23,
+     "position": [
+      14,
+      0,
+      0
+     ],
+     "radius": 0.4,
+     "health": 20,
+     "team": 1
+    },
+    {
+     "id": 24,
+     "position": [
+      14.5,
+      0,
+      0
+     ],
+     "radius": 0.4,
+     "health": 20,
+     "team": 1
+    },
+    {
+     "id": 25,
+     "position": [
+      15,
+      0,
+      0
+     ],
+     "radius": 0.4,
+     "health": 20,
+     "team": 1
+    },
+    {
+     "id": 26,
+     "position": [
+      15.5,
+      0,
+      0
+     ],
+     "radius": 0.4,
+     "health": 20,
+     "team": 1
+    },
+    {
+     "id": 27,
+     "position": [
+      16,
+      0,
+      0
+     ],
+     "radius": 0.4,
+     "health": 20,
+     "team": 1
+    },
+    {
+     "id": 28,
+     "position": [
+      16.5,
+      0,
+      0
+     ],
+     "radius": 0.4,
+     "health": 20,
+     "team": 1
+    },
+    {
+     "id": 29,
+     "position": [
+      17,
+      0,
+      0
+     ],
+     "radius": 0.4,
+     "health": 20,
+     "team": 1
+    },
+    {
+     "id": 30,
+     "position": [
+      17.5,
+      0,
+      0
+     ],
+     "radius": 0.4,
+     "health": 20,
+     "team": 1
+    },
+    {
+     "id": 31,
+     "position": [
+      18,
+      0,
+      0
+     ],
+     "radius": 0.4,
+     "health": 20,
+     "team": 1
+    },
+    {
+     "id": 32,
+     "position": [
+      18.5,
+      0,
+      0
+     ],
+     "radius": 0.4,
+     "health": 20,
+     "team": 1
+    },
+    {
+     "id": 33,
+     "position": [
+      19,
+      0,
+      0
+     ],
+     "radius": 0.4,
+     "health": 20,
+     "team": 1
+    },
+    {
+     "id": 34,
+     "position": [
+      19.5,
+      0,
+      0
+     ],
+     "radius": 0.4,
+     "health": 20,
+     "team": 1
+    },
+    {
+     "id": 35,
+     "position": [
+      20,
+      0,
+      0
+     ],
+     "radius": 0.4,
+     "health": 20,
+     "team": 1
+    },
+    {
+     "id": 36,
+     "position": [
+      20.5,
+      0,
+      0
+     ],
+     "radius": 0.4,
+     "health": 20,
+     "team": 1
+    },
+    {
+     "id": 37,
+     "position": [
+      21,
+      0,
+      0
+     ],
+     "radius": 0.4,
+     "health": 20,
+     "team": 1
+    },
+    {
+     "id": 38,
+     "position": [
+      21.5,
+      0,
+      0
+     ],
+     "radius": 0.4,
+     "health": 20,
+     "team": 1
+    },
+    {
+     "id": 39,
+     "position": [
+      22,
+      0,
+      0
+     ],
+     "radius": 0.4,
+     "health": 20,
+     "team": 1
+    },
+    {
+     "id": 40,
+     "position": [
+      22.5,
+      0,
+      0
+     ],
+     "radius": 0.4,
+     "health": 20,
+     "team": 1
+    },
+    {
+     "id": 41,
+     "position": [
+      23,
+      0,
+      0
+     ],
+     "radius": 0.4,
+     "health": 20,
+     "team": 1
+    },
+    {
+     "id": 42,
+     "position": [
+      23.5,
+      0,
+      0
+     ],
+     "radius": 0.4,
+     "health": 20,
+     "team": 1
+    },
+    {
+     "id": 43,
+     "position": [
+      24,
+      0,
+      0
+     ],
+     "radius": 0.4,
+     "health": 20,
+     "team": 1
+    },
+    {
+     "id": 44,
+     "position": [
+      24.5,
+      0,
+      0
+     ],
+     "radius": 0.4,
+     "health": 20,
+     "team": 1
+    },
+    {
+     "id": 45,
+     "position": [
+      25,
+      0,
+      0
+     ],
+     "radius": 0.4,
+     "health": 20,
+     "team": 1
+    },
+    {
+     "id": 46,
+     "position": [
+      25.5,
+      0,
+      0
+     ],
+     "radius": 0.4,
+     "health": 20,
+     "team": 1
+    },
+    {
+     "id": 47,
+     "position": [
+      26,
+      0,
+      0
+     ],
+     "radius": 0.4,
+     "health": 20,
+     "team": 1
+    },
+    {
+     "id": 48,
+     "position": [
+      26.5,
+      0,
+      0
+     ],
+     "radius": 0.4,
+     "health": 20,
+     "team": 1
+    },
+    {
+     "id": 49,
+     "position": [
+      27,
+      0,
+      0
+     ],
+     "radius": 0.4,
+     "health": 20,
+     "team": 1
+    },
+    {
+     "id": 50,
+     "position": [
+      27.5,
+      0,
+      0
+     ],
+     "radius": 0.4,
+     "health": 20,
+     "team": 1
+    },
+    {
+     "id": 51,
+     "position": [
+      28,
+      0,
+      0
+     ],
+     "radius": 0.4,
+     "health": 20,
+     "team": 1
+    },
+    {
+     "id": 52,
+     "position": [
+      28.5,
+      0,
+      0
+     ],
+     "radius": 0.4,
+     "health": 20,
+     "team": 1
+    },
+    {
+     "id": 53,
+     "position": [
+      29,
+      0,
+      0
+     ],
+     "radius": 0.4,
+     "health": 20,
+     "team": 1
+    },
+    {
+     "id": 54,
+     "position": [
+      29.5,
+      0,
+      0
+     ],
+     "radius": 0.4,
+     "health": 20,
+     "team": 1
+    },
+    {
+     "id": 55,
+     "position": [
+      30,
+      0,
+      0
+     ],
+     "radius": 0.4,
+     "health": 20,
+     "team": 1
+    },
+    {
+     "id": 56,
+     "position": [
+      30.5,
+      0,
+      0
+     ],
+     "radius": 0.4,
+     "health": 20,
+     "team": 1
+    },
+    {
+     "id": 57,
+     "position": [
+      31,
+      0,
+      0
+     ],
+     "radius": 0.4,
+     "health": 20,
+     "team": 1
+    },
+    {
+     "id": 58,
+     "position": [
+      31.5,
+      0,
+      0
+     ],
+     "radius": 0.4,
+     "health": 20,
+     "team": 1
+    },
+    {
+     "id": 59,
+     "position": [
+      32,
+      0,
+      0
+     ],
+     "radius": 0.4,
+     "health": 20,
+     "team": 1
+    },
+    {
+     "id": 60,
+     "position": [
+      32.5,
+      0,
+      0
+     ],
+     "radius": 0.4,
+     "health": 20,
+     "team": 1
+    }
+   ],
+   "casts": [
+    {
+     "frame": 0,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0,
+      0
+     ],
+     "seed": 0
+    },
+    {
+     "frame": 0,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0.02,
+      0
+     ],
+     "seed": 1
+    },
+    {
+     "frame": 0,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0.04,
+      0
+     ],
+     "seed": 2
+    },
+    {
+     "frame": 0,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0.06,
+      0
+     ],
+     "seed": 3
+    },
+    {
+     "frame": 0,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0.08,
+      0
+     ],
+     "seed": 4
+    },
+    {
+     "frame": 0,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0.1,
+      0
+     ],
+     "seed": 5
+    },
+    {
+     "frame": 0,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0.12,
+      0
+     ],
+     "seed": 6
+    },
+    {
+     "frame": 0,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0.14,
+      0
+     ],
+     "seed": 7
+    },
+    {
+     "frame": 0,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0.16,
+      0
+     ],
+     "seed": 8
+    },
+    {
+     "frame": 0,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0.18,
+      0
+     ],
+     "seed": 9
+    },
+    {
+     "frame": 0,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0.2,
+      0
+     ],
+     "seed": 10
+    },
+    {
+     "frame": 0,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0.22,
+      0
+     ],
+     "seed": 11
+    },
+    {
+     "frame": 0,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0.24,
+      0
+     ],
+     "seed": 12
+    },
+    {
+     "frame": 0,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0.26,
+      0
+     ],
+     "seed": 13
+    },
+    {
+     "frame": 0,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0.28,
+      0
+     ],
+     "seed": 14
+    },
+    {
+     "frame": 0,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0.3,
+      0
+     ],
+     "seed": 15
+    },
+    {
+     "frame": 0,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0.32,
+      0
+     ],
+     "seed": 16
+    },
+    {
+     "frame": 0,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0.34,
+      0
+     ],
+     "seed": 17
+    },
+    {
+     "frame": 0,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0.36,
+      0
+     ],
+     "seed": 18
+    },
+    {
+     "frame": 0,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0.38,
+      0
+     ],
+     "seed": 19
+    },
+    {
+     "frame": 0,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0.4,
+      0
+     ],
+     "seed": 20
+    },
+    {
+     "frame": 0,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0.42,
+      0
+     ],
+     "seed": 21
+    },
+    {
+     "frame": 0,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0.44,
+      0
+     ],
+     "seed": 22
+    },
+    {
+     "frame": 0,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0.46,
+      0
+     ],
+     "seed": 23
+    },
+    {
+     "frame": 0,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0.48,
+      0
+     ],
+     "seed": 24
+    },
+    {
+     "frame": 0,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0.5,
+      0
+     ],
+     "seed": 25
+    },
+    {
+     "frame": 0,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0.52,
+      0
+     ],
+     "seed": 26
+    },
+    {
+     "frame": 0,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0.54,
+      0
+     ],
+     "seed": 27
+    },
+    {
+     "frame": 0,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0.56,
+      0
+     ],
+     "seed": 28
+    },
+    {
+     "frame": 0,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0.58,
+      0
+     ],
+     "seed": 29
+    },
+    {
+     "frame": 0,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0.6,
+      0
+     ],
+     "seed": 30
+    },
+    {
+     "frame": 0,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0.62,
+      0
+     ],
+     "seed": 31
+    },
+    {
+     "frame": 0,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0.64,
+      0
+     ],
+     "seed": 32
+    },
+    {
+     "frame": 0,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0.66,
+      0
+     ],
+     "seed": 33
+    },
+    {
+     "frame": 0,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0.68,
+      0
+     ],
+     "seed": 34
+    },
+    {
+     "frame": 0,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0.7,
+      0
+     ],
+     "seed": 35
+    },
+    {
+     "frame": 0,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0.72,
+      0
+     ],
+     "seed": 36
+    },
+    {
+     "frame": 0,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0.74,
+      0
+     ],
+     "seed": 37
+    },
+    {
+     "frame": 0,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0.76,
+      0
+     ],
+     "seed": 38
+    },
+    {
+     "frame": 0,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0.78,
+      0
+     ],
+     "seed": 39
+    }
+   ]
+  },
+  {
+   "id": "storm_all_traits",
+   "commit": true,
+   "frames": 660,
+   "dt": 0.016666666666666666,
+   "plans": [
+    {
+     "key": "p",
+     "build": "frost_lance",
+     "extra": [
+      "multiple_projectiles",
+      "pierce",
+      "ricochet",
+      "brittle",
+      "shatter",
+      "cold_mastery"
+     ]
+    }
+   ],
+   "owners": [
+    {
+     "key": "hero",
+     "externalId": 1,
+     "team": 0,
+     "position": [
+      0,
+      0,
+      0
+     ],
+     "aim": [
+      1,
+      0,
+      0
+     ]
+    }
+   ],
+   "targets": [
+    {
+     "id": 1000,
+     "position": [
+      9,
+      0,
+      0
+     ],
+     "velocity": [
+      -1.1,
+      0,
+      0
+     ],
+     "radius": 0.45,
+     "health": 45,
+     "team": 1
+    },
+    {
+     "id": 1001,
+     "position": [
+      7.18791,
+      7.37726,
+      0
+     ],
+     "velocity": [
+      -0.9421,
+      -0.96692,
+      0
+     ],
+     "radius": 0.45,
+     "health": 55,
+     "team": 1
+    },
+    {
+     "id": 1002,
+     "position": [
+      -0.30156,
+      11.59608,
+      0
+     ],
+     "velocity": [
+      0.04159,
+      -1.59946,
+      0
+     ],
+     "radius": 0.45,
+     "health": 65,
+     "team": 1
+    },
+    {
+     "id": 1003,
+     "position": [
+      -9.47039,
+      8.75909,
+      0
+     ],
+     "velocity": [
+      1.35816,
+      -1.25615,
+      0
+     ],
+     "radius": 0.45,
+     "health": 75,
+     "team": 1
+    },
+    {
+     "id": 1004,
+     "position": [
+      -14.18081,
+      -0.73806,
+      0
+     ],
+     "velocity": [
+      2.09716,
+      0.10915,
+      0
+     ],
+     "radius": 0.45,
+     "health": 85,
+     "team": 1
+    },
+    {
+     "id": 1005,
+     "position": [
+      -10.22511,
+      -11.64892,
+      0
+     ],
+     "velocity": [
+      0.72565,
+      0.8267,
+      0
+     ],
+     "radius": 0.45,
+     "health": 95,
+     "team": 1
+    },
+    {
+     "id": 1006,
+     "position": [
+      1.30907,
+      -16.74892,
+      0
+     ],
+     "velocity": [
+      -0.10519,
+      1.3459,
+      0
+     ],
+     "radius": 0.45,
+     "health": 105,
+     "team": 1
+    },
+    {
+     "id": 1007,
+     "position": [
+      6.91595,
+      -5.75931,
+      0
+     ],
+     "velocity": [
+      -1.2295,
+      1.02388,
+      0
+     ],
+     "radius": 0.45,
+     "health": 115,
+     "team": 1
+    },
+    {
+     "id": 1008,
+     "position": [
+      10.24435,
+      1.06926,
+      0
+     ],
+     "velocity": [
+      -1.84,
+      -0.19205,
+      0
+     ],
+     "radius": 0.45,
+     "health": 125,
+     "team": 1
+    },
+    {
+     "id": 1009,
+     "position": [
+      7.18887,
+      9.10385,
+      0
+     ],
+     "velocity": [
+      -1.30143,
+      -1.64811,
+      0
+     ],
+     "radius": 0.45,
+     "health": 45,
+     "team": 1
+    },
+    {
+     "id": 1010,
+     "position": [
+      -1.67227,
+      12.79115,
+      0
+     ],
+     "velocity": [
+      0.1426,
+      -1.09072,
+      0
+     ],
+     "radius": 0.45,
+     "health": 55,
+     "team": 1
+    },
+    {
+     "id": 1011,
+     "position": [
+      -11.36938,
+      8.50747,
+      0
+     ],
+     "velocity": [
+      1.08089,
+      -0.80881,
+      0
+     ],
+     "radius": 0.45,
+     "health": 65,
+     "team": 1
+    },
+    {
+     "id": 1012,
+     "position": [
+      -15.31178,
+      -2.40819,
+      0
+     ],
+     "velocity": [
+      1.58057,
+      0.24859,
+      0
+     ],
+     "radius": 0.45,
+     "health": 75,
+     "team": 1
+    },
+    {
+     "id": 1013,
+     "position": [
+      -9.71209,
+      -13.70822,
+      0
+     ],
+     "velocity": [
+      1.06949,
+      1.50954,
+      0
+     ],
+     "radius": 0.45,
+     "health": 85,
+     "team": 1
+    },
+    {
+     "id": 1014,
+     "position": [
+      1.62896,
+      -8.85135,
+      0
+     ],
+     "velocity": [
+      -0.38009,
+      2.06532,
+      0
+     ],
+     "radius": 0.45,
+     "health": 95,
+     "team": 1
+    },
+    {
+     "id": 1015,
+     "position": [
+      8.5564,
+      -5.73393,
+      0
+     ],
+     "velocity": [
+      -0.91379,
+      0.61236,
+      0
+     ],
+     "radius": 0.45,
+     "health": 105,
+     "team": 1
+    },
+    {
+     "id": 1016,
+     "position": [
+      11.34997,
+      2.39543,
+      0
+     ],
+     "velocity": [
+      -1.3209,
+      -0.27878,
+      0
+     ],
+     "radius": 0.45,
+     "health": 115,
+     "team": 1
+    },
+    {
+     "id": 1017,
+     "position": [
+      6.90032,
+      10.89934,
+      0
+     ],
+     "velocity": [
+      -0.85585,
+      -1.35186,
+      0
+     ],
+     "radius": 0.45,
+     "health": 125,
+     "team": 1
+    },
+    {
+     "id": 1018,
+     "position": [
+      -3.29254,
+      13.81301,
+      0
+     ],
+     "velocity": [
+      0.42896,
+      -1.79958,
+      0
+     ],
+     "radius": 0.45,
+     "health": 45,
+     "team": 1
+    },
+    {
+     "id": 1019,
+     "position": [
+      -13.30722,
+      7.94782,
+      0
+     ],
+     "velocity": [
+      1.80291,
+      -1.0768,
+      0
+     ],
+     "radius": 0.45,
+     "health": 55,
+     "team": 1
+    },
+    {
+     "id": 1020,
+     "position": [
+      -16.23536,
+      -4.31893,
+      0
+     ],
+     "velocity": [
+      1.06303,
+      0.28279,
+      0
+     ],
+     "radius": 0.45,
+     "health": 65,
+     "team": 1
+    },
+    {
+     "id": 1021,
+     "position": [
+      -4.41243,
+      -7.84414,
+      0
+     ],
+     "velocity": [
+      0.66186,
+      1.17662,
+      0
+     ],
+     "radius": 0.45,
+     "health": 75,
+     "team": 1
+    },
+    {
+     "id": 1022,
+     "position": [
+      2.90579,
+      -9.88162,
+      0
+     ],
+     "velocity": [
+      -0.45138,
+      1.53501,
+      0
+     ],
+     "radius": 0.45,
+     "health": 85,
+     "team": 1
+    },
+    {
+     "id": 1023,
+     "position": [
+      10.25465,
+      -5.42237,
+      0
+     ],
+     "velocity": [
+      -1.63544,
+      0.86477,
+      0
+     ],
+     "radius": 0.45,
+     "health": 95,
+     "team": 1
+    },
+    {
+     "id": 1024,
+     "position": [
+      12.27721,
+      3.9598,
+      0
+     ],
+     "velocity": [
+      -1.99862,
+      -0.64462,
+      0
+     ],
+     "radius": 0.45,
+     "health": 105,
+     "team": 1
+    },
+    {
+     "id": 1025,
+     "position": [
+      6.30915,
+      12.72142,
+      0
+     ],
+     "velocity": [
+      -0.48874,
+      -0.98546,
+      0
+     ],
+     "radius": 0.45,
+     "health": 115,
+     "team": 1
+    },
+    {
+     "id": 1026,
+     "position": [
+      -5.13979,
+      14.62301,
+      0
+     ],
+     "velocity": [
+      0.44766,
+      -1.27362,
+      0
+     ],
+     "radius": 0.45,
+     "health": 125,
+     "team": 1
+    },
+    {
+     "id": 1027,
+     "position": [
+      -15.23966,
+      7.07055,
+      0
+     ],
+     "velocity": [
+      1.4514,
+      -0.67339,
+      0
+     ],
+     "radius": 0.45,
+     "health": 45,
+     "team": 1
+    },
+    {
+     "id": 1028,
+     "position": [
+      -8.41033,
+      -3.20412,
+      0
+     ],
+     "velocity": [
+      1.72879,
+      0.65862,
+      0
+     ],
+     "radius": 0.45,
+     "health": 55,
+     "team": 1
+    },
+    {
+     "id": 1029,
+     "position": [
+      -4.09056,
+      -9.4529,
+      0
+     ],
+     "velocity": [
+      0.834,
+      1.92729,
+      0
+     ],
+     "radius": 0.45,
+     "health": 65,
+     "team": 1
+    },
+    {
+     "id": 1030,
+     "position": [
+      4.41017,
+      -10.72895,
+      0
+     ],
+     "velocity": [
+      -0.41821,
+      1.0174,
+      0
+     ],
+     "radius": 0.45,
+     "health": 75,
+     "team": 1
+    },
+    {
+     "id": 1031,
+     "position": [
+      11.96825,
+      -4.81361,
+      0
+     ],
+     "velocity": [
+      -1.25249,
+      0.50375,
+      0
+     ],
+     "radius": 0.45,
+     "health": 85,
+     "team": 1
+    },
+    {
+     "id": 1032,
+     "position": [
+      12.98893,
+      5.73826,
+      0
+     ],
+     "velocity": [
+      -1.46354,
+      -0.64656,
+      0
+     ],
+     "radius": 0.45,
+     "health": 95,
+     "team": 1
+    },
+    {
+     "id": 1033,
+     "position": [
+      5.408,
+      14.52596,
+      0
+     ],
+     "velocity": [
+      -0.64547,
+      -1.73374,
+      0
+     ],
+     "radius": 0.45,
+     "health": 105,
+     "team": 1
+    },
+    {
+     "id": 1034,
+     "position": [
+      -7.18614,
+      15.1855,
+      0
+     ],
+     "velocity": [
+      0.89827,
+      -1.89819,
+      0
+     ],
+     "radius": 0.45,
+     "health": 115,
+     "team": 1
+    },
+    {
+     "id": 1035,
+     "position": [
+      -8.51321,
+      2.9198,
+      0
+     ],
+     "velocity": [
+      1.0405,
+      -0.35686,
+      0
+     ],
+     "radius": 0.45,
+     "health": 125,
+     "team": 1
+    },
+    {
+     "id": 1036,
+     "position": [
+      -9.19248,
+      -4.64633,
+      0
+     ],
+     "velocity": [
+      1.20484,
+      0.60899,
+      0
+     ],
+     "radius": 0.45,
+     "health": 45,
+     "team": 1
+    },
+    {
+     "id": 1037,
+     "position": [
+      -3.47677,
+      -11.06671,
+      0
+     ],
+     "velocity": [
+      0.47955,
+      1.52644,
+      0
+     ],
+     "radius": 0.45,
+     "health": 55,
+     "team": 1
+    },
+    {
+     "id": 1038,
+     "position": [
+      6.11653,
+      -11.35773,
+      0
+     ],
+     "velocity": [
+      -0.87718,
+      1.62882,
+      0
+     ],
+     "radius": 0.45,
+     "health": 65,
+     "team": 1
+    },
+    {
+     "id": 1039,
+     "position": [
+      13.65325,
+      -3.90242,
+      0
+     ],
+     "velocity": [
+      -2.01914,
+      0.57712,
+      0
+     ],
+     "radius": 0.45,
+     "health": 75,
+     "team": 1
+    },
+    {
+     "id": 1040,
+     "position": [
+      13.45122,
+      7.70161,
+      0
+     ],
+     "velocity": [
+      -0.9546,
+      -0.54657,
+      0
+     ],
+     "radius": 0.45,
+     "health": 85,
+     "team": 1
+    },
+    {
+     "id": 1041,
+     "position": [
+      4.19545,
+      16.2677,
+      0
+     ],
+     "velocity": [
+      -0.33713,
+      -1.30723,
+      0
+     ],
+     "radius": 0.45,
+     "health": 95,
+     "team": 1
+    },
+    {
+     "id": 1042,
+     "position": [
+      -4.67344,
+      7.69149,
+      0
+     ],
+     "velocity": [
+      0.83083,
+      -1.36738,
+      0
+     ],
+     "radius": 0.45,
+     "health": 105,
+     "team": 1
+    },
+    {
+     "id": 1043,
+     "position": [
+      -10.03715,
+      2.31206,
+      0
+     ],
+     "velocity": [
+      1.80279,
+      -0.41527,
+      0
+     ],
+     "radius": 0.45,
+     "health": 115,
+     "team": 1
+    },
+    {
+     "id": 1044,
+     "position": [
+      -9.75353,
+      -6.27922,
+      0
+     ],
+     "velocity": [
+      1.76573,
+      1.13676,
+      0
+     ],
+     "radius": 0.45,
+     "health": 125,
+     "team": 1
+    },
+    {
+     "id": 1045,
+     "position": [
+      -2.5679,
+      -12.64183,
+      0
+     ],
+     "velocity": [
+      0.21897,
+      1.07799,
+      0
+     ],
+     "radius": 0.45,
+     "health": 45,
+     "team": 1
+    },
+    {
+     "id": 1046,
+     "position": [
+      7.99443,
+      -11.7358,
+      0
+     ],
+     "velocity": [
+      -0.76003,
+      1.11573,
+      0
+     ],
+     "radius": 0.45,
+     "health": 55,
+     "team": 1
+    },
+    {
+     "id": 1047,
+     "position": [
+      15.26487,
+      -2.68954,
+      0
+     ],
+     "velocity": [
+      -1.57573,
+      0.27763,
+      0
+     ],
+     "radius": 0.45,
+     "health": 65,
+     "team": 1
+    },
+    {
+     "id": 1048,
+     "position": [
+      13.63403,
+      9.81596,
+      0
+     ],
+     "velocity": [
+      -1.50137,
+      -1.08092,
+      0
+     ],
+     "radius": 0.45,
+     "health": 75,
+     "team": 1
+    },
+    {
+     "id": 1049,
+     "position": [
+      1.33071,
+      8.90108,
+      0
+     ],
+     "velocity": [
+      -0.3105,
+      -2.07692,
+      0
+     ],
+     "radius": 0.45,
+     "health": 85,
+     "team": 1
+    },
+    {
+     "id": 1050,
+     "position": [
+      -6.23339,
+      8.19968,
+      0
+     ],
+     "velocity": [
+      0.6657,
+      -0.87569,
+      0
+     ],
+     "radius": 0.45,
+     "health": 95,
+     "team": 1
+    },
+    {
+     "id": 1051,
+     "position": [
+      -11.51321,
+      1.41631,
+      0
+     ],
+     "velocity": [
+      1.3399,
+      -0.16483,
+      0
+     ],
+     "radius": 0.45,
+     "health": 105,
+     "team": 1
+    },
+    {
+     "id": 1052,
+     "position": [
+      -10.06308,
+      -8.07121,
+      0
+     ],
+     "velocity": [
+      1.24813,
+      1.00108,
+      0
+     ],
+     "radius": 0.45,
+     "health": 115,
+     "team": 1
+    },
+    {
+     "id": 1053,
+     "position": [
+      -1.36678,
+      -14.13407,
+      0
+     ],
+     "velocity": [
+      0.17807,
+      1.84141,
+      0
+     ],
+     "radius": 0.45,
+     "health": 125,
+     "team": 1
+    },
+    {
+     "id": 1054,
+     "position": [
+      10.00902,
+      -11.83509,
+      0
+     ],
+     "velocity": [
+      -1.35606,
+      1.60346,
+      0
+     ],
+     "radius": 0.45,
+     "health": 45,
+     "team": 1
+    },
+    {
+     "id": 1055,
+     "position": [
+      16.75838,
+      -1.18177,
+      0
+     ],
+     "velocity": [
+      -1.09727,
+      0.07738,
+      0
+     ],
+     "radius": 0.45,
+     "health": 55,
+     "team": 1
+    },
+    {
+     "id": 1056,
+     "position": [
+      6.71858,
+      5.98838,
+      0
+     ],
+     "velocity": [
+      -1.00779,
+      -0.89826,
+      0
+     ],
+     "radius": 0.45,
+     "health": 65,
+     "team": 1
+    },
+    {
+     "id": 1057,
+     "position": [
+      0.45719,
+      10.28985,
+      0
+     ],
+     "velocity": [
+      -0.07102,
+      -1.59842,
+      0
+     ],
+     "radius": 0.45,
+     "health": 75,
+     "team": 1
+    },
+    {
+     "id": 1058,
+     "position": [
+      -7.94087,
+      8.45592,
+      0
+     ],
+     "velocity": [
+      1.26643,
+      -1.34857,
+      0
+     ],
+     "radius": 0.45,
+     "health": 85,
+     "team": 1
+    },
+    {
+     "id": 1059,
+     "position": [
+      -12.89782,
+      0.23737,
+      0
+     ],
+     "velocity": [
+      2.09965,
+      -0.03864,
+      0
+     ],
+     "radius": 0.45,
+     "health": 95,
+     "team": 1
+    },
+    {
+     "id": 1060,
+     "position": [
+      -10.09501,
+      -9.98653,
+      0
+     ],
+     "velocity": [
+      0.78201,
+      0.7736,
+      0
+     ],
+     "radius": 0.45,
+     "health": 105,
+     "team": 1
+    },
+    {
+     "id": 1061,
+     "position": [
+      0.11777,
+      -15.49955,
+      0
+     ],
+     "velocity": [
+      -0.01026,
+      1.34996,
+      0
+     ],
+     "radius": 0.45,
+     "health": 115,
+     "team": 1
+    },
+    {
+     "id": 1062,
+     "position": [
+      12.12155,
+      -11.6322,
+      0
+     ],
+     "velocity": [
+      -1.15443,
+      1.10783,
+      0
+     ],
+     "radius": 0.45,
+     "health": 125,
+     "team": 1
+    },
+    {
+     "id": 1063,
+     "position": [
+      8.99492,
+      0.30232,
+      0
+     ],
+     "velocity": [
+      -1.84896,
+      -0.06214,
+      0
+     ],
+     "radius": 0.45,
+     "health": 45,
+     "team": 1
+    },
+    {
+     "id": 1064,
+     "position": [
+      6.93604,
+      7.61455,
+      0
+     ],
+     "velocity": [
+      -1.41414,
+      -1.55248,
+      0
+     ],
+     "radius": 0.45,
+     "health": 55,
+     "team": 1
+    },
+    {
+     "id": 1065,
+     "position": [
+      -0.69092,
+      11.57941,
+      0
+     ],
+     "velocity": [
+      0.06552,
+      -1.09805,
+      0
+     ],
+     "radius": 0.45,
+     "health": 65,
+     "team": 1
+    },
+    {
+     "id": 1066,
+     "position": [
+      -9.75928,
+      8.43602,
+      0
+     ],
+     "velocity": [
+      1.02132,
+      -0.88284,
+      0
+     ],
+     "radius": 0.45,
+     "health": 75,
+     "team": 1
+    },
+    {
+     "id": 1067,
+     "position": [
+      -14.14801,
+      -1.214,
+      0
+     ],
+     "velocity": [
+      1.59414,
+      0.13679,
+      0
+     ],
+     "radius": 0.45,
+     "health": 85,
+     "team": 1
+    },
+    {
+     "id": 1068,
+     "position": [
+      -9.82803,
+      -11.98582,
+      0
+     ],
+     "velocity": [
+      1.17302,
+      1.43057,
+      0
+     ],
+     "radius": 0.45,
+     "health": 95,
+     "team": 1
+    },
+    {
+     "id": 1069,
+     "position": [
+      1.87095,
+      -16.69549,
+      0
+     ],
+     "velocity": [
+      -0.23387,
+      2.08694,
+      0
+     ],
+     "radius": 0.45,
+     "health": 105,
+     "team": 1
+    },
+    {
+     "id": 1070,
+     "position": [
+      7.10551,
+      -5.52374,
+      0
+     ],
+     "velocity": [
+      -0.86845,
+      0.67512,
+      0
+     ],
+     "radius": 0.45,
+     "health": 115,
+     "team": 1
+    },
+    {
+     "id": 1071,
+     "position": [
+      10.20265,
+      1.41278,
+      0
+     ],
+     "velocity": [
+      -1.33724,
+      -0.18517,
+      0
+     ],
+     "radius": 0.45,
+     "health": 125,
+     "team": 1
+    },
+    {
+     "id": 1072,
+     "position": [
+      6.879,
+      9.3402,
+      0
+     ],
+     "velocity": [
+      -0.94883,
+      -1.2883,
+      0
+     ],
+     "radius": 0.45,
+     "health": 45,
+     "team": 1
+    },
+    {
+     "id": 1073,
+     "position": [
+      -2.101,
+      12.72776,
+      0
+     ],
+     "velocity": [
+      0.30131,
+      -1.8253,
+      0
+     ],
+     "radius": 0.45,
+     "health": 55,
+     "team": 1
+    },
+    {
+     "id": 1074,
+     "position": [
+      -11.64875,
+      8.12076,
+      0
+     ],
+     "velocity": [
+      1.7227,
+      -1.20096,
+      0
+     ],
+     "radius": 0.45,
+     "health": 65,
+     "team": 1
+    },
+    {
+     "id": 1075,
+     "position": [
+      -15.22224,
+      -2.92118,
+      0
+     ],
+     "velocity": [
+      1.08029,
+      0.20731,
+      0
+     ],
+     "radius": 0.45,
+     "health": 75,
+     "team": 1
+    },
+    {
+     "id": 1076,
+     "position": [
+      -9.24613,
+      -14.02673,
+      0
+     ],
+     "velocity": [
+      0.74299,
+      1.12715,
+      0
+     ],
+     "radius": 0.45,
+     "health": 85,
+     "team": 1
+    },
+    {
+     "id": 1077,
+     "position": [
+      1.92538,
+      -8.79164,
+      0
+     ],
+     "velocity": [
+      -0.34229,
+      1.56296,
+      0
+     ],
+     "radius": 0.45,
+     "health": 95,
+     "team": 1
+    },
+    {
+     "id": 1078,
+     "position": [
+      8.74418,
+      -5.44328,
+      0
+     ],
+     "velocity": [
+      -1.57056,
+      0.97768,
+      0
+     ],
+     "radius": 0.45,
+     "health": 105,
+     "team": 1
+    },
+    {
+     "id": 1079,
+     "position": [
+      11.2631,
+      2.77534,
+      0
+     ],
+     "velocity": [
+      -2.03901,
+      -0.50243,
+      0
+     ],
+     "radius": 0.45,
+     "health": 115,
+     "team": 1
+    },
+    {
+     "id": 1080,
+     "position": [
+      6.5303,
+      11.12498,
+      0
+     ],
+     "velocity": [
+      -0.55685,
+      -0.94864,
+      0
+     ],
+     "radius": 0.45,
+     "health": 125,
+     "team": 1
+    },
+    {
+     "id": 1081,
+     "position": [
+      -3.75469,
+      13.69461,
+      0
+     ],
+     "velocity": [
+      0.35696,
+      -1.30195,
+      0
+     ],
+     "radius": 0.45,
+     "health": 45,
+     "team": 1
+    },
+    {
+     "id": 1082,
+     "position": [
+      -13.56669,
+      7.49632,
+      0
+     ],
+     "velocity": [
+      1.40043,
+      -0.77381,
+      0
+     ],
+     "radius": 0.45,
+     "health": 55,
+     "team": 1
+    },
+    {
+     "id": 1083,
+     "position": [
+      -16.08112,
+      -4.86187,
+      0
+     ],
+     "velocity": [
+      1.77084,
+      0.53538,
+      0
+     ],
+     "radius": 0.45,
+     "health": 65,
+     "team": 1
+    },
+    {
+     "id": 1084,
+     "position": [
+      -4.14644,
+      -7.98793,
+      0
+     ],
+     "velocity": [
+      0.9675,
+      1.86385,
+      0
+     ],
+     "radius": 0.45,
+     "health": 75,
+     "team": 1
+    },
+    {
+     "id": 1085,
+     "position": [
+      3.23609,
+      -9.77843,
+      0
+     ],
+     "velocity": [
+      -0.3456,
+      1.0443,
+      0
+     ],
+     "radius": 0.45,
+     "health": 85,
+     "team": 1
+    },
+    {
+     "id": 1086,
+     "position": [
+      10.43101,
+      -5.07485,
+      0
+     ],
+     "velocity": [
+      -1.21395,
+      0.59061,
+      0
+     ],
+     "radius": 0.45,
+     "health": 95,
+     "team": 1
+    },
+    {
+     "id": 1087,
+     "position": [
+      12.13727,
+      4.36998,
+      0
+     ],
+     "velocity": [
+      -1.5054,
+      -0.54201,
+      0
+     ],
+     "radius": 0.45,
+     "health": 105,
+     "team": 1
+    },
+    {
+     "id": 1088,
+     "position": [
+      5.87826,
+      12.92618,
+      0
+     ],
+     "velocity": [
+      -0.76583,
+      -1.68404,
+      0
+     ],
+     "radius": 0.45,
+     "health": 115,
+     "team": 1
+    },
+    {
+     "id": 1089,
+     "position": [
+      -5.6281,
+      14.44211,
+      0
+     ],
+     "velocity": [
+      0.76252,
+      -1.95667,
+      0
+     ],
+     "radius": 0.45,
+     "health": 125,
+     "team": 1
+    },
+    {
+     "id": 1090,
+     "position": [
+      -15.46857,
+      6.55464,
+      0
+     ],
+     "velocity": [
+      1.01282,
+      -0.42917,
+      0
+     ],
+     "radius": 0.45,
+     "health": 45,
+     "team": 1
+    },
+    {
+     "id": 1091,
+     "position": [
+      -8.29795,
+      -3.48483,
+      0
+     ],
+     "velocity": [
+      1.24469,
+      0.52272,
+      0
+     ],
+     "radius": 0.45,
+     "health": 55,
+     "team": 1
+    },
+    {
+     "id": 1092,
+     "position": [
+      -3.77071,
+      -9.58497,
+      0
+     ],
+     "velocity": [
+      0.58574,
+      1.48893,
+      0
+     ],
+     "radius": 0.45,
+     "health": 65,
+     "team": 1
+    },
+    {
+     "id": 1093,
+     "position": [
+      4.76808,
+      -10.57475,
+      0
+     ],
+     "velocity": [
+      -0.76043,
+      1.68649,
+      0
+     ],
+     "radius": 0.45,
+     "health": 75,
+     "team": 1
+    },
+    {
+     "id": 1094,
+     "position": [
+      12.1232,
+      -4.40886,
+      0
+     ],
+     "velocity": [
+      -1.97354,
+      0.71772,
+      0
+     ],
+     "radius": 0.45,
+     "health": 85,
+     "team": 1
+    },
+    {
+     "id": 1095,
+     "position": [
+      12.78884,
+      6.17134,
+      0
+     ],
+     "velocity": [
+      -0.99068,
+      -0.47806,
+      0
+     ],
+     "radius": 0.45,
+     "health": 95,
+     "team": 1
+    },
+    {
+     "id": 1096,
+     "position": [
+      4.91699,
+      14.69943,
+      0
+     ],
+     "velocity": [
+      -0.42825,
+      -1.28027,
+      0
+     ],
+     "radius": 0.45,
+     "health": 105,
+     "team": 1
+    },
+    {
+     "id": 1097,
+     "position": [
+      -7.69218,
+      14.93554,
+      0
+     ],
+     "velocity": [
+      0.73259,
+      -1.42243,
+      0
+     ],
+     "radius": 0.45,
+     "health": 115,
+     "team": 1
+    },
+    {
+     "id": 1098,
+     "position": [
+      -8.60649,
+      2.63218,
+      0
+     ],
+     "velocity": [
+      1.76911,
+      -0.54106,
+      0
+     ],
+     "radius": 0.45,
+     "health": 125,
+     "team": 1
+    },
+    {
+     "id": 1099,
+     "position": [
+      -9.03121,
+      -4.9525,
+      0
+     ],
+     "velocity": [
+      1.84131,
+      1.00973,
+      0
+     ],
+     "radius": 0.45,
+     "health": 45,
+     "team": 1
+    },
+    {
+     "id": 1100,
+     "position": [
+      -3.10306,
+      -11.17726,
+      0
+     ],
+     "velocity": [
+      0.29426,
+      1.05991,
+      0
+     ],
+     "radius": 0.45,
+     "health": 55,
+     "team": 1
+    },
+    {
+     "id": 1101,
+     "position": [
+      6.4946,
+      -11.14586,
+      0
+     ],
+     "velocity": [
+      -0.67967,
+      1.16643,
+      0
+     ],
+     "radius": 0.45,
+     "health": 65,
+     "team": 1
+    },
+    {
+     "id": 1102,
+     "position": [
+      13.77663,
+      -3.44158,
+      0
+     ],
+     "velocity": [
+      -1.5523,
+      0.38778,
+      0
+     ],
+     "radius": 0.45,
+     "health": 75,
+     "team": 1
+    },
+    {
+     "id": 1103,
+     "position": [
+      13.18492,
+      8.14911,
+      0
+     ],
+     "velocity": [
+      -1.57368,
+      -0.97264,
+      0
+     ],
+     "radius": 0.45,
+     "health": 85,
+     "team": 1
+    },
+    {
+     "id": 1104,
+     "position": [
+      3.64663,
+      16.39945,
+      0
+     ],
+     "velocity": [
+      -0.45583,
+      -2.04993,
+      0
+     ],
+     "radius": 0.45,
+     "health": 95,
+     "team": 1
+    },
+    {
+     "id": 1105,
+     "position": [
+      -4.92917,
+      7.53016,
+      0
+     ],
+     "velocity": [
+      0.60245,
+      -0.92035,
+      0
+     ],
+     "radius": 0.45,
+     "health": 105,
+     "team": 1
+    },
+    {
+     "id": 1106,
+     "position": [
+      -10.10915,
+      1.97359,
+      0
+     ],
+     "velocity": [
+      1.32499,
+      -0.25867,
+      0
+     ],
+     "radius": 0.45,
+     "health": 115,
+     "team": 1
+    },
+    {
+     "id": 1107,
+     "position": [
+      -9.5371,
+      -6.60332,
+      0
+     ],
+     "velocity": [
+      1.31546,
+      0.9108,
+      0
+     ],
+     "radius": 0.45,
+     "health": 125,
+     "team": 1
+    },
+    {
+     "id": 1108,
+     "position": [
+      -2.1418,
+      -12.72096,
+      0
+     ],
+     "velocity": [
+      0.30716,
+      1.82432,
+      0
+     ],
+     "radius": 0.45,
+     "health": 45,
+     "team": 1
+    },
+    {
+     "id": 1109,
+     "position": [
+      8.38415,
+      -11.46063,
+      0
+     ],
+     "velocity": [
+      -1.23991,
+      1.69488,
+      0
+     ],
+     "radius": 0.45,
+     "health": 55,
+     "team": 1
+    },
+    {
+     "id": 1110,
+     "position": [
+      15.34661,
+      -2.17525,
+      0
+     ],
+     "velocity": [
+      -1.08911,
+      0.15437,
+      0
+     ],
+     "radius": 0.45,
+     "health": 65,
+     "team": 1
+    },
+    {
+     "id": 1111,
+     "position": [
+      13.29661,
+      10.26841,
+      0
+     ],
+     "velocity": [
+      -1.06848,
+      -0.82514,
+      0
+     ],
+     "radius": 0.45,
+     "health": 75,
+     "team": 1
+    },
+    {
+     "id": 1112,
+     "position": [
+      1.03096,
+      8.94076,
+      0
+     ],
+     "velocity": [
+      -0.18328,
+      -1.58947,
+      0
+     ],
+     "radius": 0.45,
+     "health": 85,
+     "team": 1
+    },
+    {
+     "id": 1113,
+     "position": [
+      -6.50532,
+      7.98567,
+      0
+     ],
+     "velocity": [
+      1.16843,
+      -1.43432,
+      0
+     ],
+     "radius": 0.45,
+     "health": 95,
+     "team": 1
+    },
+    {
+     "id": 1114,
+     "position": [
+      -11.55429,
+      1.02877,
+      0
+     ],
+     "velocity": [
+      2.09172,
+      -0.18624,
+      0
+     ],
+     "radius": 0.45,
+     "health": 105,
+     "team": 1
+    },
+    {
+     "id": 1115,
+     "position": [
+      -9.78628,
+      -8.40469,
+      0
+     ],
+     "velocity": [
+      0.83449,
+      0.71668,
+      0
+     ],
+     "radius": 0.45,
+     "health": 115,
+     "team": 1
+    },
+    {
+     "id": 1116,
+     "position": [
+      -0.89123,
+      -14.172,
+      0
+     ],
+     "velocity": [
+      0.08473,
+      1.34734,
+      0
+     ],
+     "radius": 0.45,
+     "health": 125,
+     "team": 1
+    },
+    {
+     "id": 1117,
+     "position": [
+      10.40093,
+      -11.4922,
+      0
+     ],
+     "velocity": [
+      -1.07364,
+      1.18629,
+      0
+     ],
+     "radius": 0.45,
+     "health": 45,
+     "team": 1
+    },
+    {
+     "id": 1118,
+     "position": [
+      16.78862,
+      -0.61816,
+      0
+     ],
+     "velocity": [
+      -1.84875,
+      0.06807,
+      0
+     ],
+     "radius": 0.45,
+     "health": 55,
+     "team": 1
+    },
+    {
+     "id": 1119,
+     "position": [
+      6.51363,
+      6.21069,
+      0
+     ],
+     "velocity": [
+      -1.51985,
+      -1.44916,
+      0
+     ],
+     "radius": 0.45,
+     "health": 65,
+     "team": 1
+    }
+   ],
+   "casts": [
+    {
+     "frame": 0,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0,
+      0
+     ],
+     "seed": 5000
+    },
+    {
+     "frame": 6,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      0.9205,
+      0.39073,
+      0
+     ],
+     "seed": 5001
+    },
+    {
+     "frame": 12,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      0.69466,
+      0.71934,
+      0
+     ],
+     "seed": 5002
+    },
+    {
+     "frame": 18,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      0.35837,
+      0.93358,
+      0
+     ],
+     "seed": 5003
+    },
+    {
+     "frame": 24,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      -0.0349,
+      0.99939,
+      0
+     ],
+     "seed": 5004
+    },
+    {
+     "frame": 30,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      -0.42262,
+      0.90631,
+      0
+     ],
+     "seed": 5005
+    },
+    {
+     "frame": 36,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      -0.74314,
+      0.66913,
+      0
+     ],
+     "seed": 5006
+    },
+    {
+     "frame": 42,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      -0.94552,
+      0.32557,
+      0
+     ],
+     "seed": 5007
+    },
+    {
+     "frame": 48,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      -0.99756,
+      -0.06976,
+      0
+     ],
+     "seed": 5008
+    },
+    {
+     "frame": 54,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      -0.89101,
+      -0.45399,
+      0
+     ],
+     "seed": 5009
+    },
+    {
+     "frame": 60,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      -0.64279,
+      -0.76604,
+      0
+     ],
+     "seed": 5010
+    },
+    {
+     "frame": 66,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      -0.29237,
+      -0.9563,
+      0
+     ],
+     "seed": 5011
+    },
+    {
+     "frame": 72,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      0.10453,
+      -0.99452,
+      0
+     ],
+     "seed": 5012
+    },
+    {
+     "frame": 78,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      0.48481,
+      -0.87462,
+      0
+     ],
+     "seed": 5013
+    },
+    {
+     "frame": 84,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      0.78801,
+      -0.61566,
+      0
+     ],
+     "seed": 5014
+    },
+    {
+     "frame": 90,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      0.96593,
+      -0.25882,
+      0
+     ],
+     "seed": 5015
+    },
+    {
+     "frame": 96,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      0.99027,
+      0.13917,
+      0
+     ],
+     "seed": 5016
+    },
+    {
+     "frame": 102,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      0.85717,
+      0.51504,
+      0
+     ],
+     "seed": 5017
+    },
+    {
+     "frame": 108,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      0.58779,
+      0.80902,
+      0
+     ],
+     "seed": 5018
+    },
+    {
+     "frame": 114,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      0.22495,
+      0.97437,
+      0
+     ],
+     "seed": 5019
+    },
+    {
+     "frame": 120,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      -0.17365,
+      0.98481,
+      0
+     ],
+     "seed": 5020
+    },
+    {
+     "frame": 126,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      -0.54464,
+      0.83867,
+      0
+     ],
+     "seed": 5021
+    },
+    {
+     "frame": 132,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      -0.82904,
+      0.55919,
+      0
+     ],
+     "seed": 5022
+    },
+    {
+     "frame": 138,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      -0.98163,
+      0.19081,
+      0
+     ],
+     "seed": 5023
+    },
+    {
+     "frame": 144,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      -0.97815,
+      -0.20791,
+      0
+     ],
+     "seed": 5024
+    },
+    {
+     "frame": 150,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      -0.81915,
+      -0.57358,
+      0
+     ],
+     "seed": 5025
+    },
+    {
+     "frame": 156,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      -0.52992,
+      -0.84805,
+      0
+     ],
+     "seed": 5026
+    },
+    {
+     "frame": 162,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      -0.15643,
+      -0.98769,
+      0
+     ],
+     "seed": 5027
+    },
+    {
+     "frame": 168,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      0.24192,
+      -0.9703,
+      0
+     ],
+     "seed": 5028
+    },
+    {
+     "frame": 174,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      0.60182,
+      -0.79864,
+      0
+     ],
+     "seed": 5029
+    },
+    {
+     "frame": 180,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      0.86603,
+      -0.5,
+      0
+     ],
+     "seed": 5030
+    },
+    {
+     "frame": 186,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      0.99255,
+      -0.12187,
+      0
+     ],
+     "seed": 5031
+    },
+    {
+     "frame": 192,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      0.96126,
+      0.27564,
+      0
+     ],
+     "seed": 5032
+    },
+    {
+     "frame": 198,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      0.77715,
+      0.62932,
+      0
+     ],
+     "seed": 5033
+    },
+    {
+     "frame": 204,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      0.46947,
+      0.88295,
+      0
+     ],
+     "seed": 5034
+    },
+    {
+     "frame": 210,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      0.08716,
+      0.99619,
+      0
+     ],
+     "seed": 5035
+    },
+    {
+     "frame": 216,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      -0.30902,
+      0.95106,
+      0
+     ],
+     "seed": 5036
+    },
+    {
+     "frame": 222,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      -0.65606,
+      0.75471,
+      0
+     ],
+     "seed": 5037
+    },
+    {
+     "frame": 228,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      -0.89879,
+      0.43837,
+      0
+     ],
+     "seed": 5038
+    },
+    {
+     "frame": 234,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      -0.99863,
+      0.05234,
+      0
+     ],
+     "seed": 5039
+    },
+    {
+     "frame": 240,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      -0.93969,
+      -0.34202,
+      0
+     ],
+     "seed": 5040
+    },
+    {
+     "frame": 246,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      -0.73135,
+      -0.682,
+      0
+     ],
+     "seed": 5041
+    },
+    {
+     "frame": 252,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      -0.40674,
+      -0.91355,
+      0
+     ],
+     "seed": 5042
+    },
+    {
+     "frame": 258,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      -0.01745,
+      -0.99985,
+      0
+     ],
+     "seed": 5043
+    },
+    {
+     "frame": 264,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      0.37461,
+      -0.92718,
+      0
+     ],
+     "seed": 5044
+    },
+    {
+     "frame": 270,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      0.70711,
+      -0.70711,
+      0
+     ],
+     "seed": 5045
+    },
+    {
+     "frame": 276,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      0.92718,
+      -0.37461,
+      0
+     ],
+     "seed": 5046
+    },
+    {
+     "frame": 282,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      0.99985,
+      0.01745,
+      0
+     ],
+     "seed": 5047
+    },
+    {
+     "frame": 288,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      0.91355,
+      0.40674,
+      0
+     ],
+     "seed": 5048
+    },
+    {
+     "frame": 294,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      0.682,
+      0.73135,
+      0
+     ],
+     "seed": 5049
+    },
+    {
+     "frame": 300,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      0.34202,
+      0.93969,
+      0
+     ],
+     "seed": 5050
+    },
+    {
+     "frame": 306,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      -0.05234,
+      0.99863,
+      0
+     ],
+     "seed": 5051
+    },
+    {
+     "frame": 312,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      -0.43837,
+      0.89879,
+      0
+     ],
+     "seed": 5052
+    },
+    {
+     "frame": 318,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      -0.75471,
+      0.65606,
+      0
+     ],
+     "seed": 5053
+    },
+    {
+     "frame": 324,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      -0.95106,
+      0.30902,
+      0
+     ],
+     "seed": 5054
+    },
+    {
+     "frame": 330,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      -0.99619,
+      -0.08716,
+      0
+     ],
+     "seed": 5055
+    },
+    {
+     "frame": 336,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      -0.88295,
+      -0.46947,
+      0
+     ],
+     "seed": 5056
+    },
+    {
+     "frame": 342,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      -0.62932,
+      -0.77715,
+      0
+     ],
+     "seed": 5057
+    },
+    {
+     "frame": 348,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      -0.27564,
+      -0.96126,
+      0
+     ],
+     "seed": 5058
+    },
+    {
+     "frame": 354,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      0.12187,
+      -0.99255,
+      0
+     ],
+     "seed": 5059
+    },
+    {
+     "frame": 360,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      0.5,
+      -0.86603,
+      0
+     ],
+     "seed": 5060
+    },
+    {
+     "frame": 366,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      0.79864,
+      -0.60182,
+      0
+     ],
+     "seed": 5061
+    },
+    {
+     "frame": 372,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      0.9703,
+      -0.24192,
+      0
+     ],
+     "seed": 5062
+    },
+    {
+     "frame": 378,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      0.98769,
+      0.15643,
+      0
+     ],
+     "seed": 5063
+    },
+    {
+     "frame": 384,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      0.84805,
+      0.52992,
+      0
+     ],
+     "seed": 5064
+    },
+    {
+     "frame": 390,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      0.57358,
+      0.81915,
+      0
+     ],
+     "seed": 5065
+    },
+    {
+     "frame": 396,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      0.20791,
+      0.97815,
+      0
+     ],
+     "seed": 5066
+    },
+    {
+     "frame": 402,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      -0.19081,
+      0.98163,
+      0
+     ],
+     "seed": 5067
+    },
+    {
+     "frame": 408,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      -0.55919,
+      0.82904,
+      0
+     ],
+     "seed": 5068
+    },
+    {
+     "frame": 414,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      -0.83867,
+      0.54464,
+      0
+     ],
+     "seed": 5069
+    },
+    {
+     "frame": 420,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      -0.98481,
+      0.17365,
+      0
+     ],
+     "seed": 5070
+    },
+    {
+     "frame": 426,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      -0.97437,
+      -0.22495,
+      0
+     ],
+     "seed": 5071
+    },
+    {
+     "frame": 432,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      -0.80902,
+      -0.58779,
+      0
+     ],
+     "seed": 5072
+    },
+    {
+     "frame": 438,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      -0.51504,
+      -0.85717,
+      0
+     ],
+     "seed": 5073
+    },
+    {
+     "frame": 444,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      -0.13917,
+      -0.99027,
+      0
+     ],
+     "seed": 5074
+    },
+    {
+     "frame": 450,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      0.25882,
+      -0.96593,
+      0
+     ],
+     "seed": 5075
+    },
+    {
+     "frame": 456,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      0.61566,
+      -0.78801,
+      0
+     ],
+     "seed": 5076
+    },
+    {
+     "frame": 462,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      0.87462,
+      -0.48481,
+      0
+     ],
+     "seed": 5077
+    },
+    {
+     "frame": 468,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      0.99452,
+      -0.10453,
+      0
+     ],
+     "seed": 5078
+    },
+    {
+     "frame": 474,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      0.9563,
+      0.29237,
+      0
+     ],
+     "seed": 5079
+    },
+    {
+     "frame": 480,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      0.76604,
+      0.64279,
+      0
+     ],
+     "seed": 5080
+    },
+    {
+     "frame": 486,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      0.45399,
+      0.89101,
+      0
+     ],
+     "seed": 5081
+    },
+    {
+     "frame": 492,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      0.06976,
+      0.99756,
+      0
+     ],
+     "seed": 5082
+    },
+    {
+     "frame": 498,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      -0.32557,
+      0.94552,
+      0
+     ],
+     "seed": 5083
+    },
+    {
+     "frame": 504,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      -0.66913,
+      0.74314,
+      0
+     ],
+     "seed": 5084
+    },
+    {
+     "frame": 510,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      -0.90631,
+      0.42262,
+      0
+     ],
+     "seed": 5085
+    },
+    {
+     "frame": 516,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      -0.99939,
+      0.0349,
+      0
+     ],
+     "seed": 5086
+    },
+    {
+     "frame": 522,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      -0.93358,
+      -0.35837,
+      0
+     ],
+     "seed": 5087
+    },
+    {
+     "frame": 528,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      -0.71934,
+      -0.69466,
+      0
+     ],
+     "seed": 5088
+    },
+    {
+     "frame": 534,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      -0.39073,
+      -0.9205,
+      0
+     ],
+     "seed": 5089
+    },
+    {
+     "frame": 540,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      0,
+      -1,
+      0
+     ],
+     "seed": 5090
+    },
+    {
+     "frame": 546,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      0.39073,
+      -0.9205,
+      0
+     ],
+     "seed": 5091
+    },
+    {
+     "frame": 552,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      0.71934,
+      -0.69466,
+      0
+     ],
+     "seed": 5092
+    },
+    {
+     "frame": 558,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      0.93358,
+      -0.35837,
+      0
+     ],
+     "seed": 5093
+    },
+    {
+     "frame": 564,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      0.99939,
+      0.0349,
+      0
+     ],
+     "seed": 5094
+    },
+    {
+     "frame": 570,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      0.90631,
+      0.42262,
+      0
+     ],
+     "seed": 5095
+    },
+    {
+     "frame": 576,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      0.66913,
+      0.74314,
+      0
+     ],
+     "seed": 5096
+    },
+    {
+     "frame": 582,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      0.32557,
+      0.94552,
+      0
+     ],
+     "seed": 5097
+    },
+    {
+     "frame": 588,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      -0.06976,
+      0.99756,
+      0
+     ],
+     "seed": 5098
+    },
+    {
+     "frame": 594,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      -0.45399,
+      0.89101,
+      0
+     ],
+     "seed": 5099
+    }
+   ],
+   "statusQuery": [
+    "chill"
+   ]
+  },
+  {
+   "id": "monster_attacks",
+   "commit": true,
+   "frames": 240,
+   "dt": 0.016666666666666666,
+   "plans": [
+    {
+     "key": "claw",
+     "build": "monster_claw"
+    },
+    {
+     "key": "strike",
+     "build": "monster_strike"
+    },
+    {
+     "key": "bolt",
+     "build": "monster_bolt"
+    },
+    {
+     "key": "nova",
+     "build": "monster_nova"
+    },
+    {
+     "key": "slash",
+     "build": "player_slash"
+    }
+   ],
+   "owners": [
+    {
+     "key": "monsters",
+     "externalId": 2,
+     "team": 1,
+     "position": [
+      3,
+      0,
+      0
+     ],
+     "aim": [
+      -1,
+      0,
+      0
+     ]
+    },
+    {
+     "key": "hero",
+     "externalId": 1,
+     "team": 0,
+     "position": [
+      0,
+      0,
+      0
+     ],
+     "aim": [
+      1,
+      0,
+      0
+     ]
+    }
+   ],
+   "targets": [
+    {
+     "id": 1,
+     "position": [
+      0,
+      0,
+      0
+     ],
+     "radius": 0.45,
+     "health": 400,
+     "team": 0
+    },
+    {
+     "id": 50,
+     "position": [
+      1.2,
+      0.4,
+      0
+     ],
+     "radius": 0.45,
+     "health": 80,
+     "team": 1
+    },
+    {
+     "id": 51,
+     "position": [
+      1.6,
+      -0.5,
+      0
+     ],
+     "radius": 0.45,
+     "health": 80,
+     "team": 1
+    }
+   ],
+   "casts": [
+    {
+     "frame": 0,
+     "plan": "claw",
+     "owner": "monsters",
+     "origin": [
+      0.6,
+      0,
+      0
+     ],
+     "direction": [
+      -1,
+      0,
+      0
+     ],
+     "seed": 11
+    },
+    {
+     "frame": 10,
+     "plan": "strike",
+     "owner": "monsters",
+     "origin": [
+      0.5,
+      0.2,
+      0
+     ],
+     "direction": [
+      -1,
+      0,
+      0
+     ],
+     "seed": 12,
+     "power": 18
+    },
+    {
+     "frame": 20,
+     "plan": "bolt",
+     "owner": "monsters",
+     "origin": [
+      8,
+      0,
+      0
+     ],
+     "direction": [
+      -1,
+      0,
+      0
+     ],
+     "seed": 13,
+     "power": 25
+    },
+    {
+     "frame": 40,
+     "plan": "nova",
+     "owner": "monsters",
+     "origin": [
+      3,
+      0,
+      0
+     ],
+     "direction": [
+      -1,
+      0,
+      0
+     ],
+     "seed": 14,
+     "power": 30
+    },
+    {
+     "frame": 60,
+     "plan": "slash",
+     "owner": "hero",
+     "origin": [
+      0.8,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0,
+      0
+     ],
+     "seed": 15,
+     "power": 44
+    },
+    {
+     "frame": 61,
+     "plan": "slash",
+     "owner": "hero",
+     "origin": [
+      0.8,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0,
+      0
+     ],
+     "seed": 16,
+     "power": 44
+    }
+   ]
+  },
+  {
+   "id": "monster_tower_level",
+   "commit": true,
+   "frames": 180,
+   "dt": 0.016666666666666666,
+   "plans": [
+    {
+     "key": "claw",
+     "build": "monster_claw",
+     "extra": [
+      "monster_tower_level"
+     ],
+     "params": {
+      "monster_tower_level": {
+       "level": 5
+      }
+     }
+    },
+    {
+     "key": "bolt",
+     "build": "monster_bolt",
+     "extra": [
+      "monster_tower_level"
+     ],
+     "params": {
+      "monster_tower_level": {
+       "level": 5
+      }
+     }
+    },
+    {
+     "key": "mixed",
+     "traits": [
+      "create_ice_lance",
+      "fire_damage",
+      "lightning_damage",
+      "poison_damage",
+      "monster_tower_level"
+     ],
+     "params": {
+      "monster_tower_level": {
+       "level": 5
+      }
+     }
+    }
+   ],
+   "owners": [
+    {
+     "key": "monster",
+     "externalId": 2,
+     "team": 1,
+     "position": [
+      0,
+      0,
+      0
+     ],
+     "aim": [
+      1,
+      0,
+      0
+     ]
+    }
+   ],
+   "targets": [
+    {
+     "id": 101,
+     "position": [
+      1,
+      0,
+      0
+     ],
+     "radius": 0.45,
+     "health": 100000,
+     "team": 0,
+     "resistance": [
+      20,
+      30,
+      40,
+      0
+     ]
+    },
+    {
+     "id": 102,
+     "position": [
+      3,
+      0,
+      0
+     ],
+     "radius": 0.45,
+     "health": 100000,
+     "team": 0
+    }
+   ],
+   "casts": [
+    {
+     "frame": 1,
+     "plan": "claw",
+     "owner": "monster",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0,
+      0
+     ],
+     "seed": 11,
+     "power": 100
+    },
+    {
+     "frame": 20,
+     "plan": "bolt",
+     "owner": "monster",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0,
+      0
+     ],
+     "seed": 12,
+     "power": 10
+    },
+    {
+     "frame": 60,
+     "plan": "mixed",
+     "owner": "monster",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0,
+      0
+     ],
+     "seed": 13
+    }
+   ]
+  },
+  {
+   "id": "typed_damage_and_defense",
+   "commit": true,
+   "frames": 240,
+   "dt": 0.016666666666666666,
+   "plans": [
+    {
+     "key": "p",
+     "traits": [
+      "create_ice_lance",
+      "chill",
+      "fire_damage",
+      "frost_damage",
+      "lightning_damage",
+      "poison_damage",
+      "void_damage",
+      "physical_damage"
+     ]
+    },
+    {
+     "key": "def",
+     "traits": [
+      "frost_resistance",
+      "fire_resistance"
+     ]
+    }
+   ],
+   "owners": [
+    {
+     "key": "hero",
+     "externalId": 1,
+     "team": 0,
+     "position": [
+      0,
+      0,
+      0
+     ],
+     "aim": [
+      1,
+      0,
+      0
+     ]
+    }
+   ],
+   "defense": [
+    {
+     "targetId": 7,
+     "plan": "def"
+    }
+   ],
+   "targets": [
+    {
+     "id": 7,
+     "position": [
+      3,
+      0,
+      0
+     ],
+     "radius": 0.45,
+     "health": 5000,
+     "team": 1,
+     "resistance": [
+      10,
+      20,
+      30,
+      40
+     ]
+    },
+    {
+     "id": 8,
+     "position": [
+      3,
+      2,
+      0
+     ],
+     "radius": 0.45,
+     "health": 5000,
+     "team": 1,
+     "resistance": [
+      -20,
+      80,
+      0,
+      75
+     ]
+    }
+   ],
+   "casts": [
+    {
+     "frame": 0,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0,
+      0
+     ],
+     "seed": 300
+    },
+    {
+     "frame": 15,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      3,
+      2,
+      0
+     ],
+     "seed": 301
+    },
+    {
+     "frame": 30,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0,
+      0
+     ],
+     "seed": 302
+    },
+    {
+     "frame": 45,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      3,
+      2,
+      0
+     ],
+     "seed": 303
+    },
+    {
+     "frame": 60,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0,
+      0
+     ],
+     "seed": 304
+    },
+    {
+     "frame": 75,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      3,
+      2,
+      0
+     ],
+     "seed": 305
+    },
+    {
+     "frame": 90,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0,
+      0
+     ],
+     "seed": 306
+    },
+    {
+     "frame": 105,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      3,
+      2,
+      0
+     ],
+     "seed": 307
+    },
+    {
+     "frame": 120,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0,
+      0
+     ],
+     "seed": 308
+    },
+    {
+     "frame": 135,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      3,
+      2,
+      0
+     ],
+     "seed": 309
+    },
+    {
+     "frame": 150,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0,
+      0
+     ],
+     "seed": 310
+    },
+    {
+     "frame": 165,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      3,
+      2,
+      0
+     ],
+     "seed": 311
+    }
+   ]
+  },
+  {
+   "id": "ailments",
+   "commit": true,
+   "frames": 480,
+   "dt": 0.016666666666666666,
+   "plans": [
+    {
+     "key": "p",
+     "build": "frost_lance",
+     "extra": [
+      "multiple_projectiles",
+      "pierce",
+      "fire_damage",
+      "ignite",
+      "lightning_damage",
+      "shock",
+      "physical_damage",
+      "bleed",
+      "freeze",
+      "hobble"
+     ]
+    }
+   ],
+   "owners": [
+    {
+     "key": "hero",
+     "externalId": 1,
+     "team": 0,
+     "position": [
+      0,
+      0,
+      0
+     ],
+     "aim": [
+      1,
+      0,
+      0
+     ],
+     "statusId": 900
+    }
+   ],
+   "targets": [
+    {
+     "id": 1,
+     "position": [
+      2,
+      0,
+      0
+     ],
+     "radius": 0.45,
+     "health": 140,
+     "team": 1,
+     "resistance": [
+      0,
+      10,
+      0,
+      0
+     ]
+    },
+    {
+     "id": 2,
+     "position": [
+      4,
+      0.6,
+      0
+     ],
+     "radius": 0.45,
+     "health": 140,
+     "team": 1,
+     "resistance": [
+      15,
+      10,
+      20,
+      0
+     ]
+    },
+    {
+     "id": 3,
+     "position": [
+      6,
+      -0.6,
+      0
+     ],
+     "radius": 0.45,
+     "health": 140,
+     "team": 1,
+     "resistance": [
+      30,
+      10,
+      40,
+      0
+     ]
+    },
+    {
+     "id": 4,
+     "position": [
+      8,
+      0,
+      0
+     ],
+     "radius": 0.45,
+     "health": 140,
+     "team": 1,
+     "resistance": [
+      45,
+      10,
+      0,
+      0
+     ]
+    },
+    {
+     "id": 5,
+     "position": [
+      10,
+      0.6,
+      0
+     ],
+     "radius": 0.45,
+     "health": 140,
+     "team": 1,
+     "resistance": [
+      0,
+      10,
+      20,
+      0
+     ]
+    },
+    {
+     "id": 6,
+     "position": [
+      12,
+      -0.6,
+      0
+     ],
+     "radius": 0.45,
+     "health": 140,
+     "team": 1,
+     "resistance": [
+      15,
+      10,
+      40,
+      0
+     ]
+    },
+    {
+     "id": 7,
+     "position": [
+      14,
+      0,
+      0
+     ],
+     "radius": 0.45,
+     "health": 140,
+     "team": 1,
+     "resistance": [
+      30,
+      10,
+      0,
+      0
+     ]
+    },
+    {
+     "id": 8,
+     "position": [
+      16,
+      0.6,
+      0
+     ],
+     "radius": 0.45,
+     "health": 140,
+     "team": 1,
+     "resistance": [
+      45,
+      10,
+      20,
+      0
+     ]
+    },
+    {
+     "id": 9,
+     "position": [
+      18,
+      -0.6,
+      0
+     ],
+     "radius": 0.45,
+     "health": 140,
+     "team": 1,
+     "resistance": [
+      0,
+      10,
+      40,
+      0
+     ]
+    },
+    {
+     "id": 10,
+     "position": [
+      20,
+      0,
+      0
+     ],
+     "radius": 0.45,
+     "health": 140,
+     "team": 1,
+     "resistance": [
+      15,
+      10,
+      0,
+      0
+     ]
+    },
+    {
+     "id": 11,
+     "position": [
+      22,
+      0.6,
+      0
+     ],
+     "radius": 0.45,
+     "health": 140,
+     "team": 1,
+     "resistance": [
+      30,
+      10,
+      20,
+      0
+     ]
+    },
+    {
+     "id": 12,
+     "position": [
+      24,
+      -0.6,
+      0
+     ],
+     "radius": 0.45,
+     "health": 140,
+     "team": 1,
+     "resistance": [
+      45,
+      10,
+      40,
+      0
+     ]
+    }
+   ],
+   "casts": [
+    {
+     "frame": 5,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0,
+      0
+     ],
+     "seed": 700
+    },
+    {
+     "frame": 29,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0.05,
+      0
+     ],
+     "seed": 701
+    },
+    {
+     "frame": 53,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0.1,
+      0
+     ],
+     "seed": 702
+    },
+    {
+     "frame": 77,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0,
+      0
+     ],
+     "seed": 703
+    },
+    {
+     "frame": 101,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0.05,
+      0
+     ],
+     "seed": 704
+    },
+    {
+     "frame": 125,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0.1,
+      0
+     ],
+     "seed": 705
+    },
+    {
+     "frame": 149,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0,
+      0
+     ],
+     "seed": 706
+    },
+    {
+     "frame": 173,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0.05,
+      0
+     ],
+     "seed": 707
+    },
+    {
+     "frame": 197,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0.1,
+      0
+     ],
+     "seed": 708
+    },
+    {
+     "frame": 221,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0,
+      0
+     ],
+     "seed": 709
+    }
+   ],
+   "statusQuery": [
+    "chill",
+    "freeze",
+    "shock",
+    "ignite",
+    "bleed",
+    "slow"
+   ]
+  },
+  {
+   "id": "melee_bleed",
+   "commit": true,
+   "frames": 360,
+   "dt": 0.016666666666666666,
+   "plans": [
+    {
+     "key": "slash",
+     "build": "player_slash",
+     "extra": [
+      "bleed",
+      "hobble"
+     ]
+    }
+   ],
+   "owners": [
+    {
+     "key": "hero",
+     "externalId": 1,
+     "team": 0,
+     "position": [
+      0,
+      0,
+      0
+     ],
+     "aim": [
+      1,
+      0,
+      0
+     ]
+    }
+   ],
+   "targets": [
+    {
+     "id": 60,
+     "position": [
+      1,
+      -0.5,
+      0
+     ],
+     "radius": 0.45,
+     "health": 150,
+     "team": 1
+    },
+    {
+     "id": 61,
+     "position": [
+      1.3,
+      0,
+      0
+     ],
+     "radius": 0.45,
+     "health": 170,
+     "team": 1
+    },
+    {
+     "id": 62,
+     "position": [
+      1.6,
+      0.5,
+      0
+     ],
+     "radius": 0.45,
+     "health": 190,
+     "team": 1
+    },
+    {
+     "id": 63,
+     "position": [
+      1.9,
+      -0.5,
+      0
+     ],
+     "radius": 0.45,
+     "health": 210,
+     "team": 1
+    },
+    {
+     "id": 64,
+     "position": [
+      2.2,
+      0,
+      0
+     ],
+     "radius": 0.45,
+     "health": 230,
+     "team": 1
+    },
+    {
+     "id": 65,
+     "position": [
+      2.5,
+      0.5,
+      0
+     ],
+     "radius": 0.45,
+     "health": 250,
+     "team": 1
+    }
+   ],
+   "casts": [
+    {
+     "frame": 0,
+     "plan": "slash",
+     "owner": "hero",
+     "origin": [
+      0.8,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0,
+      0
+     ],
+     "seed": 600,
+     "power": 30
+    },
+    {
+     "frame": 20,
+     "plan": "slash",
+     "owner": "hero",
+     "origin": [
+      0.8,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0,
+      0
+     ],
+     "seed": 601,
+     "power": 30
+    },
+    {
+     "frame": 40,
+     "plan": "slash",
+     "owner": "hero",
+     "origin": [
+      0.8,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0,
+      0
+     ],
+     "seed": 602,
+     "power": 30
+    },
+    {
+     "frame": 60,
+     "plan": "slash",
+     "owner": "hero",
+     "origin": [
+      0.8,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0,
+      0
+     ],
+     "seed": 603,
+     "power": 30
+    },
+    {
+     "frame": 80,
+     "plan": "slash",
+     "owner": "hero",
+     "origin": [
+      0.8,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0,
+      0
+     ],
+     "seed": 604,
+     "power": 30
+    },
+    {
+     "frame": 100,
+     "plan": "slash",
+     "owner": "hero",
+     "origin": [
+      0.8,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0,
+      0
+     ],
+     "seed": 605,
+     "power": 30
+    },
+    {
+     "frame": 120,
+     "plan": "slash",
+     "owner": "hero",
+     "origin": [
+      0.8,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0,
+      0
+     ],
+     "seed": 606,
+     "power": 30
+    },
+    {
+     "frame": 140,
+     "plan": "slash",
+     "owner": "hero",
+     "origin": [
+      0.8,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0,
+      0
+     ],
+     "seed": 607,
+     "power": 30
+    }
+   ],
+   "statusQuery": [
+    "bleed",
+    "slow"
+   ]
+  },
+  {
+   "id": "summon_iron_guard_default",
+   "commit": true,
+   "frames": 660,
+   "dt": 0.016666666666666666,
+   "plans": [
+    {
+     "key": "p",
+     "build": "iron_guard"
+    }
+   ],
+   "owners": [
+    {
+     "key": "hero",
+     "externalId": 1,
+     "team": 0,
+     "position": [
+      0,
+      0,
+      0
+     ],
+     "aim": [
+      1,
+      0,
+      0
+     ]
+    }
+   ],
+   "targets": [
+    {
+     "id": 710,
+     "position": [
+      0.8,
+      0,
+      0
+     ],
+     "radius": 0.2,
+     "health": 100000,
+     "team": 1
+    },
+    {
+     "id": 711,
+     "position": [
+      0.8,
+      1.2,
+      0
+     ],
+     "radius": 0.2,
+     "health": 100000,
+     "team": 1
+    },
+    {
+     "id": 712,
+     "position": [
+      20,
+      0,
+      0
+     ],
+     "radius": 0.2,
+     "health": 100000,
+     "team": 1
+    }
+   ],
+   "casts": [
+    {
+     "frame": 0,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0,
+      0
+     ],
+     "seed": 701,
+     "power": 0
+    }
+   ],
+   "statusQuery": [
+    "shock"
+   ]
+  },
+  {
+   "id": "summon_iron_guard_override_cap",
+   "commit": true,
+   "frames": 660,
+   "dt": 0.016666666666666666,
+   "plans": [
+    {
+     "key": "p",
+     "build": "iron_guard",
+     "params": {
+      "summon_iron_guard": {
+       "duration": 2,
+       "interval": 0.5,
+       "range": 6,
+       "cap": 2
+      },
+      "iron_guard_slash": {
+       "damage": 37
+      }
+     }
+    }
+   ],
+   "owners": [
+    {
+     "key": "hero",
+     "externalId": 1,
+     "team": 0,
+     "position": [
+      0,
+      0,
+      0
+     ],
+     "aim": [
+      1,
+      0,
+      0
+     ]
+    }
+   ],
+   "targets": [
+    {
+     "id": 710,
+     "position": [
+      0.8,
+      0,
+      0
+     ],
+     "radius": 0.2,
+     "health": 100000,
+     "team": 1
+    },
+    {
+     "id": 711,
+     "position": [
+      0.8,
+      1.2,
+      0
+     ],
+     "radius": 0.2,
+     "health": 100000,
+     "team": 1
+    },
+    {
+     "id": 712,
+     "position": [
+      20,
+      0,
+      0
+     ],
+     "radius": 0.2,
+     "health": 100000,
+     "team": 1
+    }
+   ],
+   "casts": [
+    {
+     "frame": 0,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0,
+      0
+     ],
+     "seed": 701,
+     "power": 0
+    },
+    {
+     "frame": 6,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0,
+      0
+     ],
+     "seed": 702,
+     "power": 0
+    },
+    {
+     "frame": 12,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0,
+      0
+     ],
+     "seed": 703,
+     "power": 0
+    },
+    {
+     "frame": 18,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0,
+      0
+     ],
+     "seed": 704,
+     "power": 0
+    }
+   ],
+   "statusQuery": [
+    "shock"
+   ]
+  },
+  {
+   "id": "summon_ember_hound_default",
+   "commit": true,
+   "frames": 660,
+   "dt": 0.016666666666666666,
+   "plans": [
+    {
+     "key": "p",
+     "build": "ember_hound"
+    }
+   ],
+   "owners": [
+    {
+     "key": "hero",
+     "externalId": 1,
+     "team": 0,
+     "position": [
+      0,
+      0,
+      0
+     ],
+     "aim": [
+      1,
+      0,
+      0
+     ]
+    }
+   ],
+   "targets": [
+    {
+     "id": 710,
+     "position": [
+      0.8,
+      0,
+      0
+     ],
+     "radius": 0.2,
+     "health": 100000,
+     "team": 1
+    },
+    {
+     "id": 711,
+     "position": [
+      0.8,
+      1.2,
+      0
+     ],
+     "radius": 0.2,
+     "health": 100000,
+     "team": 1
+    },
+    {
+     "id": 712,
+     "position": [
+      20,
+      0,
+      0
+     ],
+     "radius": 0.2,
+     "health": 100000,
+     "team": 1
+    }
+   ],
+   "casts": [
+    {
+     "frame": 0,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0,
+      0
+     ],
+     "seed": 701,
+     "power": 0
+    }
+   ],
+   "statusQuery": [
+    "shock"
+   ]
+  },
+  {
+   "id": "summon_ember_hound_override_cap",
+   "commit": true,
+   "frames": 660,
+   "dt": 0.016666666666666666,
+   "plans": [
+    {
+     "key": "p",
+     "build": "ember_hound",
+     "params": {
+      "summon_ember_hound": {
+       "duration": 2,
+       "interval": 0.5,
+       "range": 6,
+       "cap": 2
+      },
+      "ember_hound_bite": {
+       "damage": 37
+      }
+     }
+    }
+   ],
+   "owners": [
+    {
+     "key": "hero",
+     "externalId": 1,
+     "team": 0,
+     "position": [
+      0,
+      0,
+      0
+     ],
+     "aim": [
+      1,
+      0,
+      0
+     ]
+    }
+   ],
+   "targets": [
+    {
+     "id": 710,
+     "position": [
+      0.8,
+      0,
+      0
+     ],
+     "radius": 0.2,
+     "health": 100000,
+     "team": 1
+    },
+    {
+     "id": 711,
+     "position": [
+      0.8,
+      1.2,
+      0
+     ],
+     "radius": 0.2,
+     "health": 100000,
+     "team": 1
+    },
+    {
+     "id": 712,
+     "position": [
+      20,
+      0,
+      0
+     ],
+     "radius": 0.2,
+     "health": 100000,
+     "team": 1
+    }
+   ],
+   "casts": [
+    {
+     "frame": 0,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0,
+      0
+     ],
+     "seed": 701,
+     "power": 0
+    },
+    {
+     "frame": 6,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0,
+      0
+     ],
+     "seed": 702,
+     "power": 0
+    },
+    {
+     "frame": 12,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0,
+      0
+     ],
+     "seed": 703,
+     "power": 0
+    },
+    {
+     "frame": 18,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0,
+      0
+     ],
+     "seed": 704,
+     "power": 0
+    }
+   ],
+   "statusQuery": [
+    "shock"
+   ]
+  },
+  {
+   "id": "summon_fire_turret_default",
+   "commit": true,
+   "frames": 660,
+   "dt": 0.016666666666666666,
+   "plans": [
+    {
+     "key": "p",
+     "build": "fire_turret"
+    }
+   ],
+   "owners": [
+    {
+     "key": "hero",
+     "externalId": 1,
+     "team": 0,
+     "position": [
+      0,
+      0,
+      0
+     ],
+     "aim": [
+      1,
+      0,
+      0
+     ]
+    }
+   ],
+   "targets": [
+    {
+     "id": 710,
+     "position": [
+      0.8,
+      0,
+      0
+     ],
+     "radius": 0.2,
+     "health": 100000,
+     "team": 1
+    },
+    {
+     "id": 711,
+     "position": [
+      0.8,
+      1.2,
+      0
+     ],
+     "radius": 0.2,
+     "health": 100000,
+     "team": 1
+    },
+    {
+     "id": 712,
+     "position": [
+      20,
+      0,
+      0
+     ],
+     "radius": 0.2,
+     "health": 100000,
+     "team": 1
+    }
+   ],
+   "casts": [
+    {
+     "frame": 0,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0,
+      0
+     ],
+     "seed": 701,
+     "power": 0
+    }
+   ],
+   "statusQuery": [
+    "shock"
+   ]
+  },
+  {
+   "id": "summon_fire_turret_override_cap",
+   "commit": true,
+   "frames": 660,
+   "dt": 0.016666666666666666,
+   "plans": [
+    {
+     "key": "p",
+     "build": "fire_turret",
+     "params": {
+      "summon_fire_turret": {
+       "duration": 2,
+       "interval": 0.5,
+       "range": 6,
+       "cap": 2
+      },
+      "fire_turret_fireball": {
+       "damage": 37
+      }
+     }
+    }
+   ],
+   "owners": [
+    {
+     "key": "hero",
+     "externalId": 1,
+     "team": 0,
+     "position": [
+      0,
+      0,
+      0
+     ],
+     "aim": [
+      1,
+      0,
+      0
+     ]
+    }
+   ],
+   "targets": [
+    {
+     "id": 710,
+     "position": [
+      0.8,
+      0,
+      0
+     ],
+     "radius": 0.2,
+     "health": 100000,
+     "team": 1
+    },
+    {
+     "id": 711,
+     "position": [
+      0.8,
+      1.2,
+      0
+     ],
+     "radius": 0.2,
+     "health": 100000,
+     "team": 1
+    },
+    {
+     "id": 712,
+     "position": [
+      20,
+      0,
+      0
+     ],
+     "radius": 0.2,
+     "health": 100000,
+     "team": 1
+    }
+   ],
+   "casts": [
+    {
+     "frame": 0,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0,
+      0
+     ],
+     "seed": 701,
+     "power": 0
+    },
+    {
+     "frame": 6,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0,
+      0
+     ],
+     "seed": 702,
+     "power": 0
+    },
+    {
+     "frame": 12,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0,
+      0
+     ],
+     "seed": 703,
+     "power": 0
+    },
+    {
+     "frame": 18,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0,
+      0
+     ],
+     "seed": 704,
+     "power": 0
+    }
+   ],
+   "statusQuery": [
+    "shock"
+   ]
+  },
+  {
+   "id": "summon_storm_totem_default",
+   "commit": true,
+   "frames": 660,
+   "dt": 0.016666666666666666,
+   "plans": [
+    {
+     "key": "p",
+     "build": "storm_totem"
+    }
+   ],
+   "owners": [
+    {
+     "key": "hero",
+     "externalId": 1,
+     "team": 0,
+     "position": [
+      0,
+      0,
+      0
+     ],
+     "aim": [
+      1,
+      0,
+      0
+     ]
+    }
+   ],
+   "targets": [
+    {
+     "id": 710,
+     "position": [
+      0.8,
+      0,
+      0
+     ],
+     "radius": 0.2,
+     "health": 100000,
+     "team": 1
+    },
+    {
+     "id": 711,
+     "position": [
+      0.8,
+      1.2,
+      0
+     ],
+     "radius": 0.2,
+     "health": 100000,
+     "team": 1
+    },
+    {
+     "id": 712,
+     "position": [
+      20,
+      0,
+      0
+     ],
+     "radius": 0.2,
+     "health": 100000,
+     "team": 1
+    }
+   ],
+   "casts": [
+    {
+     "frame": 0,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0,
+      0
+     ],
+     "seed": 701,
+     "power": 0
+    }
+   ],
+   "statusQuery": [
+    "shock"
+   ]
+  },
+  {
+   "id": "summon_storm_totem_override_cap",
+   "commit": true,
+   "frames": 660,
+   "dt": 0.016666666666666666,
+   "plans": [
+    {
+     "key": "p",
+     "build": "storm_totem",
+     "params": {
+      "summon_storm_totem": {
+       "duration": 2,
+       "interval": 0.5,
+       "range": 6,
+       "cap": 2
+      },
+      "storm_totem_lightning": {
+       "damage": 37
+      }
+     }
+    }
+   ],
+   "owners": [
+    {
+     "key": "hero",
+     "externalId": 1,
+     "team": 0,
+     "position": [
+      0,
+      0,
+      0
+     ],
+     "aim": [
+      1,
+      0,
+      0
+     ]
+    }
+   ],
+   "targets": [
+    {
+     "id": 710,
+     "position": [
+      0.8,
+      0,
+      0
+     ],
+     "radius": 0.2,
+     "health": 100000,
+     "team": 1
+    },
+    {
+     "id": 711,
+     "position": [
+      0.8,
+      1.2,
+      0
+     ],
+     "radius": 0.2,
+     "health": 100000,
+     "team": 1
+    },
+    {
+     "id": 712,
+     "position": [
+      20,
+      0,
+      0
+     ],
+     "radius": 0.2,
+     "health": 100000,
+     "team": 1
+    }
+   ],
+   "casts": [
+    {
+     "frame": 0,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0,
+      0
+     ],
+     "seed": 701,
+     "power": 0
+    },
+    {
+     "frame": 6,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0,
+      0
+     ],
+     "seed": 702,
+     "power": 0
+    },
+    {
+     "frame": 12,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0,
+      0
+     ],
+     "seed": 703,
+     "power": 0
+    },
+    {
+     "frame": 18,
+     "plan": "p",
+     "owner": "hero",
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "direction": [
+      1,
+      0,
+      0
+     ],
+     "seed": 704,
+     "power": 0
+    }
+   ],
+   "statusQuery": [
+    "shock"
+   ]
+  }
+ ]
+}

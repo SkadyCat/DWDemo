@@ -1,0 +1,9 @@
+{
+  "id": "shield_sustain_efficiency",
+  "name": "护盾持续恢复效率 +n%",
+  "description": "角色词条：护盾持续恢复效率 +n%。护盾再生量额外乘 (1 + n%)。",
+  "params": { "n": 20 },
+  "sheet": [
+    { "stat": "shield.sustain_efficiency", "value": { "param": "n" } }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "name": "dw-rule-studio",
+  "private": true,
+  "type": "module",
+  "description": "DWRules web interpreter + RuleStudio site for DungeonWorldBeta",
+  "scripts": {
+    "build:web": "node scripts/build-web.mjs",
+    "publish:cos": "node scripts/publish-cos.mjs",
+    "test:web-delivery": "node --test tests/web-delivery.test.mjs",
+    "test:ailment-reactions": "node --test tests/ailment-reactions.test.mjs",
+    "start": "node --watch server.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "test:talents": "node --test tests/talents.test.mjs",
+    "build:talents-layout": "node scripts/build-organic-talent-atlas.mjs && node scripts/create-talent-constellation.mjs --layout-only && node scripts/audit-talent-layout.mjs",
+    "test:tower-level": "node --test tests/tower-level.test.mjs",
+    "bench:tower": "node scripts/test-tower.mjs",
+    "parity:scenarios": "node parity/make-scenarios.mjs",
+    "parity": "node parity/compare.mjs",
+    "test:icons": "node --test tests/icons.test.mjs",
+    "test:trait-tiers": "node --test tests/trait-tiers.test.mjs tests/equipment.test.mjs",
+    "test:minion-projectiles": "node --test tests/minion-projectiles.test.mjs",
+    "test:summon-myriad": "node --test tests/summon-myriad-bd.test.mjs",
+    "test:embers-echo": "node --test tests/embers-echo.test.mjs",
+    "test:equipment-bases": "node --test tests/equipment-bases.test.mjs",
+    "test:progression": "node --test tests/progression.test.mjs tests/weapons.test.mjs"
+  },
+  "devDependencies": {
+    "cos-nodejs-sdk-v5": "3.0.0",
+    "esbuild": "0.28.2"
+  }
+}

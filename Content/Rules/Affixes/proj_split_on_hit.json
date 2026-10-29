@@ -1,0 +1,9 @@
+{
+  "id": "proj_split_on_hit",
+  "name": "投射物命中敌人时发生分裂",
+  "description": "角色词条：投射物命中敌人时发生分裂。命中必定分裂（仍受分裂次数限制）",
+  "params": {},
+  "sheet": [
+    { "stat": "proj.split_on_hit", "value": 1 }
+  ]
+}

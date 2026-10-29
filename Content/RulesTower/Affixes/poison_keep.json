@@ -1,0 +1,12 @@
+{
+  "id": "poison_keep",
+  "name": "中毒自然结束时，有n%概率保留该层中毒并重置持续时间",
+  "description": "角色词条：中毒自然结束时，有n%概率保留该层中毒并重置持续时间。同一层最多保留 3 次",
+  "params": { "n": 20 },
+  "sheet": [
+    {
+      "stat": "poison.keep_chance",
+      "value": { "param": "n" }
+    }
+  ]
+}

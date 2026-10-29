@@ -1,0 +1,4 @@
+{
+  "id": "independent_skill_cooldown", "name": "技能独立冷却 seconds 秒", "description": "当前技能释放成功后进入 seconds 秒独立冷却；切换技能不会清除，其他技能仍可使用。",
+  "params": { "seconds": 10 }, "sheet": [{ "stat": "skill.independent_cooldown", "value": { "param": "seconds" } }]
+}

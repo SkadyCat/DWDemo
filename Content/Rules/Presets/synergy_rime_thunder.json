@@ -1,0 +1,565 @@
+{
+  "skills": [
+    "frost_lance",
+    null,
+    null,
+    null
+  ],
+  "equipment": {
+    "weapon": "synergy_rime_thunder_v1_weapon_bdt1",
+    "helmet": "synergy_rime_thunder_v1_helmet_bdt1",
+    "chest": "synergy_rime_thunder_v1_chest_bdt1",
+    "gloves": "synergy_rime_thunder_v1_gloves_bdt1",
+    "boots": "synergy_rime_thunder_v1_boots_bdt1"
+  },
+  "instances": {
+    "synergy_rime_thunder_v1_weapon_bdt1": {
+      "uid": "synergy_rime_thunder_v1_weapon_bdt1",
+      "baseId": "frostthorn_staff",
+      "name": "霜雷交响·法器",
+      "slot": "weapon",
+      "level": 1,
+      "rarity": "rare",
+      "tier": 1,
+      "skill": "frost_lance",
+      "affixes": [
+        {
+          "id": "freezing_hits",
+          "name": "冰缓冻结",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "chill",
+              "params": {
+                "slow": 17,
+                "duration": 1
+              },
+              "with": [],
+              "tier": 1
+            },
+            {
+              "id": "freeze",
+              "params": {
+                "chance": 17,
+                "chill": 11,
+                "duration": 0.69
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "freeze_consume",
+          "name": "主动移除目标冻结，按剩余冻结时间强化本次伤害",
+          "traits": [
+            {
+              "id": "freeze_consume",
+              "params": {},
+              "with": []
+            }
+          ]
+        },
+        {
+          "id": "consume_lightning_nova",
+          "name": "消耗目标异常状态时，有n%概率触发雷霆新星",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "trig_ailment_consumed",
+              "params": {
+                "chance": 28
+              },
+              "with": [
+                {
+                  "id": "create_lightning_nova",
+                  "params": {
+                    "radius": 1.38,
+                    "damage": 16,
+                    "cooldown": 0.46
+                  },
+                  "with": [],
+                  "tier": 1
+                },
+                {
+                  "id": "shock",
+                  "params": {
+                    "amount": 11,
+                    "duration": 2
+                  },
+                  "with": [],
+                  "tier": 1
+                }
+              ],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "shock_consume",
+          "name": "消耗目标全部感电，每层提高本次闪电伤害 +n%",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "shock_consume",
+              "params": {
+                "n": 14
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "shock_chance",
+          "name": "命中时，感电概率 +n个百分点",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "shock_chance",
+              "params": {
+                "n": 11
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "shock_extra_layers",
+          "name": "每次施加感电，额外附加 +n层",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "shock_extra_layers",
+              "params": {
+                "n": 1
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        }
+      ],
+      "legendary": null
+    },
+    "synergy_rime_thunder_v1_helmet_bdt1": {
+      "uid": "synergy_rime_thunder_v1_helmet_bdt1",
+      "baseId": "cinder_guard_helmet",
+      "name": "霜雷交响·冠",
+      "slot": "helmet",
+      "level": 30,
+      "rarity": "rare",
+      "tier": 1,
+      "skill": "",
+      "affixes": [
+        {
+          "id": "proj_count",
+          "name": "投射物数量 +n个",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "proj_count",
+              "params": {
+                "n": 1
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "proj_pierce",
+          "name": "投射物穿透次数 +n次",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "proj_pierce",
+              "params": {
+                "n": 1
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "proj_layout_converge",
+          "name": "投射物从目标周围向中心发射",
+          "traits": [
+            {
+              "id": "proj_layout_converge",
+              "params": {},
+              "with": []
+            }
+          ]
+        },
+        {
+          "id": "proj_hit_life",
+          "name": "投射物命中时，恢复气血 +n点",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "proj_hit_life",
+              "params": {
+                "n": 1
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "frost_base",
+          "name": "基础冰霜伤害 +n点",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "frost_base",
+              "params": {
+                "n": 4
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "lightning_base",
+          "name": "基础闪电伤害 +n点",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "lightning_base",
+              "params": {
+                "n": 4
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        }
+      ],
+      "legendary": null
+    },
+    "synergy_rime_thunder_v1_chest_bdt1": {
+      "uid": "synergy_rime_thunder_v1_chest_bdt1",
+      "baseId": "cinder_guard_chest",
+      "name": "霜雷交响·衣",
+      "slot": "chest",
+      "level": 30,
+      "rarity": "rare",
+      "tier": 1,
+      "skill": "",
+      "affixes": [
+        {
+          "id": "lightning_pen",
+          "name": "闪电抗性穿透 +n个百分点",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "lightning_pen",
+              "params": {
+                "n": 9
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "trigger_more",
+          "name": "触发技能伤害额外提高 n%",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "trigger_more",
+              "params": {
+                "n": 11
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "trigger_cooldown_recovery",
+          "name": "触发冷却恢复速度 +n%",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "trigger_cooldown_recovery",
+              "params": {
+                "n": 28
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "trigger_charges",
+          "name": "触发技能可储存次数 +n次",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "trigger_charges",
+              "params": {
+                "n": 1
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "trigger_cost",
+          "name": "触发技能消耗 -n%",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "trigger_cost",
+              "params": {
+                "n": 17
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "area_repeats",
+          "name": "范围技能重复次数 +n次",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "area_repeats",
+              "params": {
+                "n": 1
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        }
+      ],
+      "legendary": null
+    },
+    "synergy_rime_thunder_v1_gloves_bdt1": {
+      "uid": "synergy_rime_thunder_v1_gloves_bdt1",
+      "baseId": "bloodthirst_gauntlets",
+      "name": "霜雷交响·手套",
+      "slot": "gloves",
+      "level": 20,
+      "rarity": "rare",
+      "tier": 1,
+      "skill": "",
+      "affixes": [
+        {
+          "id": "area_size",
+          "name": "范围面积 +n%",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "area_size",
+              "params": {
+                "n": 17
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "area_hit_mana",
+          "name": "范围每命中一个敌人，恢复魔力 +n点",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "area_hit_mana",
+              "params": {
+                "n": 1
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "cold_mastery",
+          "name": "冰霜精通",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "cold_mastery",
+              "params": {
+                "damage_percent": 33,
+                "critical_chance": 5,
+                "cast_speed": 23
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "chill_effect",
+          "name": "冰缓效果 +n%",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "chill_effect",
+              "params": {
+                "n": 17
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "life_base",
+          "name": "基础气血 +n点",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "life_base",
+              "params": {
+                "n": 34
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "life_increased",
+          "name": "气血上限 +n%",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "life_increased",
+              "params": {
+                "n": 11
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        }
+      ],
+      "legendary": null
+    },
+    "synergy_rime_thunder_v1_boots_bdt1": {
+      "uid": "synergy_rime_thunder_v1_boots_bdt1",
+      "baseId": "warden_boots",
+      "name": "霜雷交响·靴",
+      "slot": "boots",
+      "level": 3,
+      "rarity": "rare",
+      "tier": 1,
+      "skill": "",
+      "affixes": [
+        {
+          "id": "life_regen_percent",
+          "name": "每秒恢复最大气血的n%",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "life_regen_percent",
+              "params": {
+                "n": 1
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "armour",
+          "name": "护甲 +n",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "armour",
+              "params": {
+                "n": 115
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "fire_resistance",
+          "name": "火焰抗性",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "fire_resistance",
+              "params": {
+                "resistance": 14
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "frost_resistance",
+          "name": "冰霜抗性",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "frost_resistance",
+              "params": {
+                "resistance": 14
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "lightning_resistance",
+          "name": "闪电抗性",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "lightning_resistance",
+              "params": {
+                "resistance": 14
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "poison_resistance",
+          "name": "中毒抗性",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "poison_resistance",
+              "params": {
+                "resistance": 14
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        }
+      ],
+      "legendary": null
+    }
+  },
+  "belt": [],
+  "authored": {
+    "source": "generated-trait-composition",
+    "family": "synergy",
+    "name": "霜雷交响",
+    "revision": 1,
+    "minimumTier": 1
+  }
+}

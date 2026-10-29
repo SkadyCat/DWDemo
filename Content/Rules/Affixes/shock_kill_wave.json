@@ -1,0 +1,12 @@
+{
+  "id": "shock_kill_wave",
+  "name": "击败感电敌人时，有n%概率释放闪电震波",
+  "description": "角色词条：击败感电敌人时，有n%概率释放闪电震波。震波：半径 3 米，造成技能威力的闪电伤害",
+  "params": { "n": 30 },
+  "sheet": [
+    {
+      "stat": "shock.kill_wave_chance",
+      "value": { "param": "n" }
+    }
+  ]
+}

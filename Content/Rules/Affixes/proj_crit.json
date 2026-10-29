@@ -1,0 +1,12 @@
+{
+  "id": "proj_crit",
+  "name": "投射物暴击率 +n%",
+  "description": "角色词条：投射物暴击率 +n%",
+  "params": { "n": 50 },
+  "sheet": [
+    {
+      "stat": "proj.crit",
+      "value": { "param": "n" }
+    }
+  ]
+}

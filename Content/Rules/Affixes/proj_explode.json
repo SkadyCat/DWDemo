@@ -1,0 +1,12 @@
+{
+  "id": "proj_explode",
+  "name": "投射物命中时，有n%概率引发爆炸",
+  "description": "角色词条：投射物命中时，有n%概率引发爆炸。爆炸：半径 1.5 米，造成该次伤害 60% 的同类伤害",
+  "params": { "n": 20 },
+  "sheet": [
+    {
+      "stat": "proj.explode_chance",
+      "value": { "param": "n" }
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "id": "proj_explode_area",
+  "name": "投射物爆炸范围面积 +n%",
+  "description": "角色词条：投射物爆炸范围面积 +n%",
+  "params": { "n": 40 },
+  "sheet": [
+    {
+      "stat": "proj.explode_area",
+      "value": { "param": "n" }
+    }
+  ]
+}

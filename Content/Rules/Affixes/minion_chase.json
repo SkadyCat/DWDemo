@@ -1,0 +1,12 @@
+{
+  "id": "minion_chase",
+  "name": "召唤物追击距离 +n%",
+  "description": "角色词条：召唤物追击距离 +n%。离开你超过追击距离（基础 9 米）时放弃目标回到身边",
+  "params": { "n": 30 },
+  "sheet": [
+    {
+      "stat": "minion.chase",
+      "value": { "param": "n" }
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "id": "area_ailment_effect",
+  "name": "范围技能异常状态效果 +n%",
+  "description": "角色词条：范围技能异常状态效果 +n%",
+  "params": { "n": 25 },
+  "sheet": [
+    {
+      "stat": "area.ailment_effect",
+      "value": { "param": "n" }
+    }
+  ]
+}

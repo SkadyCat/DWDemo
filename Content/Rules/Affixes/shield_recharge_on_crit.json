@@ -1,0 +1,9 @@
+{
+  "id": "shield_recharge_on_crit",
+  "name": "暴击时，有n%概率立即开始护盾回充",
+  "description": "角色词条：暴击时，有n%概率立即开始护盾回充",
+  "params": { "n": 20 },
+  "sheet": [
+    { "stat": "shield.recharge_on_crit", "value": { "param": "n" } }
+  ]
+}

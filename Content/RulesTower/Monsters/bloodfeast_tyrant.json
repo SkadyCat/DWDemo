@@ -1,0 +1,34 @@
+{
+  "id": "bloodfeast_tyrant",
+  "name": "血铸屠王",
+  "description": "每 0.45 秒重击，T10 气血三件套提供厚血；最大生命转物理点伤和增伤，配合物理点伤、物理增伤及独立倍率。",
+  "enabled": true,
+  "weight": 1,
+  "minFloor": 11,
+  "health": 75,
+  "speed": 310,
+  "stopDistance": 140,
+  "color": "#d52a57",
+  "equipment": {
+    "lineage": "monster_lineage_bloodfeast_tyrant",
+    "rarity": null,
+    "tower": "monster_tower_equipment"
+  },
+  "traits": [
+    {
+      "id": "monster_seek_range",
+      "params": {
+        "n": 20
+      }
+    }
+  ],
+  "skills": [
+    {
+      "id": "monster_strike",
+      "enabled": true,
+      "range": 230,
+      "cooldown": 0.45,
+      "power": 10
+    }
+  ]
+}

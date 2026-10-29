@@ -1,0 +1,9 @@
+{
+  "id": "area_at_point",
+  "name": "范围技能以指定地点为中心释放",
+  "description": "角色词条：范围技能以指定地点为中心释放。落在瞄准方向的施放距离处",
+  "params": {},
+  "sheet": [
+    { "stat": "area.at_point", "value": 1 }
+  ]
+}

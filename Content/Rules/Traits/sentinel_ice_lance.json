@@ -1,0 +1,15 @@
+{
+  "id": "sentinel_ice_lance",
+  "parent": "summon_sentinel",
+  "name": "哨卫·冰锥",
+  "description": "辅助哨卫，使其每次攻击时触发冰锥；基础冰霜伤害 +damage，基础弹速 +speed 米/秒，基础飞行时间 +lifetime 秒，基础碰撞半径 +projectile_radius 米。冰锥发射向锁定的敌人，damage 为基础冰霜伤害（点），技能威力更高时取技能威力。speed 为弹速（米/秒），lifetime 为飞行秒数，projectile_radius 为碰撞半径（米）；默认飞行约 10.8 米。多重、穿透、弹射等投射物特性和冰缓照常生效。",
+  "params": { "damage": 16, "speed": 24, "lifetime": 0.45, "projectile_radius": 0.22 },
+  "rules": [
+    {
+      "id": "sentinel_fires_ice_lance", "event": "sentinel_attack",
+      "actions": [
+        { "op": "emit", "kind": "ice_lance", "element": "frost", "tags": ["frost", "cold", "spell"], "speed": { "param": "speed" }, "lifetime": { "param": "lifetime" }, "radius": { "param": "projectile_radius" }, "damage": { "max": [{ "param": "damage" }, { "event": "amount" }] } }
+      ]
+    }
+  ]
+}

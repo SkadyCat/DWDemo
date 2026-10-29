@@ -1,0 +1,9 @@
+{
+  "id": "minion_prefer_marked",
+  "name": "召唤物优先攻击你标记的目标",
+  "description": "角色词条：召唤物优先攻击你标记的目标",
+  "params": {},
+  "sheet": [
+    { "stat": "minion.prefer_marked", "value": 1 }
+  ]
+}

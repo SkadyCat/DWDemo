@@ -1,0 +1,12 @@
+{
+  "id": "ignite_chance",
+  "name": "命中时，点燃概率 +n个百分点",
+  "description": "角色词条：命中时，点燃概率 +n个百分点。任意命中都可能点燃：每秒造成该次伤害 40% 的火焰伤害，持续 4 秒",
+  "params": { "n": 20 },
+  "sheet": [
+    {
+      "stat": "ignite.chance",
+      "value": { "param": "n" }
+    }
+  ]
+}

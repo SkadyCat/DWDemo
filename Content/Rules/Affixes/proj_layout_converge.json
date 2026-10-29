@@ -1,0 +1,9 @@
+{
+  "id": "proj_layout_converge",
+  "name": "投射物从目标周围向中心发射",
+  "description": "角色词条：投射物从目标周围向中心发射。目标为瞄准方向 6 米内最近的敌人",
+  "params": {},
+  "sheet": [
+    { "stat": "proj.layout_converge", "value": 1 }
+  ]
+}

@@ -1,0 +1,585 @@
+[
+  {
+    "kind": "equipment",
+    "item": {
+      "uid": "drop_73252394_1_7",
+      "baseId": "cinder_surge_belt",
+      "name": "燎原·续火带",
+      "slot": "belt",
+      "level": 30,
+      "rarity": "common",
+      "tier": 1,
+      "skill": "",
+      "affixes": [],
+      "legendary": null,
+      "identified": true,
+      "bases": [
+        {
+          "id": "armour",
+          "name": "护甲 +n",
+          "traits": [
+            {
+              "params": {
+                "n": 105
+              },
+              "duration": 0,
+              "with": [],
+              "id": "armour",
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "shield_taken_physical",
+          "name": "护盾承受的物理伤害 -n%",
+          "traits": [
+            {
+              "id": "shield_taken_physical",
+              "params": {
+                "n": 9
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        }
+      ]
+    },
+    "id": "drop_73252394_1_7",
+    "name": "燎原·续火带",
+    "rarity": "common",
+    "tier": 1,
+    "count": 1,
+    "key": "ground_73252394_1_8",
+    "origin": "drop",
+    "sourceX": 0,
+    "sourceY": 0,
+    "x": -480,
+    "y": 320,
+    "claimed": false,
+    "prototypeFamily": "common"
+  },
+  {
+    "kind": "equipment",
+    "item": {
+      "uid": "drop_73252394_1_1",
+      "baseId": "stormband",
+      "name": "风暴指环",
+      "slot": "ring",
+      "level": 15,
+      "rarity": "magic",
+      "tier": 1,
+      "skill": "",
+      "affixes": [
+        {
+          "id": "evasion_to_armour",
+          "name": "闪避值的n%转化为护甲",
+          "traits": [
+            {
+              "id": "evasion_to_armour",
+              "params": {
+                "n": 16
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        }
+      ],
+      "legendary": null,
+      "identified": true,
+      "bases": []
+    },
+    "id": "drop_73252394_1_1",
+    "name": "风暴指环",
+    "rarity": "magic",
+    "tier": 1,
+    "count": 1,
+    "key": "ground_73252394_1_2",
+    "origin": "drop",
+    "sourceX": 0,
+    "sourceY": 0,
+    "x": -150,
+    "y": 320,
+    "claimed": false,
+    "prototypeFamily": "magic"
+  },
+  {
+    "kind": "equipment",
+    "item": {
+      "uid": "drop_73252394_1_13",
+      "baseId": "stormband",
+      "name": "风暴指环",
+      "slot": "ring",
+      "level": 15,
+      "rarity": "rare",
+      "tier": 1,
+      "skill": "",
+      "affixes": [
+        {
+          "id": "proj_hit_mana",
+          "name": "投射物命中时，恢复魔力 +n点",
+          "traits": [
+            {
+              "id": "proj_hit_mana",
+              "params": {
+                "n": 0.29
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "block_shield_item",
+          "name": "盾牌提供的格挡率 +n个百分点",
+          "traits": [
+            {
+              "id": "block_shield_item",
+              "params": {
+                "n": 3
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "poison_pool_duration",
+          "name": "毒池持续时间 +n%",
+          "traits": [
+            {
+              "id": "poison_pool_duration",
+              "params": {
+                "n": 23
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        }
+      ],
+      "legendary": null,
+      "identified": true,
+      "bases": []
+    },
+    "id": "drop_73252394_1_13",
+    "name": "风暴指环",
+    "rarity": "rare",
+    "tier": 1,
+    "count": 1,
+    "key": "ground_73252394_1_14",
+    "origin": "drop",
+    "sourceX": 0,
+    "sourceY": 0,
+    "x": 180,
+    "y": 320,
+    "claimed": false,
+    "prototypeFamily": "rare"
+  },
+  {
+    "kind": "equipment",
+    "item": {
+      "uid": "drop_73252394_1_247",
+      "baseId": "embers_echo_5_helmet",
+      "name": "余烬回响·鸣焰冠·Ⅴ阶",
+      "slot": "helmet",
+      "level": 1,
+      "rarity": "legendary",
+      "tier": 1,
+      "skill": "",
+      "affixes": [
+        {
+          "id": "poison_detonate_cooldown",
+          "name": "毒素引爆冷却恢复速度 +n%",
+          "traits": [
+            {
+              "id": "poison_detonate_cooldown",
+              "params": {
+                "n": 31
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "minion_marked_leech",
+          "name": "召唤物攻击标记目标时，气血偷取比例 +n个百分点",
+          "traits": [
+            {
+              "id": "minion_marked_leech",
+              "params": {
+                "n": 3
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "leech_life_all",
+          "name": "伤害的n%偷取为气血",
+          "traits": [
+            {
+              "id": "leech_life_all",
+              "params": {
+                "n": 1
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "area_extra_cast",
+          "name": "范围技能有n%概率额外释放一次",
+          "traits": [
+            {
+              "id": "area_extra_cast",
+              "params": {
+                "n": 15
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "shield_from_life_regen",
+          "name": "气血再生的n%同时用于恢复护盾",
+          "traits": [
+            {
+              "id": "shield_from_life_regen",
+              "params": {
+                "n": 25
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        }
+      ],
+      "legendary": {
+        "id": "legendary:embers_echo_5_helmet",
+        "name": "触发所需累计资源量 -n%",
+        "traits": [
+          {
+            "params": {
+              "n": 12
+            },
+            "duration": 0,
+            "with": [],
+            "id": "trigger_resource_reduction",
+            "tier": 1
+          }
+        ],
+        "tier": 1
+      },
+      "identified": true,
+      "bases": [
+        {
+          "id": "shield_base",
+          "name": "基础护盾 +n点",
+          "traits": [
+            {
+              "params": {
+                "n": 35
+              },
+              "duration": 0,
+              "with": [],
+              "id": "shield_base",
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "area_repeats",
+          "name": "范围技能重复次数 +n次",
+          "traits": [
+            {
+              "params": {
+                "n": 1
+              },
+              "duration": 0,
+              "with": [],
+              "id": "area_repeats",
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "area_repeat_interval",
+          "name": "范围技能重复间隔 -n%",
+          "traits": [
+            {
+              "params": {
+                "n": 17
+              },
+              "duration": 0,
+              "with": [],
+              "id": "area_repeat_interval",
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "fire_base",
+          "name": "基础火焰伤害 +n点",
+          "traits": [
+            {
+              "params": {
+                "n": 4
+              },
+              "duration": 0,
+              "with": [],
+              "id": "fire_base",
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "trigger_more",
+          "name": "触发技能伤害额外提高 n%",
+          "traits": [
+            {
+              "params": {
+                "n": 11
+              },
+              "duration": 0,
+              "with": [],
+              "id": "trigger_more",
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "area_more",
+          "name": "范围伤害额外提高 n%",
+          "traits": [
+            {
+              "params": {
+                "n": 8
+              },
+              "duration": 0,
+              "with": [],
+              "id": "area_more",
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        }
+      ]
+    },
+    "id": "drop_73252394_1_247",
+    "name": "余烬回响·鸣焰冠·Ⅴ阶",
+    "rarity": "legendary",
+    "tier": 1,
+    "count": 1,
+    "key": "ground_73252394_1_248",
+    "origin": "drop",
+    "sourceX": 0,
+    "sourceY": 0,
+    "x": -420,
+    "y": 70,
+    "claimed": false,
+    "prototypeFamily": "legendary"
+  },
+  {
+    "kind": "item",
+    "id": "chaos_orb",
+    "name": "下品灵石",
+    "rarity": "common",
+    "category": "currency",
+    "currencyGrade": 1,
+    "description": "任选一条随机词条，选定为本装备的第一条洗炼词条，此后用下品灵石反复洗炼该条。不能改洗其他词条。保留装备 T 阶、其他词条和固定传奇词条。",
+    "count": 2,
+    "key": "ground_73252394_1_39",
+    "origin": "drop",
+    "sourceX": 0,
+    "sourceY": 0,
+    "x": -90,
+    "y": 70,
+    "claimed": false,
+    "prototypeFamily": "currency-1"
+  },
+  {
+    "kind": "item",
+    "id": "spirit_stone_mid",
+    "name": "中品灵石",
+    "rarity": "magic",
+    "category": "currency",
+    "currencyGrade": 2,
+    "description": "已用下品灵石选定第一条后，从其余随机词条中选定第二条洗炼词条，此后用中品灵石反复洗炼该条。保留其他词条、装备T阶和固定传奇词条。",
+    "count": 1,
+    "key": "ground_73252394_1_33",
+    "origin": "drop",
+    "sourceX": 0,
+    "sourceY": 0,
+    "x": 240,
+    "y": 70,
+    "claimed": false,
+    "prototypeFamily": "currency-2"
+  },
+  {
+    "kind": "item",
+    "id": "spirit_stone_high",
+    "name": "上品灵石",
+    "rarity": "rare",
+    "category": "currency",
+    "currencyGrade": 3,
+    "description": "已用下品、中品灵石选定两条后，从其余随机词条中选定第三条洗炼词条，此后用上品灵石反复洗炼该条。每件装备最多指定洗炼三条，保留其他词条、装备T阶和固定传奇词条。",
+    "count": 2,
+    "key": "ground_73252394_1_12",
+    "origin": "drop",
+    "sourceX": 0,
+    "sourceY": 0,
+    "x": -480,
+    "y": -180,
+    "claimed": false,
+    "prototypeFamily": "currency-3"
+  },
+  {
+    "kind": "item",
+    "id": "quad_affix_orb",
+    "name": "陨星石",
+    "rarity": "rare",
+    "category": "currency",
+    "description": "消耗1个，将装备的随机词缀重新生成为4条不重复词缀，清除原来的洗炼选定记录。数值词缀在T1至装备T阶中随机抽阶；保留装备品质、绑定技能、基础属性和固定传奇词条。",
+    "count": 2,
+    "key": "ground_73252394_1_321",
+    "origin": "drop",
+    "sourceX": 0,
+    "sourceY": 0,
+    "x": -150,
+    "y": -180,
+    "claimed": false,
+    "prototypeFamily": "currency-special"
+  },
+  {
+    "kind": "item",
+    "id": "omen_proc",
+    "name": "触发预兆",
+    "rarity": "magic",
+    "category": "omen",
+    "description": "与混沌石一起使用：本次洗炼只会出现触发族的特性（触发效果与限时增益）。",
+    "count": 1,
+    "key": "ground_73252394_1_3",
+    "origin": "drop",
+    "sourceX": 0,
+    "sourceY": 0,
+    "x": 180,
+    "y": -180,
+    "claimed": false,
+    "prototypeFamily": "omen"
+  },
+  {
+    "kind": "item",
+    "id": "healing_draught",
+    "name": "气血药剂",
+    "rarity": "common",
+    "category": "consumable",
+    "description": "3 秒内恢复 200 点气血。",
+    "count": 1,
+    "key": "ground_73252394_1_15",
+    "origin": "drop",
+    "sourceX": 0,
+    "sourceY": 0,
+    "x": -420,
+    "y": -430,
+    "claimed": false,
+    "prototypeFamily": "consumable"
+  },
+  {
+    "kind": "equipment",
+    "item": {
+      "uid": "drop_73252394_1_13_unidentified",
+      "baseId": "stormband",
+      "name": "风暴指环",
+      "slot": "ring",
+      "level": 15,
+      "rarity": "rare",
+      "tier": 1,
+      "skill": "",
+      "affixes": [
+        {
+          "id": "proj_hit_mana",
+          "name": "投射物命中时，恢复魔力 +n点",
+          "traits": [
+            {
+              "id": "proj_hit_mana",
+              "params": {
+                "n": 0.29
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "block_shield_item",
+          "name": "盾牌提供的格挡率 +n个百分点",
+          "traits": [
+            {
+              "id": "block_shield_item",
+              "params": {
+                "n": 3
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "poison_pool_duration",
+          "name": "毒池持续时间 +n%",
+          "traits": [
+            {
+              "id": "poison_pool_duration",
+              "params": {
+                "n": 23
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        }
+      ],
+      "legendary": null,
+      "identified": false,
+      "bases": []
+    },
+    "id": "drop_73252394_1_13_unidentified",
+    "name": "风暴指环",
+    "rarity": "rare",
+    "tier": 1,
+    "count": 1,
+    "key": "ground_73252394_1_14_unidentified",
+    "origin": "drop",
+    "sourceX": 0,
+    "sourceY": 0,
+    "x": 570,
+    "y": -470,
+    "claimed": false,
+    "prototypeFamily": "rare"
+  }
+]

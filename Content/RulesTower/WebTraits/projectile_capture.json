@@ -1,0 +1,15 @@
+{
+  "id": "projectile_capture",
+  "parent": "vector_control",
+  "name": "敌对投射物捕获概率 +n%",
+  "description": "光环启用时，敌对投射物即将命中自己时有chance%的概率被捕获。捕获后归玩家所有，沿真实三次贝塞尔曲线弯曲回返攻击来源；重新聚合玩家投射物数量、伤害、速度、存在时间、半径、穿透、连锁等增幅。bend为弯曲控制点偏移（米），不影响玩家移动。捕获不承受原弹命中与结束伤害，不额外触发手动施法事件。",
+  "params": {
+    "chance": 20,
+    "bend": 2
+  },
+  "sheet": [
+    {
+      "trigger": "projectile_capture"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "id": "shield_from_helmet",
+  "name": "头盔提供的护盾 +n%",
+  "description": "角色词条：头盔提供的护盾 +n%。只作用于头盔上词条提供的基础护盾",
+  "params": { "n": 50 },
+  "sheet": [
+    {
+      "stat": "shield.slot_increased.helmet",
+      "value": { "param": "n" }
+    }
+  ]
+}

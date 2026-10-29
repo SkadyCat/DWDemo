@@ -1,0 +1,6 @@
+.b3-event-entry{position:fixed;z-index:5;width:206px;max-width:calc(100vw - 16px);pointer-events:auto;cursor:default;filter:drop-shadow(0 8px 20px #0008)}
+.b3-event-entry svg{height:auto;width:100%;stroke:none;stroke-width:1;fill:none;display:block;overflow:visible}
+.b3-event-layer{position:fixed;inset:0;z-index:16000;background:#03070bc9;display:flex;align-items:center;justify-content:center;padding:14px;backdrop-filter:blur(4px)}
+.b3-event-layer>svg{display:block;height:auto;stroke:none;stroke-width:1;fill:none;width:min(1280px,calc((100vh - 28px)*1280/660));max-width:calc(100vw - 28px);max-height:calc(100vh - 28px);aspect-ratio:1280/660;outline:none;user-select:none;touch-action:none;filter:drop-shadow(0 18px 45px #000b)}
+.b3-event-layer [data-drop-target]>g:first-child rect{stroke:#8fe8d9;stroke-width:2;fill:#16343b;fill-opacity:.45}
+.event-drag-ghost{position:fixed;z-index:20020;pointer-events:none;width:64px;height:64px;overflow:visible;filter:drop-shadow(0 5px 12px #000b);stroke:none;stroke-width:1;fill:none}

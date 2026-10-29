@@ -1,0 +1,11 @@
+{
+  "id": "player_stun_recovery",
+  "name": "晕眩积累消退",
+  "description": "未破碎时，1秒未受击后用4秒消退积累；覆层破碎并晕眩结束后，用1秒重新恢复完整，恢复中不重复累计。",
+  "params": { "delay": 1, "seconds": 4, "restore": 1 },
+  "sheet": [
+    { "stat": "stun.decay_delay", "value": { "param": "delay" } },
+    { "stat": "stun.decay_seconds", "value": { "param": "seconds" } },
+    { "stat": "stun.restore_seconds", "value": { "param": "restore" } }
+  ]
+}

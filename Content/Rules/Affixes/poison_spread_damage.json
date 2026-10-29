@@ -1,0 +1,12 @@
+{
+  "id": "poison_spread_damage",
+  "name": "传播产生的中毒伤害 +n%",
+  "description": "角色词条：传播产生的中毒伤害 +n%",
+  "params": { "n": 30 },
+  "sheet": [
+    {
+      "stat": "poison.spread_damage",
+      "value": { "param": "n" }
+    }
+  ]
+}

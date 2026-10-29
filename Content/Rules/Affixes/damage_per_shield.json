@@ -1,0 +1,9 @@
+{
+  "id": "damage_per_shield",
+  "name": "每n点最大护盾，伤害 +n%",
+  "description": "角色词条：每n点最大护盾，伤害 +n%",
+  "params": { "per": 100, "amount": 5 },
+  "sheet": [
+    { "stat": "damage.per_shield", "value": { "div": [{ "param": "amount" }, { "param": "per" }] } }
+  ]
+}

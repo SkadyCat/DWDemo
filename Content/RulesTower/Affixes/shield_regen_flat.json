@@ -1,0 +1,9 @@
+{
+  "id": "shield_regen_flat",
+  "name": "每秒恢复护盾 +n点",
+  "description": "角色词条：每秒恢复护盾 +n点",
+  "params": { "n": 5 },
+  "sheet": [
+    { "stat": "shield.regen_flat", "value": { "param": "n" } }
+  ]
+}

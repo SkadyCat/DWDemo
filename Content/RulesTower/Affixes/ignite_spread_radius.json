@@ -1,0 +1,12 @@
+{
+  "id": "ignite_spread_radius",
+  "name": "点燃传播半径 +n米",
+  "description": "角色词条：点燃传播半径 +n米。基础传播半径 3 米",
+  "params": { "n": 1 },
+  "sheet": [
+    {
+      "stat": "ignite.spread_radius",
+      "value": { "param": "n" }
+    }
+  ]
+}

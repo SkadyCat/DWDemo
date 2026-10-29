@@ -1,0 +1,47 @@
+{
+  "id": "embers_echo_1_helmet",
+  "name": "余烬回响·鸣焰冠·Ⅰ阶",
+  "description": "余烬回响Ⅰ阶：回蓝循环。恢复魔力触发烈焰爆发，减耗与冷却组成持续循环。 五档装备均为 T1，同名固有词条的数值完全一致，按联动机制逐档补齐。必要词条置于固定基底与单条传奇词缀；下方五条正常随机。每层手动施放两次烈焰爆发启动。",
+  "slot": "helmet",
+  "rarity": "legendary",
+  "level": 1,
+  "tier": 1,
+  "tags": [
+    "火焰",
+    "范围"
+  ],
+  "skills": [],
+  "legendary": {
+    "id": "trigger_resource_reduction",
+    "params": {
+      "n": 11
+    },
+    "with": [],
+    "tier": 1
+  },
+  "traits": [
+    {
+      "id": "trigger_resource_reduction",
+      "params": {
+        "n": 11
+      },
+      "with": [],
+      "tier": 1
+    }
+  ],
+  "bases": [
+    {
+      "id": "shield_base",
+      "params": {
+        "n": 34
+      },
+      "with": [],
+      "tier": 1
+    },
+    {
+      "id": "trigger_store_event",
+      "params": {},
+      "with": []
+    }
+  ]
+}

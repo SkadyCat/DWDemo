@@ -1,0 +1,390 @@
+{
+  "updated": "2026-10-25",
+  "scope": "最近7个CustomTools相关聊天的245条用户需求，按最后一次要求合并。恢复源码优先，缺失接口按已确认需求补齐；不新增战斗规则。",
+  "recovery": {
+    "checkpoint": "b603fd4b84f7e84efcc7e1ebe69a8c45d87008cb",
+    "rollback": "2f89e60",
+    "records": "Saved/WebsiteRecovery/20261024-rescue/historical-requests.json",
+    "presets": "Content/Rules/Presets",
+    "webTests": {
+      "total": 373,
+      "passed": 373
+    },
+    "browser": "三哨卫3/3、真实冰锥、三波与Boss通关、Hunter多选AND与取消过滤、6×12背包、实时角色面板已实测。"
+  },
+  "features": [
+    {
+      "id": "synergy_builds",
+      "name": "多词条联动BD",
+      "requirements": "霜雷交响、瘟疫回潮、献祭雷铸三套一键体验装备；献祭由可洗装备词条授予普通主动技能，按技能槽施放，移除V直接献祭。新星与补召走现有触发调度。",
+      "status": "implemented",
+      "sources": ["scripts/create-synergy-bds.mjs", "engine/trigger-skill-affixes.mjs", "engine/loadout.mjs", "Content/Rules/Presets", "Content/Rules/Affixes/grant_sacrifice.json", "Content/Rules/WebBuilds/sacrifice.json", "Content/Rules/WebTraits/sacrifice_minion.json", "docs/synergy-builds.md"],
+      "tests": ["tests/synergy-bds.test.mjs", "tests/sacrifice-skill.test.mjs", "tests/weapons.test.mjs", "tests/equipment-bases.test.mjs", "tests/icons.test.mjs"]
+    },
+    {
+      "id": "rules",
+      "name": "规则与聚合",
+      "requirements": "技能、装备、状态、限时条目按已有规则聚合；保留父子依赖、事件链深度、次级命中事件和制作规范。数值十阶由集合实例层生成。",
+      "status": "restored",
+      "sources": [
+        "engine/library.mjs",
+        "engine/trait-tiers.mjs",
+        "docs/trait-spec.md"
+      ],
+      "tests": [
+        "tests/engine.test.mjs",
+        "tests/collections.test.mjs",
+        "tests/stitch.test.mjs",
+        "tests/trait-tiers.test.mjs",
+        "tests/death-lightning.test.mjs"
+      ]
+    },
+    {
+      "id": "weapons",
+      "name": "装备取代宝石、武器绑定技能",
+      "requirements": "移除宝石流程；12种当前玩家主动技能各有普通武器，戒指、项链可授予技能；四个主动槽读取真正可用技能，去重、移槽与清空。",
+      "status": "restored",
+      "sources": [
+        "engine/equipment.mjs",
+        "engine/loadout.mjs",
+        "public/battle3d.mjs"
+      ],
+      "tests": [
+        "tests/weapons.test.mjs",
+        "tests/item-model.test.mjs",
+        "tests/play.test.mjs"
+      ]
+    },
+    {
+      "id": "quality",
+      "name": "品质、基础属性与装备阶级",
+      "requirements": "普通0、魔法1–2、稀有3–6、传奇6条含1条固定传奇；基础属性与随机词条分开，T1–T10数值遵守装备阶级上限。掉落默认已鉴定。",
+      "status": "restored",
+      "sources": [
+        "engine/equipment.mjs",
+        "engine/trait-tiers.mjs"
+      ],
+      "tests": [
+        "tests/equipment.test.mjs",
+        "tests/equipment-bases.test.mjs",
+        "tests/identification.test.mjs",
+        "tests/trait-tiers.test.mjs"
+      ]
+    },
+    {
+      "id": "craft",
+      "name": "三档灵石、陨星石与预兆",
+      "requirements": "下品/中品/上品依次绑定三条可反复洗炼的随机词条；陨星石重新生成4条并清除绑定。预兆影响已有词条族。消耗真实持有数量，保留固定核心。",
+      "status": "restored",
+      "sources": [
+        "engine/crafting.mjs",
+        "public/craft.mjs"
+      ],
+      "tests": [
+        "tests/crafting-grades.test.mjs",
+        "tests/quad-affix-orb.test.mjs",
+        "tests/equipment.test.mjs"
+      ]
+    },
+    {
+      "id": "hunter",
+      "name": "统一掉落 Hunter",
+      "requirements": "同一面板含装备词条和通货；默认启用，可取消显示全部；装备多选AND，通货按选择种类，搜索与面板开关独立，基础毒素点伤按实际特性匹配。",
+      "status": "restored",
+      "sources": [
+        "engine/loot-hunter.mjs",
+        "public/battle-loot-hunter.mjs"
+      ],
+      "tests": [
+        "tests/loot-hunter.test.mjs"
+      ]
+    },
+    {
+      "id": "bag",
+      "name": "背包、交易与物品详情",
+      "requirements": "6×12分页，搜索、整理、拖拽换位、堆叠与拆分；装备/卸下/售卖菜单。装备与道具可拖到背包或角色窗口外，或右键丢到地面；按当前堆叠数量移到脚边，可再次拾取，完整实例、传奇词条与未鉴定状态保留，拾回不重复计入怪物掉落奖励。地面与背包同一详情，Ctrl固定，按真实值和T阶显示并可在面板洗炼。",
+      "status": "restored",
+      "sources": [
+        "engine/floor-rewards.mjs",
+        "public/inventory-layout.mjs",
+        "public/battle3d.mjs",
+        "public/battle-item-panel.mjs"
+      ],
+      "tests": [
+        "tests/inventory-ground.test.mjs",
+        "tests/inventory-layout.test.mjs",
+        "tests/equipment-trade.test.mjs",
+        "tests/crafting-grades.test.mjs"
+      ]
+    },
+    {
+      "id": "hud",
+      "name": "战斗 HUD 与角色面板",
+      "requirements": "资源、地图、谱系、单体秒伤、右侧功能图标、四技能和四消耗品槽；角色背包/装备/属性/特性合并，基础元素点伤、特性来源和技能伤害均来自实际聚合。",
+      "status": "restored",
+      "sources": [
+        "public/battle3d.mjs",
+        "public/battle-panels.mjs",
+        "public/skill-details.mjs"
+      ],
+      "tests": [
+        "tests/battle-panels.test.mjs",
+        "tests/skill-details.test.mjs",
+        "tests/damage-meter.test.mjs"
+      ]
+    },
+    {
+      "id": "tower",
+      "name": "单房间爬塔",
+      "requirements": "单房间、三波怪和Boss，无门；20–300怪；30秒失败选项默认关闭；支持选择挑战层数、地面拾取、通关商人。",
+      "status": "restored",
+      "sources": [
+        "public/sim/dungeon.mjs",
+        "public/sim/dungeon-battle.mjs"
+      ],
+      "tests": [
+        "tests/dungeon.test.mjs",
+        "tests/floor-rewards.test.mjs"
+      ]
+    },
+    {
+      "id": "pawn",
+      "name": "Pawn固定装备、怪物谱系和塔成长",
+      "requirements": "怪物地图/塔、谱系、稀有度三个固定槽；玩家塔/角色两个固定槽。成长走装备聚合，生命×2、伤害×1.2；普通10、稀有20、Boss30基础伤害。前十层谱系较温和。",
+      "status": "restored",
+      "sources": [
+        "engine/pawn-equipment.mjs",
+        "engine/equipment-slots.mjs",
+        "engine/map-unit.mjs"
+      ],
+      "tests": [
+        "tests/fixed-equipment.test.mjs",
+        "tests/tower-level.test.mjs",
+        "tests/monster-lineages.test.mjs",
+        "tests/map-unit.test.mjs"
+      ]
+    },
+    {
+      "id": "poison",
+      "name": "毒瓶与通用抛物线",
+      "requirements": "投射物落向鼠标指定位置，碎裂范围挂毒；弹道使用通用抛物线规则，支持多重、环形等已有投射词条。",
+      "status": "restored",
+      "sources": [
+        "engine/parabolic.mjs",
+        "public/prefabs/poison-flask.mjs"
+      ],
+      "tests": [
+        "tests/poison-flask.test.mjs",
+        "tests/parabolic.test.mjs",
+        "tests/splash.test.mjs"
+      ]
+    },
+    {
+      "id": "vfx",
+      "name": "独立特效预制体和预览页",
+      "requirements": "冰缓、感电等状态、元素爆炸、波纹、冰锥/火球/闪电、近战和地面特效；独立文件，表现不结算伤害，战斗适配读取真实事件和载体。 全投射物采用独立碰撞命中表现，按六种元素绘制，覆盖双阵营、召唤物、次级载体、零伤害命中、撞墙与抛物线落地。",
+      "status": "restored",
+      "sources": [
+        "public/vfx/catalog.mjs",
+        "public/vfx/battle-effects.mjs",
+        "public/vfx.html",
+        "public/prefabs/projectile-hit.mjs"
+      ],
+      "tests": [
+        "tests/vfx.test.mjs",
+        "tests/loot-vfx.test.mjs",
+        "tests/projectile-hit.test.mjs"
+      ]
+    },
+    {
+      "id": "summons",
+      "name": "四种新召唤物与命中触发词条",
+      "requirements": "铁刃守卫、赤焰战犬两个近战，火球炮台、引雷图腾两个远程。各有独立召唤与攻击特性、普通武器、命中概率触发复合词条和传奇装备。",
+      "status": "restored",
+      "sources": [
+        "engine/combat/minions.mjs",
+        "public/vfx/catalog.mjs"
+      ],
+      "tests": [
+        "tests/trigger-summons.test.mjs",
+        "tests/summon-hit-affixes.test.mjs",
+        "tests/summon-legendaries.test.mjs"
+      ]
+    },
+    {
+      "id": "control",
+      "name": "控制上限与召唤单位列表",
+      "requirements": "默认控制1个单位，通过控制单位上限词条增加；各类受控单位共用名额，雷暴不占用。左侧列表展示实际血盾、剩余时间和上限，属于上层显示逻辑。",
+      "status": "restored",
+      "sources": [
+        "engine/combat/minions.mjs",
+        "public/battle-summon-units.mjs"
+      ],
+      "tests": [
+        "tests/control-unit-cap.test.mjs",
+        "tests/summons.test.mjs"
+      ]
+    },
+    {
+      "id": "projectiles",
+      "name": "召唤物投射物继承",
+      "requirements": "主动及触发召唤的真实投射物吃通用和召唤专属投射加成一次；支持数量、弹速、穿透、弹射、分裂、追踪、返回、环形和连射。每轮独立命中批次并保留召唤物归因。",
+      "status": "restored",
+      "sources": [
+        "engine/combat/projectiles.mjs",
+        "engine/combat/minions.mjs"
+      ],
+      "tests": [
+        "tests/minion-projectiles.test.mjs",
+        "tests/trigger-summons.test.mjs",
+        "tests/splash.test.mjs"
+      ]
+    },
+    {
+      "id": "autocast",
+      "name": "自毒与自动施法 BD",
+      "requirements": "自毒连投、十套自动施法参考、万剑T10/传奇T1，以及余烬回响五档传奇；一键应用真实装备。循环只使用已有特性，注明启动和目标条件，不用额外回蓝、补伤害或无敌逻辑。",
+      "status": "restored",
+      "sources": [
+        "scripts/create-self-poison-bd.mjs",
+        "scripts/create-autocast-bds.mjs",
+        "scripts/create-embers-echo-bds.mjs",
+        "scripts/create-myriad-swords-bd.mjs"
+      ],
+      "tests": [
+        "tests/self-poison-bd.test.mjs",
+        "tests/autocast-bds.test.mjs",
+        "tests/embers-echo.test.mjs",
+        "tests/myriad-swords.test.mjs"
+      ]
+    },
+    {
+      "id": "summon-myriad",
+      "name": "召唤万剑与提速",
+      "requirements": "五件T10传奇、三哨卫、每轮13枚×11发射点的143枚原生冰锥；固定核心沿用已有召唤施法速度与冷却恢复，约每0.35秒一轮。恢复原25条随机词缀。",
+      "status": "restored",
+      "sources": [
+        "scripts/create-summon-myriad-bd.mjs"
+      ],
+      "tests": [
+        "tests/summon-myriad-bd.test.mjs"
+      ]
+    },
+    {
+      "id": "icons",
+      "name": "图标与掉落表现",
+      "requirements": "七张九宫格图集、独立图标、装备/技能绑定回退；补齐新增装备图标文件和manifest。新增召唤图标复用现有相应技能美术；品质色、掉落光柱与拖尾不参与规则。",
+      "status": "restored",
+      "sources": [
+        "public/icon-catalog.mjs",
+        "public/game-icons.mjs",
+        "public/prefabs/loot-markers.mjs"
+      ],
+      "tests": [
+        "tests/icons.test.mjs",
+        "tests/loot-vfx.test.mjs"
+      ]
+    },
+    {
+      "id": "service",
+      "name": "本地服务与公网入口",
+      "requirements": "5290本地服务、完整规则库校验、静态页面及共享Presets路由。保留现有5590反向隧道，默认自动选网卡，避免绑定已经失效的旧局域网地址。",
+      "status": "restored",
+      "sources": [
+        "server.mjs",
+        "deploy/start-public.ps1"
+      ],
+      "tests": [
+        "tests/site.test.mjs"
+      ]
+    }
+  ],
+  "otherTools": [
+    {
+      "id": "uicreator",
+      "name": "UICreator迁移与原HUD",
+      "requirements": "CustomTools/UICreator保留编辑器、组件库、RuleTowerWebHUD、技能装配交互、4K画布锚点、按需窗口预览、图片与SVG缓存及Frame/WBP桥。",
+      "sources": [
+        "CustomTools/UICreator/data/document.lua",
+        "CustomTools/UICreator/public/document-runtime.js",
+        "CustomTools/UICreator/scripts/ue-bridge.mjs"
+      ],
+      "verification": "npm run check通过；3840×2160布局6196项检查通过。"
+    },
+    {
+      "id": "alpha",
+      "name": "UICreatorAlpha SVG编辑器",
+      "requirements": "保留现有SVG/WBP式控件树与锚点编辑器，不用旧版覆盖另一聊天已经完成的修改。",
+      "sources": [
+        "CustomTools/UICreatorAlpha/package.json",
+        "CustomTools/UICreatorAlpha/README.md"
+      ],
+      "verification": "语法检查通过，22项测试通过。"
+    },
+    {
+      "id": "beta",
+      "name": "UICreatorBeta编译和UE桥",
+      "requirements": "保留现有独立工程、HTML渲染、UE编译、布局/资源/状态契约及原生桥。",
+      "sources": [
+        "CustomTools/UICreatorBeta/package.json",
+        "CustomTools/UICreatorBeta/ue-bridge"
+      ],
+      "verification": "构建通过，65项Node测试及25项Python桥测试通过。"
+    },
+    {
+      "id": "effect-preview",
+      "name": "EffectPreview独立工具",
+      "requirements": "保留独立特效工具及资源接口。",
+      "sources": [
+        "CustomTools/EffectPreview/package.json"
+      ],
+      "verification": "14项测试通过。"
+    },
+    {
+      "id": "ue-runtime",
+      "name": "UE爬塔、Zero怪物及网页特效迁移记录",
+      "requirements": "保留现有Plugins/DWRules、塔场景、Zero怪物表现和HUD接入源码；本轮以CustomTools和本地网站恢复为范围。",
+      "sources": [
+        "Docs/RULES-UE-MIGRATION.md",
+        "Docs/RULE-TOWER-DEMO.md",
+        "Source/DungeonWorldBeta/Private/DWBTower.cpp"
+      ],
+      "verification": "检查源码仍存在；本轮未启动UE编译、导入或PIE，不标记实机通过。",
+      "status": "preserved-not-runtime-retested"
+    }
+  ],
+  "excluded": [
+    {
+      "name": "宝石及旧武器/旧配装入口",
+      "reason": "已被装备洗炼、当前技能武器和现有BD目录替代。"
+    },
+    {
+      "name": "astral_weave、spectral_brood及其专属装备和词条",
+      "reason": "用户在后续明确要求删除。"
+    },
+    {
+      "name": "主动技能=[主动]+[触发]的另一次重构",
+      "reason": "原记录明确撤回，保留当前装配模型。"
+    },
+    {
+      "name": "新提议的五类BD和11+5个新机制词条",
+      "reason": "记录只到设计文档，未获实现要求，不伪装成已完成。"
+    },
+    {
+      "name": "多房间迷宫、门、强制30秒限时",
+      "reason": "已被单房间三波Boss及可选限时覆盖。"
+    }
+  ],
+  "currentValidation": {
+    "webTests": {
+      "total": 425,
+      "passed": 425
+    },
+    "projectileHitTests": 7,
+    "synergyBuildTests": 7,
+    "sacrificeSkillTests": 7,
+    "triggerProjectileTargetTests": 4,
+    "synergyBrowser": "献祭雷铸v2一键应用后，1槽召唤、2槽献祭、左键/空格真实施放：护盾溢出、新星伤害与补召；无V快捷键。证据：Saved/BuildExploration/sacrifice-skill-slots.png。此前毒瓶六个存活训练目标松手续投五分钟的验证仍保留。",
+    "webgl": "六种元素预览及三哨卫密集冰锥命中实测，无脚本/Shader错误。"
+  }
+}

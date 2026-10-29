@@ -1,0 +1,564 @@
+{
+  "skills": [
+    "iron_guard",
+    "sacrifice",
+    null,
+    null
+  ],
+  "equipment": {
+    "weapon": "synergy_sacrifice_thunder_v2_weapon_bdt1",
+    "helmet": "synergy_sacrifice_thunder_v2_helmet_bdt1",
+    "chest": "synergy_sacrifice_thunder_v2_chest_bdt1",
+    "gloves": "synergy_sacrifice_thunder_v2_gloves_bdt1",
+    "boots": "synergy_sacrifice_thunder_v2_boots_bdt1"
+  },
+  "instances": {
+    "synergy_sacrifice_thunder_v2_weapon_bdt1": {
+      "uid": "synergy_sacrifice_thunder_v2_weapon_bdt1",
+      "baseId": "iron_guard_sigil",
+      "name": "献祭雷铸·法器",
+      "slot": "weapon",
+      "level": 1,
+      "rarity": "rare",
+      "tier": 1,
+      "skill": "iron_guard",
+      "affixes": [
+        {
+          "id": "sacrifice_thunder_guard",
+          "name": "主动牺牲召唤物时，触发雷霆新星与召唤铁刃守卫",
+          "traits": [
+            {
+              "id": "trig_sacrifice",
+              "params": {},
+              "with": [
+                {
+                  "id": "create_lightning_nova",
+                  "params": {
+                    "radius": 1.38,
+                    "damage": 16,
+                    "cooldown": 0.46
+                  },
+                  "with": [],
+                  "tier": 1
+                },
+                {
+                  "id": "shock",
+                  "params": {
+                    "amount": 11,
+                    "duration": 2
+                  },
+                  "with": [],
+                  "tier": 1
+                },
+                {
+                  "id": "summon_iron_guard",
+                  "params": {
+                    "duration": 5,
+                    "interval": 0.46,
+                    "range": 4,
+                    "cap": 1,
+                    "cooldown": 1
+                  },
+                  "with": [],
+                  "tier": 1
+                },
+                {
+                  "id": "iron_guard_slash",
+                  "params": {
+                    "damage": 10
+                  },
+                  "with": [],
+                  "tier": 1
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "trigger_mount",
+          "name": "可挂载的触发技能数量 +n个",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "trigger_mount",
+              "params": {
+                "n": 1
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "trigger_at_event",
+          "name": "触发技能在触发事件发生的位置释放",
+          "traits": [
+            {
+              "id": "trigger_at_event",
+              "params": {},
+              "with": []
+            }
+          ]
+        },
+        {
+          "id": "trigger_order_sequence",
+          "name": "挂载技能按配置顺序依次触发",
+          "traits": [
+            {
+              "id": "trigger_order_sequence",
+              "params": {},
+              "with": []
+            }
+          ]
+        },
+        {
+          "id": "trigger_cost",
+          "name": "触发技能消耗 -n%",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "trigger_cost",
+              "params": {
+                "n": 17
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "trigger_cooldown_recovery",
+          "name": "触发冷却恢复速度 +n%",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "trigger_cooldown_recovery",
+              "params": {
+                "n": 28
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        }
+      ],
+      "legendary": null
+    },
+    "synergy_sacrifice_thunder_v2_helmet_bdt1": {
+      "uid": "synergy_sacrifice_thunder_v2_helmet_bdt1",
+      "baseId": "cinder_guard_helmet",
+      "name": "献祭雷铸·冠",
+      "slot": "helmet",
+      "level": 30,
+      "rarity": "rare",
+      "tier": 1,
+      "skill": "",
+      "affixes": [
+        {
+          "id": "control_unit_cap",
+          "name": "控制单位上限 +n个",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "control_unit_cap",
+              "params": {
+                "n": 1
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "minion_cap_same",
+          "name": "同类召唤物数量上限 +n个",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "minion_cap_same",
+              "params": {
+                "n": 1
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "minion_life",
+          "name": "召唤物气血上限 +n%",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "minion_life",
+              "params": {
+                "n": 17
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "minion_sacrifice_life",
+          "name": "主动牺牲召唤物时，恢复最大气血的n%",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "minion_sacrifice_life",
+              "params": {
+                "n": 5
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "minion_sacrifice_shield",
+          "name": "主动牺牲召唤物时，将其剩余气血的n%转化为护盾",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "minion_sacrifice_shield",
+              "params": {
+                "n": 28
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "shield_base",
+          "name": "基础护盾 +n点",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "shield_base",
+              "params": {
+                "n": 34
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        }
+      ],
+      "legendary": null
+    },
+    "synergy_sacrifice_thunder_v2_chest_bdt1": {
+      "uid": "synergy_sacrifice_thunder_v2_chest_bdt1",
+      "baseId": "cinder_guard_chest",
+      "name": "献祭雷铸·衣",
+      "slot": "chest",
+      "level": 30,
+      "rarity": "rare",
+      "tier": 1,
+      "skill": "",
+      "affixes": [
+        {
+          "id": "shield_from_life",
+          "name": "获得相当于最大气血n%的额外基础护盾",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "shield_from_life",
+              "params": {
+                "n": 9
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "shield_overflow",
+          "name": "护盾恢复允许溢出上限的n%",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "shield_overflow",
+              "params": {
+                "n": 11
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "shield_overflow_damage",
+          "name": "溢出护盾存在时，伤害 +n%",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "shield_overflow_damage",
+              "params": {
+                "n": 9
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "shield_added_lightning",
+          "name": "获得相当于最大护盾n%的附加闪电伤害",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "shield_added_lightning",
+              "params": {
+                "n": 2
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "lightning_pen",
+          "name": "闪电抗性穿透 +n个百分点",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "lightning_pen",
+              "params": {
+                "n": 9
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "trigger_more",
+          "name": "触发技能伤害额外提高 n%",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "trigger_more",
+              "params": {
+                "n": 11
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        }
+      ],
+      "legendary": null
+    },
+    "synergy_sacrifice_thunder_v2_gloves_bdt1": {
+      "uid": "synergy_sacrifice_thunder_v2_gloves_bdt1",
+      "baseId": "bloodthirst_gauntlets",
+      "name": "献祭雷铸·手套",
+      "slot": "gloves",
+      "level": 20,
+      "rarity": "rare",
+      "tier": 1,
+      "skill": "",
+      "affixes": [
+        {
+          "id": "area_repeats",
+          "name": "范围技能重复次数 +n次",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "area_repeats",
+              "params": {
+                "n": 1
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "area_size",
+          "name": "范围面积 +n%",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "area_size",
+              "params": {
+                "n": 17
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "minion_damage",
+          "name": "召唤物伤害 +n%",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "minion_damage",
+              "params": {
+                "n": 17
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "grant_sacrifice",
+          "name": "获得主动技能：献祭",
+          "traits": [
+            {
+              "id": "grant_sacrifice",
+              "params": {},
+              "with": []
+            }
+          ]
+        },
+        {
+          "id": "life_base",
+          "name": "基础气血 +n点",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "life_base",
+              "params": {
+                "n": 34
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "life_increased",
+          "name": "气血上限 +n%",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "life_increased",
+              "params": {
+                "n": 11
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        }
+      ],
+      "legendary": null
+    },
+    "synergy_sacrifice_thunder_v2_boots_bdt1": {
+      "uid": "synergy_sacrifice_thunder_v2_boots_bdt1",
+      "baseId": "warden_boots",
+      "name": "献祭雷铸·靴",
+      "slot": "boots",
+      "level": 3,
+      "rarity": "rare",
+      "tier": 1,
+      "skill": "",
+      "affixes": [
+        {
+          "id": "life_regen_percent",
+          "name": "每秒恢复最大气血的n%",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "life_regen_percent",
+              "params": {
+                "n": 1
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "armour",
+          "name": "护甲 +n",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "armour",
+              "params": {
+                "n": 115
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "fire_resistance",
+          "name": "火焰抗性",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "fire_resistance",
+              "params": {
+                "resistance": 14
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "frost_resistance",
+          "name": "冰霜抗性",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "frost_resistance",
+              "params": {
+                "resistance": 14
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "lightning_resistance",
+          "name": "闪电抗性",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "lightning_resistance",
+              "params": {
+                "resistance": 14
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "poison_resistance",
+          "name": "中毒抗性",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "poison_resistance",
+              "params": {
+                "resistance": 14
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        }
+      ],
+      "legendary": null
+    }
+  },
+  "belt": [],
+  "authored": {
+    "source": "generated-trait-composition",
+    "family": "synergy",
+    "name": "献祭雷铸",
+    "revision": 2,
+    "minimumTier": 1
+  }
+}

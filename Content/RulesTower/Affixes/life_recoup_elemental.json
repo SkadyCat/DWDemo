@@ -1,0 +1,10 @@
+{
+  "id": "life_recoup_elemental",
+  "name": "受到元素命中伤害的n%在接下来n秒内恢复为气血",
+  "description": "角色词条：受到元素命中伤害的n%在接下来n秒内恢复为气血",
+  "params": { "percent": 15, "seconds": 4 },
+  "sheet": [
+    { "stat": "recoup.life.elemental", "value": { "param": "percent" } },
+    { "stat": "recoup.life.seconds", "value": { "param": "seconds" } }
+  ]
+}

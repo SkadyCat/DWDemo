@@ -1,0 +1,21 @@
+{
+  "id": "sentinel_scepter",
+  "name": "岗哨权杖",
+  "description": "绑定召唤哨卫。词条按装备品质与 T 阶随机生成；传奇品质固定带有召唤物攻击速度提高。",
+  "slot": "weapon",
+  "rarity": "common",
+  "level": 1,
+  "tier": 1,
+  "tags": [
+    "召唤",
+    "权杖"
+  ],
+  "skills": [
+    "sentinel"
+  ],
+  "legendary": "minion_attack_speed",
+  "traits": [],
+  "bases": [
+    "flat_frost"
+  ]
+}

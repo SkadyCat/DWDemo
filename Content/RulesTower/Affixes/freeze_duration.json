@@ -1,0 +1,12 @@
+{
+  "id": "freeze_duration",
+  "name": "冻结持续时间 +n%",
+  "description": "角色词条：冻结持续时间 +n%",
+  "params": { "n": 40 },
+  "sheet": [
+    {
+      "stat": "freeze.duration",
+      "value": { "param": "n" }
+    }
+  ]
+}

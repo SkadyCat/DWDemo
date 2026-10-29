@@ -1,0 +1,15 @@
+{
+  "id": "shock_consume_strike",
+  "name": "消耗感电·闪电击中",
+  "description": "命中感电目标时，消耗其全部感电，在命中位置引发中范围闪电击中，对 radius 米内敌人造成 damage 点闪电伤害。没有感电不触发。反应伤害不再次触发这三种异常消费反应。",
+  "params": { "radius": 3, "damage": 24 },
+  "rules": [{
+    "id": "shock_consume_strike_on_hit",
+    "event": "hit",
+    "chain": { "channel": "ailment_reaction", "maxDepth": 1 },
+    "conditions": [{ "op": "status", "key": "shock" }],
+    "actions": [{ "op": "consume_status", "key": "shock", "value": "all", "then": [
+      { "op": "damage_area", "element": "lightning", "tags": ["lightning", "spell"], "radius": { "param": "radius" }, "amount": { "param": "damage" } }
+    ] }]
+  }]
+}

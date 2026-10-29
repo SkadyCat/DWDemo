@@ -1,0 +1,12 @@
+{
+  "id": "poison_single",
+  "name": "中毒无法叠层，但单层伤害额外提高n%",
+  "description": "角色词条：中毒无法叠层，但单层伤害额外提高n%",
+  "params": { "n": 150 },
+  "sheet": [
+    {
+      "stat": "poison.single_layer",
+      "value": { "param": "n" }
+    }
+  ]
+}

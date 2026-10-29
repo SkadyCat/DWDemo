@@ -1,0 +1,12 @@
+{
+  "id": "minion_cooldown",
+  "name": "召唤技能冷却恢复速度 +n%",
+  "description": "角色词条：召唤技能冷却恢复速度 +n%",
+  "params": { "n": 30 },
+  "sheet": [
+    {
+      "stat": "minion.cooldown",
+      "value": { "param": "n" }
+    }
+  ]
+}

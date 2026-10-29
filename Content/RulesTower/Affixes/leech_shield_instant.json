@@ -1,0 +1,9 @@
+{
+  "id": "leech_shield_instant",
+  "name": "护盾偷取量的n%立即恢复",
+  "description": "角色词条：护盾偷取量的n%立即恢复",
+  "params": { "n": 20 },
+  "sheet": [
+    { "stat": "leech.shield.instant", "value": { "param": "n" } }
+  ]
+}

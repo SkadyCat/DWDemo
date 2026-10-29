@@ -1,0 +1,9 @@
+{
+  "id": "trig_multi_hit",
+  "name": "单次技能命中至少n个敌人时，触发挂载技能",
+  "description": "角色词条：单次技能命中至少n个敌人时，触发挂载技能",
+  "params": { "n": 4 },
+  "sheet": [
+    { "trigger": "trig_multi_hit" }
+  ]
+}

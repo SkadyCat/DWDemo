@@ -1,0 +1,9 @@
+{
+  "id": "freeze_end_zone",
+  "name": "冻结结束后，在目标脚下生成持续n秒的冰缓区域",
+  "description": "角色词条：冻结结束后，在目标脚下生成持续n秒的冰缓区域。半径 2 米，区域内敌人冰缓 30%",
+  "params": { "seconds": 3 },
+  "sheet": [
+    { "trigger": "freeze_end_zone" }
+  ]
+}

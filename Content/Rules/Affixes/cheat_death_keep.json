@@ -1,0 +1,9 @@
+{
+  "id": "cheat_death_keep",
+  "name": "受到致命伤害时，保留1点气血，冷却n秒",
+  "description": "角色词条：受到致命伤害时，保留1点气血，冷却n秒",
+  "params": { "cooldown": 60 },
+  "sheet": [
+    { "trigger": "cheat_death_keep" }
+  ]
+}

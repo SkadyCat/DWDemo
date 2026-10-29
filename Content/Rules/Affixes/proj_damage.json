@@ -1,0 +1,12 @@
+{
+  "id": "proj_damage",
+  "name": "投射物伤害 +n%",
+  "description": "角色词条：投射物伤害 +n%",
+  "params": { "n": 25 },
+  "sheet": [
+    {
+      "stat": "proj.damage",
+      "value": { "param": "n" }
+    }
+  ]
+}

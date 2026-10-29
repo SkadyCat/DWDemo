@@ -1,0 +1,12 @@
+{
+  "id": "poison_duration",
+  "name": "中毒持续时间 +n%",
+  "description": "角色词条：中毒持续时间 +n%",
+  "params": { "n": 30 },
+  "sheet": [
+    {
+      "stat": "poison.duration",
+      "value": { "param": "n" }
+    }
+  ]
+}

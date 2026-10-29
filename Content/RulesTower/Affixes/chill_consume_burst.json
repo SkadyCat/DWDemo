@@ -1,0 +1,15 @@
+{
+  "id": "chill_consume_burst",
+  "name": "消耗冰缓·冰霜爆破",
+  "description": "命中冰缓目标时，消耗其冰缓，在命中位置引发小范围冰霜爆破，对 radius 米内敌人造成 damage 点冰霜伤害。没有冰缓不触发。反应伤害不再次触发这三种异常消费反应。",
+  "params": { "radius": 1.5, "damage": 18 },
+  "rules": [{
+    "id": "chill_consume_burst_on_hit",
+    "event": "hit",
+    "chain": { "channel": "ailment_reaction", "maxDepth": 1 },
+    "conditions": [{ "op": "status", "key": "chill" }],
+    "actions": [{ "op": "consume_status", "key": "chill", "value": "all", "then": [
+      { "op": "damage_area", "element": "cold", "tags": ["cold", "spell"], "radius": { "param": "radius" }, "amount": { "param": "damage" } }
+    ] }]
+  }]
+}

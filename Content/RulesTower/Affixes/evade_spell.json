@@ -1,0 +1,12 @@
+{
+  "id": "evade_spell",
+  "name": "法术闪避率 +n个百分点",
+  "description": "角色词条：法术闪避率 +n个百分点。基础不能闪避法术；法术闪避只来自该词条",
+  "params": { "n": 10 },
+  "sheet": [
+    {
+      "stat": "evade.spell",
+      "value": { "param": "n" }
+    }
+  ]
+}

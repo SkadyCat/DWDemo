@@ -1,0 +1,950 @@
+{
+  "schema": "uicreator-alpha",
+  "version": 1,
+  "id": "opus-dungeon-exit",
+  "name": "Studio3D · 地牢出口传送阵",
+  "viewport": {
+    "width": 220,
+    "height": 64,
+    "background": "transparent"
+  },
+  "root": {
+    "id": "portal-root",
+    "name": "地牢出口 · 世界空间浮牌",
+    "type": "CanvasPanel",
+    "visibility": "visible",
+    "locked": false,
+    "slot": {
+      "anchors": {
+        "minX": 0,
+        "minY": 0,
+        "maxX": 0,
+        "maxY": 0
+      },
+      "offsets": {
+        "left": 0,
+        "top": 0,
+        "right": 220,
+        "bottom": 64
+      },
+      "alignment": {
+        "x": 0,
+        "y": 0
+      },
+      "autoSize": false,
+      "zOrder": 0,
+      "padding": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      },
+      "horizontalAlignment": "fill",
+      "verticalAlignment": "fill",
+      "sizeRule": "auto",
+      "fill": 1
+    },
+    "layout": {
+      "padding": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      },
+      "gap": 12,
+      "width": 220,
+      "height": 64,
+      "stretch": "fit",
+      "scale": 1,
+      "orientation": "vertical",
+      "scrollOffset": 0
+    },
+    "style": {
+      "fill": "transparent",
+      "stroke": "transparent",
+      "strokeWidth": 0,
+      "radius": 0,
+      "opacity": 1,
+      "color": "#e5edf6",
+      "fontSize": 18,
+      "fontWeight": 400,
+      "fontFamily": "Segoe UI, Microsoft YaHei, sans-serif",
+      "textAlign": "left",
+      "verticalAlign": "center",
+      "textPadding": 0,
+      "wrap": true,
+      "objectFit": "contain",
+      "clip": false
+    },
+    "text": "",
+    "src": "",
+    "svg": "",
+    "svgAsset": "",
+    "value": 0.65,
+    "brushes": {
+      "normal": "",
+      "hovered": "",
+      "pressed": "",
+      "disabled": ""
+    },
+    "motion": {
+      "preset": "auto",
+      "assetId": ""
+    },
+    "audio": {
+      "enabled": true,
+      "volume": 1,
+      "pitch": 1,
+      "events": {}
+    },
+    "interactable": true,
+    "prefabId": "",
+    "overrides": {},
+    "binding": "",
+    "action": null,
+    "children": [
+      {
+        "id": "portal-open",
+        "name": "前往世界地图",
+        "type": "Button",
+        "visibility": "visible",
+        "locked": false,
+        "slot": {
+          "anchors": {
+            "minX": 0,
+            "minY": 0,
+            "maxX": 0,
+            "maxY": 0
+          },
+          "offsets": {
+            "left": 0,
+            "top": 0,
+            "right": 220,
+            "bottom": 64
+          },
+          "alignment": {
+            "x": 0,
+            "y": 0
+          },
+          "autoSize": false,
+          "zOrder": 0,
+          "padding": {
+            "left": 0,
+            "top": 0,
+            "right": 0,
+            "bottom": 0
+          },
+          "horizontalAlignment": "fill",
+          "verticalAlignment": "fill",
+          "sizeRule": "auto",
+          "fill": 1
+        },
+        "layout": {
+          "padding": {
+            "left": 0,
+            "top": 0,
+            "right": 0,
+            "bottom": 0
+          },
+          "gap": 12,
+          "width": 220,
+          "height": 64,
+          "stretch": "fit",
+          "scale": 1,
+          "orientation": "vertical",
+          "scrollOffset": 0
+        },
+        "style": {
+          "fill": "#202b3a",
+          "stroke": "transparent",
+          "strokeWidth": 0,
+          "radius": 8,
+          "opacity": 1,
+          "color": "#e5edf6",
+          "fontSize": 18,
+          "fontWeight": 400,
+          "fontFamily": "Segoe UI, Microsoft YaHei, sans-serif",
+          "textAlign": "left",
+          "verticalAlign": "center",
+          "textPadding": 0,
+          "wrap": true,
+          "objectFit": "contain",
+          "clip": false
+        },
+        "text": "",
+        "src": "",
+        "svg": "",
+        "svgAsset": "",
+        "value": 0.65,
+        "brushes": {
+          "normal": "portal-plate-normal",
+          "hovered": "portal-plate-hovered",
+          "pressed": "portal-plate-pressed",
+          "disabled": "portal-plate-disabled"
+        },
+        "motion": {
+          "preset": "auto",
+          "assetId": "motion-portal-feedback"
+        },
+        "audio": {
+          "enabled": true,
+          "volume": 1,
+          "pitch": 1,
+          "events": {
+            "hovered": "ui-hover",
+            "clicked": "ui-click"
+          }
+        },
+        "interactable": true,
+        "prefabId": "",
+        "overrides": {},
+        "binding": "portal:activate",
+        "action": {
+          "type": "ui",
+          "op": "world-map"
+        },
+        "children": [
+          {
+            "id": "portal-content",
+            "name": "portal-content",
+            "type": "CanvasPanel",
+            "visibility": "visible",
+            "locked": false,
+            "slot": {
+              "anchors": {
+                "minX": 0,
+                "minY": 0,
+                "maxX": 0,
+                "maxY": 0
+              },
+              "offsets": {
+                "left": 0,
+                "top": 0,
+                "right": 220,
+                "bottom": 64
+              },
+              "alignment": {
+                "x": 0,
+                "y": 0
+              },
+              "autoSize": false,
+              "zOrder": 0,
+              "padding": {
+                "left": 0,
+                "top": 0,
+                "right": 0,
+                "bottom": 0
+              },
+              "horizontalAlignment": "fill",
+              "verticalAlignment": "fill",
+              "sizeRule": "auto",
+              "fill": 1
+            },
+            "layout": {
+              "padding": {
+                "left": 0,
+                "top": 0,
+                "right": 0,
+                "bottom": 0
+              },
+              "gap": 12,
+              "width": 220,
+              "height": 64,
+              "stretch": "fit",
+              "scale": 1,
+              "orientation": "vertical",
+              "scrollOffset": 0
+            },
+            "style": {
+              "fill": "transparent",
+              "stroke": "transparent",
+              "strokeWidth": 0,
+              "radius": 0,
+              "opacity": 1,
+              "color": "#e5edf6",
+              "fontSize": 18,
+              "fontWeight": 400,
+              "fontFamily": "Segoe UI, Microsoft YaHei, sans-serif",
+              "textAlign": "left",
+              "verticalAlign": "center",
+              "textPadding": 0,
+              "wrap": true,
+              "objectFit": "contain",
+              "clip": false
+            },
+            "text": "",
+            "src": "",
+            "svg": "",
+            "svgAsset": "",
+            "value": 0.65,
+            "brushes": {
+              "normal": "",
+              "hovered": "",
+              "pressed": "",
+              "disabled": ""
+            },
+            "motion": {
+              "preset": "auto",
+              "assetId": ""
+            },
+            "audio": {
+              "enabled": true,
+              "volume": 1,
+              "pitch": 1,
+              "events": {}
+            },
+            "interactable": true,
+            "prefabId": "",
+            "overrides": {},
+            "binding": "",
+            "action": null,
+            "children": [
+              {
+                "id": "portal-icon",
+                "name": "世界地图",
+                "type": "Image",
+                "visibility": "visible",
+                "locked": false,
+                "slot": {
+                  "anchors": {
+                    "minX": 0,
+                    "minY": 0,
+                    "maxX": 0,
+                    "maxY": 0
+                  },
+                  "offsets": {
+                    "left": 17,
+                    "top": 11,
+                    "right": 30,
+                    "bottom": 30
+                  },
+                  "alignment": {
+                    "x": 0,
+                    "y": 0
+                  },
+                  "autoSize": false,
+                  "zOrder": 0,
+                  "padding": {
+                    "left": 0,
+                    "top": 0,
+                    "right": 0,
+                    "bottom": 0
+                  },
+                  "horizontalAlignment": "fill",
+                  "verticalAlignment": "fill",
+                  "sizeRule": "auto",
+                  "fill": 1
+                },
+                "layout": {
+                  "padding": {
+                    "left": 0,
+                    "top": 0,
+                    "right": 0,
+                    "bottom": 0
+                  },
+                  "gap": 12,
+                  "width": 30,
+                  "height": 30,
+                  "stretch": "fit",
+                  "scale": 1,
+                  "orientation": "vertical",
+                  "scrollOffset": 0
+                },
+                "style": {
+                  "fill": "transparent",
+                  "stroke": "transparent",
+                  "strokeWidth": 0,
+                  "radius": 0,
+                  "opacity": 1,
+                  "color": "#e5edf6",
+                  "fontSize": 18,
+                  "fontWeight": 400,
+                  "fontFamily": "Segoe UI, Microsoft YaHei, sans-serif",
+                  "textAlign": "left",
+                  "verticalAlign": "center",
+                  "textPadding": 0,
+                  "wrap": true,
+                  "objectFit": "contain",
+                  "clip": false
+                },
+                "text": "",
+                "src": "",
+                "svg": "",
+                "svgAsset": "portal-icon-normal",
+                "value": 0.65,
+                "brushes": {
+                  "normal": "",
+                  "hovered": "",
+                  "pressed": "",
+                  "disabled": ""
+                },
+                "motion": {
+                  "preset": "auto",
+                  "assetId": ""
+                },
+                "audio": {
+                  "enabled": true,
+                  "volume": 1,
+                  "pitch": 1,
+                  "events": {}
+                },
+                "interactable": true,
+                "prefabId": "",
+                "overrides": {},
+                "binding": "portal:icon",
+                "action": null,
+                "children": []
+              },
+              {
+                "id": "portal-title",
+                "name": "portal-title",
+                "type": "TextBlock",
+                "visibility": "visible",
+                "locked": false,
+                "slot": {
+                  "anchors": {
+                    "minX": 0,
+                    "minY": 0,
+                    "maxX": 0,
+                    "maxY": 0
+                  },
+                  "offsets": {
+                    "left": 58,
+                    "top": 7,
+                    "right": 134,
+                    "bottom": 23
+                  },
+                  "alignment": {
+                    "x": 0,
+                    "y": 0
+                  },
+                  "autoSize": false,
+                  "zOrder": 0,
+                  "padding": {
+                    "left": 0,
+                    "top": 0,
+                    "right": 0,
+                    "bottom": 0
+                  },
+                  "horizontalAlignment": "fill",
+                  "verticalAlignment": "fill",
+                  "sizeRule": "auto",
+                  "fill": 1
+                },
+                "layout": {
+                  "padding": {
+                    "left": 0,
+                    "top": 0,
+                    "right": 0,
+                    "bottom": 0
+                  },
+                  "gap": 12,
+                  "width": 134,
+                  "height": 23,
+                  "stretch": "fit",
+                  "scale": 1,
+                  "orientation": "vertical",
+                  "scrollOffset": 0
+                },
+                "style": {
+                  "fill": "transparent",
+                  "stroke": "transparent",
+                  "strokeWidth": 0,
+                  "radius": 0,
+                  "opacity": 1,
+                  "color": "#efd7a4",
+                  "fontSize": 14,
+                  "fontWeight": 600,
+                  "fontFamily": "Segoe UI, Microsoft YaHei, sans-serif",
+                  "textAlign": "left",
+                  "verticalAlign": "center",
+                  "textPadding": 0,
+                  "wrap": false,
+                  "objectFit": "contain",
+                  "clip": false,
+                  "textOverflow": "ellipsis"
+                },
+                "text": "前往世界地图",
+                "src": "",
+                "svg": "",
+                "svgAsset": "",
+                "value": 0.65,
+                "brushes": {
+                  "normal": "",
+                  "hovered": "",
+                  "pressed": "",
+                  "disabled": ""
+                },
+                "motion": {
+                  "preset": "auto",
+                  "assetId": ""
+                },
+                "audio": {
+                  "enabled": true,
+                  "volume": 1,
+                  "pitch": 1,
+                  "events": {}
+                },
+                "interactable": true,
+                "prefabId": "",
+                "overrides": {},
+                "binding": "portal:title",
+                "action": null,
+                "children": []
+              },
+              {
+                "id": "portal-note",
+                "name": "portal-note",
+                "type": "TextBlock",
+                "visibility": "visible",
+                "locked": false,
+                "slot": {
+                  "anchors": {
+                    "minX": 0,
+                    "minY": 0,
+                    "maxX": 0,
+                    "maxY": 0
+                  },
+                  "offsets": {
+                    "left": 58,
+                    "top": 29,
+                    "right": 134,
+                    "bottom": 17
+                  },
+                  "alignment": {
+                    "x": 0,
+                    "y": 0
+                  },
+                  "autoSize": false,
+                  "zOrder": 0,
+                  "padding": {
+                    "left": 0,
+                    "top": 0,
+                    "right": 0,
+                    "bottom": 0
+                  },
+                  "horizontalAlignment": "fill",
+                  "verticalAlignment": "fill",
+                  "sizeRule": "auto",
+                  "fill": 1
+                },
+                "layout": {
+                  "padding": {
+                    "left": 0,
+                    "top": 0,
+                    "right": 0,
+                    "bottom": 0
+                  },
+                  "gap": 12,
+                  "width": 134,
+                  "height": 17,
+                  "stretch": "fit",
+                  "scale": 1,
+                  "orientation": "vertical",
+                  "scrollOffset": 0
+                },
+                "style": {
+                  "fill": "transparent",
+                  "stroke": "transparent",
+                  "strokeWidth": 0,
+                  "radius": 0,
+                  "opacity": 1,
+                  "color": "#96b4b8",
+                  "fontSize": 10,
+                  "fontWeight": 400,
+                  "fontFamily": "Segoe UI, Microsoft YaHei, sans-serif",
+                  "textAlign": "left",
+                  "verticalAlign": "center",
+                  "textPadding": 0,
+                  "wrap": false,
+                  "objectFit": "contain",
+                  "clip": false,
+                  "textOverflow": "ellipsis"
+                },
+                "text": "自动前往 · 到达后打开",
+                "src": "",
+                "svg": "",
+                "svgAsset": "",
+                "value": 0.65,
+                "brushes": {
+                  "normal": "",
+                  "hovered": "",
+                  "pressed": "",
+                  "disabled": ""
+                },
+                "motion": {
+                  "preset": "auto",
+                  "assetId": ""
+                },
+                "audio": {
+                  "enabled": true,
+                  "volume": 1,
+                  "pitch": 1,
+                  "events": {}
+                },
+                "interactable": true,
+                "prefabId": "",
+                "overrides": {},
+                "binding": "portal:note",
+                "action": null,
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "assets": {
+    "portal-plate-normal": {
+      "id": "portal-plate-normal",
+      "name": "世界地图入口 · normal",
+      "viewBox": [
+        0,
+        0,
+        220,
+        64
+      ],
+      "scaleMode": "stretch",
+      "source": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"220\" height=\"64\" viewBox=\"0 0 220 64\" fill=\"none\" stroke=\"none\">\n <defs><linearGradient id=\"panel\" x2=\"0\" y2=\"1\"><stop stop-color=\"#14212a\"/><stop offset=\"1\" stop-color=\"#0b151d\"/></linearGradient><linearGradient id=\"cap\"><stop stop-color=\"#c5ab79\" stop-opacity=\"0\"/><stop offset=\".48\" stop-color=\"#c5ab79\" stop-opacity=\".55\"/><stop offset=\"1\" stop-color=\"#c5ab79\" stop-opacity=\"0\"/></linearGradient></defs>\n <path d=\"M13 7h194q9 0 9 9v27q0 9-9 9h-88l-9 8-9-8H13q-9 0-9-9V16q0-9 9-9\" fill=\"#000000\" opacity=\".24\"/>\n <path d=\"M13 4.5h194q8.5 0 8.5 8.5v27q0 8.5-8.5 8.5h-89l-8 7-8-7H13q-8.5 0-8.5-8.5V13q0-8.5 8.5-8.5Z\" fill=\"url(#panel)\" stroke=\"#3e615e\" stroke-width=\"1\"/>\n <path d=\"M14 6h192\" stroke=\"url(#cap)\" stroke-width=\"1\"/><path d=\"M5 17v20\" stroke=\"#64b5a8\" stroke-width=\"2\" opacity=\".65\"/>\n <path d=\"m198 23 4 4-4 4\" stroke=\"#c5ab79\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
+    },
+    "portal-plate-hovered": {
+      "id": "portal-plate-hovered",
+      "name": "世界地图入口 · hovered",
+      "viewBox": [
+        0,
+        0,
+        220,
+        64
+      ],
+      "scaleMode": "stretch",
+      "source": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"220\" height=\"64\" viewBox=\"0 0 220 64\" fill=\"none\" stroke=\"none\">\n <defs><linearGradient id=\"panel\" x2=\"0\" y2=\"1\"><stop stop-color=\"#1d343b\"/><stop offset=\"1\" stop-color=\"#102229\"/></linearGradient><linearGradient id=\"cap\"><stop stop-color=\"#f3d698\" stop-opacity=\"0\"/><stop offset=\".48\" stop-color=\"#f3d698\" stop-opacity=\".55\"/><stop offset=\"1\" stop-color=\"#f3d698\" stop-opacity=\"0\"/></linearGradient></defs>\n <path d=\"M13 7h194q9 0 9 9v27q0 9-9 9h-88l-9 8-9-8H13q-9 0-9-9V16q0-9 9-9\" fill=\"#000000\" opacity=\".24\"/>\n <path d=\"M13 4.5h194q8.5 0 8.5 8.5v27q0 8.5-8.5 8.5h-89l-8 7-8-7H13q-8.5 0-8.5-8.5V13q0-8.5 8.5-8.5Z\" fill=\"url(#panel)\" stroke=\"#8cd8c3\" stroke-width=\"1\"/>\n <path d=\"M14 6h192\" stroke=\"url(#cap)\" stroke-width=\"1\"/><path d=\"M5 17v20\" stroke=\"#a4f0d3\" stroke-width=\"2\" opacity=\".65\"/>\n <path d=\"m198 23 4 4-4 4\" stroke=\"#f3d698\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
+    },
+    "portal-plate-pressed": {
+      "id": "portal-plate-pressed",
+      "name": "世界地图入口 · pressed",
+      "viewBox": [
+        0,
+        0,
+        220,
+        64
+      ],
+      "scaleMode": "stretch",
+      "source": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"220\" height=\"64\" viewBox=\"0 0 220 64\" fill=\"none\" stroke=\"none\">\n <defs><linearGradient id=\"panel\" x2=\"0\" y2=\"1\"><stop stop-color=\"#0d2028\"/><stop offset=\"1\" stop-color=\"#09151d\"/></linearGradient><linearGradient id=\"cap\"><stop stop-color=\"#cfb780\" stop-opacity=\"0\"/><stop offset=\".48\" stop-color=\"#cfb780\" stop-opacity=\".55\"/><stop offset=\"1\" stop-color=\"#cfb780\" stop-opacity=\"0\"/></linearGradient></defs>\n <path d=\"M13 7h194q9 0 9 9v27q0 9-9 9h-88l-9 8-9-8H13q-9 0-9-9V16q0-9 9-9\" fill=\"#000000\" opacity=\".24\"/>\n <path d=\"M13 4.5h194q8.5 0 8.5 8.5v27q0 8.5-8.5 8.5h-89l-8 7-8-7H13q-8.5 0-8.5-8.5V13q0-8.5 8.5-8.5Z\" fill=\"url(#panel)\" stroke=\"#6ebca9\" stroke-width=\"1\"/>\n <path d=\"M14 6h192\" stroke=\"url(#cap)\" stroke-width=\"1\"/><path d=\"M5 17v20\" stroke=\"#79d8bc\" stroke-width=\"2\" opacity=\".65\"/>\n <path d=\"m198 23 4 4-4 4\" stroke=\"#cfb780\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
+    },
+    "portal-plate-disabled": {
+      "id": "portal-plate-disabled",
+      "name": "世界地图入口 · disabled",
+      "viewBox": [
+        0,
+        0,
+        220,
+        64
+      ],
+      "scaleMode": "stretch",
+      "source": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"220\" height=\"64\" viewBox=\"0 0 220 64\" fill=\"none\" stroke=\"none\">\n <defs><linearGradient id=\"panel\" x2=\"0\" y2=\"1\"><stop stop-color=\"#131b22\"/><stop offset=\"1\" stop-color=\"#0d141b\"/></linearGradient><linearGradient id=\"cap\"><stop stop-color=\"#75817f\" stop-opacity=\"0\"/><stop offset=\".48\" stop-color=\"#75817f\" stop-opacity=\".55\"/><stop offset=\"1\" stop-color=\"#75817f\" stop-opacity=\"0\"/></linearGradient></defs>\n <path d=\"M13 7h194q9 0 9 9v27q0 9-9 9h-88l-9 8-9-8H13q-9 0-9-9V16q0-9 9-9\" fill=\"#000000\" opacity=\".24\"/>\n <path d=\"M13 4.5h194q8.5 0 8.5 8.5v27q0 8.5-8.5 8.5h-89l-8 7-8-7H13q-8.5 0-8.5-8.5V13q0-8.5 8.5-8.5Z\" fill=\"url(#panel)\" stroke=\"#2b3a40\" stroke-width=\"1\"/>\n <path d=\"M14 6h192\" stroke=\"url(#cap)\" stroke-width=\"1\"/><path d=\"M5 17v20\" stroke=\"#4e706d\" stroke-width=\"2\" opacity=\".65\"/>\n <path d=\"m198 23 4 4-4 4\" stroke=\"#75817f\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
+    },
+    "portal-plate-ready": {
+      "id": "portal-plate-ready",
+      "name": "世界地图入口 · ready",
+      "viewBox": [
+        0,
+        0,
+        220,
+        64
+      ],
+      "scaleMode": "stretch",
+      "source": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"220\" height=\"64\" viewBox=\"0 0 220 64\" fill=\"none\" stroke=\"none\">\n <defs><linearGradient id=\"panel\" x2=\"0\" y2=\"1\"><stop stop-color=\"#172c31\"/><stop offset=\"1\" stop-color=\"#0c1d23\"/></linearGradient><linearGradient id=\"cap\"><stop stop-color=\"#e9cb90\" stop-opacity=\"0\"/><stop offset=\".48\" stop-color=\"#e9cb90\" stop-opacity=\".55\"/><stop offset=\"1\" stop-color=\"#e9cb90\" stop-opacity=\"0\"/></linearGradient></defs>\n <path d=\"M13 7h194q9 0 9 9v27q0 9-9 9h-88l-9 8-9-8H13q-9 0-9-9V16q0-9 9-9\" fill=\"#000000\" opacity=\".24\"/>\n <path d=\"M13 4.5h194q8.5 0 8.5 8.5v27q0 8.5-8.5 8.5h-89l-8 7-8-7H13q-8.5 0-8.5-8.5V13q0-8.5 8.5-8.5Z\" fill=\"url(#panel)\" stroke=\"#69bca7\" stroke-width=\"1\"/>\n <path d=\"M14 6h192\" stroke=\"url(#cap)\" stroke-width=\"1\"/><path d=\"M5 17v20\" stroke=\"#8be5c5\" stroke-width=\"2\" opacity=\".65\"/>\n <path d=\"m198 23 4 4-4 4\" stroke=\"#e9cb90\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
+    },
+    "portal-plate-travel": {
+      "id": "portal-plate-travel",
+      "name": "世界地图入口 · travel",
+      "viewBox": [
+        0,
+        0,
+        220,
+        64
+      ],
+      "scaleMode": "stretch",
+      "source": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"220\" height=\"64\" viewBox=\"0 0 220 64\" fill=\"none\" stroke=\"none\">\n <defs><linearGradient id=\"panel\" x2=\"0\" y2=\"1\"><stop stop-color=\"#1a292e\"/><stop offset=\"1\" stop-color=\"#0b1a23\"/></linearGradient><linearGradient id=\"cap\"><stop stop-color=\"#cfbc8a\" stop-opacity=\"0\"/><stop offset=\".48\" stop-color=\"#cfbc8a\" stop-opacity=\".55\"/><stop offset=\"1\" stop-color=\"#cfbc8a\" stop-opacity=\"0\"/></linearGradient></defs>\n <path d=\"M13 7h194q9 0 9 9v27q0 9-9 9h-88l-9 8-9-8H13q-9 0-9-9V16q0-9 9-9\" fill=\"#000000\" opacity=\".24\"/>\n <path d=\"M13 4.5h194q8.5 0 8.5 8.5v27q0 8.5-8.5 8.5h-89l-8 7-8-7H13q-8.5 0-8.5-8.5V13q0-8.5 8.5-8.5Z\" fill=\"url(#panel)\" stroke=\"#617d76\" stroke-width=\"1\"/>\n <path d=\"M14 6h192\" stroke=\"url(#cap)\" stroke-width=\"1\"/><path d=\"M5 17v20\" stroke=\"#8cbbb0\" stroke-width=\"2\" opacity=\".65\"/>\n <path d=\"m198 23 4 4-4 4\" stroke=\"#cfbc8a\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
+    },
+    "portal-icon-normal": {
+      "id": "portal-icon-normal",
+      "name": "世界地图 · normal",
+      "viewBox": [
+        0,
+        0,
+        32,
+        32
+      ],
+      "scaleMode": "stretch",
+      "source": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"32\" height=\"32\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"none\">\n <path d=\"m4 8 8-3 8 3 8-3v20l-8 3-8-3-8 3Z\" fill=\"#83c8ba\" fill-opacity=\".08\" stroke=\"#83c8ba\" stroke-width=\"1.4\" stroke-linejoin=\"round\"/>\n <path d=\"M12 5v20M20 8v20\" stroke=\"#83c8ba\" stroke-width=\"1.1\" stroke-opacity=\".6\"/>\n <path d=\"m7 18 5-5 5 4 7-7\" stroke=\"#83c8ba\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n <circle cx=\"24\" cy=\"10\" r=\"2\" fill=\"#83c8ba\"/></svg>"
+    },
+    "portal-icon-ready": {
+      "id": "portal-icon-ready",
+      "name": "世界地图 · ready",
+      "viewBox": [
+        0,
+        0,
+        32,
+        32
+      ],
+      "scaleMode": "stretch",
+      "source": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"32\" height=\"32\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"none\">\n <path d=\"m4 8 8-3 8 3 8-3v20l-8 3-8-3-8 3Z\" fill=\"#b5f3d9\" fill-opacity=\".08\" stroke=\"#b5f3d9\" stroke-width=\"1.4\" stroke-linejoin=\"round\"/>\n <path d=\"M12 5v20M20 8v20\" stroke=\"#b5f3d9\" stroke-width=\"1.1\" stroke-opacity=\".6\"/>\n <path d=\"m7 18 5-5 5 4 7-7\" stroke=\"#b5f3d9\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n <circle cx=\"24\" cy=\"10\" r=\"2\" fill=\"#b5f3d9\"/></svg>"
+    },
+    "portal-icon-travel": {
+      "id": "portal-icon-travel",
+      "name": "世界地图 · travel",
+      "viewBox": [
+        0,
+        0,
+        32,
+        32
+      ],
+      "scaleMode": "stretch",
+      "source": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"32\" height=\"32\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"none\">\n <path d=\"m4 8 8-3 8 3 8-3v20l-8 3-8-3-8 3Z\" fill=\"#b7cbb2\" fill-opacity=\".08\" stroke=\"#b7cbb2\" stroke-width=\"1.4\" stroke-linejoin=\"round\"/>\n <path d=\"M12 5v20M20 8v20\" stroke=\"#b7cbb2\" stroke-width=\"1.1\" stroke-opacity=\".6\"/>\n <path d=\"m7 18 5-5 5 4 7-7\" stroke=\"#b7cbb2\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n <circle cx=\"24\" cy=\"10\" r=\"2\" fill=\"#b7cbb2\"/></svg>"
+    }
+  },
+  "prefabs": {},
+  "motions": {
+    "motion-portal-feedback": {
+      "id": "motion-portal-feedback",
+      "name": "传送阵 · 悬停抬起与按下",
+      "version": 1,
+      "folderId": "",
+      "target": "content",
+      "bindings": {
+        "normal": "rest",
+        "hovered": "hover",
+        "pressed": "press",
+        "pressed>hovered": "release"
+      },
+      "clips": {
+        "rest": {
+          "duration": 190,
+          "loop": false,
+          "fromCurrent": true,
+          "easing": "easeOut",
+          "keyframes": [
+            {
+              "t": 0,
+              "x": 0,
+              "y": 0,
+              "scaleX": 1,
+              "scaleY": 1,
+              "rotation": 0,
+              "opacity": 1
+            },
+            {
+              "t": 1,
+              "x": 0,
+              "y": 0,
+              "scaleX": 1,
+              "scaleY": 1,
+              "rotation": 0,
+              "opacity": 1
+            }
+          ]
+        },
+        "hover": {
+          "duration": 160,
+          "loop": false,
+          "fromCurrent": true,
+          "easing": "easeOut",
+          "keyframes": [
+            {
+              "t": 0,
+              "x": 0,
+              "y": 0,
+              "scaleX": 1,
+              "scaleY": 1,
+              "rotation": 0,
+              "opacity": 1
+            },
+            {
+              "t": 1,
+              "x": 0,
+              "y": -1,
+              "scaleX": 1,
+              "scaleY": 1,
+              "rotation": 0,
+              "opacity": 1
+            }
+          ]
+        },
+        "press": {
+          "duration": 70,
+          "loop": false,
+          "fromCurrent": true,
+          "easing": "easeOut",
+          "keyframes": [
+            {
+              "t": 0,
+              "x": 0,
+              "y": 0,
+              "scaleX": 1,
+              "scaleY": 1,
+              "rotation": 0,
+              "opacity": 1
+            },
+            {
+              "t": 1,
+              "x": 0,
+              "y": 1,
+              "scaleX": 1,
+              "scaleY": 1,
+              "rotation": 0,
+              "opacity": 1
+            }
+          ]
+        },
+        "release": {
+          "duration": 240,
+          "loop": false,
+          "fromCurrent": true,
+          "easing": "backOut",
+          "keyframes": [
+            {
+              "t": 0,
+              "x": 0,
+              "y": 0,
+              "scaleX": 1,
+              "scaleY": 1,
+              "rotation": 0,
+              "opacity": 1
+            },
+            {
+              "t": 1,
+              "x": 0,
+              "y": -1,
+              "scaleX": 1,
+              "scaleY": 1,
+              "rotation": 0,
+              "opacity": 1
+            }
+          ]
+        }
+      }
+    }
+  },
+  "sounds": {
+    "ui-hover": {
+      "id": "ui-hover",
+      "name": "轻触 · 悬停",
+      "version": 1,
+      "folderId": "",
+      "source": "data:audio/wav;base64,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",
+      "volume": 0.65,
+      "pitch": 1,
+      "cooldown": 60,
+      "channels": 1,
+      "sampleRate": 24000,
+      "duration": 0.035,
+      "bytes": 1724
+    },
+    "ui-click": {
+      "id": "ui-click",
+      "name": "轻触 · 确认",
+      "version": 1,
+      "folderId": "",
+      "source": "data:audio/wav;base64,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CgAFAAEA/P/4//P/8P/u/+3/7//z//j///8FAAsADwARABEADwAMAAgABQABAP3/+v/2//T/8v/x//L/9f/5//7/AwAIAAsADQANAAwACgAHAAQAAQD+//v/+f/3//X/9P/1//f/+v/+/wIABgAJAAoACgAJAAgABgADAAEA///9//v/+f/4//f/+P/5//z//v8CAAQABgAIAAgABwAGAAQAAwABAP///v/8//v/+v/6//r/+//9////AQADAAUABQAGAAUABAADAAIAAQD///7//f/8//z/+//8//z//v///wEAAgADAAQABAAEAAMAAgABAAAAAAD///7//f/9//3//f/+//7/AAABAAIAAgADAAMAAgACAAEAAQAAAAAA//////7//v/+//7//////wAAAAABAAEAAgACAAEAAQABAAAAAAAAAP//////////////////AAAAAAAAAQABAAEAAQABAAEAAAAAAAAAAAAAAAAA//////////8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+      "volume": 0.65,
+      "pitch": 1,
+      "cooldown": 60,
+      "channels": 1,
+      "sampleRate": 24000,
+      "duration": 0.085,
+      "bytes": 4124
+    }
+  },
+  "folders": {},
+  "provenance": null,
+  "presentation": {
+    "portalStates": {
+      "normal": [
+        [
+          "portal-title",
+          {
+            "text": "前往世界地图"
+          }
+        ],
+        [
+          "portal-note",
+          {
+            "text": "自动前往 · 到达后打开"
+          }
+        ],
+        [
+          "portal-icon",
+          {
+            "svgAsset": "portal-icon-normal"
+          }
+        ],
+        [
+          "portal-open",
+          {
+            "brushes": {
+              "normal": "portal-plate-normal"
+            }
+          }
+        ]
+      ],
+      "ready": [
+        [
+          "portal-title",
+          {
+            "text": "前往世界地图"
+          }
+        ],
+        [
+          "portal-note",
+          {
+            "text": "选择下一处冒险"
+          }
+        ],
+        [
+          "portal-icon",
+          {
+            "svgAsset": "portal-icon-ready"
+          }
+        ],
+        [
+          "portal-open",
+          {
+            "brushes": {
+              "normal": "portal-plate-ready"
+            }
+          }
+        ]
+      ],
+      "travel": [
+        [
+          "portal-title",
+          {
+            "text": "正在前往…"
+          }
+        ],
+        [
+          "portal-note",
+          {
+            "text": "到达后自动打开地图"
+          }
+        ],
+        [
+          "portal-icon",
+          {
+            "svgAsset": "portal-icon-travel"
+          }
+        ],
+        [
+          "portal-open",
+          {
+            "brushes": {
+              "normal": "portal-plate-travel"
+            }
+          }
+        ]
+      ]
+    }
+  }
+}

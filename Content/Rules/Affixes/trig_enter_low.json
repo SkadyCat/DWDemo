@@ -1,0 +1,9 @@
+{
+  "id": "trig_enter_low",
+  "name": "进入低血状态时，触发挂载技能",
+  "description": "角色词条：进入低血状态时，触发挂载技能",
+  "params": {},
+  "sheet": [
+    { "trigger": "trig_enter_low" }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "id": "poison_quick",
+  "name": "中毒持续时间降低n%，伤害结算速度提高n%",
+  "description": "角色词条：中毒持续时间降低n%，伤害结算速度提高n%",
+  "params": { "duration": 40, "speed": 60 },
+  "sheet": [
+    { "trigger": "poison_quick" }
+  ]
+}

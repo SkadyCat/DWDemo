@@ -1,0 +1,9 @@
+{
+  "id": "proj_retarget_on_death",
+  "name": "投射物目标死亡后，重新追踪附近敌人",
+  "description": "角色词条：投射物目标死亡后，重新追踪附近敌人",
+  "params": {},
+  "sheet": [
+    { "stat": "proj.retarget_on_death", "value": 1 }
+  ]
+}

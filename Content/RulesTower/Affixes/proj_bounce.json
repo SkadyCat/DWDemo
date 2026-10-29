@@ -1,0 +1,12 @@
+{
+  "id": "proj_bounce",
+  "name": "投射物碰撞地形时，弹射次数 +n次",
+  "description": "角色词条：投射物碰撞地形时，弹射次数 +n次。地形 = 墙壁与战场边界",
+  "params": { "n": 2 },
+  "sheet": [
+    {
+      "stat": "proj.bounce",
+      "value": { "param": "n" }
+    }
+  ]
+}

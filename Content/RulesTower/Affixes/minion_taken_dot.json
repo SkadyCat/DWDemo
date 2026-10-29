@@ -1,0 +1,12 @@
+{
+  "id": "minion_taken_dot",
+  "name": "召唤物受到的持续伤害 -n%",
+  "description": "角色词条：召唤物受到的持续伤害 -n%",
+  "params": { "n": 25 },
+  "sheet": [
+    {
+      "stat": "minion.taken_dot",
+      "value": { "param": "n" }
+    }
+  ]
+}

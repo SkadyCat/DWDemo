@@ -1,0 +1,9 @@
+{
+  "id": "void_convert_elemental",
+  "name": "元素伤害的n%转化为虚空伤害",
+  "description": "角色词条：元素伤害的n%转化为虚空伤害",
+  "params": { "n": 20, "source": -2, "element": 5 },
+  "sheet": [
+    { "trigger": "convert_damage" }
+  ]
+}

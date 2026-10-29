@@ -1,0 +1,12 @@
+{
+  "id": "area_move_speed",
+  "name": "范围移动速度 +n%",
+  "description": "角色词条：范围移动速度 +n%。移动型范围基础 3 米/秒",
+  "params": { "n": 40 },
+  "sheet": [
+    {
+      "stat": "area.move_speed",
+      "value": { "param": "n" }
+    }
+  ]
+}

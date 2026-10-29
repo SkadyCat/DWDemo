@@ -1,0 +1,9 @@
+{
+  "id": "leech_shield_all",
+  "name": "伤害的n%偷取为护盾",
+  "description": "角色词条：伤害的n%偷取为护盾。命中伤害的 n% 以偷取实例恢复：每个实例每秒最大护盾的 2%，总计每秒不超过 10%。",
+  "params": { "n": 1 },
+  "sheet": [
+    { "stat": "leech.shield.all", "value": { "param": "n" } }
+  ]
+}

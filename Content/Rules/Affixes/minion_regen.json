@@ -1,0 +1,12 @@
+{
+  "id": "minion_regen",
+  "name": "召唤物每秒恢复气血 +n点",
+  "description": "角色词条：召唤物每秒恢复气血 +n点",
+  "params": { "n": 5 },
+  "sheet": [
+    {
+      "stat": "minion.regen_flat",
+      "value": { "param": "n" }
+    }
+  ]
+}

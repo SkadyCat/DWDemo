@@ -1,0 +1,12 @@
+{
+  "id": "chill_chance",
+  "name": "命中时，冰缓概率 +n个百分点",
+  "description": "角色词条：命中时，冰缓概率 +n个百分点。任意命中都可能冰缓（30% 减速，2 秒）",
+  "params": { "n": 25 },
+  "sheet": [
+    {
+      "stat": "chill.chance",
+      "value": { "param": "n" }
+    }
+  ]
+}

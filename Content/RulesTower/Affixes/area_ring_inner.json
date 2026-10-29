@@ -1,0 +1,12 @@
+{
+  "id": "area_ring_inner",
+  "name": "环形范围内半径 -n米",
+  "description": "角色词条：环形范围内半径 -n米。基础内半径为外半径的一半",
+  "params": { "n": 0.5 },
+  "sheet": [
+    {
+      "stat": "area.ring_inner",
+      "value": { "param": "n" }
+    }
+  ]
+}

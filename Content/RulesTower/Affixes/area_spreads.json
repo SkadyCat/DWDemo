@@ -1,0 +1,12 @@
+{
+  "id": "area_spreads",
+  "name": "范围扩散次数 +n次",
+  "description": "角色词条：范围扩散次数 +n次。扩散：命中后在外圈再结算一次，半径逐次增加",
+  "params": { "n": 2 },
+  "sheet": [
+    {
+      "stat": "area.spreads",
+      "value": { "param": "n" }
+    }
+  ]
+}

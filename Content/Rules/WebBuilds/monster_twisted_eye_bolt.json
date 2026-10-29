@@ -1,0 +1,9 @@
+{
+  "id": "monster_twisted_eye_bolt",
+  "name": "扭曲之眼飞弹",
+  "description": "扭曲之眼的虚空投射物攻击。",
+  "active": "twisted_eye_projectile",
+  "traits": [
+    "twisted_eye_projectile"
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "id": "proj_prefer_elite",
+  "name": "投射物优先追踪精英敌人",
+  "description": "角色词条：投射物优先追踪精英敌人",
+  "params": {},
+  "sheet": [
+    { "stat": "proj.prefer_elite", "value": 1 }
+  ]
+}

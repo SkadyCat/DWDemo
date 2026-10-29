@@ -1,0 +1,37 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><title>旋风地牢碰撞 · 持续时间验收</title>
+<link rel="stylesheet" href="/app.css"><style>body{display:block;background:#0b111a}canvas{display:block;width:100vw;height:100vh}.proof{position:fixed;top:20px;left:24px;max-width:570px;padding:16px 20px;background:#0b1425df;border:1px solid #3b5266;border-radius:10px}h1{font-size:18px;color:#dfc48b;margin:0 0 8px}#metrics{color:#aee4d5;font:14px/1.8 monospace;white-space:pre-line}.actions{display:flex;gap:8px;margin-top:10px}p{color:#9caabd;font-size:12px}</style></head>
+<body><canvas id="scene"></canvas><section class="proof"><h1>旋风 · 真实地牢碰撞验收</h1><p>实际规则、地牢碰撞和旋风特效；单次施放，无连续施法。</p><output id="metrics">载入中…</output><div class="actions"><button id="legacy">复现旧问题</button><button id="cast">施放修复后的旋风</button><button id="middle">推进到 1.5 秒</button><button id="end">推进到 2.1 秒</button></div></section>
+<script type="module">
+import * as T from '/vendor/three.module.js';
+import { checkRuleSet, parseCollection } from '/engine/index.mjs';
+import { DungeonBattle } from '/sim/dungeon-battle.mjs';
+import { createBattleEffects } from '/vfx/battle-effects.mjs';
+if(location.hostname!=='127.0.0.1'||location.port!=='5356')throw Error('Use isolated QA origin 5356');
+const {files}=await(await fetch('/api/rules')).json(),checked=checkRuleSet(files);if(!checked.ok)throw Error(checked.error);
+const doc=parseCollection('equipment',{id:'wind_browser_probe',name:'持续时间验收',slot:'weapon',rarity:'common',level:1,skills:['whirlwind'],traits:[]}).doc;
+const collections={...checked.collections,equipment:new Map([...checked.collections.equipment,[doc.id,{doc}]])};
+const renderer=new T.WebGLRenderer({canvas:document.querySelector('#scene'),antialias:true});renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+const scene=new T.Scene();scene.background=new T.Color('#111a24');scene.add(new T.HemisphereLight(0xb8e1ff,0x252d20,2));
+const camera=new T.PerspectiveCamera(48,innerWidth/innerHeight,.1,200),world=new T.Group();scene.add(world);
+let battle,fx,ends=[],hits=0,mode='修复后';
+function reset(legacy=false){
+ fx?.dispose();for(const mesh of [...world.children]){mesh.geometry?.dispose();mesh.material?.dispose();world.remove(mesh);}
+ battle=new DungeonBattle(files,{collections,seed:7,monsterCount:20,god:true,autoCast:false});battle.setLoadout({skills:['whirlwind'],equipment:{weapon:doc.id}});ends=[];hits=0;mode=legacy?'旧回调复现':'修复后';
+ if(legacy){const motion=battle.host.world.motionHook;battle.host.world.motionHook=(i,dt)=>{motion(i,dt);};}
+ const c=battle.host.world.carriers,end=battle.host.world.endHook,trace=battle.host.world.trace;
+ battle.host.world.endHook=(i,reason)=>{if(battle.host.world.roots[c.root[i]].owner===battle.hero.owner)ends.push({id:c.id[i],age:c.age[i],life:c.life[i],reason});return end(i,reason);};
+ battle.host.world.trace=(kind,data)=>{trace?.(kind,data);if(kind==='projectile_hit'&&data.surface==='unit')hits++;};
+ const entry=battle.dungeon.entry;
+ for(const tile of battle.dungeon.tiles){const p=battle.dungeon.tileCenter(tile.x,tile.y);if(Math.hypot(p.x-entry.x,p.y-entry.y)>2300)continue;const m=new T.Mesh(new T.BoxGeometry(1.96,.12,1.96),new T.MeshStandardMaterial({color:((tile.x+tile.y)%2)?0x33414c:0x2d3943,roughness:1}));m.position.set(p.x/100,-.1,-p.y/100);world.add(m);}
+ for(const tile of battle.dungeon.walls){const p=battle.dungeon.tileCenter(tile.x,tile.y);if(Math.hypot(p.x-entry.x,p.y-entry.y)>2300)continue;const m=new T.Mesh(new T.BoxGeometry(2,1.5,2),new T.MeshStandardMaterial({color:0x1d2c3b}));m.position.set(p.x/100,.65,-p.y/100);world.add(m);}
+ const hero=new T.Mesh(new T.CapsuleGeometry(.4,.8,4,10),new T.MeshStandardMaterial({color:0xe4c178}));hero.position.set(entry.x/100,1,-entry.y/100);world.add(hero);
+ camera.position.set(entry.x/100,27,-entry.y/100+15);camera.lookAt(entry.x/100+3,0,-entry.y/100);
+ fx=createBattleEffects(T,scene);battle.setAim(entry.x+1000,entry.y);battle.hero.castClock=1/3;battle.hero.casting=true;battle.step(1/60);battle.hero.casting=false;
+ for(const m of battle.monsters)Object.assign(m,{health:1e8,maxHealth:1e8,shield:0,maxShield:0,speed:0,cooldown:9999,attackRange:0});Object.assign(battle.monsters[0],{x:entry.x+250,y:entry.y});
+ for(const mon of battle.monsters){if(Math.hypot(mon.x-entry.x,mon.y-entry.y)>2000)continue;const mesh=new T.Mesh(new T.CapsuleGeometry(.45,.7,4,10),new T.MeshStandardMaterial({color:0xb85e4b}));mesh.position.set(mon.x/100,.9,-mon.y/100);world.add(mesh);}
+ draw();
+}
+function draw(){fx.update(battle);renderer.render(scene,camera);const wind=battle.projectiles().find(p=>p.kind==='whirlwind'),last=ends.at(-1);document.querySelector('#metrics').textContent=`${mode} · 模拟时间 ${battle.elapsed.toFixed(3)} 秒\n旋风年龄 ${(wind?.age??last?.age??0).toFixed(3)} 秒 / 配置 2.000 秒\n实际载体 ${wind?1:0} · 可见旋风 ${fx.group.children.filter(o=>o.name==='whirlwind'&&o.visible).length} · 怪物命中 ${hits}\n${last?'结束原因：'+(last.reason===0?'持续时间到期':'碰撞提前结束'):'仍在持续；没有提前结束'}`;document.querySelector('#metrics').dataset.receipt=JSON.stringify({mode,elapsed:battle.elapsed,live:!!wind,visible:fx.group.children.some(o=>o.name==='whirlwind'&&o.visible),hits,ends});}
+function advance(seconds){while(battle.elapsed<seconds)battle.step(1/60);draw();}
+document.querySelector('#legacy').onclick=()=>{reset(true);advance(1.5);};document.querySelector('#cast').onclick=()=>reset();document.querySelector('#middle').onclick=()=>advance(1.5);document.querySelector('#end').onclick=()=>advance(2.1);reset();
+</script></body></html>

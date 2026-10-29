@@ -1,0 +1,16 @@
+{
+  "id": "more_lightning",
+  "name": "闪电伤害额外提高 n%",
+  "description": "角色词条：闪电伤害额外提高 n%",
+  "params": {
+    "n": 10
+  },
+  "sheet": [
+    {
+      "stat": "damage.more.lightning",
+      "value": {
+        "param": "n"
+      }
+    }
+  ]
+}

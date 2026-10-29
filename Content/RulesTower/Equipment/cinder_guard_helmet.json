@@ -1,0 +1,24 @@
+{
+  "id": "cinder_guard_helmet",
+  "name": "燎原攻守·护生冠",
+  "description": "燎原攻守配装：六条现有可洗词条，均采用默认参数；没有套装加成。",
+  "slot": "helmet",
+  "rarity": "rare",
+  "level": 30,
+  "tags": [
+    "火焰",
+    "范围"
+  ],
+  "skills": [],
+  "traits": [
+    "area_extra_zones",
+    "hit_next_reduce",
+    "life_increased",
+    "life_more",
+    "more_elemental",
+    "frost_resistance"
+  ],
+  "bases": [
+    "shield_base"
+  ]
+}

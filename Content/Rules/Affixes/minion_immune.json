@@ -1,0 +1,12 @@
+{
+  "id": "minion_immune",
+  "name": "召唤物被召唤后的n秒内免疫伤害",
+  "description": "角色词条：召唤物被召唤后的n秒内免疫伤害",
+  "params": { "n": 1.5 },
+  "sheet": [
+    {
+      "stat": "minion.immune",
+      "value": { "param": "n" }
+    }
+  ]
+}

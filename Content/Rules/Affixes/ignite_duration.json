@@ -1,0 +1,12 @@
+{
+  "id": "ignite_duration",
+  "name": "点燃持续时间 +n%",
+  "description": "角色词条：点燃持续时间 +n%",
+  "params": { "n": 30 },
+  "sheet": [
+    {
+      "stat": "ignite.duration",
+      "value": { "param": "n" }
+    }
+  ]
+}

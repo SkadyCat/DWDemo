@@ -1,0 +1,11 @@
+{
+  "id": "sacrifice_minion",
+  "name": "献祭",
+  "description": "施放时献祭自己最早的一只存活控制单位，触发其现有主动牺牲词条。雷暴不属于控制单位；没有可献祭单位时不产生献祭事件和回复。cooldown 为手动施放冷却秒数；施放沿用普通技能的资源消耗。",
+  "params": { "cooldown": 1 },
+  "rules": [{
+    "id": "sacrifice_minion_on_cast",
+    "event": "cast",
+    "actions": [{ "op": "sacrifice" }]
+  }]
+}

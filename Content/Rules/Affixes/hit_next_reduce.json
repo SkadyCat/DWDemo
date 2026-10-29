@@ -1,0 +1,12 @@
+{
+  "id": "hit_next_reduce",
+  "name": "被命中后，下一次命中的伤害 -n%",
+  "description": "角色词条：被命中后，下一次命中的伤害 -n%",
+  "params": { "n": 20 },
+  "sheet": [
+    {
+      "stat": "defense.after_hit_reduction",
+      "value": { "param": "n" }
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "id": "chain_count",
+  "name": "闪电连锁次数 +n次",
+  "description": "角色词条：闪电连锁次数 +n次。闪电命中后连锁至 4 米内另一个敌人，每次伤害衰减 20%",
+  "params": { "n": 2 },
+  "sheet": [
+    {
+      "stat": "chain.count",
+      "value": { "param": "n" }
+    }
+  ]
+}

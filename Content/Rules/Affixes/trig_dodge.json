@@ -1,0 +1,9 @@
+{
+  "id": "trig_dodge",
+  "name": "完成闪避动作时，有n%概率触发挂载技能",
+  "description": "角色词条：完成闪避动作时，有n%概率触发挂载技能。闪避动作：Shift 翻滚 3 米，冷却 1 秒",
+  "params": { "chance": 100 },
+  "sheet": [
+    { "trigger": "trig_dodge" }
+  ]
+}

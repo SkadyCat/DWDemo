@@ -1,0 +1,19 @@
+{
+  "id": "poison_flask_burst",
+  "name": "毒瓶破裂",
+  "parent": "throw_poison_flask",
+  "description": "辅助毒瓶，使其碰撞或达到飞行距离后触发破裂；基础毒素伤害 +damage，基础爆炸半径 +radius 米。damage 为基础毒素伤害（点），radius 为落点周围的爆炸半径（米）。碰撞包括目标和地形；只响应毒瓶载体，容量回收不爆炸，范围命中使用独立事件。",
+  "params": { "radius": 2.4, "damage": 18 },
+  "rules": [
+    {
+      "id": "burst_on_impact", "event": "projectile_end", "chain": { "maxDepth": 4 },
+      "conditions": [ { "op": "tag", "tag": "poison_flask" }, { "op": "tag", "tag": "end_impact" } ],
+      "actions": [ { "op": "damage_area", "element": "poison", "tags": ["poison", "spell", "poison_flask"], "emitEvent": "poison_flask_hit", "radius": { "param": "radius" }, "amount": { "param": "damage" } } ]
+    },
+    {
+      "id": "burst_on_landing", "event": "projectile_end", "chain": { "maxDepth": 4 },
+      "conditions": [ { "op": "tag", "tag": "poison_flask" }, { "op": "tag", "tag": "end_expired" } ],
+      "actions": [ { "op": "damage_area", "element": "poison", "tags": ["poison", "spell", "poison_flask"], "emitEvent": "poison_flask_hit", "radius": { "param": "radius" }, "amount": { "param": "damage" } } ]
+    }
+  ]
+}

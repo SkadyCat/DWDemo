@@ -1,0 +1,12 @@
+{
+  "id": "minion_empty_damage",
+  "name": "每空缺一个召唤物名额，召唤物伤害 +n%",
+  "description": "角色词条：每空缺一个召唤物名额，召唤物伤害 +n%",
+  "params": { "n": 15 },
+  "sheet": [
+    {
+      "stat": "minion.empty_damage",
+      "value": { "param": "n" }
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "id": "collapse_damage",
+  "name": "虚空坍缩伤害 +n%",
+  "description": "角色词条：虚空坍缩伤害 +n%",
+  "params": { "n": 40 },
+  "sheet": [
+    {
+      "stat": "collapse.damage",
+      "value": { "param": "n" }
+    }
+  ]
+}

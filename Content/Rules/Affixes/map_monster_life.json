@@ -1,0 +1,7 @@
+{
+  "id": "map_monster_life",
+  "name": "地图召唤物气血 +n%",
+  "description": "地图装备词条：增加地图生成的怪物气血上限，包括首领。",
+  "params": { "n": 20 },
+  "sheet": [{ "stat": "minion.life_increased", "value": { "param": "n" } }]
+}

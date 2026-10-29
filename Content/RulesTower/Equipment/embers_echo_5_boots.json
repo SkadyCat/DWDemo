@@ -1,0 +1,82 @@
+{
+  "id": "embers_echo_5_boots",
+  "name": "余烬回响·疾火靴·Ⅴ阶",
+  "description": "余烬回响Ⅴ阶：乘区爆发。补齐触发与范围伤害乘区及触发伤害，形成最终爆发。 五档装备均为 T1，同名固有词条的数值完全一致，按联动机制逐档补齐。必要词条置于固定基底与单条传奇词缀；下方五条正常随机。每层手动施放两次烈焰爆发启动。",
+  "slot": "boots",
+  "rarity": "legendary",
+  "level": 1,
+  "tier": 1,
+  "tags": [
+    "火焰",
+    "范围"
+  ],
+  "skills": [],
+  "legendary": {
+    "id": "armour",
+    "params": {
+      "n": 115
+    },
+    "with": [],
+    "tier": 1
+  },
+  "traits": [
+    {
+      "id": "armour",
+      "params": {
+        "n": 115
+      },
+      "with": [],
+      "tier": 1
+    }
+  ],
+  "bases": [
+    {
+      "id": "evasion",
+      "params": {
+        "n": 115
+      },
+      "with": [],
+      "tier": 1
+    },
+    {
+      "id": "fire_resistance",
+      "params": {
+        "resistance": 14
+      },
+      "with": [],
+      "tier": 1
+    },
+    {
+      "id": "frost_resistance",
+      "params": {
+        "resistance": 14
+      },
+      "with": [],
+      "tier": 1
+    },
+    {
+      "id": "lightning_resistance",
+      "params": {
+        "resistance": 14
+      },
+      "with": [],
+      "tier": 1
+    },
+    {
+      "id": "poison_resistance",
+      "params": {
+        "resistance": 14
+      },
+      "with": [],
+      "tier": 1
+    },
+    {
+      "id": "fire_pen",
+      "params": {
+        "n": 9
+      },
+      "with": [],
+      "tier": 1
+    }
+  ]
+}

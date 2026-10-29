@@ -1,0 +1,9 @@
+{
+  "id": "shock_consume",
+  "name": "消耗目标全部感电，每层提高本次闪电伤害 +n%",
+  "description": "角色词条：消耗目标全部感电，每层提高本次闪电伤害 +n%。闪电命中感电目标时消耗",
+  "params": { "n": 25 },
+  "sheet": [
+    { "trigger": "shock_consume" }
+  ]
+}

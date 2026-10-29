@@ -1,0 +1,9 @@
+{
+  "id": "shock_per_layer",
+  "name": "目标每有一层感电，你对其造成的闪电伤害 +n%",
+  "description": "角色词条：目标每有一层感电，你对其造成的闪电伤害 +n%",
+  "params": { "n": 8 },
+  "sheet": [
+    { "trigger": "shock_per_layer" }
+  ]
+}

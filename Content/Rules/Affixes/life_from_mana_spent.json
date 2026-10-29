@@ -1,0 +1,9 @@
+{
+  "id": "life_from_mana_spent",
+  "name": "消耗魔力的n%恢复为气血",
+  "description": "角色词条：消耗魔力的n%恢复为气血",
+  "params": { "n": 50 },
+  "sheet": [
+    { "stat": "life.from_mana_spent_percent", "value": { "param": "n" } }
+  ]
+}

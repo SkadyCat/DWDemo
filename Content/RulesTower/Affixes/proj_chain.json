@@ -1,0 +1,12 @@
+{
+  "id": "proj_chain",
+  "name": "投射物连锁次数 +n次",
+  "description": "角色词条：投射物连锁次数 +n次。连锁 = 命中后转向附近另一个敌人（弹射）",
+  "params": { "n": 1 },
+  "sheet": [
+    {
+      "stat": "proj.chain",
+      "value": { "param": "n" }
+    }
+  ]
+}

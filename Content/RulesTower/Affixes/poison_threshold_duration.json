@@ -1,0 +1,9 @@
+{
+  "id": "poison_threshold_duration",
+  "name": "目标中毒达到n层时，后续中毒持续时间 +n%",
+  "description": "角色词条：目标中毒达到n层时，后续中毒持续时间 +n%",
+  "params": { "stacks": 8, "n": 50 },
+  "sheet": [
+    { "trigger": "poison_threshold_duration" }
+  ]
+}

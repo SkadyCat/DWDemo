@@ -1,0 +1,9 @@
+{
+  "id": "minion_command_damage",
+  "name": "召唤物受到指令后，伤害 +n%，持续n秒",
+  "description": "角色词条：召唤物受到指令后，伤害 +n%，持续n秒",
+  "params": { "n": 30, "duration": 4 },
+  "sheet": [
+    { "trigger": "minion_command_damage" }
+  ]
+}

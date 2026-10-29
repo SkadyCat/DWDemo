@@ -1,0 +1,15 @@
+{
+  "id": "poison_damage",
+  "name": "中毒伤害",
+  "description": "命中时追加中毒类型的直接伤害，受目标中毒抗性影响。追加命中使用独立事件。",
+  "params": { "amount": 10 },
+  "rules": [
+    {
+      "id": "poison_damage_on_hit",
+      "event": "hit",
+      "actions": [
+        { "op": "damage_target", "element": "poison", "tags": ["poison"], "emitEvent": "poison_damage_hit", "amount": { "param": "amount" } }
+      ]
+    }
+  ]
+}

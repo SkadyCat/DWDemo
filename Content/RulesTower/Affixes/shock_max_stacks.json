@@ -1,0 +1,12 @@
+{
+  "id": "shock_max_stacks",
+  "name": "感电最大层数 +n层",
+  "description": "角色词条：感电最大层数 +n层。基础 1 层；每层效果相加，总效果上限 50%",
+  "params": { "n": 2 },
+  "sheet": [
+    {
+      "stat": "shock.max_stacks",
+      "value": { "param": "n" }
+    }
+  ]
+}

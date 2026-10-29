@@ -1,0 +1,9 @@
+{
+  "id": "attr_constitution",
+  "name": "体质 +n",
+  "description": "角色词条：体质 +n。补充词条：“每n点体质获得基础气血”需要体质来源。",
+  "params": { "n": 10 },
+  "sheet": [
+    { "stat": "attr.constitution", "value": { "param": "n" } }
+  ]
+}

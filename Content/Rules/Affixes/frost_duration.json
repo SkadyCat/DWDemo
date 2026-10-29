@@ -1,0 +1,12 @@
+{
+  "id": "frost_duration",
+  "name": "冰霜技能持续时间 +n%",
+  "description": "角色词条：冰霜技能持续时间 +n%。作用于冰霜技能的持续区域、召唤物与冰缓/冻结",
+  "params": { "n": 30 },
+  "sheet": [
+    {
+      "stat": "frost.duration",
+      "value": { "param": "n" }
+    }
+  ]
+}

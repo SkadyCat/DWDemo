@@ -1,0 +1,24 @@
+{
+  "id": "cinder_surge_robe",
+  "name": "燎原·余烬衣",
+  "description": "燎原配装的胸甲，增加气血与范围伤害，扩大范围，并提供元素伤害和火焰穿透。所有词条均使用现有默认值，无套装效果。",
+  "slot": "chest",
+  "rarity": "rare",
+  "level": 30,
+  "tags": [
+    "火焰",
+    "范围"
+  ],
+  "skills": [],
+  "traits": [
+    "life_base",
+    "life_increased",
+    "area_damage",
+    "more_elemental",
+    "area_size",
+    "fire_pen"
+  ],
+  "bases": [
+    "shield_base"
+  ]
+}

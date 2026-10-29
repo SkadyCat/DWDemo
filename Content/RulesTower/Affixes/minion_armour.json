@@ -1,0 +1,12 @@
+{
+  "id": "minion_armour",
+  "name": "召唤物护甲 +n%",
+  "description": "角色词条：召唤物护甲 +n%。召唤物基础护甲 100",
+  "params": { "n": 50 },
+  "sheet": [
+    {
+      "stat": "minion.armour",
+      "value": { "param": "n" }
+    }
+  ]
+}

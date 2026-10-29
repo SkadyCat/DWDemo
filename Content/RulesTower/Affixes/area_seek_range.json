@@ -1,0 +1,12 @@
+{
+  "id": "area_seek_range",
+  "name": "范围技能索敌距离 +n%",
+  "description": "角色词条：范围技能索敌距离 +n%。范围技能自动选择落点的距离，基础 8 米",
+  "params": { "n": 30 },
+  "sheet": [
+    {
+      "stat": "area.seek_range",
+      "value": { "param": "n" }
+    }
+  ]
+}

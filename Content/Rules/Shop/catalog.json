@@ -1,0 +1,14 @@
+{
+  "currency": {
+    "id": "spirit_stone",
+    "name": "灵石"
+  },
+  "startingStones": 0,
+  "starter": [
+    "equipment:frostthorn_staff"
+  ],
+  "prices": {
+    "item:frost_tonic": 35
+  },
+  "hidden": []
+}

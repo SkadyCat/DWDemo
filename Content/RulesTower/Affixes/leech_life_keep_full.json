@@ -1,0 +1,8 @@
+{
+  "id": "leech_life_keep_full",
+  "name": "达到满血时，气血偷取效果继续保留",
+  "description": "角色词条：达到满血时，气血偷取效果继续保留",
+  "sheet": [
+    { "stat": "leech.life.keep_full", "value": 1 }
+  ]
+}

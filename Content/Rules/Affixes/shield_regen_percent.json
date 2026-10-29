@@ -1,0 +1,9 @@
+{
+  "id": "shield_regen_percent",
+  "name": "每秒恢复最大护盾的n%",
+  "description": "角色词条：每秒恢复最大护盾的n%",
+  "params": { "n": 2 },
+  "sheet": [
+    { "stat": "shield.regen_percent", "value": { "param": "n" } }
+  ]
+}

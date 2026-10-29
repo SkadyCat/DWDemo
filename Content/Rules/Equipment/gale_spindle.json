@@ -1,0 +1,6 @@
+{
+  "id": "gale_spindle", "name": "回风之杖",
+  "description": "绑定旋风：发射快速游走、随机转向的物理投射物，基础速度27米/秒。随机词条遵守装备部位、品质与T阶；传奇品质固定带有投射物飞行速度。",
+  "slot": "weapon", "rarity": "common", "level": 1, "tier": 1,
+  "tags": ["物理", "法杖"], "skills": ["whirlwind"], "legendary": "proj_speed", "traits": [], "bases": ["flat_physical"]
+}

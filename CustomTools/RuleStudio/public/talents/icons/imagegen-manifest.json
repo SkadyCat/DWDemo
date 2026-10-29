@@ -1,0 +1,31 @@
+{
+  "generator": "Built-in image_gen",
+  "transparentBackground": true,
+  "style": "Minimal dark-fantasy attribute emblems with broad silhouettes and two or three large facets. No text, glow or outer frame.",
+  "assets": [
+    {
+      "id": "strength",
+      "file": "strength.png",
+      "prompt": "Use case: stylized-concept. Asset type: a single small game UI attribute icon for a dark fantasy talent constellation. Primary request: one upright broad sword with a wide blade, short simple crossguard and short grip, representing strength. Style: extremely simple clean illustrated emblem, bold readable silhouette, only 2 or 3 broad shapes, a very subtle painted bevel along one edge, no fine detail. Color palette: muted coral red #dc8d82 as the main body, a slightly lighter edge and darker face in the same color family. Composition: exactly one isolated icon centered on a square canvas, icon occupies about 82% of the canvas, matching visual weight with other icons in this set. True transparent background with alpha, no opaque background. Must remain unmistakable at 24 pixels. No text, letters, numbers, badge, button, border, frame, circle, sparkles, glow, particles, ornament, texture noise, scene, cast shadow or drop shadow. Deliver one individual transparent PNG icon, not a sheet.",
+      "sourceFile": "C:\\Users\\罗长生\\.codex\\generated_images\\01a1716b-878a-7b53-858e-44ee49777d30\\exec-4f9f40ea-181d-4cd3-8f5a-1fa7819af432.png"
+    },
+    {
+      "id": "dexterity",
+      "file": "dexterity.png",
+      "prompt": "Use case: stylized-concept. Asset type: a single small game UI attribute icon for a dark fantasy talent constellation. Primary request: one diagonal arrow pointing to the upper right, a broad arrowhead and short tapered shaft, representing dexterity. Style: extremely simple clean illustrated emblem, bold readable silhouette, only 2 or 3 broad shapes, a very subtle painted bevel along one edge, no fine detail. Color palette: muted jade green #8dc69f as the main body, a slightly lighter edge and darker face in the same color family. Composition: exactly one isolated icon centered on a square canvas, icon occupies about 82% of the canvas, matching visual weight with other icons in this set. True transparent background with alpha, no opaque background. Must remain unmistakable at 24 pixels. No text, letters, numbers, badge, button, border, frame, circle, sparkles, glow, particles, ornament, texture noise, scene, cast shadow or drop shadow. Deliver one individual transparent PNG icon, not a sheet.",
+      "sourceFile": "C:\\Users\\罗长生\\.codex\\generated_images\\01a1716b-878a-7b53-858e-44ee49777d30\\exec-7470f660-9a35-452d-ac46-6b390a4a20e2.png"
+    },
+    {
+      "id": "intelligence",
+      "file": "intelligence.png",
+      "prompt": "Use case: stylized-concept. Asset type: a single small game UI attribute icon for a dark fantasy talent constellation. Primary request: one tall diamond-cut crystal with just two broad facets, a pointed top and bottom, representing intelligence. Style: extremely simple clean illustrated emblem, bold readable silhouette, only 2 or 3 broad shapes, a very subtle painted bevel along one edge, no fine detail. Color palette: muted ice blue #8bbcdf as the main body, a slightly lighter edge and darker face in the same color family. Composition: exactly one isolated icon centered on a square canvas, icon occupies about 82% of the canvas, matching visual weight with other icons in this set. True transparent background with alpha, no opaque background. Must remain unmistakable at 24 pixels. No text, letters, numbers, badge, button, border, frame, circle, sparkles, glow, particles, ornament, texture noise, scene, cast shadow or drop shadow. Deliver one individual transparent PNG icon, not a sheet.",
+      "sourceFile": "C:\\Users\\罗长生\\.codex\\generated_images\\01a1716b-878a-7b53-858e-44ee49777d30\\exec-38a71c43-32a7-43ea-8e47-569485279df2.png"
+    },
+    {
+      "id": "constitution",
+      "file": "constitution.png",
+      "prompt": "Use case: stylized-concept. Asset type: a single small game UI attribute icon for a dark fantasy talent constellation. Primary request: one compact heater shield with broad shoulders and a pointed base, one broad central face, representing constitution. Style: extremely simple clean illustrated emblem, bold readable silhouette, only 2 or 3 broad shapes, a very subtle painted bevel along one edge, no fine detail. Color palette: muted antique gold #d4ba7e as the main body, a slightly lighter edge and darker face in the same color family. Composition: exactly one isolated icon centered on a square canvas, icon occupies about 82% of the canvas, matching visual weight with other icons in this set. True transparent background with alpha, no opaque background. Must remain unmistakable at 24 pixels. No text, letters, numbers, badge, button, border, frame, circle, sparkles, glow, particles, ornament, texture noise, scene, cast shadow or drop shadow. Deliver one individual transparent PNG icon, not a sheet.",
+      "sourceFile": "C:\\Users\\罗长生\\.codex\\generated_images\\01a1716b-878a-7b53-858e-44ee49777d30\\exec-cf2eb69b-366a-474a-95da-8b9402727bf8.png"
+    }
+  ]
+}

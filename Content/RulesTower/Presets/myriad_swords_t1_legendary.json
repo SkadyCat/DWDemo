@@ -1,0 +1,680 @@
+{
+  "skills": [
+    "frost_lance",
+    null,
+    null,
+    null
+  ],
+  "equipment": {
+    "weapon": "legendary_myriad_swords_t1_instant_weapon",
+    "helmet": "legendary_myriad_swords_t1_instant_helmet",
+    "chest": "legendary_myriad_swords_t1_instant_chest",
+    "gloves": "legendary_myriad_swords_t1_instant_gloves",
+    "boots": "legendary_myriad_swords_t1_instant_boots"
+  },
+  "instances": {
+    "legendary_myriad_swords_t1_instant_weapon": {
+      "uid": "legendary_myriad_swords_t1_instant_weapon",
+      "baseId": "myriad_swords_t1_weapon",
+      "name": "万剑·霜锋法杖",
+      "slot": "weapon",
+      "level": 1,
+      "rarity": "legendary",
+      "tier": 1,
+      "skill": "frost_lance",
+      "affixes": [
+        {
+          "id": "minion_skill_cooldown",
+          "name": "召唤物技能冷却恢复速度 +n%",
+          "traits": [
+            {
+              "id": "minion_skill_cooldown",
+              "params": {
+                "n": 11
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "evasion_from_equipment",
+          "name": "装备提供的闪避值 +n%",
+          "traits": [
+            {
+              "id": "evasion_from_equipment",
+              "params": {
+                "n": 23
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "shield_on_kill_percent",
+          "name": "击败敌人时恢复最大护盾的n%",
+          "traits": [
+            {
+              "id": "shield_on_kill_percent",
+              "params": {
+                "n": 2
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "shield_regen_speed",
+          "name": "护盾再生速度 +n%",
+          "traits": [
+            {
+              "id": "shield_regen_speed",
+              "params": {
+                "n": 17
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "minion_prefer_elite",
+          "name": "召唤物优先攻击精英敌人",
+          "traits": [
+            {
+              "id": "minion_prefer_elite",
+              "params": {},
+              "with": []
+            }
+          ]
+        }
+      ],
+      "legendary": {
+        "id": "legendary:myriad_swords_t1_weapon",
+        "name": "多重投射",
+        "traits": [
+          {
+            "params": {
+              "count": 2,
+              "spread": 31,
+              "damage_multiplier": 0.48
+            },
+            "duration": 0,
+            "with": [],
+            "id": "multiple_projectiles",
+            "tier": 1
+          }
+        ],
+        "tier": 1
+      },
+      "identified": true,
+      "bases": [
+        {
+          "id": "proj_count",
+          "name": "投射物数量 +n个",
+          "traits": [
+            {
+              "params": {
+                "n": 1
+              },
+              "duration": 0,
+              "with": [],
+              "id": "proj_count",
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "proj_origins",
+          "name": "投射物发射位置数量 +n个",
+          "traits": [
+            {
+              "params": {
+                "n": 1
+              },
+              "duration": 0,
+              "with": [],
+              "id": "proj_origins",
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        }
+      ]
+    },
+    "legendary_myriad_swords_t1_instant_helmet": {
+      "uid": "legendary_myriad_swords_t1_instant_helmet",
+      "baseId": "myriad_swords_t1_helmet",
+      "name": "万剑·归宗冠",
+      "slot": "helmet",
+      "level": 1,
+      "rarity": "legendary",
+      "tier": 1,
+      "skill": "",
+      "affixes": [
+        {
+          "id": "life_added_void",
+          "name": "获得相当于最大气血n%的附加虚空伤害",
+          "traits": [
+            {
+              "id": "life_added_void",
+              "params": {
+                "n": 1
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "trigger_seek",
+          "name": "触发技能索敌距离 +n%",
+          "traits": [
+            {
+              "id": "trigger_seek",
+              "params": {
+                "n": 22
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "spirit_claw",
+          "name": "灵仆·利爪",
+          "traits": [
+            {
+              "id": "spirit_claw",
+              "params": {
+                "damage": 8
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "minion_death_explode",
+          "name": "召唤物死亡时，引发爆炸",
+          "traits": [
+            {
+              "id": "minion_death_explode",
+              "params": {},
+              "with": []
+            }
+          ]
+        },
+        {
+          "id": "shattering_kills",
+          "name": "冰缓碎裂",
+          "traits": [
+            {
+              "id": "chill",
+              "params": {
+                "slow": 17,
+                "duration": 1
+              },
+              "with": [],
+              "tier": 1
+            },
+            {
+              "id": "shatter",
+              "params": {
+                "radius": 1.68,
+                "amount": 11
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        }
+      ],
+      "legendary": {
+        "id": "legendary:myriad_swords_t1_helmet",
+        "name": "投射物从目标周围向中心发射",
+        "traits": [
+          {
+            "params": {},
+            "duration": 0,
+            "with": [],
+            "id": "proj_layout_converge"
+          }
+        ]
+      },
+      "identified": true,
+      "bases": [
+        {
+          "id": "proj_retarget",
+          "name": "投射物重新索敌次数 +n次",
+          "traits": [
+            {
+              "params": {
+                "n": 1
+              },
+              "duration": 0,
+              "with": [],
+              "id": "proj_retarget",
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "proj_homing_range",
+          "name": "投射物追踪距离 +n%",
+          "traits": [
+            {
+              "params": {
+                "n": 31
+              },
+              "duration": 0,
+              "with": [],
+              "id": "proj_homing_range",
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "proj_homing_turn",
+          "name": "投射物追踪转向速度 +n%",
+          "traits": [
+            {
+              "params": {
+                "n": 31
+              },
+              "duration": 0,
+              "with": [],
+              "id": "proj_homing_turn",
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        }
+      ]
+    },
+    "legendary_myriad_swords_t1_instant_chest": {
+      "uid": "legendary_myriad_swords_t1_instant_chest",
+      "baseId": "myriad_swords_t1_chest",
+      "name": "万剑·列阵衣",
+      "slot": "chest",
+      "level": 1,
+      "rarity": "legendary",
+      "tier": 1,
+      "skill": "",
+      "affixes": [
+        {
+          "id": "shield_on_hit",
+          "name": "命中时恢复护盾 +n点",
+          "traits": [
+            {
+              "id": "shield_on_hit",
+              "params": {
+                "n": 1
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "area_kill_recast",
+          "name": "范围技能击败敌人时，有n%概率在其位置再次释放",
+          "traits": [
+            {
+              "id": "area_kill_recast",
+              "params": {
+                "n": 10
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "shield_bypass",
+          "name": "绕过护盾的伤害比例 -n个百分点",
+          "traits": [
+            {
+              "id": "shield_bypass",
+              "params": {
+                "n": 26
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "poison_enemy_regen",
+          "name": "中毒敌人的气血恢复效率 -n%",
+          "traits": [
+            {
+              "id": "poison_enemy_regen",
+              "params": {
+                "n": 31
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "area_cast_speed",
+          "name": "范围技能施放速度 +n%",
+          "traits": [
+            {
+              "id": "area_cast_speed",
+              "params": {
+                "n": 9
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        }
+      ],
+      "legendary": {
+        "id": "legendary:myriad_swords_t1_chest",
+        "name": "投射物发射位置数量 +n个",
+        "traits": [
+          {
+            "params": {
+              "n": 1
+            },
+            "duration": 0,
+            "with": [],
+            "id": "proj_origins",
+            "tier": 1
+          }
+        ],
+        "tier": 1
+      },
+      "identified": true,
+      "bases": [
+        {
+          "id": "proj_origins",
+          "name": "投射物发射位置数量 +n个",
+          "traits": [
+            {
+              "params": {
+                "n": 1
+              },
+              "duration": 0,
+              "with": [],
+              "id": "proj_origins",
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        }
+      ]
+    },
+    "legendary_myriad_swords_t1_instant_gloves": {
+      "uid": "legendary_myriad_swords_t1_instant_gloves",
+      "baseId": "myriad_swords_t1_gloves",
+      "name": "万剑·并锋护手",
+      "slot": "gloves",
+      "level": 1,
+      "rarity": "legendary",
+      "tier": 1,
+      "skill": "",
+      "affixes": [
+        {
+          "id": "lightning_base",
+          "name": "基础闪电伤害 +n点",
+          "traits": [
+            {
+              "id": "lightning_base",
+              "params": {
+                "n": 4
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "proj_pierce_secondary",
+          "name": "投射物每穿透n个敌人，生成一次次级投射物",
+          "traits": [
+            {
+              "id": "proj_pierce_secondary",
+              "params": {
+                "per": 1
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "minion_recovery_share",
+          "name": "你恢复气血时，恢复量的n%同时用于治疗召唤物",
+          "traits": [
+            {
+              "id": "minion_recovery_share",
+              "params": {
+                "n": 16
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "minion_take_for_you",
+          "name": "召唤物替你承担受到命中伤害的n%",
+          "traits": [
+            {
+              "id": "minion_take_for_you",
+              "params": {
+                "n": 8
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "proj_split_count",
+          "name": "每次分裂产生的投射物数量 +n个",
+          "traits": [
+            {
+              "id": "proj_split_count",
+              "params": {
+                "n": 1
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        }
+      ],
+      "legendary": {
+        "id": "legendary:myriad_swords_t1_gloves",
+        "name": "投射物发射位置数量 +n个",
+        "traits": [
+          {
+            "params": {
+              "n": 1
+            },
+            "duration": 0,
+            "with": [],
+            "id": "proj_origins",
+            "tier": 1
+          }
+        ],
+        "tier": 1
+      },
+      "identified": true,
+      "bases": [
+        {
+          "id": "proj_count",
+          "name": "投射物数量 +n个",
+          "traits": [
+            {
+              "params": {
+                "n": 1
+              },
+              "duration": 0,
+              "with": [],
+              "id": "proj_count",
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        }
+      ]
+    },
+    "legendary_myriad_swords_t1_instant_boots": {
+      "uid": "legendary_myriad_swords_t1_instant_boots",
+      "baseId": "myriad_swords_t1_boots",
+      "name": "万剑·连霜靴",
+      "slot": "boots",
+      "level": 1,
+      "rarity": "legendary",
+      "tier": 1,
+      "skill": "",
+      "affixes": [
+        {
+          "id": "minion_attack_speed",
+          "name": "召唤物攻击速度 +n%",
+          "traits": [
+            {
+              "id": "minion_attack_speed",
+              "params": {
+                "n": 12
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "fire_crit_multi",
+          "name": "火焰技能暴击伤害 +n%",
+          "traits": [
+            {
+              "id": "fire_crit_multi",
+              "params": {
+                "n": 22
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "poison_threshold_detonate",
+          "name": "中毒达到n层时，消耗全部中毒并引爆",
+          "traits": [
+            {
+              "id": "poison_threshold_detonate",
+              "params": {
+                "stacks": 5
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "erosion_consume_layers",
+          "name": "消耗目标n层侵蚀，强化本次虚空伤害",
+          "traits": [
+            {
+              "id": "erosion_consume_layers",
+              "params": {
+                "n": 2
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "minion_kill_life",
+          "name": "召唤物每击败一个敌人，气血上限 +n%，最多提高n%",
+          "traits": [
+            {
+              "id": "minion_kill_life",
+              "params": {
+                "n": 3,
+                "max": 31
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        }
+      ],
+      "legendary": {
+        "id": "legendary:myriad_swords_t1_boots",
+        "name": "投射物发射位置数量 +n个",
+        "traits": [
+          {
+            "params": {
+              "n": 1
+            },
+            "duration": 0,
+            "with": [],
+            "id": "proj_origins",
+            "tier": 1
+          }
+        ],
+        "tier": 1
+      },
+      "identified": true,
+      "bases": [
+        {
+          "id": "proj_retarget_on_death",
+          "name": "投射物目标死亡后，重新追踪附近敌人",
+          "traits": [
+            {
+              "params": {},
+              "duration": 0,
+              "with": [],
+              "id": "proj_retarget_on_death"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "belt": [],
+  "authored": {
+    "source": "generated-existing-traits",
+    "family": "projectile",
+    "name": "万剑归宗·单击30枚",
+    "seed": 1,
+    "minimumTier": 1
+  }
+}

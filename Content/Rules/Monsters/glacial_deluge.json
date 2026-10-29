@@ -1,0 +1,34 @@
+{
+  "id": "glacial_deluge",
+  "name": "万刃霜皇",
+  "description": "T10 多重一次发射 9 枚冰锥，穿透 4 次；冰霜与元素增伤叠加，命中强冰缓并有概率冻结。",
+  "enabled": true,
+  "weight": 1,
+  "minFloor": 11,
+  "health": 60,
+  "speed": 250,
+  "stopDistance": 650,
+  "color": "#72cfff",
+  "equipment": {
+    "lineage": "monster_lineage_glacial_deluge",
+    "rarity": null,
+    "tower": "monster_tower_equipment"
+  },
+  "traits": [
+    {
+      "id": "monster_seek_range",
+      "params": {
+        "n": 20
+      }
+    }
+  ],
+  "skills": [
+    {
+      "id": "frost_lance",
+      "enabled": true,
+      "range": 900,
+      "cooldown": 0.8,
+      "power": 10
+    }
+  ]
+}

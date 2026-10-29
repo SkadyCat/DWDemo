@@ -1,0 +1,57 @@
+{
+  "checkedAt": "2026-10-25T08:07:32.749Z",
+  "url": "http://127.0.0.1:5291/?view=talents",
+  "scope": "Opus RuleStudio web authoring and web 3D battle",
+  "tree": {
+    "file": "Content/Rules/Talents/constellation.json",
+    "sha256": "17bf5e5882b43e84aed0823891274d0e92325e9fce75246859552d9aeb68d51a",
+    "nodes": 1000,
+    "legendary": 100,
+    "attributes": 899,
+    "origin": 1,
+    "sectors": 20,
+    "sourceBDs": 15,
+    "sourceRules": 85
+  },
+  "rules": {
+    "existingBDsPreserved": true,
+    "parameterSourcesPreserved": true,
+    "compilerChanged": false,
+    "ueRuntimeChanged": false
+  },
+  "checks": [
+    {
+      "command": "node --test tests/talents.test.mjs tests/fixed-equipment.test.mjs tests/trigger-summons.test.mjs tests/progression.test.mjs",
+      "passed": 37,
+      "failed": 0
+    },
+    {
+      "command": "npm run test:talents",
+      "passed": 12,
+      "failed": 0
+    },
+    {
+      "command": "node --test tests/battle-panels.test.mjs",
+      "passed": 8,
+      "failed": 0
+    }
+  ],
+  "browser": {
+    "checked": [
+      "catalogue loading",
+      "cluster focus",
+      "route allocation / points",
+      "free attribute replacement",
+      "refund disconnect protection",
+      "search across 100 mechanics",
+      "persistence after reload",
+      "apply to 3D battle",
+      "live character shows strength 10 / intelligence 110"
+    ],
+    "temporaryAppliedTalentsCleared": true
+  },
+  "proofs": [
+    "proof/talents-overview.png",
+    "proof/talents-detail.png"
+  ]
+}

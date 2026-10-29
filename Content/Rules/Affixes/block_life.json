@@ -1,0 +1,12 @@
+{
+  "id": "block_life",
+  "name": "格挡成功时，恢复气血 +n点",
+  "description": "角色词条：格挡成功时，恢复气血 +n点",
+  "params": { "n": 15 },
+  "sheet": [
+    {
+      "stat": "life.on_block",
+      "value": { "param": "n" }
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "id": "life_regen_flat",
+  "name": "每秒恢复气血 +n点",
+  "description": "角色词条：每秒恢复气血 +n点。基础每秒 3 点。",
+  "params": { "n": 5 },
+  "sheet": [
+    { "stat": "life.regen_flat", "value": { "param": "n" } }
+  ]
+}

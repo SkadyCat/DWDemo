@@ -1,0 +1,12 @@
+{
+  "id": "area_rehit_interval",
+  "name": "同一目标受到重复命中的最短间隔 -n%",
+  "description": "角色词条：同一目标受到重复命中的最短间隔 -n%。基础最短间隔 0.5 秒",
+  "params": { "n": 30 },
+  "sheet": [
+    {
+      "stat": "area.rehit_interval",
+      "value": { "param": "n" }
+    }
+  ]
+}

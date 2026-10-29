@@ -1,0 +1,12 @@
+{
+  "id": "minion_ailment_chance",
+  "name": "召唤物异常状态施加概率 +n个百分点",
+  "description": "角色词条：召唤物异常状态施加概率 +n个百分点",
+  "params": { "n": 15 },
+  "sheet": [
+    {
+      "stat": "minion.ailment_chance",
+      "value": { "param": "n" }
+    }
+  ]
+}

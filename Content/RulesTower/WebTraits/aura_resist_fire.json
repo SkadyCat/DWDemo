@@ -1,0 +1,25 @@
+{
+  "id": "aura_resist_fire",
+  "name": "火焰抗性光环",
+  "description": "启用时，自身火焰抗性增加resistance个百分点，沿用现有抗性上限。resistance单位为百分点。光环装配到Q/E/F/G后按键切换，只对自身生效，不占主动槽。启用时封印总魔力上限的reservation_percent%，默认50%；各光环比例相加，超过100%不能开启。关闭或卸下授予装备解除封印，不立即回复魔力。封印不算消耗或恢复，不触发资源事件。reservation_percent单位为百分比，十阶默认固定50%。",
+  "params": {
+    "resistance": 25,
+    "reservation_percent": 50
+  },
+  "sheet": [
+    {
+      "trigger": "aura_skill"
+    }
+  ],
+  "modifiers": [
+    {
+      "target": "element",
+      "element": "fire",
+      "stat": "resistance",
+      "op": "add",
+      "value": {
+        "param": "resistance"
+      }
+    }
+  ]
+}

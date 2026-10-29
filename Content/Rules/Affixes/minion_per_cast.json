@@ -1,0 +1,12 @@
+{
+  "id": "minion_per_cast",
+  "name": "每次召唤数量 +n个",
+  "description": "角色词条：每次召唤数量 +n个",
+  "params": { "n": 1 },
+  "sheet": [
+    {
+      "stat": "minion.per_cast",
+      "value": { "param": "n" }
+    }
+  ]
+}

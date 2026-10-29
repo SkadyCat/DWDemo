@@ -1,0 +1,14 @@
+{
+  "id": "timed_on_cast",
+  "name": "附带持续时间·施法后",
+  "description": "附带持续时间：每次施法后，自身获得缝合的特性，持续 duration 秒（从下一次施法起生效）。chance 为触发概率（%）。再次触发刷新时间，不叠加。",
+  "params": { "duration": 4, "chance": 100 },
+  "rules": [
+    {
+      "id": "grant_on_cast",
+      "event": "cast",
+      "conditions": [ { "op": "chance", "probability": { "param": "chance" } } ],
+      "actions": [ { "op": "grant_traits", "origin": "owner", "traits": "stitched", "duration": { "param": "duration" } } ]
+    }
+  ]
+}

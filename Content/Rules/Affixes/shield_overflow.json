@@ -1,0 +1,9 @@
+{
+  "id": "shield_overflow",
+  "name": "护盾恢复允许溢出上限的n%",
+  "description": "角色词条：护盾恢复允许溢出上限的n%。回充和偷取不会溢出；再生、事件恢复、伤害回收等可以溢出到上限的 (100+n)%。溢出部分每秒衰减 20%。",
+  "params": { "n": 20 },
+  "sheet": [
+    { "stat": "shield.overflow_percent", "value": { "param": "n" } }
+  ]
+}

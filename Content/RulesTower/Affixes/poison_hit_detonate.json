@@ -1,0 +1,9 @@
+{
+  "id": "poison_hit_detonate",
+  "name": "命中中毒敌人时，有n%概率引爆n层中毒",
+  "description": "角色词条：命中中毒敌人时，有n%概率引爆n层中毒",
+  "params": { "chance": 20, "layers": 3 },
+  "sheet": [
+    { "trigger": "poison_hit_detonate" }
+  ]
+}

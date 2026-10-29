@@ -1,0 +1,9 @@
+{
+  "id": "life_on_crit",
+  "name": "暴击时恢复气血 +n点",
+  "description": "角色词条：暴击时恢复气血 +n点",
+  "params": { "n": 10 },
+  "sheet": [
+    { "stat": "life.on_crit", "value": { "param": "n" } }
+  ]
+}

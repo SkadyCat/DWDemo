@@ -1,0 +1,9 @@
+{
+  "id": "shield_from_equipment",
+  "name": "装备提供的护盾 +n%",
+  "description": "角色词条：装备提供的护盾 +n%。只放大装备上“基础护盾 +n点”提供的部分。",
+  "params": { "n": 30 },
+  "sheet": [
+    { "stat": "shield.equipment_increased", "value": { "param": "n" } }
+  ]
+}

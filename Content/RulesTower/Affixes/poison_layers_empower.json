@@ -1,0 +1,9 @@
+{
+  "id": "poison_layers_empower",
+  "name": "每累计施加n层中毒，强化下一次技能",
+  "description": "角色词条：每累计施加n层中毒，强化下一次技能。强化：下一次技能伤害额外提高 n%",
+  "params": { "per": 20, "n": 30 },
+  "sheet": [
+    { "trigger": "poison_layers_empower" }
+  ]
+}

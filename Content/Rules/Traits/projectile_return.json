@@ -1,0 +1,16 @@
+{
+  "id": "projectile_return",
+  "name": "投射物回归",
+  "description": "投射物命中敌人后掉头飞向施法者当前位置，回程可以命中路上的其他敌人（同一枚投射物不会重复命中同一敌人，与 UE 一致）。count = 可回归次数。",
+  "params": { "count": 1 },
+  "modifiers": [ { "target": "projectile", "stat": "return_count", "op": "add", "value": { "param": "count" } } ],
+  "rules": [
+    {
+      "id": "return_on_hit",
+      "event": "hit",
+      "chain": { "maxDepth": 8 },
+      "conditions": [ { "op": "tag", "tag": "projectile" } ],
+      "actions": [ { "op": "redirect", "mode": "return" } ]
+    }
+  ]
+}

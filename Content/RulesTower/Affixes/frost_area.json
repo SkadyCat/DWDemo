@@ -1,0 +1,12 @@
+{
+  "id": "frost_area",
+  "name": "冰霜技能范围面积 +n%",
+  "description": "角色词条：冰霜技能范围面积 +n%",
+  "params": { "n": 30 },
+  "sheet": [
+    {
+      "stat": "frost.area",
+      "value": { "param": "n" }
+    }
+  ]
+}

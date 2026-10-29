@@ -1,0 +1,12 @@
+{
+  "id": "proj_pierce",
+  "name": "投射物穿透次数 +n次",
+  "description": "角色词条：投射物穿透次数 +n次",
+  "params": { "n": 1 },
+  "sheet": [
+    {
+      "stat": "proj.pierce",
+      "value": { "param": "n" }
+    }
+  ]
+}

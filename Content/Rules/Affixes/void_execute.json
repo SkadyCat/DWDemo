@@ -1,0 +1,9 @@
+{
+  "id": "void_execute",
+  "name": "虚空技能对气血低于最大值n%的普通敌人直接终结",
+  "description": "角色词条：虚空技能对气血低于最大值n%的普通敌人直接终结。不作用于精英；虚空技能 = 虚空伤害命中",
+  "params": { "n": 10 },
+  "sheet": [
+    { "trigger": "void_execute" }
+  ]
+}

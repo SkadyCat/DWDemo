@@ -1,0 +1,9 @@
+{
+  "id": "leech_shield_duration",
+  "name": "护盾偷取持续时间 +n%",
+  "description": "角色词条：护盾偷取持续时间 +n%。每个偷取实例以相同速度多持续 n%（总量 ×(1+n%)）。",
+  "params": { "n": 30 },
+  "sheet": [
+    { "stat": "leech.shield.duration", "value": { "param": "n" } }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "id": "heal_overflow_to_shield",
+  "name": "溢出治疗的n%转化为护盾",
+  "description": "角色词条：溢出治疗的n%转化为护盾",
+  "params": { "n": 50 },
+  "sheet": [
+    { "stat": "heal.overflow_to_shield", "value": { "param": "n" } }
+  ]
+}

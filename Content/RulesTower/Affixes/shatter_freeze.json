@@ -1,0 +1,12 @@
+{
+  "id": "shatter_freeze",
+  "name": "碎冰爆炸有n%概率冻结附近敌人",
+  "description": "角色词条：碎冰爆炸有n%概率冻结附近敌人。碎冰冻结的敌人被击杀时不再触发碎冰",
+  "params": { "n": 25 },
+  "sheet": [
+    {
+      "stat": "shatter.freeze_chance",
+      "value": { "param": "n" }
+    }
+  ]
+}

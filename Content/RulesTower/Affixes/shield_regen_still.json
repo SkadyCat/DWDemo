@@ -1,0 +1,9 @@
+{
+  "id": "shield_regen_still",
+  "name": "静止时，每秒恢复最大护盾的n%",
+  "description": "角色词条：静止时，每秒恢复最大护盾的n%",
+  "params": { "n": 3 },
+  "sheet": [
+    { "stat": "shield.regen_still_percent", "value": { "param": "n" } }
+  ]
+}

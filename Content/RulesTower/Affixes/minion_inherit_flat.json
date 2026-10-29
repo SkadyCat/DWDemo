@@ -1,0 +1,12 @@
+{
+  "id": "minion_inherit_flat",
+  "name": "召唤物继承你n%的附加伤害",
+  "description": "角色词条：召唤物继承你n%的附加伤害",
+  "params": { "n": 50 },
+  "sheet": [
+    {
+      "stat": "minion.inherit_flat",
+      "value": { "param": "n" }
+    }
+  ]
+}

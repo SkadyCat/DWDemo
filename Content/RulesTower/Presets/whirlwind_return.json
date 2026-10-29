@@ -1,0 +1,67 @@
+{
+  "skills": [
+    "whirlwind",
+    null,
+    null,
+    null
+  ],
+  "equipment": {
+    "weapon": "whirlwind_return_v1_weapon"
+  },
+  "instances": {
+    "whirlwind_return_v1_weapon": {
+      "uid": "whirlwind_return_v1_weapon",
+      "baseId": "gale_spindle",
+      "name": "回风之杖",
+      "slot": "weapon",
+      "level": 1,
+      "rarity": "common",
+      "tier": 1,
+      "skill": "whirlwind",
+      "affixes": [],
+      "legendary": null,
+      "identified": true,
+      "bases": [
+        {
+          "id": "flat_physical",
+          "name": "基础物理伤害 +n",
+          "traits": [
+            {
+              "params": {
+                "n": 4
+              },
+              "duration": 0,
+              "with": [],
+              "id": "flat_physical",
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "trigger_chance",
+          "name": "触发概率 +n个百分点",
+          "traits": [
+            {
+              "id": "trigger_chance",
+              "params": {
+                "n": 5
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        }
+      ]
+    }
+  },
+  "belt": [],
+  "authored": {
+    "source": "generated-trait-composition",
+    "family": "whirlwind",
+    "name": "游走旋风",
+    "revision": 4,
+    "minimumTier": 1
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "id": "life_base",
+  "name": "基础气血 +n点",
+  "description": "角色词条：基础气血 +n点。基础气血 400。",
+  "params": { "n": 60 },
+  "sheet": [
+    { "stat": "life.base", "value": { "param": "n" } }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "id": "erosion_max_stacks",
+  "name": "侵蚀最大层数 +n层",
+  "description": "角色词条：侵蚀最大层数 +n层。基础 5 层",
+  "params": { "n": 3 },
+  "sheet": [
+    {
+      "stat": "erosion.max_stacks",
+      "value": { "param": "n" }
+    }
+  ]
+}

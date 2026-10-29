@@ -1,0 +1,12 @@
+{
+  "id": "poison_spread_radius",
+  "name": "中毒传播半径 +n米",
+  "description": "角色词条：中毒传播半径 +n米。基础传播半径 3 米",
+  "params": { "n": 1 },
+  "sheet": [
+    {
+      "stat": "poison.spread_radius",
+      "value": { "param": "n" }
+    }
+  ]
+}

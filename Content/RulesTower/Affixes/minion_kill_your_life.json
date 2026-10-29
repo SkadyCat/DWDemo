@@ -1,0 +1,12 @@
+{
+  "id": "minion_kill_your_life",
+  "name": "召唤物击败敌人时，你恢复气血 +n点",
+  "description": "角色词条：召唤物击败敌人时，你恢复气血 +n点",
+  "params": { "n": 8 },
+  "sheet": [
+    {
+      "stat": "minion.kill_your_life",
+      "value": { "param": "n" }
+    }
+  ]
+}

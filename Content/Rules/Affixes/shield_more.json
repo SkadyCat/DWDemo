@@ -1,0 +1,16 @@
+{
+  "id": "shield_more",
+  "name": "护盾上限额外提高 n%",
+  "description": "角色词条：护盾上限额外提高 n%",
+  "params": {
+    "n": 10
+  },
+  "sheet": [
+    {
+      "stat": "shield.more",
+      "value": {
+        "param": "n"
+      }
+    }
+  ]
+}

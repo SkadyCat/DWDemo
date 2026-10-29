@@ -1,0 +1,9 @@
+{
+  "id": "poison_per_layer",
+  "name": "目标每有一层中毒，你对其造成的中毒伤害 +n%，最多提高n%",
+  "description": "角色词条：目标每有一层中毒，你对其造成的中毒伤害 +n%，最多提高n%",
+  "params": { "n": 3, "max": 45 },
+  "sheet": [
+    { "trigger": "poison_per_layer" }
+  ]
+}

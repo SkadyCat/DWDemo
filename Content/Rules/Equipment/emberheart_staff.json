@@ -1,0 +1,21 @@
+{
+  "id": "emberheart_staff",
+  "name": "焰心法杖",
+  "description": "绑定烈焰爆发。词条按装备品质与 T 阶随机生成；传奇品质固定带有火焰伤害额外提高。",
+  "slot": "weapon",
+  "rarity": "common",
+  "level": 1,
+  "tier": 1,
+  "tags": [
+    "火焰",
+    "法杖"
+  ],
+  "skills": [
+    "flame_burst"
+  ],
+  "legendary": "more_fire",
+  "traits": [],
+  "bases": [
+    "flat_fire"
+  ]
+}

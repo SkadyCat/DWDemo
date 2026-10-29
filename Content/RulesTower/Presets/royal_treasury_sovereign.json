@@ -1,0 +1,1192 @@
+{
+  "skills": [
+    "royal_treasury",
+    "treasury_enuma_elish",
+    null,
+    null
+  ],
+  "equipment": {
+    "weapon": "royal_sovereign_v3_t1_weapon",
+    "gloves": "royal_sovereign_v3_t1_gloves",
+    "helmet": "royal_sovereign_v3_t1_helmet",
+    "offhand": "royal_sovereign_v3_t1_offhand",
+    "ring": "royal_sovereign_v3_t1_ring",
+    "amulet": "royal_sovereign_v3_t1_amulet",
+    "chest": "royal_sovereign_v3_t1_chest",
+    "boots": "royal_sovereign_v3_t1_boots",
+    "belt": "royal_sovereign_v3_t1_belt"
+  },
+  "instances": {
+    "royal_sovereign_v3_t1_weapon": {
+      "uid": "royal_sovereign_v3_t1_weapon",
+      "baseId": "treasury_sovereign_staff",
+      "name": "王权·天穹之钥",
+      "slot": "weapon",
+      "level": 1,
+      "rarity": "legendary",
+      "tier": 1,
+      "skill": "royal_treasury",
+      "affixes": [
+        {
+          "id": "proj_damage",
+          "name": "投射物伤害 +n%",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "proj_damage",
+              "params": {
+                "n": 14
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "proj_more",
+          "name": "投射物伤害额外提高 n%",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "proj_more",
+              "params": {
+                "n": 9
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "treasury_hit_stock",
+          "name": "每累计命中n次，宝库层数 +1",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "treasury_hit_stock",
+              "params": {
+                "hits": 3,
+                "amount": 1
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "lightning_pen",
+          "name": "闪电抗性穿透 +n个百分点",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "lightning_pen",
+              "params": {
+                "n": 9
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "more_physical",
+          "name": "物理伤害额外提高 n%",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "more_physical",
+              "params": {
+                "n": 5
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        }
+      ],
+      "legendary": {
+        "id": "legendary:treasury_sovereign_staff",
+        "name": "宝库收纳",
+        "traits": [
+          {
+            "params": {
+              "amount": 1,
+              "cap": 40,
+              "duration": 5,
+              "decay_interval": 2,
+              "range": 24,
+              "cooldown": 0.65,
+              "rate": 1
+            },
+            "duration": 0,
+            "with": [],
+            "id": "treasury_stock",
+            "tier": 1
+          }
+        ],
+        "tier": 1
+      },
+      "identified": true,
+      "bases": [
+        {
+          "id": "flat_physical",
+          "name": "基础物理伤害 +n",
+          "traits": [
+            {
+              "params": {
+                "n": 4
+              },
+              "duration": 0,
+              "with": [],
+              "id": "flat_physical",
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "proj_count",
+          "name": "投射物数量 +n个",
+          "traits": [
+            {
+              "params": {
+                "n": 1
+              },
+              "duration": 0,
+              "with": [],
+              "id": "proj_count",
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        }
+      ]
+    },
+    "royal_sovereign_v3_t1_gloves": {
+      "uid": "royal_sovereign_v3_t1_gloves",
+      "baseId": "bloodthirst_gauntlets",
+      "name": "王权·御雷手",
+      "slot": "gloves",
+      "level": 20,
+      "rarity": "rare",
+      "tier": 1,
+      "skill": "",
+      "affixes": [
+        {
+          "id": "proj_count",
+          "name": "投射物数量 +n个",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "proj_count",
+              "params": {
+                "n": 1
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "proj_pierce",
+          "name": "投射物穿透次数 +n次",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "proj_pierce",
+              "params": {
+                "n": 1
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "proj_batch_cap",
+          "name": "同一目标可被同批投射物命中的数量上限 +n个",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "proj_batch_cap",
+              "params": {
+                "n": 1
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "shocking_hits",
+          "name": "闪电感电",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "lightning_damage",
+              "params": {
+                "amount": 5
+              },
+              "with": [],
+              "tier": 1
+            },
+            {
+              "id": "shock",
+              "params": {
+                "amount": 11,
+                "duration": 2
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "shock_extra_layers",
+          "name": "每次施加感电，额外附加 +n层",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "shock_extra_layers",
+              "params": {
+                "n": 1
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "treasury_critical_stock",
+          "name": "投射物暴击时，宝库层数 +n",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "treasury_critical_stock",
+              "params": {
+                "amount": 1
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        }
+      ],
+      "legendary": null,
+      "identified": true,
+      "bases": [
+        {
+          "id": "armour",
+          "name": "护甲 +n",
+          "traits": [
+            {
+              "params": {
+                "n": 100
+              },
+              "duration": 0,
+              "with": [],
+              "id": "armour",
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "shield_regen_moving",
+          "name": "移动时，每秒恢复最大护盾的n%",
+          "traits": [
+            {
+              "id": "shield_regen_moving",
+              "params": {
+                "n": 0.86
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        }
+      ]
+    },
+    "royal_sovereign_v3_t1_helmet": {
+      "uid": "royal_sovereign_v3_t1_helmet",
+      "baseId": "cinder_guard_helmet",
+      "name": "王权·铸雷冠",
+      "slot": "helmet",
+      "level": 30,
+      "rarity": "rare",
+      "tier": 1,
+      "skill": "",
+      "affixes": [
+        {
+          "id": "lightning_base",
+          "name": "基础闪电伤害 +n点",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "lightning_base",
+              "params": {
+                "n": 4
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "proj_damage",
+          "name": "投射物伤害 +n%",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "proj_damage",
+              "params": {
+                "n": 14
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "proj_more",
+          "name": "投射物伤害额外提高 n%",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "proj_more",
+              "params": {
+                "n": 9
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "shock_chance",
+          "name": "命中时，感电概率 +n个百分点",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "shock_chance",
+              "params": {
+                "n": 11
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "treasury_kill_stock",
+          "name": "击杀敌人时，宝库层数 +n",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "treasury_kill_stock",
+              "params": {
+                "amount": 1
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "proj_hit_life",
+          "name": "投射物命中时，恢复气血 +n点",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "proj_hit_life",
+              "params": {
+                "n": 1
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        }
+      ],
+      "legendary": null,
+      "identified": true,
+      "bases": [
+        {
+          "id": "shield_base",
+          "name": "基础护盾 +n点",
+          "traits": [
+            {
+              "params": {
+                "n": 38
+              },
+              "duration": 0,
+              "with": [],
+              "id": "shield_base",
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "missing_life_leech_speed",
+          "name": "每损失n%气血，气血偷取速度 +n%",
+          "traits": [
+            {
+              "id": "missing_life_leech_speed",
+              "params": {
+                "per": 5,
+                "amount": 5
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        }
+      ]
+    },
+    "royal_sovereign_v3_t1_offhand": {
+      "uid": "royal_sovereign_v3_t1_offhand",
+      "baseId": "cinder_guard_offhand",
+      "name": "王权·雷律法器",
+      "slot": "offhand",
+      "level": 30,
+      "rarity": "rare",
+      "tier": 1,
+      "skill": "",
+      "affixes": [
+        {
+          "id": "proj_batch_cap",
+          "name": "同一目标可被同批投射物命中的数量上限 +n个",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "proj_batch_cap",
+              "params": {
+                "n": 1
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "lightning_pen",
+          "name": "闪电抗性穿透 +n个百分点",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "lightning_pen",
+              "params": {
+                "n": 9
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "proj_more",
+          "name": "投射物伤害额外提高 n%",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "proj_more",
+              "params": {
+                "n": 9
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "shock_chance",
+          "name": "命中时，感电概率 +n个百分点",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "shock_chance",
+              "params": {
+                "n": 11
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "treasury_consumed_stock",
+          "name": "消耗目标异常状态时，宝库层数 +n",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "treasury_consumed_stock",
+              "params": {
+                "amount": 1
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "proj_hit_mana",
+          "name": "投射物命中时，恢复魔力 +n点",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "proj_hit_mana",
+              "params": {
+                "n": 0.28
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        }
+      ],
+      "legendary": null,
+      "identified": true,
+      "bases": [
+        {
+          "id": "armour",
+          "name": "护甲 +n",
+          "traits": [
+            {
+              "params": {
+                "n": 128
+              },
+              "duration": 0,
+              "with": [],
+              "id": "armour",
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "missing_shield_regen",
+          "name": "每损失n%护盾，护盾再生速度 +n%",
+          "traits": [
+            {
+              "id": "missing_shield_regen",
+              "params": {
+                "per": 5,
+                "amount": 5
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        }
+      ]
+    },
+    "royal_sovereign_v3_t1_ring": {
+      "uid": "royal_sovereign_v3_t1_ring",
+      "baseId": "rime_thunder_annihilation_ring",
+      "name": "王权·鸣灭指环",
+      "slot": "ring",
+      "level": 1,
+      "rarity": "legendary",
+      "tier": 1,
+      "skill": "",
+      "affixes": [
+        {
+          "id": "shock_consume",
+          "name": "消耗目标全部感电，每层提高本次闪电伤害 +n%",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "shock_consume",
+              "params": {
+                "n": 14
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "trigger_cost",
+          "name": "触发技能消耗 -n%",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "trigger_cost",
+              "params": {
+                "n": 17
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "trigger_cooldown_recovery",
+          "name": "触发冷却恢复速度 +n%",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "trigger_cooldown_recovery",
+              "params": {
+                "n": 28
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "trigger_charges",
+          "name": "触发技能可储存次数 +n次",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "trigger_charges",
+              "params": {
+                "n": 1
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "trigger_at_event",
+          "name": "触发技能在触发事件发生的位置释放",
+          "traits": [
+            {
+              "id": "trigger_at_event",
+              "params": {},
+              "with": []
+            }
+          ]
+        }
+      ],
+      "legendary": {
+        "id": "legendary:rime_thunder_annihilation_ring",
+        "name": "消耗目标异常状态时，有100%概率触发雷霆新星",
+        "traits": [
+          {
+            "params": {
+              "chance": 100
+            },
+            "duration": 0,
+            "with": [
+              {
+                "id": "create_lightning_nova",
+                "params": {
+                  "radius": 1.51,
+                  "damage": 15,
+                  "cooldown": 0.47
+                },
+                "duration": 0,
+                "with": [],
+                "tier": 1
+              },
+              {
+                "id": "shock",
+                "params": {
+                  "amount": 12,
+                  "duration": 2
+                },
+                "duration": 0,
+                "with": [],
+                "tier": 1
+              }
+            ],
+            "id": "legendary_consumed_nova",
+            "tier": 1
+          }
+        ],
+        "tier": 1
+      },
+      "identified": true,
+      "bases": [
+        {
+          "id": "lightning_base",
+          "name": "基础闪电伤害 +n点",
+          "traits": [
+            {
+              "params": {
+                "n": 4
+              },
+              "duration": 0,
+              "with": [],
+              "id": "lightning_base",
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        }
+      ]
+    },
+    "royal_sovereign_v3_t1_amulet": {
+      "uid": "royal_sovereign_v3_t1_amulet",
+      "baseId": "cinder_guard_amulet",
+      "name": "王权·省魔坠",
+      "slot": "amulet",
+      "level": 30,
+      "rarity": "magic",
+      "tier": 1,
+      "skill": "sentinel",
+      "affixes": [
+        {
+          "id": "trigger_cost",
+          "name": "触发技能消耗 -n%",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "trigger_cost",
+              "params": {
+                "n": 17
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "trigger_cooldown_recovery",
+          "name": "触发冷却恢复速度 +n%",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "trigger_cooldown_recovery",
+              "params": {
+                "n": 28
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        }
+      ],
+      "legendary": null,
+      "identified": true,
+      "bases": []
+    },
+    "royal_sovereign_v3_t1_chest": {
+      "uid": "royal_sovereign_v3_t1_chest",
+      "baseId": "cinder_guard_chest",
+      "name": "王权·护国衣",
+      "slot": "chest",
+      "level": 30,
+      "rarity": "rare",
+      "tier": 1,
+      "skill": "",
+      "affixes": [
+        {
+          "id": "life_base",
+          "name": "基础气血 +n点",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "life_base",
+              "params": {
+                "n": 34
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "life_increased",
+          "name": "气血上限 +n%",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "life_increased",
+              "params": {
+                "n": 11
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "life_more",
+          "name": "气血上限额外提高 n%",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "life_more",
+              "params": {
+                "n": 5
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "armour",
+          "name": "护甲 +n",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "armour",
+              "params": {
+                "n": 115
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "lightning_resistance",
+          "name": "闪电抗性",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "lightning_resistance",
+              "params": {
+                "resistance": 14
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "life_regen_percent",
+          "name": "每秒恢复最大气血的n%",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "life_regen_percent",
+              "params": {
+                "n": 1
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        }
+      ],
+      "legendary": null,
+      "identified": true,
+      "bases": [
+        {
+          "id": "shield_base",
+          "name": "基础护盾 +n点",
+          "traits": [
+            {
+              "params": {
+                "n": 30
+              },
+              "duration": 0,
+              "with": [],
+              "id": "shield_base",
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "shield_regen_moving",
+          "name": "移动时，每秒恢复最大护盾的n%",
+          "traits": [
+            {
+              "id": "shield_regen_moving",
+              "params": {
+                "n": 0.86
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        }
+      ]
+    },
+    "royal_sovereign_v3_t1_boots": {
+      "uid": "royal_sovereign_v3_t1_boots",
+      "baseId": "cinder_guard_boots",
+      "name": "王权·巡天履",
+      "slot": "boots",
+      "level": 30,
+      "rarity": "rare",
+      "tier": 1,
+      "skill": "",
+      "affixes": [
+        {
+          "id": "life_base",
+          "name": "基础气血 +n点",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "life_base",
+              "params": {
+                "n": 34
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "life_increased",
+          "name": "气血上限 +n%",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "life_increased",
+              "params": {
+                "n": 11
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "life_more",
+          "name": "气血上限额外提高 n%",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "life_more",
+              "params": {
+                "n": 5
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "fire_resistance",
+          "name": "火焰抗性",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "fire_resistance",
+              "params": {
+                "resistance": 14
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "frost_resistance",
+          "name": "冰霜抗性",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "frost_resistance",
+              "params": {
+                "resistance": 14
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "life_regen_percent",
+          "name": "每秒恢复最大气血的n%",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "life_regen_percent",
+              "params": {
+                "n": 1
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        }
+      ],
+      "legendary": null,
+      "identified": true,
+      "bases": [
+        {
+          "id": "evasion",
+          "name": "基础闪避 +n点",
+          "traits": [
+            {
+              "params": {
+                "n": 100
+              },
+              "duration": 0,
+              "with": [],
+              "id": "evasion",
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "shield_regen_moving",
+          "name": "移动时，每秒恢复最大护盾的n%",
+          "traits": [
+            {
+              "id": "shield_regen_moving",
+              "params": {
+                "n": 0.86
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        }
+      ]
+    },
+    "royal_sovereign_v3_t1_belt": {
+      "uid": "royal_sovereign_v3_t1_belt",
+      "baseId": "cinder_guard_belt",
+      "name": "王权·回生带",
+      "slot": "belt",
+      "level": 30,
+      "rarity": "rare",
+      "tier": 1,
+      "skill": "",
+      "affixes": [
+        {
+          "id": "life_base",
+          "name": "基础气血 +n点",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "life_base",
+              "params": {
+                "n": 34
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "life_increased",
+          "name": "气血上限 +n%",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "life_increased",
+              "params": {
+                "n": 11
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "life_more",
+          "name": "气血上限额外提高 n%",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "life_more",
+              "params": {
+                "n": 5
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "poison_resistance",
+          "name": "中毒抗性",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "poison_resistance",
+              "params": {
+                "resistance": 14
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "armour",
+          "name": "护甲 +n",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "armour",
+              "params": {
+                "n": 115
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "life_regen_percent",
+          "name": "每秒恢复最大气血的n%",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "life_regen_percent",
+              "params": {
+                "n": 1
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        }
+      ],
+      "legendary": null,
+      "identified": true,
+      "bases": [
+        {
+          "id": "armour",
+          "name": "护甲 +n",
+          "traits": [
+            {
+              "params": {
+                "n": 100
+              },
+              "duration": 0,
+              "with": [],
+              "id": "armour",
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        },
+        {
+          "id": "shield_regen_moving",
+          "name": "移动时，每秒恢复最大护盾的n%",
+          "traits": [
+            {
+              "id": "shield_regen_moving",
+              "params": {
+                "n": 0.86
+              },
+              "with": [],
+              "tier": 1
+            }
+          ],
+          "tier": 1
+        }
+      ]
+    }
+  },
+  "belt": [],
+  "authored": {
+    "source": "generated-trait-composition",
+    "family": "royal_treasury_sovereign",
+    "revision": 1,
+    "name": "王之宝库·雷铸王权",
+    "minimumTier": 1
+  }
+}

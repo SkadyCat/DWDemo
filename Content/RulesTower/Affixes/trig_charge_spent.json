@@ -1,0 +1,9 @@
+{
+  "id": "trig_charge_spent",
+  "name": "消耗一枚充能时，有n%概率触发挂载技能",
+  "description": "角色词条：消耗一枚充能时，有n%概率触发挂载技能。充能：击败敌人获得 1 枚，最多 3 枚；施放技能时消耗 1 枚，该次伤害额外提高 10%",
+  "params": { "chance": 50 },
+  "sheet": [
+    { "trigger": "trig_charge_spent" }
+  ]
+}

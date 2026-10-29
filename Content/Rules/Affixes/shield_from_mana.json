@@ -1,0 +1,16 @@
+{
+  "id": "shield_from_mana",
+  "name": "获得相当于最大魔力n%的额外基础护盾",
+  "description": "角色词条：获得相当于最大魔力n%的额外基础护盾",
+  "params": {
+    "n": 20
+  },
+  "sheet": [
+    {
+      "stat": "shield.from_mana_percent",
+      "value": {
+        "param": "n"
+      }
+    }
+  ]
+}

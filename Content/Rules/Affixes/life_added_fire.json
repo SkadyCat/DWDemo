@@ -1,0 +1,9 @@
+{
+  "id": "life_added_fire",
+  "name": "获得相当于最大气血n%的附加火焰伤害",
+  "description": "角色词条：获得相当于最大气血n%的附加火焰伤害",
+  "params": { "n": 2 },
+  "sheet": [
+    { "stat": "damage.from_life.fire", "value": { "param": "n" } }
+  ]
+}

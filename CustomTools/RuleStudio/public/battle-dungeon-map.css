@@ -1,0 +1,18 @@
+.b3-top-right > .b3-minimap-round { flex: none; width: 164px; max-width: 100%; padding: 0; border: 0; border-radius: 0; background: transparent; pointer-events: auto; cursor: default; overflow: visible; }
+.b3-minimap-round > .b3-dungeon-map-ui { display: block; width: 100%; height: auto; margin: 0; overflow: visible; fill: none; stroke: none; stroke-width: 1; }
+.b3-dungeon-map-ui { user-select: none; touch-action: none; }
+.b3-dungeon-map-ui [role="button"] { cursor: pointer; outline: none; }
+.b3-dungeon-map-ui [role="button"][aria-disabled="true"] { cursor: default; }
+.b3-dungeon-map-ui [role="button"]:focus-visible > [data-hit] { stroke: #c5dcc2; stroke-width: 2; }
+.b3-dungeon-map-ui [data-node-id="dmap-mini-open"]:focus-visible > [data-hit] { rx: 76px; }
+.b3-local-map-layer { position: fixed; inset: 0; z-index: 86; display: grid; place-items: center; padding: 20px; background: #03080eb8; backdrop-filter: blur(5px); }
+.b3-local-map-dialog { width: min(1000px, calc(100vw - 40px), calc((100dvh - 40px) * 1000 / 680)); outline: none; color: #c8d2d0; filter: drop-shadow(0 20px 45px #0009); }
+.b3-local-map-dialog > .b3-dungeon-map-ui { display: block; width: 100%; height: auto; overflow: visible; fill: none; stroke: none; stroke-width: 1; }
+.b3-local-map-dialog [data-node-id="dmap-panel-viewport"] { cursor: grab; }
+.b3-local-map-dialog.dragging [data-node-id="dmap-panel-viewport"] { cursor: grabbing; }
+.b3-dungeon-map-ui [data-dungeon-projection], .b3-dungeon-map-ui [data-dungeon-projection] * { pointer-events: none; }
+@media (max-width: 760px), (max-height: 600px) {
+  .b3-top-right > .b3-minimap-round { width: 128px; }
+  .b3-local-map-layer { padding: 8px; }
+  .b3-local-map-dialog { width: min(1000px, calc(100vw - 16px), calc((100dvh - 16px) * 1000 / 680)); }
+}

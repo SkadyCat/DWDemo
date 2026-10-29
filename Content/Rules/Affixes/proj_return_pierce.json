@@ -1,0 +1,9 @@
+{
+  "id": "proj_return_pierce",
+  "name": "投射物穿透次数耗尽后返回",
+  "description": "角色词条：投射物穿透次数耗尽后返回",
+  "params": {},
+  "sheet": [
+    { "stat": "proj.return_pierce_done", "value": 1 }
+  ]
+}

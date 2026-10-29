@@ -1,0 +1,9 @@
+{
+  "id": "area_pull",
+  "name": "范围技能将敌人向中心牵引",
+  "description": "角色词条：范围技能将敌人向中心牵引",
+  "params": {},
+  "sheet": [
+    { "stat": "area.pull", "value": 1 }
+  ]
+}

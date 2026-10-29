@@ -1,0 +1,9 @@
+{
+  "id": "low_life_cast_speed",
+  "name": "低血时，施法速度 +n%",
+  "description": "角色词条：低血时，施法速度 +n%",
+  "params": { "n": 15 },
+  "sheet": [
+    { "stat": "life.low.cast_speed", "value": { "param": "n" } }
+  ]
+}

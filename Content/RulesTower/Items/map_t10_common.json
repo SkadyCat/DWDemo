@@ -1,0 +1,11 @@
+{
+  "id": "map_t10_common",
+  "name": "地图 T10 · 普通",
+  "description": "使用时消耗 1 张，进入第 10 层地图。无随机词缀。",
+  "category": "map",
+  "rarity": "common",
+  "tier": 10,
+  "stack": 1,
+  "tags": [],
+  "traits": []
+}

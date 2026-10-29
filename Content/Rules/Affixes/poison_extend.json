@@ -1,0 +1,12 @@
+{
+  "id": "poison_extend",
+  "name": "再次施加中毒时，延长已有中毒持续时间 +n秒",
+  "description": "角色词条：再次施加中毒时，延长已有中毒持续时间 +n秒。每层最多延长至基础持续时间的 3 倍",
+  "params": { "n": 0.5 },
+  "sheet": [
+    {
+      "stat": "poison.extend",
+      "value": { "param": "n" }
+    }
+  ]
+}

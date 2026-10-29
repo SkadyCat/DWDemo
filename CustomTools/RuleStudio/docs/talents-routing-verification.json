@@ -1,0 +1,47 @@
+{
+  "checkedAt": "2026-10-25T08:53:02.264Z",
+  "url": "http://127.0.0.1:5291/?view=battle&panel=talents",
+  "layout": "routed-fans-v3",
+  "nodes": 1000,
+  "legendary": 100,
+  "connections": 1089,
+  "mechanicsUnchanged": true,
+  "mechanicsSha256": "958b54e20ff83403b7ecb3795b9780981fa29daa4b55bf504119763bbef4d33d",
+  "sourceGeometry": {
+    "unjoinedCrossings": 0,
+    "unrelatedNodeObstructions": 0,
+    "overlappingNodeRims": 0,
+    "segments": 9327
+  },
+  "tests": {
+    "command": "npm run test:talents",
+    "passed": 14,
+    "failed": 0
+  },
+  "browser": {
+    "actualSvgOverview": {
+      "nodes": 1000,
+      "connections": 1089,
+      "unjoinedCrossings": 0,
+      "unrelatedNodeObstructions": 0,
+      "overlappingNodeRims": 0
+    },
+    "actualSvgDetail": {
+      "zoom": 4,
+      "nodes": 140,
+      "connections": 178,
+      "unjoinedCrossings": 0,
+      "unrelatedNodeObstructions": 0,
+      "overlappingNodeRims": 0
+    },
+    "selectedLegend": "myriad_blades",
+    "selectedLabels": 1,
+    "allocation": "intelligence 0 -> 10",
+    "refund": "intelligence returns to 0; spent 0",
+    "temporaryTalentsCleared": true
+  },
+  "proofs": [
+    "proof/talents-battle-routed.png",
+    "proof/talents-battle-routed-detail.png"
+  ]
+}

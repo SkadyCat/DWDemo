@@ -1,0 +1,9 @@
+{
+  "id": "trigger_prefer_marked",
+  "name": "触发技能优先选择标记目标",
+  "description": "角色词条：触发技能优先选择标记目标。标记目标 = 你最近命中的敌人",
+  "params": {},
+  "sheet": [
+    { "stat": "trigger.prefer_marked", "value": 1 }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "id": "frost_damage",
+  "name": "冰霜伤害",
+  "description": "命中时追加冰霜伤害，受目标冰霜抗性影响。追加命中使用独立事件。",
+  "params": { "amount": 10 },
+  "rules": [
+    {
+      "id": "frost_damage_on_hit",
+      "event": "hit",
+      "actions": [
+        { "op": "damage_target", "element": "frost", "tags": ["frost", "cold"], "emitEvent": "frost_damage_hit", "amount": { "param": "amount" } }
+      ]
+    }
+  ]
+}

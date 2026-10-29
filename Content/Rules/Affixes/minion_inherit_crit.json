@@ -1,0 +1,12 @@
+{
+  "id": "minion_inherit_crit",
+  "name": "召唤物继承你n%的暴击率加成",
+  "description": "角色词条：召唤物继承你n%的暴击率加成",
+  "params": { "n": 50 },
+  "sheet": [
+    {
+      "stat": "minion.inherit_crit",
+      "value": { "param": "n" }
+    }
+  ]
+}

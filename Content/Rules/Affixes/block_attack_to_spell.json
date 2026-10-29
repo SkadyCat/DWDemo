@@ -1,0 +1,12 @@
+{
+  "id": "block_attack_to_spell",
+  "name": "攻击格挡率的n%同时应用于法术格挡率",
+  "description": "角色词条：攻击格挡率的n%同时应用于法术格挡率",
+  "params": { "n": 30 },
+  "sheet": [
+    {
+      "stat": "block.attack_to_spell",
+      "value": { "param": "n" }
+    }
+  ]
+}

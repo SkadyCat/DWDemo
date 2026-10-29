@@ -1,0 +1,12 @@
+{
+  "id": "proj_pierce_decay",
+  "name": "投射物穿透后伤害衰减 -n%",
+  "description": "角色词条：投射物穿透后伤害衰减 -n%。基础每穿透一次伤害衰减 15%",
+  "params": { "n": 50 },
+  "sheet": [
+    {
+      "stat": "proj.pierce_decay",
+      "value": { "param": "n" }
+    }
+  ]
+}

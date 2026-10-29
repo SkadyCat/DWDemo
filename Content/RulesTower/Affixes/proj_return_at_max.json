@@ -1,0 +1,9 @@
+{
+  "id": "proj_return_at_max",
+  "name": "投射物达到最大距离后返回",
+  "description": "角色词条：投射物达到最大距离后返回",
+  "params": {},
+  "sheet": [
+    { "stat": "proj.return_at_max", "value": 1 }
+  ]
+}

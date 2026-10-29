@@ -1,0 +1,12 @@
+{
+  "id": "proj_return_damage",
+  "name": "投射物返回伤害 +n%",
+  "description": "角色词条：投射物返回伤害 +n%",
+  "params": { "n": 30 },
+  "sheet": [
+    {
+      "stat": "proj.return_damage",
+      "value": { "param": "n" }
+    }
+  ]
+}

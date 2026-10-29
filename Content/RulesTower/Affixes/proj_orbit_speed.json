@@ -1,0 +1,12 @@
+{
+  "id": "proj_orbit_speed",
+  "name": "投射物环绕速度 +n%",
+  "description": "角色词条：投射物环绕速度 +n%",
+  "params": { "n": 40 },
+  "sheet": [
+    {
+      "stat": "proj.orbit_speed",
+      "value": { "param": "n" }
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "id": "iron_guard_slash",
+  "parent": "summon_iron_guard",
+  "name": "铁卫·斩击",
+  "description": "辅助铁刃守卫，使其每次攻击时触发斩击；基础物理伤害 +damage。damage 为基础伤害（点）。对贴近并锁定的敌人造成物理命中伤害。",
+  "params": {
+    "damage": 18
+  },
+  "rules": [
+    {
+      "id": "iron_guard_slash_on_attack",
+      "event": "iron_guard_attack",
+      "actions": [
+        {
+          "op": "damage_target",
+          "element": "physical",
+          "tags": [
+            "physical",
+            "melee"
+          ],
+          "amount": {
+            "param": "damage"
+          }
+        }
+      ]
+    }
+  ]
+}

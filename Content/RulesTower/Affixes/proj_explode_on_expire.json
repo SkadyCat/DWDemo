@@ -1,0 +1,9 @@
+{
+  "id": "proj_explode_on_expire",
+  "name": "投射物消失时，引发爆炸",
+  "description": "角色词条：投射物消失时，引发爆炸。造成投射物伤害 60% 的范围伤害",
+  "params": {},
+  "sheet": [
+    { "stat": "proj.explode_on_expire", "value": 1 }
+  ]
+}

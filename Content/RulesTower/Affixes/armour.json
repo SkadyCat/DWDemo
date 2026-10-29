@@ -1,0 +1,9 @@
+{
+  "id": "armour",
+  "name": "护甲 +n",
+  "description": "角色词条：护甲 +n。补充词条：物理命中减免 = 护甲/(护甲 + 5×伤害)，上限 90%。",
+  "params": { "n": 200 },
+  "sheet": [
+    { "stat": "defense.armour", "value": { "param": "n" } }
+  ]
+}

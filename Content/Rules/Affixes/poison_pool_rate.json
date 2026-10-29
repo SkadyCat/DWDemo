@@ -1,0 +1,9 @@
+{
+  "id": "poison_pool_rate",
+  "name": "毒池每n秒对范围内敌人施加一层中毒",
+  "description": "角色词条：毒池每n秒对范围内敌人施加一层中毒。替代毒池的基础间隔 1 秒",
+  "params": { "seconds": 0.5 },
+  "sheet": [
+    { "trigger": "poison_pool_rate" }
+  ]
+}

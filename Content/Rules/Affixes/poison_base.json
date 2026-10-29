@@ -1,0 +1,12 @@
+{
+  "id": "poison_base",
+  "name": "基础中毒伤害 +n点/秒",
+  "description": "角色词条：基础中毒伤害 +n点/秒。中毒：每层独立计时，基础持续 2 秒，每秒造成触发命中 20% 的毒素伤害",
+  "params": { "n": 5 },
+  "sheet": [
+    {
+      "stat": "poison.base",
+      "value": { "param": "n" }
+    }
+  ]
+}

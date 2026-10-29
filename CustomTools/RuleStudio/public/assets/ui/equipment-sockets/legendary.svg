@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+<defs>
+ <linearGradient id="top" x2="0" y2="1"><stop stop-color="#ddb790"/><stop offset=".5" stop-color="#c38150"/><stop offset="1" stop-color="#a65a28"/></linearGradient>
+ <linearGradient id="left"><stop stop-color="#c38150"/><stop offset="1" stop-color="#9f5727"/></linearGradient>
+ <linearGradient id="right"><stop stop-color="#60371d"/><stop offset="1" stop-color="#372216"/></linearGradient>
+ <linearGradient id="bottom" x2="0" y2="1"><stop stop-color="#60371d"/><stop offset="1" stop-color="#372216"/></linearGradient>
+</defs>
+<path d="M6 0H58L64 6V58L58 64H6L0 58V6Z M9 8H55L56 9V55L55 56H9L8 55V9Z" fill="#030609" fill-rule="evenodd"/>
+<polygon points="6,1 58,1 56,6 8,6" fill="url(#top)"/>
+<polygon points="58,1 63,6 58,8 56,6" fill="#c38150"/>
+<polygon points="63,6 63,58 58,56 58,8" fill="url(#right)"/>
+<polygon points="63,58 58,63 56,58 58,56" fill="#372216"/>
+<polygon points="58,63 6,63 8,58 56,58" fill="url(#bottom)"/>
+<polygon points="6,63 1,58 6,56 8,58" fill="#60371d"/>
+<polygon points="1,58 1,6 6,8 6,56" fill="url(#left)"/>
+<polygon points="1,6 6,1 8,6 6,8" fill="#ddb790"/>
+<path d="M8 6H56L58 8V56L56 58H8L6 56V8Z M9 8H55L56 9V55L55 56H9L8 55V9Z" fill="#05080b" fill-rule="evenodd"/>
+<path d="M1.5 6.5 6.5 1.5H57.5L62.5 6.5" fill="none" stroke="#ddb790" stroke-width="1"/>
+<path d="M62.5 7V57.5L57.5 62.5H6.5L1.5 57.5" fill="none" stroke="#05070a" stroke-width="1"/>
+<path d="M6.5 55V8L8 6.5H56" fill="none" stroke="#010305" stroke-width="1"/>
+<path d="M8 57.5H55.5L57.5 55.5V9" fill="none" stroke="#bf7744" stroke-opacity=".7"/>
+<path d="M12 2.5H25M34 3.5H49M2.5 16V28" fill="none" stroke="#ddb790" stroke-opacity=".22" stroke-width=".5"/>
+</svg>

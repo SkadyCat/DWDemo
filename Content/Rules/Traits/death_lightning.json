@@ -1,0 +1,24 @@
+{
+  "id": "death_lightning",
+  "name": "死亡闪电",
+  "description": "击败感电敌人后，开启跟随自身的雷暴。雷暴按间隔自动索敌，从空中落雷打击目标，并在落点造成圆形闪电范围伤害。radius 为索敌半径（米），impact_radius 为落雷伤害半径（米），duration 为雷暴持续秒数，interval 为落雷间隔，amount 为伤害。再次击败感电敌人刷新雷暴。",
+  "params": { "radius": 8, "impact_radius": 1.5, "duration": 6, "interval": 0.4, "amount": 30 },
+  "rules": [
+    {
+      "id": "death_lightning_on_shocked_kill",
+      "event": "kill",
+      "chain": { "maxDepth": 4 },
+      "conditions": [ { "op": "status", "key": "shock" } ],
+      "actions": [
+        { "op": "storm", "kind": "death_lightning", "event": "death_lightning_strike", "origin": "owner", "tags": ["lightning", "spell"], "duration": { "param": "duration" }, "interval": { "param": "interval" }, "radius": { "param": "radius" }, "cap": 1 }
+      ]
+    },
+    {
+      "id": "death_lightning_strikes_target",
+      "event": "death_lightning_strike",
+      "actions": [
+        { "op": "damage_area", "element": "lightning", "tags": ["lightning", "death_lightning"], "emitEvent": "death_lightning_hit", "radius": { "param": "impact_radius" }, "amount": { "param": "amount" } }
+      ]
+    }
+  ]
+}

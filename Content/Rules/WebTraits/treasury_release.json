@@ -1,0 +1,71 @@
+{
+  "id": "treasury_release",
+  "parent": "treasury_stock",
+  "name": "宝库齐射",
+  "description": "每次随机出射事件产生一枚真实物理投射物，再按规则聚合多重等词条。剑、弓、斧外形按载体种子随机，每枚对应一个独立法阵；法阵位置在角色头顶上半球表面独立随机采样，各自朝向当次随机选中的敌人。真实起点与阵心一致，伤害来自实际碰撞；没有敌人时沿角色瞄准方向发射。speed 为速度（米/秒），lifetime 为寿命（秒），radius 为碰撞半径（米），damage 为基础物理伤害；back 为抵消前置发射点的后移距离（基础0.6米），height 为向上偏移（基础1.4米，使球心在脚底上方2米），scatter 为上半球半径（基础1.8米）。支持多重、穿透、返回和地面交互；单次512枚技术上限不变。",
+  "params": {
+    "speed": 22,
+    "lifetime": 1.2,
+    "radius": 0.2,
+    "damage": 32,
+    "back": 0.6,
+    "height": 1.4,
+    "scatter": 1.8
+  },
+  "rules": [
+    {
+      "id": "treasury_fire",
+      "event": "treasury_volley",
+      "chain": {
+        "maxDepth": 4
+      },
+      "actions": [
+        {
+          "op": "emit",
+          "kind": "treasury_weapon",
+          "origin": "owner",
+          "layout": "point",
+          "aim": "target",
+          "offset": {
+            "forward": {
+              "mul": [
+                -1,
+                {
+                  "param": "back"
+                }
+              ]
+            },
+            "up": {
+              "param": "height"
+            }
+          },
+          "scatter": {
+            "shape": "hemisphere",
+            "radius": {
+              "param": "scatter"
+            },
+            "distribution": "random"
+          },
+          "element": "physical",
+          "tags": [
+            "physical",
+            "spell"
+          ],
+          "count": 1,
+          "speed": {
+            "param": "speed"
+          },
+          "lifetime": {
+            "param": "lifetime"
+          },
+          "radius": {
+            "param": "radius"
+          },
+          "damage": {
+            "param": "damage"
+          }
+        }
+      ]
+    }
+  ]
+}

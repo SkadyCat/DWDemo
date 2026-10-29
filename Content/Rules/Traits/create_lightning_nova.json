@@ -1,0 +1,21 @@
+{
+  "id": "create_lightning_nova",
+  "name": "雷霆新星",
+  "description": "在瞄准落点释放闪电新星，对 radius 米内的敌人造成 damage 点闪电伤害；技能威力更高时取技能威力。cooldown 为手动施放冷却秒数。接受现有范围、重复、感电和触发词条；作为挂载技能时由触发词条决定落点与节奏。",
+  "params": { "radius": 2.4, "damage": 28, "cooldown": 0.8 },
+  "rules": [
+    {
+      "id": "lightning_nova_on_cast",
+      "event": "cast",
+      "actions": [
+        {
+          "op": "damage_area",
+          "element": "lightning",
+          "tags": ["lightning", "spell"],
+          "radius": { "param": "radius" },
+          "amount": { "max": [{ "param": "damage" }, { "event": "amount" }] }
+        }
+      ]
+    }
+  ]
+}

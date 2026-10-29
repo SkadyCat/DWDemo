@@ -1,0 +1,9 @@
+{
+  "id": "life_regen_speed",
+  "name": "气血再生速度 +n%",
+  "description": "角色词条：气血再生速度 +n%",
+  "params": { "n": 30 },
+  "sheet": [
+    { "stat": "life.regen_speed", "value": { "param": "n" } }
+  ]
+}

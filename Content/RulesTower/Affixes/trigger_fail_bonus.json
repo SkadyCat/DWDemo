@@ -1,0 +1,12 @@
+{
+  "id": "trigger_fail_bonus",
+  "name": "触发失败时，下次触发概率 +n个百分点，成功后重置",
+  "description": "角色词条：触发失败时，下次触发概率 +n个百分点，成功后重置。只处理概率检定失败",
+  "params": { "n": 10 },
+  "sheet": [
+    {
+      "stat": "trigger.fail_bonus",
+      "value": { "param": "n" }
+    }
+  ]
+}

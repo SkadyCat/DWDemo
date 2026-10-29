@@ -1,0 +1,12 @@
+{
+  "id": "proj_hit_life",
+  "name": "投射物命中时，恢复气血 +n点",
+  "description": "角色词条：投射物命中时，恢复气血 +n点",
+  "params": { "n": 2 },
+  "sheet": [
+    {
+      "stat": "proj.hit_life",
+      "value": { "param": "n" }
+    }
+  ]
+}
