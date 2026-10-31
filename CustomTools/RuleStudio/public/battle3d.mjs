@@ -24,6 +24,12 @@ import { BattleFunctions } from '/battle-functions.mjs';
 import { BattleWindow } from '/battle-window.mjs';
 import { QuestTracker, QuestJournal } from '/quests/panel.mjs';
 import { questRows, observeQuestBattle, claimQuestWeapon } from '/quests/model.mjs';
+import { ensureJourney, levelPart, recordKill as recordJourneyKill, recordFloorClear, bump, xpProgress, talentBudget, syncTalentBudget, KillStreak, levelBonusRows } from '/progression/journey.mjs';
+import { ensureChain, observeChain, chainRows, trackedQuest as chainTracked, claimChainQuest, rewardLabel, CHAPTERS, QUEST_CHAIN } from '/progression/quest-chain.mjs';
+import { tutorialView, skipTutorial, dismissTip } from '/progression/tutorial.mjs';
+import { feedback, banner, toast, setStreak, chime, configureChimes } from '/progression/feedback.mjs';
+import { JourneyXpBar, ChainTracker, CoachMark, FeedbackLayer, ChainJournal } from '/progression/hud.mjs';
+import { onGameEvent } from '/progression/events.mjs';
 import { BattleCharacterPanel } from '/battle-character-panel.mjs';
 import { BattleBuildGuide } from '/battle-build-guide.mjs';
 import { BattleSkillTooltip } from '/battle-skill-tooltip.mjs';
@@ -278,7 +284,14 @@ class Overlay {
     this.root = root;
     this.bars = [];
     this.floats = [];
+    this.pops = [];
     this.heroBar = this.makeBar('hero');
+  }
+
+  /** Short-lived world text that the battle does not own (experience, level up). */
+  pop(x, y, text, cls, life = 1.3) {
+    this.pops.push({ x, y, text, cls, born: performance.now(), life });
+    if (this.pops.length > 80) this.pops.shift();
   }
 
   makeBar(kind = '') {
@@ -370,6 +383,9 @@ class Overlay {
       show(fl.x + jitter, fl.y, 1.9 + (fl.age + scene.tailTime) * 1.6, text, cls, fl.age + scene.tailTime);
     });
     for (const d of battle.drops) show(d.x, d.y, 1.4 + (d.age + scene.tailTime) * 1.2, `+${d.stones} 灵石`, 'stone', d.age + scene.tailTime);
+    const now = performance.now();
+    this.pops = this.pops.filter(p => (now - p.born) / 1000 < p.life);
+    for (const p of this.pops) { const age = (now - p.born) / 1000; show(p.x, p.y, (p.cls === 'levelup' ? 2.8 : 2.2) + age * 1.1, p.text, p.cls, age); }
     for (let i = f; i < this.floats.length; ++i) this.floats[i].el.style.display = 'none';
   }
 }
@@ -403,7 +419,7 @@ const TEMPLATE = /* html */ `
         </div>
       </section>
       <div class="b3-floor-objective" v-if="hud.dungeon"><b>第 {{ hud.dungeon.floor }} 层</b><span>{{ dungeonObjective }}</span></div>
-      <QuestTracker :quest="trackedQuest" :floor="hud.dungeon?.floor" :phase="hud.dungeon?.phase" :wave="hud.dungeon?.wave" :waves-completed="hud.dungeon?.wavesCompleted" :completion-mode="hud.dungeon?.completionMode" :visited-rooms="hud.dungeon?.visitedRooms" :total-rooms="hud.dungeon?.totalRooms" @open="openHUDFunction('quests')" @release="releaseBattleInput" />
+      <ChainTracker :quest="journeyHud.quest" :chapter="journeyHud.chapter" :collections="store.collections" @open="openHUDFunction('quests')" @claim="claimChain" @release="releaseBattleInput" />
       <div class="b3-boss-health" v-if="hud.dungeon?.bossMax > 0 && hud.dungeon.phase === 'boss'">
         <div><b>第 {{ hud.dungeon.floor }} 层守卫</b><span>{{ Math.ceil(hud.dungeon.bossHealth) }} / {{ hud.dungeon.bossMax }}</span></div>
         <i :style="{width: (100 * hud.dungeon.bossHealth / hud.dungeon.bossMax) + '%'}"></i>
@@ -490,7 +506,10 @@ const TEMPLATE = /* html */ `
     </div>
     <BattleOutpostMerchant v-if="battleHasOutpost" :info="outpostInfo" :open="outpostOpen" :world-seed="atlasState.seed" @open="openOutpost" @close="closeOutpost" @release="releaseBattleInput" @purchased="syncHud" />
     <BattleExitPortal :info="exitPortalInfo" @activate="useExitPortal" @release="releaseBattleInput" />
-    <BattleCompletion v-if="hud.dungeon?.phase === 'cleared'" :floor="hud.dungeon.floor" :max-floor="MAX_TOWER_FLOOR" :merchant="hud.merchant" :wallet="player.stones" :unclaimed="hud.lootCount" :library="store.library" :atlas="true" :portal="true" @explore="useExitPortal" @challenge="nextFloor" @buy="buyMerchant" @release="releaseBattleInput" />
+    <BattleCompletion v-if="hud.dungeon?.phase === 'cleared'" :floor="hud.dungeon.floor" :max-floor="MAX_TOWER_FLOOR" :merchant="hud.merchant" :wallet="player.stones" :unclaimed="hud.lootCount" :library="store.library" :atlas="true" :portal="true" :summary="runSummary" @explore="useExitPortal" @challenge="nextFloor" @buy="buyMerchant" @release="releaseBattleInput" />
+    <JourneyXpBar v-if="ready" :level="journeyHud.level" :xp="journeyHud.xp" :need="journeyHud.need" :ratio="journeyHud.ratio" :talent-points="journeyHud.unspent" @talents="openHUDFunction('talents')" />
+    <CoachMark v-if="ready && !openedPanel && !atlasOpen" :guide="coach.guide" :tip="coach.tip" :index="coach.index" :total="coach.total" @skip="skipCoach" @dismiss="dismissCoachTip" @release="releaseBattleInput" />
+    <FeedbackLayer />
     <div class="b3-bottom">
       <div class="b3-slots b3-skill-slots">
         <button v-for="(s, i) in hud.skills" :key="i" type="button" class="slot skill" :class="{on: i === hud.selected, empty: !s, bad: s?.error}" @pointerenter="showSkillDetails(i, $event)" @pointerleave="leaveSkillDetails" @focus="showSkillDetails(i, $event)" @blur="leaveSkillDetails" @click="toggleSkillPicker(i)" @keydown.enter.stop @keydown.space.stop :aria-label="'主动技能 ' + (i + 1) + '：' + (s?.name || '空槽')" :aria-describedby="skillDetailSlot === i && skillDetail ? 'battle-skill-tooltip' : undefined" :aria-pressed="i === hud.selected" aria-haspopup="dialog" :aria-expanded="skillPickerSlot === i" :aria-controls="skillPickerSlot === i ? 'active-skill-picker' : undefined" :title="s ? undefined : '点击装配技能'">
@@ -515,8 +534,9 @@ const TEMPLATE = /* html */ `
   <BattleTraitEquipment v-if="openedPanel === 'trait-equipment'" @close="closeHUDPanel" @drop="spawnTraitEquipment" />
   <BattleSkillTooltip v-if="skillDetail && skillPickerSlot < 0 && beltPickSlot < 0 && !openedPanel" :detail="skillDetail" :position="skillDetailPosition" :icon="iconSrc('skill', skillDetail.id)" @hold="holdSkillDetails" @leave="leaveSkillDetails" />
   <BattleDungeonMap v-if="openedPanel === 'dungeon-map' && floorMap && hud.dungeon" expanded :layout="floorMap" :state="hud.dungeon" @release="releaseBattleInput" @close="closeHUDPanel" />
-  <BattleWindow v-if="openedPanel === 'quests'" title="任务" kind="quests" @close="closeHUDPanel">
-    <QuestJournal :quests="quests" :collections="store.collections" :library="store.library" :floor="hud.dungeon?.floor" :phase="hud.dungeon?.phase" @claim="claimTaskReward" @challenge="challengeQuestFloor" @continue="closeHUDPanel" />
+  <BattleWindow v-if="openedPanel === 'quests'" title="任务日志" kind="quests" @close="closeHUDPanel">
+    <div class="qc-legacy" v-if="quests[0] && quests[0].stage === 'reward'"><QuestJournal :quests="quests" :collections="store.collections" :library="store.library" :floor="hud.dungeon?.floor" :phase="hud.dungeon?.phase" @claim="claimTaskReward" @challenge="challengeQuestFloor" @continue="closeHUDPanel" /></div>
+    <ChainJournal :rows="journeyHud.rows" :collections="store.collections" :journey="player.journey" :talent-points="journeyHud.unspent" @claim="claimChain" />
   </BattleWindow>
   <BattleWindow v-if="openedPanel === 'talents'" title="天赋星盘" kind="talents" @close="closeHUDPanel">
     <TalentConstellation :in-battle="true" :runtime-attributes="hud.character?.attributes || []" @changed="releaseBattleInput" />
@@ -655,7 +675,7 @@ const TEMPLATE = /* html */ `
 export function mountBattle(el, { input = null, rendering = {}, initialPaused = false } = {}) {
   let api = { show() {}, hide() {} };
   const app = createApp({
-    components: { BattleMapEventTag, BattleStunOverlay, BattleTraitEquipment, BattleOutpostMerchant, BattleExitPortal, BattleMapEvents, QuestTracker, QuestJournal, TalentConstellation, AtlasMap, BattleItemPanel, BattleCompletion, BattleFunctions, BattleEquipmentMenu, BattleStackSplit, BattleWindow, BattleCharacterPanel, BattleBuildGuide, BattleSkillTooltip, BattleAuraState, BattleDungeonMap, BattleIconPicker, BattleLootHunter, BattlePlayerEffects, BattleDps, BattleSummonUnits, BattleMapCores },
+    components: { JourneyXpBar, ChainTracker, CoachMark, FeedbackLayer, ChainJournal, BattleMapEventTag, BattleStunOverlay, BattleTraitEquipment, BattleOutpostMerchant, BattleExitPortal, BattleMapEvents, QuestTracker, QuestJournal, TalentConstellation, AtlasMap, BattleItemPanel, BattleCompletion, BattleFunctions, BattleEquipmentMenu, BattleStackSplit, BattleWindow, BattleCharacterPanel, BattleBuildGuide, BattleSkillTooltip, BattleAuraState, BattleDungeonMap, BattleIconPicker, BattleLootHunter, BattlePlayerEffects, BattleDps, BattleSummonUnits, BattleMapCores },
     template: TEMPLATE,
     setup() {
       const stage = ref(null);
@@ -758,11 +778,12 @@ export function mountBattle(el, { input = null, rendering = {}, initialPaused = 
         if (!retry && atlasState.value.activeNodeId === id && atlasSession.battle === battle) { closeAtlas(); return; }
         try {
           let candidate;
-          const { prepared } = travelAtlas(atlasSession, player, store.collections, id, prepared => {
+          const { prepared, ticket } = travelAtlas(atlasSession, player, store.collections, id, prepared => {
             candidate = createAtlasRun(prepared, battle?.phase === 'cleared' && !battle.hero.dead);
             return candidate.battle;
           }, { retry: retry || id === '0:0' });
           installAtlasRun(candidate, prepared);
+          if (ticket && !ticket.free) bump(player, 'mapsEntered');
           closeAtlas(); paused.value = false; stage.value?.focus({ preventScroll: true });
           notify(`进入 ${atlasCurrentNode.value.name} · 第 ${prepared.options.floor} 层`);
         } catch (error) { notify(error.message, true); }
@@ -770,7 +791,7 @@ export function mountBattle(el, { input = null, rendering = {}, initialPaused = 
       const dps = new AverageTargetDps(), dpsHud = reactive({ amount: '0', targets: 0 });
       const dpsFormat = new Intl.NumberFormat('zh-CN', { maximumFractionDigits: 0 });
       let nextDpsHud = 0;
-      const recordDps = row => dps.record(row.TargetExternalId, row.Amount);
+      const recordDps = row => { coachCtx.damageDealt = 1; dps.record(row.TargetExternalId, row.Amount); };
       function resetDps() { dps.reset(); dpsHud.amount = '0'; dpsHud.targets = 0; nextDpsHud = 0; }
       const bagPage = ref(0);
       const bagQuery = ref(''), bagSearch = ref(null);
@@ -1222,7 +1243,7 @@ export function mountBattle(el, { input = null, rendering = {}, initialPaused = 
 
       // Only owned content reaches the battle.
       const ownedLoadout = () => ({
-        passives: currentTalentParts(player.talents).parts,
+        passives: [...(levelPart(player.journey?.level ?? 1) ? [levelPart(player.journey.level)] : []), ...currentTalentParts(player.talents).parts],
         skills: validSkillSlots(player.loadout.skills, availableSkillChoices.value),
         equipment: Object.fromEntries(Object.entries(player.loadout.equipment).filter(([, id]) => ownsEquipment(id))),
         belt: cleanBelt(player.loadout.belt, id => auraId(id) ? auraChoices.value.some(s => s.id === auraId(id)) : owns('item', id) && docOf('item', id)?.category === 'consumable'),
@@ -1241,7 +1262,7 @@ export function mountBattle(el, { input = null, rendering = {}, initialPaused = 
           rewards: { catalog: store.catalog, visit: prepared.state.attempts[prepared.id] },
           monsterTypes: monsterChoices.value.filter(m => opts.monsterType === 'all' || m.id === opts.monsterType), monsterCount,
           monsterPreview: opts.monsterType !== 'all', stunCrust: true, mapEquipment: { map: mapCoreId },
-          onKill: recordKill, onDamageDealt: recordDps,
+          onKill: onMonsterKill, onDamageDealt: recordDps,
         }));
         candidate.setLoadout(ownedLoadout());
         if (carryPools) {
@@ -1342,6 +1363,7 @@ export function mountBattle(el, { input = null, rendering = {}, initialPaused = 
         if (result.error) { pickupTarget.value = ''; notify(result.error, true); return; }
         pickupTarget.value = '';
         void audio.play(result.drop.kind === 'equipment' ? 'equip_pickup' : 'pickup');
+        onPickup(result.drop);
         notify(`已拾取 ${result.drop.name}${result.drop.count > 1 ? ' ×' + result.drop.count : ''}`);
         syncHud();
       }
@@ -1408,7 +1430,7 @@ export function mountBattle(el, { input = null, rendering = {}, initialPaused = 
           return;
         }
         if (!battle || !id || docOf('item', id)?.category !== 'consumable' || battle.hero.dead || battle.phase === 'failed' || !ownedCount('item', id)) return;
-        if (consume(id) && battle.useItem(id)) void audio.play('consume');
+        if (consume(id) && battle.useItem(id)) { void audio.play('consume'); bump(player, 'potions'); }
       }
       function closeBeltPicker(focusSlot = -1) {
         beltPickSlot.value = -1;
@@ -1520,10 +1542,138 @@ export function mountBattle(el, { input = null, rendering = {}, initialPaused = 
         if (id === 'map' || id === 'lineage') mapPanelTab.value = id === 'map' ? 'equipment' : 'lineage';
       }
 
+      // ---------------------------------------------------------------- journey: level, quest chain, coach, feedback
+      const journeyHud = reactive({ level: 1, xp: 0, need: 1, ratio: 0, unspent: 0, quest: null, chapter: null, rows: [] });
+      const coach = reactive({ guide: null, tip: null, index: 0, total: 0 });
+      const runSummary = ref(null);
+      const streak = new KillStreak();
+      const coachCtx = { moved: 0, damageDealt: 0, lastX: null, lastY: null };
+      let journeyBattle = null;
+      const countedClears = new WeakSet(), countedDeaths = new WeakSet(), runStats = new WeakMap();
+      const runOf = b => { if (!b) return null; let r = runStats.get(b); if (!r) { r = { kills: 0, xp: 0, levels: 0, first: '' }; runStats.set(b, r); } return r; };
+      const unsubscribers = [
+        onGameEvent('equip', () => { bump(player, 'equips'); }),
+        onGameEvent('craft', () => { bump(player, 'crafts'); }),
+        onGameEvent('identify', () => { bump(player, 'identifies'); }),
+        onGameEvent('sell', () => { bump(player, 'sold'); }),
+      ];
+      function announceLevels(result, at) {
+        if (!result?.levels?.length) return;
+        const level = result.to, rows = levelBonusRows(level).filter(r => r.perLevel > 0);
+        banner('level', `等级提升 · ${level}`, `气血 +${rows[0].perLevel * result.levels.length} · 伤害 +${rows[3].perLevel * result.levels.length}% · 天赋点 +${2 * result.levels.length}`);
+        chime('level');
+        if (at && view) view.pop(at.x, at.y, `LEVEL UP!`, 'levelup', 1.8);
+        // Full restore on level up: a small, unambiguous reward.
+        nextTick(() => { if (!battle?.character || battle.hero.dead) return; const c = battle.character; c.life = c.maxLife; c.mana = c.manaCap ?? c.maxMana; battle.syncHeroPools?.(); });
+        const r = battle && runOf(battle); if (r) r.levels += result.levels.length;
+      }
+      function onMonsterKill(stones, monster) {
+        recordKill(stones);
+        const b = battle; if (!b) return;
+        const count = streak.hit(b.elapsed || 0), bonus = streak.bonus(count);
+        if (count >= 3) { setStreak(count, bonus); if (count % 10 === 0) chime('streak'); }
+        const result = recordJourneyKill(player, monster, b.floor || 1, bonus);
+        const r = runOf(b); r.kills++; r.xp += result.gained;
+        if (view && monster && result.gained) view.pop(monster.x, monster.y, `+${result.gained} 经验`, 'xp', 1.1);
+        announceLevels(result, b.hero);
+      }
+      function onPickup(drop) {
+        bump(player, 'pickups');
+        if (drop.kind === 'equipment') {
+          bump(player, 'equipmentPickups');
+          if (['rare', 'legendary'].includes(drop.rarity)) { bump(player, 'rarePickups'); }
+          if (drop.rarity === 'legendary') { banner('legendary', `传奇 · ${drop.name}`, `T${drop.tier || 1} 传奇装备`); chime('legendary'); }
+          else if (drop.rarity === 'rare') chime('rare');
+        }
+      }
+      // A drop hitting the floor is announced once; legendary loot gets a banner before pickup.
+      const announcedDrops = new Set();
+      function announceGround(b) {
+        for (const drop of b.rewards?.ground || []) {
+          if (drop.claimed || announcedDrops.has(drop.key)) continue;
+          announcedDrops.add(drop.key);
+          if (drop.kind === 'equipment' && drop.rarity === 'legendary') { toast('loot', '传奇掉落！', [drop.name + ' · 在地面上发光']); chime('legendary'); }
+        }
+      }
+      function claimChain(id) {
+        if (!store.collections || !store.library) return;
+        const result = claimChainQuest(player, id, store.collections, store.library);
+        if (result.error) { notify(result.error, true); return; }
+        chime('claim');
+        toast('quest', `已领取：${result.quest.name}`, result.granted.map(g => rewardLabel(g, store.collections)));
+        announceLevels(result.xp, battle?.hero);
+        const chapterRows = QUEST_CHAIN.filter(q => q.chapter === result.quest.chapter);
+        if (chapterRows.every(q => player.questChain.entries[q.id]?.stage === 'claimed')) {
+          const chapter = CHAPTERS.find(c => c.id === result.quest.chapter); banner('chapter', `${chapter.name.split('·')[0].trim()} 完成`, chapter.name.split('·')[1]?.trim() || '');
+        }
+        syncJourneyHud();
+      }
+      function skipCoach() { skipTutorial(player, true); coach.guide = null; notify('已跳过新手引导，可在任务日志查看任务提示'); }
+      function dismissCoachTip(id) { dismissTip(player, id); coach.tip = null; }
+      function syncJourneyHud() {
+        const j = ensureJourney(player), x = xpProgress(j);
+        const quest = chainTracked(player);
+        Object.assign(journeyHud, { level: x.level, xp: x.xp, need: x.need, ratio: x.ratio,
+          unspent: Math.max(0, talentBudget(player) - (player.talents?.allocated?.length || 0)),
+          quest, chapter: quest ? CHAPTERS.find(c => c.id === quest.chapter) : null, rows: chainRows(player) });
+      }
+      function observeJourney() {
+        if (!store.collections) return;
+        ensureJourney(player); ensureChain(player);
+        const sync = syncTalentBudget(player);
+        if (sync.refunded) toast('quest', '天赋点已返还', ['天赋点改为随等级获得，之前的规划已重置。']);
+        const b = battle;
+        if (b && b !== journeyBattle) { journeyBattle = b; streak.reset(); setStreak(0, 0); coachCtx.lastX = null; }
+        if (b) {
+          announceGround(b);
+          const h = b.hero;
+          if (coachCtx.lastX !== null && !h.dead) coachCtx.moved += Math.hypot(h.x - coachCtx.lastX, h.y - coachCtx.lastY) / 100;
+          coachCtx.lastX = h.x; coachCtx.lastY = h.y;
+          if (b.kills > 0) coachCtx.damageDealt = 1;
+          if (b.phase === 'cleared' && !h.dead && !countedClears.has(b)) {
+            countedClears.add(b);
+            const r = runOf(b), clear = recordFloorClear(player, b.floor);
+            if (clear.first) {
+              r.xp += clear.xp.gained;
+              r.first = clear.rewards.length ? `奖励 ${clear.xp.gained} 经验与 ${store.collections.item.get(clear.rewards[0].id)?.doc?.name || '下一层地图'}` : `奖励 ${clear.xp.gained} 经验`;
+              toast('first', `首次通关第 ${b.floor} 层`, [`+${clear.xp.gained} 经验`, ...clear.rewards.map(g => rewardLabel(g, store.collections) + ' 已放入背包')]);
+              announceLevels(clear.xp, h);
+            }
+            banner('floor', `第 ${b.floor} 层 · 通关`, '守卫已倒下 · 拾取战利品后进入传送阵');
+            const secs = Math.floor(b.elapsed || 0);
+            runSummary.value = { kills: r.kills, xp: r.xp, levels: r.levels, first: r.first, time: `${Math.floor(secs / 60)}:${String(secs % 60).padStart(2, '0')}` };
+          }
+          if ((h.dead || b.phase === 'failed') && !countedDeaths.has(b)) { countedDeaths.add(b); if (h.dead) bump(player, 'deaths'); streak.reset(); }
+          if (b.phase !== 'cleared' && runSummary.value && !countedClears.has(b)) runSummary.value = null;
+          if (feedback.streak && !streak.active(b.elapsed || 0)) setStreak(0, 0);
+        }
+        for (const id of observeChain(player)) {
+          const q = QUEST_CHAIN.find(row => row.id === id);
+          toast('quest', `任务完成：${q.name}`, ['点击左侧任务卡「领取奖励」，或按 J']); chime('quest');
+        }
+        syncJourneyHud();
+        const j = player.journey, unspent = journeyHud.unspent;
+        const tv = tutorialView(player, {
+          moved: coachCtx.moved, damageDealt: coachCtx.damageDealt, kills: j.counters.kills, pickups: j.counters.pickups,
+          groundLoot: b?.rewards?.remaining?.length || 0, floorsCleared: j.counters.floorsCleared, equips: j.counters.equips, mapsEntered: j.counters.mapsEntered,
+          firstWeaponReady: player.quests?.entries?.first_floor?.stage === 'reward', firstWeaponClaimed: player.quests?.entries?.first_floor?.stage === 'claimed',
+          unspentTalents: unspent, level: j.level, lifeRatio: b && !b.hero.dead ? b.hero.health / Math.max(1, b.hero.maxHealth) : 1,
+          hasPotion: (player.loadout.belt || []).some(id => id && !auraId(id) && ownedCount('item', id) > 0), potions: j.counters.potions,
+          claimableQuests: journeyHud.rows.filter(r => r.stage === 'done').length, crafts: j.counters.crafts,
+          hasCurrency: ['chaos_orb', 'spirit_stone_mid', 'spirit_stone_high', 'quad_affix_orb'].some(id => ownedCount('item', id) > 0),
+        });
+        coach.guide = tv.guide; coach.tip = tv.tip; coach.index = tv.index; coach.total = tv.total;
+      }
+      watch(() => [audioSettings.volume, audioSettings.muted], ([volume, muted]) => configureChimes({ volume, muted }), { immediate: true });
+      // Test hook for automated play-throughs; only with ?debug=1.
+      if (new URLSearchParams(location.search).get('debug') === '1') window.__dw = { get battle() { return battle; }, get tower() { return tower; }, player, journeyHud, coach, feedback, claimChain, observeJourney, opts, openAtlas, challengeAtlas, pickLoot, openHUDFunction, claimTaskReward, setEquip, useExitPortal, get atlas() { return atlasState.value; } };
+      onBeforeUnmount(() => unsubscribers.forEach(off => off()));
+
       function syncHud() {
         battleHasOutpost.value=!!battle?.outpostMerchant;
         if (!battle) return;
         observeQuests();
+        observeJourney();
         if (atlasSession.observe(battle)) syncAtlas();
         if (skillDetailSlot.value >= 0) skillDetail.value = skillDetails(battle, skillDetailSlot.value);
         if (auraDetailSlot.value >= 0) skillDetail.value = auraDetails(battle, auraId(player.loadout.belt[auraDetailSlot.value]));
@@ -1758,7 +1908,7 @@ export function mountBattle(el, { input = null, rendering = {}, initialPaused = 
 
       return {
         eventRunKey,eventMenuOpen,openMapEvent,closeMapEvent,mapEventChanged,mapEventStatus,mapEventUI,mapEventTags,activateMapStation,
-        quests, trackedQuest, claimTaskReward, challengeQuestFloor,
+        quests, trackedQuest, claimTaskReward, challengeQuestFloor, journeyHud, coach, runSummary, claimChain, skipCoach, dismissCoachTip,
         audioSettings, configureAudio, toggleAudio, previewAudio,
         outpostInfo,outpostOpen,battleHasOutpost,openOutpost,closeOutpost,syncHud,atlasState, atlasOpen, mapDeviceItems, atlasAttemptId, atlasCurrentNode, openAtlas, closeAtlas, selectAtlas, challengeAtlas, exitPortalInfo, useExitPortal,
         skillDetailSlot, auraDetailSlot, skillDetail, skillDetailPosition, showSkillDetails, showAuraDetails, leaveSkillDetails, holdSkillDetails,

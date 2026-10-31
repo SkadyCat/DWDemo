@@ -1,6 +1,7 @@
 import { createApp, ref, reactive, computed, watch, nextTick, onBeforeUnmount } from '/vendor/vue.esm-browser.prod.js';
 import { store } from '/editors.mjs';
 import { player, ensureStarted } from '/player.mjs';
+import { talentBudget } from '/progression/journey.mjs';
 import { aggregate } from '/engine/collections.mjs';
 import { compileBuild } from '/engine/compiler.mjs';
 import { computeSheet } from '/engine/character.mjs';
@@ -20,7 +21,7 @@ const TEMPLATE = /*html*/`
 <div ref="pageElement" class="stc-page" :class="{'stc-in-battle':inBattle}" v-if="tree && store.library">
   <header class="stc-header">
     <div><span class="stc-eyebrow">OPUS · TALENT CONSTELLATION</span><h1>{{ tree.name }}<small>1000 节点 / 100 传奇特性</small></h1></div>
-    <div class="stc-header-actions"><label>规划点数 <input aria-label="规划点数" type="number" min="0" :max="tree.nodes.length-1" v-model="budgetInput" @change="setBudget($event)" @keydown.enter.prevent="setBudget($event); $event.target.blur()"></label>
+    <div class="stc-header-actions"><label :title="inBattle ? '天赋点随角色等级获得：每级 2 点，另有任务奖励' : ''">{{ inBattle ? '等级天赋点' : '规划点数' }} <input aria-label="规划点数" :disabled="inBattle" type="number" min="0" :max="tree.nodes.length-1" v-model="budgetInput" @change="setBudget($event)" @keydown.enter.prevent="setBudget($event); $event.target.blur()"></label>
       <div class="stc-budget"><b>{{ spent }}</b><span>/ {{ draft.budget }}</span><small>已用</small></div>
       <span v-if="inBattle" class="stc-live-badge">战斗暂停 · 天赋实时生效</span><button v-else class="stc-apply" :disabled="!!catalogError || !!preview.error || applied" @click="apply">{{ applied ? '已应用到 3D 战斗' : '应用到 3D 战斗' }}</button></div>
   </header>
@@ -138,6 +139,18 @@ export const TalentConstellation = {
       try { const saved = JSON.parse(localStorage.getItem(DRAFT_KEY) || 'null');const result=upgradeAllocation(value,saved);draft.value=result.state;if(result.legacy){legacyPlan.value=result.legacy;localStorage.setItem(LEGACY_KEY,JSON.stringify(result.legacy));} }
       catch { draft.value = freshAllocation(value); }
     }, { immediate: true });
+    // In battle the budget is earned (level + quest rewards); the free planner keeps its editable budget.
+    const levelBudget = computed(() => props.inBattle ? talentBudget(player) : null);
+    watch([levelBudget, draft], ([budget]) => {
+      if (budget === null || !draft.value || draft.value.budget === budget) return;
+      const next = { ...copy(draft.value), budget };
+      if ((next.allocated || []).length > budget) { next.allocated = []; next.choices = {}; }
+      draft.value = next;
+    }, { immediate: true });
+    watch(() => props.inBattle && JSON.stringify(player.talents), text => {
+      if (!text || !tree.value || text === JSON.stringify(draft.value)) return;
+      if (!validateAllocation(tree.value, player.talents)) draft.value = copy(player.talents);
+    });
     watch(()=>draft.value?.budget,budget=>{if(budget!==undefined)budgetInput.value=String(budget);},{immediate:true});
     watch(draft, value => { if (value) try { localStorage.setItem(DRAFT_KEY, JSON.stringify(value)); } catch { tell('本地保存失败，请导出方案保存。', true); } }, { deep: true });
     const nodeMap = computed(() => new Map((tree.value?.nodes || []).map(n => [n.id, n])));

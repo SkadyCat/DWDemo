@@ -14,6 +14,10 @@ import { freshHideout } from '/hideout/model.mjs';
 import { auraBinding, auraId, buildSkillType, cleanBelt, cleanActiveAuras } from '/engine/skill-types.mjs';
 import { inventoryCounts, updateInventoryNotices } from '/inventory-notices.mjs';
 import {eventLocked} from '/map-events-model.mjs';
+import { emitGameEvent } from '/progression/events.mjs';
+import { ensureJourney, freshJourney } from '/progression/journey.mjs';
+import { ensureChain } from '/progression/quest-chain.mjs';
+import { ensureTutorial, freshTutorial } from '/progression/tutorial.mjs';
 
 export const BELT_SLOTS = 4;
 
@@ -22,6 +26,7 @@ const fresh = () => ({
   bagLayout: null, hideout: freshHideout(), newInventory: {},
   loadout: { skills: skillSlots(), equipment: {}, belt: [], activeAuras: [] },
   stats: { kills: 0, earned: 0, spent: 0, battles: 0 }, initialized: false, progression: null, talents: null, quests: freshQuests(),
+  journey: freshJourney(), questChain: null, tutorial: freshTutorial(),
 });
 
 export const player = reactive(fresh());
@@ -56,6 +61,7 @@ function give(kind, id, n = 1) {
 export function ensureStarted(catalog, collections, library) {
   if (!player.initialized) resetPlayer(catalog, collections, library);
   ensureQuests(player);
+  ensureJourney(player); ensureChain(player); ensureTutorial(player);
   cleanPlayerInventory(player, collections, library);
   if (library) for (const item of Object.values(player.instances)) ensureEquipmentInherentTraits(item, collections.equipment.get(item.baseId)?.doc, library);
   const skills = validSkillSlots(player.loadout.skills, skillChoices(collections).filter(s => buildSkillType(library, s.id) === 'active'));
@@ -169,7 +175,7 @@ export function equip(slot, id) {
   if(eventLocked(player,id))return '装备已被地图祭坛锁定';
   if (player.instances[id]?.identified === false) return '请先鉴定装备';
   if (player.loadout.equipment[slot] === id) delete player.loadout.equipment[slot];
-  else player.loadout.equipment[slot] = id;
+  else { player.loadout.equipment[slot] = id; emitGameEvent('equip', { slot, id }); }
 }
 
 export { SLOTS, SKILL_SLOTS };
@@ -181,6 +187,7 @@ export const ownsEquipment = id => owns('equipment', id) || !!player.instances[i
 export function sellOwnedEquipment(id, collections, catalog, stackKey = 'equipment:' + id) {
   if(eventLocked(player,id))return {error:'装备已被地图祭坛锁定'};
   const result = sellEquipment(player, id, collections, catalog);
+  if (!result.error) emitGameEvent('sell', { id });
   if (!result.error) player.bagLayout = reducePlacedStack(player.bagLayout, stackKey);
   return result;
 }
@@ -193,6 +200,7 @@ export function identify(baseId, collections, library, stackKey = 'equipment:' +
     try { item = identifyEquipment(pending, collections?.equipment?.get(pending.baseId)?.doc, library); }
     catch (error) { return { error: error.message }; }
     player.instances[baseId] = item;
+    emitGameEvent('identify', { item });
     return { item };
   }
   const template = collections?.equipment?.get(baseId)?.doc;
@@ -207,6 +215,7 @@ export function identify(baseId, collections, library, stackKey = 'equipment:' +
   }
   player.instances[item.uid] = item;
   player.bagLayout = reducePlacedStack(player.bagLayout, stackKey);
+  emitGameEvent('identify', { item });
   return { item };
 }
 
@@ -216,7 +225,9 @@ export function identify(baseId, collections, library, stackKey = 'equipment:' +
  */
 export function craft(uid, { currencyId, omenId = '', index = null }, collections, library, tags) {
   if(eventLocked(player,uid))return {error:'装备已被地图祭坛锁定'};
-  return craftEquipment(player, uid, { currencyId, omenId, index }, collections, library, tags);
+  const result = craftEquipment(player, uid, { currencyId, omenId, index }, collections, library, tags);
+  if (result && !result.error) emitGameEvent('craft', { uid, currencyId });
+  return result;
 }
 
 /** Destroy an instance (unequips it). */

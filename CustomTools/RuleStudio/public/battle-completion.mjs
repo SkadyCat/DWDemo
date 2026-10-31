@@ -3,13 +3,14 @@ import { ref } from '/vendor/vue.esm-browser.prod.js';
 import { affixText } from '/affix-text.mjs';
 import { iconSrc } from '/game-icons.mjs';
 export const BattleCompletion = {
-  props: ['floor', 'maxFloor', 'merchant', 'wallet', 'unclaimed', 'library', 'atlas', 'portal'],
+  props: ['floor', 'maxFloor', 'merchant', 'wallet', 'unclaimed', 'library', 'atlas', 'portal', 'summary'],
   emits: ['challenge', 'buy', 'release', 'explore'],
   setup(props) { return { open: ref(!props.portal), target: ref(props.floor), affixText, iconSrc }; },
   template: /* html */ `<section class="b3-completion" :class="{collapsed: !open}" aria-label="通关与商人" @pointerenter="$emit('release')" @pointerdown.stop @pointermove.stop @wheel.stop @keydown.stop>
     <button v-if="!open" type="button" class="btn" @click="open = true">首领已击败 · {{ merchant ? '查看商人' : '查看通关奖励' }}</button>
     <template v-else>
       <header><div><small>挑战完成</small><h3>第 {{ floor }} 层通关</h3></div><button type="button" class="btn ghost sm" @click="open = false" aria-label="返回地面拾取">返回拾取</button></header>
+      <div v-if="summary" class="run-summary" aria-label="本层战绩"><div><small>击杀</small><b class="mono">{{ summary.kills }}</b></div><div><small>获得经验</small><b class="mono">{{ summary.xp }}</b></div><div><small>升级</small><b class="mono">{{ summary.levels ? '+' + summary.levels : '—' }}</b></div><div><small>用时</small><b class="mono">{{ summary.time }}</b></div><div v-if="summary.first" class="first">首次通关第 {{ floor }} 层 · {{ summary.first }}</div></div>
       <p class="dim" v-if="unclaimed">地面还有 {{ unclaimed }} 件掉落，可先返回拾取。</p>
       <button v-if="atlas" type="button" class="btn primary b3-atlas-next" @click="$emit('explore')">前往传送阵 · 打开世界地图</button>
       <div v-else class="b3-floor-select"><label>挑战层数<input type="number" v-model.number="target" min="1" :max="maxFloor" step="1" aria-label="通关后挑战层数"></label><button class="btn primary sm" :disabled="!Number.isInteger(target) || target < 1 || target > maxFloor" @click="$emit('challenge', target)">挑战此层</button></div>
