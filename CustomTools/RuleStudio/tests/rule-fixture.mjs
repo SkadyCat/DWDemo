@@ -1,5 +1,11 @@
 import { readRuleFiles } from '../scripts/rule-files.mjs';
 
+// Tower growth is authored balance data; tests read it instead of repeating the numbers.
+const towerTrait = JSON.parse(readRuleFiles().find(file => /^traits[\\/]monster_tower_level\.json$/i.test(file.path)).text);
+export const TOWER_LIFE = towerTrait.params.life_growth, TOWER_DAMAGE = towerTrait.params.damage_growth;
+/** Monster types a floor can spawn, from the authored enable / weight / minFloor settings. */
+export const eligibleMonsterTypes = (docs, floor) => docs.filter(doc => doc.enabled && doc.weight > 0 && (doc.minFloor ?? 1) <= floor);
+
 // Runtime unit tests exercise the original skills and three archetypes. Authored content may
 // acquire new builds, traits and much harder lineages; those have separate production-file tests.
 const BASELINE_BUILDS = {

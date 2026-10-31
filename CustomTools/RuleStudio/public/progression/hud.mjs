@@ -5,6 +5,11 @@ import { computed } from '/vendor/vue.esm-browser.prod.js';
 import { feedback } from './feedback.mjs';
 import { CHAPTERS, rewardLabel } from './quest-chain.mjs';
 import { levelBonusRows } from './journey.mjs';
+import { INNATE_ATTRIBUTES } from './config.mjs';
+import { affixText } from '../affix-text.mjs';
+import { iconSrc } from '../game-icons.mjs';
+import { EQUIPMENT_RARITY_NAMES } from '../../engine/equipment.mjs';
+const hasChoice = q => q?.rewards?.some(r => r.kind === 'choice');
 
 const fmt = n => n >= 1e6 ? (n / 1e6).toFixed(1) + 'M' : n >= 1e4 ? (n / 1e3).toFixed(1) + 'K' : String(Math.round(n));
 
@@ -27,7 +32,7 @@ export const ChainTracker = {
   props: ['quest', 'chapter', 'collections'], emits: ['open', 'claim', 'release'],
   setup(props) {
     const pct = computed(() => props.quest ? Math.min(100, 100 * props.quest.progress.current / Math.max(1, props.quest.progress.target)) : 0);
-    return { pct, rewardLabel };
+    return { pct, rewardLabel, hasChoice };
   },
   template: /* html */ `<section class="qc-tracker b3-card" aria-label="任务追踪" @pointerenter="$emit('release')" @pointerdown.stop @pointermove.stop>
     <header><button type="button" class="qc-open" @click="$emit('open')" aria-label="打开任务日志"><span class="qc-glyph" aria-hidden="true">◆</span><small>{{ chapter?.name || '任务' }}</small><kbd>J</kbd></button></header>
@@ -37,7 +42,7 @@ export const ChainTracker = {
       <div class="qc-progress" role="progressbar" :aria-valuenow="quest.progress.current" aria-valuemin="0" :aria-valuemax="quest.progress.target"><i :style="{width: pct + '%'}"></i><span class="mono">{{ quest.progress.current }} / {{ quest.progress.target }}</span></div>
       <p v-if="quest.stage !== 'done'" class="qc-hint">{{ quest.hint }}</p>
       <div class="qc-rewards"><span v-for="(r, i) in quest.rewards" :key="i" :class="'qr-' + r.kind">{{ rewardLabel(r, collections) }}</span></div>
-      <button v-if="quest.stage === 'done'" type="button" class="qc-claim" @click="$emit('claim', quest.id)">领取奖励</button>
+      <button v-if="quest.stage === 'done'" type="button" class="qc-claim" @click="hasChoice(quest) ? $emit('open') : $emit('claim', quest.id)">{{ hasChoice(quest) ? '选择奖励' : '领取奖励' }}</button>
     </template>
     <p v-else class="qc-hint">全部主线任务已完成。继续挑战更高层，追求更强的构筑。</p>
   </section>`,
@@ -76,13 +81,16 @@ export const FeedbackLayer = {
 
 /** The quest window: chapters, every quest and its rewards. */
 export const ChainJournal = {
-  props: ['rows', 'collections', 'journey', 'talentPoints'], emits: ['claim'],
+  props: ['rows', 'collections', 'library', 'journey', 'talentPoints'], emits: ['claim'],
   setup(props) {
     const chapters = computed(() => CHAPTERS.map(ch => ({ ...ch, rows: (props.rows || []).filter(r => r.chapter === ch.id) }))
       .map(ch => ({ ...ch, done: ch.rows.every(r => r.stage === 'claimed'), open: ch.rows.some(r => r.stage !== 'locked') })));
     const bonuses = computed(() => levelBonusRows(props.journey?.level || 1).filter(r => r.value > 0));
     const stageName = { locked: '未解锁', active: '进行中', done: '可领取', claimed: '已完成' };
-    return { chapters, rewardLabel, stageName, bonuses, fmt };
+    const lines = item => [...(item.bases || []), ...(item.legendary ? [item.legendary] : []), ...(item.affixes || [])];
+    const skillName = item => item.skill ? props.collections?.skill?.get(item.skill)?.doc?.name || item.skill : '';
+    const claimable = computed(() => (props.rows || []).filter(q => q.stage === 'done' && hasChoice(q) && q.choices?.length));
+    return { chapters, rewardLabel, stageName, bonuses, fmt, innate: INNATE_ATTRIBUTES, hasChoice, lines, skillName, claimable, affixText, iconSrc, rarityName: EQUIPMENT_RARITY_NAMES };
   },
   template: /* html */ `<div class="qc-journal">
     <aside class="qc-journey" v-if="journey">
@@ -92,8 +100,21 @@ export const ChainJournal = {
         <div><dt>未分配天赋点</dt><dd class="mono">{{ talentPoints }}</dd></div></dl>
       <h4>等级加成</h4>
       <ul class="qc-bonus"><li v-for="b in bonuses" :key="b.id"><span>{{ b.label }}</span><b>+{{ b.value }}</b></li><li v-if="!bonuses.length" class="dim">升级后获得属性加成</li></ul>
+      <h4>天生属性</h4>
+      <ul class="qc-bonus innate"><li v-for="a in innate" :key="a.id"><span>{{ a.label }}</span></li></ul>
     </aside>
     <div class="qc-chapters">
+      <section v-for="q in claimable" :key="'choice-' + q.id" class="qc-choice">
+        <header><small>任务奖励 · {{ q.name }}</small><h3>选择一件，决定你的流派方向</h3><p>只能领取一件，其余选项消失。领取后放入背包。</p></header>
+        <div class="qc-choice-grid">
+          <article v-for="item in q.choices" :key="item.uid" class="qc-choice-card" :class="'r-' + item.rarity">
+            <div class="qc-choice-top"><img :src="iconSrc('equipment', item)" alt="" draggable="false"><div><b>{{ item.name }}</b><small>{{ rarityName[item.rarity] }} · T{{ item.tier }}</small></div></div>
+            <p v-if="skillName(item)" class="qc-choice-skill">授予技能 · <b>{{ skillName(item) }}</b></p>
+            <ul><li v-for="(line, i) in lines(item)" :key="i" :class="{fixed: line === item.legendary || (item.bases || []).includes(line)}">{{ affixText(line, library) }}</li><li v-if="!lines(item).length" class="dim">无附加词条</li></ul>
+            <button type="button" class="qc-claim" @click="$emit('claim', q.id, item.uid)">选择这件</button>
+          </article>
+        </div>
+      </section>
       <section v-for="ch in chapters" :key="ch.id" class="qc-chapter" :class="{locked: !ch.open, done: ch.done}">
         <header><h3>{{ ch.name }}</h3><span>{{ ch.done ? '已完成' : ch.open ? '进行中' : '未解锁' }}</span></header>
         <p class="qc-blurb">{{ ch.blurb }}</p>
@@ -104,7 +125,8 @@ export const ChainJournal = {
               <small v-if="q.stage === 'active'" class="qc-hint">{{ q.hint }}</small>
               <div class="qc-rewards" v-if="q.stage !== 'locked'"><span v-for="(r, i) in q.rewards" :key="i" :class="'qr-' + r.kind">{{ rewardLabel(r, collections) }}</span></div>
             </div>
-            <button v-if="q.stage === 'done'" type="button" class="qc-claim" @click="$emit('claim', q.id)">领取</button>
+            <button v-if="q.stage === 'done' && !hasChoice(q)" type="button" class="qc-claim" @click="$emit('claim', q.id)">领取</button>
+            <em v-else-if="q.stage === 'done'" class="qc-stage" style="color:#ecd086">在上方选择奖励</em>
             <em v-else class="qc-stage">{{ stageName[q.stage] }}</em>
           </li>
         </ol>

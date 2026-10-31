@@ -12,7 +12,7 @@ export function xpToNext(level) {
 
 /** Base kill experience by monster rarity; scaled by floor. */
 export const KILL_XP = Object.freeze({ common: 6, normal: 6, magic: 15, rare: 40, boss: 200 });
-export const FLOOR_XP_GROWTH = 1.3;
+export const FLOOR_XP_GROWTH = 1.24;
 
 /** Kill streaks: kills chained within this window add bonus experience. */
 export const STREAK_WINDOW = 2.6;
@@ -24,9 +24,20 @@ export const LEVEL_GROWTH = Object.freeze([
   Object.freeze({ id: 'life_base', perLevel: 12, label: '基础气血' }),
   Object.freeze({ id: 'life_increased', perLevel: 1, label: '气血上限 %' }),
   Object.freeze({ id: 'mana_base', perLevel: 3, label: '魔力上限' }),
-  Object.freeze({ id: 'inc_physical', perLevel: 4, label: '物理伤害 %' }),
-  Object.freeze({ id: 'inc_elemental', perLevel: 4, label: '元素伤害 %' }),
-  Object.freeze({ id: 'inc_void', perLevel: 4, label: '虚空伤害 %' }),
+  Object.freeze({ id: 'inc_physical', perLevel: 5, label: '物理伤害 %' }),
+  Object.freeze({ id: 'inc_elemental', perLevel: 5, label: '元素伤害 %' }),
+  Object.freeze({ id: 'inc_void', perLevel: 5, label: '虚空伤害 %' }),
+]);
+
+/**
+ * Innate attribute conversions every character has (like a class base): they
+ * make constellation attribute points matter on their own. Existing affixes.
+ */
+export const INNATE_ATTRIBUTES = Object.freeze([
+  Object.freeze({ id: 'life_per_strength', params: { per: 1, amount: 2 }, label: '每点力量 +2 基础气血' }),
+  Object.freeze({ id: 'life_per_constitution', params: { per: 1, amount: 3 }, label: '每点体质 +3 基础气血' }),
+  Object.freeze({ id: 'evasion_per_dexterity', params: { per: 1, n: 6 }, label: '每点敏捷 +6 基础闪避' }),
+  Object.freeze({ id: 'shield_per_intelligence', params: { per: 1, amount: 2 }, label: '每点智力 +2 基础护盾' }),
 ]);
 
 /** Talent points: two per level gained plus quest bonuses, capped by the constellation. */

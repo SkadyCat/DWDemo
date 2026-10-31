@@ -130,3 +130,42 @@
 /* ---------------------------------------------------------------- play mode (no editor chrome) */
 html.play-mode body { grid-template-columns: 1fr; }
 html.play-mode body > aside.sidebar { display: none !important; }
+
+/* ---------------------------------------------------------------- choice rewards */
+.qc-choice { padding: 14px; border-radius: 12px; border: 1px solid rgba(236, 208, 134, .55); background: linear-gradient(180deg, rgba(60, 46, 18, .35), rgba(12, 14, 20, .3)); box-shadow: 0 0 24px rgba(236, 208, 134, .12); }
+.qc-choice header small { color: #c9a45a; font-size: 11px; }
+.qc-choice header h3 { margin: 2px 0 2px; color: #f6e2b0; font-size: 16px; }
+.qc-choice header p { margin: 0 0 10px; color: #93a1b4; font-size: 12px; }
+.qc-choice-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; }
+.qc-choice-card { display: flex; flex-direction: column; gap: 6px; padding: 10px; border-radius: 10px; background: rgba(0, 0, 0, .3); border: 1px solid rgba(255, 255, 255, .1); }
+.qc-choice-card.r-magic { border-color: rgba(91, 157, 255, .5); } .qc-choice-card.r-rare { border-color: rgba(247, 208, 70, .5); } .qc-choice-card.r-legendary { border-color: rgba(255, 138, 61, .6); box-shadow: 0 0 14px rgba(255, 138, 61, .15); }
+.qc-choice-top { display: flex; gap: 8px; align-items: center; }
+.qc-choice-top img { width: 42px; height: 42px; border-radius: 6px; background: rgba(0, 0, 0, .4); }
+.qc-choice-top b { display: block; font-size: 13px; color: #e6ebf3; } .qc-choice-top small { color: #8e9aac; font-size: 11px; }
+.qc-choice-card.r-legendary .qc-choice-top b { color: #ffb36b; } .qc-choice-card.r-rare .qc-choice-top b { color: #f7d046; } .qc-choice-card.r-magic .qc-choice-top b { color: #8fbcff; }
+.qc-choice-skill { margin: 0; font-size: 12px; color: #a6e6ff; }
+.qc-choice-card ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 3px; flex: 1; }
+.qc-choice-card li { font-size: 11.5px; color: #c2cbd8; line-height: 1.4; } .qc-choice-card li.fixed { color: #ffcf8a; }
+.qc-choice-card .qc-claim { margin-top: 4px; }
+.qc-bonus.innate li { color: #a7b2c3; }
+
+/* ---------------------------------------------------------------- crafting bench */
+.b3-window-craft { width: min(1080px, calc(100vw - 48px)); }
+.cb { display: grid; grid-template-columns: 1fr 384px; gap: 18px; min-height: 460px; padding: 14px 18px 18px; }
+.cb-left { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.cb h3 { margin: 0 0 8px; font-size: 13px; color: #f6e2b0; } .cb h3 small { color: #8e9aac; font-weight: 400; margin-left: 6px; }
+.cb-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 6px; max-height: 36vh; overflow: auto; padding-right: 4px; }
+.cb-item { display: flex; gap: 8px; align-items: center; text-align: left; padding: 6px 8px; border-radius: 8px; cursor: pointer; color: inherit; background: rgba(255, 255, 255, .03); border: 1px solid rgba(255, 255, 255, .08); }
+.cb-item:hover { background: rgba(255, 255, 255, .07); } .cb-item.on { border-color: #ecd086; box-shadow: 0 0 0 1px #ecd086 inset; }
+.cb-item img { width: 36px; height: 36px; border-radius: 6px; background: rgba(0, 0, 0, .4); flex: none; }
+.cb-item b { display: block; font-size: 12px; } .cb-item small { color: #8e9aac; font-size: 10.5px; }
+.cb-item.r-magic b { color: #8fbcff; } .cb-item.r-rare b { color: #f7d046; } .cb-item.r-legendary b { color: #ffb36b; }
+.cb-guide ul { list-style: none; margin: 0 0 10px; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 6px 14px; }
+.cb-guide li { display: flex; gap: 8px; align-items: flex-start; } .cb-guide li.none { opacity: .45; }
+.cb-guide li img { width: 28px; height: 28px; flex: none; }
+.cb-guide li b { display: block; font-size: 12px; color: #e6ebf3; } .cb-guide li em { font-style: normal; color: #7ef0c8; margin-left: 4px; }
+.cb-guide li span { font-size: 11px; color: #93a1b4; }
+.cb-omens { display: flex; flex-wrap: wrap; gap: 4px; } .cb-omens span { padding: 2px 6px; border-radius: 4px; background: rgba(195, 139, 255, .12); color: #d4b4ff; font-size: 11px; }
+.cb-stage { display: grid; place-items: center; text-align: center; border-radius: 12px; border: 1px dashed rgba(236, 208, 134, .3); background: rgba(236, 208, 134, .03); padding: 20px; }
+.cb-stage b { display: block; font-size: 34px; color: #c9a45a; } .cb-stage p { margin: 6px 0; color: #d6dae3; font-size: 13px; } .cb-stage small { color: #8e9aac; font-size: 11px; }
+@media (max-width: 860px) { .cb { grid-template-columns: 1fr; } .cb-stage { display: none; } }

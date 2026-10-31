@@ -1,4 +1,5 @@
 import test from 'node:test';
+import { TOWER_LIFE, TOWER_DAMAGE } from './rule-fixture.mjs';
 import assert from 'node:assert/strict';
 import { readBaselineRuleFiles } from './rule-fixture.mjs';
 import {
@@ -34,8 +35,8 @@ test('塔层级: authored powers fold into ordinary stat partitions and saturate
   for (const level of [1, 2, 5, 20, 1000]) {
     const source = sourceFromEntry(check.library, tower(level));
     const plan = mustCompile(newBuild(source.id, [source]));
-    near(plan.stats.from(EStat.OwnerMaxLife, 80), Math.min(1e9, 80 * 2 ** (level - 1)));
-    near(plan.stats.get(EStat.OwnerDamageMultiplier), Math.min(1e9, 1.2 ** (level - 1)));
+    near(plan.stats.from(EStat.OwnerMaxLife, 80), Math.min(1e9, 80 * TOWER_LIFE ** (level - 1)));
+    near(plan.stats.get(EStat.OwnerDamageMultiplier), Math.min(1e9, TOWER_DAMAGE ** (level - 1)));
   }
   for (const args of [[], [2], [2, 3, 4]]) {
     const source = readTraitText(JSON.stringify({ id: 'bad_power', modifiers: [{ target: 'owner', stat: 'max_life', op: 'multiply', value: { pow: args } }] })).trait;
@@ -63,7 +64,7 @@ test('塔层级: projectile and secondary hits receive the same independent mult
   }
   const base = measure(1), grown = measure(5);
   assert.ok(base.length >= 2, 'primary and secondary hits both happened'); assert.equal(grown.length, base.length);
-  base.forEach((row, i) => near(grown[i].Amount, row.Amount * 1.2 ** 4));
+  base.forEach((row, i) => near(grown[i].Amount, row.Amount * TOWER_DAMAGE ** 4));
 });
 
 test('塔层装备: actual claw damage follows gear, unequipping removes growth without changing other pawns', () => {
@@ -73,20 +74,20 @@ test('塔层装备: actual claw damage follows gear, unequipping removes growth 
   battle.setLoadout({ skills: [] }); battle.spawnMonsters(2);
   const [m, other] = battle.monsters, heroLife = battle.hero.maxHealth;
   battle.setMonsterEquipment(m, 'tower', monsterTowerEquipment(check.collections, 5));
-  near(m.maxHealth, m.baseMaxHealth * 16); near(other.maxHealth, other.baseMaxHealth);
+  near(m.maxHealth, m.baseMaxHealth * TOWER_LIFE ** 4); near(other.maxHealth, other.baseMaxHealth);
   Object.assign(m, { x: battle.hero.x - 100, y: battle.hero.y, cooldown: 99 });
   other.cooldown = 99; battle.step(1 / 60); m.cooldown = 0;
   const hits = []; battle.host.world.trace = (kind, row) => { if (kind === 'damage') hits.push(row); };
   battle.step(1 / 60);
   assert.equal(m.casts, 1); assert.equal(hits.length, 1);
-  near(hits[0].raw, 7 * 1.2 ** 4); assert.ok(battle.damageTaken > 0);
+  near(hits[0].raw, 7 * TOWER_DAMAGE ** 4); assert.ok(battle.damageTaken > 0);
   assert.equal(battle.hero.maxHealth, heroLife);
   // Reapplication replaces one affix, preserves damage already taken, and starts from base attributes.
   assert.deepEqual(Object.keys(battle.hero.equipment), ['tower', 'character']);
   assert.notEqual(m.equipment.tower, other.equipment.tower);
   assert.equal(m.traits.some(entry => entry.id === 'monster_tower_level'), false);
   m.health /= 2; battle.setMonsterEquipment(m, 'tower', m.equipment.tower); near(m.health, m.maxHealth / 2);
-  battle.setMonsterEquipment(m, 'tower', monsterTowerEquipment(check.collections, 2)); near(m.maxHealth, m.baseMaxHealth * 2); near(m.health, m.baseMaxHealth);
+  battle.setMonsterEquipment(m, 'tower', monsterTowerEquipment(check.collections, 2)); near(m.maxHealth, m.baseMaxHealth * TOWER_LIFE); near(m.health, m.baseMaxHealth * TOWER_LIFE / 2);
   battle.setMonsterEquipment(m, 'tower', null); near(m.maxHealth, m.baseMaxHealth); near(m.health, m.baseMaxHealth / 2);
   assert.throws(() => battle.setMonsterTraits(m, [tower(9)]), /必须来自塔地图属性槽装备/);
   m.health = m.maxHealth; m.cooldown = 0; m.skillCooldowns = [0]; hits.length = 0;
@@ -105,7 +106,7 @@ test('塔层级: fired projectiles retain the compiled affix after their monster
   for (let i = 0; i < 90; i++) battle.step(1 / 60);
   assert.equal(battle.monsters.length, 0); assert.ok(hits.length > 0);
   const factor = hits[0].bCritical ? 1.5 : 1;
-  near(hits[0].raw, doc.skills[0].power * 1.2 ** 4 * factor);
+  near(hits[0].raw, doc.skills[0].power * TOWER_DAMAGE ** 4 * factor);
 });
 
 test('Pawn 固定槽: hero, monster and summon own independent slots; empty monster gear has no floor fallback', () => {
@@ -140,19 +141,19 @@ test('怪物装备: existing life and fire flat affixes affect real attacks thro
   const battle = new Battle(ownFiles, { collections: own.collections, monsterTypes: [doc], maxMonsters: 0, spawnRate: 0, seed: 3 });
   battle.setLoadout({ skills: [] }); battle.spawnMonsters(1);
   const m = battle.monsters[0]; battle.setMonsterEquipment(m, 'tower', monsterTowerEquipment(own.collections, 3));
-  near(m.maxHealth, (m.baseMaxHealth + 60) * 4);
+  near(m.maxHealth, (m.baseMaxHealth + 60) * TOWER_LIFE ** 2);
   Object.assign(m, { x: battle.hero.x - 100, y: battle.hero.y, cooldown: 99 });
   battle.step(1 / 60); m.cooldown = 0;
   const hits = []; battle.host.world.trace = (kind, row) => { if (kind === 'damage') hits.push(row); };
   battle.step(1 / 60); assert.equal(hits.length, 2, 'one claw hit plus one equipment fire hit');
-  near(hits[0].raw, 7 * 1.2 ** 2); near(hits[1].raw, 8 * 1.2 ** 2);
+  near(hits[0].raw, 7 * TOWER_DAMAGE ** 2); near(hits[1].raw, 8 * TOWER_DAMAGE ** 2);
   assert.ok(m.equipmentContributions.some(row => row.traitId === 'flat_fire' && row.kind === 'equipment'));
   // Same flat parameters on two skills must retain their different authored hit events in plan caches.
   const clawType = m.type;
   const strike = battle.host.compileNamedBuild('monster_strike'); assert.ok(strike.plan >= 0, strike.error);
   m.type = { ...m.type, skills: [{ ...m.type.skills[0], id: 'monster_strike', plan: strike.plan, power: 10 }] };
   m.cooldown = 0; m.skillCooldowns = [0]; hits.length = 0; battle.step(1 / 60);
-  assert.equal(hits.length, 2); near(hits[0].raw, 10 * 1.2 ** 2); near(hits[1].raw, 8 * 1.2 ** 2);
+  assert.equal(hits.length, 2); near(hits[0].raw, 10 * TOWER_DAMAGE ** 2); near(hits[1].raw, 8 * TOWER_DAMAGE ** 2);
   m.type = clawType;
   const gear = m.equipment.tower, maxLife = m.maxHealth;
   assert.throws(() => battle.setMonsterEquipment(m, 'tower', 'missing_gear'), /装备或槽位无效/);
@@ -175,12 +176,12 @@ test('塔层装备: all dungeon monsters and Boss receive independent gear; chan
     battle.step(1 / 60);
     actors.push(...battle.monsters);
     for (const m of actors) {
-      const growth = ruleFiles === files ? 2 : 3;
+      const growth = ruleFiles === files ? TOWER_LIFE : 3;
       near(m.maxHealth, m.baseMaxHealth * growth ** 2);
       assert.equal(m.traits.filter(t => t.id === 'monster_tower_level').length, 0);
       assert.equal(m.equipment.tower.id, 'monster_tower_equipment');
       assert.equal(m.equipment.tower.traits.find(t => t.id === 'monster_tower_level').params.level, 3);
-      near(battle.host.plan(m.traitPlan).stats.get(EStat.OwnerDamageMultiplier), (ruleFiles === files ? 1.2 : 1.4) ** 2);
+      near(battle.host.plan(m.traitPlan).stats.get(EStat.OwnerDamageMultiplier), (ruleFiles === files ? TOWER_DAMAGE : 1.4) ** 2);
       if (m.elite) near(m.maxShield, m.maxHealth * .25);
     }
     assert.ok(battle.boss);
@@ -225,7 +226,7 @@ test('地牢伤害: normal 10, rare 20 and Boss 30 aggregate into actual melee /
       host.castBuild(skill.plan, monster.owner, origin, aim, skill.power, () => monster.traitSources);
       for (let i = 0; i < 90 && hits.length === 0; i++) host.stepFrame(1 / 60);
       assert.ok(hits.length, `${id}, floor ${floor}, base ${base} must deal real damage`);
-      near(hits[0].raw, base * (id === 'monster_nova' ? .6 : 1) * 1.2 ** (floor - 1));
+      near(hits[0].raw, base * (id === 'monster_nova' ? .6 : 1) * TOWER_DAMAGE ** (floor - 1));
     }
     const shared = battle.host.library.namedBuildSource(id).source;
     const original = shared.traits.find(trait => trait.id === shared.activeId);

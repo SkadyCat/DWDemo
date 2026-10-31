@@ -1,4 +1,5 @@
 import test from 'node:test';
+import { TOWER_LIFE, TOWER_DAMAGE } from './rule-fixture.mjs';
 import assert from 'node:assert/strict';
 import { readRuleFiles } from '../scripts/rule-files.mjs';
 import { checkRuleSet, MapUnit, MAP_UNIT_ID, pawnEquipmentSlots, createPawnEquipment, equipmentAffixPool,
@@ -74,24 +75,24 @@ test('地图召唤物: life and actual attack damage compose with tower equipmen
   const b = battle({ floor: 2, mapEquipment: equipment(0, 50, 25) });
   b.setLoadout({ skills: [] }); b.step(1 / 60);
   const m = b.monsters[0];
-  near(m.maxHealth, m.baseMaxHealth * 2 * 1.5);
-  near(b.host.plan(m.traitPlan).stats.get(EStat.OwnerDamageMultiplier), 1.2 * 1.25);
+  near(m.maxHealth, m.baseMaxHealth * TOWER_LIFE * 1.5);
+  near(b.host.plan(m.traitPlan).stats.get(EStat.OwnerDamageMultiplier), TOWER_DAMAGE * 1.25);
   m.health = m.maxHealth / 2;
   b.refreshMonsterEquipment(m); b.refreshMonsterEquipment(m);
-  near(m.maxHealth, m.baseMaxHealth * 3); near(m.health, m.maxHealth / 2);
+  near(m.maxHealth, m.baseMaxHealth * TOWER_LIFE * 1.5); near(m.health, m.maxHealth / 2);
   for (const other of b.monsters) other.cooldown = 999;
   Object.assign(m, { x: b.hero.x - 100, y: b.hero.y, cooldown: 0, skillCooldowns: [0] });
   const hits = []; b.host.world.trace = (kind, row) => { if (kind === 'damage') hits.push(row); };
   b.step(1 / 60);
-  assert.equal(hits.length, 1); near(hits[0].raw, 10 * 1.2 * 1.25);
+  assert.equal(hits.length, 1); near(hits[0].raw, 10 * TOWER_DAMAGE * 1.25);
   assert.equal(b.hero.maxHealth, 400);
   b.map.setEquipment(equipment(0, 20, 50));
   b.refreshMonsterEquipment(m);
-  near(m.maxHealth, m.baseMaxHealth * 2 * 1.2);
-  near(b.host.plan(m.traitPlan).stats.get(EStat.OwnerDamageMultiplier), 1.2 * 1.5);
+  near(m.maxHealth, m.baseMaxHealth * TOWER_LIFE * 1.2);
+  near(b.host.plan(m.traitPlan).stats.get(EStat.OwnerDamageMultiplier), TOWER_DAMAGE * 1.5);
   m.cooldown = 0; m.skillCooldowns = [0]; hits.length = 0;
   b.step(1 / 60);
-  assert.equal(hits.length, 1); near(hits[0].raw, 10 * 1.2 * 1.5);
+  assert.equal(hits.length, 1); near(hits[0].raw, 10 * TOWER_DAMAGE * 1.5);
 });
 
 test('地图装备展示: exact equipped overrides are used; absent gear and empty affixes stay explicit', () => {

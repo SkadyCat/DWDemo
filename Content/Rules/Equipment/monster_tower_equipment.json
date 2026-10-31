@@ -1,7 +1,7 @@
 {
   "id": "monster_tower_equipment",
   "name": "塔层印记",
-  "description": "怪物塔地图属性固定槽装备。第 N 层生命乘 2^(N-1)，命中伤害乘 1.2^(N-1)，出生时只更新本装备词条的 level 参数。",
+  "description": "怪物塔地图属性固定槽装备。第 N 层生命乘 1.33^(N-1)，命中伤害乘 1.12^(N-1)，出生时只更新本装备词条的 level 参数。",
   "slot": "tower",
   "rarity": "common",
   "level": 1,

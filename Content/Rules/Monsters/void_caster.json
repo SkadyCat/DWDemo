@@ -3,7 +3,7 @@
   "name": "虚空术士",
   "description": "靠近时发射虚空飞弹，目标近身时释放环形新星。",
   "enabled": true,
-  "weight": 1,
+  "weight": 3,
   "health": 100,
   "speed": 230,
   "stopDistance": 550,

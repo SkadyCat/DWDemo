@@ -25,11 +25,12 @@ import { BattleWindow } from '/battle-window.mjs';
 import { QuestTracker, QuestJournal } from '/quests/panel.mjs';
 import { questRows, observeQuestBattle, claimQuestWeapon } from '/quests/model.mjs';
 import { ensureJourney, levelPart, recordKill as recordJourneyKill, recordFloorClear, bump, xpProgress, talentBudget, syncTalentBudget, KillStreak, levelBonusRows } from '/progression/journey.mjs';
-import { ensureChain, observeChain, chainRows, trackedQuest as chainTracked, claimChainQuest, rewardLabel, CHAPTERS, QUEST_CHAIN } from '/progression/quest-chain.mjs';
+import { ensureChain, observeChain, chainRows, trackedQuest as chainTracked, claimChainQuest, prepareChoices, rewardLabel, CHAPTERS, QUEST_CHAIN } from '/progression/quest-chain.mjs';
 import { tutorialView, skipTutorial, dismissTip } from '/progression/tutorial.mjs';
 import { feedback, banner, toast, setStreak, chime, configureChimes } from '/progression/feedback.mjs';
 import { JourneyXpBar, ChainTracker, CoachMark, FeedbackLayer, ChainJournal } from '/progression/hud.mjs';
 import { onGameEvent } from '/progression/events.mjs';
+import { CraftBench } from '/progression/craft-bench.mjs';
 import { BattleCharacterPanel } from '/battle-character-panel.mjs';
 import { BattleBuildGuide } from '/battle-build-guide.mjs';
 import { BattleSkillTooltip } from '/battle-skill-tooltip.mjs';
@@ -433,7 +434,7 @@ const TEMPLATE = /* html */ `
         <label>音效<input type="range" min="0" max="1" step="0.01" v-model.number="audioSettings.volume" @input="configureAudio" aria-label="战斗音效音量"></label><output>{{ Math.round(audioSettings.volume * 100) }}%</output>
       </div>
     </div>
-    <BattleFunctions :ready="ready" :map-ready="!!hud.map" :active="activeHUDFunction" :hunter-active="hunter.enabled" @release="releaseBattleInput" @activate="openHUDFunction" />
+    <BattleFunctions :hidden="playMode ? ['trait-equipment', 'bd', 'shop'] : []" :ready="ready" :map-ready="!!hud.map" :active="activeHUDFunction" :hunter-active="hunter.enabled" @release="releaseBattleInput" @activate="openHUDFunction" />
     <BattleMapEvents ref="mapEventUI" :run-key="eventRunKey" :tier="hud.map?.tier || 1" :menu="eventMenuOpen" @menu-close="eventMenuOpen=false" @open="openMapEvent" @close="closeMapEvent" @changed="mapEventChanged" @status="mapEventStatus" />
     <BattleMapEventTag v-for="event in mapEventTags" :key="event.id" :info="event" @activate="activateMapStation" @release="releaseBattleInput" />
       <section v-if="bdExpanded" class="b3-bd-panel b3-card" :class="{expanded: bdExpanded}" aria-label="可用 BD" @pointerenter="releaseBattleInput" @pointerdown.stop @pointermove.stop @wheel.stop @keydown.stop>
@@ -534,9 +535,12 @@ const TEMPLATE = /* html */ `
   <BattleTraitEquipment v-if="openedPanel === 'trait-equipment'" @close="closeHUDPanel" @drop="spawnTraitEquipment" />
   <BattleSkillTooltip v-if="skillDetail && skillPickerSlot < 0 && beltPickSlot < 0 && !openedPanel" :detail="skillDetail" :position="skillDetailPosition" :icon="iconSrc('skill', skillDetail.id)" @hold="holdSkillDetails" @leave="leaveSkillDetails" />
   <BattleDungeonMap v-if="openedPanel === 'dungeon-map' && floorMap && hud.dungeon" expanded :layout="floorMap" :state="hud.dungeon" @release="releaseBattleInput" @close="closeHUDPanel" />
+  <BattleWindow v-if="openedPanel === 'craft'" title="工匠台" kind="craft" @close="closeHUDPanel">
+    <CraftBench :entries="craftEntries" :selected="inspector.pinned ? inspector.key : ''" :collections="store.collections" :counts="player.owned.item" @select="craftSelect" />
+  </BattleWindow>
   <BattleWindow v-if="openedPanel === 'quests'" title="任务日志" kind="quests" @close="closeHUDPanel">
     <div class="qc-legacy" v-if="quests[0] && quests[0].stage === 'reward'"><QuestJournal :quests="quests" :collections="store.collections" :library="store.library" :floor="hud.dungeon?.floor" :phase="hud.dungeon?.phase" @claim="claimTaskReward" @challenge="challengeQuestFloor" @continue="closeHUDPanel" /></div>
-    <ChainJournal :rows="journeyHud.rows" :collections="store.collections" :journey="player.journey" :talent-points="journeyHud.unspent" @claim="claimChain" />
+    <ChainJournal :rows="journeyHud.rows" :collections="store.collections" :library="store.library" :journey="player.journey" :talent-points="journeyHud.unspent" @claim="claimChain" />
   </BattleWindow>
   <BattleWindow v-if="openedPanel === 'talents'" title="天赋星盘" kind="talents" @close="closeHUDPanel">
     <TalentConstellation :in-battle="true" :runtime-attributes="hud.character?.attributes || []" @changed="releaseBattleInput" />
@@ -675,7 +679,7 @@ const TEMPLATE = /* html */ `
 export function mountBattle(el, { input = null, rendering = {}, initialPaused = false } = {}) {
   let api = { show() {}, hide() {} };
   const app = createApp({
-    components: { JourneyXpBar, ChainTracker, CoachMark, FeedbackLayer, ChainJournal, BattleMapEventTag, BattleStunOverlay, BattleTraitEquipment, BattleOutpostMerchant, BattleExitPortal, BattleMapEvents, QuestTracker, QuestJournal, TalentConstellation, AtlasMap, BattleItemPanel, BattleCompletion, BattleFunctions, BattleEquipmentMenu, BattleStackSplit, BattleWindow, BattleCharacterPanel, BattleBuildGuide, BattleSkillTooltip, BattleAuraState, BattleDungeonMap, BattleIconPicker, BattleLootHunter, BattlePlayerEffects, BattleDps, BattleSummonUnits, BattleMapCores },
+    components: { CraftBench, JourneyXpBar, ChainTracker, CoachMark, FeedbackLayer, ChainJournal, BattleMapEventTag, BattleStunOverlay, BattleTraitEquipment, BattleOutpostMerchant, BattleExitPortal, BattleMapEvents, QuestTracker, QuestJournal, TalentConstellation, AtlasMap, BattleItemPanel, BattleCompletion, BattleFunctions, BattleEquipmentMenu, BattleStackSplit, BattleWindow, BattleCharacterPanel, BattleBuildGuide, BattleSkillTooltip, BattleAuraState, BattleDungeonMap, BattleIconPicker, BattleLootHunter, BattlePlayerEffects, BattleDps, BattleSummonUnits, BattleMapCores },
     template: TEMPLATE,
     setup() {
       const stage = ref(null);
@@ -835,10 +839,10 @@ export function mountBattle(el, { input = null, rendering = {}, initialPaused = 
       const quests = computed(() => questRows(player));
       const trackedQuest = computed(() => quests.value.find(quest => quest.stage !== 'claimed'));
       const activeHUDFunction = computed(() => atlasOpen.value ? 'atlas' : eventMenuOpen.value ? 'events' : bdExpanded.value ? 'bd' : beltPickSlot.value >= 0 ? 'belt' : openedPanel.value === 'inventory' ? 'inventory'
-        : openedPanel.value === 'trait-equipment' ? 'trait-equipment' : openedPanel.value === 'character' ? 'character' : openedPanel.value === 'quests' ? 'quests' : openedPanel.value === 'dungeon-map' ? 'dungeon-map' : openedPanel.value === 'talents' ? 'talents' : openedPanel.value === 'builds' ? 'bd' : openedPanel.value === 'loadout' ? panelSection.value : hunter.visible ? 'hunter' : '');
+        : openedPanel.value === 'trait-equipment' ? 'trait-equipment' : openedPanel.value === 'character' ? 'character' : openedPanel.value === 'quests' ? 'quests' : openedPanel.value === 'dungeon-map' ? 'dungeon-map' : openedPanel.value === 'talents' ? 'talents' : openedPanel.value === 'craft' ? 'craft' : openedPanel.value === 'builds' ? 'bd' : openedPanel.value === 'loadout' ? panelSection.value : hunter.visible ? 'hunter' : '');
       let panelResumePaused = false;
       watch(openedPanel, (value, previous) => {
-        const pauses = panel => ['talents', 'quests', 'dungeon-map', 'trait-equipment'].includes(panel);
+        const pauses = panel => ['talents', 'quests', 'dungeon-map', 'trait-equipment', 'craft'].includes(panel);
         if(pauses(value) && !pauses(previous)) {panelResumePaused=paused.value;paused.value=true;releaseBattleInput();}
         else if(pauses(previous) && !pauses(value)) {paused.value=panelResumePaused;releaseBattleInput();}
       }, {flush:'sync'});
@@ -1518,7 +1522,7 @@ export function mountBattle(el, { input = null, rendering = {}, initialPaused = 
         if (id === 'restart') { closeHUDPanel(); restart(); return; }
         if (id === 'hunter') { hunter.visible = !hunter.visible; return; }
         if (id === 'shop') { goShop(); return; }
-        if (id === 'craft') { goCraft(); return; }
+        if (id === 'craft') { if (activeHUDFunction.value === 'craft') { closeHUDPanel(); inspector.close(); return; } closeAtlas(); openedPanel.value = 'craft'; return; }
         if (activeHUDFunction.value === id) { closeHUDPanel(); return; }
 
         if (id === 'inventory') {
@@ -1572,6 +1576,7 @@ export function mountBattle(el, { input = null, rendering = {}, initialPaused = 
         const b = battle; if (!b) return;
         const count = streak.hit(b.elapsed || 0), bonus = streak.bonus(count);
         if (count >= 3) { setStreak(count, bonus); if (count % 10 === 0) chime('streak'); }
+        if (count > (player.journey?.counters?.bestStreak || 0)) player.journey.counters.bestStreak = count;
         const result = recordJourneyKill(player, monster, b.floor || 1, bonus);
         const r = runOf(b); r.kills++; r.xp += result.gained;
         if (view && monster && result.gained) view.pop(monster.x, monster.y, `+${result.gained} 经验`, 'xp', 1.1);
@@ -1595,9 +1600,9 @@ export function mountBattle(el, { input = null, rendering = {}, initialPaused = 
           if (drop.kind === 'equipment' && drop.rarity === 'legendary') { toast('loot', '传奇掉落！', [drop.name + ' · 在地面上发光']); chime('legendary'); }
         }
       }
-      function claimChain(id) {
+      function claimChain(id, choiceUid = '') {
         if (!store.collections || !store.library) return;
-        const result = claimChainQuest(player, id, store.collections, store.library);
+        const result = claimChainQuest(player, id, store.collections, store.library, { choiceUid });
         if (result.error) { notify(result.error, true); return; }
         chime('claim');
         toast('quest', `已领取：${result.quest.name}`, result.granted.map(g => rewardLabel(g, store.collections)));
@@ -1607,6 +1612,16 @@ export function mountBattle(el, { input = null, rendering = {}, initialPaused = 
           const chapter = CHAPTERS.find(c => c.id === result.quest.chapter); banner('chapter', `${chapter.name.split('·')[0].trim()} 完成`, chapter.name.split('·')[1]?.trim() || '');
         }
         syncJourneyHud();
+      }
+      const playMode = document.documentElement.classList.contains('play-mode');
+      const craftEntries = computed(() => bagEntries.value.filter(e => e.kind === 'equipment').map(e => ({ ...e, detail: player.instances[e.id] || null })));
+      function craftSelect(key) {
+        const rect = document.querySelector('.b3-window-craft')?.getBoundingClientRect();
+        inspector.close(); inspector.key = key; inspector.pinned = true;
+        const stageBox = document.querySelector('.b3-window-craft .cb-stage')?.getBoundingClientRect();
+        inspector.x = stageBox ? Math.max(12, Math.min(window.innerWidth - 372, stageBox.left + (stageBox.width - 360) / 2)) : rect ? rect.right - 390 : 24;
+        inspector.y = stageBox ? stageBox.top : rect ? rect.top + 56 : 24;
+        releaseBattleInput();
       }
       function skipCoach() { skipTutorial(player, true); coach.guide = null; notify('已跳过新手引导，可在任务日志查看任务提示'); }
       function dismissCoachTip(id) { dismissTip(player, id); coach.tip = null; }
@@ -1649,7 +1664,10 @@ export function mountBattle(el, { input = null, rendering = {}, initialPaused = 
         }
         for (const id of observeChain(player)) {
           const q = QUEST_CHAIN.find(row => row.id === id);
-          toast('quest', `任务完成：${q.name}`, ['点击左侧任务卡「领取奖励」，或按 J']); chime('quest');
+          toast('quest', `任务完成：${q.name}`, [q.rewards.some(r => r.kind === 'choice') ? '有三选一奖励：点击左侧任务卡「选择奖励」，或按 J' : '点击左侧任务卡「领取奖励」，或按 J']); chime('quest');
+        }
+        for (const q of QUEST_CHAIN) if (player.questChain.entries[q.id]?.stage === 'done' && q.rewards.some(r => r.kind === 'choice') && !player.questChain.entries[q.id].choices?.length) {
+          try { prepareChoices(player, q.id, store.collections, store.library); } catch (error) { console.warn('任务奖励生成失败', error); }
         }
         syncJourneyHud();
         const j = player.journey, unspent = journeyHud.unspent;
@@ -1908,7 +1926,7 @@ export function mountBattle(el, { input = null, rendering = {}, initialPaused = 
 
       return {
         eventRunKey,eventMenuOpen,openMapEvent,closeMapEvent,mapEventChanged,mapEventStatus,mapEventUI,mapEventTags,activateMapStation,
-        quests, trackedQuest, claimTaskReward, challengeQuestFloor, journeyHud, coach, runSummary, claimChain, skipCoach, dismissCoachTip,
+        quests, trackedQuest, claimTaskReward, challengeQuestFloor, journeyHud, coach, runSummary, claimChain, skipCoach, dismissCoachTip, craftEntries, craftSelect, playMode,
         audioSettings, configureAudio, toggleAudio, previewAudio,
         outpostInfo,outpostOpen,battleHasOutpost,openOutpost,closeOutpost,syncHud,atlasState, atlasOpen, mapDeviceItems, atlasAttemptId, atlasCurrentNode, openAtlas, closeAtlas, selectAtlas, challengeAtlas, exitPortalInfo, useExitPortal,
         skillDetailSlot, auraDetailSlot, skillDetail, skillDetailPosition, showSkillDetails, showAuraDetails, leaveSkillDetails, holdSkillDetails,

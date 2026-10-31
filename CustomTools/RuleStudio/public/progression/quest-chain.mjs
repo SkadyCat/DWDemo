@@ -1,7 +1,7 @@
 // Story quest chain. Data-driven; objectives read the journey counters, so the
 // chain observes play instead of hooking into combat. Rewards use the existing
 // item catalogue and the normal equipment generator.
-import { rollEquipmentDrop } from '../equipment-generation.mjs';
+import { rollEquipmentDrop, rollEquipment } from '../equipment-generation.mjs';
 import { ensureJourney, grantXp } from './journey.mjs';
 import { mapItemId } from './config.mjs';
 
@@ -34,7 +34,7 @@ export const QUEST_CHAIN = R([
     rewards: [{ kind: 'item', id: 'chaos_orb', count: 2 }, { kind: 'stones', count: 80 }] }),
   R({ id: 'c1_talent', chapter: 'c1', name: '星盘初启', objective: { kind: 'talents', target: 2 },
     text: '在天赋星盘分配 2 点', hint: '每升一级获得 2 个天赋点。按 P 打开星盘，从中心沿连线点亮。',
-    rewards: [{ kind: 'talent', count: 1 }, { kind: 'xp', count: 120 }] }),
+    rewards: [{ kind: 'talent', count: 1 }, { kind: 'choice', pool: 'aura', rarity: 'magic', tier: 2, label: '三选一 · 光环饰品' }] }),
   // ---------------------------------------------------------------- Chapter 2
   R({ id: 'c2_scavenger', chapter: 'c2', name: '拾荒者', objective: { kind: 'counter', key: 'pickups', target: 12 },
     text: '拾取 12 件掉落', hint: '按 Z 显示地面掉落名称，点击或靠近即可拾取。',
@@ -54,7 +54,7 @@ export const QUEST_CHAIN = R([
     rewards: [{ kind: 'item', id: 'omen_offense', count: 1 }, { kind: 'item', id: 'spirit_stone_mid', count: 2 }] }),
   R({ id: 'c3_level10', chapter: 'c3', name: '历练', objective: { kind: 'level', target: 10 },
     text: '角色达到 10 级', hint: '高层怪物经验更多；连杀可额外获得最多 50% 经验。',
-    rewards: [{ kind: 'talent', count: 2 }, { kind: 'equipment', rarity: 'rare', tier: 5 }] }),
+    rewards: [{ kind: 'talent', count: 2 }, { kind: 'choice', pool: 'skill', rarity: 'rare', tier: 5, label: '三选一 · 技能饰品' }] }),
   R({ id: 'c3_floor5', chapter: 'c3', name: '第五层', objective: { kind: 'maxFloor', target: 5 },
     text: '通关第 5 层', hint: '怪物气血每层翻倍。记得更新装备并洗炼核心词条。',
     rewards: [{ kind: 'item', id: mapItemId(5, 'magic'), count: 2 }, { kind: 'item', id: 'spirit_stone_high', count: 1 }] }),
@@ -63,14 +63,14 @@ export const QUEST_CHAIN = R([
     rewards: [{ kind: 'item', id: 'wish_crystal', count: 1 }, { kind: 'xp', count: 900 }] }),
   R({ id: 'c3_floor10', chapter: 'c3', name: '第十层', objective: { kind: 'maxFloor', target: 10 },
     text: '通关第 10 层', hint: '第 11 层起会出现更危险的异界怪物。',
-    rewards: [{ kind: 'equipment', rarity: 'legendary', tier: 8 }, { kind: 'talent', count: 3 }] }),
+    rewards: [{ kind: 'choice', pool: 'legendary', rarity: 'legendary', tier: 8, label: '三选一 · 传奇装备' }, { kind: 'talent', count: 3 }] }),
   // ---------------------------------------------------------------- Chapter 4
   R({ id: 'c4_rift', chapter: 'c4', name: '异界裂隙', objective: { kind: 'maxFloor', target: 11 },
     text: '通关第 11 层', hint: '异界怪物会施放强力技能；注意躲避（Shift）与药剂。',
     rewards: [{ kind: 'item', id: 'spirit_stone_high', count: 2 }, { kind: 'item', id: 'quad_affix_orb', count: 2 }] }),
   R({ id: 'c4_level25', chapter: 'c4', name: '强者之路', objective: { kind: 'level', target: 25 },
     text: '角色达到 25 级', hint: '星盘上的传奇节点能改变流派，值得规划路线。',
-    rewards: [{ kind: 'talent', count: 3 }, { kind: 'equipment', rarity: 'legendary', tier: 10 }] }),
+    rewards: [{ kind: 'talent', count: 3 }, { kind: 'choice', pool: 'legendary', rarity: 'legendary', tier: 10, label: '三选一 · 传奇装备' }] }),
   R({ id: 'c4_summit', chapter: 'c4', name: '登顶', objective: { kind: 'maxFloor', target: 16 },
     text: '通关第 16 层', hint: '全部地图层级的最高处。',
     rewards: [{ kind: 'equipment', rarity: 'legendary', tier: 10 }, { kind: 'item', id: 'wish_crystal', count: 3 }, { kind: 'xp', count: 20000 }] }),
@@ -128,7 +128,7 @@ export function chainRows(player) {
   return QUEST_CHAIN.map((quest, index) => {
     const entry = player.questChain.entries[quest.id];
     const stage = entry?.stage || 'locked';
-    return { ...quest, index, stage, progress: entry ? questProgress(player, quest, entry) : { current: 0, target: quest.objective.target ?? 1, done: false } };
+    return { ...quest, index, stage, choices: entry?.choices || [], progress: entry ? questProgress(player, quest, entry) : { current: 0, target: quest.objective.target ?? 1, done: false } };
   });
 }
 
@@ -147,11 +147,33 @@ function rollRewardEquipment(reward, collections, library, random) {
   return item;
 }
 
+const SKILL_JEWELRY = ['cinder_guard_amulet', 'cinder_guard_ring', 'vector_control_ring', 'wind_breath_amulet', 'wind_breath_ring'];
+/** Bases a choice reward draws from: three distinct ones are offered. */
+export function choiceBases(pool, collections) {
+  const docs = [...collections.equipment.values()].map(e => e.doc).filter(Boolean);
+  if (pool === 'aura') return docs.filter(d => d.slot === 'ring' && d.id.startsWith('aura_') && !d.id.startsWith('aura_resist_'));
+  if (pool === 'skill') return docs.filter(d => SKILL_JEWELRY.includes(d.id));
+  if (pool === 'legendary') return docs.filter(d => d.rarity === 'legendary' && !['map', 'tower', 'lineage', 'rarity', 'character'].includes(d.slot) && !/^embers_echo_[2-5]_|_t\d+_/.test(d.id));
+  return [];
+}
+
+/** Roll a completed quest's choice once; the rolled items are stored so reloading never rerolls. */
+export function prepareChoices(player, id, collections, library, { random = Math.random } = {}) {
+  const quest = QUEST_CHAIN.find(q => q.id === id), entry = player.questChain?.entries?.[id];
+  const reward = quest?.rewards.find(r => r.kind === 'choice');
+  if (!reward || !entry || entry.stage !== 'done' || entry.choices?.length) return entry?.choices || [];
+  const bases = [...choiceBases(reward.pool, collections)];
+  const picks = [];
+  while (picks.length < 3 && bases.length) picks.push(bases.splice(Math.floor(random() * bases.length), 1)[0]);
+  entry.choices = picks.map((base, i) => rollEquipment(base, library, { rarity: base.rarity === 'legendary' ? 'legendary' : reward.rarity, tier: reward.tier, random, uid: `quest_${id}_${i}_${Date.now().toString(36)}` }));
+  return entry.choices;
+}
+
 /**
  * Claim one completed quest. All rewards are created before anything is
  * granted, so a failed equipment roll leaves the save untouched.
  */
-export function claimChainQuest(player, id, collections, library, { random = Math.random } = {}) {
+export function claimChainQuest(player, id, collections, library, { random = Math.random, choiceUid = '' } = {}) {
   ensureChain(player);
   const quest = QUEST_CHAIN.find(q => q.id === id), entry = player.questChain.entries[id];
   if (!quest || !entry) return { error: '任务不存在' };
@@ -160,7 +182,11 @@ export function claimChainQuest(player, id, collections, library, { random = Mat
   const granted = [];
   try {
     for (const reward of quest.rewards) {
-      if (reward.kind === 'equipment') granted.push({ ...reward, item: rollRewardEquipment(reward, collections, library, random) });
+      if (reward.kind === 'choice') {
+        const item = (entry.choices || []).find(c => c.uid === choiceUid);
+        if (!item) throw Error('请先从三件奖励中选择一件');
+        granted.push({ ...reward, kind: 'equipment', item: JSON.parse(JSON.stringify(item)) });
+      } else if (reward.kind === 'equipment') granted.push({ ...reward, item: rollRewardEquipment(reward, collections, library, random) });
       else if (reward.kind === 'item' && !collections.item?.get(reward.id)?.doc) throw Error(`奖励物品不存在：${reward.id}`);
       else granted.push(reward);
     }
@@ -173,7 +199,7 @@ export function claimChainQuest(player, id, collections, library, { random = Mat
     else if (reward.kind === 'xp') xp = grantXp(player, reward.count);
     else if (reward.kind === 'equipment') player.instances[reward.item.uid] = reward.item;
   }
-  entry.stage = 'claimed';
+  entry.stage = 'claimed'; delete entry.choices;
   ensureChain(player);
   return { error: '', quest, granted, xp };
 }
@@ -184,5 +210,6 @@ export function rewardLabel(reward, collections) {
   if (reward.kind === 'talent') return `天赋点 +${reward.count}`;
   if (reward.kind === 'item') return `${collections?.item?.get(reward.id)?.doc?.name || reward.id} ×${reward.count}`;
   if (reward.kind === 'equipment') return reward.item ? reward.item.name : `${{ magic: '魔法', rare: '稀有', legendary: '传奇' }[reward.rarity] || ''} T${reward.tier} 装备`;
+  if (reward.kind === 'choice') return `${reward.label} T${reward.tier}`;
   return '';
 }

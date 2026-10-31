@@ -1,4 +1,5 @@
 import test from 'node:test';
+import { TOWER_LIFE, TOWER_DAMAGE, eligibleMonsterTypes } from './rule-fixture.mjs';
 import assert from 'node:assert/strict';
 import { readRuleFiles } from '../scripts/rule-files.mjs';
 import { checkRuleSet, validateTraitValueEntry, statusKey, MONSTER_RARITY_EQUIPMENT, ERedirect, EElement } from '../engine/index.mjs';
@@ -148,8 +149,8 @@ test('灾厄谱系: ricochet and return change real carrier directions after con
 test('灾厄谱系: life-to-damage lineages grow with actual tower life instead of a separate hidden bonus', () => {
   for (const id of ['abyssal_return', 'ember_apocalypse', 'bloodfeast_tyrant']) {
     const first = measure(id), fourth = measure(id, { floor: 4 });
-    assert.ok(Math.abs(fourth.m.maxHealth / first.m.maxHealth - 8) < 1e-5);
-    assert.ok(fourth.hitDamage / first.hitDamage > 1.2 ** 3 * 1.5, `${id}: life conversion adds damage beyond the ordinary tower multiplier`);
+    assert.ok(Math.abs(fourth.m.maxHealth / first.m.maxHealth - TOWER_LIFE ** 3) < 1e-5);
+    assert.ok(fourth.hitDamage / first.hitDamage > TOWER_DAMAGE ** 3 * 1.2, `${id}: life conversion adds damage beyond the ordinary tower multiplier`);
     fourth.b.setMonsterEquipment(fourth.m, 'lineage', null);
     const naked = measure(id, { equipped: false, floor: 4 });
     assert.ok(Math.abs(fourth.m.maxHealth - naked.m.maxHealth) < 1e-5);
@@ -180,7 +181,7 @@ test('灾厄谱系: floors 1–10 only spawn the original three lineages in all 
 
 test('灾厄谱系: floor 11 normal mixed encounters really spawn all six advanced lineages', () => {
   const b = new DungeonBattle(files, { collections: check.collections, monsterTypes: [...check.monsters.values()].map(entry => entry.doc), floor: 11, monsterCount: 300, seed: 18 });
-  assert.equal(b.monsterTypes.length, 9);
+  assert.equal(b.monsterTypes.length, eligibleMonsterTypes([...check.monsters.values()].map(entry => entry.doc), 11).length);
   b.setLoadout({ skills: [] }); b.step(1 / 60);
   const seen = new Set();
   for (let wave = 0; wave < 3; wave++) {
@@ -193,11 +194,11 @@ test('灾厄谱系: floor 11 normal mixed encounters really spawn all six advanc
 test('灾厄谱系: advancing from floor 10 to 11 rebuilds the eligible pool from all authored types', () => {
   const tower = new TowerRun(files, { collections: check.collections, monsterTypes: [...check.monsters.values()].map(entry => entry.doc), seed: 18 });
   tower.floor = 10; tower.startFloor();
-  assert.equal(tower.battle.monsterTypes.length, 3);
+  assert.equal(tower.battle.monsterTypes.length, eligibleMonsterTypes([...check.monsters.values()].map(entry => entry.doc), 10).length);
   tower.battle.phase = 'cleared';
   assert.equal(tower.advance(), true);
   assert.equal(tower.floor, 11);
-  assert.equal(tower.battle.monsterTypes.length, 9);
+  assert.equal(tower.battle.monsterTypes.length, eligibleMonsterTypes([...check.monsters.values()].map(entry => entry.doc), 11).length);
   tower.battle.step(1 / 60);
   assert.ok(tower.battle.monsters.some(m => ids.includes(m.type.id)));
 });

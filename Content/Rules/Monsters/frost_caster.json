@@ -3,7 +3,7 @@
   "name": "寒霜术士",
   "description": "进入射程后释放冰锥，贴身时以爪击还击。",
   "enabled": true,
-  "weight": 2,
+  "weight": 4,
   "health": 60,
   "speed": 250,
   "stopDistance": 650,

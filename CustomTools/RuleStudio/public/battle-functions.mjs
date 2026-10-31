@@ -24,13 +24,13 @@ export const BATTLE_FUNCTIONS = [
   ] },
   { id: 'tools', name: '交易', items: [
     { id: 'shop', name: '商店', path: 'M3 9h18L19 3H5L3 9Zm1 0v12h16V9M8 21v-7h8v7M3 9a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 6 0' },
-    { id: 'craft', name: '洗炼', path: 'm3 5 4-3 7 7-4 4-7-8Zm8 7 8 9 3-3-9-8M2 22h8M5 18v4' },
+    { id: 'craft', name: '工匠台 · 洗炼', path: 'm3 5 4-3 7 7-4 4-7-8Zm8 7 8 9 3-3-9-8M2 22h8M5 18v4' },
     { id: 'restart', name: '重置当前层', path: 'M4 10a8 8 0 1 1 1.8 7.2M4 4v6h6' },
   ] },
 ];
 export const BattleFunctions = {
-  props: { ready: { type: Boolean, default: true }, mapReady: Boolean, active: String, hunterActive: Boolean }, emits: ['activate', 'release'],
-  data: () => ({ groups: BATTLE_FUNCTIONS }),
+  props: { ready: { type: Boolean, default: true }, mapReady: Boolean, active: String, hunterActive: Boolean, hidden: { type: Array, default: () => [] } }, emits: ['activate', 'release'],
+  computed: { groups() { return BATTLE_FUNCTIONS.map(g => ({ ...g, items: g.items.filter(i => !this.hidden.includes(i.id)) })).filter(g => g.items.length); } },
   template: /* html */ `<nav class="b3-functions" aria-label="战斗功能图标栏" @pointerenter="$emit('release')" @pointerdown.stop @pointermove.stop @wheel.stop>
     <div v-for="group in groups" :key="group.id" class="b3-function-group" role="group" :aria-label="group.name">
       <button v-for="item in group.items" :key="item.id" type="button" :data-battle-function="item.id" :aria-label="item.name" :title="item.name + (item.id === 'hunter' ? (hunterActive ? '（过滤已开启）' : '（显示全部）') : item.key ? ' [' + item.key + ']' : '')" :aria-pressed="active === item.id" :aria-expanded="item.id === 'events' ? active === item.id : undefined" :aria-controls="item.id === 'events' ? 'battle-event-menu' : undefined" :disabled="item.id === 'restart' && !ready || !mapReady && ['map','lineage'].includes(item.id)" @click="$emit('activate', item.id)">

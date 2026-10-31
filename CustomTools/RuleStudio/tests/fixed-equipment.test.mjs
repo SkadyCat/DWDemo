@@ -1,4 +1,5 @@
 import test from 'node:test';
+import { TOWER_LIFE, TOWER_DAMAGE } from './rule-fixture.mjs';
 import assert from 'node:assert/strict';
 import { readRuleFiles } from '../scripts/rule-files.mjs';
 import {
@@ -66,14 +67,14 @@ test('怪物固定装备: all three slots aggregate existing affixes and removin
   b.setLoadout({ skills: [] }); b.spawnMonsters(2);
   const [m, other] = b.monsters;
   b.setMonsterEquipment(m, 'tower', monsterTowerEquipment(own.collections, 2));
-  near(m.maxHealth, (m.baseMaxHealth + 60) * 2);
+  near(m.maxHealth, (m.baseMaxHealth + 60) * TOWER_LIFE);
   for (const slot of MONSTER_FIXED_SLOTS) assert.notEqual(m.equipment[slot.id], other.equipment[slot.id]);
   Object.assign(m, { x: -100, y: 0, cooldown: 99 }); other.cooldown = 99; b.step(1 / 60); m.cooldown = 0;
   const hits = []; b.host.world.trace = (kind, row) => { if (kind === 'damage') hits.push(row); };
-  b.step(1 / 60); assert.equal(hits.length, 2); near(hits[0].raw, 7 * 1.2); near(hits[1].raw, 8 * 1.2);
+  b.step(1 / 60); assert.equal(hits.length, 2); near(hits[0].raw, 7 * TOWER_DAMAGE); near(hits[1].raw, 8 * TOWER_DAMAGE);
   m.health = m.maxHealth / 2;
-  b.setMonsterEquipment(m, 'lineage', null); near(m.maxHealth, (m.baseMaxHealth + 50) * 2); near(m.health, m.maxHealth / 2);
-  b.setMonsterEquipment(m, 'rarity', null); near(m.maxHealth, (m.baseMaxHealth + 30) * 2);
+  b.setMonsterEquipment(m, 'lineage', null); near(m.maxHealth, (m.baseMaxHealth + 50) * TOWER_LIFE); near(m.health, m.maxHealth / 2);
+  b.setMonsterEquipment(m, 'rarity', null); near(m.maxHealth, (m.baseMaxHealth + 30) * TOWER_LIFE);
   b.setMonsterEquipment(m, 'tower', null); near(m.maxHealth, m.baseMaxHealth);
 });
 

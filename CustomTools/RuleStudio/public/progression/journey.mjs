@@ -1,6 +1,6 @@
 // Character journey: level, experience, lifetime counters and first clears.
 // Pure state transitions over the player save; no DOM, no combat rules.
-import { MAX_LEVEL, xpToNext, KILL_XP, FLOOR_XP_GROWTH, LEVEL_GROWTH, talentPointsFor, FIRST_CLEAR_XP, MAX_MAP_TIER, mapItemId,
+import { MAX_LEVEL, xpToNext, KILL_XP, FLOOR_XP_GROWTH, LEVEL_GROWTH, INNATE_ATTRIBUTES, talentPointsFor, FIRST_CLEAR_XP, MAX_MAP_TIER, mapItemId,
   STREAK_WINDOW, STREAK_BONUS_PER_KILL, STREAK_BONUS_CAP } from './config.mjs';
 
 export const JOURNEY_VERSION = 1;
@@ -23,11 +23,14 @@ export function ensureJourney(player) {
   return j;
 }
 
-/** A synthetic passive part: ordinary affix lines the engine already understands. */
+/**
+ * The character's own passive part: innate attribute conversions plus level
+ * growth, as ordinary affix lines the engine already understands.
+ */
 export function levelPart(level) {
   const gained = Math.max(0, Math.min(MAX_LEVEL, level) - 1);
-  if (!gained) return null;
-  const traits = LEVEL_GROWTH.map(g => ({ id: g.id, params: { n: g.perLevel * gained }, with: [] }));
+  const traits = INNATE_ATTRIBUTES.map(a => ({ id: a.id, params: { ...a.params }, with: [] }));
+  if (gained) traits.push(...LEVEL_GROWTH.map(g => ({ id: g.id, params: { n: g.perLevel * gained }, with: [] })));
   return { kind: 'level', label: `角色等级 ${level}`, doc: { id: `character_level_${level}`, name: `角色等级 ${level}`, traits, bases: [] } };
 }
 

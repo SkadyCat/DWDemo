@@ -33,7 +33,7 @@ test('等级：击杀经验按稀有度与层数增长，首领最多', () => {
 });
 
 test('等级：等级加成是普通词条，经由现有规则引擎聚合，提高气血与伤害', () => {
-  assert.equal(levelPart(1), null);
+  assert.ok(levelPart(1).doc.traits.every(t => !['life_base', 'inc_elemental'].includes(t.id)), '1 级只有天生属性换算');
   const part = levelPart(10);
   for (const trait of part.doc.traits) assert.ok(library.trait(trait.id), trait.id);
   const plain = new Battle(files, { collections, maxMonsters: 0, spawnRate: 0, seed: 3 });
@@ -93,4 +93,22 @@ test('新手引导：按真实行为推进，已满足的步骤静默完成', ()
   const all = { ...ctx, moved: 5, damageDealt: 1, kills: 9, pickups: 2, floorsCleared: 1, firstWeaponClaimed: true, equips: 1, mapsEntered: 1 };
   const v = tutorialView(p, all); assert.equal(v.guide, null); assert.equal(v.finished, true); assert.equal(p.tutorial.completed.length, TUTORIAL_STEPS.length);
   assert.equal(tutorialView(p, { ...all, unspentTalents: 2, level: 2 }).tip.id, 'talent');
+});
+
+test('任务链：三选一奖励只生成一次，必须选择其中一件，领取后其余消失', async () => {
+  const { prepareChoices, choiceBases } = await import('../public/progression/quest-chain.mjs');
+  for (const pool of ['aura', 'skill', 'legendary']) assert.ok(choiceBases(pool, collections).length >= 3, pool);
+  const p = player(); ensureJourney(p); ensureChain(p);
+  for (const q of QUEST_CHAIN) p.questChain.entries[q.id] = { stage: 'claimed', start: 0 };
+  p.questChain.entries.c1_talent = { stage: 'done', start: 0 };
+  const choices = prepareChoices(p, 'c1_talent', collections, library, { random: equipmentRandom(5) });
+  assert.equal(choices.length, 3); assert.equal(new Set(choices.map(c => c.baseId)).size, 3);
+  for (const c of choices) { assert.equal(c.slot, 'ring'); assert.ok(c.skill || collections.equipment.get(c.baseId).doc.skills.length); }
+  assert.equal(prepareChoices(p, 'c1_talent', collections, library, { random: () => { throw Error('重复生成'); } }), choices);
+  assert.match(claimChainQuest(p, 'c1_talent', collections, library).error, /选择/);
+  const picked = choices[1], before = Object.keys(p.instances).length;
+  assert.equal(claimChainQuest(p, 'c1_talent', collections, library, { choiceUid: picked.uid }).error, '');
+  assert.equal(Object.keys(p.instances).length, before + 1); assert.ok(p.instances[picked.uid]);
+  for (const other of [choices[0], choices[2]]) assert.ok(!p.instances[other.uid]);
+  assert.equal(p.questChain.entries.c1_talent.stage, 'claimed'); assert.equal(p.questChain.entries.c1_talent.choices, undefined);
 });

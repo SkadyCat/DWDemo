@@ -3,7 +3,7 @@
   "name": "裂爪兽",
   "description": "追近目标后交替使用爪击与重击。",
   "enabled": true,
-  "weight": 5,
+  "weight": 10,
   "health": 75,
   "speed": 310,
   "stopDistance": 110,
