@@ -22,7 +22,8 @@
     "test:summon-myriad": "node --test tests/summon-myriad-bd.test.mjs",
     "test:embers-echo": "node --test tests/embers-echo.test.mjs",
     "test:equipment-bases": "node --test tests/equipment-bases.test.mjs",
-    "test:progression": "node --test tests/progression.test.mjs tests/weapons.test.mjs"
+    "test:progression": "node --test tests/progression.test.mjs tests/weapons.test.mjs",
+    "talents:icons": "node scripts/talent-icons.mjs"
   },
   "devDependencies": {
     "cos-nodejs-sdk-v5": "3.0.0",

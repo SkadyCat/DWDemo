@@ -116,3 +116,7 @@
 .b3-window-talents{width:calc(100vw - 72px);height:calc(100vh - 72px);max-width:none;max-height:none}
 .b3-window-talents .b3-window-content{flex:1;min-height:0;padding:0;overflow:hidden}
 .b3-window-talents .tt-page{height:100%}
+/* Atlas icons: dimmed until the node is allocated */
+.tt-icon{pointer-events:none;opacity:.55;filter:grayscale(.55) brightness(.85)}
+.tt-node.reach .tt-icon,.tt-node.route .tt-icon{opacity:.8;filter:grayscale(.2)}
+.tt-node.lit .tt-icon,.tt-node:hover .tt-icon{opacity:1;filter:none}

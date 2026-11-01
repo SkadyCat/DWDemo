@@ -31,10 +31,11 @@ const TEMPLATE = /*html*/`
       <g class="tt-edges"><path v-for="e in edges" :key="e.key" :d="e.d" :class="{lit: isOn(e.a.id) && isOn(e.b.id), route: routeEdges.has(e.key)}"/></g>
       <g v-for="n in tree.nodes" :key="n.id" :transform="'translate(' + n.x + ',' + n.y + ')'" class="tt-node" :class="[n.kind, {lit: isOn(n.id), route: routeIds.has(n.id), reach: availableIds.has(n.id), match: matchIds.has(n.id), dim: query && !matchIds.has(n.id)}]" :style="{'--c': colorOf(n)}" :data-node="n.id" role="button" :aria-label="n.name + ' · ' + (isOn(n.id) ? '已点亮' : '未点亮')" @pointerenter="hover(n, $event)" @pointerleave="unhover(n)" @click.stop="clickNode(n)" @contextmenu.prevent.stop="refundAt(n)">
         <circle :r="radius(n) + 8" class="tt-hit"/>
-        <template v-if="n.kind === 'keystone'"><path class="tt-shape" :d="hexPath(radius(n))"/><path class="tt-inner" :d="hexPath(radius(n) - 6)"/><text class="tt-glyph" y="6">{{ sectorOf(n).glyph || '◆' }}</text></template>
+        <template v-if="n.kind === 'keystone'"><path class="tt-shape" :d="hexPath(radius(n))"/><path class="tt-inner" :d="hexPath(radius(n) - 6)"/><text v-if="!iconOf(n)" class="tt-glyph" y="6">{{ sectorOf(n).glyph || '◆' }}</text></template>
         <template v-else-if="n.kind === 'notable'"><circle class="tt-shape" :r="radius(n)"/><circle class="tt-inner" :r="radius(n) - 5"/><text v-if="zoom > 1.6" class="tt-name" :y="radius(n) + 16">{{ n.name }}</text></template>
         <template v-else-if="n.kind === 'origin'"><circle class="tt-shape" :r="radius(n)"/><path class="tt-star" d="M0 -16 5 -5 16 0 5 5 0 16 -5 5 -16 0 -5 -5Z"/></template>
-        <template v-else><circle class="tt-shape" :r="radius(n)"/><text v-if="zoom > 2.2 && ATTR_GLYPH[n.name]" class="tt-attr" y="4">{{ ATTR_GLYPH[n.name] }}</text></template>
+        <template v-else><circle class="tt-shape" :r="radius(n)"/><text v-if="zoom > 2.2 && ATTR_GLYPH[n.name] && !iconOf(n)" class="tt-attr" y="4">{{ ATTR_GLYPH[n.name] }}</text></template>
+        <svg v-if="iconOf(n)" class="tt-icon" :x="-iconSize(n) / 2" :y="-iconSize(n) / 2" :width="iconSize(n)" :height="iconSize(n)" :viewBox="iconOf(n).box"><image :href="iconOf(n).href" :width="iconOf(n).w" :height="iconOf(n).w" preserveAspectRatio="none"/></svg>
         <text v-if="n.kind === 'keystone' && zoom > 1.1" class="tt-name key" :y="radius(n) + 18">{{ n.name }}</text>
       </g>
     </svg>
@@ -134,6 +135,23 @@ export const TalentConstellation = {
       if (arc) { const cross = (na.x - arc.cx) * (nb.y - arc.cy) - (na.y - arc.cy) * (nb.x - arc.cx); d = `M${na.x} ${na.y}A${arc.r} ${arc.r} 0 0 ${cross > 0 ? 1 : 0} ${nb.x} ${nb.y}`; }
       return { a: na, b: nb, key, d };
     }));
+
+    // Icons: 3×3 atlases listed in the icon plan; each sheet shows up as soon as its PNG exists.
+    const iconCells = reactive({});
+    (async () => {
+      try {
+        const plan = await (await fetch('/talents/icons/six-domains/imagegen-plan.json', { cache: 'no-store' })).json();
+        for (const [key, href] of Object.entries(plan.attributes || {})) iconCells[key] = { href, box: '0 0 100 100', w: 100 };
+        for (const sheet of plan.sheets || []) {
+          const href = `${plan.folder}/${sheet.file}`, img = new Image();
+          img.onload = () => { for (const e of sheet.entries) iconCells[e.key] = { href, box: `${e.column * 100} ${e.row * 100} 100 100`, w: 300 }; };
+          img.src = href;
+        }
+      } catch { /* icons are optional */ }
+    })();
+    const iconOf = n => n?.icon ? iconCells[n.icon] || null : null;
+    const ICON_SIZE = { keystone: 36, notable: 26, small: 15, attribute: 15 };
+    const iconSize = n => ICON_SIZE[n.kind] || 15;
 
     // Hover route: the shortest unlit path the click would buy.
     const hoverId = ref('');
@@ -252,7 +270,7 @@ export const TalentConstellation = {
     watch(svg, el => { resizeObserver?.disconnect(); if (!el) return; resizeObserver = new ResizeObserver(([entry]) => { if (entry.contentRect.width > 0 && entry.contentRect.height > 0) camera.aspect = entry.contentRect.width / entry.contentRect.height; }); resizeObserver.observe(el); });
     onBeforeUnmount(() => { resizeObserver?.disconnect(); clearTimeout(messageTimer); });
 
-    return { ATTR_GLYPH, store, talentStore, inBattle: props.inBattle, tree, draft, svg, mapWrap, query, hoverSector, message, messageBad, tip, tipStyle, KIND_NAME,
+    return { ATTR_GLYPH, iconOf, iconSize, store, talentStore, inBattle: props.inBattle, tree, draft, svg, mapWrap, query, hoverSector, message, messageBad, tip, tipStyle, KIND_NAME,
       isOn, spent, remaining, availableIds, catalogError, sectorOf, colorOf, radius, hexPath, edges, routeIds, routeEdges, effectLines, hover, unhover,
       clickNode, refundAt, matchIds, domainArcs, countIn, pickedMajor, totalLines, zoom, viewBox, overview, zoomBy, wheel, panStart, panMove, panEnd,
       focusNode, focusSector, setBudget, clearPlan, applied, apply, exportPlan, importPlan };

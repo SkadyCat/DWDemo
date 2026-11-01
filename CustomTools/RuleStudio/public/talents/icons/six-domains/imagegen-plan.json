@@ -1,0 +1,1038 @@
+{
+ "generator": "Built-in image_gen",
+ "tree": "six-domains",
+ "revision": 2,
+ "transparentBackground": true,
+ "grid": {
+  "rows": 3,
+  "columns": 3
+ },
+ "folder": "/talents/icons/six-domains",
+ "count": 103,
+ "attributes": {
+  "attr-strength": "/talents/icons/strength.png",
+  "attr-dexterity": "/talents/icons/dexterity.png",
+  "attr-intelligence": "/talents/icons/intelligence.png",
+  "attr-constitution": "/talents/icons/constitution.png"
+ },
+ "sheets": [
+  {
+   "id": "ks-01",
+   "file": "ks-01.png",
+   "entries": [
+    {
+     "key": "ks-blight-1",
+     "name": "瘟疫之主",
+     "kind": "keystone",
+     "sector": "blight",
+     "row": 0,
+     "column": 0,
+     "motif": "a jade green poison flask with three stacked drops rising above it"
+    },
+    {
+     "key": "ks-blight-2",
+     "name": "虚无吞噬",
+     "kind": "keystone",
+     "sector": "blight",
+     "row": 0,
+     "column": 1,
+     "motif": "a violet void spiral swallowing a jagged jade crack"
+    },
+    {
+     "key": "ks-flame-1",
+     "name": "燎原",
+     "kind": "keystone",
+     "sector": "flame",
+     "row": 0,
+     "column": 2,
+     "motif": "a wide orange wildfire spreading over three small flames in a row"
+    },
+    {
+     "key": "ks-flame-2",
+     "name": "以血为薪",
+     "kind": "keystone",
+     "sector": "flame",
+     "row": 1,
+     "column": 0,
+     "motif": "a crimson blood drop burning with a tall orange flame on top"
+    },
+    {
+     "key": "ks-frost-1",
+     "name": "永冬之心",
+     "kind": "keystone",
+     "sector": "frost",
+     "row": 1,
+     "column": 1,
+     "motif": "a frozen heart-shaped crystal of ice blue locked inside a thick frost ring"
+    },
+    {
+     "key": "ks-frost-2",
+     "name": "冰魄碎裂",
+     "kind": "keystone",
+     "sector": "frost",
+     "row": 1,
+     "column": 2,
+     "motif": "an ice blue crystal shattering into three sharp shards"
+    },
+    {
+     "key": "ks-iron-1",
+     "name": "不灭之躯",
+     "kind": "keystone",
+     "sector": "iron",
+     "row": 2,
+     "column": 0,
+     "motif": "a crimson heart standing behind a thick iron shield"
+    },
+    {
+     "key": "ks-iron-2",
+     "name": "狂战",
+     "kind": "keystone",
+     "sector": "iron",
+     "row": 2,
+     "column": 1,
+     "motif": "two crossed iron axes over a cracked crimson heart"
+    },
+    {
+     "key": "ks-spirit-1",
+     "name": "统御",
+     "kind": "keystone",
+     "sector": "spirit",
+     "row": 2,
+     "column": 2,
+     "motif": "a teal crown floating above three small teal spirit wisps"
+    }
+   ],
+   "prompt": "Use case: stylized-concept. Asset type: production game UI icon atlas. Draw exactly a 3 by 3 regular grid on one square canvas with 9 separate dark-fantasy keystone talent icons. Transparent background with real alpha. No visible grid lines, no dividers, no tiles, no frames, no lettering, no labels, no numbers, no watermark. Every cell occupies exactly one third of canvas width and height; centers at 1/6, 3/6 and 5/6 of canvas. Each icon stays fully inside its own cell and fills about 64% of cell width or height, leaving generous transparent gutters. Never move an icon into another cell and never merge cells. Preserve the full square canvas even when some cells are empty.\nStyle: very simple hand-painted game emblems, bold clear silhouettes, only two or three large forms per icon, broad flat color facets, subtle bevel on one edge. Readable at 32 pixels. Reduce detail strongly: no tiny decorations, no complex scene, no characters, no lighting effects, no particles, no outer glow, no backdrop or cast shadows. Use warm gold accents with orange for fire, ice blue for frost, gold for lightning, jade for poison, crimson for life, teal for summons, blue silver for shields and violet for void. Consistent visual weight and edge treatment across the nine icons. Each motif below is a separate icon; do not draw these descriptions as text.\nRow 1, column 1: a jade green poison flask with three stacked drops rising above it.\nRow 1, column 2: a violet void spiral swallowing a jagged jade crack.\nRow 1, column 3: a wide orange wildfire spreading over three small flames in a row.\nRow 2, column 1: a crimson blood drop burning with a tall orange flame on top.\nRow 2, column 2: a frozen heart-shaped crystal of ice blue locked inside a thick frost ring.\nRow 2, column 3: an ice blue crystal shattering into three sharp shards.\nRow 3, column 1: a crimson heart standing behind a thick iron shield.\nRow 3, column 2: two crossed iron axes over a cracked crimson heart.\nRow 3, column 3: a teal crown floating above three small teal spirit wisps."
+  },
+  {
+   "id": "ks-02",
+   "file": "ks-02.png",
+   "entries": [
+    {
+     "key": "ks-spirit-2",
+     "name": "血契",
+     "kind": "keystone",
+     "sector": "spirit",
+     "row": 0,
+     "column": 0,
+     "motif": "a teal spirit wisp chained to a crimson blood drop"
+    },
+    {
+     "key": "ks-storm-1",
+     "name": "过载",
+     "kind": "keystone",
+     "sector": "storm",
+     "row": 0,
+     "column": 1,
+     "motif": "a golden lightning bolt bursting out of a cracked crimson blood drop"
+    },
+    {
+     "key": "ks-storm-2",
+     "name": "雷暴连锁",
+     "kind": "keystone",
+     "sector": "storm",
+     "row": 0,
+     "column": 2,
+     "motif": "a golden lightning bolt zigzagging through three linked rings"
+    }
+   ],
+   "prompt": "Use case: stylized-concept. Asset type: production game UI icon atlas. Draw exactly a 3 by 3 regular grid on one square canvas with 9 separate dark-fantasy keystone talent icons. Transparent background with real alpha. No visible grid lines, no dividers, no tiles, no frames, no lettering, no labels, no numbers, no watermark. Every cell occupies exactly one third of canvas width and height; centers at 1/6, 3/6 and 5/6 of canvas. Each icon stays fully inside its own cell and fills about 64% of cell width or height, leaving generous transparent gutters. Never move an icon into another cell and never merge cells. Preserve the full square canvas even when some cells are empty.\nStyle: very simple hand-painted game emblems, bold clear silhouettes, only two or three large forms per icon, broad flat color facets, subtle bevel on one edge. Readable at 32 pixels. Reduce detail strongly: no tiny decorations, no complex scene, no characters, no lighting effects, no particles, no outer glow, no backdrop or cast shadows. Use warm gold accents with orange for fire, ice blue for frost, gold for lightning, jade for poison, crimson for life, teal for summons, blue silver for shields and violet for void. Consistent visual weight and edge treatment across the nine icons. Each motif below is a separate icon; do not draw these descriptions as text.\nRow 1, column 1: a teal spirit wisp chained to a crimson blood drop.\nRow 1, column 2: a golden lightning bolt bursting out of a cracked crimson blood drop.\nRow 1, column 3: a golden lightning bolt zigzagging through three linked rings.\nRow 2, column 1: leave this cell completely empty and transparent.\nRow 2, column 2: leave this cell completely empty and transparent.\nRow 2, column 3: leave this cell completely empty and transparent.\nRow 3, column 1: leave this cell completely empty and transparent.\nRow 3, column 2: leave this cell completely empty and transparent.\nRow 3, column 3: leave this cell completely empty and transparent."
+  },
+  {
+   "id": "nt-01",
+   "file": "nt-01.png",
+   "entries": [
+    {
+     "key": "nt-aegis-1",
+     "name": "灵能护盾",
+     "kind": "notable",
+     "sector": "aegis",
+     "row": 0,
+     "column": 0,
+     "motif": "a round blue silver energy shield"
+    },
+    {
+     "key": "nt-aegis-2",
+     "name": "护盾充能",
+     "kind": "notable",
+     "sector": "aegis",
+     "row": 0,
+     "column": 1,
+     "motif": "a blue silver shield with an upward curved arrow"
+    },
+    {
+     "key": "nt-barrage-1",
+     "name": "弹幕",
+     "kind": "notable",
+     "sector": "barrage",
+     "row": 0,
+     "column": 2,
+     "motif": "three golden arrows spread in a fan"
+    },
+    {
+     "key": "nt-barrage-2",
+     "name": "穿心",
+     "kind": "notable",
+     "sector": "barrage",
+     "row": 1,
+     "column": 0,
+     "motif": "one golden arrow piercing through two thin discs"
+    },
+    {
+     "key": "nt-blight-1",
+     "name": "腐毒",
+     "kind": "notable",
+     "sector": "blight",
+     "row": 1,
+     "column": 1,
+     "motif": "a jade green drop dripping from a dagger tip"
+    },
+    {
+     "key": "nt-blight-2",
+     "name": "瘴气",
+     "kind": "notable",
+     "sector": "blight",
+     "row": 1,
+     "column": 2,
+     "motif": "a jade green toxic cloud with two round bubbles"
+    },
+    {
+     "key": "nt-blight-3",
+     "name": "侵蚀",
+     "kind": "notable",
+     "sector": "blight",
+     "row": 2,
+     "column": 0,
+     "motif": "a violet crack eating into a round stone disc"
+    },
+    {
+     "key": "nt-blight-4",
+     "name": "百毒不侵",
+     "kind": "notable",
+     "sector": "blight",
+     "row": 2,
+     "column": 1,
+     "motif": "a jade green shield turning away a falling poison drop"
+    },
+    {
+     "key": "nt-blight-5",
+     "name": "致命剂量",
+     "kind": "notable",
+     "sector": "blight",
+     "row": 2,
+     "column": 2,
+     "motif": "a narrow-necked jade green vial with one drop at its lip"
+    }
+   ],
+   "prompt": "Use case: stylized-concept. Asset type: production game UI icon atlas. Draw exactly a 3 by 3 regular grid on one square canvas with 9 separate dark-fantasy notable talent icons. Transparent background with real alpha. No visible grid lines, no dividers, no tiles, no frames, no lettering, no labels, no numbers, no watermark. Every cell occupies exactly one third of canvas width and height; centers at 1/6, 3/6 and 5/6 of canvas. Each icon stays fully inside its own cell and fills about 64% of cell width or height, leaving generous transparent gutters. Never move an icon into another cell and never merge cells. Preserve the full square canvas even when some cells are empty.\nStyle: very simple hand-painted game emblems, bold clear silhouettes, only two or three large forms per icon, broad flat color facets, subtle bevel on one edge. Readable at 32 pixels. Reduce detail strongly: no tiny decorations, no complex scene, no characters, no lighting effects, no particles, no outer glow, no backdrop or cast shadows. Use warm gold accents with orange for fire, ice blue for frost, gold for lightning, jade for poison, crimson for life, teal for summons, blue silver for shields and violet for void. Consistent visual weight and edge treatment across the nine icons. Each motif below is a separate icon; do not draw these descriptions as text.\nRow 1, column 1: a round blue silver energy shield.\nRow 1, column 2: a blue silver shield with an upward curved arrow.\nRow 1, column 3: three golden arrows spread in a fan.\nRow 2, column 1: one golden arrow piercing through two thin discs.\nRow 2, column 2: a jade green drop dripping from a dagger tip.\nRow 2, column 3: a jade green toxic cloud with two round bubbles.\nRow 3, column 1: a violet crack eating into a round stone disc.\nRow 3, column 2: a jade green shield turning away a falling poison drop.\nRow 3, column 3: a narrow-necked jade green vial with one drop at its lip."
+  },
+  {
+   "id": "nt-02",
+   "file": "nt-02.png",
+   "entries": [
+    {
+     "key": "nt-core-1",
+     "name": "体魄",
+     "kind": "notable",
+     "sector": "core",
+     "row": 0,
+     "column": 0,
+     "motif": "a crimson heart with a golden band across it"
+    },
+    {
+     "key": "nt-core-2",
+     "name": "心智",
+     "kind": "notable",
+     "sector": "core",
+     "row": 0,
+     "column": 1,
+     "motif": "a blue mana crystal resting on a blue silver shield"
+    },
+    {
+     "key": "nt-domain-1",
+     "name": "法域",
+     "kind": "notable",
+     "sector": "domain",
+     "row": 0,
+     "column": 2,
+     "motif": "a large golden rune circle"
+    },
+    {
+     "key": "nt-domain-2",
+     "name": "余波",
+     "kind": "notable",
+     "sector": "domain",
+     "row": 1,
+     "column": 0,
+     "motif": "three concentric golden ripples spreading outward"
+    },
+    {
+     "key": "nt-elements-1",
+     "name": "元素调和",
+     "kind": "notable",
+     "sector": "elements",
+     "row": 1,
+     "column": 1,
+     "motif": "three small orbs, orange, ice blue and gold, in a triangle"
+    },
+    {
+     "key": "nt-elements-2",
+     "name": "元素穿透",
+     "kind": "notable",
+     "sector": "elements",
+     "row": 1,
+     "column": 2,
+     "motif": "a spear tip passing through a three-coloured orb"
+    },
+    {
+     "key": "nt-flame-1",
+     "name": "烈焰",
+     "kind": "notable",
+     "sector": "flame",
+     "row": 2,
+     "column": 0,
+     "motif": "one tall broad orange flame"
+    },
+    {
+     "key": "nt-flame-2",
+     "name": "余烬",
+     "kind": "notable",
+     "sector": "flame",
+     "row": 2,
+     "column": 1,
+     "motif": "three glowing orange embers resting on a dark coal"
+    },
+    {
+     "key": "nt-flame-3",
+     "name": "火葬",
+     "kind": "notable",
+     "sector": "flame",
+     "row": 2,
+     "column": 2,
+     "motif": "an orange flame bursting out of a cracked urn"
+    }
+   ],
+   "prompt": "Use case: stylized-concept. Asset type: production game UI icon atlas. Draw exactly a 3 by 3 regular grid on one square canvas with 9 separate dark-fantasy notable talent icons. Transparent background with real alpha. No visible grid lines, no dividers, no tiles, no frames, no lettering, no labels, no numbers, no watermark. Every cell occupies exactly one third of canvas width and height; centers at 1/6, 3/6 and 5/6 of canvas. Each icon stays fully inside its own cell and fills about 64% of cell width or height, leaving generous transparent gutters. Never move an icon into another cell and never merge cells. Preserve the full square canvas even when some cells are empty.\nStyle: very simple hand-painted game emblems, bold clear silhouettes, only two or three large forms per icon, broad flat color facets, subtle bevel on one edge. Readable at 32 pixels. Reduce detail strongly: no tiny decorations, no complex scene, no characters, no lighting effects, no particles, no outer glow, no backdrop or cast shadows. Use warm gold accents with orange for fire, ice blue for frost, gold for lightning, jade for poison, crimson for life, teal for summons, blue silver for shields and violet for void. Consistent visual weight and edge treatment across the nine icons. Each motif below is a separate icon; do not draw these descriptions as text.\nRow 1, column 1: a crimson heart with a golden band across it.\nRow 1, column 2: a blue mana crystal resting on a blue silver shield.\nRow 1, column 3: a large golden rune circle.\nRow 2, column 1: three concentric golden ripples spreading outward.\nRow 2, column 2: three small orbs, orange, ice blue and gold, in a triangle.\nRow 2, column 3: a spear tip passing through a three-coloured orb.\nRow 3, column 1: one tall broad orange flame.\nRow 3, column 2: three glowing orange embers resting on a dark coal.\nRow 3, column 3: an orange flame bursting out of a cracked urn."
+  },
+  {
+   "id": "nt-03",
+   "file": "nt-03.png",
+   "entries": [
+    {
+     "key": "nt-flame-4",
+     "name": "熔心",
+     "kind": "notable",
+     "sector": "flame",
+     "row": 0,
+     "column": 0,
+     "motif": "a molten orange core inside a crimson heart"
+    },
+    {
+     "key": "nt-flame-5",
+     "name": "焚身",
+     "kind": "notable",
+     "sector": "flame",
+     "row": 0,
+     "column": 1,
+     "motif": "an orange flame wrapped around a short sword blade"
+    },
+    {
+     "key": "nt-frost-1",
+     "name": "霜寒刺骨",
+     "kind": "notable",
+     "sector": "frost",
+     "row": 0,
+     "column": 2,
+     "motif": "an ice blue spike piercing a snowflake"
+    },
+    {
+     "key": "nt-frost-2",
+     "name": "冰封千里",
+     "kind": "notable",
+     "sector": "frost",
+     "row": 1,
+     "column": 0,
+     "motif": "a broad ice block with a frozen spiral inside"
+    },
+    {
+     "key": "nt-frost-3",
+     "name": "寒潮",
+     "kind": "notable",
+     "sector": "frost",
+     "row": 1,
+     "column": 1,
+     "motif": "an ice blue wave curling over itself"
+    },
+    {
+     "key": "nt-frost-4",
+     "name": "凛冬护甲",
+     "kind": "notable",
+     "sector": "frost",
+     "row": 1,
+     "column": 2,
+     "motif": "a blue silver shield coated with ice blue frost"
+    },
+    {
+     "key": "nt-frost-5",
+     "name": "冰川之触",
+     "kind": "notable",
+     "sector": "frost",
+     "row": 2,
+     "column": 0,
+     "motif": "an ice blue gauntlet palm with frost crystals on the fingertips"
+    },
+    {
+     "key": "nt-iron-1",
+     "name": "巨力",
+     "kind": "notable",
+     "sector": "iron",
+     "row": 2,
+     "column": 1,
+     "motif": "a heavy iron war hammer"
+    },
+    {
+     "key": "nt-iron-2",
+     "name": "铁壁",
+     "kind": "notable",
+     "sector": "iron",
+     "row": 2,
+     "column": 2,
+     "motif": "a tall iron tower shield"
+    }
+   ],
+   "prompt": "Use case: stylized-concept. Asset type: production game UI icon atlas. Draw exactly a 3 by 3 regular grid on one square canvas with 9 separate dark-fantasy notable talent icons. Transparent background with real alpha. No visible grid lines, no dividers, no tiles, no frames, no lettering, no labels, no numbers, no watermark. Every cell occupies exactly one third of canvas width and height; centers at 1/6, 3/6 and 5/6 of canvas. Each icon stays fully inside its own cell and fills about 64% of cell width or height, leaving generous transparent gutters. Never move an icon into another cell and never merge cells. Preserve the full square canvas even when some cells are empty.\nStyle: very simple hand-painted game emblems, bold clear silhouettes, only two or three large forms per icon, broad flat color facets, subtle bevel on one edge. Readable at 32 pixels. Reduce detail strongly: no tiny decorations, no complex scene, no characters, no lighting effects, no particles, no outer glow, no backdrop or cast shadows. Use warm gold accents with orange for fire, ice blue for frost, gold for lightning, jade for poison, crimson for life, teal for summons, blue silver for shields and violet for void. Consistent visual weight and edge treatment across the nine icons. Each motif below is a separate icon; do not draw these descriptions as text.\nRow 1, column 1: a molten orange core inside a crimson heart.\nRow 1, column 2: an orange flame wrapped around a short sword blade.\nRow 1, column 3: an ice blue spike piercing a snowflake.\nRow 2, column 1: a broad ice block with a frozen spiral inside.\nRow 2, column 2: an ice blue wave curling over itself.\nRow 2, column 3: a blue silver shield coated with ice blue frost.\nRow 3, column 1: an ice blue gauntlet palm with frost crystals on the fingertips.\nRow 3, column 2: a heavy iron war hammer.\nRow 3, column 3: a tall iron tower shield."
+  },
+  {
+   "id": "nt-04",
+   "file": "nt-04.png",
+   "entries": [
+    {
+     "key": "nt-iron-3",
+     "name": "鲜血之誓",
+     "kind": "notable",
+     "sector": "iron",
+     "row": 0,
+     "column": 0,
+     "motif": "a crimson blood drop sealed inside a golden ring"
+    },
+    {
+     "key": "nt-iron-4",
+     "name": "坚韧",
+     "kind": "notable",
+     "sector": "iron",
+     "row": 0,
+     "column": 1,
+     "motif": "a crimson heart bound with two iron bands"
+    },
+    {
+     "key": "nt-iron-5",
+     "name": "战吼",
+     "kind": "notable",
+     "sector": "iron",
+     "row": 0,
+     "column": 2,
+     "motif": "an iron war horn blowing two crimson sound waves"
+    },
+    {
+     "key": "nt-shadow-1",
+     "name": "迅影",
+     "kind": "notable",
+     "sector": "shadow",
+     "row": 1,
+     "column": 0,
+     "motif": "a silver winged boot"
+    },
+    {
+     "key": "nt-shadow-2",
+     "name": "幻步",
+     "kind": "notable",
+     "sector": "shadow",
+     "row": 1,
+     "column": 1,
+     "motif": "two overlapping faded silver footprints"
+    },
+    {
+     "key": "nt-spirit-1",
+     "name": "军团",
+     "kind": "notable",
+     "sector": "spirit",
+     "row": 1,
+     "column": 2,
+     "motif": "three teal spectral swords arranged in a fan"
+    },
+    {
+     "key": "nt-spirit-2",
+     "name": "爆裂仆从",
+     "kind": "notable",
+     "sector": "spirit",
+     "row": 2,
+     "column": 0,
+     "motif": "a teal spirit wisp bursting into an orange explosion"
+    },
+    {
+     "key": "nt-spirit-3",
+     "name": "不朽仆从",
+     "kind": "notable",
+     "sector": "spirit",
+     "row": 2,
+     "column": 1,
+     "motif": "a teal spirit wisp inside a blue silver ring"
+    },
+    {
+     "key": "nt-spirit-4",
+     "name": "群体指挥",
+     "kind": "notable",
+     "sector": "spirit",
+     "row": 2,
+     "column": 2,
+     "motif": "a teal banner on a tall staff"
+    }
+   ],
+   "prompt": "Use case: stylized-concept. Asset type: production game UI icon atlas. Draw exactly a 3 by 3 regular grid on one square canvas with 9 separate dark-fantasy notable talent icons. Transparent background with real alpha. No visible grid lines, no dividers, no tiles, no frames, no lettering, no labels, no numbers, no watermark. Every cell occupies exactly one third of canvas width and height; centers at 1/6, 3/6 and 5/6 of canvas. Each icon stays fully inside its own cell and fills about 64% of cell width or height, leaving generous transparent gutters. Never move an icon into another cell and never merge cells. Preserve the full square canvas even when some cells are empty.\nStyle: very simple hand-painted game emblems, bold clear silhouettes, only two or three large forms per icon, broad flat color facets, subtle bevel on one edge. Readable at 32 pixels. Reduce detail strongly: no tiny decorations, no complex scene, no characters, no lighting effects, no particles, no outer glow, no backdrop or cast shadows. Use warm gold accents with orange for fire, ice blue for frost, gold for lightning, jade for poison, crimson for life, teal for summons, blue silver for shields and violet for void. Consistent visual weight and edge treatment across the nine icons. Each motif below is a separate icon; do not draw these descriptions as text.\nRow 1, column 1: a crimson blood drop sealed inside a golden ring.\nRow 1, column 2: a crimson heart bound with two iron bands.\nRow 1, column 3: an iron war horn blowing two crimson sound waves.\nRow 2, column 1: a silver winged boot.\nRow 2, column 2: two overlapping faded silver footprints.\nRow 2, column 3: three teal spectral swords arranged in a fan.\nRow 3, column 1: a teal spirit wisp bursting into an orange explosion.\nRow 3, column 2: a teal spirit wisp inside a blue silver ring.\nRow 3, column 3: a teal banner on a tall staff."
+  },
+  {
+   "id": "nt-05",
+   "file": "nt-05.png",
+   "entries": [
+    {
+     "key": "nt-spirit-5",
+     "name": "灵魂纽带",
+     "kind": "notable",
+     "sector": "spirit",
+     "row": 0,
+     "column": 0,
+     "motif": "two teal wisps linked by a thin chain"
+    },
+    {
+     "key": "nt-storm-1",
+     "name": "雷霆万钧",
+     "kind": "notable",
+     "sector": "storm",
+     "row": 0,
+     "column": 1,
+     "motif": "a heavy golden lightning bolt striking straight down"
+    },
+    {
+     "key": "nt-storm-2",
+     "name": "电弧",
+     "kind": "notable",
+     "sector": "storm",
+     "row": 0,
+     "column": 2,
+     "motif": "a golden arc of lightning jumping between two small orbs"
+    },
+    {
+     "key": "nt-storm-3",
+     "name": "疾雷",
+     "kind": "notable",
+     "sector": "storm",
+     "row": 1,
+     "column": 0,
+     "motif": "a golden lightning bolt shaped like a swept wing"
+    },
+    {
+     "key": "nt-storm-4",
+     "name": "静电屏障",
+     "kind": "notable",
+     "sector": "storm",
+     "row": 1,
+     "column": 1,
+     "motif": "a blue silver shield crackling with one golden spark"
+    },
+    {
+     "key": "nt-storm-5",
+     "name": "风暴之眼",
+     "kind": "notable",
+     "sector": "storm",
+     "row": 1,
+     "column": 2,
+     "motif": "a golden storm spiral with a bright eye in the centre"
+    },
+    {
+     "key": "nt-thirst-1",
+     "name": "嗜血",
+     "kind": "notable",
+     "sector": "thirst",
+     "row": 2,
+     "column": 0,
+     "motif": "a crimson fang dripping one blood drop"
+    },
+    {
+     "key": "nt-thirst-2",
+     "name": "生生不息",
+     "kind": "notable",
+     "sector": "thirst",
+     "row": 2,
+     "column": 1,
+     "motif": "a green sprout growing out of a crimson heart"
+    }
+   ],
+   "prompt": "Use case: stylized-concept. Asset type: production game UI icon atlas. Draw exactly a 3 by 3 regular grid on one square canvas with 9 separate dark-fantasy notable talent icons. Transparent background with real alpha. No visible grid lines, no dividers, no tiles, no frames, no lettering, no labels, no numbers, no watermark. Every cell occupies exactly one third of canvas width and height; centers at 1/6, 3/6 and 5/6 of canvas. Each icon stays fully inside its own cell and fills about 64% of cell width or height, leaving generous transparent gutters. Never move an icon into another cell and never merge cells. Preserve the full square canvas even when some cells are empty.\nStyle: very simple hand-painted game emblems, bold clear silhouettes, only two or three large forms per icon, broad flat color facets, subtle bevel on one edge. Readable at 32 pixels. Reduce detail strongly: no tiny decorations, no complex scene, no characters, no lighting effects, no particles, no outer glow, no backdrop or cast shadows. Use warm gold accents with orange for fire, ice blue for frost, gold for lightning, jade for poison, crimson for life, teal for summons, blue silver for shields and violet for void. Consistent visual weight and edge treatment across the nine icons. Each motif below is a separate icon; do not draw these descriptions as text.\nRow 1, column 1: two teal wisps linked by a thin chain.\nRow 1, column 2: a heavy golden lightning bolt striking straight down.\nRow 1, column 3: a golden arc of lightning jumping between two small orbs.\nRow 2, column 1: a golden lightning bolt shaped like a swept wing.\nRow 2, column 2: a blue silver shield crackling with one golden spark.\nRow 2, column 3: a golden storm spiral with a bright eye in the centre.\nRow 3, column 1: a crimson fang dripping one blood drop.\nRow 3, column 2: a green sprout growing out of a crimson heart.\nRow 3, column 3: leave this cell completely empty and transparent."
+  },
+  {
+   "id": "sm-01",
+   "file": "sm-01.png",
+   "entries": [
+    {
+     "key": "sm-冰缓持续",
+     "name": "冰缓持续",
+     "kind": "small",
+     "sector": "frost",
+     "row": 0,
+     "column": 0,
+     "motif": "an ice blue hourglass"
+    },
+    {
+     "key": "sm-冰缓效果",
+     "name": "冰缓效果",
+     "kind": "small",
+     "sector": "frost",
+     "row": 0,
+     "column": 1,
+     "motif": "an ice blue snowflake above a downward chevron"
+    },
+    {
+     "key": "sm-冰霜抗性",
+     "name": "冰霜抗性",
+     "kind": "small",
+     "sector": "frost",
+     "row": 0,
+     "column": 2,
+     "motif": "a small shield with an ice blue snowflake"
+    },
+    {
+     "key": "sm-冰霜伤害",
+     "name": "冰霜伤害",
+     "kind": "small",
+     "sector": "frost",
+     "row": 1,
+     "column": 0,
+     "motif": "a single ice blue shard"
+    },
+    {
+     "key": "sm-穿透概率",
+     "name": "穿透概率",
+     "kind": "small",
+     "sector": "barrage",
+     "row": 1,
+     "column": 1,
+     "motif": "a golden arrow through a thin disc"
+    },
+    {
+     "key": "sm-次级范围伤害",
+     "name": "次级范围伤害",
+     "kind": "small",
+     "sector": "domain",
+     "row": 1,
+     "column": 2,
+     "motif": "two overlapping golden rings"
+    },
+    {
+     "key": "sm-点燃概率",
+     "name": "点燃概率",
+     "kind": "small",
+     "sector": "flame",
+     "row": 2,
+     "column": 0,
+     "motif": "one orange spark"
+    },
+    {
+     "key": "sm-点燃伤害",
+     "name": "点燃伤害",
+     "kind": "small",
+     "sector": "flame",
+     "row": 2,
+     "column": 1,
+     "motif": "an orange flame with a bright hot core"
+    },
+    {
+     "key": "sm-冻结积累",
+     "name": "冻结积累",
+     "kind": "small",
+     "sector": "frost",
+     "row": 2,
+     "column": 2,
+     "motif": "an ice cube half filled with blue frost"
+    }
+   ],
+   "prompt": "Use case: stylized-concept. Asset type: production game UI icon atlas. Draw exactly a 3 by 3 regular grid on one square canvas with 9 separate dark-fantasy minor passive talent icons. Transparent background with real alpha. No visible grid lines, no dividers, no tiles, no frames, no lettering, no labels, no numbers, no watermark. Every cell occupies exactly one third of canvas width and height; centers at 1/6, 3/6 and 5/6 of canvas. Each icon stays fully inside its own cell and fills about 64% of cell width or height, leaving generous transparent gutters. Never move an icon into another cell and never merge cells. Preserve the full square canvas even when some cells are empty.\nStyle: very simple hand-painted game emblems, bold clear silhouettes, only two or three large forms per icon, broad flat color facets, subtle bevel on one edge. Readable at 32 pixels. Reduce detail strongly: no tiny decorations, no complex scene, no characters, no lighting effects, no particles, no outer glow, no backdrop or cast shadows. Use warm gold accents with orange for fire, ice blue for frost, gold for lightning, jade for poison, crimson for life, teal for summons, blue silver for shields and violet for void. Consistent visual weight and edge treatment across the nine icons. Each motif below is a separate icon; do not draw these descriptions as text.\nRow 1, column 1: an ice blue hourglass.\nRow 1, column 2: an ice blue snowflake above a downward chevron.\nRow 1, column 3: a small shield with an ice blue snowflake.\nRow 2, column 1: a single ice blue shard.\nRow 2, column 2: a golden arrow through a thin disc.\nRow 2, column 3: two overlapping golden rings.\nRow 3, column 1: one orange spark.\nRow 3, column 2: an orange flame with a bright hot core.\nRow 3, column 3: an ice cube half filled with blue frost."
+  },
+  {
+   "id": "sm-02",
+   "file": "sm-02.png",
+   "entries": [
+    {
+     "key": "sm-毒素抗性",
+     "name": "毒素抗性",
+     "kind": "small",
+     "sector": "blight",
+     "row": 0,
+     "column": 0,
+     "motif": "a small shield with a jade drop"
+    },
+    {
+     "key": "sm-对燃烧敌人",
+     "name": "对燃烧敌人",
+     "kind": "small",
+     "sector": "flame",
+     "row": 0,
+     "column": 1,
+     "motif": "an orange flame over a simple target ring"
+    },
+    {
+     "key": "sm-范围面积",
+     "name": "范围面积",
+     "kind": "small",
+     "sector": "domain",
+     "row": 0,
+     "column": 2,
+     "motif": "a widening golden ring"
+    },
+    {
+     "key": "sm-范围伤害",
+     "name": "范围伤害",
+     "kind": "small",
+     "sector": "domain",
+     "row": 1,
+     "column": 0,
+     "motif": "a golden circular burst"
+    },
+    {
+     "key": "sm-感电概率",
+     "name": "感电概率",
+     "kind": "small",
+     "sector": "storm",
+     "row": 1,
+     "column": 1,
+     "motif": "one golden spark"
+    },
+    {
+     "key": "sm-感电效果",
+     "name": "感电效果",
+     "kind": "small",
+     "sector": "storm",
+     "row": 1,
+     "column": 2,
+     "motif": "a golden bolt inside a ring"
+    },
+    {
+     "key": "sm-格挡率",
+     "name": "格挡率",
+     "kind": "small",
+     "sector": "iron",
+     "row": 2,
+     "column": 0,
+     "motif": "a round iron buckler"
+    },
+    {
+     "key": "sm-护盾回充",
+     "name": "护盾回充",
+     "kind": "small",
+     "sector": "aegis",
+     "row": 2,
+     "column": 1,
+     "motif": "a blue silver shield with a circular arrow"
+    },
+    {
+     "key": "sm-护盾上限",
+     "name": "护盾上限",
+     "kind": "small",
+     "sector": "aegis",
+     "row": 2,
+     "column": 2,
+     "motif": "a blue silver shield"
+    }
+   ],
+   "prompt": "Use case: stylized-concept. Asset type: production game UI icon atlas. Draw exactly a 3 by 3 regular grid on one square canvas with 9 separate dark-fantasy minor passive talent icons. Transparent background with real alpha. No visible grid lines, no dividers, no tiles, no frames, no lettering, no labels, no numbers, no watermark. Every cell occupies exactly one third of canvas width and height; centers at 1/6, 3/6 and 5/6 of canvas. Each icon stays fully inside its own cell and fills about 64% of cell width or height, leaving generous transparent gutters. Never move an icon into another cell and never merge cells. Preserve the full square canvas even when some cells are empty.\nStyle: very simple hand-painted game emblems, bold clear silhouettes, only two or three large forms per icon, broad flat color facets, subtle bevel on one edge. Readable at 32 pixels. Reduce detail strongly: no tiny decorations, no complex scene, no characters, no lighting effects, no particles, no outer glow, no backdrop or cast shadows. Use warm gold accents with orange for fire, ice blue for frost, gold for lightning, jade for poison, crimson for life, teal for summons, blue silver for shields and violet for void. Consistent visual weight and edge treatment across the nine icons. Each motif below is a separate icon; do not draw these descriptions as text.\nRow 1, column 1: a small shield with a jade drop.\nRow 1, column 2: an orange flame over a simple target ring.\nRow 1, column 3: a widening golden ring.\nRow 2, column 1: a golden circular burst.\nRow 2, column 2: one golden spark.\nRow 2, column 3: a golden bolt inside a ring.\nRow 3, column 1: a round iron buckler.\nRow 3, column 2: a blue silver shield with a circular arrow.\nRow 3, column 3: a blue silver shield."
+  },
+  {
+   "id": "sm-03",
+   "file": "sm-03.png",
+   "entries": [
+    {
+     "key": "sm-护甲",
+     "name": "护甲",
+     "kind": "small",
+     "sector": "iron",
+     "row": 0,
+     "column": 0,
+     "motif": "an iron breastplate"
+    },
+    {
+     "key": "sm-火焰抗性",
+     "name": "火焰抗性",
+     "kind": "small",
+     "sector": "flame",
+     "row": 0,
+     "column": 1,
+     "motif": "a small shield with an orange flame"
+    },
+    {
+     "key": "sm-火焰伤害",
+     "name": "火焰伤害",
+     "kind": "small",
+     "sector": "flame",
+     "row": 0,
+     "column": 2,
+     "motif": "a single orange flame"
+    },
+    {
+     "key": "sm-击杀回血",
+     "name": "击杀回血",
+     "kind": "small",
+     "sector": "thirst",
+     "row": 1,
+     "column": 0,
+     "motif": "a crimson drop above a broken blade"
+    },
+    {
+     "key": "sm-基础护盾",
+     "name": "基础护盾",
+     "kind": "small",
+     "sector": "aegis",
+     "row": 1,
+     "column": 1,
+     "motif": "a blue silver hexagonal plate"
+    },
+    {
+     "key": "sm-基础气血",
+     "name": "基础气血",
+     "kind": "small",
+     "sector": "iron",
+     "row": 1,
+     "column": 2,
+     "motif": "a small crimson heart"
+    },
+    {
+     "key": "sm-基础闪避",
+     "name": "基础闪避",
+     "kind": "small",
+     "sector": "shadow",
+     "row": 2,
+     "column": 0,
+     "motif": "a silver cloak swirl"
+    },
+    {
+     "key": "sm-命中回血",
+     "name": "命中回血",
+     "kind": "small",
+     "sector": "thirst",
+     "row": 2,
+     "column": 1,
+     "motif": "a crimson drop on a sword tip"
+    },
+    {
+     "key": "sm-魔力上限",
+     "name": "魔力上限",
+     "kind": "small",
+     "sector": "core",
+     "row": 2,
+     "column": 2,
+     "motif": "a blue mana crystal"
+    }
+   ],
+   "prompt": "Use case: stylized-concept. Asset type: production game UI icon atlas. Draw exactly a 3 by 3 regular grid on one square canvas with 9 separate dark-fantasy minor passive talent icons. Transparent background with real alpha. No visible grid lines, no dividers, no tiles, no frames, no lettering, no labels, no numbers, no watermark. Every cell occupies exactly one third of canvas width and height; centers at 1/6, 3/6 and 5/6 of canvas. Each icon stays fully inside its own cell and fills about 64% of cell width or height, leaving generous transparent gutters. Never move an icon into another cell and never merge cells. Preserve the full square canvas even when some cells are empty.\nStyle: very simple hand-painted game emblems, bold clear silhouettes, only two or three large forms per icon, broad flat color facets, subtle bevel on one edge. Readable at 32 pixels. Reduce detail strongly: no tiny decorations, no complex scene, no characters, no lighting effects, no particles, no outer glow, no backdrop or cast shadows. Use warm gold accents with orange for fire, ice blue for frost, gold for lightning, jade for poison, crimson for life, teal for summons, blue silver for shields and violet for void. Consistent visual weight and edge treatment across the nine icons. Each motif below is a separate icon; do not draw these descriptions as text.\nRow 1, column 1: an iron breastplate.\nRow 1, column 2: a small shield with an orange flame.\nRow 1, column 3: a single orange flame.\nRow 2, column 1: a crimson drop above a broken blade.\nRow 2, column 2: a blue silver hexagonal plate.\nRow 2, column 3: a small crimson heart.\nRow 3, column 1: a silver cloak swirl.\nRow 3, column 2: a crimson drop on a sword tip.\nRow 3, column 3: a blue mana crystal."
+  },
+  {
+   "id": "sm-04",
+   "file": "sm-04.png",
+   "entries": [
+    {
+     "key": "sm-气血上限",
+     "name": "气血上限",
+     "kind": "small",
+     "sector": "iron",
+     "row": 0,
+     "column": 0,
+     "motif": "a large crimson heart"
+    },
+    {
+     "key": "sm-气血再生",
+     "name": "气血再生",
+     "kind": "small",
+     "sector": "thirst",
+     "row": 0,
+     "column": 1,
+     "motif": "a crimson drop with a small green leaf"
+    },
+    {
+     "key": "sm-侵蚀概率",
+     "name": "侵蚀概率",
+     "kind": "small",
+     "sector": "blight",
+     "row": 0,
+     "column": 2,
+     "motif": "a short violet crack"
+    },
+    {
+     "key": "sm-闪避回血",
+     "name": "闪避回血",
+     "kind": "small",
+     "sector": "shadow",
+     "row": 1,
+     "column": 0,
+     "motif": "a silver feather with a crimson drop"
+    },
+    {
+     "key": "sm-闪避值",
+     "name": "闪避值",
+     "kind": "small",
+     "sector": "shadow",
+     "row": 1,
+     "column": 1,
+     "motif": "a silver feather"
+    },
+    {
+     "key": "sm-闪电抗性",
+     "name": "闪电抗性",
+     "kind": "small",
+     "sector": "elements",
+     "row": 1,
+     "column": 2,
+     "motif": "a small shield with a golden bolt"
+    },
+    {
+     "key": "sm-闪电伤害",
+     "name": "闪电伤害",
+     "kind": "small",
+     "sector": "storm",
+     "row": 2,
+     "column": 0,
+     "motif": "a single golden lightning bolt"
+    },
+    {
+     "key": "sm-闪电施法速度",
+     "name": "闪电施法速度",
+     "kind": "small",
+     "sector": "storm",
+     "row": 2,
+     "column": 1,
+     "motif": "a golden bolt with two motion streaks"
+    },
+    {
+     "key": "sm-投射物伤害",
+     "name": "投射物伤害",
+     "kind": "small",
+     "sector": "barrage",
+     "row": 2,
+     "column": 2,
+     "motif": "a single golden arrowhead"
+    }
+   ],
+   "prompt": "Use case: stylized-concept. Asset type: production game UI icon atlas. Draw exactly a 3 by 3 regular grid on one square canvas with 9 separate dark-fantasy minor passive talent icons. Transparent background with real alpha. No visible grid lines, no dividers, no tiles, no frames, no lettering, no labels, no numbers, no watermark. Every cell occupies exactly one third of canvas width and height; centers at 1/6, 3/6 and 5/6 of canvas. Each icon stays fully inside its own cell and fills about 64% of cell width or height, leaving generous transparent gutters. Never move an icon into another cell and never merge cells. Preserve the full square canvas even when some cells are empty.\nStyle: very simple hand-painted game emblems, bold clear silhouettes, only two or three large forms per icon, broad flat color facets, subtle bevel on one edge. Readable at 32 pixels. Reduce detail strongly: no tiny decorations, no complex scene, no characters, no lighting effects, no particles, no outer glow, no backdrop or cast shadows. Use warm gold accents with orange for fire, ice blue for frost, gold for lightning, jade for poison, crimson for life, teal for summons, blue silver for shields and violet for void. Consistent visual weight and edge treatment across the nine icons. Each motif below is a separate icon; do not draw these descriptions as text.\nRow 1, column 1: a large crimson heart.\nRow 1, column 2: a crimson drop with a small green leaf.\nRow 1, column 3: a short violet crack.\nRow 2, column 1: a silver feather with a crimson drop.\nRow 2, column 2: a silver feather.\nRow 2, column 3: a small shield with a golden bolt.\nRow 3, column 1: a single golden lightning bolt.\nRow 3, column 2: a golden bolt with two motion streaks.\nRow 3, column 3: a single golden arrowhead."
+  },
+  {
+   "id": "sm-05",
+   "file": "sm-05.png",
+   "entries": [
+    {
+     "key": "sm-投射物速度",
+     "name": "投射物速度",
+     "kind": "small",
+     "sector": "barrage",
+     "row": 0,
+     "column": 0,
+     "motif": "a golden arrow with speed streaks"
+    },
+    {
+     "key": "sm-物理伤害",
+     "name": "物理伤害",
+     "kind": "small",
+     "sector": "iron",
+     "row": 0,
+     "column": 1,
+     "motif": "a short iron sword"
+    },
+    {
+     "key": "sm-虚空伤害",
+     "name": "虚空伤害",
+     "kind": "small",
+     "sector": "blight",
+     "row": 0,
+     "column": 2,
+     "motif": "a small violet orb"
+    },
+    {
+     "key": "sm-元素伤害",
+     "name": "元素伤害",
+     "kind": "small",
+     "sector": "elements",
+     "row": 1,
+     "column": 0,
+     "motif": "a small three-coloured orb"
+    },
+    {
+     "key": "sm-召唤物攻速",
+     "name": "召唤物攻速",
+     "kind": "small",
+     "sector": "spirit",
+     "row": 1,
+     "column": 1,
+     "motif": "a teal wisp with two motion streaks"
+    },
+    {
+     "key": "sm-召唤物抗性",
+     "name": "召唤物抗性",
+     "kind": "small",
+     "sector": "spirit",
+     "row": 1,
+     "column": 2,
+     "motif": "a small shield with a teal wisp"
+    },
+    {
+     "key": "sm-召唤物气血",
+     "name": "召唤物气血",
+     "kind": "small",
+     "sector": "spirit",
+     "row": 2,
+     "column": 0,
+     "motif": "a teal wisp with a crimson core"
+    },
+    {
+     "key": "sm-召唤物伤害",
+     "name": "召唤物伤害",
+     "kind": "small",
+     "sector": "spirit",
+     "row": 2,
+     "column": 1,
+     "motif": "a single teal spectral sword"
+    },
+    {
+     "key": "sm-召唤物施法速度",
+     "name": "召唤物施法速度",
+     "kind": "small",
+     "sector": "spirit",
+     "row": 2,
+     "column": 2,
+     "motif": "a teal wisp inside a small rune ring"
+    }
+   ],
+   "prompt": "Use case: stylized-concept. Asset type: production game UI icon atlas. Draw exactly a 3 by 3 regular grid on one square canvas with 9 separate dark-fantasy minor passive talent icons. Transparent background with real alpha. No visible grid lines, no dividers, no tiles, no frames, no lettering, no labels, no numbers, no watermark. Every cell occupies exactly one third of canvas width and height; centers at 1/6, 3/6 and 5/6 of canvas. Each icon stays fully inside its own cell and fills about 64% of cell width or height, leaving generous transparent gutters. Never move an icon into another cell and never merge cells. Preserve the full square canvas even when some cells are empty.\nStyle: very simple hand-painted game emblems, bold clear silhouettes, only two or three large forms per icon, broad flat color facets, subtle bevel on one edge. Readable at 32 pixels. Reduce detail strongly: no tiny decorations, no complex scene, no characters, no lighting effects, no particles, no outer glow, no backdrop or cast shadows. Use warm gold accents with orange for fire, ice blue for frost, gold for lightning, jade for poison, crimson for life, teal for summons, blue silver for shields and violet for void. Consistent visual weight and edge treatment across the nine icons. Each motif below is a separate icon; do not draw these descriptions as text.\nRow 1, column 1: a golden arrow with speed streaks.\nRow 1, column 2: a short iron sword.\nRow 1, column 3: a small violet orb.\nRow 2, column 1: a small three-coloured orb.\nRow 2, column 2: a teal wisp with two motion streaks.\nRow 2, column 3: a small shield with a teal wisp.\nRow 3, column 1: a teal wisp with a crimson core.\nRow 3, column 2: a single teal spectral sword.\nRow 3, column 3: a teal wisp inside a small rune ring."
+  },
+  {
+   "id": "sm-06",
+   "file": "sm-06.png",
+   "entries": [
+    {
+     "key": "sm-中毒概率",
+     "name": "中毒概率",
+     "kind": "small",
+     "sector": "blight",
+     "row": 0,
+     "column": 0,
+     "motif": "one jade green bubble"
+    },
+    {
+     "key": "sm-中毒伤害",
+     "name": "中毒伤害",
+     "kind": "small",
+     "sector": "blight",
+     "row": 0,
+     "column": 1,
+     "motif": "a single jade green drop"
+    }
+   ],
+   "prompt": "Use case: stylized-concept. Asset type: production game UI icon atlas. Draw exactly a 3 by 3 regular grid on one square canvas with 9 separate dark-fantasy minor passive talent icons. Transparent background with real alpha. No visible grid lines, no dividers, no tiles, no frames, no lettering, no labels, no numbers, no watermark. Every cell occupies exactly one third of canvas width and height; centers at 1/6, 3/6 and 5/6 of canvas. Each icon stays fully inside its own cell and fills about 64% of cell width or height, leaving generous transparent gutters. Never move an icon into another cell and never merge cells. Preserve the full square canvas even when some cells are empty.\nStyle: very simple hand-painted game emblems, bold clear silhouettes, only two or three large forms per icon, broad flat color facets, subtle bevel on one edge. Readable at 32 pixels. Reduce detail strongly: no tiny decorations, no complex scene, no characters, no lighting effects, no particles, no outer glow, no backdrop or cast shadows. Use warm gold accents with orange for fire, ice blue for frost, gold for lightning, jade for poison, crimson for life, teal for summons, blue silver for shields and violet for void. Consistent visual weight and edge treatment across the nine icons. Each motif below is a separate icon; do not draw these descriptions as text.\nRow 1, column 1: one jade green bubble.\nRow 1, column 2: a single jade green drop.\nRow 1, column 3: leave this cell completely empty and transparent.\nRow 2, column 1: leave this cell completely empty and transparent.\nRow 2, column 2: leave this cell completely empty and transparent.\nRow 2, column 3: leave this cell completely empty and transparent.\nRow 3, column 1: leave this cell completely empty and transparent.\nRow 3, column 2: leave this cell completely empty and transparent.\nRow 3, column 3: leave this cell completely empty and transparent."
+  }
+ ]
+}

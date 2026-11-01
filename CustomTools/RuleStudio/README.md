@@ -17,6 +17,7 @@ Studio3D 加载加速：`npm run build:web` 生成版本化脚本与样式包，
 - **天赋点：** 每级 2 点，另有任务奖励。
 - **操作：** 左键点亮，远处节点会沿最短路线自动点亮；右键退点。
 - **数据：** 由 `node scripts/create-talent-tree.mjs`（即 `npm run build:talents-layout`）生成到 `Content/Rules/Talents/constellation.json`，生成时校验词条参数、连线交叉、节点间距和连线是否穿过节点；`--seed N` 可换一种随机布局。验证：`npm run test:talents`。设计说明见 [progression.md](docs/progression.md)。
+- **图标：** 103 个图标分为 13 张 3×3 透明图集，提示词与使用办法见 [talent-icons.md](docs/talent-icons.md)。生成后放到 `public/talents/icons/six-domains/<编号>.png`，刷新即可显示；用 `npm run talents:icons -- --status` 查看哪些图集已到位。
 
 
 

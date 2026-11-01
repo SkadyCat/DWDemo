@@ -94,10 +94,17 @@ function crossing(a, b, c, d) {
   return o(a, b, c) * o(a, b, d) < 0 && o(c, d, a) * o(c, d, b) < 0;
 }
 
+/** Stable icon key for a node definition; independent of layout seed. */
+const ICON_KEYS = new Map();
+for (const d of DOMAINS) d.keystones.forEach((k, i) => ICON_KEYS.set(k, `ks-${d.id}-${i + 1}`));
+for (const t of [...DOMAINS, ...BRIDGES, CORE]) t.notables.forEach((n, i) => ICON_KEYS.set(n, `nt-${t.id}-${i + 1}`));
+for (const [id, def] of Object.entries(ATTR)) ICON_KEYS.set(def, `attr-${id}`);
+const iconKey = def => ICON_KEYS.get(def) || `sm-${def.name}`;
+
 function build(seed) {
   const random = rng(seed), pick = list => list[Math.floor(random() * list.length)];
   const nodes = [], edges = [], arcs = {}, byId = new Map();
-  const add = (id, kind, sector, def, p) => { const n = { id, kind, sector, name: def.name, cost: kind === 'origin' ? 0 : 1, x: p.x, y: p.y, traits: def.traits || [], ...(def.description ? { description: def.description } : {}) }; nodes.push(n); byId.set(id, n); return n; };
+  const add = (id, kind, sector, def, p) => { const n = { id, kind, sector, name: def.name, ...(kind === 'origin' ? {} : { icon: iconKey(def) }), cost: kind === 'origin' ? 0 : 1, x: p.x, y: p.y, traits: def.traits || [], ...(def.description ? { description: def.description } : {}) }; nodes.push(n); byId.set(id, n); return n; };
   const link = (a, b, orbit) => { edges.push([a.id, b.id]); if (orbit) arcs[[a.id, b.id].sort().join(':')] = { cx: orbit.x, cy: orbit.y, r: orbit.r }; };
 
   // Anchors: six domains, six themes between them, and the root core.
@@ -258,6 +265,10 @@ function audit(nodes, edges) {
   return problems;
 }
 
+export const TALENT_CONTENT = { DOMAINS, BRIDGES, CORE, ATTR, iconKey };
+const isMain = import.meta.url === `file://${process.argv[1]}`;
+if (isMain) generate();
+function generate() {
 const check = checkRuleSet(readRuleFiles()); if (!check.ok) throw Error(check.error);
 let result, problems = [], attempt = 0;
 for (; attempt < 400; attempt++, SEED++) {
@@ -296,4 +307,5 @@ if (!process.argv.includes('--check')) {
   const text = JSON.stringify(tree, null, 1) + '\n';
   for (const dir of ['Rules', 'RulesTower']) fs.writeFileSync(path.join(PROJECT_ROOT, 'Content', dir, 'Talents', 'constellation.json'), text);
   console.log('已写入 Content/Rules/Talents/constellation.json 与 RulesTower 副本');
+}
 }
