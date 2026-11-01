@@ -1,0 +1,18 @@
+{
+  "id": "flicker_strike_charge",
+  "name": "狂怒",
+  "description": "闪现打击：每层造成伤害与攻速提高，停手后消退。",
+  "category": "buff",
+  "stacking": "stack",
+  "maxStacks": 10,
+  "effects": [
+    {
+      "type": "damage_dealt",
+      "scale": 1
+    },
+    {
+      "type": "action_speed",
+      "scale": 1
+    }
+  ]
+}

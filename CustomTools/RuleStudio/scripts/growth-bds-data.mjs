@@ -46,7 +46,7 @@ function trait(bd) {
     ...bd.awaken.map((rule, i) => ({ ...rule, id: `${bd.id}_awaken_${i + 1}`, conditions: [stage('awaken_at'), ...(rule.conditions || [])] })),
     ...bd.ultimate.map((rule, i) => ({ ...rule, id: `${bd.id}_ultimate_${i + 1}`, conditions: [stage('ultimate_at'), ...(rule.conditions || [])] })),
   ];
-  return { id: bd.trait, name: bd.name, description: bd.traitText, params: { ...bd.params, ...GROWTH, ...bd.growth }, rules };
+  return { id: bd.trait, name: bd.name, description: bd.traitText, params: { ...bd.params, ...GROWTH, ...bd.growth }, ...(bd.sheet ? { sheet: bd.sheet } : {}), rules };
 }
 
 function statuses(bd) {
@@ -359,6 +359,36 @@ export const GROWTH_BDS = [
       boots: ['life_base', 'full_life_move', 'shield_base', 'life_increased', 'inc_elemental', 'shock_duration'],
     },
     aura: 'aura_lightning_ring',
+  },
+  {
+    // 流放之路 · 闪现打击（Flicker Strike）：瞬移到附近的敌人身边攻击，连续施放在敌群中来回闪击。
+    id: 'flicker_strike', trait: 'create_flicker_strike', name: '闪现打击', melee: true, element: 'physical', web: true,
+    description: '瞬移到附近的敌人身边并攻击，连续施放在敌群中来回闪击。击杀积攒狂怒，狂怒满溢时化为无影。',
+    traitText: '瞬移到 range 米内的一名敌人身边（优先瞄准方向、轮换目标），对 radius 米内敌人造成 damage 点物理伤害；附近没有敌人时无法施放。每击杀 charge_every 名敌人获得一层狂怒（伤害与攻速提高，停手后消退）；每 surge_every 层狂怒化为无影（攻速 +surge_power%）并在击杀点爆发残影。本层击杀成长：15 杀觉醒每次闪击附带余震，40 杀极境每第 3 次闪击落下无影斩。',
+    params: { damage: 34, radius: 2.1, range: 9, cooldown: 0.32, charge_every: 1, charge_bonus: 3, surge_every: 12, surge_power: 50 },
+    growth: { charge_duration: 4 },
+    sheet: [{ stat: 'skill.flicker_range', value: { param: 'range' } }],
+    feed: { event: 'kill' },
+    cast: [area('physical', ['physical', 'melee', 'flicker'], { param: 'radius' }, 1)],
+    burst: [area('physical', ['physical', 'melee', 'afterimage'], 4.5, 3)],
+    awaken: [{ event: 'cast', actions: [area('physical', ['physical', 'melee', 'aftershock'], 3.4, 0.6)] }],
+    ultimate: [{ event: 'cast', actions: [{ op: 'counter', key: 'shadow', value: 1, threshold: 3, then: [area('physical', ['physical', 'melee', 'shadow'], 5, 2)] }] }],
+    statuses: {
+      charge: ['狂怒', '闪现打击：每层造成伤害与攻速提高，停手后消退。', 10, [{ type: 'damage_dealt', scale: 1 }, { type: 'action_speed', scale: 1 }]],
+      surge: ['无影', '闪现打击：攻速与伤害大幅提高。', speedSurge(0.6)],
+      growth: ['杀意', '闪现打击：本层每次击杀伤害 +1%，最多 40 层。'],
+    },
+    weapon: { id: 'phantom_blade', name: '幻影长剑', tags: ['物理', '近战', '剑'], base: 'flat_physical', legendary: 'more_physical', icon: 'equipment/crescent_saber.png', hue: 0.42 },
+    icon: { from: 'skill/player_slash.png', hue: 0.5 },
+    stages: ['闪击：瞬移到敌人身边攻击，每杀 1 层狂怒（+3% 伤害与攻速）', '无影：每 12 层狂怒爆发残影，攻速 +50%', '觉醒 15 杀：每次闪击附带余震', '极境 40 杀：每第 3 次闪击落下无影斩'],
+    gear: {
+      weapon: ['flat_physical', 'inc_physical', 'more_physical', 'area_cast_speed', 'leech_life_physical', 'life_on_kill'],
+      helmet: ['life_base', 'life_increased', 'evasion', 'inc_physical', 'life_on_hit', 'area_damage'],
+      chest: ['life_base', 'life_increased', 'evasion', 'evasion_increased', 'leech_life_all', 'life_regen_percent'],
+      gloves: ['flat_physical', 'more_physical', 'area_damage', 'life_on_kill', 'evasion', 'evade_chance'],
+      boots: ['life_base', 'full_life_move', 'evasion', 'life_increased', 'inc_physical', 'evade_chance'],
+    },
+    aura: 'aura_physical_ring',
   },
 ];
 

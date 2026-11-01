@@ -229,5 +229,28 @@ export const GROWTH_STAGES = {
       "觉醒 15 杀：雷球命中放出电弧",
       "极境 40 杀：每次施放 2 颗雷球"
     ]
+  },
+  "flicker_strike": {
+    "name": "闪现打击",
+    "trait": "create_flicker_strike",
+    "melee": true,
+    "cap": 40,
+    "awaken": 15,
+    "ultimate": 40,
+    "charge": {
+      "id": "flicker_strike_charge",
+      "name": "狂怒",
+      "max": 10
+    },
+    "surge": {
+      "id": "flicker_strike_surge",
+      "name": "无影"
+    },
+    "stages": [
+      "闪击：瞬移到敌人身边攻击，每杀 1 层狂怒（+3% 伤害与攻速）",
+      "无影：每 12 层狂怒爆发残影，攻速 +50%",
+      "觉醒 15 杀：每次闪击附带余震",
+      "极境 40 杀：每第 3 次闪击落下无影斩"
+    ]
   }
 };

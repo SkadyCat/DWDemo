@@ -17,14 +17,14 @@ const { library, collections } = check;
 const rules = new URL('../../../Content/Rules/', import.meta.url);
 const readJson = rel => JSON.parse(fs.readFileSync(new URL(rel, rules), 'utf8'));
 
-test('成长型 BD：十套全新主动技能，其中至少五套近战，文件与生成器一致', () => {
-  assert.equal(GROWTH_BDS.length, 10);
+test('成长型 BD：十一套全新主动技能，其中至少五套近战，文件与生成器一致', () => {
+  assert.equal(GROWTH_BDS.length, 11);
   assert.ok(GROWTH_BDS.filter(bd => bd.melee).length >= 5);
-  assert.equal(new Set(GROWTH_BDS.map(bd => bd.id)).size, 10);
+  assert.equal(new Set(GROWTH_BDS.map(bd => bd.id)).size, GROWTH_BDS.length);
   for (const bd of GROWTH_BDS) {
-    assert.deepEqual(readJson(`Traits/${bd.trait}.json`), growthTrait(bd), bd.trait);
+    assert.deepEqual(readJson(`${bd.web ? 'WebTraits' : 'Traits'}/${bd.trait}.json`), growthTrait(bd), bd.trait);
     for (const s of growthStatuses(bd)) assert.deepEqual(readJson(`Statuses/${s.id}.json`), s, s.id);
-    assert.deepEqual(readJson(`Builds/${bd.id}.json`), growthBuild(bd), bd.id);
+    assert.deepEqual(readJson(`${bd.web ? 'WebBuilds' : 'Builds'}/${bd.id}.json`), growthBuild(bd), bd.id);
     assert.deepEqual(readJson(`Equipment/${bd.weapon.id}.json`), growthWeapon(bd), bd.weapon.id);
     assert.ok(library.build(bd.id), bd.id);
     const doc = collections.equipment.get(bd.weapon.id)?.doc;
@@ -53,7 +53,7 @@ test('成长型 BD：预设可复现、装备绑定技能、只用现有词条',
   }
 });
 
-test('成长型 BD：主线「第三层」改为三选一成长武器', () => {
+test('成长型 BD：主线「第三层」三选一成长武器覆盖全部成长技能', () => {
   const ids = choiceBases('growth', collections).map(d => d.id).sort();
   assert.deepEqual(ids, GROWTH_BDS.map(bd => bd.weapon.id).sort());
 });

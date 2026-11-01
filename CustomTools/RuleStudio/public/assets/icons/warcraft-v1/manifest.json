@@ -2754,6 +2754,34 @@
       "src": "/assets/icons/warcraft-v1/equipment/stormorb_scepter.png"
     },
     {
+      "kind": "skill",
+      "id": "flicker_strike",
+      "name": "闪现打击",
+      "sheet": null,
+      "row": null,
+      "column": null,
+      "copyFrom": "skill/player_slash.png",
+      "tint": {
+        "hue": 0.5,
+        "mirror": true
+      },
+      "src": "/assets/icons/warcraft-v1/skill/flicker_strike.png"
+    },
+    {
+      "kind": "equipment",
+      "id": "phantom_blade",
+      "name": "幻影长剑",
+      "sheet": null,
+      "row": null,
+      "column": null,
+      "copyFrom": "equipment/crescent_saber.png",
+      "tint": {
+        "hue": 0.42,
+        "mirror": true
+      },
+      "src": "/assets/icons/warcraft-v1/equipment/phantom_blade.png"
+    },
+    {
       "kind": "item",
       "id": "annulment_crystal",
       "name": "无效结晶",

@@ -23,8 +23,8 @@ function fixture({ self = selfIds, targets = 6 } = {}) {
   const start = () => { b.hero.castClock=10;b.hero.casting=true;tick(1/60);b.hero.casting=false; };
   return { b, tick, start, feeds, births, pulses, maintained };
 }
-test('全37套预制BD（含10套成长型）与嵌套词条均为合法T1，最低阶策略幂等且能实际编译', () => {
-  const rows = JSON.parse(fs.readFileSync(`${RULES_DIR}/Presets/index.json`, 'utf8')); assert.equal(rows.length,37);
+test('全38套预制BD（含11套成长型）与嵌套词条均为合法T1，最低阶策略幂等且能实际编译', () => {
+  const rows = JSON.parse(fs.readFileSync(`${RULES_DIR}/Presets/index.json`, 'utf8')); assert.equal(rows.length,38);
   const b = new Battle(files,{collections:checked.collections,maxMonsters:0,spawnRate:0});
   for(const row of rows){ const p=read(row.id); assert.deepEqual(minimumTierPreset(p,checked.library),p,row.id);
     for(const item of Object.values(p.instances)){assert.equal(item.tier,1,row.id);

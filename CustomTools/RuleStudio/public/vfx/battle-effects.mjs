@@ -54,7 +54,7 @@ export function createBattleEffects(T, scene, { capacity = 96, impactCapacity = 
       const melee = radius <= 3.2 ? { player_slash: 'melee-slash', monster_claw: 'melee-claw', monster_strike: 'melee-heavy-strike',
         // Growth builds: the swing itself; larger areas from the same skill (bursts, stages) read as explosions.
         create_rage_cleave: 'melee-heavy-strike', create_thunder_strike: 'melee-slash', create_ground_slam: 'melee-heavy-strike',
-        create_shield_slam: 'melee-heavy-strike', create_soul_reap: 'melee-slash' }[p.effect] : null;
+        create_shield_slam: 'melee-heavy-strike', create_soul_reap: 'melee-slash', create_flicker_strike: 'melee-slash' }[p.effect] : null;
       if (p.effect === 'death_lightning' || p.effect === 'shock_consume_strike' || (p.effect === 'create_thunder_strike' && radius > 3.2)) { push('death-lightning', {}, position, radius); if(p.effect === 'shock_consume_strike')push('area-circle',data,position); }
       else if (p.effect === 'poison_flask_burst') push('poison-flask-burst', {}, position, radius);
       else if (shaped) push(shaped, data, position, 1, rotation);

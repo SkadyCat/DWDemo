@@ -57,6 +57,33 @@ export class Battle extends Arena {
     this.selfSkills = new SelfSkills(this);
   }
 
+  /**
+   * 闪现打击 (sheet stat skill.flicker_range, metres): before the cast, blink next to an enemy in range,
+   * preferring the aim direction and a different enemy than last time. Returns false when nobody is
+   * reachable (the cast does not happen), true after a blink, undefined for ordinary skills.
+   */
+  beforeHeroCast() {
+    const range = this.combat?.planSheetStat(this.hero.plan, 'skill.flicker_range') || 0;
+    if (!(range > 0)) return undefined;
+    const h = this.hero, reach = range * 100, aimAt = h.aimPoint || { x: h.x + h.aim.x * 300, y: h.y + h.aim.y * 300 };
+    const alive = this.monsters.filter(m => m.health > 0 && !m.invulnerable && Math.hypot(m.x - h.x, m.y - h.y) <= reach);
+    if (!alive.length) return false;
+    const ranked = alive.sort((a, b) => Math.hypot(a.x - aimAt.x, a.y - aimAt.y) - Math.hypot(b.x - aimAt.x, b.y - aimAt.y));
+    const from = { x: h.x, y: h.y };
+    for (const target of ranked.length > 1 ? [...ranked.filter(m => m !== this.lastFlicker), this.lastFlicker].filter(Boolean) : ranked) {
+      const dx = from.x - target.x, dy = from.y - target.y, d = Math.hypot(dx, dy) || 1, gap = Math.min(90, d);
+      this.moveActor(h, target.x + dx / d * gap, target.y + dy / d * gap);
+      if (Math.hypot(h.x - target.x, h.y - target.y) > 180) { h.x = from.x; h.y = from.y; continue; } // wall in the way
+      const ax = target.x - h.x, ay = target.y - h.y, length = Math.hypot(ax, ay) || 1;
+      h.aim = { x: ax / length, y: ay / length }; h.aimPoint = { x: target.x, y: target.y, z: 0 };
+      this.lastFlicker = target;
+      this.flickers = (this.flickers || 0) + 1;
+      this.host.world.trace?.('area', { x: from.x / 100, y: from.y / 100, radius: 0.9, amount: 0, element: 3, victims: 0, effect: 'flicker_blink' });
+      return true;
+    }
+    return false;
+  }
+
   /** 闪避动作 (Shift): 3 m dash along the movement (or aim), 1 s cooldown. */
   dodge() {
     if (this.dodgeCooldown > 0 || this.hero.dead || (this.stunCrust && this.character.stunned > 0)) return false;

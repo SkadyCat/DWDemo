@@ -1,0 +1,252 @@
+{
+  "id": "create_flicker_strike",
+  "name": "闪现打击",
+  "description": "瞬移到 range 米内的一名敌人身边（优先瞄准方向、轮换目标），对 radius 米内敌人造成 damage 点物理伤害；附近没有敌人时无法施放。每击杀 charge_every 名敌人获得一层狂怒（伤害与攻速提高，停手后消退）；每 surge_every 层狂怒化为无影（攻速 +surge_power%）并在击杀点爆发残影。本层击杀成长：15 杀觉醒每次闪击附带余震，40 杀极境每第 3 次闪击落下无影斩。",
+  "params": {
+    "damage": 34,
+    "radius": 2.1,
+    "range": 9,
+    "cooldown": 0.32,
+    "charge_every": 1,
+    "charge_bonus": 3,
+    "surge_every": 12,
+    "surge_power": 50,
+    "growth_cap": 40,
+    "growth_bonus": 1,
+    "awaken_at": 15,
+    "ultimate_at": 40,
+    "charge_duration": 4,
+    "surge_duration": 5
+  },
+  "sheet": [
+    {
+      "stat": "skill.flicker_range",
+      "value": {
+        "param": "range"
+      }
+    }
+  ],
+  "rules": [
+    {
+      "id": "flicker_strike_cast",
+      "event": "cast",
+      "actions": [
+        {
+          "op": "damage_area",
+          "element": "physical",
+          "tags": [
+            "physical",
+            "melee",
+            "flicker"
+          ],
+          "radius": {
+            "param": "radius"
+          },
+          "amount": {
+            "max": [
+              {
+                "param": "damage"
+              },
+              {
+                "event": "amount"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "flicker_strike_feed",
+      "event": "kill",
+      "chain": {
+        "maxDepth": 3
+      },
+      "conditions": [],
+      "actions": [
+        {
+          "op": "counter",
+          "key": "feed",
+          "value": 1,
+          "threshold": {
+            "param": "charge_every"
+          },
+          "then": [
+            {
+              "op": "apply_status",
+              "key": "flicker_strike_charge",
+              "origin": "owner",
+              "value": {
+                "param": "charge_bonus"
+              },
+              "duration": {
+                "param": "charge_duration"
+              }
+            },
+            {
+              "op": "counter",
+              "key": "surge",
+              "value": 1,
+              "threshold": {
+                "param": "surge_every"
+              },
+              "then": [
+                {
+                  "op": "apply_status",
+                  "key": "flicker_strike_surge",
+                  "origin": "owner",
+                  "value": {
+                    "param": "surge_power"
+                  },
+                  "duration": {
+                    "param": "surge_duration"
+                  }
+                },
+                {
+                  "op": "damage_area",
+                  "element": "physical",
+                  "tags": [
+                    "physical",
+                    "melee",
+                    "afterimage"
+                  ],
+                  "radius": 4.5,
+                  "amount": {
+                    "mul": [
+                      {
+                        "max": [
+                          {
+                            "param": "damage"
+                          },
+                          {
+                            "event": "amount"
+                          }
+                        ]
+                      },
+                      3
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "flicker_strike_grow",
+      "event": "kill",
+      "chain": {
+        "maxDepth": 4
+      },
+      "actions": [
+        {
+          "op": "counter",
+          "key": "growth",
+          "value": 1,
+          "cap": {
+            "param": "growth_cap"
+          }
+        },
+        {
+          "op": "apply_status",
+          "key": "flicker_strike_growth",
+          "origin": "owner",
+          "value": {
+            "param": "growth_bonus"
+          },
+          "duration": 900
+        }
+      ]
+    },
+    {
+      "event": "cast",
+      "actions": [
+        {
+          "op": "damage_area",
+          "element": "physical",
+          "tags": [
+            "physical",
+            "melee",
+            "aftershock"
+          ],
+          "radius": 3.4,
+          "amount": {
+            "mul": [
+              {
+                "max": [
+                  {
+                    "param": "damage"
+                  },
+                  {
+                    "event": "amount"
+                  }
+                ]
+              },
+              0.6
+            ]
+          }
+        }
+      ],
+      "id": "flicker_strike_awaken_1",
+      "conditions": [
+        {
+          "op": "state",
+          "key": "growth",
+          "compare": "gte",
+          "value": {
+            "param": "awaken_at"
+          }
+        }
+      ]
+    },
+    {
+      "event": "cast",
+      "actions": [
+        {
+          "op": "counter",
+          "key": "shadow",
+          "value": 1,
+          "threshold": 3,
+          "then": [
+            {
+              "op": "damage_area",
+              "element": "physical",
+              "tags": [
+                "physical",
+                "melee",
+                "shadow"
+              ],
+              "radius": 5,
+              "amount": {
+                "mul": [
+                  {
+                    "max": [
+                      {
+                        "param": "damage"
+                      },
+                      {
+                        "event": "amount"
+                      }
+                    ]
+                  },
+                  2
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "id": "flicker_strike_ultimate_1",
+      "conditions": [
+        {
+          "op": "state",
+          "key": "growth",
+          "compare": "gte",
+          "value": {
+            "param": "ultimate_at"
+          }
+        }
+      ]
+    }
+  ]
+}

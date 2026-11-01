@@ -749,4 +749,4 @@ for (const [, , spec] of COMBAT_AFFIXES) {
 
 // Aura effects use ordinary sheet validation, outside the random affix catalogue.
 COMBAT_TRIGGERS.projectile_capture = { params: ['chance', 'bend'] };
-for (const [path, combine] of [['skill.self_target','max'],['skill.independent_cooldown','sum'],['projectile.hostile_attraction','max'],['defense.damage_immunity','max']]) COMBAT_STATS.set(path,combine);
+for (const [path, combine] of [['skill.self_target','max'],['skill.flicker_range','max'],['skill.independent_cooldown','sum'],['projectile.hostile_attraction','max'],['defense.damage_immunity','max']]) COMBAT_STATS.set(path,combine);

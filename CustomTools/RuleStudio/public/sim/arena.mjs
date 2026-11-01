@@ -223,6 +223,15 @@ export class Arena {
     let budget = 4;
     while (hero.castClock >= interval && budget-- > 0) {
       if (combat && !combat.canCast()) { hero.castClock = Math.min(hero.castClock, interval); break; }
+      // Movement skills (闪现打击) relocate the hero first; no reachable target means no cast.
+      const moved = this.beforeHeroCast?.();
+      if (moved === false) { hero.castClock = Math.min(hero.castClock, interval); break; }
+      if (moved) {
+        const point = !hero.autoCast ? hero.aimPoint : null, reach = point ? Math.min(60, Math.hypot(point.x - hero.x, point.y - hero.y)) : 60;
+        Object.assign(origin, { x: hero.x + hero.aim.x * reach, y: hero.y + hero.aim.y * reach });
+        Object.assign(aim, { x: hero.aim.x, y: hero.aim.y });
+        this.host.updateOwner(hero.owner, origin, aim);
+      }
       hero.castClock -= interval;
       // Cost (mana / shield / life shares, "消耗…" affixes); conditional offense rides along as a synthetic trait.
       // God mode pays nothing but still consumes "下一次技能…" effects.

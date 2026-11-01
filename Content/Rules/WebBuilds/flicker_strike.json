@@ -1,0 +1,9 @@
+{
+  "id": "flicker_strike",
+  "name": "闪现打击",
+  "description": "瞬移到附近的敌人身边并攻击，连续施放在敌群中来回闪击。击杀积攒狂怒，狂怒满溢时化为无影。",
+  "active": "create_flicker_strike",
+  "traits": [
+    "create_flicker_strike"
+  ]
+}

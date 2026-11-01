@@ -1,0 +1,17 @@
+{
+  "id": "flicker_strike_surge",
+  "name": "无影",
+  "description": "闪现打击：攻速与伤害大幅提高。",
+  "category": "buff",
+  "stacking": "refresh",
+  "effects": [
+    {
+      "type": "action_speed",
+      "scale": 1
+    },
+    {
+      "type": "damage_dealt",
+      "scale": 0.6
+    }
+  ]
+}
