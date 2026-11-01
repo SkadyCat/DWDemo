@@ -17,12 +17,12 @@ const HOST = {
   pyre_staff: 'inferno', rime_wand: 'glacier', thunder_maul: 'thunderslam', shadow_fang: 'flicker', gale_cleaver: 'whirlwind', storm_scepter: 'storm',
   glacier_wall: 'heralds', legion_focus: 'critengine', mad_crown: 'flicker', thousand_faces: 'glacier', undying_plate: 'heralds', starweave_robe: 'storm',
   nightveil: 'venom', stormcaller: 'thunderslam', alchemist: 'venom', bonebreaker: 'critengine', windstride: 'inferno', frostwalker: 'glacier',
-  warlord_belt: 'whirlwind', iron_chain: 'heralds', heart_of_winter: 'glacier', eye_of_three: 'triad', echo_ring: 'heralds', ember_ring: 'inferno', thunder_ring: 'storm',
+  warlord_belt: 'whirlwind', iron_chain: 'heralds', heart_of_winter: 'glacier', eye_of_three: 'triad', echo_ring: 'heralds', ember_ring: 'inferno', thunder_ring: 'storm', eye_of_storm: 'tempest',
 };
 
-test('传奇：25 件，覆盖全部 10 个部位类型，每件都有试用流派', () => {
-  assert.equal(LEGENDARIES.length, 25);
-  assert.equal(new Set(LEGENDARIES.map(l => l.id)).size, 25);
+test('传奇：26 件，覆盖全部 10 个部位类型，每件都有试用流派', () => {
+  assert.equal(LEGENDARIES.length, 26);
+  assert.equal(new Set(LEGENDARIES.map(l => l.id)).size, 26);
   for (const s of ['weapon', 'offhand', 'helmet', 'chest', 'gloves', 'boots', 'belt', 'amulet', 'ring1']) assert.ok(LEGENDARIES.some(l => l.slot === s), s);
   for (const l of LEGENDARIES) { assert.ok(HOST[l.id], l.id); assert.ok(legendAffix(l.id).name.includes(l.name)); }
 });

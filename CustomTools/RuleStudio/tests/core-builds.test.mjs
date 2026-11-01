@@ -23,11 +23,11 @@ test('词条族：四层稀有度齐全，全部能编译成可装备词条', ()
   assert.ok(lineCount() >= 1000);
 });
 
-test('十个流派覆盖纯元素、元素反应、近战、触发，且技能各不相同', () => {
-  assert.equal(ARCHETYPES.length, 10);
+test('十一个流派覆盖纯元素、元素反应、近战、触发、持续区域，且技能各不相同', () => {
+  assert.equal(ARCHETYPES.length, 11);
   const styles = ARCHETYPES.map(a => a.style).join(' ');
-  for (const k of ['纯元素·火', '纯元素·冰', '纯元素·电', '元素反应', '近战', '触发']) assert.ok(styles.includes(k), k);
-  assert.equal(new Set(ARCHETYPES.map(a => a.skills[0])).size, 10);
+  for (const k of ['纯元素·火', '纯元素·冰', '纯元素·电', '元素反应', '近战', '触发', '持续区域']) assert.ok(styles.includes(k), k);
+  assert.equal(new Set(ARCHETYPES.map(a => a.skills[0])).size, 11);
 });
 
 for (const a of ARCHETYPES) {

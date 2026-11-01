@@ -207,6 +207,18 @@ fam({ id: 'poison_burst', name: '毒爆：中毒敌人死亡时爆出毒雾，�
   make: v => ({ mods: [{ stat: 'chance.poison', op: 'base', value: 100, tags: ['poison_burst'] }],
     rules: [trig('kill', { cond: { status: 'poisoned', of: 'target' } }, [{ do: 'explode', pct: v, type: 'chaos', radius: 200, fx: 'poison', tags: ['explosion', 'poison_burst'] }], { role: 'owned', chain: true, at: 'event', limit: { perSecond: 30 } })] }) });
 
+// ---- 持续区域（火墙、龙卷风…）：形态与联动
+fam({ id: 'zone_pull', name: '风眼：持续区域把附近敌人往中心吸（每秒 {v}）', layer: 'form', values: [70, 100, 130, 160, 200, 250], slots: ['weapon', 'helmet', 'gloves', 'boots', 'amulet'], tags: ['form', 'area', 'duration'],
+  make: M('zone.pull', 'base') });
+fam({ id: 'zone_count', name: '风暴群：持续区域技能每次额外生成 {v} 个（向两侧散开）', layer: 'form', values: [1, 1, 1, 2, 2, 3], slots: ['weapon', 'offhand', 'helmet', 'gloves'], tags: ['form', 'area', 'duration'],
+  make: M('zone.count', 'base') });
+fam({ id: 'zone_growth', name: '膨胀：持续区域每秒扩大 {v}%', layer: 'form', values: [10, 15, 20, 25, 32, 40], slots: ['weapon', 'helmet', 'chest', 'amulet'], tags: ['form', 'area', 'duration'],
+  make: M('zone.growth', 'base') });
+fam({ id: 'zone_thunder', name: '雷旋：持续区域的命中有 {v}% 几率在目标处落雷（每秒最多 10 次）', layer: 'link', values: [5, 7, 9, 11, 14], slots: ['weapon', 'gloves', 'amulet', 'helmet', 'chest'], tags: ['link', 'lightning', 'trigger', 'area'],
+  make: v => ({ rules: [trig('hit', { tags: ['zone'] }, [{ do: 'cast', skill: 'thunder_fall' }], { accumulate: { kind: 'chance', pct: v }, limit: { perSecond: 10 } })] }) });
+fam({ id: 'zone_spawn', name: '风生：被持续区域击杀的敌人有 {v}% 几率从尸体卷起你的主技能（每秒最多 4 次）', layer: 'link', values: [12, 16, 20, 25, 30], slots: ['weapon', 'gloves', 'amulet', 'ring1', 'ring2'], tags: ['link', 'kill', 'trigger', 'area'],
+  make: v => ({ rules: [trig('kill', { tags: ['zone'] }, [{ do: 'cast', skill: '$primary', from: 'event', range: 700 }], { role: 'owned', chain: true, at: 'event', accumulate: { kind: 'chance', pct: v }, limit: { perSecond: 4 } })] }) });
+
 // ---- 通用联动：任何技能都成立
 fam({ id: 'proliferate', name: '传染：你施加的异常有 {v}% 几率传染给附近 1 个敌人', layer: 'link', values: [25, 35, 45, 60, 75], slots: ['weapon', 'gloves', 'amulet', 'ring1', 'ring2', 'helmet'], tags: ['link', 'ailment'],
   make: v => ({ rules: [trig('ailment', {}, [{ do: 'proliferate', radius: 240, max: 1 }], { accumulate: { kind: 'chance', pct: v }, chain: true, limit: { perSecond: 60 } })] }) });
@@ -261,6 +273,9 @@ fam({ id: 'core_avatar_fire', name: '核心·火之化身：全部物理、冰�
 
 fam({ id: 'core_gale', name: '核心·疾风：每个狂怒球使攻击与移动速度提高 {v}%（更多）', layer: 'core', values: [4, 5, 6], slots: ['amulet', 'helmet', 'boots', 'gloves'], tags: ['core', 'charge', 'speed'],
   make: v => ({ mods: [{ stat: 'speed', op: 'more', value: v, tags: ['attack'], per: { res: 'frenzy' } }, { stat: 'moveSpeed', op: 'more', value: v, per: { res: 'frenzy' } }] }) });
+
+fam({ id: 'core_maelstrom', name: '核心·风暴眼：持续区域每秒扩大 25%、持续时间延长 {v}%，结束时爆裂造成 300% 伤害', layer: 'core', values: [30, 45, 60], slots: ['amulet', 'chest', 'helmet'], tags: ['core', 'area', 'duration'],
+  make: v => ({ mods: [{ stat: 'zone.growth', op: 'base', value: 25 }, { stat: 'duration', op: 'inc', value: v, tags: ['duration'] }, { stat: 'zone.burst', op: 'base', value: 300 }] }) });
 
 // ================================================================== API
 export const families = () => [...FAMILIES.values()];

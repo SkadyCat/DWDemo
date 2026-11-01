@@ -1,4 +1,4 @@
-// 十个示范流派：纯元素 ×3、元素反应 ×2、近战 ×3、触发 ×1、投射物持续伤害 ×1。
+// 十一个示范流派：纯元素 ×3、元素反应 ×2、近战 ×3、触发 ×1、投射物持续伤害 ×1、持续区域 ×1。
 // 每个流派 = 一个朴素技能 + 五级「质变」阶梯（每阶段拿到的关键词条和它带来的玩法变化）+ 数值放大优先级 + 防守优先级。
 // 阶段 0–4 = 起步 / 成型 / 卡关 / 突破 / 毕业。
 const RES = ['res_fire', 'res_cold', 'res_lightning'];
@@ -152,6 +152,20 @@ export const ARCHETYPES = Object.freeze([
     traits: ['proj_count', 'proj_pierce', 'proj_fork', 'proj_explode', 'proliferate', 'kill_recast', 'core_point_blank', 'extra_physical_chaos', 'proj_chain', 'vs_ailing', 'kill_onslaught', 'kill_minion', 'bleed_explode'],
     amp: ['ailment_poison', 'added_chaos_attack', 'attack_speed', 'dot_inc', 'dmg_projectile', 'ailment_poison', 'added_physical_attack', 'attack_speed', 'dmg_chaos', 'chance_poison', 'dot_inc'],
     defence: interleave(DEF_LIFE, EVASION),
+  }),
+  A({
+    id: 'tempest', name: '风暴龙卷', style: '持续区域·追猎', skills: ['tornado'], keepDistance: 340,
+    summary: '龙卷风把怪吸进风眼 → 一次卷起一群 → 风里劈下落雷 → 被卷死的怪再卷起龙卷风 → 风暴眼越转越大，散场时整片炸开。',
+    ladder: [
+      { title: '风眼', text: '龙卷风追着怪跑，把周围的怪吸进风眼里一起绞。', keys: [['zone_pull', 'weapon']] },
+      { title: '风暴群', text: '每次施放卷起一群龙卷风，扇形扫过整个房间。', keys: [['zone_count']] },
+      { title: '雷旋', text: '风里劈下落雷：龙卷风的每次命中都可能引雷。', keys: [['zone_thunder']] },
+      { title: '风生', text: '被卷死的怪从尸体卷起新的龙卷风，龙卷风越转越大——风暴开始自己繁殖。', keys: [['zone_spawn'], ['zone_growth']] },
+      { title: '风暴眼', text: '龙卷风持续更久、不断膨胀，散场时整片爆裂：一场风暴清空一个房间。', keys: [['core_maelstrom', 'amulet']] },
+    ],
+    traits: ['zone_count', 'zone_pull', 'area_more', 'spell_echo', 'kill_recast', 'zone_growth', 'conv_phys_lightning', 'kill_onslaught', 'vs_ailing', 'proliferate', 'kill_minion', 'cast_on_shock'],
+    amp: ['added_physical_spell', 'cast_speed', 'dmg_area', 'dmg_spell', 'dmg_physical', 'cast_speed', 'added_lightning_spell', 'dmg_lightning', 'area_inc', 'duration', 'crit_chance'],
+    defence: interleave(DEF_LIFE, ES),
   }),
 ]);
 

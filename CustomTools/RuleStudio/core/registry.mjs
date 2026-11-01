@@ -43,6 +43,9 @@ const STATIC = {
   'repeat': N(0, 0, 16), 'strike.targets': N(1, 1, 32), 'echo': N(0, 0, 8),
   // Generic shape traits: ring volleys, exploding projectiles, area aftershocks, melee splash.
   'proj.nova': N(0, 0, 1), 'proj.explode': N(0, 0, 600), 'area.cascade': N(0, 0, 8), 'strike.splash': N(0, 0, 600),
+  // Ground zones (fields, walls, vortices): extra copies per cast, travel speed (percent), pulling enemies
+  // in (units per second), growing (percent radius per second) and bursting when they end (percent of a hit).
+  'zone.count': N(0, 0, 8), 'zone.speed': N(100, 0), 'zone.pull': N(0, 0, 2000), 'zone.growth': N(0, 0, 400), 'zone.burst': N(0, 0, 5000),
   'minion.limit': N(0, 0, 200), 'totem.limit': N(1, 0, 32),
   'hitsCanTrigger': F(), 'overkillSpread': N(0, 0, 100), 'consumeKeep': N(0, 0, 100),
   // Ailment damage scales only with these (tag them: ['ignite'], ['poison'], ['dot']...), so generic hit

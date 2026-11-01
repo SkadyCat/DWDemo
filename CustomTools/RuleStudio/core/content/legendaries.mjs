@@ -39,6 +39,11 @@ export const LEGENDARIES = Object.freeze(patchList('legendaries', [
     legend: { text: '电弧连锁 +5 次，每次连锁 +1 次分叉',
       mods: [{ stat: 'proj.chain', op: 'base', value: 5, tags: ['chaining'] }, { stat: 'proj.fork', op: 'base', value: 1, tags: ['chaining'] }] },
     flavor: '握住它，就是握住一整片雷雨。' },
+  { id: 'eye_of_storm', name: '风暴之眼', slot: 'weapon', base: 'war_staff', skill: 'tornado', theme: 'phys',
+    legend: { text: '龙卷风 +1 道；龙卷风命中时 20% 几率在命中处分裂出一道新的龙卷风（每秒最多 3 次）',
+      mods: [{ stat: 'zone.count', op: 'base', value: 1, tags: ['vortex'] }],
+      rules: [trig('hit', { skill: 'tornado', tags: ['zone'] }, [{ do: 'cast', skill: 'tornado', from: 'event', range: 600 }], { accumulate: { kind: 'chance', pct: 20 }, chain: true, at: 'event', limit: { perSecond: 3 } })] },
+    flavor: '风暴的中心最安静——直到它决定换个地方。' },
   // ---------------------------------------------------------------- offhand
   { id: 'glacier_wall', name: '冰川之壁', slot: 'offhand', base: 'tower_shield', theme: 'cold',
     legend: { text: '+12% 格挡几率；格挡时在身边掀起寒潮（冷却 0.4 秒）',

@@ -18,7 +18,7 @@ export const BASE_LINES = 3;
 export const TRAIT_LAYERS = Object.freeze(['form', 'link', 'core']);
 export const isTrait = fid => TRAIT_LAYERS.includes(family(fid).layer);
 
-const SPELLS = ['fireball', 'ice_nova', 'arc', 'spark', 'frost_bolt', 'flame_wall', 'summon_blades', 'storm_totem_place'];
+const SPELLS = ['fireball', 'ice_nova', 'arc', 'spark', 'frost_bolt', 'flame_wall', 'summon_blades', 'storm_totem_place', 'tornado'];
 const ATTACKS = ['heavy_strike', 'cleave', 'cyclone', 'falling_thunder', 'flicker_strike', 'viper_knives'];
 /** Skills that can appear as an item's first base line. */
 export const ITEM_SKILLS = Object.freeze([...SPELLS, ...ATTACKS]);
@@ -28,7 +28,7 @@ const SKILL_CHANCE = { weapon: 1, offhand: 0.45, helmet: 0.3, gloves: 0.3, boots
 /** Bases per slot: a name and the skills its first base line can roll. */
 const RAW_BASES = {
   weapon: [
-    { id: 'war_staff', name: '战杖', skills: ['ice_nova', 'arc', 'flame_wall', 'storm_totem_place', 'fireball'] },
+    { id: 'war_staff', name: '战杖', skills: ['ice_nova', 'arc', 'flame_wall', 'storm_totem_place', 'fireball', 'tornado'] },
     { id: 'wand', name: '法杖', skills: ['fireball', 'spark', 'frost_bolt', 'arc'] },
     { id: 'maul', name: '重锤', skills: ['heavy_strike', 'falling_thunder', 'cleave', 'cyclone'] },
     { id: 'dagger', name: '匕首', skills: ['flicker_strike', 'viper_knives', 'cyclone', 'heavy_strike'] },

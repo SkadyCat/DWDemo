@@ -53,11 +53,14 @@ export function mountLab(host, bar) {
     击杀: () => dummies.forEach((d, i) => setTimeout(() => R.death([d.position.x, 0, d.position.z], ['fire', 'cold', 'lightning', 'chaos', 'physical'][i]), i * 80)),
     首领死亡: () => R.death(P(4.5, 0), 'fire', 2.2, { boss: true }),
     召唤: () => R.summon(P(0, 1.5), 'lightning'),
+    风暴爆裂: () => R.windBurst(P(4, 0), 2.2),
   };
   const statusDemo = { on: false };
   const zoneDemo = { on: false };
   const add = (name, fn) => { const b = document.createElement('button'); b.textContent = name; b.onclick = () => fn(b); bar.appendChild(b); return b; };
   for (const [name, fn] of Object.entries(DEMOS)) add(name, fn);
+  const twist = { on: false };
+  add('龙卷风', b => { twist.on = !twist.on; b.classList.toggle('on', twist.on); });
   add('火墙', b => { zoneDemo.on = !zoneDemo.on; b.classList.toggle('on', zoneDemo.on); });
   add('状态', b => { statusDemo.on = !statusDemo.on; b.classList.toggle('on', statusDemo.on); });
   let auto = null;
@@ -77,6 +80,7 @@ export function mountLab(host, bar) {
     for (let i = shots.length - 1; i >= 0; --i) if (shots[i].dead) shots.splice(i, 1);
     fx.projectiles(shots.map(s => ({ ...s, vy: 0, hostile: s.kind === 'mob_bolt' })), dt);
     if (zoneDemo.on) fx.zones([{ x: 3, z: 0, radius: 1.4, kind: 'flame_wall', element: 'fire' }]);
+    if (twist.on) { const tt = performance.now() / 1000; fx.zones([0, 1, 2].map(i => ({ x: 2 + Math.cos(tt * .6 + i * 2.1) * 2.2, z: Math.sin(tt * .6 + i * 2.1) * 1.6, radius: 1.05, kind: 'tornado', element: i === 2 ? 'lightning' : 'physical', seed: i * 3 }))); }
     if (statusDemo.on) fx.statuses(dummies.map((d, i) => ({ x: d.position.x, z: d.position.z, size: 1, status: STATUSES[i % STATUSES.length], stacks: 1 })));
     camera.position.copy(base); camera.lookAt(1.5, 0, 0); camera.updateMatrixWorld();
     const st = fx.update(dt, camera);
@@ -87,5 +91,5 @@ export function mountLab(host, bar) {
   requestAnimationFrame(frame);
   /** Tests: stop the clock and step it exactly (frames at 60 Hz, drawing only the last). */
   const advance = sec => { manual = true; const n = Math.max(1, Math.round(sec * 60)); for (let i = 0; i < n; ++i) frame(performance.now(), 1 / 60, i === n - 1); };
-  globalThis.__lab = { fx, DEMOS, statusDemo, zoneDemo, advance, manual: () => { manual = true; } };
+  globalThis.__lab = { fx, DEMOS, statusDemo, zoneDemo, twist, advance, manual: () => { manual = true; } };
 }

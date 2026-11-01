@@ -243,6 +243,18 @@ export function createFx(T, scene) {
       }
     },
 
+    /** A vortex bursting apart at the end of its life: a wind shockwave, flung debris, dust. */
+    windBurst(pos, radius) {
+      const r = Math.max(.6, radius), k = calm(), c = { hot: [1.6, 1.7, 1.8], core: [2.6, 2.7, 2.8] };
+      heat += r * r * .4;
+      G.ring({ x: pos[0], z: pos[2], from: r * .2, to: r * 1.2, width: .12 + r * .05, color: mul(c.hot, .8 * k + .2), life: .4, mode: 0, ease: 3 });
+      P.emit('add', Math.round(18 * k + 4), { pos: [pos[0], .5, pos[2]], dir: 'flat', lift: [.2, 1.2], speed: [r * 4, r * 8], life: [.2, .4], size: [.05, .09], color: c.core, color1: c.hot, cell: CELL.streak, stretch: .05, drag: 3, fadeIn: 0 });
+      P.emit('alpha', Math.round(8 * k + 2), { pos: [pos[0], .15, pos[2]], spread: r * .4, flat: true, dir: 'flat', speed: [r * 1.5, r * 3], life: [.6, 1], size: [r * .3, r * .5], grow: 2, color: [.18, .16, .14], alpha: .4, cell: CELL.dust, drag: 2.5, fadeIn: .05 });
+      P.emit('alpha', Math.round(10 * k + 2), { pos: [pos[0], .6, pos[2]], spread: r * .3, dir: 'sphere', half: true, speed: [3, 8], life: [.5, .9], size: [.06, .12], color: [.16, .14, .12], alpha: 1, cell: CELL.shard, grav: -12, bounce: true, spin: [-12, 12], fadeIn: 0 });
+      if (k > .5) ripple([pos[0], .3, pos[2]], r, .022, .45);
+      shake(.1 * k);
+    },
+
     /** Summon: runic flash where a minion appears. */
     summon(pos, el = 'physical') {
       const c = pal(el);
@@ -328,8 +340,38 @@ export function createFx(T, scene) {
   }
 
   /** Ground zones: [{ x, z, radius, kind, element, left }] */
+  /** A vortex: a rotating funnel of wind streaks, a dust skirt at its foot, debris flung around it. */
+  function tornado(z, dens) {
+    const R = z.radius, H = 2.2 + R * .6, spin = 7, lv = 8, per = 5;
+    const c = z.element === 'lightning' ? PAL.lightning : z.element === 'fire' ? PAL.fire : z.element === 'cold' ? PAL.cold : { hot: [1.1, 1.15, 1.2], core: [2, 2.1, 2.2], mid: [.5, .55, .6] };
+    const a0 = time * spin + z.seed;
+    for (let l = 0; l < lv; ++l) {
+      const u = l / (lv - 1), h = .1 + u * H, rad = R * (.22 + .9 * Math.pow(u, 1.25)), sway = Math.sin(time * 2.3 + z.seed + u * 2) * R * .18 * u;
+      for (let j = 0; j < per; ++j) {
+        const th = a0 * (1.3 - u * .5) + j / per * 6.2832 + u * 1.7;
+        const px = z.x + Math.cos(th) * rad + sway, pz = z.z + Math.sin(th) * rad;
+        const tx = -Math.sin(th), tz = Math.cos(th), len = rad * .9;
+        P.sprite('add', [px, h, pz], .16 + u * .34, c.hot, (.1 + .1 * (1 - u)) * dens, CELL.beam, 0, 1, [tx * len, .1, tz * len]);
+        if (j % 2 === 0) P.sprite('alpha', [px * .5 + z.x * .5, h, pz * .5 + z.z * .5], rad * 1.4 + .2, [.32, .33, .36], .08 * dens, CELL.smoke, th);
+      }
+    }
+    P.sprite('add', [z.x, H * .45, z.z], R * 2.6, c.mid, .12 * dens, CELL.glow);
+    // wind wisps riding the funnel
+    for (let i = 0; i < 2; ++i) if (Math.random() < dens) {
+      const u = Math.random(), th = Math.random() * 6.28, rad = R * (.25 + .9 * Math.pow(u, 1.25)), sp = rad * spin * .9;
+      P.emit('add', 1, { pos: [z.x + Math.cos(th) * rad, .1 + u * H, z.z + Math.sin(th) * rad], vel: [-Math.sin(th) * sp, 1.2, Math.cos(th) * sp], life: [.18, .3], size: [.1, .18], color: c.core, alpha: .35, cell: CELL.streak, stretch: .06, fadeIn: .1, noThin: true });
+    }
+    // dust skirt and debris
+    if (Math.random() < .7 * dens) P.emit('alpha', 1, { pos: [z.x, .08, z.z], ring: R * .5, dir: 'flat', speed: [R * 1.5, R * 3], lift: [.3, 1], life: [.4, .8], size: [R * .5, R * .8], grow: 1.6, color: [.2, .18, .16], alpha: .35, cell: CELL.dust, drag: 2, spin: [-3, 3], fadeIn: .1 });
+    if (Math.random() < .8 * dens) { const th = Math.random() * 6.28; P.emit('alpha', 1, { pos: [z.x + Math.cos(th) * R * .6, R * .3 + Math.random() * H * .6, z.z + Math.sin(th) * R * .6], vel: [-Math.sin(th) * R * 6, R * 2, Math.cos(th) * R * 6], life: [.4, .7], size: [.05, .1], color: [.16, .14, .12], alpha: 1, cell: CELL.shard, grav: -4, drag: 1.5, spin: [-12, 12], fadeIn: 0, noThin: true }); }
+    if (z.element === 'lightning' && Math.random() < .12 * dens) { const th = Math.random() * 6.28, h = Math.random() * H; lightning([z.x, h, z.z], [z.x + Math.cos(th) * R * 1.2, Math.max(.1, h - .6), z.z + Math.sin(th) * R * 1.2], { life: .08, branches: 0, rough: .4 }); }
+  }
+
   function zones(list) {
+    const twisters = list.filter(z => z.kind === 'tornado'), dens = Math.min(1, 3 / Math.sqrt(Math.max(1, twisters.length)));
+    for (const z of twisters) tornado(z, dens);
     for (const z of list) {
+      if (z.kind === 'tornado') continue;
       const el = z.kind === 'flame_wall' ? 'fire' : z.element, c = pal(el), area = Math.min(30, z.radius * z.radius * 3.14);
       const n = Math.max(1, Math.round(area * .9));
       if (el === 'fire') {

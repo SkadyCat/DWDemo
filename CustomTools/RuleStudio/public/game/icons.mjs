@@ -18,7 +18,7 @@ export const SKILL_ICON = {
   fireball: 'fireball', ice_nova: 'snowflake-1', arc: 'lightning-arc', spark: 'spark-spirit', frost_bolt: 'ice-bolt', flame_wall: 'flame',
   heavy_strike: 'hammer-drop', cleave: 'crossed-swords', cyclone: 'whirlwind', falling_thunder: 'thor-hammer', flicker_strike: 'teleport',
   viper_knives: 'thrown-daggers', summon_blades: 'spinning-sword', storm_totem_place: 'stone-tower',
-  glacial_burst: 'frozen-orb', thunder_fall: 'lightning-branches', ice_spike_burst: 'ice-spear', flame_burst: 'fluffy-flame', blade_ring: 'spinning-blades', ground_slam: 'heavy-fall',
+  glacial_burst: 'frozen-orb', tornado: 'tornado', thunder_fall: 'lightning-branches', ice_spike_burst: 'ice-spear', flame_burst: 'fluffy-flame', blade_ring: 'spinning-blades', ground_slam: 'heavy-fall',
 };
 export const CURRENCY_ICON = {
   augment: 'crystal-cluster', chaos: 'vortex', upgrade: 'upgrade', annul: 'broken-shield', seal: 'rune-stone', temper: 'anvil-impact',

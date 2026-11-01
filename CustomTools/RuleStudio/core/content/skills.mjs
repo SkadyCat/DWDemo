@@ -38,6 +38,9 @@ export const GAME_SKILLS = Object.freeze({
       actions: [{ do: 'projectile', speed: 900, radius: 26, pierce: 1, kind: 'frost_bolt' }] },
     { id: 'spark', name: '电花', tags: ['spell', 'projectile', 'lightning'], time: 0.55, cost: 6, crit: 6, damage: { lightning: 14 }, range: 700,
       actions: [{ do: 'projectile', count: 3, spread: 50, speed: 1100, radius: 16, lifetime: 0.9, kind: 'spark' }] },
+    // A vortex that travels toward the aim, drifts and hunts the nearest enemy, hitting everything inside four times a second.
+    { id: 'tornado', name: '龙卷风', tags: ['spell', 'area', 'duration', 'physical', 'vortex'], time: 0.7, cost: 11, crit: 6, damage: { physical: 9 }, range: 900,
+      actions: [{ do: 'zone', kind: 'tornado', at: 'self', radius: 105, duration: 2.6, interval: 0.25, speed: 330, wander: 2.5, seek: 1.8, hit: true }] },
     { id: 'flame_wall', name: '火墙', tags: ['spell', 'area', 'fire', 'duration'], time: 0.8, cost: 10, crit: 5, damage: { fire: 10 }, range: 600,
       actions: [{ do: 'zone', kind: 'flame_wall', at: 'aim', radius: 140, duration: 3, interval: 0.4 }] },
     // ---- attacks ----

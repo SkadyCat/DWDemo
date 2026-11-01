@@ -1,4 +1,4 @@
-// 生成十个流派的分阶段收集清单与验证数字（docs/core-archetypes.md）。
+// 生成十一个流派的分阶段收集清单与验证数字（docs/core-archetypes.md）。
 import fs from 'node:fs';
 import { gameContent } from '../core/content/game.mjs';
 import { ARCHETYPES } from '../core/content/archetypes.mjs';

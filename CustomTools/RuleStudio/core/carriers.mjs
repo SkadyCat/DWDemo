@@ -102,10 +102,15 @@ export class Carriers {
 
   tickZone(world, z, dt) {
     if (z.follow) { z.x = z.follow.x; z.y = z.follow.y; if (!z.follow.alive) z.remaining = 0; }
+    else if (z.speed > 0) this.steerZone(world, z, dt);
+    // Growth is linear in the starting size and stops at three times it.
+    if (z.growth > 0) { z.base ??= z.radius; z.radius = Math.min(z.base * 3, z.radius + z.base * z.growth / 100 * dt); }
+    if (z.pull > 0) this.pullInto(world, z, dt);
     z.remaining -= dt; z.timer -= dt;
     while (z.timer <= 0 && z.remaining > -1e-9) {
       z.timer += z.interval;
-      const inv = z.inv.fork({ origin: { x: z.x, y: z.y }, aim: { x: z.x, y: z.y } });
+      // Hits from a zone carry the 'zone' tag, so traits can react to "your fields / vortices hit".
+      const inv = z.inv.fork({ origin: { x: z.x, y: z.y }, aim: { x: z.x, y: z.y }, tags: new Set([...z.inv.tags, 'zone']) });
       inv.vars = z.inv.vars; // zone variables persist across pulses (brand energy, stacking fields)
       if (z.follow && z.follow !== inv.caster) inv.target = z.follow;
       const a = z.action, hits = a.hit === true || !!a.damage, follow = hits ? a : { ...a, hit: false };
@@ -117,7 +122,47 @@ export class Carriers {
       }
       if (a.onPulse) run(a.onPulse, inv);
     }
-    if (z.remaining <= 0) { z.alive = false; world.emit({ type: 'zoneEnd', source: z.inv.caster, x: z.x, y: z.y, carrier: z.id }); }
+    if (z.remaining <= 0) {
+      z.alive = false;
+      world.emit({ type: 'zoneEnd', source: z.inv.caster, x: z.x, y: z.y, carrier: z.id, kind: z.kind, radius: z.radius });
+      // Bursting zones go off when they end, for a share of their hit.
+      if (z.burst > 0 && z.inv.caster.alive) run([{ do: 'area', at: 'aim', radius: z.radius * 1.3, mult: z.burst, fx: 'vortex_burst', noCascade: true, tags: ['zone', 'burst'] }],
+        z.inv.fork({ origin: { x: z.x, y: z.y }, aim: { x: z.x, y: z.y }, target: null }));
+    }
+  }
+
+  /** A travelling zone: drifts (wander), turns toward the nearest enemy (seek), bounces off walls. */
+  steerZone(world, z, dt) {
+    if (z.wander) z.angle += (world.roll('zone') - 0.5) * z.wander * dt * 2;
+    if (z.seek) {
+      let best = null, bd = 600 * 600;
+      world.grid.query(z.x, z.y, 600, o => { const d = (o.x - z.x) ** 2 + (o.y - z.y) ** 2; if (d < bd || (d === bd && best && o.id < best.id)) { bd = d; best = o; } }, { notTeam: z.inv.caster.team });
+      if (best && bd > z.radius * z.radius * 0.25) {
+        let diff = Math.atan2(best.y - z.y, best.x - z.x) - z.angle;
+        diff = Math.atan2(Math.sin(diff), Math.cos(diff));
+        z.angle += Math.max(-z.seek * dt, Math.min(z.seek * dt, diff));
+      }
+    }
+    const step = z.speed * dt, nx = z.x + Math.cos(z.angle) * step, ny = z.y + Math.sin(z.angle) * step;
+    if (world.clearLine(z.x, z.y, nx, ny, 0)) { z.x = nx; z.y = ny; return; }
+    // Reflect off whichever axis is blocked.
+    if (world.clearLine(z.x, z.y, z.x - Math.cos(z.angle) * step, ny, 0)) z.angle = Math.PI - z.angle;
+    else if (world.clearLine(z.x, z.y, nx, z.y - Math.sin(z.angle) * step, 0)) z.angle = -z.angle;
+    else z.angle += Math.PI;
+  }
+
+  /** Drag enemies near a zone toward its centre (bosses resist most of it). */
+  pullInto(world, z, dt) {
+    const reach = z.radius * 1.8, list = [];
+    world.grid.query(z.x, z.y, reach, o => { if (Math.hypot(o.x - z.x, o.y - z.y) <= reach) list.push(o); }, { notTeam: z.inv.caster.team });
+    list.sort((p, q) => p.id - q.id);
+    for (const o of list) {
+      if (!o.alive || world.quick(o, 'cannotMove') && o.kind === 'boss') continue;
+      const dx = z.x - o.x, dy = z.y - o.y, d = Math.hypot(dx, dy);
+      if (d < 8) continue;
+      const k = o.kind === 'boss' ? 0.15 : o.kind === 'elite' ? 0.5 : 1, step = Math.min(z.pull * k * dt, d * 0.5);
+      world.moveActor(o, o.x + dx / d * step, o.y + dy / d * step);
+    }
   }
 }
 

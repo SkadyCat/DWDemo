@@ -309,10 +309,20 @@ defineAction('projectile', (a, inv) => {
 });
 
 defineAction('zone', (a, inv) => {
-  const c = point(a.at, inv);
-  inv.world.carriers.spawnZone({ inv: inv.fork({ origin: c, aim: c }), action: a, x: c.x, y: c.y, radius: areaRadius(a, inv),
-    remaining: num(a.duration, inv, 4) * inv.stat('duration') / 100, interval: num(a.interval, inv, 0.5), timer: a.delayFirst ? num(a.interval, inv, 0.5) : 0,
-    follow: a.follow === 'target' ? inv.target : a.follow ? inv.caster : null, kind: a.kind ?? null });
+  const w = inv.world, c = point(a.at, inv);
+  // Moving zones (vortices) travel toward the aim; extra copies (zone.count) fan out around that heading.
+  const n = 1 + Math.round(inv.stat('zone.count')), speed = num(a.speed, inv, 0) * inv.stat('zone.speed') / 100;
+  const heading = Math.atan2(inv.aim.y - c.y, inv.aim.x - c.x) || 0;
+  const shared = { radius: areaRadius(a, inv), remaining: num(a.duration, inv, 4) * inv.stat('duration') / 100, interval: num(a.interval, inv, 0.5),
+    pull: inv.stat('zone.pull'), growth: inv.stat('zone.growth'), burst: inv.stat('zone.burst'), speed, wander: num(a.wander, inv, 0), seek: num(a.seek, inv, 0) };
+  for (let i = 0; i < n; ++i) {
+    const side = i === 0 ? 0 : (i % 2 ? 1 : -1) * Math.ceil(i / 2);
+    const ang = heading + side * 0.45;
+    // Static zones place their copies around the first one instead of steering them.
+    const p = speed > 0 || i === 0 ? c : { x: c.x + Math.cos(ang + Math.PI / 2) * shared.radius * 1.4 * side, y: c.y + Math.sin(ang + Math.PI / 2) * shared.radius * 1.4 * side };
+    w.carriers.spawnZone({ inv: inv.fork({ origin: p, aim: p }), action: a, x: p.x, y: p.y, ...shared, angle: ang,
+      timer: a.delayFirst ? shared.interval : 0, follow: a.follow === 'target' ? inv.target : a.follow ? inv.caster : null, kind: a.kind ?? null });
+  }
 });
 
 /** Trigger the caster's existing zones of a kind near a point (Blade Blast on Blade Fall blades). */

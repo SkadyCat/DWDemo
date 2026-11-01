@@ -403,7 +403,7 @@ const TEMPLATE = /* html */ `
       </div>
 
       <div v-if="center === 'codex'" class="codex">
-        <p class="hint">25 件传奇，每件一条改写玩法的传奇特性；基底其余特性和随机词条照常随机。首领约三分之一几率掉落，精英偶尔掉落。「试玩」直接放一件进背包。</p>
+        <p class="hint">{{ legendaries.length }} 件传奇，每件一条改写玩法的传奇特性；基底其余特性和随机词条照常随机。首领约三分之一几率掉落，精英偶尔掉落。「试玩」直接放一件进背包。</p>
         <div class="codex-grid">
           <article v-for="L in legendaries" :key="L.id" class="lcard" :class="'th-' + L.theme">
             <div class="lcard-icon"><Gi :n="baseIcon(L.base)" c="r-legendary"/></div>
