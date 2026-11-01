@@ -657,8 +657,9 @@ export function mountGame(el) {
       }
       function leaveRun() {
         const r = run.value; if (!r) return;
-        const loot = r.phase === 'failed' ? r.pickedUp : r.collectAll();
-        for (const d of loot) { if (d.type === 'item') save.inventory.unshift(d.item); else if (d.type === 'waystone') save.waystones.push(d.stone); else save.currencies[d.id] = (save.currencies[d.id] || 0) + d.count; }
+        // Picked-up loot is already in the bag (see frame()); a cleared map also hands over what is still on the floor.
+        if (r.phase !== 'failed') r.collectAll();
+        for (; seenPicked < r.pickedUp.length; ++seenPicked) bank(r.pickedUp[seenPicked]);
         if (r.phase === 'cleared') { save.unlocked = Math.min(MAP_TIERS, Math.max(save.unlocked, r.tier + 1)); save.stats.maps++; }
         save.stats.kills += r.kills;
         persist();
@@ -666,6 +667,8 @@ export function mountGame(el) {
         run.value = null; roles.value = null; gearKey.value++;
         if (r.phase === 'cleared') atlasSel.value = firstNear(r.node);
       }
+      // Everything picked up goes straight into the save, so the bag shows it during the run too.
+      function bank(d) { if (d.type === 'item') save.inventory.unshift(d.item); else if (d.type === 'waystone') save.waystones.push(d.stone); else save.currencies[d.id] = (save.currencies[d.id] || 0) + d.count; }
       function frame(now) {
         const r = run.value; if (!r) return;
         // A frame queued before the run started can carry an older timestamp: never step backwards.
@@ -680,8 +683,9 @@ export function mountGame(el) {
           seenLoot.add(l.key);
           if (l.drop.item?.legend) { legendBanner.value = { id: l.key, name: itemName(l.drop.item) }; setTimeout(() => { if (legendBanner.value?.id === l.key) legendBanner.value = null; }, 2600); }
         }
+        if (seenPicked < r.pickedUp.length) queueMicrotask(persist);
         for (; seenPicked < r.pickedUp.length; ++seenPicked) {
-          const d = r.pickedUp[seenPicked];
+          const d = r.pickedUp[seenPicked]; bank(d);
           if (d.type === 'item') {
             const rr = rarityOf(d.item);
             toast(`${rr.name} · ${itemName(d.item)}`, 'r-' + rr.id, itemIcon(d.item), 'r-' + rr.id);
