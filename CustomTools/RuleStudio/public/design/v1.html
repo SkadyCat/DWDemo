@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>样张 1 · 圣铁暗金</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Noto+Serif+SC:wght@400;600;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="base.css">
+<style>
+/* 圣铁暗金：锻铁 + 鎏金浮雕 + 羊皮纸说明。重、沉、像一件被反复擦亮的圣物。 */
+:root {
+  --iron: #17181c; --iron2: #22232a; --iron3: #2e2f37; --rim: #4a4336;
+  --gold: #c9a35c; --gold-hi: #f3d999; --gold-lo: #6e5528; --ember: #d9572b;
+  --bone: #e8dcc2; --ink: #b9ae98; --mute: #7d7464;
+  --normal: #cfc8b8; --magic: #8fb2ff; --rare: #f1d26a; --legendary: #f08a3c; --currency: #d9c08a;
+  --serif: 'Noto Serif SC', serif; --cap: 'Cinzel', 'Noto Serif SC', serif;
+}
+body { font: 13px/1.5 var(--serif); color: var(--ink); }
+.vignette { background: radial-gradient(ellipse at 50% 55%, transparent 40%, rgba(0,0,0,.75)); }
+
+/* the metal frame: a dark plate with a double gold rule and corner studs */
+.frame, .window, .plate, .tip { background: linear-gradient(180deg, #1d1e23 0%, #131418 100%); border: 1px solid #000; box-shadow: 0 0 0 1px var(--gold-lo), 0 0 0 3px #0c0c0e, 0 0 0 4px #3a3226, inset 0 1px 0 rgba(255,230,170,.07), 0 18px 40px rgba(0,0,0,.7); position: absolute; }
+.window::before, .tip::before { content: ""; position: absolute; inset: 6px; border: 1px solid rgba(201,163,92,.22); pointer-events: none; }
+.window::after, .tip::after { content: ""; position: absolute; inset: -6px; pointer-events: none;
+  background:
+    radial-gradient(circle at 6px 6px, var(--gold-hi) 0 2px, var(--gold-lo) 3px, transparent 4px) top left / 14px 14px no-repeat,
+    radial-gradient(circle at 8px 6px, var(--gold-hi) 0 2px, var(--gold-lo) 3px, transparent 4px) top right / 14px 14px no-repeat,
+    radial-gradient(circle at 6px 8px, var(--gold-hi) 0 2px, var(--gold-lo) 3px, transparent 4px) bottom left / 14px 14px no-repeat,
+    radial-gradient(circle at 8px 8px, var(--gold-hi) 0 2px, var(--gold-lo) 3px, transparent 4px) bottom right / 14px 14px no-repeat; }
+
+.win-head { padding: 14px 20px 10px; border-bottom: 1px solid #000; box-shadow: 0 1px 0 rgba(201,163,92,.25); background: linear-gradient(#26262c, #18181c); }
+.win-head h1 { font: 700 22px/1 var(--cap); color: var(--gold-hi); letter-spacing: .35em; text-shadow: 0 1px 0 #000, 0 0 18px rgba(243,217,153,.25); }
+.tabs b { font-weight: 600; font-size: 13px; padding: 5px 14px; color: var(--mute); border: 1px solid transparent; }
+.tabs b.on { color: var(--bone); border-color: var(--gold-lo); background: linear-gradient(#3a2e1c, #1b160e); }
+.x { width: 28px; height: 28px; border: 1px solid var(--gold-lo); color: var(--gold); font-size: 18px; line-height: 24px; background: #111; }
+.gold { color: var(--gold-hi); font: 600 14px var(--cap); margin-left: auto; }
+
+/* plate & minimap */
+.plate { box-shadow: 0 0 0 1px var(--gold-lo), 0 0 0 3px #0c0c0e, 0 10px 30px rgba(0,0,0,.6); }
+.plate-tier { width: 70px; display: grid; place-items: center; font: 700 30px var(--cap); color: var(--gold-hi); background: radial-gradient(circle at 50% 35%, #4a3418, #120d06); border-right: 1px solid var(--gold-lo); text-shadow: 0 0 14px rgba(243,217,153,.4); }
+.plate-tier small { font-size: 13px; margin-right: 1px; color: var(--gold); }
+.plate h2 { font: 900 18px var(--serif); color: var(--bone); letter-spacing: .3em; }
+.plate-bar { background: #050505; box-shadow: inset 0 0 0 1px #3a3226; } .plate-bar i { background: linear-gradient(90deg, var(--gold-lo), var(--gold-hi)); }
+.plate p { color: var(--mute); } .plate .warn { color: var(--ember); }
+.minimap { border-radius: 50%; background: radial-gradient(circle, rgba(30,30,36,.85), rgba(8,8,10,.95)); box-shadow: 0 0 0 2px #000, 0 0 0 5px var(--gold-lo), 0 0 0 6px var(--gold), 0 0 0 9px #111, 0 10px 30px #000; }
+.mm-inner { border-radius: 50%; background:
+  linear-gradient(90deg, transparent 30%, rgba(201,163,92,.25) 30% 34%, transparent 34%) 0 0 / 100% 100%,
+  repeating-linear-gradient(0deg, transparent 0 22px, rgba(140,130,110,.18) 22px 24px), repeating-linear-gradient(90deg, transparent 0 22px, rgba(140,130,110,.18) 22px 24px); opacity: .7; }
+.mm-hero { background: #9fe0ff; box-shadow: 0 0 10px #9fe0ff; }
+
+/* combat text */
+.combo b { font: 700 64px/1 var(--cap); color: var(--bone); text-shadow: 0 0 22px rgba(240,138,60,.65), 0 3px 0 #000; }
+.combo span { font: 900 20px var(--serif); color: var(--gold-hi); letter-spacing: .4em; }
+.combo small { color: #e4b0ff; font-size: 13px; }
+.clearflash { font: 900 34px var(--serif); letter-spacing: 1em; color: #fff3d6; text-shadow: 0 0 30px #f08a3c, 0 0 60px #f08a3c, 0 3px 0 #000; }
+.floaters b { font: 700 22px var(--cap); color: var(--bone); text-shadow: 0 2px 0 #000, 0 0 10px rgba(0,0,0,.8); }
+.floaters b.crit { font-size: 34px; color: #ffd27a; text-shadow: 0 0 16px #f08a3c, 0 2px 0 #000; }
+
+/* dock: orbs in sculpted iron cups, skill slots as gilded sockets */
+.dock { gap: 0; }
+.orb { box-shadow: 0 0 0 3px #000, 0 0 0 7px #2b2620, 0 0 0 8px var(--gold), 0 0 0 11px #120f0b, 0 0 0 12px var(--gold-lo), 0 12px 30px #000; background: radial-gradient(circle at 50% 40%, #1a1c22, #050506); }
+.orb.life .orb-fill { background: radial-gradient(circle at 40% 30%, #ff6a5a, #9a1214 55%, #3e0405); }
+.orb.mana .orb-fill { background: radial-gradient(circle at 40% 30%, #6fb6ff, #1d4fb0 55%, #08163e); }
+.orb-es { background: conic-gradient(rgba(170,230,255,.75) calc(var(--p) * 360deg), transparent 0); -webkit-mask: radial-gradient(circle, transparent 62px, #000 63px); mask: radial-gradient(circle, transparent 62px, #000 63px); }
+.orb-glass { background: radial-gradient(ellipse 60% 40% at 45% 22%, rgba(255,255,255,.38), transparent 70%), radial-gradient(circle at 50% 120%, rgba(0,0,0,.6), transparent 60%); }
+.orb span { font: 700 20px var(--cap); color: #fff; text-shadow: 0 2px 2px #000; } .orb span small { font-size: 11px; color: rgba(255,255,255,.65); }
+.dock-mid { margin: 0 -6px; padding: 10px 26px 10px; background: linear-gradient(#1c1c21, #0d0d10); border-top: 1px solid var(--gold-lo); box-shadow: inset 0 1px 0 rgba(243,217,153,.15), 0 -2px 0 #000; clip-path: polygon(3% 0, 97% 0, 100% 100%, 0 100%); }
+.buffs .buff { font-size: 11px; padding: 2px 8px; color: var(--bone); background: #0b0b0d; border: 1px solid var(--gold-lo); }
+.buff sub { font: 700 10px var(--cap); color: var(--gold-hi); }
+.buff.el-cold { border-color: #2c5a80; color: #bfe9ff; } .buff.el-gold { color: var(--gold-hi); }
+.xp { background: #050505; box-shadow: inset 0 0 0 1px #2a2620; } .xp i { background: linear-gradient(90deg, #6e5528, #f3d999); }
+.skill { background: radial-gradient(circle at 50% 40%, #23242b, #08080a); box-shadow: inset 0 0 0 1px #000, inset 0 0 0 3px #2b2620, inset 0 0 0 4px var(--gold-lo), 0 2px 0 #000; }
+.skill.on { box-shadow: inset 0 0 0 1px #000, inset 0 0 0 3px #3a2c14, inset 0 0 0 4px var(--gold-hi), 0 0 18px rgba(243,217,153,.45); }
+.skill .cd { background: conic-gradient(rgba(0,0,0,.72) calc(var(--p) * 360deg), transparent 0); }
+.skill kbd { left: 4px; top: 2px; font: 700 11px var(--cap); color: var(--gold); }
+.skill .sname { color: var(--mute); }
+.skill .charges { right: 5px; bottom: 3px; font: 700 12px var(--cap); color: #ffb0a8; }
+
+/* character */
+.hero-card { margin: 10px 20px 0; }
+.portrait { border-radius: 50%; background: radial-gradient(#183048, #050a10); box-shadow: 0 0 0 2px var(--gold-lo), 0 0 0 3px #000; }
+.hero-card h3 { font: 900 20px var(--serif); color: var(--bone); letter-spacing: .1em; } .hero-card h3 small { font: 600 13px var(--cap); color: var(--gold); margin-left: 8px; }
+.hero-card p { color: var(--mute); }
+.doll { margin: 12px 0 22px; }
+.slot { background: radial-gradient(circle at 50% 35%, #2a2b31, #0b0b0d); box-shadow: inset 0 0 0 1px #000, inset 0 0 0 2px #3a3226, 0 2px 0 #000; }
+.slot small { color: var(--mute); }
+.slot.r-magic { box-shadow: inset 0 0 0 1px #000, inset 0 0 0 2px #2f4a7c, inset 0 0 14px rgba(143,178,255,.18); }
+.slot.r-rare { box-shadow: inset 0 0 0 1px #000, inset 0 0 0 2px #7a6526, inset 0 0 14px rgba(241,210,106,.2); }
+.slot.r-legendary { box-shadow: inset 0 0 0 1px #000, inset 0 0 0 2px #a0501c, inset 0 0 20px rgba(240,138,60,.45), 0 0 16px rgba(240,138,60,.35); }
+.slot.hover { outline: 1px solid var(--gold-hi); outline-offset: 2px; }
+.stats { margin: 0 24px; padding: 6px 0; border-top: 1px solid rgba(201,163,92,.2); border-bottom: 1px solid rgba(201,163,92,.2); }
+.stats div { padding: 2px 0; } .stats dt { color: var(--mute); } .stats dd { color: var(--bone); font-weight: 600; }
+.ladder { margin: 12px 24px 0; } .ladder h4, .traits h4 { font: 900 14px var(--serif); color: var(--gold-hi); letter-spacing: .3em; margin-bottom: 8px; }
+.traits h4 small { font: 400 11px var(--serif); letter-spacing: 0; color: var(--mute); margin-left: 6px; }
+.ladder li { color: var(--mute); font-size: 12px; }
+.ladder li i { transform: rotate(45deg); width: 12px; height: 12px; border: 1px solid var(--gold-lo); background: #0b0b0d; }
+.ladder li.done i { background: linear-gradient(135deg, var(--gold-hi), var(--gold-lo)); }
+.ladder li.done span { color: var(--bone); }
+.ladder li.now i { box-shadow: 0 0 12px var(--gold-hi); } .ladder li.now span { color: var(--gold-hi); font-weight: 900; }
+.ladder li:not(:last-child)::after { content: ""; position: absolute; top: 6px; left: 60%; width: 80%; height: 1px; background: var(--gold-lo); }
+.traits { margin: 10px 24px 0; gap: 6px; }
+.trait { background: linear-gradient(90deg, rgba(201,163,92,.08), transparent); border-left: 2px solid var(--gold-lo); }
+.trait.l-core { border-left-color: var(--legendary); background: linear-gradient(90deg, rgba(240,138,60,.14), transparent); }
+.trait.l-link { border-left-color: #a87ad8; }
+.trait h5 { font: 900 14px var(--serif); color: var(--bone); } .trait h5 em { font: 400 10px var(--serif); font-style: normal; color: var(--mute); }
+.trait p { color: var(--ink); }
+
+/* bag */
+.bag .win-head h1 { font-size: 18px; }
+.grid { padding: 16px 20px 10px; }
+.cell { background: radial-gradient(circle at 50% 35%, #202127, #0a0a0c); box-shadow: inset 0 0 0 1px #000, inset 0 0 0 2px #2b2620; }
+.cell.r-magic { box-shadow: inset 0 0 0 1px #000, inset 0 0 0 2px #2f4a7c; }
+.cell.r-rare { box-shadow: inset 0 0 0 1px #000, inset 0 0 0 2px #7a6526; }
+.cell.r-legendary { box-shadow: inset 0 0 0 1px #000, inset 0 0 0 2px #a0501c, inset 0 0 18px rgba(240,138,60,.4); }
+.cell.empty { opacity: .55; }
+.wallet { padding: 0 20px; color: var(--bone); font: 700 13px var(--cap); }
+
+/* tooltip: a sheet of dark vellum with a burning legendary header */
+.tip { padding-bottom: 12px; background: linear-gradient(180deg, #1a1612, #0e0c0a); }
+.tip-head { padding: 14px 18px; background: linear-gradient(180deg, #5a2a10 0%, #2a1408 60%, #1a1612 100%); border-bottom: 1px solid #000; box-shadow: 0 1px 0 rgba(240,138,60,.4); }
+.tip-icon { background: radial-gradient(#3a1c0c, #0a0503); box-shadow: inset 0 0 0 1px #000, inset 0 0 0 2px #a0501c, 0 0 18px rgba(240,138,60,.5); }
+.tip h2 { font: 900 24px var(--serif); color: #ffb36b; letter-spacing: .12em; text-shadow: 0 0 18px rgba(240,138,60,.6), 0 2px 0 #000; }
+.tip-head p { color: #c9a083; font-size: 12px; }
+.tip-legend { margin: 12px 18px 8px; padding: 10px 12px; color: #ffcf9e; background: rgba(240,138,60,.08); border: 1px solid rgba(240,138,60,.35); font-size: 13px; }
+.tip-traits { margin: 0 18px; }
+.tip-traits li { padding: 3px 0; font-size: 13px; }
+.tip-traits .l-core span { color: #ffcf9e; } .tip-traits .l-link span { color: #dcc4ff; }
+.tip-traits em { font-size: 11px; color: var(--mute); }
+.tip-lines { margin: 8px 18px; padding-top: 8px; border-top: 1px solid rgba(201,163,92,.2); } .tip-lines li { color: #a9c4ff; font-size: 13px; padding: 1px 0; }
+.tip-flavor { margin: 8px 18px; color: #a8875a; font-style: italic; text-align: center; font-size: 12px; }
+.tip-cmp { margin: 8px 18px 0; padding-top: 8px; border-top: 1px dashed rgba(201,163,92,.25); font-size: 12px; } .tip-cmp b { color: var(--mute); font-weight: 400; }
+.tip-cmp .up { color: #8fe08a; } .tip-cmp .down { color: #ff7a6a; }
+.version { color: var(--gold-hi); font-family: var(--cap); }
+</style></head>
+<body><script type="module">
+import { render, paintScene } from './shared.js';
+const s = render(document.body, { title: '样张 1 · 圣铁暗金', panelTitle: '角 色', bagTitle: '行 囊' });
+paintScene(s.querySelector('.scene'), { tint: '#0a0b0e' });
+</script></body></html>

@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>样张 2 · 星轨玻璃</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/augmented-ui@2.0.0/augmented-ui.min.css">
+<link rel="stylesheet" href="base.css">
+<style>
+/* 星轨玻璃：磨砂玻璃面板、切角、发光细线、高信息密度。快、利落、现代商业感。
+   切角与发光描边用 augmented-ui（data-augmented-ui），不手写 clip-path。 */
+:root {
+  --glass: rgba(14, 20, 32, .62); --glass2: rgba(22, 32, 50, .7); --line: rgba(120, 200, 255, .28); --line-hi: #7fd6ff;
+  --cyan: #5fd0ff; --amber: #ffb547; --legend: #ff8a3a; --txt: #dbe6f3; --mute: #7d8ca3;
+  --normal: #c8d0dc; --magic: #6aa8ff; --rare: #ffd84a; --legendary: #ff8a3a;
+  --sans: 'Noto Sans SC', sans-serif; --num: 'Rajdhani', 'Noto Sans SC', sans-serif;
+  --cut: polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px);
+}
+body { font: 13px/1.5 var(--sans); color: var(--txt); }
+.vignette { background: linear-gradient(180deg, rgba(0,0,0,.35), transparent 20%, transparent 70%, rgba(0,0,0,.55)); }
+.window, .tip, .plate { background: var(--glass); backdrop-filter: blur(14px) saturate(1.3); -webkit-backdrop-filter: blur(14px) saturate(1.3);
+  --aug-tl: 16px; --aug-br: 16px; --aug-tr: 6px; --aug-bl: 6px; --aug-border-all: 1px; --aug-border-bg: linear-gradient(135deg, var(--line-hi), rgba(127,214,255,.15) 35%, rgba(127,214,255,.15) 65%, var(--line-hi)); }
+.tip { --aug-border-bg: linear-gradient(135deg, var(--legend), rgba(255,138,58,.2) 40%, rgba(255,138,58,.2) 60%, var(--legend)); --aug-border-all: 1.5px; }
+.skill[data-augmented-ui] { --aug-tl: 10px; --aug-br: 10px; --aug-border-all: 1px; --aug-border-bg: rgba(127,214,255,.4); clip-path: none; }
+.skill.on[data-augmented-ui] { --aug-border-bg: var(--cyan); --aug-border-all: 2px; }
+.win-head { padding: 12px 18px; border-bottom: 1px solid var(--line); }
+.win-head h1 { font: 900 18px var(--sans); letter-spacing: .12em; color: #fff; }
+.win-head h1::before { content: ""; display: inline-block; width: 4px; height: 16px; margin-right: 10px; vertical-align: -2px; background: var(--cyan); box-shadow: 0 0 10px var(--cyan); }
+.tabs b { font-size: 12px; font-weight: 500; padding: 4px 12px; color: var(--mute); border-radius: 2px; }
+.tabs b.on { color: #04121c; background: var(--cyan); font-weight: 700; }
+.x { width: 26px; height: 26px; color: var(--mute); font-size: 18px; } .gold { margin-left: auto; font: 700 16px var(--num); color: var(--amber); }
+
+.plate { --aug-br: 12px; }
+.plate-tier { width: 66px; display: grid; place-items: center; font: 700 34px/1 var(--num); color: #04121c; background: linear-gradient(160deg, var(--cyan), #2a7fd0); }
+.plate-tier small { font-size: 14px; }
+.plate h2 { font: 900 16px var(--sans); letter-spacing: .2em; }
+.plate-bar { background: rgba(255,255,255,.08); } .plate-bar i { background: linear-gradient(90deg, #2a7fd0, var(--cyan)); box-shadow: 0 0 8px var(--cyan); }
+.plate p { color: var(--mute); font-family: var(--num); font-size: 14px; } .plate .warn { color: #ff6a5a; }
+.minimap { clip-path: polygon(25% 0, 75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%); background: rgba(10,16,26,.7); backdrop-filter: blur(8px); }
+.mm-inner { background: repeating-linear-gradient(60deg, transparent 0 18px, rgba(95,208,255,.12) 18px 19px), repeating-linear-gradient(-60deg, transparent 0 18px, rgba(95,208,255,.12) 18px 19px); }
+.mm-hero { background: var(--amber); box-shadow: 0 0 10px var(--amber); }
+
+.combo b { font: 700 72px/1 var(--num); color: #fff; font-style: italic; text-shadow: 0 0 24px rgba(95,208,255,.8); }
+.combo span { font: 900 16px var(--sans); color: var(--cyan); letter-spacing: .3em; } .combo small { font: 600 14px var(--num); color: var(--amber); }
+.clearflash { font: 900 30px var(--sans); letter-spacing: .8em; color: #fff; padding: 4px 30px; background: linear-gradient(90deg, transparent, rgba(255,138,58,.55), transparent); text-shadow: 0 0 14px #ff8a3a; }
+.floaters b { font: 700 24px var(--num); color: #fff; text-shadow: 0 0 8px rgba(0,0,0,.9); } .floaters b.crit { font-size: 38px; color: var(--amber); font-style: italic; }
+
+/* dock: hex vitals + slanted skill row */
+.dock { gap: 22px; }
+.orb { width: 128px; height: 140px; border-radius: 0; clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%); background: rgba(8,12,20,.8); }
+.orb.life .orb-fill { background: linear-gradient(180deg, #ff5a6a, #a8102a); } .orb.mana .orb-fill { background: linear-gradient(180deg, #5ab8ff, #1b4fb0); }
+.orb-glass { border-radius: 0; background: linear-gradient(115deg, rgba(255,255,255,.28), transparent 40%), repeating-linear-gradient(0deg, transparent 0 6px, rgba(0,0,0,.18) 6px 7px); }
+.orb-es { border-radius: 0; background: linear-gradient(180deg, rgba(127,214,255,.0), rgba(127,214,255,.0)); box-shadow: inset 0 0 0 3px rgba(127,214,255,.8); clip-path: inset(calc((1 - var(--p)) * 100%) 0 0 0); }
+.orb span { font: 700 26px/1 var(--num); color: #fff; } .orb span small { font-size: 13px; color: rgba(255,255,255,.65); }
+.dock-mid { gap: 8px; }
+.buff { font-size: 11px; padding: 2px 10px; background: rgba(10,16,26,.75); border: 1px solid var(--line); transform: skewX(-12deg); } .buff sub { font: 700 11px var(--num); color: var(--amber); }
+.buff.el-cold { border-color: var(--cyan); color: var(--cyan); } .buff.el-gold { border-color: var(--amber); color: var(--amber); }
+.xp { width: 560px; height: 3px; background: rgba(255,255,255,.1); } .xp i { background: linear-gradient(90deg, var(--amber), #fff3c4); box-shadow: 0 0 6px var(--amber); }
+.skill { width: 76px; height: 76px; background: rgba(10,16,26,.78); clip-path: polygon(12px 0, 100% 0, calc(100% - 12px) 100%, 0 100%); backdrop-filter: blur(6px); }
+.skill::after { content: ""; position: absolute; inset: 0; border-bottom: 3px solid rgba(127,214,255,.35); }
+.skill.on { background: linear-gradient(180deg, rgba(95,208,255,.35), rgba(10,16,26,.8)); } .skill.on::after { border-bottom-color: var(--cyan); box-shadow: 0 6px 14px -6px var(--cyan); }
+.skill .cd { background: linear-gradient(0deg, rgba(0,0,0,.7) calc(var(--p) * 100%), transparent 0); }
+.skill kbd { right: 16px; top: 4px; font: 700 13px var(--num); color: var(--mute); } .skill .sname { color: var(--mute); }
+.skill .charges { left: 16px; bottom: 6px; font: 700 14px var(--num); color: #ff8a9a; }
+
+.hero-card { margin: 12px 18px 0; } .portrait { clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%); background: linear-gradient(160deg, #1b4fb0, #0a1424); }
+.hero-card h3 { font: 900 20px var(--sans); } .hero-card h3 small { font: 700 15px var(--num); color: var(--cyan); margin-left: 8px; } .hero-card p { color: var(--mute); }
+.doll { margin: 12px 0 22px; }
+.slot { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); border-radius: 4px; } .slot small { color: var(--mute); }
+.slot.r-magic { border-color: rgba(106,168,255,.6); } .slot.r-rare { border-color: rgba(255,216,74,.6); }
+.slot.r-legendary { border-color: var(--legend); background: radial-gradient(circle, rgba(255,138,58,.25), rgba(255,255,255,.03)); box-shadow: 0 0 14px rgba(255,138,58,.45); }
+.slot.hover { outline: 2px solid var(--cyan); outline-offset: 2px; }
+.stats { margin: 0 20px; } .stats div { padding: 3px 0; border-bottom: 1px solid rgba(255,255,255,.06); } .stats dt { color: var(--mute); } .stats dd { font: 700 15px var(--num); }
+.ladder { margin: 12px 20px 0; } .ladder h4, .traits h4 { font: 700 12px var(--sans); color: var(--cyan); letter-spacing: .3em; margin-bottom: 8px; }
+.traits h4 small { color: var(--mute); letter-spacing: 0; font-weight: 400; margin-left: 6px; }
+.ladder ol { gap: 4px; } .ladder li { padding: 6px 0; background: rgba(255,255,255,.05); clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%); font-size: 12px; color: var(--mute); }
+.ladder li i { display: none; } .ladder li.done { background: rgba(95,208,255,.18); color: #cfeeff; } .ladder li.now { background: var(--cyan); color: #04121c; font-weight: 900; }
+.traits { margin: 12px 20px 0; gap: 6px; }
+.trait { background: rgba(255,255,255,.05); border-radius: 4px; border-top: 2px solid var(--line); }
+.trait.l-core { border-top-color: var(--legend); background: linear-gradient(180deg, rgba(255,138,58,.16), rgba(255,255,255,.03)); } .trait.l-link { border-top-color: #b98cff; } .trait.l-form { border-top-color: var(--cyan); }
+.trait h5 { font: 900 14px var(--sans); } .trait h5 em { font-style: normal; font-size: 10px; padding: 0 5px; background: rgba(255,255,255,.1); color: var(--mute); border-radius: 2px; } .trait p { color: #a9b6c8; }
+
+.grid { padding: 14px 18px 10px; gap: 5px; }
+.cell { background: rgba(255,255,255,.04); border-radius: 4px; border: 1px solid rgba(255,255,255,.07); }
+.cell.r-magic { border-color: rgba(106,168,255,.5); } .cell.r-rare { border-color: rgba(255,216,74,.5); } .cell.r-legendary { border-color: var(--legend); box-shadow: inset 0 0 14px rgba(255,138,58,.4); }
+.cell.empty { background: rgba(255,255,255,.02); }
+.wallet { padding: 0 18px; font: 700 16px var(--num); }
+
+.tip { padding-bottom: 12px; background: rgba(12,16,26,.86); }
+.tip-head { padding: 14px 16px; background: linear-gradient(90deg, rgba(255,138,58,.45), rgba(255,138,58,0) 80%); border-bottom: 1px solid rgba(255,138,58,.5); }
+.tip-icon { border-radius: 6px; background: radial-gradient(rgba(255,138,58,.35), rgba(0,0,0,.4)); border: 1px solid var(--legend); }
+.tip h2 { font: 900 22px var(--sans); color: #ffb06a; } .tip-head p { color: #d0a888; font-size: 12px; }
+.tip-legend { margin: 12px 16px 8px; padding: 10px 12px; border-left: 3px solid var(--legend); background: rgba(255,138,58,.1); color: #ffd3ad; }
+.tip-traits { margin: 0 16px; } .tip-traits li { padding: 4px 0; } .tip-traits .l-core span { color: #ffc28a; } .tip-traits .l-link span { color: #d7bfff; }
+.tip-traits em { font: 600 12px var(--num); color: var(--mute); }
+.tip-lines { margin: 8px 16px; padding-top: 8px; border-top: 1px solid rgba(255,255,255,.08); } .tip-lines li { color: #8fc0ff; padding: 1px 0; }
+.tip-flavor { margin: 6px 16px; color: #8a96aa; font-size: 12px; }
+.tip-cmp { margin: 8px 16px 0; font-size: 12px; } .tip-cmp b { color: var(--mute); font-weight: 400; } .tip-cmp .up { color: #58e08a; } .tip-cmp .down { color: #ff6a6a; }
+.version { color: var(--cyan); }
+</style></head>
+<body><script type="module">
+import { render, paintScene } from './shared.js';
+const s = render(document.body, { title: '样张 2 · 星轨玻璃（augmented-ui）', panelTitle: '角色', bagTitle: '背包' });
+s.querySelectorAll('.window, .tip').forEach(el => el.setAttribute('data-augmented-ui', 'tl-clip tr-clip br-clip bl-clip border'));
+s.querySelector('.plate').setAttribute('data-augmented-ui', 'br-clip border');
+s.querySelectorAll('.skill').forEach(el => el.setAttribute('data-augmented-ui', 'tl-clip br-clip border'));
+paintScene(s.querySelector('.scene'), { tint: '#070c14' });
+</script></body></html>

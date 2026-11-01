@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>样张 5 · 像素奇幻</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Noto+Sans+SC:wght@500;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/rpgui@1.0.3/rpgui.min.css">
+<link rel="stylesheet" href="base.css">
+<style>
+/* 像素奇幻：直接用 RPGUI 的像素面板、金框、按钮与格子（rpgui-container framed / framed-golden / framed-grey），
+   再把图标和数字放大做清晰的像素风。适合轻量、复古、手机也好用的方向。 */
+:root { --px: 'Press Start 2P', monospace; --cn: 'Noto Sans SC', sans-serif; --legend: #ff8a3a; }
+body.rpgui-content { font: 15px/1.5 var(--cn); color: #f2ead8; image-rendering: pixelated; }
+.rpgui-content * { cursor: default; }
+/* RPGUI styles text globally (pixel Latin font, big paragraphs): keep its frames, use our type */
+.stage, .stage * { font-family: var(--cn); }
+.stage p, .stage h1, .stage h2, .stage h3, .stage h4, .stage h5, .stage li { margin: 0; font-size: inherit; line-height: 1.45; text-shadow: none; }
+.stage .rpgui-container.framed, .stage .rpgui-container.framed-golden, .stage .rpgui-container.framed-grey { background-color: #1a120c; }
+.stage .rpgui-container.framed-golden { background-color: #20140c; }
+.stage .rpgui-container { position: absolute; }
+.window.rpgui-container, .tip.rpgui-container { padding: 14px 12px; }
+.win-head { padding: 0 6px 8px; } .win-head h1 { font: 22px var(--cn); color: #ffe17a; text-shadow: 2px 2px 0 #000; letter-spacing: .2em; }
+.tabs b { font-size: 14px; padding: 2px 8px; color: #c8bca0; } .tabs b.on { color: #fff; background: #6a3a1a; box-shadow: inset 0 0 0 2px #2a1408; }
+.x { font: 14px var(--px); color: #ffe17a; } .gold { margin-left: auto; font: 11px var(--px); color: #ffe17a; }
+.plate { background: rgba(20,14,10,.85); box-shadow: 0 0 0 4px #000, 0 0 0 6px #8a6a3a; }
+.plate-tier { width: 66px; display: grid; place-items: center; font: 18px var(--px); color: #ffe17a; background: #4a2a12; }
+.plate-tier small { font-size: 9px; }
+.plate h2 { font: 22px var(--cn); color: #fff; } .plate-bar { height: 8px; background: #000; } .plate-bar i { background: repeating-linear-gradient(90deg, #ffe17a 0 6px, #d0a030 6px 8px); }
+.plate p { font-size: 13px; color: #c8bca0; } .plate .warn { color: #ff6a5a; }
+.minimap { background: #1a120c; box-shadow: 0 0 0 4px #000, 0 0 0 8px #8a6a3a, 0 0 0 10px #000; }
+.mm-inner { background: repeating-linear-gradient(0deg, transparent 0 14px, rgba(255,225,122,.15) 14px 16px), repeating-linear-gradient(90deg, transparent 0 14px, rgba(255,225,122,.15) 14px 16px); }
+.mm-hero { border-radius: 0; background: #7fe0ff; }
+.combo b { font: 48px/1 var(--px); color: #ffe17a; text-shadow: 4px 4px 0 #a0300c, 8px 8px 0 #000; }
+.combo span { font: 26px var(--cn); color: #fff; text-shadow: 2px 2px 0 #000; } .combo small { font-size: 14px; color: #c8a0ff; }
+.clearflash { font: 28px var(--px); color: #fff; letter-spacing: .4em; text-shadow: 4px 4px 0 #ff8a3a, 8px 8px 0 #000; }
+.floaters b { font: 16px var(--px); color: #fff; text-shadow: 3px 3px 0 #000; } .floaters b.crit { font-size: 24px; color: #ffe17a; }
+.dock { gap: 18px; }
+.orb { width: 128px; height: 128px; border-radius: 0; clip-path: polygon(25% 0, 75% 0, 75% 6%, 88% 6%, 88% 12%, 94% 12%, 94% 25%, 100% 25%, 100% 75%, 94% 75%, 94% 88%, 88% 88%, 88% 94%, 75% 94%, 75% 100%, 25% 100%, 25% 94%, 12% 94%, 12% 88%, 6% 88%, 6% 75%, 0 75%, 0 25%, 6% 25%, 6% 12%, 12% 12%, 12% 6%, 25% 6%); background: #120c08; }
+.orb.life .orb-fill { background: repeating-linear-gradient(0deg, #c0202a 0 8px, #e0303a 8px 16px); } .orb.mana .orb-fill { background: repeating-linear-gradient(0deg, #2048c0 0 8px, #3060e0 8px 16px); }
+.orb-glass { border-radius: 0; background: linear-gradient(90deg, transparent 20%, rgba(255,255,255,.25) 20% 30%, transparent 30%); }
+.orb-es { border-radius: 0; box-shadow: inset 0 0 0 6px rgba(127,224,255,.7); clip-path: inset(calc((1 - var(--p)) * 100%) 0 0 0); }
+.orb span { font: 14px/1.4 var(--px); color: #fff; text-shadow: 2px 2px 0 #000; } .orb span small { font-size: 8px; }
+.buff { font-size: 13px; padding: 0 6px; background: #2a1a0e; box-shadow: 0 0 0 2px #000, 0 0 0 4px #8a6a3a; color: #fff; } .buff sub { font: 8px var(--px); color: #ffe17a; }
+.xp { width: 520px; height: 8px; background: #000; box-shadow: 0 0 0 2px #8a6a3a; } .xp i { background: repeating-linear-gradient(90deg, #7fe0ff 0 6px, #3a9ad0 6px 8px); }
+.skill { width: 72px; height: 72px; background: #1a120c; box-shadow: 0 0 0 4px #000, 0 0 0 6px #8a6a3a, inset 0 0 0 2px #3a2a1a; }
+.skill.on { box-shadow: 0 0 0 4px #000, 0 0 0 6px #ffe17a, inset 0 0 0 2px #ffe17a; }
+.skill .cd { background: linear-gradient(0deg, rgba(0,0,0,.7) calc(var(--p) * 100%), transparent 0); }
+.skill kbd { left: 3px; top: 3px; font: 8px var(--px); color: #ffe17a; } .skill .sname { font-size: 13px; color: #c8bca0; bottom: -22px; text-shadow: 1px 1px 0 #000; }
+.skill .charges { right: 4px; bottom: 3px; font: 9px var(--px); color: #ff8a9a; }
+.hero-card { margin: 6px 6px 0; } .portrait { background: #120c08; box-shadow: 0 0 0 3px #8a6a3a; }
+.hero-card h3 { font: 24px var(--cn); color: #fff; } .hero-card h3 small { font: 10px var(--px); color: #ffe17a; margin-left: 8px; } .hero-card p { color: #c8bca0; }
+.doll { margin: 10px 0 22px; }
+.slot { background: #120c08; box-shadow: 0 0 0 3px #000, 0 0 0 5px #5a4228; } .slot small { font-size: 12px; color: #c8bca0; }
+.slot.r-magic { box-shadow: 0 0 0 3px #000, 0 0 0 5px #3a6ad0; } .slot.r-rare { box-shadow: 0 0 0 3px #000, 0 0 0 5px #d0a030; }
+.slot.r-legendary { box-shadow: 0 0 0 3px #000, 0 0 0 5px var(--legend), 0 0 0 7px #000; } .slot.hover { outline: 3px dashed #ffe17a; outline-offset: 6px; }
+.stats { margin: 0 8px; } .stats div { padding: 1px 0; } .stats dt { color: #c8bca0; } .stats dd { font: 10px/2 var(--px) !important; color: #fff; }
+.ladder { margin: 8px 8px 0; } .ladder h4, .traits h4 { font: 20px var(--cn); color: #ffe17a; text-shadow: 2px 2px 0 #000; } .traits h4 small { font-size: 13px; color: #c8bca0; margin-left: 6px; }
+.ladder li { font-size: 14px; color: #8a7a60; } .ladder li i { background: #000; box-shadow: 0 0 0 2px #5a4228; }
+.ladder li.done i { background: #ffe17a; } .ladder li.done { color: #fff; } .ladder li.now span { color: #ffe17a; }
+.traits { margin: 8px 8px 0; gap: 8px; }
+.trait { background: rgba(0,0,0,.35); box-shadow: inset 0 0 0 2px #5a4228; } .trait.l-core { box-shadow: inset 0 0 0 2px var(--legend); }
+.trait h5 { font: 18px var(--cn); color: #fff; } .trait h5 em { font-size: 12px; font-style: normal; color: #ffe17a; } .trait p { color: #c8bca0; font-size: 13px; }
+.grid { padding: 6px; gap: 6px; } .cell { background: #120c08; box-shadow: inset 0 0 0 2px #3a2a1a; }
+.cell.r-magic { box-shadow: inset 0 0 0 2px #3a6ad0; } .cell.r-rare { box-shadow: inset 0 0 0 2px #d0a030; } .cell.r-legendary { box-shadow: inset 0 0 0 2px var(--legend), inset 0 0 0 4px #000; }
+.wallet { padding: 0 6px; font: 10px var(--px); }
+.tip-head { padding: 0 4px 6px; } .tip-icon { background: #120c08; box-shadow: 0 0 0 3px var(--legend); }
+.tip h2 { font: 28px var(--cn); color: var(--legend); text-shadow: 2px 2px 0 #000; } .tip-head p { color: #c8bca0; }
+.tip-legend { margin: 6px 4px; padding: 6px 8px; background: rgba(255,138,58,.15); box-shadow: inset 0 0 0 2px var(--legend); color: #ffd0a0; }
+.tip-traits { margin: 0 4px; } .tip-traits li { padding: 2px 0; color: #fff; } .tip-traits .l-core span { color: #ffc28a; } .tip-traits em { font-size: 12px; color: #ffe17a; }
+.tip-lines { margin: 6px 4px; } .tip-lines li { color: #9ac0ff; }
+.tip-flavor { margin: 6px 4px; color: #c8bca0; text-align: center; }
+.tip-cmp { margin: 4px 4px 0; font-size: 13px; } .tip-cmp .up { color: #7fe07a; } .tip-cmp .down { color: #ff6a5a; }
+.version { color: #ffe17a; font-family: var(--px); font-size: 10px; } .credit { color: #fff; }
+</style></head>
+<body class="rpgui-content"><script type="module">
+import { render, paintScene } from './shared.js';
+const s = render(document.body, { title: '样张 5 · 像素奇幻（RPGUI）', panelTitle: '角色', bagTitle: '背包' });
+// RPGUI's own frames: wooden for windows, golden for the legendary card.
+s.querySelector('.window.char').classList.add('rpgui-container', 'framed');
+s.querySelector('.window.bag').classList.add('rpgui-container', 'framed-grey');
+s.querySelector('.tip').classList.add('rpgui-container', 'framed-golden');
+paintScene(s.querySelector('.scene'), { tint: '#0a0806' });
+</script>
+<p style="display:none">RPGUI (MIT) · Press Start 2P</p></body></html>
