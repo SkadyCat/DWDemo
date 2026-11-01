@@ -1,0 +1,178 @@
+{
+  "skills": [
+    "viper_knives",
+    null,
+    null,
+    null
+  ],
+  "equipment": {
+    "weapon": "venom_blades_1_weapon",
+    "boots": "venom_blades_1_boots",
+    "ring": "venom_blades_1_ring"
+  },
+  "instances": {
+    "venom_blades_1_weapon": {
+      "uid": "venom_blades_1_weapon",
+      "baseId": "viperfang_knives",
+      "name": "万毒飞刃·蝰牙飞刀",
+      "slot": "weapon",
+      "level": 1,
+      "tier": 2,
+      "rarity": "rare",
+      "skill": "viper_knives",
+      "affixes": [
+        {
+          "id": "proj_count",
+          "name": "投射物数量 +n个",
+          "tier": 2,
+          "traits": [
+            {
+              "id": "proj_count",
+              "params": {
+                "n": 1
+              },
+              "with": [],
+              "tier": 2
+            }
+          ]
+        },
+        {
+          "id": "proj_volleys",
+          "name": "投射物连续发射次数 +n次",
+          "tier": 2,
+          "traits": [
+            {
+              "id": "proj_volleys",
+              "params": {
+                "n": 1
+              },
+              "with": [],
+              "tier": 2
+            }
+          ]
+        },
+        {
+          "id": "poison_chance",
+          "name": "命中时，中毒概率 +n个百分点",
+          "tier": 2,
+          "traits": [
+            {
+              "id": "poison_chance",
+              "params": {
+                "n": 18
+              },
+              "with": [],
+              "tier": 2
+            }
+          ]
+        },
+        {
+          "id": "poison_increased",
+          "name": "中毒伤害 +n%",
+          "tier": 2,
+          "traits": [
+            {
+              "id": "poison_increased",
+              "params": {
+                "n": 21
+              },
+              "with": [],
+              "tier": 2
+            }
+          ]
+        }
+      ],
+      "legendary": null,
+      "identified": true
+    },
+    "venom_blades_1_boots": {
+      "uid": "venom_blades_1_boots",
+      "baseId": "warden_boots",
+      "name": "万毒飞刃·游猎靴",
+      "slot": "boots",
+      "level": 3,
+      "tier": 2,
+      "rarity": "magic",
+      "skill": "",
+      "affixes": [
+        {
+          "id": "life_base",
+          "name": "基础气血 +n点",
+          "tier": 2,
+          "traits": [
+            {
+              "id": "life_base",
+              "params": {
+                "n": 43
+              },
+              "with": [],
+              "tier": 2
+            }
+          ]
+        },
+        {
+          "id": "evasion",
+          "name": "基础闪避 +n点",
+          "tier": 2,
+          "traits": [
+            {
+              "id": "evasion",
+              "params": {
+                "n": 145
+              },
+              "with": [],
+              "tier": 2
+            }
+          ]
+        }
+      ],
+      "legendary": null,
+      "identified": true
+    },
+    "venom_blades_1_ring": {
+      "uid": "venom_blades_1_ring",
+      "baseId": "aura_poison_ring",
+      "name": "万毒飞刃·剧毒指环",
+      "slot": "ring",
+      "level": 1,
+      "tier": 2,
+      "rarity": "magic",
+      "skill": "aura_poison",
+      "affixes": [
+        {
+          "id": "life_base",
+          "name": "基础气血 +n点",
+          "tier": 2,
+          "traits": [
+            {
+              "id": "life_base",
+              "params": {
+                "n": 43
+              },
+              "with": [],
+              "tier": 2
+            }
+          ]
+        }
+      ],
+      "legendary": null,
+      "identified": true
+    }
+  },
+  "belt": [],
+  "authored": {
+    "source": "affix-composition",
+    "family": "venom_blades",
+    "name": "万毒飞刃·Ⅰ · 连发",
+    "revision": 1,
+    "keepTiers": true,
+    "keyLines": [
+      "proj_count",
+      "proj_volleys"
+    ],
+    "newLines": [
+      "proj_count",
+      "proj_volleys"
+    ]
+  }
+}

@@ -1,9 +1,0 @@
-{
-  "id": "viper_knives",
-  "name": "蝰蛇飞刃",
-  "description": "扇形甩出淬毒飞刀。中毒敌人死亡积攒毒蚀，满溢时万蛇齐出；击杀越多，飞刀越多。",
-  "active": "create_viper_knives",
-  "traits": [
-    "create_viper_knives"
-  ]
-}

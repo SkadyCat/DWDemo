@@ -918,7 +918,7 @@ export function mountBattle(el, { input = null, rendering = {}, initialPaused = 
             if (!/^[a-z0-9_]+$/.test(entry.id) || typeof entry.name !== 'string') throw new Error('BD 列表格式错误');
             const response = await fetch(`/presets/${entry.id}.json`, { cache: 'no-store' });
             if (!response.ok) throw new Error(`${entry.name}配装加载失败`);
-            const loadout = minimumTierPreset(await response.json(), store.library);
+            const raw = await response.json(), loadout = raw.authored?.keepTiers ? raw : minimumTierPreset(raw, store.library);
             if (!Array.isArray(loadout.skills) || !loadout.equipment || typeof loadout.equipment !== 'object') throw new Error(`${entry.name}配装格式错误`);
             return { ...entry, loadout };
           }));

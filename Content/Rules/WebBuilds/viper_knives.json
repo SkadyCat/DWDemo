@@ -1,0 +1,7 @@
+{
+  "id": "viper_knives",
+  "name": "蝰蛇飞刃",
+  "description": "扇形甩出淬毒飞刀。技能本身很朴素：形态（连锁、分裂、回旋……）与毒素联动全部来自装备词条。",
+  "active": "create_viper_knives",
+  "traits": ["create_viper_knives"]
+}

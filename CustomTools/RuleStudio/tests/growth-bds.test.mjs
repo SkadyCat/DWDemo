@@ -17,8 +17,8 @@ const { library, collections } = check;
 const rules = new URL('../../../Content/Rules/', import.meta.url);
 const readJson = rel => JSON.parse(fs.readFileSync(new URL(rel, rules), 'utf8'));
 
-test('成长型 BD：十一套全新主动技能，其中至少五套近战，文件与生成器一致', () => {
-  assert.equal(GROWTH_BDS.length, 11);
+test('成长型 BD：十套成长型主动技能，其中至少五套近战，文件与生成器一致', () => {
+  assert.equal(GROWTH_BDS.length, 10);
   assert.ok(GROWTH_BDS.filter(bd => bd.melee).length >= 5);
   assert.equal(new Set(GROWTH_BDS.map(bd => bd.id)).size, GROWTH_BDS.length);
   for (const bd of GROWTH_BDS) {
@@ -114,7 +114,7 @@ test('成长型 BD 特效：每条路由都对应真实规则与已注册预制�
   // Every damage_area rule of a melee/area skill has a dedicated look.
   for (const bd of GROWTH_BDS) for (const rule of growthTrait(bd).rules)
     if (JSON.stringify(rule.actions).includes('"damage_area"')) assert.ok(GROWTH_AREA_FX[rule.id], rule.id);
-  const kinds = new Set(GROWTH_BDS.flatMap(bd => JSON.stringify(growthTrait(bd)).match(/"kind":"[a-z_]+"/g) || []).map(k => k.slice(8, -1)));
+  const kinds = new Set([...library.traits.values()].flatMap(t => JSON.stringify(t.source.rules).match(/"kind":"[a-z_]+"/g) || []).map(k => k.slice(8, -1)));
   for (const kind of Object.keys(GROWTH_PROJECTILES)) { assert.ok(kinds.has(kind), kind); assert.ok(modules[GROWTH_PROJECTILES[kind]]?.createBatch, kind); }
   assert.deepEqual(Object.keys(GROWTH_AURA_STYLE).sort(), GROWTH_BDS.map(bd => bd.id).sort());
 });

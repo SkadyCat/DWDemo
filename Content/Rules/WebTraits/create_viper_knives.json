@@ -1,0 +1,16 @@
+{
+  "id": "create_viper_knives",
+  "name": "蝰蛇飞刃",
+  "description": "向瞄准方向扇形甩出 count 柄淬毒飞刀，每柄造成 damage 点毒素伤害（技能威力更高时取技能威力），命中有 poison_chance% 概率施加中毒。cooldown 为冷却秒数。飞刀是真实投射物：数量、散布、速度、穿透、连锁、分裂、回旋、环绕等投射物词条全部生效，中毒类词条同样生效。",
+  "params": { "damage": 12, "count": 3, "poison_chance": 40, "cooldown": 0.35 },
+  "sheet": [{ "stat": "poison.chance", "value": { "param": "poison_chance" } }],
+  "rules": [
+    {
+      "id": "viper_knives_cast", "event": "cast",
+      "actions": [
+        { "op": "emit", "kind": "viper_knife", "origin": "owner", "element": "poison", "tags": ["poison", "physical", "projectile", "attack"],
+          "count": { "param": "count" }, "spread": 34, "speed": 26, "lifetime": 0.7, "radius": 0.28, "damage": { "max": [{ "param": "damage" }, { "event": "amount" }] } }
+      ]
+    }
+  ]
+}

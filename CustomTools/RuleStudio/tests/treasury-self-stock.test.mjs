@@ -23,10 +23,13 @@ function fixture({ self = selfIds, targets = 6 } = {}) {
   const start = () => { b.hero.castClock=10;b.hero.casting=true;tick(1/60);b.hero.casting=false; };
   return { b, tick, start, feeds, births, pulses, maintained };
 }
-test('全60套预制BD（含11套成长型×3阶段）与嵌套词条均为合法T1，最低阶策略幂等且能实际编译', () => {
-  const rows = JSON.parse(fs.readFileSync(`${RULES_DIR}/Presets/index.json`, 'utf8')); assert.equal(rows.length,60);
+test('全62套预制BD（含10套成长型×3阶段、万毒飞刃5阶段）均能实际编译；预览BD为合法T1，词条组合阶段保留其T阶', () => {
+  const rows = JSON.parse(fs.readFileSync(`${RULES_DIR}/Presets/index.json`, 'utf8')); assert.equal(rows.length,62);
   const b = new Battle(files,{collections:checked.collections,maxMonsters:0,spawnRate:0});
-  for(const row of rows){ const p=read(row.id); assert.deepEqual(minimumTierPreset(p,checked.library),p,row.id);
+  for(const row of rows){ const p=read(row.id);
+    if(p.authored?.keepTiers){ for(const item of Object.values(p.instances))for(const line of item.affixes){assert.ok(!line.tier||line.tier<=item.tier,row.id);line.traits.forEach(t=>assert.equal(validateTraitValueEntry(checked.library,t),''));}
+      b.setLoadout(p);assert.ok(b.hero.plan>=0,`${row.id}:${b.hero.error}`);continue; }
+    assert.deepEqual(minimumTierPreset(p,checked.library),p,row.id);
     for(const item of Object.values(p.instances)){assert.equal(item.tier,1,row.id);
       const walk=t=>{assert.ok(t.tier===undefined||t.tier===1,`${row.id}:${t.id}`);assert.equal(validateTraitValueEntry(checked.library,t),'');(t.with||[]).forEach(walk);};
       for(const line of [...(item.bases||[]),...(item.legendary?[item.legendary]:[]),...item.affixes]){assert.ok(line.tier===undefined||line.tier===1);line.traits.forEach(walk);}}

@@ -19,7 +19,7 @@ const inherent=item=>[...item.bases.flatMap(b=>b.traits),...item.legendary.trait
 test('余烬回响：二级菜单仅分五档，成长型每套三个阶段，其余流派各保留一档，不改变原始列表',()=>{
   const before=structuredClone(index), groups=groupBuildPresets(index);
   assert.equal(groups.filter(g=>g.id==='embers_echo').length,1);
-  for(const group of groups)assert.equal(group.rows.length,group.id==='embers_echo'?5:group.id.startsWith('growth_')?3:1);
+  for(const group of groups)assert.equal(group.rows.length,group.id==='embers_echo'||group.id==='venom_blades'?5:group.id.startsWith('growth_')?3:1);
   assert.deepEqual(groups.find(g=>g.id==='embers_echo').rows.map(r=>r.grade),[1,2,3,4,5]);
   const shuffled=groupBuildPresets([...index].reverse().map(r=>({...r,equipped:r.id==='embers_echo_3'})));
   assert.equal(shuffled.find(g=>g.id==='embers_echo').equipped,true);

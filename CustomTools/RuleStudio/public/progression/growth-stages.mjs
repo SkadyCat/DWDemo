@@ -161,29 +161,6 @@ export const GROWTH_STAGES = {
       "极境 40 杀：冰缓敌人死亡时碎冰爆炸"
     ]
   },
-  "viper_knives": {
-    "name": "蝰蛇飞刃",
-    "trait": "create_viper_knives",
-    "melee": false,
-    "cap": 40,
-    "awaken": 15,
-    "ultimate": 40,
-    "charge": {
-      "id": "viper_knives_charge",
-      "name": "毒蚀",
-      "max": 10
-    },
-    "surge": {
-      "id": "viper_knives_surge",
-      "name": "万蛇"
-    },
-    "stages": [
-      "扇刃：3 柄淬毒飞刀，每 8 杀多 1 柄",
-      "万蛇：每 10 层毒蚀甩出 10 柄飞刀",
-      "觉醒 15 杀：中毒敌人死亡毒爆",
-      "极境 40 杀：命中 25% 分裂飞刀"
-    ]
-  },
   "soul_reap": {
     "name": "灵魂收割",
     "trait": "create_soul_reap",

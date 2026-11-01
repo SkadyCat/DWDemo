@@ -30,8 +30,6 @@ export const GROWTH_AREA_FX = Object.freeze({
   frost_ring_feed: [S('gs-nova', 'frost'), S('gs-nova', 'frost', .55)],
   frost_ring_ultimate_1: [S('gs-nova', 'frost')],
 
-  viper_knives_awaken_1: [S('gs-nova', 'viper')],
-
   soul_reap_cast: [S('gs-crescent', 'reap')],
   soul_reap_feed: [S('gs-nova', 'reap')],
   soul_reap_ultimate_1: [S('gs-crescent', 'reap'), S('gs-nova', 'reap', .6)],
@@ -49,4 +47,4 @@ export const GROWTH_PROJECTILES = Object.freeze({ ball_lightning: 'projectile-ba
 
 /** Hero aura palette per growth skill. */
 export const GROWTH_AURA_STYLE = Object.freeze({ rage_cleave: 'cleave', thunder_strike: 'thunder', ground_slam: 'quake', blade_dance: 'blade', shield_slam: 'bulwark',
-  meteor: 'meteor', frost_ring: 'frost', viper_knives: 'viper', soul_reap: 'reap', ball_lightning: 'storm', flicker_strike: 'flicker' });
+  meteor: 'meteor', frost_ring: 'frost', soul_reap: 'reap', ball_lightning: 'storm', flicker_strike: 'flicker' });

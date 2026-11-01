@@ -5,7 +5,8 @@ import { minimumTierPreset } from './build-preset-tier.mjs';
 
 /** Apply an authored preview BD to the existing save; keep all previous inventory and currency. */
 export function applyBuildPreset(save, preset, collections, library = null) {
-  if (library && preset?.authored && preset?.instances) {
+  // Preview BDs default to T1; affix-composition stages keep their tier (阶段 = 游玩进度).
+  if (library && preset?.authored && !preset.authored.keepTiers && preset?.instances) {
     try { preset = minimumTierPreset(preset, library); } catch (error) { return { error: error.message }; }
   }
   const skills = skillSlots(preset?.skills);
