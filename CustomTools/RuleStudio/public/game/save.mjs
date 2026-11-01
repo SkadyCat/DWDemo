@@ -34,7 +34,11 @@ export function loadSave() {
   } catch { /* fresh save */ }
   return newSave();
 }
-export function writeSave(save) { try { localStorage.setItem(KEY, JSON.stringify(save)); } catch { /* storage unavailable */ } }
+let sink = null;
+/** Accounts: every write is also handed to the account sync (accounts.mjs). */
+export const setSaveSink = fn => { sink = fn; };
+export const SAVE_KEY = KEY;
+export function writeSave(save) { try { localStorage.setItem(KEY, JSON.stringify(save)); } catch { /* storage unavailable */ } sink?.(save); }
 
 export function buildOf(save) {
   const affixes = [];

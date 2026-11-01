@@ -14,6 +14,7 @@ import { loadSave, writeSave, buildOf, equip, unequip, salvage, craft, applyArch
 import { equippedTraits, ladderStatus, detectArchetype } from './traits.mjs';
 import { MapRun } from './run.mjs';
 import { TalentBoard } from './talents-panel.mjs';
+import { switchAccount } from './accounts.mjs';
 import { talentPoints } from '../../core/content/talents.mjs';
 import { Scene3D, Overlay } from './scene.mjs';
 import { dungeonRandom } from './dungeon.mjs';
@@ -191,6 +192,7 @@ const TEMPLATE = /* html */ `
       <div class="crest"><Gi :n="skillIcon(primarySkill)" :c="'el-' + skillEl(primarySkill)"/></div>
       <div class="who"><h1>营 地</h1><p>{{ currentBd }}</p></div>
       <div class="facts"><span><b>T{{ save.unlocked }}</b>最高</span><span><b>{{ save.atlas.done.length }}</b>已打通</span><span><b>{{ save.stats.maps }}</b>通关</span><span><b>{{ save.stats.kills }}</b>击杀</span></div>
+      <button class="orn-btn ghost sm" @click="leaveAccount" :title="'当前账号：' + accountName">账号 · {{ accountName }}</button>
       <a class="orn-btn ghost sm" href="/editor/index.html" target="_blank" rel="noopener">内容编辑器</a>
       <button class="orn-btn ghost sm" @click="update">{{ updateText || '更新到最新' }}</button>
     </header>
@@ -605,6 +607,8 @@ export function mountGame(el) {
         gearChanged();
         toast(`已换上 ${ARCHETYPES.find(x => x.id === id).name} · ${STAGES[i].name}`, 'good');
       }
+      const accountName = globalThis.__account?.name ?? '本机';
+      function leaveAccount() { persist(); switchAccount(); }
       function clearBd() {
         clearArchetype(save); picked.value = null; hover.value = null; gearChanged();
         toast('已换成空白流派：装备已卸下，从零开始', 'good');
@@ -772,7 +776,7 @@ export function mountGame(el) {
         save, stage, overlay, tipEl, comboEl, flashEl, open, center, mapTier, mapFamily, picked, pickedLine, craftMsg, roles, evaluating, updateText, hover, bdSel, toasts, legendBanner,
         dragItem, dropSlot, run, resultLoot, hud,
         profile, requirements, statRows, bdArch, bdStages, currentBd, centerName, centerTitle, traits, granted, ladder, ladderFocus, primarySkill, bagCells,
-        pick, equippedFor, hoverOn, hoverOff, doEquip, doUnequip, dragStart, dropOn, doSalvage, doCraft, applyBd, clearBd, grantLegendary, evaluate, update, toggle, isOpen, openCenter, startRun, leaveRun, selectSkill, gearChanged,
+        pick, equippedFor, hoverOn, hoverOff, doEquip, doUnequip, dragStart, dropOn, doSalvage, doCraft, applyBd, clearBd, accountName, leaveAccount, grantLegendary, evaluate, update, toggle, isOpen, openCenter, startRun, leaveRun, selectSkill, gearChanged,
         panels: PANELS, tierList: Array.from({ length: MAP_TIERS }, (_, i) => i + 1), families: MAP_FAMILIES, slots: SLOTS, slotNames: SLOT_NAMES, currencies: CURRENCIES,
         archetypes: ARCHETYPES, legendaries: LEGENDARIES, skillBar: SKILL_BAR, glyph: SLOT_GLYPH,
         rarity: rarityOf, itemNameOf: itemName, skillName, skillTags, itemIcon, skillEl: id => EL_CLASS[skillElement(id)],

@@ -12,7 +12,9 @@
 <div id="game"></div>
 <script type="module">
 import { mountGame } from '/game/page.mjs';
-mountGame(document.getElementById('game'));
+import { enterGame } from '/game/accounts.mjs';
+const el = document.getElementById('game');
+enterGame(el, () => mountGame(el));
 </script>
 </body>
 </html>
