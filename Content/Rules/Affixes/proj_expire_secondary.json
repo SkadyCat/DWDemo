@@ -1,9 +1,0 @@
-{
-  "id": "proj_expire_secondary",
-  "name": "投射物消失时向周围发射n个次级投射物",
-  "description": "角色词条：投射物消失时向周围发射n个次级投射物。次级投射物伤害 40%，不再产生次级投射物",
-  "params": { "n": 4 },
-  "sheet": [
-    { "trigger": "proj_expire_secondary" }
-  ]
-}

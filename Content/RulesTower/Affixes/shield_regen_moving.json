@@ -1,9 +1,0 @@
-{
-  "id": "shield_regen_moving",
-  "name": "移动时，每秒恢复最大护盾的n%",
-  "description": "角色词条：移动时，每秒恢复最大护盾的n%",
-  "params": { "n": 1.5 },
-  "sheet": [
-    { "stat": "shield.regen_moving_percent", "value": { "param": "n" } }
-  ]
-}

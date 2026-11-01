@@ -1,9 +1,0 @@
-{
-  "id": "shield_per_intelligence",
-  "name": "每n点智力获得基础护盾 +n点",
-  "description": "角色词条：每n点智力获得基础护盾 +n点",
-  "params": { "per": 5, "amount": 2 },
-  "sheet": [
-    { "stat": "shield.per_intelligence", "value": { "div": [{ "param": "amount" }, { "param": "per" }] } }
-  ]
-}

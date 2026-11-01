@@ -1,9 +1,0 @@
-{
-  "id": "area_to_ring",
-  "name": "圆形范围变为环形范围",
-  "description": "角色词条：圆形范围变为环形范围",
-  "params": {},
-  "sheet": [
-    { "stat": "area.to_ring", "value": 1 }
-  ]
-}

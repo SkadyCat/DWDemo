@@ -1,9 +1,0 @@
-{
-  "id": "minion_sacrifice_empower",
-  "name": "主动牺牲召唤物时，强化下一次技能",
-  "description": "角色词条：主动牺牲召唤物时，强化下一次技能。下一次技能伤害额外提高 n%",
-  "params": { "n": 40 },
-  "sheet": [
-    { "trigger": "minion_sacrifice_empower" }
-  ]
-}

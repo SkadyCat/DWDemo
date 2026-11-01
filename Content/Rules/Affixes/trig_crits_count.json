@@ -1,9 +1,0 @@
-{
-  "id": "trig_crits_count",
-  "name": "每累计暴击n次，触发挂载技能",
-  "description": "角色词条：每累计暴击n次，触发挂载技能",
-  "params": { "per": 5 },
-  "sheet": [
-    { "trigger": "trig_crits_count" }
-  ]
-}

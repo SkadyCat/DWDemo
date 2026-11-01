@@ -1,9 +1,0 @@
-{
-  "id": "poison_eternal",
-  "name": "中毒不再自然结束，但层数上限降低至n层",
-  "description": "角色词条：中毒不再自然结束，但层数上限降低至n层",
-  "params": { "n": 5 },
-  "sheet": [
-    { "trigger": "poison_eternal" }
-  ]
-}

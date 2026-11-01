@@ -1,9 +1,0 @@
-{
-  "id": "ignite_kill_spread",
-  "name": "击败点燃敌人时，将点燃传播给附近敌人",
-  "description": "角色词条：击败点燃敌人时，将点燃传播给附近敌人",
-  "params": {},
-  "sheet": [
-    { "stat": "ignite.kill_spread", "value": 1 }
-  ]
-}

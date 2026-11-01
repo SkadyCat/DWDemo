@@ -1,9 +1,0 @@
-{
-  "id": "trig_summon_crit",
-  "name": "召唤物暴击时，有n%概率触发挂载技能",
-  "description": "角色词条：召唤物暴击时，有n%概率触发挂载技能",
-  "params": { "chance": 30 },
-  "sheet": [
-    { "trigger": "trig_summon_crit" }
-  ]
-}

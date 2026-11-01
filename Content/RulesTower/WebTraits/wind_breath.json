@@ -1,7 +1,0 @@
-{
-  "id": "wind_breath",
-  "name": "风之息",
-  "description": "光环。装配到Q/E/F/G后切换，启用封印总魔力的reservation_percent%。受击反弹由聚合的受击扩散反弹特性提供。",
-  "params": { "reservation_percent": 50 },
-  "sheet": [{ "trigger": "aura_skill" }]
-}

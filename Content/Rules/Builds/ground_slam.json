@@ -1,9 +1,0 @@
-{
-  "id": "ground_slam",
-  "name": "震地猛击",
-  "description": "沉重的近战猛击。击杀震出放射地裂，地脉之力满溢时山崩地裂。",
-  "active": "create_ground_slam",
-  "traits": [
-    "create_ground_slam"
-  ]
-}

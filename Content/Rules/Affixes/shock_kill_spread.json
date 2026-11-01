@@ -1,9 +1,0 @@
-{
-  "id": "shock_kill_spread",
-  "name": "击败感电敌人时，将感电传播给附近n个敌人",
-  "description": "角色词条：击败感电敌人时，将感电传播给附近n个敌人",
-  "params": { "n": 3 },
-  "sheet": [
-    { "trigger": "shock_kill_spread" }
-  ]
-}

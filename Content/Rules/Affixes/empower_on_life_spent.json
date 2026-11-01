@@ -1,9 +1,0 @@
-{
-  "id": "empower_on_life_spent",
-  "name": "每累计消耗n点气血，强化下一次技能",
-  "description": "角色词条：每累计消耗n点气血，强化下一次技能。强化：下一次技能伤害额外提高 bonus%。",
-  "params": { "per": 100, "bonus": 50 },
-  "sheet": [
-    { "trigger": "empower_on_life_spent" }
-  ]
-}

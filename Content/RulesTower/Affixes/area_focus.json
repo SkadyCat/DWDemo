@@ -1,9 +1,0 @@
-{
-  "id": "area_focus",
-  "name": "范围技能减少最大覆盖面积，获得更高伤害",
-  "description": "角色词条：范围技能减少最大覆盖面积，获得更高伤害。面积 -50%，伤害额外提高 40%",
-  "params": {},
-  "sheet": [
-    { "stat": "area.focus", "value": 1 }
-  ]
-}

@@ -1,6 +1,0 @@
-{
-  "id": "echo", "name": "回响",
-  "description": "临时增益。下一次手动施放非回响技能时，消耗此状态并额外执行该技能一次。再次获得刷新持续时间。",
-  "category": "buff", "stacking": "refresh", "cap": 1,
-  "effects": [], "traits": ["echo_once"]
-}

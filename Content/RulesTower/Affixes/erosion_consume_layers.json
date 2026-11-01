@@ -1,9 +1,0 @@
-{
-  "id": "erosion_consume_layers",
-  "name": "消耗目标n层侵蚀，强化本次虚空伤害",
-  "description": "角色词条：消耗目标n层侵蚀，强化本次虚空伤害。每消耗一层，本次虚空伤害额外提高 15%",
-  "params": { "n": 3 },
-  "sheet": [
-    { "trigger": "erosion_consume_layers" }
-  ]
-}

@@ -1,9 +1,0 @@
-{
-  "id": "shield_on_hit",
-  "name": "命中时恢复护盾 +n点",
-  "description": "角色词条：命中时恢复护盾 +n点",
-  "params": { "n": 2 },
-  "sheet": [
-    { "stat": "shield.on_hit", "value": { "param": "n" } }
-  ]
-}

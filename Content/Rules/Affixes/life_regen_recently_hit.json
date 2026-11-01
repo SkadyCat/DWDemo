@@ -1,9 +1,0 @@
-{
-  "id": "life_regen_recently_hit",
-  "name": "近期受到伤害时，每秒恢复最大气血的n%",
-  "description": "角色词条：近期受到伤害时，每秒恢复最大气血的n%。近期 = 4 秒内。",
-  "params": { "n": 2 },
-  "sheet": [
-    { "stat": "life.regen_recent_hit_percent", "value": { "param": "n" } }
-  ]
-}

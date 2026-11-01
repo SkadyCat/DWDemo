@@ -1,9 +1,0 @@
-{
-  "id": "trig_hit_low",
-  "name": "命中低血敌人时，有n%概率触发挂载技能",
-  "description": "角色词条：命中低血敌人时，有n%概率触发挂载技能",
-  "params": { "chance": 25 },
-  "sheet": [
-    { "trigger": "trig_hit_low" }
-  ]
-}

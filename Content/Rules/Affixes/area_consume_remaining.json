@@ -1,9 +1,0 @@
-{
-  "id": "area_consume_remaining",
-  "name": "范围技能消耗全部剩余持续时间，立即结算剩余伤害",
-  "description": "角色词条：范围技能消耗全部剩余持续时间，立即结算剩余伤害。持续区域在首次命中后立即结算剩余全部跳数",
-  "params": {},
-  "sheet": [
-    { "stat": "area.consume_remaining", "value": 1 }
-  ]
-}

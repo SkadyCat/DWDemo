@@ -1,9 +1,0 @@
-{
-  "id": "trig_crit",
-  "name": "暴击敌人时，有n%概率触发挂载技能",
-  "description": "角色词条：暴击敌人时，有n%概率触发挂载技能",
-  "params": { "chance": 50 },
-  "sheet": [
-    { "trigger": "trig_crit" }
-  ]
-}

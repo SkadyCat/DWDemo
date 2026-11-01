@@ -1,9 +1,0 @@
-{
-  "id": "create_taunt",
-  "name": "施加自身嘲讽",
-  "description": "施法时自身获得嘲讽，持续 duration 秒。状态携带的特性决定牵引与无敌；独立技能冷却由聚合特性提供。",
-  "params": { "duration": 2 },
-  "rules": [{ "id": "taunt_on_cast", "event": "cast", "actions": [
-    { "op": "apply_status", "origin": "owner", "key": "taunt", "value": 1, "duration": { "param": "duration" } }
-  ] }]
-}

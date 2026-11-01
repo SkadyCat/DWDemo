@@ -1,9 +1,0 @@
-{
-  "id": "full_life_move",
-  "name": "满血时，移动速度 +n%",
-  "description": "角色词条：满血时，移动速度 +n%",
-  "params": { "n": 10 },
-  "sheet": [
-    { "stat": "life.full.move_speed", "value": { "param": "n" } }
-  ]
-}

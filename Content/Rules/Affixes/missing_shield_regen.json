@@ -1,9 +1,0 @@
-{
-  "id": "missing_shield_regen",
-  "name": "每损失n%护盾，护盾再生速度 +n%",
-  "description": "角色词条：每损失n%护盾，护盾再生速度 +n%",
-  "params": { "per": 10, "amount": 10 },
-  "sheet": [
-    { "stat": "shield.missing.regen_speed", "value": { "div": [{ "param": "amount" }, { "param": "per" }] } }
-  ]
-}

@@ -1,9 +1,0 @@
-{
-  "id": "shield_added_fire",
-  "name": "获得相当于最大护盾n%的附加火焰伤害",
-  "description": "角色词条：获得相当于最大护盾n%的附加火焰伤害",
-  "params": { "n": 3 },
-  "sheet": [
-    { "stat": "damage.from_shield.fire", "value": { "param": "n" } }
-  ]
-}

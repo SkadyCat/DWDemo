@@ -1,9 +1,0 @@
-{
-  "id": "empower_from_overflow",
-  "name": "消耗溢出护盾的n%，强化下一次技能",
-  "description": "角色词条：消耗溢出护盾的n%，强化下一次技能。施法时若有溢出护盾，消耗其 percent%，下一次技能伤害额外提高 bonus%。",
-  "params": { "percent": 50, "bonus": 30 },
-  "sheet": [
-    { "trigger": "empower_from_overflow" }
-  ]
-}

@@ -1,9 +1,0 @@
-{
-  "id": "poison_pool",
-  "name": "中毒敌人死亡时，留下持续n秒的毒池",
-  "description": "角色词条：中毒敌人死亡时，留下持续n秒的毒池。毒池半径 2 米，每秒对其中敌人施加一层中毒",
-  "params": { "seconds": 4 },
-  "sheet": [
-    { "trigger": "poison_pool" }
-  ]
-}

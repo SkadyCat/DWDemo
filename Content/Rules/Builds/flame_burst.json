@@ -1,9 +1,0 @@
-{
-  "id": "flame_burst",
-  "name": "烈焰爆发",
-  "description": "在落点引爆烈焰的范围法术。",
-  "active": "create_flame_burst",
-  "traits": [
-    "create_flame_burst"
-  ]
-}

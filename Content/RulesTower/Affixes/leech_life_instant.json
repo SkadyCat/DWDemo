@@ -1,9 +1,0 @@
-{
-  "id": "leech_life_instant",
-  "name": "气血偷取量的n%立即恢复",
-  "description": "角色词条：气血偷取量的n%立即恢复",
-  "params": { "n": 20 },
-  "sheet": [
-    { "stat": "leech.life.instant", "value": { "param": "n" } }
-  ]
-}

@@ -1,9 +1,0 @@
-{
-  "id": "leech_life_physical",
-  "name": "物理伤害的n%偷取为气血",
-  "description": "角色词条：物理伤害的n%偷取为气血",
-  "params": { "n": 2 },
-  "sheet": [
-    { "stat": "leech.life.physical", "value": { "param": "n" } }
-  ]
-}

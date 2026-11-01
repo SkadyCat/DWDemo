@@ -1,9 +1,0 @@
-{
-  "id": "minion_fewer_life",
-  "name": "召唤物数量上限降低n个，召唤物气血上限额外提高n%",
-  "description": "角色词条：召唤物数量上限降低n个，召唤物气血上限额外提高n%",
-  "params": { "cap": 1, "n": 60 },
-  "sheet": [
-    { "trigger": "minion_fewer_life" }
-  ]
-}

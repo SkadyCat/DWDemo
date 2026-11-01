@@ -1,9 +1,0 @@
-{
-  "id": "trig_hits_count",
-  "name": "每累计命中n次，触发挂载技能",
-  "description": "角色词条：每累计命中n次，触发挂载技能",
-  "params": { "per": 10 },
-  "sheet": [
-    { "trigger": "trig_hits_count" }
-  ]
-}

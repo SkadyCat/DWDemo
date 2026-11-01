@@ -1,5 +1,0 @@
-{
-  "id": "treasury_enuma_elish", "name": "天地乖离剑",
-  "description": "王之宝库专属主动。消耗全部宝库层数，头顶巨大魔法阵展开，巨型乖离剑飞向点击位置；基础32点物理伤害，本次技能伤害额外提高消耗层数×50%（10层6倍，40层21倍）。没有层数不会出剑。",
-  "active": "treasury_enuma_elish", "traits": ["treasury_enuma_elish"]
-}

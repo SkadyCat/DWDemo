@@ -1,9 +1,0 @@
-{
-  "id": "trig_big_cost",
-  "name": "单次消耗至少n点资源时，触发挂载技能",
-  "description": "角色词条：单次消耗至少n点资源时，触发挂载技能。资源 = 该次施放消耗的魔力 + 护盾 + 气血",
-  "params": { "n": 10 },
-  "sheet": [
-    { "trigger": "trig_big_cost" }
-  ]
-}

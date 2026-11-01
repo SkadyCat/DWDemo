@@ -1,9 +1,0 @@
-{
-  "id": "proj_layout_alternate",
-  "name": "投射物从角色两侧交替发射",
-  "description": "角色词条：投射物从角色两侧交替发射",
-  "params": {},
-  "sheet": [
-    { "stat": "proj.layout_alternate", "value": 1 }
-  ]
-}

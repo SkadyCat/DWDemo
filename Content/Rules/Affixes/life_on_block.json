@@ -1,9 +1,0 @@
-{
-  "id": "life_on_block",
-  "name": "格挡时恢复气血 +n点",
-  "description": "角色词条：格挡时恢复气血 +n点",
-  "params": { "n": 20 },
-  "sheet": [
-    { "stat": "life.on_block", "value": { "param": "n" } }
-  ]
-}

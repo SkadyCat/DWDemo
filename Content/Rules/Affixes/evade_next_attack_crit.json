@@ -1,9 +1,0 @@
-{
-  "id": "evade_next_attack_crit",
-  "name": "闪避成功后，下一次攻击暴击率 +n个百分点",
-  "description": "角色词条：闪避成功后，下一次攻击暴击率 +n个百分点",
-  "params": { "n": 30 },
-  "sheet": [
-    { "trigger": "evade_next_attack_crit" }
-  ]
-}

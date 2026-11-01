@@ -1,9 +1,0 @@
-{
-  "id": "trig_shock",
-  "name": "施加感电时，有n%概率触发挂载技能",
-  "description": "角色词条：施加感电时，有n%概率触发挂载技能",
-  "params": { "chance": 20 },
-  "sheet": [
-    { "trigger": "trig_shock" }
-  ]
-}

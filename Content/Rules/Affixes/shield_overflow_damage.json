@@ -1,9 +1,0 @@
-{
-  "id": "shield_overflow_damage",
-  "name": "溢出护盾存在时，伤害 +n%",
-  "description": "角色词条：溢出护盾存在时，伤害 +n%",
-  "params": { "n": 15 },
-  "sheet": [
-    { "stat": "shield.overflow.damage", "value": { "param": "n" } }
-  ]
-}

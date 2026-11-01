@@ -1,9 +1,0 @@
-{
-  "id": "minion_nearby_guard",
-  "name": "附近每有一个召唤物，你受到的伤害 -n%，最多降低n%",
-  "description": "角色词条：附近每有一个召唤物，你受到的伤害 -n%，最多降低n%",
-  "params": { "n": 3, "max": 15 },
-  "sheet": [
-    { "trigger": "minion_nearby_guard" }
-  ]
-}

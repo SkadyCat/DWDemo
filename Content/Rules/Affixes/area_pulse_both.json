@@ -1,9 +1,0 @@
-{
-  "id": "area_pulse_both",
-  "name": "范围技能扩张与收缩时分别造成一次伤害",
-  "description": "角色词条：范围技能扩张与收缩时分别造成一次伤害",
-  "params": {},
-  "sheet": [
-    { "stat": "area.pulse_both", "value": 1 }
-  ]
-}

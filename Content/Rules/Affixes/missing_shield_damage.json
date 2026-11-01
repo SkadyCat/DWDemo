@@ -1,9 +1,0 @@
-{
-  "id": "missing_shield_damage",
-  "name": "每损失n%护盾，伤害 +n%",
-  "description": "角色词条：每损失n%护盾，伤害 +n%",
-  "params": { "per": 10, "amount": 4 },
-  "sheet": [
-    { "stat": "shield.missing.damage", "value": { "div": [{ "param": "amount" }, { "param": "per" }] } }
-  ]
-}

@@ -1,9 +1,0 @@
-{
-  "id": "area_at_target",
-  "name": "范围技能以目标敌人为中心释放",
-  "description": "角色词条：范围技能以目标敌人为中心释放",
-  "params": {},
-  "sheet": [
-    { "stat": "area.at_target", "value": 1 }
-  ]
-}

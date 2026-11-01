@@ -1,9 +1,0 @@
-{
-  "id": "low_life_damage_taken",
-  "name": "低血时，受到的伤害 -n%",
-  "description": "角色词条：低血时，受到的伤害 -n%",
-  "params": { "n": 10 },
-  "sheet": [
-    { "stat": "life.low.damage_taken_reduction", "value": { "param": "n" } }
-  ]
-}

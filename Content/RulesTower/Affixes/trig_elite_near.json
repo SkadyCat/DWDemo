@@ -1,9 +1,0 @@
-{
-  "id": "trig_elite_near",
-  "name": "精英敌人进入n米范围时，触发挂载技能",
-  "description": "角色词条：精英敌人进入n米范围时，触发挂载技能",
-  "params": { "meters": 8 },
-  "sheet": [
-    { "trigger": "trig_elite_near" }
-  ]
-}

@@ -1,9 +1,0 @@
-{
-  "id": "trig_summon_spawn",
-  "name": "召唤物生成时，有n%概率触发挂载技能",
-  "description": "角色词条：召唤物生成时，有n%概率触发挂载技能",
-  "params": { "chance": 50 },
-  "sheet": [
-    { "trigger": "trig_summon_spawn" }
-  ]
-}

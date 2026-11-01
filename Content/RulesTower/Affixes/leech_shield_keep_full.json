@@ -1,8 +1,0 @@
-{
-  "id": "leech_shield_keep_full",
-  "name": "护盾达到上限时，偷取效果继续保留",
-  "description": "角色词条：护盾达到上限时，偷取效果继续保留",
-  "sheet": [
-    { "stat": "leech.shield.keep_full", "value": 1 }
-  ]
-}

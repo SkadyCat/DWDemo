@@ -1,9 +1,0 @@
-{
-  "id": "burn_timer",
-  "name": "敌人持续燃烧每满n秒，受到的火焰伤害 +n%，最多提高n%",
-  "description": "角色词条：敌人持续燃烧每满n秒，受到的火焰伤害 +n%，最多提高n%",
-  "params": { "seconds": 1, "n": 10, "max": 50 },
-  "sheet": [
-    { "trigger": "burn_timer" }
-  ]
-}

@@ -1,9 +1,0 @@
-{
-  "id": "leech_shield_speed",
-  "name": "护盾偷取速度 +n%",
-  "description": "角色词条：护盾偷取速度 +n%",
-  "params": { "n": 30 },
-  "sheet": [
-    { "stat": "leech.shield.speed", "value": { "param": "n" } }
-  ]
-}

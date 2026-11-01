@@ -1,9 +1,0 @@
-{
-  "id": "shield_recharge_rate",
-  "name": "护盾回充速度 +n%",
-  "description": "角色词条：护盾回充速度 +n%。基础回充：每秒最大护盾的 20%。",
-  "params": { "n": 30 },
-  "sheet": [
-    { "stat": "shield.recharge_rate", "value": { "param": "n" } }
-  ]
-}

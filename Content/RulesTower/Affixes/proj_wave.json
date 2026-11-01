@@ -1,9 +1,0 @@
-{
-  "id": "proj_wave",
-  "name": "投射物以波浪轨迹飞行",
-  "description": "角色词条：投射物以波浪轨迹飞行",
-  "params": {},
-  "sheet": [
-    { "stat": "proj.wave", "value": 1 }
-  ]
-}

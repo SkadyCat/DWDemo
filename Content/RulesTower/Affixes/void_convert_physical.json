@@ -1,9 +1,0 @@
-{
-  "id": "void_convert_physical",
-  "name": "物理伤害的n%转化为虚空伤害",
-  "description": "角色词条：物理伤害的n%转化为虚空伤害",
-  "params": { "n": 30, "source": 3, "element": 5 },
-  "sheet": [
-    { "trigger": "convert_damage" }
-  ]
-}

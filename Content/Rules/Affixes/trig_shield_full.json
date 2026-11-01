@@ -1,9 +1,0 @@
-{
-  "id": "trig_shield_full",
-  "name": "护盾恢复至满值时，触发挂载技能",
-  "description": "角色词条：护盾恢复至满值时，触发挂载技能",
-  "params": {},
-  "sheet": [
-    { "trigger": "trig_shield_full" }
-  ]
-}

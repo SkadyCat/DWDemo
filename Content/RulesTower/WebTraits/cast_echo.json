@@ -1,9 +1,0 @@
-{
-  "id": "cast_echo",
-  "name": "回响",
-  "description": "主动施放给自己施加临时回响状态。duration为状态秒数，默认5秒；下一次手动技能额外执行一次并消耗状态。cooldown为主动技能独立冷却秒数，默认5秒，不阻止切换后施放其他技能；再次施放只刷新状态。",
-  "params": { "duration": 5, "cooldown": 5 },
-  "rules": [{ "id": "echo_apply", "event": "cast", "actions": [
-    { "op": "apply_status", "key": "echo", "origin": "owner", "value": 1, "duration": { "param": "duration" } }
-  ] }]
-}

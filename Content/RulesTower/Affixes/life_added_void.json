@@ -1,9 +1,0 @@
-{
-  "id": "life_added_void",
-  "name": "获得相当于最大气血n%的附加虚空伤害",
-  "description": "角色词条：获得相当于最大气血n%的附加虚空伤害",
-  "params": { "n": 2 },
-  "sheet": [
-    { "stat": "damage.from_life.void", "value": { "param": "n" } }
-  ]
-}

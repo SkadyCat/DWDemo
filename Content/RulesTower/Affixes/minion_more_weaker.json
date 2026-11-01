@@ -1,9 +1,0 @@
-{
-  "id": "minion_more_weaker",
-  "name": "召唤物数量上限提高n个，单个召唤物伤害降低n%",
-  "description": "角色词条：召唤物数量上限提高n个，单个召唤物伤害降低n%",
-  "params": { "cap": 2, "n": 25 },
-  "sheet": [
-    { "trigger": "minion_more_weaker" }
-  ]
-}

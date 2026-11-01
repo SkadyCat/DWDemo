@@ -1,9 +1,0 @@
-{
-  "id": "shield_leech_attack_speed",
-  "name": "护盾偷取期间，攻击速度 +n%",
-  "description": "角色词条：护盾偷取期间，攻击速度 +n%。当前引擎不区分攻击和法术，攻击速度与施法速度都作用于出手频率。",
-  "params": { "n": 10 },
-  "sheet": [
-    { "stat": "shield.leeching.attack_speed", "value": { "param": "n" } }
-  ]
-}

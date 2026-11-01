@@ -1,9 +1,0 @@
-{
-  "id": "block_over_cap_counter",
-  "name": "超出格挡率上限的每n个百分点，反击伤害 +n%",
-  "description": "角色词条：超出格挡率上限的每n个百分点，反击伤害 +n%",
-  "params": { "per": 1, "n": 5 },
-  "sheet": [
-    { "stat": "block.counter_per_overcap", "value": { "div": [{ "param": "n" }, { "param": "per" }] } }
-  ]
-}

@@ -1,9 +1,0 @@
-{
-  "id": "leech_shield_cap",
-  "name": "护盾每秒偷取上限 +n%",
-  "description": "角色词条：护盾每秒偷取上限 +n%",
-  "params": { "n": 30 },
-  "sheet": [
-    { "stat": "leech.shield.cap", "value": { "param": "n" } }
-  ]
-}

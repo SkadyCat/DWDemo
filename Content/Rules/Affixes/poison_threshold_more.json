@@ -1,9 +1,0 @@
-{
-  "id": "poison_threshold_more",
-  "name": "目标中毒达到n层时，中毒伤害额外提高n%",
-  "description": "角色词条：目标中毒达到n层时，中毒伤害额外提高n%",
-  "params": { "stacks": 8, "n": 30 },
-  "sheet": [
-    { "trigger": "poison_threshold_more" }
-  ]
-}

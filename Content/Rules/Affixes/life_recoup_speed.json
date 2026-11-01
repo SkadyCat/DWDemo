@@ -1,9 +1,0 @@
-{
-  "id": "life_recoup_speed",
-  "name": "气血伤害回收速度 +n%",
-  "description": "角色词条：气血伤害回收速度 +n%。回收时间 ÷ (1 + n%)。",
-  "params": { "n": 30 },
-  "sheet": [
-    { "stat": "recoup.life.speed", "value": { "param": "n" } }
-  ]
-}

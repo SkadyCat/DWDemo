@@ -1,9 +1,0 @@
-{
-  "id": "rage_cleave",
-  "name": "怒焰劈斩",
-  "description": "近战劈斩。命中积攒怒意，怒意满溢时进入狂暴并放出冲击波；击杀越多，劈斩越带出烈焰余波。",
-  "active": "create_rage_cleave",
-  "traits": [
-    "create_rage_cleave"
-  ]
-}

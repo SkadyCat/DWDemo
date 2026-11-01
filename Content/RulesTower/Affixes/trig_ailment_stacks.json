@@ -1,9 +1,0 @@
-{
-  "id": "trig_ailment_stacks",
-  "name": "目标异常状态达到n层时，触发挂载技能",
-  "description": "角色词条：目标异常状态达到n层时，触发挂载技能。中毒、感电、侵蚀、点燃任一达到 n 层（同一目标每种状态触发一次）",
-  "params": { "n": 5 },
-  "sheet": [
-    { "trigger": "trig_ailment_stacks" }
-  ]
-}

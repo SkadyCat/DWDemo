@@ -1,9 +1,0 @@
-{
-  "id": "block_attack_damage",
-  "name": "每n个百分点攻击格挡率，伤害 +n%",
-  "description": "角色词条：每n个百分点攻击格挡率，伤害 +n%",
-  "params": { "per": 5, "n": 3 },
-  "sheet": [
-    { "stat": "block.damage_per_attack", "value": { "div": [{ "param": "n" }, { "param": "per" }] } }
-  ]
-}

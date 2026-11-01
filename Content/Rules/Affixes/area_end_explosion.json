@@ -1,9 +1,0 @@
-{
-  "id": "area_end_explosion",
-  "name": "范围技能结束时引发爆炸",
-  "description": "角色词条：范围技能结束时引发爆炸。爆炸半径为范围的 60%，伤害 50%",
-  "params": {},
-  "sheet": [
-    { "stat": "area.end_explosion", "value": 1 }
-  ]
-}

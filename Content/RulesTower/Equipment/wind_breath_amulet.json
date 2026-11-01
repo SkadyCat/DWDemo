@@ -1,6 +1,0 @@
-{
-  "id": "wind_breath_amulet", "name": "风息护符", "slot": "amulet",
-  "description": "授予光环「风之息」：受击后向四周反弹攻击者本次原始伤害的80%。装备后在光环界面装配到Q/E/F/G并开启，封印50%总魔力。",
-  "rarity": "common", "level": 1, "tier": 1, "tags": [],
-  "skills": ["wind_breath"], "bases": ["mana_base"], "legendary": "proj_speed", "traits": []
-}

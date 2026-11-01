@@ -1,9 +1,0 @@
-{
-  "id": "erosion_consume_all",
-  "name": "消耗全部侵蚀，立即结算剩余伤害的n%",
-  "description": "角色词条：消耗全部侵蚀，立即结算剩余伤害的n%。虚空命中时消耗",
-  "params": { "n": 80 },
-  "sheet": [
-    { "trigger": "erosion_consume_all" }
-  ]
-}

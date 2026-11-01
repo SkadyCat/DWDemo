@@ -1,7 +1,0 @@
-{
-  "id": "map_boss_map_drop_chance",
-  "name": "首领有 n% 概率掉落同级地图",
-  "description": "地图特性：击败首领时独立判定一次，有 n% 概率在地面掉落 1 张当前地图等级的普通地图（T1–T16）。普通怪物不触发。",
-  "params": { "n": 60 },
-  "sheet": [{ "stat": "map.boss_map_drop_chance", "value": { "param": "n" } }]
-}

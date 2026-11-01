@@ -1,9 +1,0 @@
-{
-  "id": "life_on_kill",
-  "name": "击败敌人时恢复气血 +n点",
-  "description": "角色词条：击败敌人时恢复气血 +n点",
-  "params": { "n": 12 },
-  "sheet": [
-    { "stat": "life.on_kill", "value": { "param": "n" } }
-  ]
-}

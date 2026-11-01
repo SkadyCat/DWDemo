@@ -1,9 +1,0 @@
-{
-  "id": "proj_bounce_retarget",
-  "name": "投射物地形弹射后，重新追踪附近敌人",
-  "description": "角色词条：投射物地形弹射后，重新追踪附近敌人",
-  "params": {},
-  "sheet": [
-    { "stat": "proj.bounce_retarget", "value": 1 }
-  ]
-}

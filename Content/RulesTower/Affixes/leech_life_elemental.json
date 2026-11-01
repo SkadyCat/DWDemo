@@ -1,9 +1,0 @@
-{
-  "id": "leech_life_elemental",
-  "name": "元素伤害的n%偷取为气血",
-  "description": "角色词条：元素伤害的n%偷取为气血",
-  "params": { "n": 2 },
-  "sheet": [
-    { "stat": "leech.life.elemental", "value": { "param": "n" } }
-  ]
-}

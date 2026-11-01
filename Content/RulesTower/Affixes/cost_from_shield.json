@@ -1,9 +1,0 @@
-{
-  "id": "cost_from_shield",
-  "name": "技能消耗的n%由护盾支付",
-  "description": "角色词条：技能消耗的n%由护盾支付。技能基础消耗 2 魔力。",
-  "params": { "n": 50 },
-  "sheet": [
-    { "stat": "cost.shield_percent", "value": { "param": "n" } }
-  ]
-}

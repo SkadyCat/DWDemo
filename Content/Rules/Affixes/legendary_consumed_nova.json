@@ -1,7 +1,0 @@
-{
-  "id": "legendary_consumed_nova",
-  "name": "消耗目标异常状态时，有100%概率触发雷霆新星",
-  "description": "鸣灭指环的固定传奇特性。使用既有异常状态消费事件触发挂载的完整雷霆新星；触发概率在所有 T 阶固定为 100%，仍遵守触发冷却、储存次数、挂载名额与资源消耗。不提供异常状态的施加或消费能力。",
-  "params": { "chance": 100 },
-  "sheet": [{ "trigger": "trig_ailment_consumed" }]
-}

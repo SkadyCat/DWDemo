@@ -1,9 +1,0 @@
-{
-  "id": "trig_charge_max",
-  "name": "充能达到上限时，触发挂载技能",
-  "description": "角色词条：充能达到上限时，触发挂载技能",
-  "params": {},
-  "sheet": [
-    { "trigger": "trig_charge_max" }
-  ]
-}

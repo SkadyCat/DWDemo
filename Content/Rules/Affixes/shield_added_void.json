@@ -1,9 +1,0 @@
-{
-  "id": "shield_added_void",
-  "name": "获得相当于最大护盾n%的附加虚空伤害",
-  "description": "角色词条：获得相当于最大护盾n%的附加虚空伤害",
-  "params": { "n": 3 },
-  "sheet": [
-    { "stat": "damage.from_shield.void", "value": { "param": "n" } }
-  ]
-}

@@ -1,9 +1,0 @@
-{
-  "id": "evade_next_attack_more",
-  "name": "闪避成功后，下一次攻击伤害额外提高n%",
-  "description": "角色词条：闪避成功后，下一次攻击伤害额外提高n%。攻击 = 带近战标签的技能；多次闪避不叠加，取最高",
-  "params": { "n": 40 },
-  "sheet": [
-    { "trigger": "evade_next_attack_more" }
-  ]
-}

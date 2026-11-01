@@ -1,9 +1,0 @@
-{
-  "id": "cost_shield_reduction",
-  "name": "技能护盾消耗 -n%",
-  "description": "角色词条：技能护盾消耗 -n%",
-  "params": { "n": 30 },
-  "sheet": [
-    { "stat": "cost.shield_reduction", "value": { "param": "n" } }
-  ]
-}

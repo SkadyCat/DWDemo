@@ -1,9 +1,0 @@
-{
-  "id": "attr_intelligence",
-  "name": "智力 +n",
-  "description": "角色词条：智力 +n",
-  "params": { "n": 10 },
-  "sheet": [
-    { "stat": "attr.intelligence", "value": { "param": "n" } }
-  ]
-}

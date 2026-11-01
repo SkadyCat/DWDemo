@@ -1,9 +1,0 @@
-{
-  "id": "block_buff_damage",
-  "name": "格挡成功后，伤害 +n%，持续n秒",
-  "description": "角色词条：格挡成功后，伤害 +n%，持续n秒",
-  "params": { "n": 20, "duration": 4 },
-  "sheet": [
-    { "trigger": "block_buff_damage" }
-  ]
-}

@@ -1,4 +1,0 @@
-{
-  "id": "taunt", "name": "嘲讽", "description": "嘲讽 = 施加自身嘲讽 + 自身施法 + 独立冷却。持续2秒，吸引敌对投射物且无敌，冷却10秒。",
-  "active": "create_taunt", "traits": ["create_taunt", "self_targeted_cast", "independent_skill_cooldown"]
-}

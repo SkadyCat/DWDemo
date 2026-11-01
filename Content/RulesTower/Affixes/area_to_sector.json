@@ -1,9 +1,0 @@
-{
-  "id": "area_to_sector",
-  "name": "圆形范围变为前方扇形范围",
-  "description": "角色词条：圆形范围变为前方扇形范围。从角色向瞄准方向展开，半径为原范围的 2.5 倍",
-  "params": {},
-  "sheet": [
-    { "stat": "area.to_sector", "value": 1 }
-  ]
-}

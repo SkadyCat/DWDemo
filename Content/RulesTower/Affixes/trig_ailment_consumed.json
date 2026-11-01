@@ -1,9 +1,0 @@
-{
-  "id": "trig_ailment_consumed",
-  "name": "消耗目标异常状态时，有n%概率触发挂载技能",
-  "description": "角色词条：消耗目标异常状态时，有n%概率触发挂载技能。引爆、消耗感电/点燃/侵蚀、移除冻结",
-  "params": { "chance": 50 },
-  "sheet": [
-    { "trigger": "trig_ailment_consumed" }
-  ]
-}

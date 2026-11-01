@@ -1,9 +1,0 @@
-{
-  "id": "low_life_threshold",
-  "name": "低血状态的判定阈值 +n个百分点",
-  "description": "角色词条：低血状态的判定阈值 +n个百分点。基础 35%。",
-  "params": { "n": 15 },
-  "sheet": [
-    { "stat": "life.low_threshold", "value": { "param": "n" } }
-  ]
-}

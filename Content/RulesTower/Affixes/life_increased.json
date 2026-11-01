@@ -1,9 +1,0 @@
-{
-  "id": "life_increased",
-  "name": "气血上限 +n%",
-  "description": "角色词条：气血上限 +n%",
-  "params": { "n": 20 },
-  "sheet": [
-    { "stat": "life.increased", "value": { "param": "n" } }
-  ]
-}

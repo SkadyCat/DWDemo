@@ -1,4 +1,0 @@
-{
-  "id": "taunt", "name": "嘲讽", "description": "吸引敌对投射物，期间免受伤害。", "category": "buff", "stacking": "refresh",
-  "effects": [], "traits": ["hostile_projectile_attraction", "damage_immunity"]
-}

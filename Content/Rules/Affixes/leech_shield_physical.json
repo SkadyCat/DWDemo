@@ -1,9 +1,0 @@
-{
-  "id": "leech_shield_physical",
-  "name": "物理伤害的n%偷取为护盾",
-  "description": "角色词条：物理伤害的n%偷取为护盾",
-  "params": { "n": 2 },
-  "sheet": [
-    { "stat": "leech.shield.physical", "value": { "param": "n" } }
-  ]
-}

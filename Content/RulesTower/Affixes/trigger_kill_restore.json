@@ -1,9 +1,0 @@
-{
-  "id": "trigger_kill_restore",
-  "name": "触发技能击败敌人时，恢复一次触发储存次数",
-  "description": "角色词条：触发技能击败敌人时，恢复一次触发储存次数",
-  "params": {},
-  "sheet": [
-    { "stat": "trigger.kill_restore", "value": 1 }
-  ]
-}

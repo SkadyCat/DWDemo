@@ -2,12 +2,12 @@
   "name": "dw-demo",
   "version": "0.1.0",
   "private": true,
-  "description": "DungeonWorld RuleStudio 技能与规则编辑器、3D 爬塔试玩",
-  "engines": {"node": ">=22"},
+  "description": "DWDemo：网页版 ARPG（新规则引擎 core/ + 3D 地牢）",
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
-    "setup": "npm ci --prefix CustomTools/RuleStudio",
     "start": "npm --prefix CustomTools/RuleStudio start",
-    "build": "npm --prefix CustomTools/RuleStudio run build:web",
     "test": "npm --prefix CustomTools/RuleStudio test"
   }
 }

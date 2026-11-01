@@ -1,9 +1,0 @@
-{
-  "id": "erosion_per_layer",
-  "name": "目标每有一层侵蚀，你对其造成的虚空伤害 +n%",
-  "description": "角色词条：目标每有一层侵蚀，你对其造成的虚空伤害 +n%",
-  "params": { "n": 5 },
-  "sheet": [
-    { "trigger": "erosion_per_layer" }
-  ]
-}

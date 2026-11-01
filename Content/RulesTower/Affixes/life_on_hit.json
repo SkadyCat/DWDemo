@@ -1,9 +1,0 @@
-{
-  "id": "life_on_hit",
-  "name": "命中时恢复气血 +n点",
-  "description": "角色词条：命中时恢复气血 +n点",
-  "params": { "n": 3 },
-  "sheet": [
-    { "stat": "life.on_hit", "value": { "param": "n" } }
-  ]
-}

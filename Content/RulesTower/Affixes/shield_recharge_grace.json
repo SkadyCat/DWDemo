@@ -1,9 +1,0 @@
-{
-  "id": "shield_recharge_grace",
-  "name": "护盾回充启动后，n秒内不被伤害打断",
-  "description": "角色词条：护盾回充启动后，n秒内不被伤害打断",
-  "params": { "n": 1 },
-  "sheet": [
-    { "stat": "shield.recharge_grace", "value": { "param": "n" } }
-  ]
-}

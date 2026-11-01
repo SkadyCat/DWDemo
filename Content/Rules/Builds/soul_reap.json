@@ -1,9 +1,0 @@
-{
-  "id": "soul_reap",
-  "name": "灵魂收割",
-  "description": "挥镰收割。击杀攫取灵魂，魂火满溢化为死神降临；觉醒后亡魂会为你作战。",
-  "active": "create_soul_reap",
-  "traits": [
-    "create_soul_reap"
-  ]
-}

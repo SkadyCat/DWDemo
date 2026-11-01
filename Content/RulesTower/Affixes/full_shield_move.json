@@ -1,9 +1,0 @@
-{
-  "id": "full_shield_move",
-  "name": "满护盾时，移动速度 +n%",
-  "description": "角色词条：满护盾时，移动速度 +n%",
-  "params": { "n": 10 },
-  "sheet": [
-    { "stat": "shield.full.move_speed", "value": { "param": "n" } }
-  ]
-}

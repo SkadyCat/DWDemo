@@ -1,9 +1,0 @@
-{
-  "id": "evade_buff_move",
-  "name": "闪避成功时，移动速度 +n%，持续n秒",
-  "description": "角色词条：闪避成功时，移动速度 +n%，持续n秒",
-  "params": { "n": 20, "duration": 3 },
-  "sheet": [
-    { "trigger": "evade_buff_move" }
-  ]
-}

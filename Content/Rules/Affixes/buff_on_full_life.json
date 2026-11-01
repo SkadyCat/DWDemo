@@ -1,9 +1,0 @@
-{
-  "id": "buff_on_full_life",
-  "name": "从低血恢复至满血时，获得持续n秒的增益，冷却n秒",
-  "description": "角色词条：从低血恢复至满血时，获得持续n秒的增益，冷却n秒。缝合任意特性作为增益内容。",
-  "params": { "duration": 5, "cooldown": 15 },
-  "sheet": [
-    { "trigger": "buff_on_full_life" }
-  ]
-}

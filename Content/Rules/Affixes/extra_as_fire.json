@@ -1,9 +1,0 @@
-{
-  "id": "extra_as_fire",
-  "name": "获得相当于指定来源伤害n%的额外火焰伤害",
-  "description": "角色词条：获得相当于指定来源伤害n%的额外火焰伤害。source 为来源伤害类型：-1 任意命中，-2 元素命中，0 火焰 1 冰霜 2 闪电 3 物理 5 虚空",
-  "params": { "n": 15, "source": -1, "element": 0 },
-  "sheet": [
-    { "trigger": "extra_damage" }
-  ]
-}

@@ -1,8 +1,0 @@
-{
-  "id": "monster_claw",
-  "name": "爪击",
-  "active": "monster_claw",
-  "traits": [
-    "monster_claw"
-  ]
-}

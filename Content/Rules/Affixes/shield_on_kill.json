@@ -1,9 +1,0 @@
-{
-  "id": "shield_on_kill",
-  "name": "击败敌人时恢复护盾 +n点",
-  "description": "角色词条：击败敌人时恢复护盾 +n点",
-  "params": { "n": 10 },
-  "sheet": [
-    { "stat": "shield.on_kill", "value": { "param": "n" } }
-  ]
-}

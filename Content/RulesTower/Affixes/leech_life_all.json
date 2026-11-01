@@ -1,9 +1,0 @@
-{
-  "id": "leech_life_all",
-  "name": "伤害的n%偷取为气血",
-  "description": "角色词条：伤害的n%偷取为气血。命中伤害的 n% 以偷取实例恢复：每个实例每秒最大气血的 2%，总计每秒不超过 10%。",
-  "params": { "n": 1 },
-  "sheet": [
-    { "stat": "leech.life.all", "value": { "param": "n" } }
-  ]
-}

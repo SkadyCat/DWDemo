@@ -1,9 +1,0 @@
-{
-  "id": "shatter_on_kill",
-  "name": "击败冻结敌人时，触发碎冰爆炸",
-  "description": "角色词条：击败冻结敌人时，触发碎冰爆炸。碎冰：半径 2.5 米，造成目标最大气血 20% 的冰霜伤害",
-  "params": {},
-  "sheet": [
-    { "stat": "shatter.on_kill", "value": 1 }
-  ]
-}

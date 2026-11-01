@@ -1,9 +1,0 @@
-{
-  "id": "trig_moving",
-  "name": "连续移动n秒后，触发挂载技能",
-  "description": "角色词条：连续移动n秒后，触发挂载技能。持续移动期间每 n 秒一次",
-  "params": { "seconds": 2 },
-  "sheet": [
-    { "trigger": "trig_moving" }
-  ]
-}

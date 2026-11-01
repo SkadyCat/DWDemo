@@ -1,9 +1,0 @@
-{
-  "id": "poison_replace_lowest",
-  "name": "中毒优先替换伤害最低的一层",
-  "description": "角色词条：中毒优先替换伤害最低的一层。层数已满时，新中毒替换伤害最低的一层（基础替换最早的一层）",
-  "params": {},
-  "sheet": [
-    { "stat": "poison.replace_lowest", "value": 1 }
-  ]
-}

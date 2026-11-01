@@ -1,44 +1,33 @@
-# DWDemo · RuleStudio
+# DWDemo
 
-DungeonWorld 的技能与规则编辑网站，包含技能、装备、词缀、地图物品、天赋编辑和 3D 爬塔试玩。
+网页版 ARPG：3D 地牢 + 词条驱动的构筑。全部玩法跑在新规则引擎 `CustomTools/RuleStudio/core/` 上，任何流派都只靠词条组合实现。
 
 ## 启动
 
-需要 Node.js 22 或更新版本。在仓库根目录运行：
+需要 Node.js 22 或更新版本。
 
-```sh
-npm run setup
-npm run build
-npm start
-```
+- macOS：双击根目录的 `Start-Game.command`。
+- 命令行：`npm start`，然后打开 http://127.0.0.1:5291/ 。
 
-打开 http://127.0.0.1:5291/，3D 战斗入口为 http://127.0.0.1:5291/?view=battle。
-Windows 也可以双击根目录的 `Start-RuleStudio.bat`。
-如果端口已被其他 Studio 占用，可以运行 `node CustomTools/RuleStudio/server.mjs 5391`。
+游戏里左上角「更新到最新」会拉取最新提交并刷新。
 
-`npm run build` 会生成带版本号的压缩资源，输出在自动创建的 `Saved/RuleStudioWeb/`。
-完成 `setup` 后也可直接启动，服务会自动构建资源。Vue、Three.js 和网站美术资源已随源码提供。
-设置环境变量 `RULESTUDIO_WEB_SOURCE=1` 可使用源码模式。
+## 玩法
+
+- **营地**：选地图 T 阶（T1–T16）和地图类型，看「本图要求」是否达标；换装、洗炼、选技能；「流派」页可以一键换上十个示范流派任意阶段的整套装备。
+- **地图**：WASD 移动，鼠标瞄准，按住左键施放当前技能，1–4 切换技能。打倒首领即通关，解锁下一阶，掉落自动收进背包。
+- **装备**：10 个部位，每件 3 条基础词条 + 至多 6 条随机词条；词条分数值、形态、联动、核心四层，越往后越稀有。
+- **洗炼**：魔晶（加一条）、混沌石（重洗）、灵石（升 T）、无效石（删一条）、封印符（保留一条）、三种精华（加指定层的词条）。
 
 ## 目录
 
-- `CustomTools/RuleStudio/`：网页、Node 服务、JavaScript 规则解释器、测试和工具。
-- `Content/Rules/`：网站规则、技能、装备、地图和天赋数据。
-- `Content/RulesTower/`：掉落池查询所用的数据目录。
-- `Content/MapEvents/`：地图事件定义。
-- `Content/OpusIcons/`：与网页图标一致的 PNG，供图标一致性检查使用。
-- `CustomTools/UICreatorAlpha/`：网站使用的共享 UI 运行时、控件源和项目读写依赖。
-- `CustomTools/TradeBackend/config/drop-pools.json`：地图掉落池配置。
+- `CustomTools/RuleStudio/core/`：规则引擎（见其中 README）与内容（词条族、技能、地图压力、十个流派、装备）。
+- `CustomTools/RuleStudio/public/game/`：游戏页、3D 画面、特效桥、存档。
+- `CustomTools/RuleStudio/public/prefabs/`、`public/vfx/`：特效预制体。
+- `CustomTools/RuleStudio/tests/`：引擎单元测试、16 个验收流派、十个流派的分阶段验证。
+- `CustomTools/RuleStudio/scripts/`：校准与报告脚本（`core-calibrate-all.sh`、`core-roles.mjs`、`core-usefulness.mjs`、`core-archetype-report.mjs`）。
 
-浏览器保存游玩进度，修改规则通过本地服务写入 JSON。服务默认只监听本机。
-COS 上传为可选功能，参见 `CustomTools/RuleStudio/docs/cos-delivery.md`；本地配置和凭据不提交。
-
-## 检查
+## 测试
 
 ```sh
 npm test
 ```
-
-具体玩法、功能清单和工具命令见 `CustomTools/RuleStudio/README.md`。
-
-2026-10-29 导入快照已通过生产构建及浏览器 3D 战斗启动检查。全量测试为 688 项通过、79 项失败，保留当前源站的玩法与分类数据，未为上传修改规则。具体结果见 `Docs/website-snapshot-20261029.json`。

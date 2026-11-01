@@ -1,9 +1,0 @@
-{
-  "id": "erosion_collapse",
-  "name": "侵蚀达到n层时，触发一次虚空坍缩",
-  "description": "角色词条：侵蚀达到n层时，触发一次虚空坍缩。坍缩：消耗全部侵蚀，半径 2.5 米，造成技能威力 1.5 倍的虚空伤害",
-  "params": { "stacks": 5 },
-  "sheet": [
-    { "trigger": "erosion_collapse" }
-  ]
-}

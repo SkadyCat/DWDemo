@@ -1,9 +1,0 @@
-{
-  "id": "attr_strength",
-  "name": "力量 +n",
-  "description": "角色词条：力量 +n",
-  "params": { "n": 10 },
-  "sheet": [
-    { "stat": "attr.strength", "value": { "param": "n" } }
-  ]
-}

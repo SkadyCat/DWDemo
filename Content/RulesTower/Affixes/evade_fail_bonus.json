@@ -1,9 +1,0 @@
-{
-  "id": "evade_fail_bonus",
-  "name": "连续未能闪避时，闪避率 +n个百分点，成功闪避后重置",
-  "description": "角色词条：连续未能闪避时，闪避率 +n个百分点，成功闪避后重置。每次未闪避的攻击命中累加；仍受闪避率上限限制",
-  "params": { "n": 5 },
-  "sheet": [
-    { "trigger": "evade_fail_bonus" }
-  ]
-}

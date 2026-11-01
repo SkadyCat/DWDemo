@@ -1,9 +1,0 @@
-{
-  "id": "proj_curve",
-  "name": "投射物沿曲线飞行",
-  "description": "角色词条：投射物沿曲线飞行。每秒偏转 90 度，交替向左右",
-  "params": {},
-  "sheet": [
-    { "stat": "proj.curve", "value": 1 }
-  ]
-}

@@ -1,9 +1,0 @@
-{
-  "id": "guard_on_low_life",
-  "name": "首次进入低血状态时，获得持续n秒的减伤，冷却n秒",
-  "description": "角色词条：首次进入低血状态时，获得持续n秒的减伤，冷却n秒。reduction = 减伤百分比。",
-  "params": { "duration": 4, "reduction": 30, "cooldown": 20 },
-  "sheet": [
-    { "trigger": "guard_on_low_life" }
-  ]
-}

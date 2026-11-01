@@ -1,9 +1,0 @@
-{
-  "id": "chain_rehit",
-  "name": "闪电允许再次连锁至已命中的目标",
-  "description": "角色词条：闪电允许再次连锁至已命中的目标。同一目标两次被连锁至少间隔一跳",
-  "params": {},
-  "sheet": [
-    { "stat": "chain.rehit", "value": 1 }
-  ]
-}

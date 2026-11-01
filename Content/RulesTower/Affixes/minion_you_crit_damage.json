@@ -1,9 +1,0 @@
-{
-  "id": "minion_you_crit_damage",
-  "name": "你暴击时，召唤物伤害 +n%，持续n秒",
-  "description": "角色词条：你暴击时，召唤物伤害 +n%，持续n秒",
-  "params": { "n": 25, "duration": 3 },
-  "sheet": [
-    { "trigger": "minion_you_crit_damage" }
-  ]
-}

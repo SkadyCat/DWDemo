@@ -1,8 +1,0 @@
-[
-  { "name": "同时移除冻结消费与感电消费", "remove": ["freeze_consume", "shock_consume"] },
-  { "name": "移除冻结来源与感电消费", "remove": ["freezing_hits", "shock_consume"] },
-  { "name": "额外感电层数换为感电上限", "swap": [{ "from": "shock_extra_layers", "to": "shock_max_stacks" }] },
-  { "name": "冰缓效果换为感电上限，保留额外层数", "swap": [{ "from": "chill_effect", "to": "shock_max_stacks" }] },
-  { "name": "增加感电上限但移除感电消费", "remove": ["shock_consume"], "swap": [{ "from": "chill_effect", "to": "shock_max_stacks" }] },
-  { "name": "三条合法替换：感电上限、冷却缩短、触发重复", "swap": [{ "from": "chill_effect", "to": "shock_max_stacks" }, { "from": "area_size", "to": "trigger_cooldown_flat" }, { "from": "trigger_cost", "to": "trigger_repeat" }] }
-]

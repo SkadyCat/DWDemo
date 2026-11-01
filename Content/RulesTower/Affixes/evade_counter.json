@@ -1,9 +1,0 @@
-{
-  "id": "evade_counter",
-  "name": "闪避成功后，有n%概率触发一次反击",
-  "description": "角色词条：闪避成功后，有n%概率触发一次反击。反击：对攻击者造成技能威力的物理伤害（受反击伤害加成）",
-  "params": { "chance": 30 },
-  "sheet": [
-    { "trigger": "evade_counter" }
-  ]
-}

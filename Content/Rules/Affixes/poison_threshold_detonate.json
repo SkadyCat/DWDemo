@@ -1,9 +1,0 @@
-{
-  "id": "poison_threshold_detonate",
-  "name": "中毒达到n层时，消耗全部中毒并引爆",
-  "description": "角色词条：中毒达到n层时，消耗全部中毒并引爆",
-  "params": { "stacks": 10 },
-  "sheet": [
-    { "trigger": "poison_threshold_detonate" }
-  ]
-}

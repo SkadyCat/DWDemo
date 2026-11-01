@@ -1,9 +1,0 @@
-{
-  "id": "shield_slam",
-  "name": "盾击",
-  "description": "以盾猛击。命中堆叠壁垒减伤，壁垒满溢化为不动如山并震荡四周——越打越硬。",
-  "active": "create_shield_slam",
-  "traits": [
-    "create_shield_slam"
-  ]
-}

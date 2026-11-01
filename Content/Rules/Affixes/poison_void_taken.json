@@ -1,9 +1,0 @@
-{
-  "id": "poison_void_taken",
-  "name": "目标每有一层中毒，其受到的虚空伤害提高n%，最多提高n%",
-  "description": "角色词条：目标每有一层中毒，其受到的虚空伤害提高n%，最多提高n%。承伤增幅作用于虚空真实伤害",
-  "params": { "n": 2, "max": 30 },
-  "sheet": [
-    { "trigger": "poison_void_taken" }
-  ]
-}

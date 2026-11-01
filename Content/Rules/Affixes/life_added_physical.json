@@ -1,9 +1,0 @@
-{
-  "id": "life_added_physical",
-  "name": "获得相当于最大气血n%的附加物理伤害",
-  "description": "角色词条：获得相当于最大气血n%的附加物理伤害。每次命中追加。",
-  "params": { "n": 2 },
-  "sheet": [
-    { "stat": "damage.from_life.physical", "value": { "param": "n" } }
-  ]
-}

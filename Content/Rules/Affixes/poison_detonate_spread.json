@@ -1,9 +1,0 @@
-{
-  "id": "poison_detonate_spread",
-  "name": "引爆击败敌人时，将n层中毒传播给附近敌人",
-  "description": "角色词条：引爆击败敌人时，将n层中毒传播给附近敌人",
-  "params": { "n": 3 },
-  "sheet": [
-    { "trigger": "poison_detonate_spread" }
-  ]
-}

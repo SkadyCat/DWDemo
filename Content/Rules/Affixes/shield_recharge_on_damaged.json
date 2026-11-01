@@ -1,9 +1,0 @@
-{
-  "id": "shield_recharge_on_damaged",
-  "name": "受到伤害时，有n%概率立即开始护盾回充",
-  "description": "角色词条：受到伤害时，有n%概率立即开始护盾回充",
-  "params": { "n": 10 },
-  "sheet": [
-    { "stat": "shield.recharge_on_damaged", "value": { "param": "n" } }
-  ]
-}

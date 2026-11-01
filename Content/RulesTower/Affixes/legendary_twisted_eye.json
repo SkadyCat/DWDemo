@@ -1,9 +1,0 @@
-{
-  "id": "legendary_twisted_eye",
-  "name": "主动施放技能时，有n%概率触发挂载技能",
-  "description": "扭曲之瞳的固定传奇词条，沿用主动施法触发挂载技能的规则。最低阶概率60%～64%，每次挂载技能召唤1只扭曲之眼。",
-  "params": { "chance": 60 },
-  "sheet": [
-    { "trigger": "trig_cast" }
-  ]
-}

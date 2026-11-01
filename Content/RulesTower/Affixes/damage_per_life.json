@@ -1,9 +1,0 @@
-{
-  "id": "damage_per_life",
-  "name": "每n点最大气血，伤害 +n%",
-  "description": "角色词条：每n点最大气血，伤害 +n%",
-  "params": { "per": 100, "amount": 4 },
-  "sheet": [
-    { "stat": "damage.per_life", "value": { "div": [{ "param": "amount" }, { "param": "per" }] } }
-  ]
-}

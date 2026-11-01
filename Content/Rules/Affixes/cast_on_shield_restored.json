@@ -1,9 +1,0 @@
-{
-  "id": "cast_on_shield_restored",
-  "name": "每累计恢复n点护盾，触发一次辅助技能",
-  "description": "角色词条：每累计恢复n点护盾，触发一次辅助技能。缝合一个主动特性（以及任意辅助特性）作为被触发的辅助技能。",
-  "params": { "per": 200 },
-  "sheet": [
-    { "trigger": "cast_on_shield_restored" }
-  ]
-}

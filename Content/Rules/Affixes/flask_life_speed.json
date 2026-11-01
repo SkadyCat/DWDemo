@@ -1,9 +1,0 @@
-{
-  "id": "flask_life_speed",
-  "name": "药剂气血恢复速度 +n%",
-  "description": "角色词条：药剂气血恢复速度 +n%",
-  "params": { "n": 30 },
-  "sheet": [
-    { "stat": "flask.life.speed", "value": { "param": "n" } }
-  ]
-}

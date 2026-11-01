@@ -1,9 +1,0 @@
-{
-  "id": "minion_prefer_elite",
-  "name": "召唤物优先攻击精英敌人",
-  "description": "角色词条：召唤物优先攻击精英敌人",
-  "params": {},
-  "sheet": [
-    { "stat": "minion.prefer_elite", "value": 1 }
-  ]
-}

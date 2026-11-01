@@ -1,9 +1,0 @@
-{
-  "id": "proj_return_chain",
-  "name": "投射物连锁次数耗尽后返回",
-  "description": "角色词条：投射物连锁次数耗尽后返回",
-  "params": {},
-  "sheet": [
-    { "stat": "proj.return_chain_done", "value": 1 }
-  ]
-}

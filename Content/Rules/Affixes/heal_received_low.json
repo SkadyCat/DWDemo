@@ -1,9 +1,0 @@
-{
-  "id": "heal_received_low",
-  "name": "低血时，受到的治疗效果 +n%",
-  "description": "角色词条：低血时，受到的治疗效果 +n%",
-  "params": { "n": 30 },
-  "sheet": [
-    { "stat": "heal.received_low", "value": { "param": "n" } }
-  ]
-}

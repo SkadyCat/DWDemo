@@ -1,9 +1,0 @@
-{
-  "id": "trig_taken_crit",
-  "name": "受到暴击时，有n%概率触发挂载技能",
-  "description": "角色词条：受到暴击时，有n%概率触发挂载技能",
-  "params": { "chance": 100 },
-  "sheet": [
-    { "trigger": "trig_taken_crit" }
-  ]
-}

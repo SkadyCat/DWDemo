@@ -1,9 +1,0 @@
-{
-  "id": "shield_taken_elemental",
-  "name": "护盾承受的元素伤害 -n%",
-  "description": "角色词条：护盾承受的元素伤害 -n%",
-  "params": { "n": 15 },
-  "sheet": [
-    { "stat": "shield.taken_elemental_reduction", "value": { "param": "n" } }
-  ]
-}

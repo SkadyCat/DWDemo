@@ -1,9 +1,0 @@
-{
-  "id": "minion_ending_damage",
-  "name": "召唤物剩余持续时间低于n秒时，伤害 +n%",
-  "description": "角色词条：召唤物剩余持续时间低于n秒时，伤害 +n%",
-  "params": { "seconds": 3, "n": 50 },
-  "sheet": [
-    { "trigger": "minion_ending_damage" }
-  ]
-}

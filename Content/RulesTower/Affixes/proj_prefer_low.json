@@ -1,9 +1,0 @@
-{
-  "id": "proj_prefer_low",
-  "name": "投射物优先追踪低血敌人",
-  "description": "角色词条：投射物优先追踪低血敌人",
-  "params": {},
-  "sheet": [
-    { "stat": "proj.prefer_low", "value": 1 }
-  ]
-}

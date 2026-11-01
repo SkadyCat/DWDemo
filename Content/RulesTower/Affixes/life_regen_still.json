@@ -1,9 +1,0 @@
-{
-  "id": "life_regen_still",
-  "name": "静止时，每秒恢复最大气血的n%",
-  "description": "角色词条：静止时，每秒恢复最大气血的n%",
-  "params": { "n": 2 },
-  "sheet": [
-    { "stat": "life.regen_still_percent", "value": { "param": "n" } }
-  ]
-}

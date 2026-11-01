@@ -1,7 +1,0 @@
-{
-  "id": "sacrifice",
-  "name": "献祭",
-  "description": "献祭自己最早的一只存活控制单位，触发主动牺牲词条。由装备词条授予，装配到普通技能槽后施放。",
-  "active": "sacrifice_minion",
-  "traits": ["sacrifice_minion"]
-}

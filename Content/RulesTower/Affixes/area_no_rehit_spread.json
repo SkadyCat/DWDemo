@@ -1,9 +1,0 @@
-{
-  "id": "area_no_rehit_spread",
-  "name": "范围技能无法重复命中同一目标，但击败敌人后继续扩散",
-  "description": "角色词条：范围技能无法重复命中同一目标，但击败敌人后继续扩散。每击败一个敌人，在其位置向外扩散一次（最多 6 次）",
-  "params": {},
-  "sheet": [
-    { "stat": "area.no_rehit_spread", "value": 1 }
-  ]
-}

@@ -1,9 +1,0 @@
-{
-  "id": "mana_base",
-  "name": "魔力上限 +n",
-  "description": "角色词条：魔力上限 +n。补充词条：基础魔力 100，每秒恢复 8。",
-  "params": { "n": 50 },
-  "sheet": [
-    { "stat": "mana.base", "value": { "param": "n" } }
-  ]
-}

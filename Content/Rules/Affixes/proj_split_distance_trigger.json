@@ -1,9 +1,0 @@
-{
-  "id": "proj_split_distance_trigger",
-  "name": "投射物飞行n米后发生分裂",
-  "description": "角色词条：投射物飞行n米后发生分裂",
-  "params": { "meters": 5 },
-  "sheet": [
-    { "trigger": "proj_split_after_distance" }
-  ]
-}

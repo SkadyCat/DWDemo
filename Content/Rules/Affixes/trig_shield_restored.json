@@ -1,9 +1,0 @@
-{
-  "id": "trig_shield_restored",
-  "name": "每累计恢复n点护盾，触发挂载技能",
-  "description": "角色词条：每累计恢复n点护盾，触发挂载技能",
-  "params": { "per": 150 },
-  "sheet": [
-    { "trigger": "cast_on_shield_restored" }
-  ]
-}

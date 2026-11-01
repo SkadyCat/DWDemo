@@ -1,9 +1,0 @@
-{
-  "id": "create_whirlwind", "name": "创建旋风",
-  "description": "从自身发射旋风投射物，游走由聚合的投射物词条提供。count 为基础数量（枚），speed 为基础飞行速度（米/秒），lifetime 为存在时间（秒），radius 为单位碰撞半径（米），damage 为基础物理伤害（点，技能威力更高时取技能威力）。数量、速度、存在时间、碰撞半径和伤害均继承投射物词条；通过真实投射物碰撞命中。",
-  "params": { "count": 1, "speed": 27, "lifetime": 2, "radius": 1.4, "damage": 40 },
-  "rules": [{ "id": "whirlwind_on_cast", "event": "cast", "actions": [{
-    "op": "emit", "kind": "whirlwind", "origin": "owner", "element": "physical", "tags": ["physical", "spell"],
-    "count": {"param":"count"}, "speed": {"param":"speed"}, "lifetime": {"param":"lifetime"}, "radius": {"param":"radius"}, "damage": {"max":[{"param":"damage"},{"event":"amount"}]}
-  }] }]
-}

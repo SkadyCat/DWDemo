@@ -1,9 +1,0 @@
-{
-  "id": "area_ring_around",
-  "name": "范围技能在目标周围环形排列",
-  "description": "角色词条：范围技能在目标周围环形排列。在目标周围环形排列 6 个小范围",
-  "params": {},
-  "sheet": [
-    { "stat": "area.ring_around_target", "value": 1 }
-  ]
-}

@@ -1,9 +1,0 @@
-{
-  "id": "attr_dexterity",
-  "name": "敏捷 +n",
-  "description": "角色词条：敏捷 +n。目前没有词条按敏捷换算；数值会显示在角色面板里。",
-  "params": { "n": 10 },
-  "sheet": [
-    { "stat": "attr.dexterity", "value": { "param": "n" } }
-  ]
-}

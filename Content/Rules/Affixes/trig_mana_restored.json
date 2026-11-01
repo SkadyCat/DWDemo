@@ -1,9 +1,0 @@
-{
-  "id": "trig_mana_restored",
-  "name": "每累计恢复n点魔力，触发挂载技能",
-  "description": "角色词条：每累计恢复n点魔力，触发挂载技能",
-  "params": { "per": 60 },
-  "sheet": [
-    { "trigger": "trig_mana_restored" }
-  ]
-}

@@ -1,9 +1,0 @@
-{
-  "id": "cheat_death_heal",
-  "name": "受到致命伤害时，恢复最大气血的n%，冷却n秒",
-  "description": "角色词条：受到致命伤害时，恢复最大气血的n%，冷却n秒。与“保留1点气血”同时可用时优先触发这一条。",
-  "params": { "percent": 30, "cooldown": 90 },
-  "sheet": [
-    { "trigger": "cheat_death_heal" }
-  ]
-}

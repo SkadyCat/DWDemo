@@ -1,9 +1,0 @@
-{
-  "id": "shock_layers_strike",
-  "name": "每累计施加n层感电，触发一次落雷",
-  "description": "角色词条：每累计施加n层感电，触发一次落雷。落雷：在目标处半径 1.5 米，造成技能威力 2 倍的闪电伤害",
-  "params": { "per": 6 },
-  "sheet": [
-    { "trigger": "shock_layers_strike" }
-  ]
-}

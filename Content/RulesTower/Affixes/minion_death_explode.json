@@ -1,9 +1,0 @@
-{
-  "id": "minion_death_explode",
-  "name": "召唤物死亡时，引发爆炸",
-  "description": "角色词条：召唤物死亡时，引发爆炸。基础造成其最大气血 30% 的火焰伤害，半径 2.5 米",
-  "params": {},
-  "sheet": [
-    { "stat": "minion.death_explosion", "value": 1 }
-  ]
-}

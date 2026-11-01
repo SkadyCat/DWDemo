@@ -1,9 +1,0 @@
-{
-  "id": "poison_merge",
-  "name": "新施加的中毒将已有中毒合并为一层，保留剩余总伤害",
-  "description": "角色词条：新施加的中毒将已有中毒合并为一层，保留剩余总伤害",
-  "params": {},
-  "sheet": [
-    { "stat": "poison.merge", "value": 1 }
-  ]
-}

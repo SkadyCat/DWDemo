@@ -1,9 +1,0 @@
-{
-  "id": "area_widen",
-  "name": "范围技能扩大覆盖面积，降低单次伤害",
-  "description": "角色词条：范围技能扩大覆盖面积，降低单次伤害。面积 +60%，伤害额外降低 25%",
-  "params": {},
-  "sheet": [
-    { "stat": "area.widen", "value": 1 }
-  ]
-}

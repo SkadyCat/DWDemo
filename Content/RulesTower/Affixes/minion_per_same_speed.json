@@ -1,9 +1,0 @@
-{
-  "id": "minion_per_same_speed",
-  "name": "每拥有一个同类召唤物，召唤物攻击速度 +n%，最多提高n%",
-  "description": "角色词条：每拥有一个同类召唤物，召唤物攻击速度 +n%，最多提高n%",
-  "params": { "n": 5, "max": 30 },
-  "sheet": [
-    { "trigger": "minion_per_same_speed" }
-  ]
-}

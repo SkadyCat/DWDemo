@@ -1,9 +1,0 @@
-{
-  "id": "freeze_consume",
-  "name": "主动移除目标冻结，按剩余冻结时间强化本次伤害",
-  "description": "角色词条：主动移除目标冻结，按剩余冻结时间强化本次伤害。命中冻结目标时移除冻结，每剩余 1 秒本次伤害额外提高 30%",
-  "params": {},
-  "sheet": [
-    { "stat": "freeze.consume", "value": 1 }
-  ]
-}

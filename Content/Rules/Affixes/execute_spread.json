@@ -1,9 +1,0 @@
-{
-  "id": "execute_spread",
-  "name": "终结敌人时，将n层侵蚀传播给附近敌人",
-  "description": "角色词条：终结敌人时，将n层侵蚀传播给附近敌人",
-  "params": { "n": 2 },
-  "sheet": [
-    { "trigger": "execute_spread" }
-  ]
-}

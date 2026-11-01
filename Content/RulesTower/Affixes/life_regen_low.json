@@ -1,9 +1,0 @@
-{
-  "id": "life_regen_low",
-  "name": "低血时，气血再生速度 +n%",
-  "description": "角色词条：低血时，气血再生速度 +n%。低血：气血不高于最大值的 35%（可被阈值词条调整）。",
-  "params": { "n": 100 },
-  "sheet": [
-    { "stat": "life.regen_low_speed", "value": { "param": "n" } }
-  ]
-}
