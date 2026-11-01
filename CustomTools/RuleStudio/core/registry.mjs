@@ -41,6 +41,8 @@ const STATIC = {
   'proj.count': N(1, 1, 64), 'proj.speed': N(100, 1), 'proj.pierce': N(0, 0, 999), 'proj.chain': N(0, 0, 999),
   'proj.fork': N(0, 0, 8), 'proj.split': N(0, 0, 16), 'proj.return': N(0, 0, 8), 'proj.spread': N(30, 0, 360), 'proj.lifetime': N(1.2, 0.05),
   'repeat': N(0, 0, 16), 'strike.targets': N(1, 1, 32), 'echo': N(0, 0, 8),
+  // Generic shape traits: ring volleys, exploding projectiles, area aftershocks, melee splash.
+  'proj.nova': N(0, 0, 1), 'proj.explode': N(0, 0, 600), 'area.cascade': N(0, 0, 8), 'strike.splash': N(0, 0, 600),
   'minion.limit': N(0, 0, 200), 'totem.limit': N(1, 0, 32),
   'hitsCanTrigger': F(), 'overkillSpread': N(0, 0, 100), 'consumeKeep': N(0, 0, 100),
   // Ailment damage scales only with these (tag them: ['ignite'], ['poison'], ['dot']...), so generic hit

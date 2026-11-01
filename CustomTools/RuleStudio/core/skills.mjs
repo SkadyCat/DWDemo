@@ -88,13 +88,15 @@ export function cast(world, actor, sk, opts = {}) {
   }
   const cd = world.scaled(actor, 'cooldown', sk.def.cooldown, sk.tags, ctx);
   sk.readyAt = world.time + (cd > 0 ? cd / (1 + world.stat(actor, 'cooldownRecovery', sk.tags, ctx) / 100) : 0);
-  const inv = new Invocation(world, { caster: actor, skill: sk, aim: opts.aim, target: opts.target ?? null, event: opts.event ?? null, depth: opts.depth ?? 0, mult: opts.mult ?? 1, vars: opts.vars ?? {}, triggered: !!opts.triggered,
+  const inv = new Invocation(world, { caster: actor, skill: sk, origin: opts.origin, aim: opts.aim, target: opts.target ?? null, event: opts.event ?? null, depth: opts.depth ?? 0, mult: opts.mult ?? 1, vars: opts.vars ?? {}, triggered: !!opts.triggered,
     tags: opts.triggered ? new Set([...sk.tags, 'triggered']) : sk.tags });
+  inv.remote = !!opts.remote;
   world.emit({ type: 'cast', source: actor, target: opts.target ?? null, skill: sk, tags: [...sk.tags, ...(opts.triggered ? ['triggered'] : [])], x: inv.aim.x, y: inv.aim.y, depth: opts.depth ?? 0 });
   run(sk.def.actions, inv);
   // Repeats (multistrike, spell echo): the same invocation again with fresh carriers.
   const rr = world.stat(actor, 'repeat', sk.tags, ctx), repeats = Math.floor(rr) + (world.roll('repeat') < rr - Math.floor(rr) ? 1 : 0);
   for (let i = 1; i <= repeats; ++i) world.schedule(0.12 * i, () => { if (actor.alive) run(sk.def.actions, inv.fork({ vars: { ...inv.vars, repeat: i } })); });
+  if (opts.remote) world.emit({ type: 'remoteCast', source: actor, skill: sk, x: inv.origin.x, y: inv.origin.y, depth: opts.depth ?? 0 });
   return true;
 }
 

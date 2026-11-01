@@ -14,7 +14,7 @@ export function rng(seed) {
 const EMPTY_TAGS = new Set();
 
 export class World {
-  constructor(content, { seed = 1, eventBudget = 20000, maxDepth = 8, terrain = null } = {}) {
+  constructor(content, { seed = 1, eventBudget = 20000, maxDepth = 14, terrain = null } = {}) {
     this.content = content;
     // Optional level geometry: { move(actor, x, y), sweep(sx, sy, ex, ey, radius) → fraction | -1, flow(x, y) → Int32Array, tileOf, size }.
     this.terrain = terrain;
@@ -216,7 +216,11 @@ export class World {
     if (event.source) event.root = event.source.root;
     event.depth ??= 0;
     event.time = this.time;
-    if (event.depth > this.maxDepth) { this.stats.dropped++; return; }
+    if (event.depth > this.maxDepth) {
+      // Deaths always reach listeners (kill counts, loot, quests) but no longer feed triggers.
+      if (event.type !== 'kill' && event.type !== 'death') { this.stats.dropped++; return; }
+      event.capped = true;
+    }
     this.queue.push(event);
   }
   on(type, handler) { let a = this.handlers.get(type); if (!a) this.handlers.set(type, a = []); a.push(handler); }

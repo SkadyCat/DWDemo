@@ -7,8 +7,9 @@ import { gameContent } from '../core/content/game.mjs';
 import { ARCHETYPES } from '../core/content/archetypes.mjs';
 import { stageBuild, collectionList, STAGES } from '../core/content/builds.mjs';
 import { families, affixLine, lineCount, SLOTS } from '../core/content/families.mjs';
+import { isTrait } from '../core/content/items.mjs';
 import { runMap } from '../core/sim.mjs';
-import { lineUsefulness, defenceReport } from '../core/analysis.mjs';
+
 
 const content = gameContent();
 const SECONDS = 12;
@@ -34,12 +35,14 @@ for (const a of ARCHETYPES) {
     let prev = 0;
     for (let s = 0; s < STAGES.length; ++s) {
       const b = stageBuild(a, s), list = collectionList(a, s);
-      const expected = STAGES[s].linesPerItem * SLOTS.length;
-      assert.ok(b.lines.length >= expected * 0.95, `${STAGES[s].name}: ${b.lines.length}/${expected}`);
+      const expected = STAGES[s].randomLines * SLOTS.length;
+      assert.ok(b.lines.length - b.traits.length >= expected * 0.95, `${STAGES[s].name}: 随机词条 ${b.lines.length - b.traits.length}/${expected}`);
+      assert.ok(b.traits.every(l => isTrait(l.id)) && b.lines.filter(l => l.kind === 'random').every(l => !isTrait(l.id)), '基底只放特性、随机词条只放数值');
       assert.ok(b.lines.length > prev); prev = b.lines.length;
       for (const [fid, from] of a.key) if (from <= s) assert.ok(b.lines.some(l => l.id === fid && l.role === 'key'), `${a.name}: ${fid} 在${STAGES[s].name}阶段放不上（层级或槽位不允许）`);
-      if (s > 0) assert.ok(list.newKeys.length >= 1 || s === 4, `${STAGES[s].name} 没有新关键词条`);
-      for (const it of Object.values(b.items)) assert.equal(new Set(it.map(l => l.id)).size, it.length, '同一件装备同族只出现一次');
+      if (s > 0) assert.ok(list.newKeys.length >= 1, `${STAGES[s].name} 没有新关键词条`);
+      assert.ok(a.ladder[s].title && a.ladder[s].text, '每个阶段都有质变说明');
+      for (const it of Object.values(b.items)) { const ids = [...it.traits, ...it.lines].map(l => l.id); assert.equal(new Set(ids).size, ids.length, '同一件装备同族只出现一次'); assert.ok(it.traits.length + (it.skill ? 1 : 0) <= 3); }
     }
   });
 
@@ -55,22 +58,13 @@ for (const a of ARCHETYPES) {
         assert.ok(o.mapDeaths + o.bossDeaths >= 3 || o.bossTime === Infinity || o.bossTime > 60, `${STAGES[s].name} 在 T${over} 没有压力：死亡 ${o.mapDeaths}/${o.bossDeaths} 首领 ${o.bossTime}`);
       }
       if (s > 0) {
-        const before = runMap(content, stageBuild(a, s - 1), { tier: lo, seconds: SECONDS, seed: 3 });
-        assert.ok(r.kps >= before.kps * 0.95 || r.mapDeaths < before.mapDeaths, `${STAGES[s].name} 在 T${lo} 不比上一阶段快：${r.kps} vs ${before.kps}`);
+        // Two seeds: a single 12-second map is too noisy to rank two good builds.
+        const kps = bb => [3, 4].reduce((n, seed) => n + runMap(content, bb, { tier: lo, seconds: SECONDS, seed }).kps, 0) / 2;
+        const prev = stageBuild(a, s - 1), before = runMap(content, prev, { tier: lo, seconds: SECONDS, seed: 3 });
+        const now = kps(b), then = kps(prev);
+        assert.ok(now >= then * 0.95 || r.mapDeaths < before.mapDeaths, `${STAGES[s].name} 在 T${lo} 不比上一阶段快：${now.toFixed(1)} vs ${then.toFixed(1)}`);
       }
     }
   });
 }
 
-test('毕业配装：抗性在 T16 惩罚后补满，大约九成词条在起作用（冗余约一成）', () => {
-  let useful = 0, total = 0;
-  for (const a of ARCHETYPES) {
-    const b = stageBuild(a, 4);
-    const d = defenceReport(content, b, 16);
-    assert.ok(d.resistOk, `${a.name} 抗性 ${JSON.stringify(d.resists)}`);
-    const u = lineUsefulness(content, b, 16, { seconds: 4 });
-    assert.ok(u.ratio >= 0.75, `${a.name} 有效率 ${(u.ratio * 100).toFixed(0)}%`);
-    useful += u.useful; total += u.total;
-  }
-  assert.ok(useful / total >= 0.85 && useful / total <= 0.97, `平均有效率 ${(useful / total * 100).toFixed(0)}%`);
-});

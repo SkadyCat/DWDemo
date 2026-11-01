@@ -5,9 +5,11 @@
 // slower so defence lines keep mattering without one-shots becoming the only failure mode.
 
 export const MAP_TIERS = 16;
+/** Normal monsters have this share of the tier's life curve; elites ×3, bosses ×(25 + 4t). */
+export const TRASH_LIFE = 0.4;
 
-const lifeCurve = t => 120 * (t <= 10 ? 1.22 ** (t - 1) : 1.22 ** 9 * 1.15 ** (t - 10));
-const damageCurve = t => 5 * (t <= 10 ? 1.2 ** (t - 1) : 1.2 ** 9 * 1.13 ** (t - 10));
+const lifeCurve = t => 120 * (t <= 10 ? 1.22 ** (t - 1) : 1.22 ** 9 * 1.2 ** (t - 10));
+const damageCurve = t => 5 * (t <= 10 ? 1.2 ** (t - 1) : 1.2 ** 9 * 1.17 ** (t - 10));
 /** All-resistance penalty applied to the hero inside the map. */
 export const resistPenalty = t => (t >= 14 ? 70 : t >= 11 ? 50 : t >= 7 ? 30 : t >= 4 ? 10 : 0);
 
@@ -53,13 +55,15 @@ export function mapProfile(tier, family = 'ruin') {
   const fam = MAP_FAMILIES[family];
   return {
     tier: t, family, name: `${fam.name} T${t}`, mix: fam.mix,
-    monsterLife: lifeCurve(t), monsterDamage: damageCurve(t),
+    // 杂兵很脆、成群出现（清屏靠的是覆盖面和连锁）；精英和首领才是单体检验。
+    monsterLife: lifeCurve(t) * TRASH_LIFE, eliteLife: lifeCurve(t) * 3, monsterDamage: damageCurve(t),
     monsterResist: Math.min(40, (t - 1) * 3), monsterArmour: 60 * t, monsterEvasion: 80 * t, monsterAccuracy: 200 + 60 * t,
     resistPenalty: resistPenalty(t),
-    density: 8 + Math.floor(t * 1.2),                     // monsters alive at once
+    density: 8 + Math.floor(t * 1.2),                     // monsters alive at once (simulator)
+    packSize: 16 + t,                                      // monsters per room in a real map
     eliteChance: Math.min(0.35, 0.04 + t * 0.02), eliteMods: t >= 11 ? 3 : t >= 7 ? 2 : 1,
     ailmentChance: t >= 4 ? Math.min(40, 5 + t * 2.5) : 0, // monsters' elemental ailment chance
-    bossLife: lifeCurve(t) * (25 + 4 * t), bossEnrage: 60,            // seconds until enrage
+    bossLife: lifeCurve(t) * (25 + 4 * t) * (t > 12 ? 1.25 ** (t - 12) : 1), bossEnrage: 60, // seconds until enrage; red maps grow tankier bosses
     clearTarget: 0.6 + t * 0.15,                            // kills per second for the bonus chest
   };
 }

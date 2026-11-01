@@ -24,6 +24,7 @@ export class Invocation {
   ctx(target = this.target) { return { world: this.world, self: this.caster, target, tags: this.tags, skill: this.skill, event: this.event, vars: this.vars }; }
   fork(over = {}) {
     const inv = new Invocation(this.world, { caster: this.caster, skill: this.skill, origin: this.origin, aim: this.aim, target: this.target, event: this.event, vars: this.vars, depth: this.depth, mult: this.mult, tags: this.tags, triggered: this.triggered });
+    inv.remote = this.remote;
     return Object.assign(inv, over);
   }
   stat(key, base) { return base === undefined ? this.world.stat(this.caster, key, this.tags, this.ctx()) : this.world.scaled(this.caster, key, base, this.tags, this.ctx()); }
@@ -49,7 +50,8 @@ export function run(actions, inv) {
 // ---- helpers -----------------------------------------------------------------------------------
 function point(at, inv) {
   switch (at ?? 'aim') {
-    case 'self': return { x: inv.caster.x, y: inv.caster.y };
+    // A skill re-cast from a corpse ("remote") treats that spot as where its caster stands.
+    case 'self': return inv.remote ? { ...inv.origin } : { x: inv.caster.x, y: inv.caster.y };
     case 'origin': return inv.origin;
     case 'target': return inv.target ? { x: inv.target.x, y: inv.target.y } : inv.aim;
     case 'event': return inv.event ? { x: inv.event.x ?? inv.event.target?.x ?? inv.caster.x, y: inv.event.y ?? inv.event.target?.y ?? inv.caster.y } : inv.aim;
@@ -69,7 +71,7 @@ export function skillHit(inv, target, a = {}) {
   return hit(inv.world, {
     source: inv.caster, target, skill: inv.skill, tags: inv.tags, base,
     crit: a.crit ?? sk?.crit ?? 0, attack: inv.tags.has('attack'), effectiveness: a.effectiveness ?? sk?.effectiveness ?? 100,
-    mult: inv.mult * (a.mult !== undefined ? num(a.mult, inv) / 100 : 1), depth: inv.depth, vars: inv.vars, noAilments: a.ailments === false,
+    mult: inv.mult * (a.mult !== undefined ? num(a.mult, inv) / 100 : 1), depth: inv.depth, vars: inv.vars, noAilments: a.ailments === false, unscaled: !!a.unscaled,
   });
 }
 
@@ -84,7 +86,7 @@ defineAction('area', (a, inv) => {
   const fire = (fixed = null) => {
     const shape = a.shape ?? 'circle', at = a.at ?? (shape === 'circle' ? 'aim' : 'origin'), c = fixed ?? point(at, inv);
     // Areas centred on the caster reach from the caster's edge, matching how melee range is measured.
-    const r = areaRadius(a, inv) + (at === 'self' || (at === 'origin' && c.x === inv.caster.x && c.y === inv.caster.y) ? inv.caster.radius : 0);
+    const r = areaRadius(a, inv) + (!inv.remote && (at === 'self' || (at === 'origin' && c.x === inv.caster.x && c.y === inv.caster.y)) ? inv.caster.radius : 0);
     const dirx = inv.aim.x - inv.origin.x, diry = inv.aim.y - inv.origin.y, len = Math.hypot(dirx, diry) || 1;
     const half = (a.angle ?? 90) * Math.PI / 360, width = num(a.width, inv, 60);
     const hits = [];
@@ -99,6 +101,18 @@ defineAction('area', (a, inv) => {
     inv.world.emit({ type: 'area', source: inv.caster, skill: inv.skill, x: c.x, y: c.y, radius: r, shape, fx: a.fx, tags: [...inv.tags], depth: inv.depth });
     for (const o of hits) hitAndFollow(a, inv.fork({ origin: c }), o);
     if (a.onCast) run(a.onCast, inv.fork({ origin: c, aim: c }));
+    // Aftershocks (area.cascade): smaller repeats of a skill's area landing around it.
+    // Only skills' own areas get aftershocks (not rule-made bursts like reactions or explosions).
+    const n = a.noCascade || !inv.skill || inv.tags.has('cascade') ? 0 : Math.round(inv.stat('area.cascade'));
+    for (let i = 0; i < n; ++i) {
+      const ang = inv.world.roll('cascade') * Math.PI * 2, dist = r * (0.6 + inv.world.roll('cascade') * 0.6);
+      const at2 = { x: c.x + Math.cos(ang) * dist, y: c.y + Math.sin(ang) * dist };
+      inv.world.schedule(0.12 * (i + 1), () => {
+        if (!inv.caster.alive) return;
+        run([{ ...a, at: 'aim', shape: 'circle', radius: num(a.radius, inv, 100) * 0.6, delay: 0, mult: 60, noCascade: true }],
+          inv.fork({ aim: at2, origin: at2, tags: new Set([...inv.tags, 'cascade']) }));
+      });
+    }
   };
   if (delay > 0) {
     // Telegraph: where and when a delayed area will land (boss slams), so the player can react.
@@ -112,15 +126,26 @@ defineAction('strike', (a, inv) => {
   // Melee: hit the closest enemies in front of the caster, up to strike.targets.
   const range = num(a.range, inv, 150) * (a.areaScales ? Math.sqrt(inv.stat('area') / 100) : 1);
   const n = Math.round(inv.stat('strike.targets', num(a.targets, inv, 1)));
-  const list = [];
-  inv.world.grid.query(inv.caster.x, inv.caster.y, range + inv.caster.radius, o => {
-    const d = Math.hypot(o.x - inv.caster.x, o.y - inv.caster.y) - o.radius - inv.caster.radius;
+  const list = [], at = inv.remote ? inv.origin : inv.caster, cr = inv.remote ? 0 : inv.caster.radius;
+  inv.world.grid.query(at.x, at.y, range + cr, o => {
+    const d = Math.hypot(o.x - at.x, o.y - at.y) - o.radius - cr;
     if (d <= range) list.push([d, o]);
   }, { notTeam: inv.caster.team });
   list.sort((x, y) => x[0] - y[0] || x[1].id - y[1].id);
   if (inv.target?.alive && list.some(([, o]) => o === inv.target)) list.sort((x, y) => (y[1] === inv.target) - (x[1] === inv.target));
   inv.world.emit({ type: 'strike', source: inv.caster, skill: inv.skill, x: inv.aim.x, y: inv.aim.y, fx: a.fx, depth: inv.depth });
-  for (const [, o] of list.slice(0, n)) hitAndFollow(a, inv, o);
+  const struck = list.slice(0, n).map(([, o]) => o);
+  for (const o of struck) hitAndFollow(a, inv, o);
+  // Melee splash: every struck enemy's neighbours take a reduced copy of the hit.
+  const splash = a.noSplash ? 0 : inv.stat('strike.splash');
+  if (splash > 0) for (const o of struck) {
+    const around = [];
+    inv.world.grid.query(o.x, o.y, splash, q => { if (q !== o && !struck.includes(q) && Math.hypot(q.x - o.x, q.y - o.y) - q.radius <= splash) around.push(q); }, { notTeam: inv.caster.team });
+    around.sort((p, q) => p.id - q.id);
+    if (around.length) inv.world.emit({ type: 'area', source: inv.caster, skill: inv.skill, x: o.x, y: o.y, radius: splash, shape: 'circle', fx: 'splash', tags: [...inv.tags, 'splash'], depth: inv.depth });
+    const sub = inv.fork({ tags: new Set([...inv.tags, 'splash']) });
+    for (const q of around) if (q.alive) hitAndFollow({ ...a, mult: 50, onHit: undefined }, sub, q);
+  }
 });
 
 defineAction('damage', (a, inv) => { const t = a.on === 'self' ? inv.caster : inv.target; if (t?.alive) hitAndFollow(a, inv, t); });
@@ -197,9 +222,27 @@ defineAction('repeat', (a, inv) => {
 /** Cast another skill the caster owns or a skill granted by content (triggers, meta skills). */
 defineAction('cast', (a, inv) => {
   const w = inv.world;
-  const sk = a.skill === '$event' ? inv.event?.skill : w.skillFor(inv.caster, a.skill);
+  // '$primary' = the caster's main skill (first manually used one): generic "re-cast your skill" traits.
+  const sk = a.skill === '$event' ? inv.event?.skill : a.skill === '$primary' ? inv.caster.skills.find(s => s.manual && !s.def.reserve) ?? inv.caster.skills.find(s => !s.def.reserve) : w.skillFor(inv.caster, a.skill);
   if (!sk) return;
-  w.cast(inv.caster, sk, { aim: point(a.at ?? 'target', inv), target: a.at === 'self' ? null : inv.target, triggered: true, depth: inv.depth + 1, event: inv.event, mult: num(a.mult, inv, 100) / 100, vars: a.passVars ? inv.vars : {} });
+  let origin, aim = point(a.at ?? 'target', inv), target = a.at === 'self' ? null : inv.target;
+  if (a.from === 'event') {
+    // Cast from where the event happened (a corpse, a shatter) at the closest other enemy there:
+    // the cascade jumps from body to body instead of always starting at the caster.
+    origin = point('event', inv);
+    const dead = inv.event?.target;
+    let best = null, bd = Infinity;
+    w.grid.query(origin.x, origin.y, num(a.range, inv, 700), o => {
+      if (o === dead) return;
+      const d = Math.hypot(o.x - origin.x, o.y - origin.y);
+      if (d < bd || (d === bd && o.id < best.id)) { bd = d; best = o; }
+    }, { notTeam: inv.caster.team });
+    if (!best && a.needTarget !== false) return;
+    target = best;
+    const ang = w.roll('castFrom') * Math.PI * 2;
+    aim = best ? { x: best.x, y: best.y } : { x: origin.x + Math.cos(ang) * 300, y: origin.y + Math.sin(ang) * 300 };
+  }
+  w.cast(inv.caster, sk, { origin, remote: !!origin, aim, target, triggered: true, depth: inv.depth + 1, event: inv.event, mult: num(a.mult, inv, 100) / 100, vars: a.passVars ? inv.vars : {} });
 });
 
 /** Re-cast every trigger-bound skill in a named group (e.g. all skills socketed into a "Cast on Crit"). */
@@ -208,6 +251,7 @@ defineAction('castGroup', (a, inv) => {
 });
 
 defineAction('blink', (a, inv) => {
+  if (inv.remote) return; // a re-cast from a corpse strikes there; it never moves the caster
   const range = num(a.range, inv, 600);
   const t = a.to === 'aim' ? null : inv.world.nearest(inv.caster, 'enemy', range, a.avoidLast ? new Set([inv.caster.lastBlink]) : null);
   const p = t ? { x: t.x - Math.sign(t.x - inv.caster.x || 1) * (t.radius + inv.caster.radius), y: t.y } : inv.aim;
@@ -244,7 +288,8 @@ defineAction('projectile', (a, inv) => {
   const w = inv.world;
   const count = Math.max(1, Math.round(inv.stat('proj.count', num(a.count, inv, 1))));
   // Adjacent projectiles are at most 8° apart, so a small volley still converges on one target.
-  const spread = Math.min(inv.stat('proj.spread', a.spread ?? 30), 8 * (count - 1)) * Math.PI / 180;
+  const nova = inv.stat('proj.nova') > 0 && count > 1;
+  const spread = nova ? Math.PI * 2 * (count - 1) / count : Math.min(inv.stat('proj.spread', a.spread ?? 30), 8 * (count - 1)) * Math.PI / 180;
   const from = point(a.from ?? 'origin', inv);
   const to = inv.target && a.from !== 'event' ? { x: inv.target.x, y: inv.target.y } : inv.aim;
   const base = Math.atan2(to.y - from.y, to.x - from.x);
@@ -254,9 +299,11 @@ defineAction('projectile', (a, inv) => {
     pierce: Math.round(inv.stat('proj.pierce', num(a.pierce, inv, 0))), fork: Math.round(inv.stat('proj.fork', num(a.fork, inv, 0))),
     chain: Math.round(inv.stat('proj.chain', num(a.chain, inv, 0))), split: Math.round(inv.stat('proj.split', num(a.split, inv, 0))),
     returns: Math.round(inv.stat('proj.return', num(a.returns, inv, 0))), chainRadius: a.chainRadius ?? 400,
+    explode: inv.stat('proj.explode'),
   };
   for (let i = 0; i < count; ++i) {
-    const ang = count === 1 ? base : base - spread / 2 + spread * i / (count - 1);
+    // A ring volley keeps its first projectile on the target.
+    const ang = count === 1 ? base : nova ? base + Math.PI * 2 * i / count : base - spread / 2 + spread * i / (count - 1);
     w.carriers.spawnProjectile({ ...shared, x: from.x, y: from.y, angle: ang, hitIds: new Set(a.from === 'event' && inv.target ? [inv.target.id] : []) });
   }
 });
@@ -293,4 +340,18 @@ defineAction('spread', (a, inv) => {
   near.sort((p, q) => p.id - q.id);
   for (const o of near.slice(0, Math.round(num(a.max, inv, 99))))
     for (const s of insts) inv.world.applyStatus(o, a.status, { source: inv.caster, dps: s.dps * num(a.effect, inv, 100) / 100, magnitude: s.magnitude, duration: s.duration, stacks: s.stacks, depth: inv.depth });
+});
+
+/** Copy the ailment the event just applied to up to `max` other enemies near its target (contagion). */
+defineAction('proliferate', (a, inv) => {
+  const t = inv.event?.target, key = inv.event?.key;
+  const ail = key && inv.world.content.ailments?.get(key);
+  if (!t || !ail) return;
+  const insts = t.statuses.filter(s => s.def.id === ail.status);
+  if (!insts.length) return;
+  const r = num(a.radius, inv, 220), near = [];
+  inv.world.grid.query(t.x, t.y, r, o => { if (o !== t && !o.hasStatus(ail.status) && Math.hypot(o.x - t.x, o.y - t.y) <= r) near.push(o); }, { notTeam: inv.caster.team });
+  near.sort((p, q) => Math.hypot(p.x - t.x, p.y - t.y) - Math.hypot(q.x - t.x, q.y - t.y) || p.id - q.id);
+  for (const o of near.slice(0, Math.round(num(a.max, inv, 1))))
+    for (const s of insts) inv.world.applyStatus(o, ail.status, { source: inv.caster, dps: s.dps, magnitude: s.magnitude, duration: s.remaining, stacks: s.stacks, depth: inv.depth });
 });

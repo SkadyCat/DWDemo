@@ -19,7 +19,7 @@ export function spawnMonster(world, profile, x, y, { elite = false, boss = false
   const r = () => world.roll('spawn'), type = pickType(profile.mix, r());
   const ranged = !boss && r() < 0.3;
   const mods = [
-    { stat: 'life', value: boss ? profile.bossLife : profile.monsterLife * (elite ? 3 : 1) },
+    { stat: 'life', value: boss ? profile.bossLife : elite ? profile.eliteLife : profile.monsterLife },
     { stat: `added.${type}`, value: profile.monsterDamage * (boss ? 2 : elite ? 1.5 : 1) },
     { stat: 'armour', value: profile.monsterArmour }, { stat: 'evasion', value: profile.monsterEvasion }, { stat: 'accuracy', value: profile.monsterAccuracy },
     ...['fire', 'cold', 'lightning'].map(e => ({ stat: `res.${e}`, value: profile.monsterResist })),
@@ -73,10 +73,18 @@ export function runMap(content, build, opts = {}) {
     hero.alive = true; hero.statuses = []; world.refreshPools(hero, true);
     world.actors.set(hero.id, hero);
   };
+  let budget = profile.density;
   for (let i = 0; i < seconds / dt; ++i) {
     let alive = 0;
     for (const a of world.actors.values()) if (a.alive && a.team === 1) ++alive;
-    for (; alive < profile.density; ++alive) { const [x, y] = spawnRing(); spawnMonster(world, profile, x, y, { elite: world.roll('spawn') < profile.eliteChance }); }
+    // Refill toward the map's density, but no faster than a map could bring monsters in (a pack
+    // every second or so); fresh monsters need a moment before they act.
+    budget = Math.min(profile.density, budget + profile.density * dt);
+    for (; alive < profile.density && budget >= 1; ++alive, --budget) {
+      const [x, y] = spawnRing();
+      const m = spawnMonster(world, profile, x, y, { elite: world.roll('spawn') < profile.eliteChance });
+      m.busyUntil = world.time + 0.4 + world.roll('spawn') * 0.8;
+    }
     world.step(dt);
     if (!hero.alive || hero.life <= 0) revive();
   }

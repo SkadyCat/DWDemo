@@ -2,7 +2,7 @@
 // 输出给「本图要求」面板和流派测试：玩家卡关时一眼看出该补哪一类，毕业配装应有约九成词条在起作用。
 import { createWorld } from './index.mjs';
 import { mapProfile, mapRequirements } from './content/maps.mjs';
-import { HERO_BASE } from './sim.mjs';
+import { HERO_BASE, runMap } from './sim.mjs';
 import { RESISTS, ELEMENTS } from './registry.mjs';
 import { armourReduction } from './damage.mjs';
 
@@ -75,7 +75,7 @@ export function offenceProbe(content, build, tier, { seconds = 8, seed = 2, pack
     for (let i = alive; i < pack; ++i) {
       const a = i / pack * Math.PI * 2 + world.roll('spawn') * 0.5, r = 60 + world.roll('spawn') * 120;
       world.spawnActor({ team: 1, brain: 'none', x: hero.x + 300 + Math.cos(a) * r, y: hero.y + Math.sin(a) * r, radius: 28,
-        mods: [{ stat: 'life', value: profile.monsterLife * 3 }, ...(immortal ? [{ stat: 'immortal', op: 'flag' }, { stat: 'life.regen', value: profile.monsterLife * 3 }] : []),
+        mods: [{ stat: 'life', value: profile.eliteLife }, ...(immortal ? [{ stat: 'immortal', op: 'flag' }, { stat: 'life.regen', value: profile.eliteLife }] : []),
           ...['fire', 'cold', 'lightning'].map(e => ({ stat: `res.${e}`, value: profile.monsterResist })), { stat: 'armour', value: profile.monsterArmour }, { stat: 'evasion', value: profile.monsterEvasion }] });
     }
   };
@@ -96,6 +96,7 @@ export function offenceAverage(content, build, tier, { seconds = 5, seeds = [2, 
   return { dps, kills: kills / seeds.length };
 }
 
+const HORDE_QUICK = { count: 120, radius: 1000, limit: 20 };
 export function lineUsefulness(content, build, tier, { threshold = 0.02, seconds = 5, seeds } = {}) {
   const base = { off: offenceAverage(content, build, tier, { seconds, seeds }), def: defenceReport(content, build, tier) };
   const out = [];
@@ -113,6 +114,18 @@ export function lineUsefulness(content, build, tier, { threshold = 0.02, seconds
       const off = offenceAverage(content, reduced, tier, { seconds, seeds });
       if (off.dps < base.off.dps * (1 - threshold)) reasons.push(`输出 −${((1 - off.dps / base.off.dps) * 100).toFixed(1)}%`);
       else if (off.kills < base.off.kills * (1 - threshold * 2.5)) reasons.push('清怪');
+    }
+    // Chain reactions only show in a crowd: does the horde fall slower or less at once without it?
+    if (!reasons.length) {
+      base.horde ??= hordeProbe(content, build, tier, HORDE_QUICK);
+      const h = hordeProbe(content, reduced, tier, HORDE_QUICK);
+      if (h.time > base.horde.time * 1.05 || h.peak < base.horde.peak * 0.9) reasons.push('清屏');
+    }
+    // Dynamic defences (charges, fortify, counter-attacks) only show while being hit in a map.
+    if (!reasons.length) {
+      base.map ??= runMap(content, build, { tier, seconds: 8, seed: 3 });
+      const m = runMap(content, reduced, { tier, seconds: 8, seed: 3 });
+      if (m.damageTaken > base.map.damageTaken * 1.05 || m.mapDeaths > base.map.mapDeaths) reasons.push('承伤');
     }
     out.push({ line: build.affixes[i].name, id: build.affixes[i].id, useful: reasons.length > 0, reasons });
   }
@@ -179,4 +192,41 @@ export function roleReport(content, build, tier) {
   const lean = clearing / bossing;
   return { tier, bossing, clearing, ttk: b.ttk, dps: b.dps, clearTime: c.time, kps: c.kps,
     lean: lean > 1.5 ? '速刷型' : lean < 0.67 ? '攻坚型' : '均衡' };
+}
+
+/**
+ * 怪潮（清屏手感）：英雄站在一大片怪中间（默认 160 只本 T 阶普通怪，半径 1200 内随机分布并向英雄聚拢）。
+ * 量的是「爽」：清完用时、峰值每秒击杀、连锁击杀占比（由触发/爆炸/扩散等联动造成的击杀）、单次连锁最多击杀。
+ */
+export function hordeProbe(content, build, tier, { count = 200, radius = 1300, limit = 45, seed = 11, aggro = 700, debug = false } = {}) {
+  const profile = mapProfile(tier);
+  const { world, hero } = heroIn(content, build, profile, seed);
+  hero.brain = 'chase'; hero.keepDistance = build.keepDistance ?? 0; hero.aggro = 5000;
+  if (hero.keepDistance > 0) hero.kite = hero.keepDistance * 0.45; else hero.closeIn = 30;
+  for (let i = 0; i < count; ++i) {
+    const a = world.roll('spawn') * Math.PI * 2, r = 220 + Math.sqrt(world.roll('spawn')) * radius;
+    const m = spawnHordeMonster(world, profile, Math.cos(a) * r, Math.sin(a) * r);
+    m.aggro = aggro;
+  }
+  const kills = [];
+  world.listeners.push(e => { if (e.type === 'kill' && e.target.team === 1) kills.push({ t: world.time, cascade: (e.depth ?? 0) > 0 || !!e.dot }); });
+  let t = 0;
+  for (; t < limit && kills.length < count; t += 1 / 30) {
+    world.step(1 / 30); hero.life = hero.max.life; hero.mana = hero.max.mana;
+    if (debug && Math.round(t * 30) % 150 === 0) { const left = [...world.actors.values()].filter(a => a.alive && a.team === 1); console.log(t.toFixed(1), kills.length, 'hero', Math.round(hero.x), Math.round(hero.y), hero.brainTarget?.id, hero.busyUntil?.toFixed(1), world.time.toFixed(1), hero.statuses.map(s=>s.def.id).join(','), 'left', left.slice(0, 3).map(a => [Math.round(a.x), Math.round(a.y), Math.round(a.life), a.statuses.map(s => s.def.id).join(',')])); }
+  }
+  let peak = 0;
+  for (let i = 0, j = 0; i < kills.length; ++i) { while (kills[i].t - kills[j].t > 1) ++j; peak = Math.max(peak, i - j + 1); }
+  let burst = 0;
+  for (let i = 0, j = 0; i < kills.length; ++i) { while (kills[i].t - kills[j].t > 0.25) ++j; burst = Math.max(burst, i - j + 1); }
+  const time = kills.length >= count ? t : limit * count / Math.max(1, kills.length);
+  return { time, cleared: kills.length, total: count, kps: kills.length / Math.max(t, 1e-6), peak, burst,
+    cascade: kills.length ? kills.filter(k => k.cascade).length / kills.length : 0 };
+}
+
+function spawnHordeMonster(world, profile, x, y) {
+  return world.spawnActor({ team: 1, kind: 'monster', x, y, radius: 28, aggro: 5000, skills: ['mob_strike'],
+    mods: [{ stat: 'life', value: profile.monsterLife }, { stat: 'added.physical', value: profile.monsterDamage },
+      ...['fire', 'cold', 'lightning'].map(e => ({ stat: `res.${e}`, value: profile.monsterResist })), { stat: 'res.chaos', value: profile.monsterResist / 2 },
+      { stat: 'armour', value: profile.monsterArmour }, { stat: 'evasion', value: profile.monsterEvasion }, { stat: 'accuracy', value: profile.monsterAccuracy }] });
 }

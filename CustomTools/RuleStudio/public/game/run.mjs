@@ -39,6 +39,7 @@ export class MapRun {
     this.elapsed = 0;
     this.phase = 'running';
     this.flashes = []; this.loot = []; this.log = []; this.kills = 0; this.pickedUp = [];
+    this.recentKills = []; this.combo = 0; this.bestCombo = 0; this.lastKillAt = -9; this.cascadeKills = 0; this.screenClears = []; this.lastScreenClear = -9;
     this.build = build;
     this.spawnHero();
     this.populate();
@@ -86,13 +87,21 @@ export class MapRun {
       if (room.kind === 'boss') {
         const c = d.tileCenter(Math.floor(room.centerX), Math.floor(room.centerY));
         this.boss = this.spawnMonster(c.x, c.y, { boss: true });
-        for (let i = 0; i < 4; ++i) { const t = tiles[Math.floor(this.rng() * tiles.length)], q = d.tileCenter(t.x, t.y); this.spawnMonster(q.x, q.y); }
+        for (let i = 0; i < 10; ++i) { const t = tiles[Math.floor(this.rng() * tiles.length)], q = d.tileCenter(t.x, t.y); this.spawnMonster(q.x, q.y); }
         continue;
       }
-      const count = Math.round(p.density * (0.45 + this.rng() * 0.4));
+      // Hordes: every room holds a few tight clusters (clearing is about reach and chain reactions).
+      const count = Math.round(p.packSize * (0.7 + this.rng() * 0.6));
+      const clusters = Math.max(2, Math.ceil(count / 9));
+      const centers = Array.from({ length: clusters }, () => { const t = tiles[Math.floor(this.rng() * tiles.length)]; return d.tileCenter(t.x, t.y); });
+      let elites = 0;
       for (let i = 0; i < count; ++i) {
-        const t = tiles[Math.floor(this.rng() * tiles.length)], q = d.tileCenter(t.x, t.y);
-        this.spawnMonster(q.x + (this.rng() - .5) * 120, q.y + (this.rng() - .5) * 120, { elite: this.rng() < p.eliteChance });
+        const c = centers[i % clusters], a = this.rng() * Math.PI * 2, r = Math.sqrt(this.rng()) * 170;
+        const x = c.x + Math.cos(a) * r, y = c.y + Math.sin(a) * r;
+        const elite = elites < 2 && this.rng() < p.eliteChance * 0.5;
+        if (elite) elites++;
+        const tt = d.tileOf(x, y); if (!d.walkable(tt.x, tt.y)) continue;
+        this.spawnMonster(x, y, { elite });
       }
     }
     this.total = [...this.world.actors.values()].filter(a => a.team === 1).length;
@@ -105,7 +114,7 @@ export class MapRun {
     for (const [t, w] of Object.entries(p.mix)) { acc += w; if (roll < acc) { type = t; break; } }
     const ranged = !boss && r() < 0.3;
     const mods = [
-      { stat: 'life', value: boss ? p.bossLife : p.monsterLife * (elite ? 3 : 1) },
+      { stat: 'life', value: boss ? p.bossLife : elite ? p.eliteLife : p.monsterLife },
       { stat: `added.${type}`, value: p.monsterDamage * (boss ? 2 : elite ? 1.5 : 1) },
       { stat: 'armour', value: p.monsterArmour }, { stat: 'evasion', value: p.monsterEvasion }, { stat: 'accuracy', value: p.monsterAccuracy },
       ...['fire', 'cold', 'lightning'].map(e => ({ stat: `res.${e}`, value: p.monsterResist })), { stat: 'res.chaos', value: p.monsterResist / 2 },
@@ -182,6 +191,15 @@ export class MapRun {
     if (e.type === 'cast' && e.source.team === 1) { e.source.lastSkill = e.skill.def.name; e.source.lastCastAt = this.elapsed; }
     if (e.type === 'kill' && e.target.team === 1) {
       this.kills++;
+      // Kill streaks: how many died in the last second, and how many of them died to a chain reaction.
+      const t = this.elapsed;
+      this.recentKills.push({ t, cascade: (e.depth ?? 0) > 0 || !!e.dot });
+      while (this.recentKills.length && t - this.recentKills[0].t > 1) this.recentKills.shift();
+      this.combo = t - this.lastKillAt < 1.5 ? this.combo + 1 : 1;
+      this.lastKillAt = t;
+      this.bestCombo = Math.max(this.bestCombo, this.combo);
+      if ((e.depth ?? 0) > 0) this.cascadeKills++;
+      if (this.recentKills.length >= 20 && t - this.lastScreenClear > 2.5) { this.lastScreenClear = t; this.screenClears.push({ t, n: this.recentKills.length }); }
       const kind = e.target.kind === 'boss' ? 'boss' : e.target.kind === 'elite' ? 'elite' : 'monster';
       for (const drop of rollDrops(this.tier, kind, this.rng, { quantity: this.quantity })) {
         const a = this.rng() * Math.PI * 2, r = 30 + this.rng() * (kind === 'boss' ? 160 : 60);

@@ -131,7 +131,7 @@ export function installRules(world) {
   world.ruleIndex = new Map();
   world.on('*', (w, e) => {
     const list = w.ruleIndex.get(e.type);
-    if (!list) return;
+    if (!list || e.capped) return;
     for (const inst of list.slice()) {
       if (!inst.actor.alive && inst.rule.on !== 'death') continue;
       if ((e.depth ?? 0) > 0 && !inst.rule.chain) continue;

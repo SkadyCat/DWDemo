@@ -3,11 +3,14 @@
 import { hitAndFollow, run } from './actions.mjs';
 
 const FORK_ANGLE = Math.PI / 6;
+const MAX_PROJECTILES = 450;
 
 export class Carriers {
   constructor() { this.projectiles = []; this.zones = []; this.spawned = 0; }
 
   spawnProjectile(p) {
+    // Screen-wide cap: past this many live projectiles new ones fizzle (keeps cascades smooth).
+    if (this.projectiles.length >= MAX_PROJECTILES) return null;
     p.dx = Math.cos(p.angle); p.dy = Math.sin(p.angle);
     p.life = p.lifetime; p.alive = true; p.returning = false; p.id = ++this.spawned;
     this.projectiles.push(p);
@@ -51,6 +54,9 @@ export class Carriers {
     p.hitIds.add(target.id);
     world.emit({ type: 'projectileHit', source: p.inv.caster, target, skill: p.inv.skill, x: target.x, y: target.y, carrier: p.id, depth: p.inv.depth });
     hitAndFollow(p.action, p.inv.fork({ target, origin: { x: p.x, y: p.y } }), target);
+    // Exploding projectiles: a burst around the hit for half the projectile's damage.
+    if (p.explode > 0) run([{ do: 'area', at: 'aim', radius: p.explode, mult: 35, fx: 'explode', noCascade: true, tags: ['explosion'] }],
+      p.inv.fork({ origin: { x: target.x, y: target.y }, aim: { x: target.x, y: target.y }, target: null }));
     if (p.returning) return;
     if (p.pierce > 0) { p.pierce--; return; }
     if (p.fork > 0) {

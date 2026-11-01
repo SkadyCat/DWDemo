@@ -94,6 +94,8 @@ function think(world, a, dt) {
   for (const sk of a.skills) {
     if (sk.def.reserve) continue;
     if (sk.manual || d > sk.def.range) continue;
+    // Close-in bots (melee and self-centred areas) walk into the pack before swinging.
+    if (a.closeIn !== undefined && d > a.closeIn && !world.quick(a, 'cannotMove')) break;
     if (cast(world, a, sk, { aim: { x: target.x, y: target.y }, target })) { a.busyUntil = world.time + castTime(world, a, sk); return; }
   }
   // Kiting: ranged heroes step back when something gets too close (a competent player, not a turret).

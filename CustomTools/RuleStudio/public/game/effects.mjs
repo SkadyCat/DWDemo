@@ -37,6 +37,10 @@ export function createEffects(T, scene) {
         const style = { ice_nova: ['gs-nova', 'frost'], cleave: ['gs-crescent', 'cleave'], cyclone: ['gs-crescent', 'whirl'], slam: ['gs-crescent', 'thunder'], ice_burst: ['gs-nova', 'frost'], thunder: ['gs-nova', 'storm'] }[e.fx];
         if (e.fx === 'slam') push('gs-quake', { radius: r }, e.x, e.y, 1, rot);
         if (e.fx === 'thunder' || e.tags?.includes('herald_thunder')) push('death-lightning', {}, e.x, e.y, r);
+        // Aftershocks are many and small: a light ring, not a second full skill effect.
+        if (e.tags?.includes('cascade')) { push('area-circle', { radius: r, element: EL[el] }, e.x, e.y); break; }
+        if (e.fx === 'splash') { push('element-hit', { element: EL[el] }, e.x, e.y, r * 1.6, 0, .4); break; }
+        if (e.fx === 'poison') { push('element-explosion', { element: 4 }, e.x, e.y, r); break; }
         if (style) push(style[0], { style: style[1], radius: r, seed: (e.x * 7 + e.y * 13) % 17 }, e.x, e.y, 1, rot);
         else if (e.fx === 'telegraph') push('element-explosion', { element: EL[el] }, e.x, e.y, r);
         else if (e.fx === 'overload' || e.tags?.includes('overload')) { push('element-explosion', { element: 0 }, e.x, e.y, r); push('death-lightning', {}, e.x, e.y, r * 0.7); }
@@ -45,6 +49,8 @@ export function createEffects(T, scene) {
         break;
       }
       case 'strike': push(hostile ? 'melee-claw' : 'melee-slash', { radius: 1.4, element: 3 }, e.source.x, e.source.y, 1, dirOf(e)); break;
+      // A skill re-cast from a corpse: a flare where it starts, so the chain reads on screen.
+      case 'remoteCast': push('element-hit', { element: EL[mainElement({ tags: e.skill?.def.tags })] ?? 0 }, e.x, e.y, 1.1, 0, .5); break;
       case 'blink': push('gs-blink', { length: Math.hypot(e.x - e.fromX, e.y - e.fromY) * M }, e.fromX, e.fromY, 1, Math.atan2(e.y - e.fromY, e.x - e.fromX)); break;
       case 'telegraph': push('area-circle', { radius: e.radius * M, element: 0, warning: true }, e.x, e.y); break;
       case 'shatter': push('status-freeze', {}, e.x, e.y, 1.2); push('element-explosion', { element: 1 }, e.x, e.y, 1.1); break;

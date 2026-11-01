@@ -103,7 +103,8 @@ export function hit(world, spec) {
   const ctx = { world, self: source, target, tags, skill: spec.skill ?? null, event: null, vars: spec.vars ?? null };
   const eff = world.scaled(source, 'effectiveness', spec.effectiveness ?? 100, tags, ctx) / 100;
   const base = {};
-  for (const t of DAMAGE_TYPES) base[t] = (spec.base?.[t] || 0) + world.stat(source, `added.${t}`, tags, ctx) * eff;
+  // `unscaled` hits ("deal N% of the ignite left") carry an already-scaled amount: no added damage, no modifiers again.
+  for (const t of DAMAGE_TYPES) base[t] = (spec.base?.[t] || 0) + (spec.unscaled ? 0 : world.stat(source, `added.${t}`, tags, ctx) * eff);
 
   // Hit roll and block happen before damage is calculated, so they never waste a crit roll.
   const tctx = { world, self: target, target: source, tags, skill: null, event: null };
@@ -130,7 +131,7 @@ export function hit(world, spec) {
   const mult = spec.mult ?? 1;
   for (const c of chunks) {
     const ct = lineageTags(hitTags, c.lineage);
-    const scaled = world.scaled(source, 'damage', c.amount, ct, { ...ctx, tags: ct }) * critMult * mult;
+    const scaled = (spec.unscaled ? c.amount : world.scaled(source, 'damage', c.amount, ct, { ...ctx, tags: ct })) * critMult * mult;
     raw[c.type] = (raw[c.type] || 0) + scaled;
     // Lineage matters for ailments too: fire converted from physical can ignite *and* bleed.
     for (const l of c.lineage) raw[`~${l}`] = (raw[`~${l}`] || 0) + scaled;
@@ -154,7 +155,7 @@ export function hit(world, spec) {
   if (crit) world.emit({ ...event, type: 'crit' });
   world.emit({ type: 'struck', source: target, target: source, skill: spec.skill, tags: eventTags, amount, crit, depth: spec.depth ?? 0 });
   if (!spec.noAilments) applyAilments(world, source, target, raw, hitTags, ctx, spec.depth ?? 0);
-  if (target.life <= 0) kill(world, target, source, { skill: spec.skill, tags: eventTags, overkill: -target.life, depth: spec.depth ?? 0 });
+  if (target.life <= 0) kill(world, target, source, { skill: spec.skill, tags: eventTags, overkill: -target.life, crit, depth: spec.depth ?? 0 });
   return { landed: true, crit, amount, byType, raw };
 }
 

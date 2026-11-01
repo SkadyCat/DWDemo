@@ -25,7 +25,9 @@ function fam(def) {
   const layer = LAYERS[def.layer ?? 'stat'];
   const n = def.levels ?? layer.tiers;
   const values = (def.values ?? (def.curve === 'lin' ? lin : geo)(def.from, def.to, n)).map(v => round(v, def.step ?? 1));
-  const f = Object.freeze({ layer: 'stat', slots: ANY, tags: [], ...def, values: Object.freeze(values), levels: values.length });
+  // Form and link traits are base lines: they can roll on any slot (the build decides where it wants them).
+  const slots = def.layer === 'form' || def.layer === 'link' ? ANY : def.slots ?? ANY;
+  const f = Object.freeze({ layer: 'stat', tags: [], ...def, slots, values: Object.freeze(values), levels: values.length });
   if (FAMILIES.has(f.id)) throw new Error(`词条族重复：${f.id}`);
   FAMILIES.set(f.id, f);
   return f;
@@ -90,7 +92,7 @@ fam({ id: 'minion_life', name: '召唤物生命提高 {v}%', from: 10, to: 50, s
 fam({ id: 'minion_speed', name: '召唤物攻击与施法速度提高 {v}%', from: 5, to: 25, slots: ['offhand', 'gloves', 'amulet'], tags: ['offence', 'minion', 'speed'], make: v => ({ mods: [{ stat: 'speed', op: 'inc', value: v, scope: 'minion' }] }) });
 
 // ================================================================== 形态层：改变技能形状
-fam({ id: 'proj_count', name: '+{v} 投射物数量', layer: 'form', values: [1, 1, 2, 2, 3, 4], slots: ['weapon', 'offhand', 'gloves', 'helmet'], tags: ['form', 'projectile'], make: M('proj.count', 'base') });
+fam({ id: 'proj_count', name: '+{v} 投射物数量', layer: 'form', values: [1, 1, 1, 2, 2, 3], slots: ['weapon', 'offhand', 'gloves', 'helmet'], tags: ['form', 'projectile'], make: M('proj.count', 'base') });
 fam({ id: 'proj_chain', name: '投射物连锁 +{v} 次', layer: 'form', values: [1, 1, 2, 2, 3, 4], slots: ['weapon', 'gloves', 'helmet', 'amulet'], tags: ['form', 'projectile', 'chain'], make: M('proj.chain', 'base') });
 fam({ id: 'proj_pierce', name: '投射物穿透 +{v} 个目标', layer: 'form', values: [1, 2, 2, 3, 4, 5], slots: ['weapon', 'gloves', 'boots', 'helmet'], tags: ['form', 'projectile'], make: M('proj.pierce', 'base') });
 fam({ id: 'proj_fork', name: '投射物分叉 +{v} 次', layer: 'form', values: [1, 1, 1, 2, 2, 3], slots: ['weapon', 'gloves', 'amulet'], tags: ['form', 'projectile'], make: M('proj.fork', 'base') });
@@ -98,8 +100,8 @@ fam({ id: 'proj_split', name: '投射物命中后分裂为 {v} 个', layer: 'for
 fam({ id: 'proj_return', name: '投射物耗尽后折返 {v} 次', layer: 'form', values: [1, 1, 1, 1, 2, 2], slots: ['weapon', 'helmet', 'amulet'], tags: ['form', 'projectile'], make: M('proj.return', 'base') });
 fam({ id: 'chain_any', name: '连锁类技能 +{v} 次连锁', layer: 'form', values: [1, 2, 2, 3, 3, 4], slots: ['weapon', 'offhand', 'ring1', 'ring2'], tags: ['form', 'chain'], make: M('proj.chain', 'base', { tags: ['chaining'] }) });
 fam({ id: 'area_more', name: '范围技能的范围扩大 {v}%（更多）', layer: 'form', values: [15, 20, 25, 30, 40, 50], slots: ['weapon', 'helmet', 'gloves', 'chest'], tags: ['form', 'area'], make: M('area', 'more') });
-fam({ id: 'multistrike', name: '近战攻击额外重复 {v}%', layer: 'form', values: [30, 50, 70, 90, 120, 150], slots: ['weapon', 'gloves', 'ring1', 'ring2'], tags: ['form', 'melee', 'repeat'], make: v => ({ mods: [{ stat: 'repeat', op: 'base', value: v / 100, tags: ['melee'] }] }) });
-fam({ id: 'spell_echo', name: '法术额外重复 {v}%', layer: 'form', values: [30, 50, 70, 90, 120, 150], slots: ['weapon', 'offhand', 'amulet'], tags: ['form', 'spell', 'repeat'], make: v => ({ mods: [{ stat: 'repeat', op: 'base', value: v / 100, tags: ['spell'], notTags: ['triggered'] }] }) });
+fam({ id: 'multistrike', name: '近战攻击额外重复 {v}%', layer: 'form', unique: true, values: [30, 50, 70, 90, 120, 150], slots: ['weapon', 'gloves', 'ring1', 'ring2'], tags: ['form', 'melee', 'repeat'], make: v => ({ mods: [{ stat: 'repeat', op: 'base', value: v / 100, tags: ['melee'] }] }) });
+fam({ id: 'spell_echo', name: '法术额外重复 {v}%', layer: 'form', unique: true, values: [25, 40, 55, 70, 85, 100], slots: ['weapon', 'offhand', 'amulet'], tags: ['form', 'spell', 'repeat'], make: v => ({ mods: [{ stat: 'repeat', op: 'base', value: v / 100, tags: ['spell'], notTags: ['triggered'] }] }) });
 fam({ id: 'strike_targets', name: '打击技能额外命中 {v} 个敌人', layer: 'form', values: [1, 1, 2, 2, 3, 4], slots: ['weapon', 'gloves'], tags: ['form', 'melee', 'strike'], make: M('strike.targets', 'base') });
 fam({ id: 'minion_count', name: '+{v} 召唤物上限', layer: 'form', values: [1, 1, 2, 2, 3, 4], slots: ['offhand', 'helmet', 'amulet', 'chest'], tags: ['form', 'minion'], make: M('minion.limit', 'base') });
 fam({ id: 'conv_phys_fire', name: '{v}% 物理伤害转为火焰', layer: 'form', values: [20, 30, 40, 50, 60, 70], slots: ['weapon', 'gloves', 'amulet'], tags: ['form', 'conversion', 'fire'], make: M('conv.physical.fire', 'base') });
@@ -109,6 +111,15 @@ fam({ id: 'conv_lightning_cold', name: '{v}% 闪电伤害转为冰霜', layer: '
 fam({ id: 'conv_cold_fire', name: '{v}% 冰霜伤害转为火焰', layer: 'form', values: [20, 30, 40, 50, 60, 70], slots: ['weapon', 'gloves', 'amulet', 'ring1', 'ring2'], tags: ['form', 'conversion', 'fire'], make: M('conv.cold.fire', 'base') });
 for (const [from, to, n] of [['physical', 'fire', '物理→火焰'], ['physical', 'lightning', '物理→闪电'], ['physical', 'chaos', '物理→混沌'], ['cold', 'lightning', '冰霜→闪电'], ['fire', 'chaos', '火焰→混沌'], ['lightning', 'fire', '闪电→火焰']])
   fam({ id: `extra_${from}_${to}`, name: `获得 {v}% ${n.split('→')[0]}伤害作为额外${n.split('→')[1]}伤害`, layer: 'form', values: [6, 9, 12, 15, 20, 25], slots: ['weapon', 'amulet', 'gloves', 'offhand'], tags: ['form', 'extra', to], make: M(`extra.${from}.${to}`, 'base') });
+
+fam({ id: 'proj_nova', name: '投射物改为环形齐射，+{v} 投射物', layer: 'form', unique: true, values: [2, 3, 3, 4, 5, 6], slots: ['weapon', 'offhand', 'helmet', 'amulet'], tags: ['form', 'projectile'],
+  make: v => ({ mods: [{ stat: 'proj.nova', op: 'base', value: 1 }, { stat: 'proj.count', op: 'base', value: v }] }) });
+fam({ id: 'proj_explode', name: '投射物命中时爆炸（半径 {v}，35% 伤害）', layer: 'form', unique: true, values: [80, 100, 120, 140, 165, 190], slots: ['weapon', 'offhand', 'gloves', 'amulet'], tags: ['form', 'projectile', 'explosion'],
+  make: M('proj.explode', 'base') });
+fam({ id: 'area_cascade', name: '范围技能余震 +{v} 次（在周围落下，60% 伤害）', layer: 'form', values: [1, 1, 2, 2, 3, 4], slots: ['weapon', 'helmet', 'gloves', 'amulet', 'offhand'], tags: ['form', 'area'],
+  make: M('area.cascade', 'base') });
+fam({ id: 'strike_splash', name: '打击命中时溅射周围 {v} 范围（50% 伤害）', layer: 'form', values: [80, 100, 120, 140, 170, 200], slots: ['weapon', 'gloves', 'amulet'], tags: ['form', 'melee', 'strike'],
+  make: M('strike.splash', 'base') });
 
 // ================================================================== 联动层：规则与触发
 const trig = (on, filter, doList, extra = {}) => ({ on, filter, do: doList, ...extra });
@@ -150,9 +161,9 @@ fam({ id: 'thunder_herald', name: '击杀感电敌人后，接下来 3 次攻击
 fam({ id: 'react_melt', name: '融化：火焰命中冰缓敌人时消耗冰缓，本次伤害提高 {v}%（更多）', layer: 'link', values: [25, 35, 45, 55, 70], slots: ['weapon', 'amulet', 'gloves', 'ring1', 'ring2'], tags: ['link', 'reaction', 'fire', 'cold'],
   make: v => ({ mods: [{ stat: 'damage', op: 'more', value: v, tags: ['fire', 'hit'], when: { status: 'chilled', of: 'target' } }],
     rules: [trig('hit', { tags: ['fire'], cond: { status: 'chilled', of: 'target' } }, [{ do: 'removeStatus', status: 'chilled' }], { chain: true })] }) });
-fam({ id: 'react_overload', name: '超载：闪电命中点燃敌人时引爆点燃，造成剩余点燃伤害 {v}% 的范围火焰伤害', layer: 'link', values: [30, 40, 50, 65, 80], slots: ['weapon', 'amulet', 'gloves', 'ring1', 'ring2'], tags: ['link', 'reaction', 'fire', 'lightning'],
+fam({ id: 'react_overload', name: '超载：闪电命中点燃敌人时引爆点燃，造成剩余点燃伤害 {v}% 的范围火焰伤害', layer: 'link', values: [40, 55, 75, 100, 125], slots: ['weapon', 'amulet', 'gloves', 'ring1', 'ring2'], tags: ['link', 'reaction', 'fire', 'lightning'],
   make: v => ({ rules: [trig('hit', { tags: ['lightning'], notTags: ['reaction'], cond: { status: 'ignited', of: 'target' } },
-    [{ do: 'consumeStatus', status: 'ignited', as: 'ign' }, { do: 'area', at: 'target', radius: 200, damage: { fire: { var: 'ignDamage', mul: v / 100 } }, crit: 0, ailments: false, tags: ['reaction', 'overload'], fx: 'overload' }], { chain: true })] }) });
+    [{ do: 'consumeStatus', status: 'ignited', as: 'ign' }, { do: 'area', at: 'target', radius: 200, damage: { fire: { var: 'ignDamage', mul: v / 100 } }, unscaled: true, crit: 0, ailments: false, tags: ['reaction', 'overload'], fx: 'overload' }], { chain: true })] }) });
 fam({ id: 'react_superconduct', name: '超导：冰霜命中感电敌人时消耗感电，使其元素曝露 {v}%', layer: 'link', values: [5, 8, 10, 12, 15], slots: ['weapon', 'amulet', 'gloves', 'ring1', 'ring2'], tags: ['link', 'reaction', 'cold', 'lightning'],
   make: v => ({ rules: [trig('hit', { tags: ['cold'], notTags: ['reaction'], cond: { status: 'shocked', of: 'target' } },
     [{ do: 'removeStatus', status: 'shocked' }, { do: 'status', status: 'superconduct', magnitude: v / 25, duration: 4 }], { chain: true })] }) });
@@ -169,11 +180,44 @@ fam({ id: 'kill_onslaught', name: '击杀时 {v}% 几率获得猛攻', layer: 'l
   make: v => ({ rules: [trig('kill', {}, [{ do: 'status', on: 'self', status: 'onslaught' }], { role: 'owned', accumulate: { kind: 'chance', pct: v }, at: 'self' })] }) });
 fam({ id: 'hit_fortify', name: '近战命中时获得护体（冷却 {v} 秒）', layer: 'link', values: [3, 2.5, 2, 1.5, 1], step: 0.5, slots: ['chest', 'helmet', 'belt', 'gloves'], tags: ['link', 'melee', 'defence'],
   make: v => ({ rules: [trig('hit', { tags: ['melee'] }, [{ do: 'status', on: 'self', status: 'fortify' }], { limit: { cooldown: v }, at: 'self' })] }) });
-fam({ id: 'flicker_reset', name: '消耗 1 个狂怒球立即重置闪现打击冷却（{v}% 几率不消耗）', layer: 'link', values: [0, 10, 20, 35, 50], slots: ['weapon', 'gloves', 'boots'], tags: ['link', 'movement', 'charge'],
+fam({ id: 'flicker_reset', name: '消耗 1 个狂怒球立即重置位移技能冷却（{v}% 几率不消耗）', layer: 'link', values: [0, 10, 20, 35, 50], slots: ['weapon', 'gloves', 'boots'], tags: ['link', 'movement', 'charge'],
   make: v => ({ mods: [{ stat: 'cooldown', op: 'more', value: -100, tags: ['movement'], when: { res: 'frenzy', gte: 1 } }],
     rules: [trig('cast', { tags: ['movement'], notTags: ['triggered'], cond: { res: 'frenzy', gte: 1 } }, [{ do: 'consume', res: 'frenzy', amount: 1, chance: 100 - v }], { at: 'self' })] }) });
 fam({ id: 'minion_explode', name: '召唤物死亡时爆炸，造成其最大生命 {v}% 的物理伤害', layer: 'link', values: [20, 30, 45, 60, 80], slots: ['offhand', 'amulet', 'helmet'], tags: ['link', 'minion'],
   make: v => ({ rules: [trig('death', {}, [{ do: 'area', at: 'event', radius: 180, damage: { physical: { pool: 'life', of: 'target', mul: v / 100 } }, crit: 0 }], { role: 'minion', at: 'event', chain: true })] }) });
+
+// ---- 连环（清屏用）：击杀/击碎/爆炸再触发下一次，一片怪像多米诺一样倒下
+fam({ id: 'explode_ignite', name: '你的爆炸有 {v}% 几率点燃', layer: 'link', values: [30, 45, 60, 80, 100], slots: ['weapon', 'gloves', 'amulet', 'helmet', 'chest'], tags: ['link', 'ignite', 'fire', 'explosion'],
+  make: M('chance.ignite', 'base', { tags: ['explosion'] }) });
+fam({ id: 'shatter_nova', name: '碎冰：击碎冰冻敌人时爆出寒霜，造成其最大生命 {v}% 的冰霜伤害并冰冻周围', layer: 'link', values: [25, 35, 45, 55, 70], slots: ['weapon', 'helmet', 'amulet', 'chest', 'gloves'], tags: ['link', 'cold', 'freeze', 'shatter'],
+  make: v => ({ mods: [{ stat: 'chance.freeze', op: 'base', value: 100, tags: ['shatter_nova'] }],
+    rules: [trig('shatter', {}, [{ do: 'area', at: 'event', radius: 210, damage: { cold: { pool: 'life', of: 'target', mul: v / 100 } }, crit: 0, tags: ['shatter_nova', 'cold', 'area'], fx: 'ice_burst' }], { role: 'owned', chain: true, at: 'event', limit: { perSecond: 40 } })] }) });
+fam({ id: 'kill_arc', name: '雷链：感电敌人死亡时从尸体放出一道电弧（每秒最多 {v} 次）', layer: 'link', values: [6, 8, 10, 12, 15], slots: ['weapon', 'gloves', 'amulet', 'ring1', 'ring2'], tags: ['link', 'lightning', 'shock', 'trigger'],
+  make: v => ({ rules: [trig('kill', { cond: { status: 'shocked', of: 'target' } }, [{ do: 'cast', skill: 'arc', from: 'event', range: 600 }], { role: 'owned', chain: true, at: 'event', limit: { perSecond: v } })] }) });
+fam({ id: 'kill_thunder', name: '雷葬：击杀感电敌人时在尸体处落雷（每秒最多 {v} 次）', layer: 'link', values: [5, 7, 9, 11, 14], slots: ['weapon', 'gloves', 'helmet', 'chest'], tags: ['link', 'lightning', 'shock', 'trigger'],
+  make: v => ({ rules: [trig('kill', { cond: { status: 'shocked', of: 'target' } }, [{ do: 'cast', skill: 'thunder_fall', at: 'event' }], { role: 'owned', chain: true, at: 'event', limit: { perSecond: v } })] }) });
+fam({ id: 'overload_fuse', name: '超载引信：超载爆炸也会引爆范围内其他被点燃的敌人（造成 {v}% 剩余点燃伤害）', layer: 'link', values: [50, 70, 90, 110, 130], slots: ['weapon', 'amulet', 'gloves', 'helmet'], tags: ['link', 'reaction', 'fire', 'lightning'],
+  make: v => ({ rules: [trig('hit', { tags: ['overload'], cond: { status: 'ignited', of: 'target' } },
+    [{ do: 'consumeStatus', status: 'ignited', as: 'ign' }, { do: 'area', at: 'target', radius: 200, damage: { fire: { var: 'ignDamage', mul: v / 100 } }, unscaled: true, crit: 0, ailments: false, tags: ['reaction', 'overload'], fx: 'overload' }], { chain: true })] }) });
+fam({ id: 'blink_slam', name: '闪现落地时冲击周围（落地冲击，每秒最多 {v} 次）', layer: 'link', values: [3, 4, 5, 6, 8], slots: ['boots', 'gloves', 'weapon', 'chest'], tags: ['link', 'movement', 'area', 'melee'],
+  make: v => ({ rules: [trig('blink', {}, [{ do: 'cast', skill: 'ground_slam', at: 'self' }], { at: 'self', limit: { perSecond: v } })] }) });
+fam({ id: 'poison_burst', name: '毒爆：中毒敌人死亡时爆出毒雾，造成其最大生命 {v}% 的混沌伤害并使周围中毒', layer: 'link', values: [15, 20, 25, 32, 40], slots: ['weapon', 'gloves', 'amulet', 'chest', 'helmet'], tags: ['link', 'poison', 'chaos', 'explosion'],
+  make: v => ({ mods: [{ stat: 'chance.poison', op: 'base', value: 100, tags: ['poison_burst'] }],
+    rules: [trig('kill', { cond: { status: 'poisoned', of: 'target' } }, [{ do: 'explode', pct: v, type: 'chaos', radius: 200, fx: 'poison', tags: ['explosion', 'poison_burst'] }], { role: 'owned', chain: true, at: 'event', limit: { perSecond: 30 } })] }) });
+
+// ---- 通用联动：任何技能都成立
+fam({ id: 'proliferate', name: '传染：你施加的异常有 {v}% 几率传染给附近 1 个敌人', layer: 'link', values: [25, 35, 45, 60, 75], slots: ['weapon', 'gloves', 'amulet', 'ring1', 'ring2', 'helmet'], tags: ['link', 'ailment'],
+  make: v => ({ rules: [trig('ailment', {}, [{ do: 'proliferate', radius: 240, max: 1 }], { accumulate: { kind: 'chance', pct: v }, chain: true, limit: { perSecond: 60 } })] }) });
+fam({ id: 'kill_recast', name: '回响：击杀时 {v}% 几率从尸体重放你的主技能（每秒最多 4 次）', layer: 'link', values: [8, 12, 16, 20, 25], slots: ['weapon', 'gloves', 'amulet', 'ring1', 'ring2'], tags: ['link', 'kill', 'trigger'],
+  make: v => ({ rules: [trig('kill', {}, [{ do: 'cast', skill: '$primary', from: 'event', range: 700 }], { role: 'owned', chain: true, at: 'event', accumulate: { kind: 'chance', pct: v }, limit: { perSecond: 4 } })] }) });
+fam({ id: 'bleed_explode', name: '血爆：流血的敌人死亡时爆炸，造成其最大生命 {v}% 的物理伤害', layer: 'link', values: [15, 20, 25, 32, 40], slots: ['weapon', 'gloves', 'amulet', 'chest'], tags: ['link', 'bleed', 'physical', 'explosion'],
+  make: v => ({ rules: [trig('kill', { cond: { status: 'bleeding', of: 'target' } }, [{ do: 'explode', pct: v, type: 'physical', radius: 190, fx: 'explode', tags: ['explosion'] }], { role: 'owned', chain: true, at: 'event', limit: { perSecond: 30 } })] }) });
+fam({ id: 'crit_explode', name: '暴击击杀的敌人爆炸，造成其最大生命 {v}% 的物理伤害', layer: 'link', values: [15, 20, 25, 32, 40], slots: ['weapon', 'gloves', 'amulet', 'ring1', 'ring2'], tags: ['link', 'crit', 'explosion'],
+  make: v => ({ rules: [trig('kill', { cond: { event: 'crit' } }, [{ do: 'explode', pct: v, type: 'physical', radius: 180, fx: 'explode', tags: ['explosion'] }], { role: 'owned', chain: true, at: 'event', limit: { perSecond: 30 } })] }) });
+fam({ id: 'struck_nova', name: '反击：被击中时 {v}% 几率在身边掀起寒潮（冷却 0.5 秒）', layer: 'link', values: [20, 30, 40, 55, 70], slots: ['chest', 'helmet', 'belt', 'offhand', 'boots'], tags: ['link', 'defence', 'cold', 'trigger'],
+  make: v => ({ rules: [trig('struck', {}, [{ do: 'cast', skill: 'glacial_burst', at: 'self' }], { at: 'self', accumulate: { kind: 'chance', pct: v }, limit: { cooldown: 0.5 } })] }) });
+fam({ id: 'kill_minion', name: '击杀时 {v}% 几率召唤一把灵刃（最多 6 把，持续 12 秒）', layer: 'link', values: [10, 15, 20, 28, 36], slots: ['weapon', 'offhand', 'amulet', 'helmet'], tags: ['link', 'minion', 'kill'],
+  make: v => ({ rules: [trig('kill', {}, [{ do: 'summon', minion: 'spirit_blade', at: 'self', count: 1, limit: 6 }], { role: 'source', at: 'self', accumulate: { kind: 'chance', pct: v }, limit: { perSecond: 3 } })] }) });
 
 // ================================================================== 核心层：改写规则
 fam({ id: 'core_endless_charges', name: '核心·无尽：消耗充能时 {v}% 几率不移除，仍按消耗数结算', layer: 'core', values: [30, 45, 60], slots: ['amulet', 'helmet', 'chest'], tags: ['core', 'charge'],
@@ -195,6 +239,26 @@ fam({ id: 'core_spell_burst', name: '核心·法术迸发：每 {v} 秒积攒 1 
       trig('tick', {}, [{ do: 'gain', res: 'burst', amount: 1 }], { accumulate: { kind: 'periodic', interval: v }, at: 'self' }),
       trig('cast', { tags: ['spell'], notTags: ['triggered'] }, [{ do: 'consume', res: 'burst', as: 'n' }, { do: 'repeat', times: { var: 'n' }, interval: 0.12, actions: [{ do: 'cast', skill: '$event', at: 'target' }] }], {}),
     ] }) });
+
+fam({ id: 'core_firestorm', name: '核心·焚天：被点燃的敌人死亡时从尸体重放你的主技能（每秒最多 {v} 次）', layer: 'core', values: [6, 9, 12], slots: ['amulet', 'chest', 'helmet'], tags: ['core', 'fire', 'trigger'],
+  make: v => ({ rules: [trig('kill', { cond: { status: 'ignited', of: 'target' } }, [{ do: 'cast', skill: '$primary', from: 'event', range: 800 }], { role: 'owned', chain: true, at: 'event', limit: { perSecond: v } })] }) });
+fam({ id: 'core_absolute_zero', name: '核心·绝对零度：每次击碎都在原地掀起寒潮；对冰冻敌人的冰霜伤害提高 {v}%（更多）', layer: 'core', values: [30, 45, 60], slots: ['amulet', 'chest', 'offhand'], tags: ['core', 'cold', 'freeze', 'shatter'],
+  make: v => ({ mods: [{ stat: 'damage', op: 'more', value: v, tags: ['cold'], when: { status: 'frozen', of: 'target' } }, { stat: 'chance.freeze', op: 'base', value: 50, tags: ['triggered'] }],
+    rules: [trig('shatter', {}, [{ do: 'cast', skill: 'glacial_burst', from: 'event', range: 400, needTarget: false }], { role: 'owned', chain: true, at: 'event', limit: { perSecond: 20 } })] }) });
+fam({ id: 'core_storm_heart', name: '核心·风暴之心：被触发的闪电技能伤害提高 {v}%（更多）并必定感电', layer: 'core', values: [40, 60, 80], slots: ['amulet', 'chest', 'helmet'], tags: ['core', 'lightning', 'trigger'],
+  make: v => ({ mods: [{ stat: 'damage', op: 'more', value: v, tags: ['lightning', 'triggered'] }, { stat: 'chance.shock', op: 'base', value: 100, tags: ['triggered'] }] }) });
+fam({ id: 'core_plague', name: '核心·瘟疫：中毒敌人死亡时毒层全部转给附近敌人，且从尸体重放你的主技能（每秒最多 {v} 次）', layer: 'core', values: [5, 7, 9], slots: ['amulet', 'chest', 'helmet'], tags: ['core', 'poison', 'trigger'],
+  make: v => ({ rules: [trig('kill', { cond: { status: 'poisoned', of: 'target' } }, [{ do: 'spread', status: 'poisoned', radius: 260, max: 3 }], { role: 'owned', chain: true, at: 'event' }),
+    trig('kill', { cond: { status: 'poisoned', of: 'target' } }, [{ do: 'cast', skill: '$primary', from: 'event', range: 700 }], { role: 'owned', chain: true, at: 'event', limit: { perSecond: v } })] }) });
+fam({ id: 'core_resonance', name: '核心·元素共鸣：反应爆炸使命中的敌人感电并冰缓，反应爆炸范围扩大 {v}%', layer: 'core', values: [60, 90, 120], slots: ['amulet', 'chest'], tags: ['core', 'reaction'],
+  make: v => ({ mods: [{ stat: 'area', op: 'more', value: v, tags: ['reaction'] }],
+    rules: [trig('hit', { tags: ['reaction'] }, [{ do: 'status', status: 'shocked', magnitude: 0.3, duration: 3 }, { do: 'status', status: 'chilled', magnitude: 0.3, duration: 2 }], { chain: true })] }) });
+
+fam({ id: 'core_avatar_fire', name: '核心·火之化身：全部物理、冰霜、闪电伤害转为火焰，火焰伤害提高 {v}%（更多）', layer: 'core', values: [15, 25, 35], slots: ['amulet', 'chest', 'helmet'], tags: ['core', 'fire', 'conversion'],
+  make: v => ({ mods: [{ stat: 'conv.physical.fire', op: 'base', value: 100 }, { stat: 'conv.cold.fire', op: 'base', value: 100 }, { stat: 'conv.lightning.fire', op: 'base', value: 100 }, { stat: 'damage', op: 'more', value: v, tags: ['fire'] }] }) });
+
+fam({ id: 'core_gale', name: '核心·疾风：每个狂怒球使攻击与移动速度提高 {v}%（更多）', layer: 'core', values: [4, 5, 6], slots: ['amulet', 'helmet', 'boots', 'gloves'], tags: ['core', 'charge', 'speed'],
+  make: v => ({ mods: [{ stat: 'speed', op: 'more', value: v, tags: ['attack'], per: { res: 'frenzy' } }, { stat: 'moveSpeed', op: 'more', value: v, per: { res: 'frenzy' } }] }) });
 
 // ================================================================== API
 export const families = () => [...FAMILIES.values()];

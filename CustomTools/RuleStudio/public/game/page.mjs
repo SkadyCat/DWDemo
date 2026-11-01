@@ -2,13 +2,14 @@
 // 角色 / 背包 / 洗炼 / 流派 四个抽屉在营地和地图里都能打开；流派可以随时一键换上任意阶段。
 import { createApp, reactive, computed, ref, watch, onMounted, onBeforeUnmount, markRaw, nextTick } from '../vendor/vue.esm-browser.prod.js';
 import { SLOTS, LAYERS, family, lineTierFor } from '../../core/content/families.mjs';
-import { CURRENCIES, SLOT_NAMES, rarityOf, itemName, lineText, baseOf } from '../../core/content/items.mjs';
+import { CURRENCIES, SLOT_NAMES, rarityOf, itemName, lineText, baseOf, baseDefence } from '../../core/content/items.mjs';
 import { ARCHETYPES } from '../../core/content/archetypes.mjs';
 import { STAGES, collectionList } from '../../core/content/builds.mjs';
 import { mapProfile, mapRequirements, MAP_FAMILIES, MAP_TIERS, ELITE_MODS } from '../../core/content/maps.mjs';
 import { gameContent } from '../../core/content/game.mjs';
 import { defenceReport, roleReport } from '../../core/analysis.mjs';
-import { loadSave, writeSave, buildOf, equip, unequip, salvage, craft, applyArchetype, PLAYABLE_SKILLS, SKILL_BAR } from './save.mjs';
+import { loadSave, writeSave, buildOf, equip, unequip, salvage, craft, applyArchetype, grantedSkills, syncSkillBar, SKILL_BAR } from './save.mjs';
+import { equippedTraits, ladderStatus, detectArchetype } from './traits.mjs';
 import { MapRun } from './run.mjs';
 import { Scene3D, Overlay } from './scene.mjs';
 import { dungeonRandom } from './dungeon.mjs';
@@ -18,7 +19,7 @@ const content = gameContent();
 const ELEMENT_NAME = { physical: '物理', fire: '火焰', cold: '冰霜', lightning: '闪电', chaos: '混沌' };
 const ELEMENT_HUE = { physical: '#c9b79a', fire: '#ff8a3d', cold: '#7fd0ff', lightning: '#ffe066', chaos: '#b98cff' };
 const SLOT_GLYPH = { weapon: '兵', offhand: '副', helmet: '盔', chest: '甲', gloves: '手', boots: '靴', belt: '带', amulet: '坠', ring1: '戒', ring2: '戒' };
-const CURRENCY_GLYPH = { augment: '晶', chaos: '混', upgrade: '灵', annul: '无', seal: '封', essence_form: '形', essence_link: '联', essence_core: '核' };
+const CURRENCY_GLYPH = { augment: '晶', chaos: '混', upgrade: '灵', annul: '无', seal: '封', temper: '淬', essence_form: '形', essence_link: '联', essence_core: '核', skill_gem: '技' };
 const PANELS = [
   { id: 'char', name: '角色', key: 'C' }, { id: 'bag', name: '背包', key: 'I' }, { id: 'craft', name: '洗炼', key: 'K' }, { id: 'bd', name: '流派', key: 'B' },
 ];
@@ -34,9 +35,9 @@ const skillTags = id => (content.skills.get(id)?.tags ?? []).filter(t => ['spell
 
 // ------------------------------------------------------------------ item card (tooltip & detail)
 const ItemCard = {
-  props: { item: Object, compare: Object, selectedLine: { type: Number, default: -1 }, selectable: Boolean },
+  props: { item: Object, compare: Object, selected: { type: Object, default: null }, selectable: Boolean },
   emits: ['line'],
-  setup() { return { rarityOf, itemName, lineText, family, LAYERS, SLOT_NAMES, baseOf }; },
+  setup() { return { rarityOf, itemName, lineText, family, LAYERS, SLOT_NAMES, baseOf, baseDefence, skillName: id => content.skills.get(id)?.name ?? id, skillTags }; },
   template: /* html */ `
   <article class="card" :class="'r-' + rarityOf(item).id">
     <header class="card-head">
@@ -44,17 +45,20 @@ const ItemCard = {
       <p>{{ rarityOf(item).name }}{{ SLOT_NAMES[item.slot] }} · 物品 T{{ item.tier }}</p>
     </header>
     <p v-if="item.preset" class="card-preset">流派配装 · {{ item.preset }}</p>
+    <p v-if="baseDefence(item).length" class="card-basedef">{{ baseDefence(item).map(d => '+' + d.value + ' ' + d.name).join(' · ') }}</p>
     <ul class="card-lines base">
-      <li v-for="(l, i) in item.implicit" :key="'i' + i"><span>{{ lineText(l) }}</span><em>T{{ l.tier }}</em></li>
+      <li v-if="item.skill" class="skill-line"><span>技能：{{ skillName(item.skill) }}</span><em>{{ skillTags(item.skill).join(' · ') }}</em></li>
+      <li v-for="(l, i) in item.traits" :key="'t' + i" :class="['trait', 'layer-' + family(l.id).layer, { on: selected?.kind === 'trait' && selected.index === i, sealed: l.sealed, pick: selectable }]" @click="selectable && $emit('line', { kind: 'trait', index: i })">
+        <span>{{ lineText(l) }}</span><em>{{ LAYERS[family(l.id).layer].name }}特性 T{{ l.tier }}<b v-if="l.sealed"> 封</b></em></li>
     </ul>
     <ul class="card-lines" v-if="item.lines.length">
-      <li v-for="(l, i) in item.lines" :key="i" :class="['layer-' + family(l.id).layer, { on: i === selectedLine, sealed: l.sealed, pick: selectable }]" @click="selectable && $emit('line', i)">
-        <span>{{ lineText(l) }}</span><em>{{ LAYERS[family(l.id).layer].name }} T{{ l.tier }}<b v-if="l.sealed"> 封</b></em></li>
+      <li v-for="(l, i) in item.lines" :key="i" :class="['layer-stat', { on: selected?.kind === 'line' && selected.index === i, sealed: l.sealed, pick: selectable }]" @click="selectable && $emit('line', { kind: 'line', index: i })">
+        <span>{{ lineText(l) }}</span><em>T{{ l.tier }}<b v-if="l.sealed"> 封</b></em></li>
     </ul>
     <p v-else class="card-empty">没有随机词条</p>
     <footer v-if="compare && compare !== item" class="card-compare">
-      <h5>身上：{{ itemName(compare) }}</h5>
-      <ul class="card-lines dim"><li v-for="(l, i) in [...compare.implicit, ...compare.lines]" :key="i"><span>{{ lineText(l) }}</span></li></ul>
+      <h5>身上：{{ itemName(compare) }}<template v-if="compare.skill"> · {{ skillName(compare.skill) }}</template></h5>
+      <ul class="card-lines dim"><li v-for="(l, i) in [...compare.traits, ...compare.lines]" :key="i"><span>{{ lineText(l) }}</span></li></ul>
     </footer>
   </article>`,
 };
@@ -143,11 +147,15 @@ const TEMPLATE = /* html */ `
       </div>
     </section>
 
+    <div class="combo" v-if="hud.combo >= 5" :key="'c' + hud.comboKey" :class="{ hot: hud.combo >= 30, chain: hud.cascadePct >= 50 }">
+      <b>{{ hud.combo }}</b><span>连杀</span><small v-if="hud.cascadePct">连锁 {{ hud.cascadePct }}%</small>
+    </div>
+    <p class="clear-flash" v-if="hud.flash" :key="hud.flash.id">清屏 · 一秒 {{ hud.flash.n }} 杀</p>
     <div class="toasts"><p v-for="t in toasts" :key="t.id" :class="t.cls">{{ t.text }}</p></div>
 
     <section class="result" v-if="run.phase !== 'running'" :class="run.phase">
       <h2>{{ run.phase === 'cleared' ? '地图完成' : '你倒下了' }}</h2>
-      <p>{{ familyName(run.profile.family) }} T{{ run.tier }} · {{ hud.time }} · 击杀 {{ hud.kills }}</p>
+      <p>{{ familyName(run.profile.family) }} T{{ run.tier }} · {{ hud.time }} · 击杀 {{ hud.kills }} · 最高连杀 {{ run.bestCombo }} · 连锁击杀 {{ pctNum(run.cascadeKills, hud.kills) }}%</p>
       <p v-if="run.phase === 'cleared'">带回 {{ resultLoot.items }} 件装备、{{ resultLoot.currencies }} 个通货<template v-if="resultLoot.unlocked">，解锁 T{{ resultLoot.unlocked }}</template></p>
       <p v-else>只带回已经拾取的东西。看看「本图要求」里哪一项没达标。</p>
       <button class="btn primary" @click="leaveRun">回到营地</button>
@@ -175,7 +183,7 @@ const TEMPLATE = /* html */ `
         <dl class="pressure">
           <div><dt>怪物生命</dt><dd>{{ Math.round(profile.monsterLife) }}</dd></div>
           <div><dt>单次伤害</dt><dd>{{ Math.round(profile.monsterDamage) }}</dd></div>
-          <div><dt>同屏怪物</dt><dd>{{ profile.density }}</dd></div>
+          <div><dt>每个房间</dt><dd>约 {{ profile.packSize }} 只</dd></div>
           <div><dt>精英几率</dt><dd>{{ Math.round(profile.eliteChance * 100) }}% · {{ profile.eliteMods }} 词缀</dd></div>
           <div><dt>首领生命</dt><dd>{{ Math.round(profile.bossLife / 1000) }}k · 60 秒狂暴</dd></div>
           <div><dt>全抗惩罚</dt><dd>−{{ profile.resistPenalty }}%</dd></div>
@@ -218,13 +226,31 @@ const TEMPLATE = /* html */ `
       <div class="char-side">
         <h3>属性 <small>按 T{{ mapTier }} 惩罚</small></h3>
         <dl class="stats"><div v-for="r in statRows" :key="r[0]"><dt>{{ r[0] }}</dt><dd>{{ r[1] }}</dd></div></dl>
-        <h3>技能栏</h3>
+        <h3>技能栏 <small>技能来自装备第 1 条基底</small></h3>
         <div class="skillpick">
           <label v-for="i in skillBar" :key="i"><kbd>{{ i }}</kbd>
             <select v-model="save.skills[i - 1]" @change="gearChanged">
               <option :value="null">（空）</option>
-              <option v-for="id in playable" :key="id" :value="id">{{ skillName(id) }} · {{ skillTags(id).join('/') }}</option>
+              <option v-for="id in granted" :key="id" :value="id">{{ skillName(id) }} · {{ skillTags(id).join('/') }}</option>
             </select></label>
+        </div>
+        <template v-if="ladder">
+          <h3>质变 <small>{{ ladder.archetype.name }} · {{ ladder.reached >= 0 ? '已到「' + ladder.stages[ladder.reached].title + '」' : '尚未成型' }}</small></h3>
+          <ol class="ladder">
+            <li v-for="st in ladder.stages" :key="st.index" :class="{ lit: st.lit, now: st.index === ladder.reached, next: st.index === ladder.reached + 1 }">
+              <div class="ladder-head"><b>{{ st.title }}</b><span>{{ stageName(st.index) }}</span><i>{{ st.got }}/{{ st.keys.length }}</i></div>
+              <p>{{ st.text }}</p>
+              <ul class="ladder-keys"><li v-for="k in st.keys" :key="k.id" :class="{ on: k.on }">{{ k.name }}</li></ul>
+            </li>
+          </ol>
+        </template>
+        <h3>特性 <small>{{ traits.all.length }} 条 · {{ traits.distinct }} 种（同名的形态特性可以叠加）</small></h3>
+        <div class="traitlist">
+          <section v-for="g in traits.groups" :key="g.layer" :class="'tg-' + g.layer">
+            <h4>{{ g.name }} <small>{{ g.items.length }}</small></h4>
+            <ul><li v-for="(t, i) in g.items" :key="i"><i>{{ glyph[t.slot] }}</i><span>{{ t.text }}</span><em>T{{ t.tier }}</em></li></ul>
+          </section>
+          <p v-if="!traits.all.length" class="hint">身上还没有特性。每件装备的基底都带特性，掉落的装备和精华都能给。</p>
         </div>
         <div v-if="picked" class="picked">
           <item-card :item="picked"></item-card>
@@ -237,7 +263,7 @@ const TEMPLATE = /* html */ `
     <div v-if="panel === 'bag'" class="drawer-body bag">
       <div class="bag-grid">
         <button v-for="it in save.inventory" :key="it.uid" class="tile" :class="['r-' + rarity(it).id, { on: picked === it }]" @click="pick(it)" @mouseenter="hoverItem($event, it)" @mouseleave="hover = null">
-          <i>{{ glyph[it.slot] }}</i><b>T{{ it.tier }}</b><small>{{ it.lines.length }}</small>
+          <i>{{ glyph[it.slot] }}</i><b>T{{ it.tier }}</b><small v-if="it.skill" class="tile-skill">技</small><small>{{ it.lines.length }}</small>
         </button>
         <p v-if="!save.inventory.length" class="hint">背包是空的。地图里打倒的怪物会掉装备，走过去就能拾取。</p>
       </div>
@@ -255,13 +281,13 @@ const TEMPLATE = /* html */ `
     <div v-if="panel === 'craft'" class="drawer-body craft">
       <p v-if="!picked" class="hint">先在「角色」或「背包」里点一件装备。</p>
       <template v-else>
-        <item-card :item="picked" :selected-line="pickedLine" selectable @line="i => pickedLine = i"></item-card>
+        <item-card :item="picked" :selected="pickedLine" selectable @line="sel => pickedLine = sel"></item-card>
         <div class="orbs">
           <button v-for="(c, id) in currencies" :key="id" class="orb" :class="'orb-' + id" :disabled="!(save.currencies[id] > 0)" @click="doCraft(id)">
             <i>{{ curGlyph[id] }}</i><b>{{ c.name }}</b><small>{{ c.desc }}</small><em>{{ save.currencies[id] || 0 }}</em></button>
         </div>
         <p class="craftlog" v-if="craftMsg">{{ craftMsg }}</p>
-        <p class="hint">封印符作用于选中的词条（在上面点一条）。</p>
+        <p class="hint">先在装备上点选一条：封印符、淬火石、精华作用于选中的那条特性或词条。随机词条只出攻击与防御数值；改变技能的特性在基底里。</p>
       </template>
     </div>
 
@@ -276,9 +302,10 @@ const TEMPLATE = /* html */ `
         <p class="bd-summary">{{ bdArch.summary }}</p>
         <ol class="bd-stages">
           <li v-for="(s, i) in bdStages" :key="i" :class="{ current: save.archetype === bdArch.id && save.bdStage === i }">
-            <div class="bd-stage-head"><b>{{ s.name }}</b><span>地图 T{{ s.maps[0] }}–{{ s.maps[1] }} · 装备 T{{ s.itemTier }} · {{ s.total }} 条词条</span>
+            <div class="bd-stage-head"><b>{{ s.name }}</b><strong>{{ s.ladder.title }}</strong><span>地图 T{{ s.maps[0] }}–{{ s.maps[1] }} · 装备 T{{ s.itemTier }} · {{ s.traitCount }} 条特性 + {{ s.total - s.traitCount }} 条数值</span>
               <button class="btn primary sm" @click="applyBd(bdArch.id, i)">{{ save.archetype === bdArch.id && save.bdStage === i ? '重新应用' : '一键应用' }}</button></div>
-            <p v-if="s.newKeys.length"><em>新增关键：</em>{{ s.newKeys.join('；') }}</p>
+            <p class="bd-quality">{{ s.ladder.text }}</p>
+            <p v-if="s.newKeys.length"><em>本阶段拿到：</em>{{ s.newKeys.join('；') }}</p>
           </li>
         </ol>
         <p class="hint">应用后当前装备放回背包（之前一键应用的流派装备直接替换），技能栏换成该流派的技能。地图里也可以随时换，立即生效。</p>
@@ -298,10 +325,10 @@ export function mountGame(el) {
       const persist = () => writeSave(save);
       const stage = ref(null), overlay = ref(null);
       const panel = ref(null), mapTier = ref(Math.min(save.unlocked, MAP_TIERS)), mapFamily = ref('ruin');
-      const picked = ref(null), pickedLine = ref(-1), craftMsg = ref(''), roles = ref(null), evaluating = ref(false), updateText = ref('');
+      const picked = ref(null), pickedLine = ref(null), craftMsg = ref(''), roles = ref(null), evaluating = ref(false), updateText = ref('');
       const hover = ref(null), bdSel = ref(save.archetype ?? ARCHETYPES[0].id), toasts = ref([]);
       const run = ref(null), resultLoot = reactive({ items: 0, currencies: 0, unlocked: 0, done: false });
-      const hud = reactive({ tick: 0, time: '0:00', kills: 0, total: 0, life: 0, lifeMax: 1, es: 0, esMax: 0, mana: 0, manaMax: 1, skills: [], selected: 0, resources: [], buffs: [],
+      const hud = reactive({ combo: 0, comboKey: 0, cascadePct: 0, flash: null, tick: 0, time: '0:00', kills: 0, total: 0, life: 0, lifeMax: 1, es: 0, esMax: 0, mana: 0, manaMax: 1, skills: [], selected: 0, resources: [], buffs: [],
         bossShow: false, bossName: '', bossMods: [], bossLife: '100%', bossEs: '0%', bossEnraged: false });
       const rng = dungeonRandom(Date.now() >>> 0);
       let scene = null, ov = null, raf = 0, last = 0, acc = 0, toastId = 0, seenPicked = 0;
@@ -330,13 +357,16 @@ export function mountGame(el) {
       });
       const bdArch = computed(() => ARCHETYPES.find(a => a.id === bdSel.value));
       const keyName = (fid, itemTier) => { const t = lineTierFor(fid, itemTier); return t ? lineText({ id: fid, tier: t }) : family(fid).name; };
-      const bdStages = computed(() => bdArch.value ? STAGES.map((s, i) => { const c = collectionList(bdArch.value, i); return { ...s, total: c.total, newKeys: c.newKeys.map(f => keyName(f, s.itemTier)) }; }) : []);
+      const bdStages = computed(() => bdArch.value ? STAGES.map((s, i) => { const c = collectionList(bdArch.value, i); return { ...s, total: c.total, traitCount: c.traitCount, ladder: bdArch.value.ladder[i], newKeys: c.newKeys.map(f => keyName(f, s.itemTier)) }; }) : []);
+      const traits = computed(() => { void gearKey.value; return equippedTraits(save); });
+      const granted = computed(() => { void gearKey.value; return grantedSkills(save); });
+      const ladder = computed(() => { void gearKey.value; const a = ARCHETYPES.find(x => x.id === save.archetype); return a ? ladderStatus(a, save) : detectArchetype(save); });
       const currentBd = computed(() => { const a = ARCHETYPES.find(x => x.id === save.archetype); return a ? `${a.name} · ${STAGES[save.bdStage ?? 0]?.name ?? ''}` : '自由搭配'; });
       const panelName = computed(() => PANELS.find(p => p.id === panel.value)?.name ?? '');
 
       function toast(text, cls = '') { const id = ++toastId; toasts.value.push({ id, text, cls }); if (toasts.value.length > 5) toasts.value.shift(); setTimeout(() => { toasts.value = toasts.value.filter(t => t.id !== id); }, 2600); }
-      function gearChanged() { gearKey.value++; roles.value = null; persist(); if (run.value) run.value.rebuildHero(build()); }
-      function pick(it) { picked.value = it ?? null; pickedLine.value = -1; craftMsg.value = ''; }
+      function gearChanged() { syncSkillBar(save); gearKey.value++; roles.value = null; persist(); if (run.value) run.value.rebuildHero(build()); }
+      function pick(it) { picked.value = it ?? null; pickedLine.value = null; craftMsg.value = ''; }
       function equippedFor(it) { if (!it) return null; if (it.slot.startsWith('ring')) return save.equipped.ring1 ?? save.equipped.ring2; return save.equipped[it.slot]; }
       function hoverItem(e, it) {
         if (!it) { hover.value = null; return; }
@@ -369,7 +399,7 @@ export function mountGame(el) {
 
       // ---- run lifecycle ----------------------------------------------------------------------
       function startRun() {
-        if (!save.skills.some(Boolean)) { panel.value = 'char'; toast('先在角色面板放一个技能', 'bad'); return; }
+        if (!buildOf(save).skills.length) { panel.value = 'char'; toast('技能栏是空的：装备一件带主动技能的装备（武器都带）', 'bad'); return; }
         const r = new MapRun(build(), { tier: mapTier.value, family: mapFamily.value, seed: (Date.now() ^ (Math.random() * 1e9)) >>> 0 });
         run.value = markRaw(r); panel.value = null; seenPicked = 0;
         Object.assign(resultLoot, { items: 0, currencies: 0, unlocked: 0, done: false });
@@ -416,6 +446,12 @@ export function mountGame(el) {
       function syncHud(r) {
         const h = r.hero, s = Math.floor(r.endedAt ?? r.clearedAt ?? r.elapsed), b = r.boss;
         const bossNear = b?.alive && Math.hypot(b.x - h.x, b.y - h.y) < 1400;
+        const comboLive = r.elapsed - r.lastKillAt < 1.5 ? r.combo : 0;
+        if (comboLive < hud.combo) hud.comboKey++;
+        const recent = r.recentKills.filter(k => r.elapsed - k.t <= 1);
+        const sc = r.screenClears[r.screenClears.length - 1];
+        Object.assign(hud, { combo: comboLive, cascadePct: recent.length ? Math.round(100 * recent.filter(k => k.cascade).length / recent.length) : hud.cascadePct,
+          flash: sc && r.elapsed - sc.t < 1.6 ? { id: sc.t, n: sc.n } : null });
         Object.assign(hud, { tick: hud.tick + 1, time: `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`, kills: r.kills, total: r.total,
           life: Math.max(0, Math.round(h.life)), lifeMax: Math.round(h.max.life), es: Math.round(h.es), esMax: Math.round(h.max.es), mana: Math.round(h.mana), manaMax: Math.round(h.max.mana),
           selected: r.selected,
@@ -448,16 +484,16 @@ export function mountGame(el) {
       const bands = STAGES.map(s => s.maps);
       return {
         save, stage, overlay, panel, mapTier, mapFamily, picked, pickedLine, craftMsg, roles, evaluating, updateText, hover, bdSel, toasts, run, resultLoot, hud,
-        profile, requirements, statRows, bdArch, bdStages, currentBd, panelName,
+        profile, requirements, statRows, bdArch, bdStages, currentBd, panelName, traits, granted, ladder,
         pick, equippedFor, hoverItem, doEquip, doUnequip, doSalvage, doCraft, applyBd, evaluate, update, toggle, startRun, leaveRun, selectSkill, gearChanged,
         panels: PANELS, tierList: Array.from({ length: MAP_TIERS }, (_, i) => i + 1), families: MAP_FAMILIES, slots: SLOTS, slotNames: SLOT_NAMES, currencies: CURRENCIES,
-        archetypes: ARCHETYPES, playable: PLAYABLE_SKILLS, skillBar: SKILL_BAR, glyph: SLOT_GLYPH, curGlyph: CURRENCY_GLYPH,
+        archetypes: ARCHETYPES, skillBar: SKILL_BAR, stageName: i => STAGES[i]?.name ?? '', glyph: SLOT_GLYPH, curGlyph: CURRENCY_GLYPH,
         rarity: rarityOf, skillName: id => content.skills.get(id)?.name ?? id, skillTags, skillElement,
         hue: el => ELEMENT_HUE[el] ?? '#ccc', elementName: el => ELEMENT_NAME[el] ?? el, familyName: id => MAP_FAMILIES[id]?.name ?? id,
         bandOf: t => STAGES.findIndex(s => t >= s.maps[0] && t <= s.maps[1]) % 2 === 1,
         bandName: t => STAGES.find(s => t >= s.maps[0] && t <= s.maps[1])?.name ?? '',
         slotClass: s => save.equipped[s] ? 'r-' + rarityOf(save.equipped[s]).id : 'empty',
-        pct, ring: (a, b) => `${(Math.max(0, Math.min(1, a / Math.max(1, b))) * 295.3).toFixed(1)} 295.3`,
+        pct, pctNum: (a, b) => Math.round(100 * a / Math.max(1, b)), ring: (a, b) => `${(Math.max(0, Math.min(1, a / Math.max(1, b))) * 295.3).toFixed(1)} 295.3`,
       };
     },
   });
