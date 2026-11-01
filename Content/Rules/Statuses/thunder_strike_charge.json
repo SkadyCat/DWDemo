@@ -1,0 +1,14 @@
+{
+  "id": "thunder_strike_charge",
+  "name": "静电",
+  "description": "雷击三连：每层造成伤害提高。",
+  "category": "buff",
+  "stacking": "stack",
+  "maxStacks": 8,
+  "effects": [
+    {
+      "type": "damage_dealt",
+      "scale": 1
+    }
+  ]
+}

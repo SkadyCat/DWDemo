@@ -1,0 +1,14 @@
+{
+  "id": "shield_slam_charge",
+  "name": "壁垒",
+  "description": "盾击：每层承受伤害降低。",
+  "category": "buff",
+  "stacking": "stack",
+  "maxStacks": 10,
+  "effects": [
+    {
+      "type": "damage_taken",
+      "scale": -1
+    }
+  ]
+}

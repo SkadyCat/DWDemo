@@ -1,0 +1,22 @@
+{
+  "id": "starfall_staff",
+  "name": "陨星法杖",
+  "description": "绑定天火陨星。词条按装备品质与 T 阶随机生成；传奇品质固定带有一条强化词条。",
+  "slot": "weapon",
+  "rarity": "common",
+  "level": 1,
+  "tier": 1,
+  "tags": [
+    "火焰",
+    "法术",
+    "法杖"
+  ],
+  "skills": [
+    "meteor"
+  ],
+  "traits": [],
+  "legendary": "more_fire",
+  "bases": [
+    "flat_fire"
+  ]
+}

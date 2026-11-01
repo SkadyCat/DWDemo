@@ -1,0 +1,10 @@
+{
+  "id": "thunder_strike",
+  "name": "雷击三连",
+  "description": "近战雷击。每第三击落下雷霆；感电敌人被击中积攒静电，静电满溢化为雷神之怒。",
+  "active": "create_thunder_strike",
+  "traits": [
+    "create_thunder_strike",
+    "shock"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "id": "frost_ring_charge",
+  "name": "霜寒",
+  "description": "霜环：每层造成伤害提高。",
+  "category": "buff",
+  "stacking": "stack",
+  "maxStacks": 10,
+  "effects": [
+    {
+      "type": "damage_dealt",
+      "scale": 1
+    }
+  ]
+}

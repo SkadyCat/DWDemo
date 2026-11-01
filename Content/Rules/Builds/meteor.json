@@ -1,0 +1,10 @@
+{
+  "id": "meteor",
+  "name": "天火陨星",
+  "description": "召下陨星轰击落点。击杀积攒星火，星火满溢时陨火向四周迸裂；击杀越多，陨星越多。",
+  "active": "create_meteor",
+  "traits": [
+    "create_meteor",
+    "ignite"
+  ]
+}

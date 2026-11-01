@@ -29,6 +29,7 @@ import { ensureChain, observeChain, chainRows, trackedQuest as chainTracked, cla
 import { tutorialView, skipTutorial, dismissTip } from '/progression/tutorial.mjs';
 import { feedback, banner, toast, setStreak, chime, configureChimes } from '/progression/feedback.mjs';
 import { JourneyXpBar, ChainTracker, CoachMark, FeedbackLayer, ChainJournal } from '/progression/hud.mjs';
+import { GrowthTracker, growthView } from '/progression/growth.mjs';
 import { onGameEvent } from '/progression/events.mjs';
 import { CraftBench } from '/progression/craft-bench.mjs';
 import { BattleCharacterPanel } from '/battle-character-panel.mjs';
@@ -421,6 +422,7 @@ const TEMPLATE = /* html */ `
       </section>
       <div class="b3-floor-objective" v-if="hud.dungeon"><b>第 {{ hud.dungeon.floor }} 层</b><span>{{ dungeonObjective }}</span></div>
       <ChainTracker :quest="journeyHud.quest" :chapter="journeyHud.chapter" :collections="store.collections" @open="openHUDFunction('quests')" @claim="claimChain" @release="releaseBattleInput" />
+      <GrowthTracker :view="hud.growth" />
       <div class="b3-boss-health" v-if="hud.dungeon?.bossMax > 0 && hud.dungeon.phase === 'boss'">
         <div><b>第 {{ hud.dungeon.floor }} 层守卫</b><span>{{ Math.ceil(hud.dungeon.bossHealth) }} / {{ hud.dungeon.bossMax }}</span></div>
         <i :style="{width: (100 * hud.dungeon.bossHealth / hud.dungeon.bossMax) + '%'}"></i>
@@ -679,7 +681,7 @@ const TEMPLATE = /* html */ `
 export function mountBattle(el, { input = null, rendering = {}, initialPaused = false } = {}) {
   let api = { show() {}, hide() {} };
   const app = createApp({
-    components: { CraftBench, JourneyXpBar, ChainTracker, CoachMark, FeedbackLayer, ChainJournal, BattleMapEventTag, BattleStunOverlay, BattleTraitEquipment, BattleOutpostMerchant, BattleExitPortal, BattleMapEvents, QuestTracker, QuestJournal, TalentConstellation, AtlasMap, BattleItemPanel, BattleCompletion, BattleFunctions, BattleEquipmentMenu, BattleStackSplit, BattleWindow, BattleCharacterPanel, BattleBuildGuide, BattleSkillTooltip, BattleAuraState, BattleDungeonMap, BattleIconPicker, BattleLootHunter, BattlePlayerEffects, BattleDps, BattleSummonUnits, BattleMapCores },
+    components: { CraftBench, GrowthTracker, JourneyXpBar, ChainTracker, CoachMark, FeedbackLayer, ChainJournal, BattleMapEventTag, BattleStunOverlay, BattleTraitEquipment, BattleOutpostMerchant, BattleExitPortal, BattleMapEvents, QuestTracker, QuestJournal, TalentConstellation, AtlasMap, BattleItemPanel, BattleCompletion, BattleFunctions, BattleEquipmentMenu, BattleStackSplit, BattleWindow, BattleCharacterPanel, BattleBuildGuide, BattleSkillTooltip, BattleAuraState, BattleDungeonMap, BattleIconPicker, BattleLootHunter, BattlePlayerEffects, BattleDps, BattleSummonUnits, BattleMapCores },
     template: TEMPLATE,
     setup() {
       const stage = ref(null);
@@ -861,7 +863,7 @@ export function mountBattle(el, { input = null, rendering = {}, initialPaused = 
       const bdExpanded = ref(false);
       const selectedBdFamilyId = ref('');
       const opts = reactive({ god: false, autoCast: false, monsterType: 'all', monsterCount: 20, floor: 1, timeLimitEnabled: false });
-      const hud = reactive({ activeAuras: [], health: 0, maxHealth: 0, shield: 0, maxShield: 0, mana: 0, maxMana: 0, manaCap: 0, reservedMana: 0, manaReservationPercent: 0, recharging: false, stunned: false, noResource: false, buffs: [], effects: [], earned: 0, kills: 0, monsters: 0, projectiles: 0, time: '0:00', fps: 0, skills: skillSlots(), selected: 0, dead: false, log: [], character: null, summonUnits: summonUnitPanel(null) });
+      const hud = reactive({ activeAuras: [], health: 0, maxHealth: 0, shield: 0, maxShield: 0, mana: 0, maxMana: 0, manaCap: 0, reservedMana: 0, manaReservationPercent: 0, recharging: false, stunned: false, noResource: false, buffs: [], effects: [], earned: 0, kills: 0, monsters: 0, projectiles: 0, time: '0:00', fps: 0, skills: skillSlots(), selected: 0, dead: false, log: [], character: null, summonUnits: summonUnitPanel(null), growth: null });
       const keys = new Set();
       const mouse = { x: 0, y: 0, down: false, inside: false, pending: null };
       const battleHasOutpost=ref(false),outpostOpen=ref(false),outpostInfo=reactive({visible:false,x:0,y:0});let outpostResumePaused=false;
@@ -1704,7 +1706,7 @@ export function mountBattle(el, { input = null, rendering = {}, initialPaused = 
           merchant: battle.rewards?.merchant ? { ...battle.rewards.merchant, stock: battle.rewards.merchant.stock.map(o => ({ ...o, item: o.item ? markRaw(o.item) : null })) } : null,
           health: h.health, maxHealth: h.maxHealth, shield: h.shield, maxShield: h.maxShield, mana: h.mana, maxMana: h.maxMana,
           manaCap: h.manaCap, reservedMana: h.reservedMana, manaReservationPercent: h.manaReservationPercent,
-          recharging: !!h.recharging, stunned: !!h.stunned, noResource: !!h.noResource, buffs: battle.buffs(), effects: playerEffects(battle), earned: battle.earned, kills: battle.kills, monsters: battle.monsters.length,
+          recharging: !!h.recharging, stunned: !!h.stunned, noResource: !!h.noResource, buffs: battle.buffs(), effects: playerEffects(battle), growth: growthView(battle), earned: battle.earned, kills: battle.kills, monsters: battle.monsters.length,
           projectiles: battle.report.Projectiles, maintained: [...battle.host.world.emitters.entries.values()].filter(e => e.owner === h.owner).map(e => ({ key: e.key, level: e.level, cap: e.cap })), time: `${Math.floor(secs / 60)}:${String(secs % 60).padStart(2, '0')}`, fps: Math.round(fps),
           skills: battle.skills.map(s => s && ({ id: s.id, name: s.name, granted: s.granted, error: s.error, cooldown: Math.max(0, (battle.combat.cooldowns.get(s.id) || 0) - battle.combat.time) })), selected: battle.selected, dead: h.dead, log: battle.log.slice(0, 6),
           character: characterPanel(battle),

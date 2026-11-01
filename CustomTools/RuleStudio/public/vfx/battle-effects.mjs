@@ -51,8 +51,11 @@ export function createBattleEffects(T, scene, { capacity = 96, impactCapacity = 
       const data = { radius, inner: z ? z.inner * p.radius / z.radius : radius * .5, angle: z?.angle, width: z?.width, length: p.length, element: p.element };
       const position = { x: p.x, y: 0, z: -p.y }, rotation = p.dir ?? ruleDirection;
       const shaped = { ring: 'area-ring', sector: 'area-sector', line: 'area-earth-wave' }[p.shape];
-      const melee = { player_slash: 'melee-slash', monster_claw: 'melee-claw', monster_strike: 'melee-heavy-strike' }[p.effect];
-      if (p.effect === 'death_lightning' || p.effect === 'shock_consume_strike') { push('death-lightning', {}, position, radius); if(p.effect === 'shock_consume_strike')push('area-circle',data,position); }
+      const melee = radius <= 3.2 ? { player_slash: 'melee-slash', monster_claw: 'melee-claw', monster_strike: 'melee-heavy-strike',
+        // Growth builds: the swing itself; larger areas from the same skill (bursts, stages) read as explosions.
+        create_rage_cleave: 'melee-heavy-strike', create_thunder_strike: 'melee-slash', create_ground_slam: 'melee-heavy-strike',
+        create_shield_slam: 'melee-heavy-strike', create_soul_reap: 'melee-slash' }[p.effect] : null;
+      if (p.effect === 'death_lightning' || p.effect === 'shock_consume_strike' || (p.effect === 'create_thunder_strike' && radius > 3.2)) { push('death-lightning', {}, position, radius); if(p.effect === 'shock_consume_strike')push('area-circle',data,position); }
       else if (p.effect === 'poison_flask_burst') push('poison-flask-burst', {}, position, radius);
       else if (shaped) push(shaped, data, position, 1, rotation);
       else if (melee) push(melee, data, position, 1, rotation);
@@ -128,7 +131,7 @@ export function createBattleEffects(T, scene, { capacity = 96, impactCapacity = 
     const projectiles = { 'projectile-ice-lance': [], 'projectile-fireball': [], 'projectile-void-bolt': [], 'projectile-poison-flask': [], 'projectile-treasury-weapon': [], 'projectile-treasury-ea': [] }, whirlwinds = [];
     for (const p of ['cleared', 'failed'].includes(battle.phase) ? [] : battle.projectiles()) {
       if (p.kind === 'whirlwind') { whirlwinds.push(p); continue; }
-      const id = p.kind === 'treasury_ea' ? 'projectile-treasury-ea' : p.kind === 'treasury_weapon' ? 'projectile-treasury-weapon' : p.kind === 'poison_flask' ? 'projectile-poison-flask' : p.kind === 'ice_lance' ? 'projectile-ice-lance' : p.kind === 'fireball' ? 'projectile-fireball' : 'projectile-void-bolt';
+      const id = p.kind === 'treasury_ea' ? 'projectile-treasury-ea' : p.kind === 'treasury_weapon' || p.kind === 'dance_blade' ? 'projectile-treasury-weapon' : p.kind === 'poison_flask' ? 'projectile-poison-flask' : p.kind === 'ice_lance' ? 'projectile-ice-lance' : p.kind === 'fireball' ? 'projectile-fireball' : 'projectile-void-bolt';
       projectiles[id].push({ x: p.x * .01, y: p.z * .01, z: -p.y * .01, dx: p.vx, dy: p.vz, dz: -p.vy, vx: p.vx, vy: p.vy, radius: p.radius * .01, hostile: p.hostile, element: p.element, ordinal: p.ordinal, visualSeed: p.visualSeed, age: p.age, launch: launches.get(p.id) });
     }
     for (const [id, rows] of Object.entries(projectiles)) if (id !== 'projectile-treasury-ea' && (rows.length || batches.has(id))) batch(id, id === 'projectile-poison-flask' ? 512 : 4096).update(rows, battle.elapsed);

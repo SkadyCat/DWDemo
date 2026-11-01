@@ -1,0 +1,22 @@
+{
+  "id": "viperfang_knives",
+  "name": "蝰牙飞刀",
+  "description": "绑定蝰蛇飞刃。词条按装备品质与 T 阶随机生成；传奇品质固定带有一条强化词条。",
+  "slot": "weapon",
+  "rarity": "common",
+  "level": 1,
+  "tier": 1,
+  "tags": [
+    "毒素",
+    "投掷",
+    "飞刀"
+  ],
+  "skills": [
+    "viper_knives"
+  ],
+  "traits": [],
+  "legendary": "poison_more",
+  "bases": [
+    "flat_poison"
+  ]
+}

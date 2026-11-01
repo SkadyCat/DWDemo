@@ -1,0 +1,265 @@
+{
+  "id": "create_blade_dance",
+  "name": "刃舞",
+  "description": "放出 count 柄环绕自身飞行的刀刃，每柄造成 damage 点物理伤害。本层每 10 次击杀额外多 1 柄（最多 +4）。刀刃每命中 charge_every 次获得一层刃势（伤害 +charge_bonus%）；每 surge_every 层刃势掀起剑刃风暴（攻速 +surge_power%）并向四周甩出 8 柄飞刃。15 杀觉醒：命中追加 30% 伤害的切割；40 杀极境：击杀时从尸体甩出飞刃。",
+  "params": {
+    "damage": 20,
+    "count": 3,
+    "cooldown": 0.9,
+    "charge_every": 6,
+    "charge_bonus": 3,
+    "surge_every": 10,
+    "surge_power": 35,
+    "growth_cap": 40,
+    "growth_bonus": 1,
+    "awaken_at": 15,
+    "ultimate_at": 40,
+    "charge_duration": 6,
+    "surge_duration": 5
+  },
+  "rules": [
+    {
+      "id": "blade_dance_cast",
+      "event": "cast",
+      "actions": [
+        {
+          "op": "emit",
+          "kind": "dance_blade",
+          "origin": "owner",
+          "layout": "radial",
+          "element": "physical",
+          "tags": [
+            "physical",
+            "melee",
+            "projectile"
+          ],
+          "count": {
+            "add": [
+              {
+                "param": "count"
+              },
+              {
+                "min": [
+                  4,
+                  {
+                    "div": [
+                      {
+                        "state": "growth"
+                      },
+                      10
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "speed": 9,
+          "lifetime": 2.6,
+          "radius": 0.6,
+          "pierce": 99,
+          "damage": {
+            "max": [
+              {
+                "param": "damage"
+              },
+              {
+                "event": "amount"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "blade_dance_feed",
+      "event": "hit",
+      "chain": {
+        "maxDepth": 3
+      },
+      "conditions": [],
+      "actions": [
+        {
+          "op": "counter",
+          "key": "feed",
+          "value": 1,
+          "threshold": {
+            "param": "charge_every"
+          },
+          "then": [
+            {
+              "op": "apply_status",
+              "key": "blade_dance_charge",
+              "origin": "owner",
+              "value": {
+                "param": "charge_bonus"
+              },
+              "duration": {
+                "param": "charge_duration"
+              }
+            },
+            {
+              "op": "counter",
+              "key": "surge",
+              "value": 1,
+              "threshold": {
+                "param": "surge_every"
+              },
+              "then": [
+                {
+                  "op": "apply_status",
+                  "key": "blade_dance_surge",
+                  "origin": "owner",
+                  "value": {
+                    "param": "surge_power"
+                  },
+                  "duration": {
+                    "param": "surge_duration"
+                  }
+                },
+                {
+                  "op": "emit",
+                  "kind": "dance_blade",
+                  "origin": "owner",
+                  "layout": "radial",
+                  "element": "physical",
+                  "tags": [
+                    "physical",
+                    "melee",
+                    "projectile"
+                  ],
+                  "count": 8,
+                  "speed": 12,
+                  "lifetime": 1.4,
+                  "radius": 0.6,
+                  "pierce": 99,
+                  "damage": {
+                    "max": [
+                      {
+                        "param": "damage"
+                      },
+                      {
+                        "event": "amount"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "blade_dance_grow",
+      "event": "kill",
+      "chain": {
+        "maxDepth": 4
+      },
+      "actions": [
+        {
+          "op": "counter",
+          "key": "growth",
+          "value": 1,
+          "cap": {
+            "param": "growth_cap"
+          }
+        },
+        {
+          "op": "apply_status",
+          "key": "blade_dance_growth",
+          "origin": "owner",
+          "value": {
+            "param": "growth_bonus"
+          },
+          "duration": 900
+        }
+      ]
+    },
+    {
+      "event": "hit",
+      "chain": {
+        "maxDepth": 1
+      },
+      "actions": [
+        {
+          "op": "damage_target",
+          "element": "physical",
+          "tags": [
+            "physical",
+            "melee"
+          ],
+          "amount": {
+            "mul": [
+              {
+                "event": "amount"
+              },
+              0.3
+            ]
+          }
+        }
+      ],
+      "id": "blade_dance_awaken_1",
+      "conditions": [
+        {
+          "op": "state",
+          "key": "growth",
+          "compare": "gte",
+          "value": {
+            "param": "awaken_at"
+          }
+        }
+      ]
+    },
+    {
+      "event": "kill",
+      "chain": {
+        "maxDepth": 2
+      },
+      "actions": [
+        {
+          "op": "emit",
+          "kind": "dance_blade",
+          "origin": "event",
+          "layout": "radial",
+          "element": "physical",
+          "tags": [
+            "physical",
+            "melee",
+            "projectile"
+          ],
+          "count": 2,
+          "speed": 12,
+          "lifetime": 1,
+          "radius": 0.6,
+          "pierce": 99,
+          "damage": {
+            "mul": [
+              {
+                "max": [
+                  {
+                    "param": "damage"
+                  },
+                  {
+                    "event": "amount"
+                  }
+                ]
+              },
+              0.6
+            ]
+          }
+        }
+      ],
+      "id": "blade_dance_ultimate_1",
+      "conditions": [
+        {
+          "op": "state",
+          "key": "growth",
+          "compare": "gte",
+          "value": {
+            "param": "ultimate_at"
+          }
+        }
+      ]
+    }
+  ]
+}

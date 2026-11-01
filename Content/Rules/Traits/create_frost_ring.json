@@ -1,0 +1,251 @@
+{
+  "id": "create_frost_ring",
+  "name": "霜环",
+  "description": "以自身为中心爆开寒霜，对 radius 米内敌人造成 damage 点冰霜伤害并冰缓。每击杀 charge_every 名冰缓敌人获得一层霜寒（伤害 +charge_bonus%）；每 surge_every 层霜寒引发冰封新星（大范围 3 倍伤害，施法速度提高）。15 杀觉醒：每次施法向四周射出 6 枚冰锥；40 杀极境：击杀冰缓敌人时原地碎冰爆炸。",
+  "params": {
+    "damage": 24,
+    "radius": 3.6,
+    "cooldown": 0.7,
+    "charge_every": 2,
+    "charge_bonus": 5,
+    "surge_every": 8,
+    "surge_power": 25,
+    "growth_cap": 40,
+    "growth_bonus": 1,
+    "awaken_at": 15,
+    "ultimate_at": 40,
+    "charge_duration": 6,
+    "surge_duration": 5
+  },
+  "rules": [
+    {
+      "id": "frost_ring_cast",
+      "event": "cast",
+      "actions": [
+        {
+          "op": "damage_area",
+          "element": "frost",
+          "tags": [
+            "cold",
+            "spell",
+            "nova"
+          ],
+          "radius": {
+            "param": "radius"
+          },
+          "amount": {
+            "max": [
+              {
+                "param": "damage"
+              },
+              {
+                "event": "amount"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "frost_ring_feed",
+      "event": "kill",
+      "chain": {
+        "maxDepth": 3
+      },
+      "conditions": [
+        {
+          "op": "status",
+          "key": "chill",
+          "compare": "gte",
+          "value": 1
+        }
+      ],
+      "actions": [
+        {
+          "op": "counter",
+          "key": "feed",
+          "value": 1,
+          "threshold": {
+            "param": "charge_every"
+          },
+          "then": [
+            {
+              "op": "apply_status",
+              "key": "frost_ring_charge",
+              "origin": "owner",
+              "value": {
+                "param": "charge_bonus"
+              },
+              "duration": {
+                "param": "charge_duration"
+              }
+            },
+            {
+              "op": "counter",
+              "key": "surge",
+              "value": 1,
+              "threshold": {
+                "param": "surge_every"
+              },
+              "then": [
+                {
+                  "op": "apply_status",
+                  "key": "frost_ring_surge",
+                  "origin": "owner",
+                  "value": {
+                    "param": "surge_power"
+                  },
+                  "duration": {
+                    "param": "surge_duration"
+                  }
+                },
+                {
+                  "op": "damage_area",
+                  "element": "frost",
+                  "tags": [
+                    "cold",
+                    "spell",
+                    "nova"
+                  ],
+                  "radius": 7,
+                  "amount": {
+                    "mul": [
+                      {
+                        "max": [
+                          {
+                            "param": "damage"
+                          },
+                          {
+                            "event": "amount"
+                          }
+                        ]
+                      },
+                      3
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "frost_ring_grow",
+      "event": "kill",
+      "chain": {
+        "maxDepth": 4
+      },
+      "actions": [
+        {
+          "op": "counter",
+          "key": "growth",
+          "value": 1,
+          "cap": {
+            "param": "growth_cap"
+          }
+        },
+        {
+          "op": "apply_status",
+          "key": "frost_ring_growth",
+          "origin": "owner",
+          "value": {
+            "param": "growth_bonus"
+          },
+          "duration": 900
+        }
+      ]
+    },
+    {
+      "event": "cast",
+      "actions": [
+        {
+          "op": "emit",
+          "kind": "ice_lance",
+          "origin": "owner",
+          "layout": "radial",
+          "element": "frost",
+          "tags": [
+            "cold",
+            "spell",
+            "projectile"
+          ],
+          "count": 6,
+          "speed": 22,
+          "lifetime": 0.8,
+          "radius": 0.3,
+          "damage": {
+            "mul": [
+              {
+                "max": [
+                  {
+                    "param": "damage"
+                  },
+                  {
+                    "event": "amount"
+                  }
+                ]
+              },
+              0.5
+            ]
+          }
+        }
+      ],
+      "id": "frost_ring_awaken_1",
+      "conditions": [
+        {
+          "op": "state",
+          "key": "growth",
+          "compare": "gte",
+          "value": {
+            "param": "awaken_at"
+          }
+        }
+      ]
+    },
+    {
+      "event": "kill",
+      "chain": {
+        "maxDepth": 2
+      },
+      "conditions": [
+        {
+          "op": "state",
+          "key": "growth",
+          "compare": "gte",
+          "value": {
+            "param": "ultimate_at"
+          }
+        },
+        {
+          "op": "status",
+          "key": "chill",
+          "compare": "gte",
+          "value": 1
+        }
+      ],
+      "actions": [
+        {
+          "op": "damage_area",
+          "element": "frost",
+          "tags": [
+            "cold",
+            "spell"
+          ],
+          "radius": 3,
+          "amount": {
+            "max": [
+              {
+                "param": "damage"
+              },
+              {
+                "event": "amount"
+              }
+            ]
+          }
+        }
+      ],
+      "id": "frost_ring_ultimate_1"
+    }
+  ]
+}

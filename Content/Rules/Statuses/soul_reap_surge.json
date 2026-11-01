@@ -1,0 +1,21 @@
+{
+  "id": "soul_reap_surge",
+  "name": "死神降临",
+  "description": "灵魂收割：攻速、移速与伤害提高。",
+  "category": "buff",
+  "stacking": "refresh",
+  "effects": [
+    {
+      "type": "action_speed",
+      "scale": 1
+    },
+    {
+      "type": "damage_dealt",
+      "scale": 0.8
+    },
+    {
+      "type": "move_speed",
+      "scale": 0.6
+    }
+  ]
+}

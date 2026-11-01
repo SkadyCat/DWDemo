@@ -1,0 +1,17 @@
+{
+  "id": "blade_dance_surge",
+  "name": "剑刃风暴",
+  "description": "刃舞：攻速与伤害提高。",
+  "category": "buff",
+  "stacking": "refresh",
+  "effects": [
+    {
+      "type": "action_speed",
+      "scale": 1
+    },
+    {
+      "type": "damage_dealt",
+      "scale": 0.6
+    }
+  ]
+}

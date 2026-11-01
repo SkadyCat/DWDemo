@@ -1,0 +1,17 @@
+{
+  "id": "frost_ring_surge",
+  "name": "冰封",
+  "description": "霜环：施法速度与伤害提高。",
+  "category": "buff",
+  "stacking": "refresh",
+  "effects": [
+    {
+      "type": "action_speed",
+      "scale": 1
+    },
+    {
+      "type": "damage_dealt",
+      "scale": 0.8
+    }
+  ]
+}

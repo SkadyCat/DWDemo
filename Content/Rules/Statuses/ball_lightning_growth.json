@@ -1,0 +1,14 @@
+{
+  "id": "ball_lightning_growth",
+  "name": "雷心",
+  "description": "球状闪电：本层每次击杀伤害 +1%，最多 40 层。",
+  "category": "buff",
+  "stacking": "stack",
+  "maxStacks": 40,
+  "effects": [
+    {
+      "type": "damage_dealt",
+      "scale": 1
+    }
+  ]
+}

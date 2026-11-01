@@ -1,0 +1,14 @@
+{
+  "id": "ground_slam_charge",
+  "name": "地脉",
+  "description": "震地猛击：每层造成伤害提高。",
+  "category": "buff",
+  "stacking": "stack",
+  "maxStacks": 6,
+  "effects": [
+    {
+      "type": "damage_dealt",
+      "scale": 1
+    }
+  ]
+}

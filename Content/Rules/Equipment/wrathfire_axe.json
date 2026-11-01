@@ -1,0 +1,22 @@
+{
+  "id": "wrathfire_axe",
+  "name": "怒焰战斧",
+  "description": "绑定怒焰劈斩。词条按装备品质与 T 阶随机生成；传奇品质固定带有一条强化词条。",
+  "slot": "weapon",
+  "rarity": "common",
+  "level": 1,
+  "tier": 1,
+  "tags": [
+    "物理",
+    "近战",
+    "斧"
+  ],
+  "skills": [
+    "rage_cleave"
+  ],
+  "traits": [],
+  "legendary": "area_more",
+  "bases": [
+    "flat_physical"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "id": "frost_ring",
+  "name": "霜环",
+  "description": "以自身为中心爆开寒霜之环。击杀冰缓敌人积攒霜寒，满溢时冰封新星席卷四周。",
+  "active": "create_frost_ring",
+  "traits": [
+    "create_frost_ring",
+    "chill",
+    "area_at_self"
+  ]
+}

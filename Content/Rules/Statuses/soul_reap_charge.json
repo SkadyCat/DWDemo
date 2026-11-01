@@ -1,0 +1,14 @@
+{
+  "id": "soul_reap_charge",
+  "name": "魂火",
+  "description": "灵魂收割：每层造成伤害提高。",
+  "category": "buff",
+  "stacking": "stack",
+  "maxStacks": 20,
+  "effects": [
+    {
+      "type": "damage_dealt",
+      "scale": 1
+    }
+  ]
+}

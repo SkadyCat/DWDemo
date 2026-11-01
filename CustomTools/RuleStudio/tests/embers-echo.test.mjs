@@ -16,10 +16,10 @@ const presets=EMBERS_ECHO_GRADES.map(c=>JSON.parse(fs.readFileSync(new URL(c.id+
 const index=JSON.parse(fs.readFileSync(new URL('index.json',root),'utf8'));
 const inherent=item=>[...item.bases.flatMap(b=>b.traits),...item.legendary.traits];
 
-test('余烬回响：二级菜单仅分五档，其余流派各保留一档，不改变原始列表',()=>{
+test('余烬回响：二级菜单仅分五档，成长型十套同组，其余流派各保留一档，不改变原始列表',()=>{
   const before=structuredClone(index), groups=groupBuildPresets(index);
   assert.equal(groups.filter(g=>g.id==='embers_echo').length,1);
-  for(const group of groups)assert.equal(group.rows.length,group.id==='embers_echo'?5:1);
+  for(const group of groups)assert.equal(group.rows.length,group.id==='embers_echo'?5:group.id==='growth'?10:1);
   assert.deepEqual(groups.find(g=>g.id==='embers_echo').rows.map(r=>r.grade),[1,2,3,4,5]);
   const shuffled=groupBuildPresets([...index].reverse().map(r=>({...r,equipped:r.id==='embers_echo_3'})));
   assert.equal(shuffled.find(g=>g.id==='embers_echo').equipped,true);

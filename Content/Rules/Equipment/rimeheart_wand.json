@@ -1,0 +1,22 @@
+{
+  "id": "rimeheart_wand",
+  "name": "凛心法环",
+  "description": "绑定霜环。词条按装备品质与 T 阶随机生成；传奇品质固定带有一条强化词条。",
+  "slot": "weapon",
+  "rarity": "common",
+  "level": 1,
+  "tier": 1,
+  "tags": [
+    "冰霜",
+    "法术",
+    "法环"
+  ],
+  "skills": [
+    "frost_ring"
+  ],
+  "traits": [],
+  "legendary": "more_frost",
+  "bases": [
+    "flat_frost"
+  ]
+}

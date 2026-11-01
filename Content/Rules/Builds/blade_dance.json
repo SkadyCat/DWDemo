@@ -1,0 +1,10 @@
+{
+  "id": "blade_dance",
+  "name": "刃舞",
+  "description": "召出环绕自身的飞刃，靠近敌人切割。刃势满溢掀起剑刃风暴，击杀越多飞刃越多。",
+  "active": "create_blade_dance",
+  "traits": [
+    "create_blade_dance",
+    "proj_orbit"
+  ]
+}

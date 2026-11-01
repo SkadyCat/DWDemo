@@ -1,0 +1,22 @@
+{
+  "id": "stormorb_scepter",
+  "name": "雷珠权杖",
+  "description": "绑定球状闪电。词条按装备品质与 T 阶随机生成；传奇品质固定带有一条强化词条。",
+  "slot": "weapon",
+  "rarity": "common",
+  "level": 1,
+  "tier": 1,
+  "tags": [
+    "闪电",
+    "法术",
+    "权杖"
+  ],
+  "skills": [
+    "ball_lightning"
+  ],
+  "traits": [],
+  "legendary": "shock_effect",
+  "bases": [
+    "flat_lightning"
+  ]
+}

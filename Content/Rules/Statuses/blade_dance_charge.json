@@ -1,0 +1,14 @@
+{
+  "id": "blade_dance_charge",
+  "name": "刃势",
+  "description": "刃舞：每层造成伤害提高。",
+  "category": "buff",
+  "stacking": "stack",
+  "maxStacks": 12,
+  "effects": [
+    {
+      "type": "damage_dealt",
+      "scale": 1
+    }
+  ]
+}

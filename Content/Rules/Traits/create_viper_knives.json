@@ -1,0 +1,317 @@
+{
+  "id": "create_viper_knives",
+  "name": "蝰蛇飞刃",
+  "description": "向前方扇形甩出 count 柄飞刀，每柄造成 damage 点毒素伤害并施加中毒（命中伤害的 poison_ratio 倍每秒）。本层每 8 次击杀多 1 柄（最多 +5）。每击杀 charge_every 名中毒敌人获得一层毒蚀（伤害 +charge_bonus%）；每 surge_every 层毒蚀进入万蛇（攻速 +surge_power%）并向四周甩出 10 柄飞刀。15 杀觉醒：中毒敌人死亡时毒爆；40 杀极境：命中 25% 从目标分裂 2 柄飞刀。",
+  "params": {
+    "damage": 12,
+    "count": 3,
+    "cooldown": 0.35,
+    "poison_ratio": 0.4,
+    "poison_duration": 3,
+    "charge_every": 3,
+    "charge_bonus": 4,
+    "surge_every": 10,
+    "surge_power": 30,
+    "growth_cap": 40,
+    "growth_bonus": 1,
+    "awaken_at": 15,
+    "ultimate_at": 40,
+    "charge_duration": 6,
+    "surge_duration": 5
+  },
+  "rules": [
+    {
+      "id": "viper_knives_cast",
+      "event": "cast",
+      "actions": [
+        {
+          "op": "emit",
+          "kind": "viper_knife",
+          "origin": "owner",
+          "element": "poison",
+          "tags": [
+            "poison",
+            "physical",
+            "projectile",
+            "attack"
+          ],
+          "count": {
+            "add": [
+              {
+                "param": "count"
+              },
+              {
+                "min": [
+                  5,
+                  {
+                    "div": [
+                      {
+                        "state": "growth"
+                      },
+                      8
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "spread": 34,
+          "speed": 26,
+          "lifetime": 0.7,
+          "radius": 0.28,
+          "damage": {
+            "max": [
+              {
+                "param": "damage"
+              },
+              {
+                "event": "amount"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "viper_knives_feed",
+      "event": "kill",
+      "chain": {
+        "maxDepth": 3
+      },
+      "conditions": [
+        {
+          "op": "status",
+          "key": "poison",
+          "compare": "gte",
+          "value": 1
+        }
+      ],
+      "actions": [
+        {
+          "op": "counter",
+          "key": "feed",
+          "value": 1,
+          "threshold": {
+            "param": "charge_every"
+          },
+          "then": [
+            {
+              "op": "apply_status",
+              "key": "viper_knives_charge",
+              "origin": "owner",
+              "value": {
+                "param": "charge_bonus"
+              },
+              "duration": {
+                "param": "charge_duration"
+              }
+            },
+            {
+              "op": "counter",
+              "key": "surge",
+              "value": 1,
+              "threshold": {
+                "param": "surge_every"
+              },
+              "then": [
+                {
+                  "op": "apply_status",
+                  "key": "viper_knives_surge",
+                  "origin": "owner",
+                  "value": {
+                    "param": "surge_power"
+                  },
+                  "duration": {
+                    "param": "surge_duration"
+                  }
+                },
+                {
+                  "op": "emit",
+                  "kind": "viper_knife",
+                  "origin": "owner",
+                  "layout": "radial",
+                  "element": "poison",
+                  "tags": [
+                    "poison",
+                    "projectile",
+                    "attack"
+                  ],
+                  "count": 10,
+                  "speed": 24,
+                  "lifetime": 0.8,
+                  "radius": 0.28,
+                  "damage": {
+                    "max": [
+                      {
+                        "param": "damage"
+                      },
+                      {
+                        "event": "amount"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "viper_knives_grow",
+      "event": "kill",
+      "chain": {
+        "maxDepth": 4
+      },
+      "actions": [
+        {
+          "op": "counter",
+          "key": "growth",
+          "value": 1,
+          "cap": {
+            "param": "growth_cap"
+          }
+        },
+        {
+          "op": "apply_status",
+          "key": "viper_knives_growth",
+          "origin": "owner",
+          "value": {
+            "param": "growth_bonus"
+          },
+          "duration": 900
+        }
+      ]
+    },
+    {
+      "event": "kill",
+      "chain": {
+        "maxDepth": 2
+      },
+      "conditions": [
+        {
+          "op": "state",
+          "key": "growth",
+          "compare": "gte",
+          "value": {
+            "param": "awaken_at"
+          }
+        },
+        {
+          "op": "status",
+          "key": "poison",
+          "compare": "gte",
+          "value": 1
+        }
+      ],
+      "actions": [
+        {
+          "op": "damage_area",
+          "element": "poison",
+          "tags": [
+            "poison",
+            "attack"
+          ],
+          "radius": 2.6,
+          "amount": {
+            "max": [
+              {
+                "param": "damage"
+              },
+              {
+                "event": "amount"
+              }
+            ]
+          }
+        }
+      ],
+      "id": "viper_knives_awaken_1"
+    },
+    {
+      "event": "hit",
+      "chain": {
+        "maxDepth": 1
+      },
+      "conditions": [
+        {
+          "op": "state",
+          "key": "growth",
+          "compare": "gte",
+          "value": {
+            "param": "ultimate_at"
+          }
+        },
+        {
+          "op": "chance",
+          "value": 25
+        }
+      ],
+      "actions": [
+        {
+          "op": "emit",
+          "kind": "viper_knife",
+          "origin": "event",
+          "element": "poison",
+          "tags": [
+            "poison",
+            "projectile",
+            "attack"
+          ],
+          "count": 2,
+          "spread": 60,
+          "speed": 22,
+          "lifetime": 0.5,
+          "radius": 0.28,
+          "damage": {
+            "mul": [
+              {
+                "max": [
+                  {
+                    "param": "damage"
+                  },
+                  {
+                    "event": "amount"
+                  }
+                ]
+              },
+              0.6
+            ]
+          }
+        }
+      ],
+      "id": "viper_knives_ultimate_1"
+    },
+    {
+      "id": "viper_knives_poison",
+      "event": "hit",
+      "chain": {
+        "maxDepth": 3
+      },
+      "conditions": [
+        {
+          "op": "tag",
+          "tag": "poison"
+        }
+      ],
+      "actions": [
+        {
+          "op": "apply_status",
+          "key": "poison",
+          "value": {
+            "mul": [
+              {
+                "event": "amount"
+              },
+              {
+                "param": "poison_ratio"
+              }
+            ]
+          },
+          "duration": {
+            "param": "poison_duration"
+          }
+        }
+      ]
+    }
+  ]
+}

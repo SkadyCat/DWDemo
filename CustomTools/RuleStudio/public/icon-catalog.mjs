@@ -1641,7 +1641,287 @@ export const ICON_ENTRIES=[
   {"kind":"skill","id":"taunt","name":"嘲讽","sheet":null,"row":null,"column":null,"src":"/assets/icons/warcraft-v1/skill/taunt.png"},
   {"kind":"skill","id":"wind_breath","name":"风之息","sheet":null,"row":null,"column":null,"src":"/assets/icons/warcraft-v1/skill/wind_breath.png"},
   {"kind":"equipment","id":"wind_breath_ring","name":"风息指环","sheet":null,"row":null,"column":null,"src":"/assets/icons/warcraft-v1/equipment/wind_breath_ring.png"},
-  {"kind":"equipment","id":"wind_breath_amulet","name":"风息护符","sheet":null,"row":null,"column":null,"src":"/assets/icons/warcraft-v1/equipment/wind_breath_amulet.png"}
+  {"kind":"equipment","id":"wind_breath_amulet","name":"风息护符","sheet":null,"row":null,"column":null,"src":"/assets/icons/warcraft-v1/equipment/wind_breath_amulet.png"},
+  {
+    "kind": "skill",
+    "id": "rage_cleave",
+    "name": "怒焰劈斩",
+    "sheet": null,
+    "row": null,
+    "column": null,
+    "copyFrom": "skill/player_slash.png",
+    "tint": {
+      "hue": 0.02,
+      "mirror": true
+    },
+    "src": "/assets/icons/warcraft-v1/skill/rage_cleave.png"
+  },
+  {
+    "kind": "equipment",
+    "id": "wrathfire_axe",
+    "name": "怒焰战斧",
+    "sheet": null,
+    "row": null,
+    "column": null,
+    "copyFrom": "equipment/sundering_maul.png",
+    "tint": {
+      "hue": 0.02,
+      "mirror": true
+    },
+    "src": "/assets/icons/warcraft-v1/equipment/wrathfire_axe.png"
+  },
+  {
+    "kind": "skill",
+    "id": "thunder_strike",
+    "name": "雷击三连",
+    "sheet": null,
+    "row": null,
+    "column": null,
+    "copyFrom": "skill/lightning_nova.png",
+    "tint": {
+      "hue": 0.08,
+      "mirror": true
+    },
+    "src": "/assets/icons/warcraft-v1/skill/thunder_strike.png"
+  },
+  {
+    "kind": "equipment",
+    "id": "stormbreaker_hammer",
+    "name": "碎雷战锤",
+    "sheet": null,
+    "row": null,
+    "column": null,
+    "copyFrom": "equipment/thunderheart_scepter.png",
+    "tint": {
+      "hue": 0.55,
+      "mirror": true
+    },
+    "src": "/assets/icons/warcraft-v1/equipment/stormbreaker_hammer.png"
+  },
+  {
+    "kind": "skill",
+    "id": "ground_slam",
+    "name": "震地猛击",
+    "sheet": null,
+    "row": null,
+    "column": null,
+    "copyFrom": "skill/earth_wave.png",
+    "tint": {
+      "hue": 0.06,
+      "mirror": true
+    },
+    "src": "/assets/icons/warcraft-v1/skill/ground_slam.png"
+  },
+  {
+    "kind": "equipment",
+    "id": "earthshaker_maul",
+    "name": "撼地巨槌",
+    "sheet": null,
+    "row": null,
+    "column": null,
+    "copyFrom": "equipment/sundering_maul.png",
+    "tint": {
+      "hue": 0.1,
+      "mirror": true
+    },
+    "src": "/assets/icons/warcraft-v1/equipment/earthshaker_maul.png"
+  },
+  {
+    "kind": "skill",
+    "id": "blade_dance",
+    "name": "刃舞",
+    "sheet": null,
+    "row": null,
+    "column": null,
+    "copyFrom": "skill/whirlwind.png",
+    "tint": {
+      "hue": 0.85,
+      "mirror": true
+    },
+    "src": "/assets/icons/warcraft-v1/skill/blade_dance.png"
+  },
+  {
+    "kind": "equipment",
+    "id": "twin_moon_blades",
+    "name": "双月刃",
+    "sheet": null,
+    "row": null,
+    "column": null,
+    "copyFrom": "equipment/crescent_saber.png",
+    "tint": {
+      "hue": 0.5,
+      "mirror": true
+    },
+    "src": "/assets/icons/warcraft-v1/equipment/twin_moon_blades.png"
+  },
+  {
+    "kind": "skill",
+    "id": "shield_slam",
+    "name": "盾击",
+    "sheet": null,
+    "row": null,
+    "column": null,
+    "copyFrom": "skill/taunt.png",
+    "tint": {
+      "hue": 0.1,
+      "mirror": true
+    },
+    "src": "/assets/icons/warcraft-v1/skill/shield_slam.png"
+  },
+  {
+    "kind": "equipment",
+    "id": "bulwark_mace",
+    "name": "壁垒钉锤",
+    "sheet": null,
+    "row": null,
+    "column": null,
+    "copyFrom": "equipment/sundering_maul.png",
+    "tint": {
+      "hue": 0.6,
+      "mirror": true
+    },
+    "src": "/assets/icons/warcraft-v1/equipment/bulwark_mace.png"
+  },
+  {
+    "kind": "skill",
+    "id": "meteor",
+    "name": "天火陨星",
+    "sheet": null,
+    "row": null,
+    "column": null,
+    "copyFrom": "skill/flame_burst.png",
+    "tint": {
+      "hue": 0.93,
+      "mirror": true
+    },
+    "src": "/assets/icons/warcraft-v1/skill/meteor.png"
+  },
+  {
+    "kind": "equipment",
+    "id": "starfall_staff",
+    "name": "陨星法杖",
+    "sheet": null,
+    "row": null,
+    "column": null,
+    "copyFrom": "equipment/emberheart_staff.png",
+    "tint": {
+      "hue": 0.95,
+      "mirror": true
+    },
+    "src": "/assets/icons/warcraft-v1/equipment/starfall_staff.png"
+  },
+  {
+    "kind": "skill",
+    "id": "frost_ring",
+    "name": "霜环",
+    "sheet": null,
+    "row": null,
+    "column": null,
+    "copyFrom": "skill/aura_frost.png",
+    "tint": {
+      "hue": 0.05,
+      "mirror": true
+    },
+    "src": "/assets/icons/warcraft-v1/skill/frost_ring.png"
+  },
+  {
+    "kind": "equipment",
+    "id": "rimeheart_wand",
+    "name": "凛心法环",
+    "sheet": null,
+    "row": null,
+    "column": null,
+    "copyFrom": "equipment/frostthorn_staff.png",
+    "tint": {
+      "hue": 0.08,
+      "mirror": true
+    },
+    "src": "/assets/icons/warcraft-v1/equipment/rimeheart_wand.png"
+  },
+  {
+    "kind": "skill",
+    "id": "viper_knives",
+    "name": "蝰蛇飞刃",
+    "sheet": null,
+    "row": null,
+    "column": null,
+    "copyFrom": "skill/poison_flask.png",
+    "tint": {
+      "hue": 0.2,
+      "mirror": true
+    },
+    "src": "/assets/icons/warcraft-v1/skill/viper_knives.png"
+  },
+  {
+    "kind": "equipment",
+    "id": "viperfang_knives",
+    "name": "蝰牙飞刀",
+    "sheet": null,
+    "row": null,
+    "column": null,
+    "copyFrom": "equipment/venomglass_flask.png",
+    "tint": {
+      "hue": 0.3,
+      "mirror": true
+    },
+    "src": "/assets/icons/warcraft-v1/equipment/viperfang_knives.png"
+  },
+  {
+    "kind": "skill",
+    "id": "soul_reap",
+    "name": "灵魂收割",
+    "sheet": null,
+    "row": null,
+    "column": null,
+    "copyFrom": "skill/sacrifice.png",
+    "tint": {
+      "hue": 0,
+      "mirror": true
+    },
+    "src": "/assets/icons/warcraft-v1/skill/soul_reap.png"
+  },
+  {
+    "kind": "equipment",
+    "id": "soulreaver_scythe",
+    "name": "噬魂长镰",
+    "sheet": null,
+    "row": null,
+    "column": null,
+    "copyFrom": "equipment/crescent_saber.png",
+    "tint": {
+      "hue": 0.75,
+      "mirror": true
+    },
+    "src": "/assets/icons/warcraft-v1/equipment/soulreaver_scythe.png"
+  },
+  {
+    "kind": "skill",
+    "id": "ball_lightning",
+    "name": "球状闪电",
+    "sheet": null,
+    "row": null,
+    "column": null,
+    "copyFrom": "skill/storm_totem.png",
+    "tint": {
+      "hue": 0.6,
+      "mirror": true
+    },
+    "src": "/assets/icons/warcraft-v1/skill/ball_lightning.png"
+  },
+  {
+    "kind": "equipment",
+    "id": "stormorb_scepter",
+    "name": "雷珠权杖",
+    "sheet": null,
+    "row": null,
+    "column": null,
+    "copyFrom": "equipment/thunderheart_scepter.png",
+    "tint": {
+      "hue": 0.15,
+      "mirror": true
+    },
+    "src": "/assets/icons/warcraft-v1/equipment/stormorb_scepter.png"
+  }
 ];
 
 // Dedicated art completion 2026-10-26

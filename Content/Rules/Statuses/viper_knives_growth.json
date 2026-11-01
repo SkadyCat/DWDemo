@@ -1,0 +1,14 @@
+{
+  "id": "viper_knives_growth",
+  "name": "蛇噬",
+  "description": "蝰蛇飞刃：本层每次击杀伤害 +1%，最多 40 层；每 8 层多 1 柄飞刀。",
+  "category": "buff",
+  "stacking": "stack",
+  "maxStacks": 40,
+  "effects": [
+    {
+      "type": "damage_dealt",
+      "scale": 1
+    }
+  ]
+}

@@ -169,3 +169,30 @@ html.play-mode body > aside.sidebar { display: none !important; }
 .cb-stage { display: grid; place-items: center; text-align: center; border-radius: 12px; border: 1px dashed rgba(236, 208, 134, .3); background: rgba(236, 208, 134, .03); padding: 20px; }
 .cb-stage b { display: block; font-size: 34px; color: #c9a45a; } .cb-stage p { margin: 6px 0; color: #d6dae3; font-size: 13px; } .cb-stage small { color: #8e9aac; font-size: 11px; }
 @media (max-width: 860px) { .cb { grid-template-columns: 1fr; } .cb-stage { display: none; } }
+
+/* ---- growth tracker (成长型 BD) ---- */
+.gt { pointer-events: auto; margin-top: 8px; padding: 9px 11px 9px; width: 100%; box-sizing: border-box; border-color: rgba(230, 150, 90, .3); background: linear-gradient(180deg, rgba(28, 16, 10, .86), rgba(10, 12, 18, .82)); transition: box-shadow .3s; }
+.gt.surging { box-shadow: 0 0 0 1px rgba(255, 150, 70, .55), 0 0 22px rgba(255, 120, 40, .35); }
+.gt header { display: flex; align-items: center; gap: 9px; }
+.gt header img { width: 30px; height: 30px; border-radius: 6px; border: 1px solid rgba(255, 200, 140, .35); }
+.gt header div { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.gt header b { font-size: 13.5px; color: #ffd9a8; letter-spacing: .5px; }
+.gt header small { font-size: 11px; color: #a99a88; }
+.gt-roman { font: 800 20px/1 var(--sans); color: #8c7a66; }
+.gt-stage-1 .gt-roman { color: #9fd8ff; text-shadow: 0 0 12px rgba(120, 200, 255, .6); }
+.gt-stage-2 .gt-roman { color: #ffa45c; text-shadow: 0 0 14px rgba(255, 120, 40, .8); }
+.gt-bar { position: relative; height: 6px; margin: 8px 0 7px; border-radius: 4px; background: #241a14; overflow: visible; }
+.gt-bar i { display: block; height: 100%; border-radius: 4px; background: linear-gradient(90deg, #a1542a, #ffb066); transition: width .25s; }
+.gt-tick { position: absolute; top: -3px; width: 2px; height: 12px; margin-left: -1px; background: #9fd8ff; box-shadow: 0 0 6px #9fd8ff; }
+.gt-stages { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.gt-stages li { display: flex; gap: 7px; font-size: 11px; line-height: 1.4; color: #7f7468; }
+.gt-stages li em { flex: none; width: 16px; font-style: normal; font-weight: 800; color: #5d544b; }
+.gt-stages li b { display: block; font-size: 11.5px; color: #9b8f80; font-weight: 600; }
+.gt-stages li b small { font-weight: 400; color: #7f7468; }
+.gt-stages li.on { color: #d8c8b2; }
+.gt-stages li.on em { color: #ffb066; }
+.gt-stages li.on b { color: #ffd9a8; }
+.gt footer { display: flex; justify-content: space-between; gap: 8px; margin-top: 7px; font-size: 11.5px; color: #c8b8a2; }
+.gt footer b { color: #ffd08a; }
+.gt-surge { color: #ff9c5a; animation: gt-pulse 0.9s ease-in-out infinite alternate; }
+@keyframes gt-pulse { from { opacity: .7; } to { opacity: 1; } }

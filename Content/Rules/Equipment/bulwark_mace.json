@@ -1,0 +1,22 @@
+{
+  "id": "bulwark_mace",
+  "name": "壁垒钉锤",
+  "description": "绑定盾击。词条按装备品质与 T 阶随机生成；传奇品质固定带有一条强化词条。",
+  "slot": "weapon",
+  "rarity": "common",
+  "level": 1,
+  "tier": 1,
+  "tags": [
+    "物理",
+    "近战",
+    "盾锤"
+  ],
+  "skills": [
+    "shield_slam"
+  ],
+  "traits": [],
+  "legendary": "more_physical",
+  "bases": [
+    "flat_physical"
+  ]
+}

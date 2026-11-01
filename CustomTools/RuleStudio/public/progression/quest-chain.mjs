@@ -1,6 +1,7 @@
 // Story quest chain. Data-driven; objectives read the journey counters, so the
 // chain observes play instead of hooking into combat. Rewards use the existing
 // item catalogue and the normal equipment generator.
+import { GROWTH_STAGES } from './growth-stages.mjs';
 import { rollEquipmentDrop, rollEquipment } from '../equipment-generation.mjs';
 import { ensureJourney, grantXp } from './journey.mjs';
 import { mapItemId } from './config.mjs';
@@ -47,7 +48,7 @@ export const QUEST_CHAIN = R([
     rewards: [{ kind: 'item', id: 'spirit_stone_mid', count: 2 }, { kind: 'item', id: 'quad_affix_orb', count: 1 }] }),
   R({ id: 'c2_floor3', chapter: 'c2', name: '第三层', objective: { kind: 'maxFloor', target: 3 },
     text: '通关第 3 层', hint: '首次通关某层会额外奖励下一层的地图。',
-    rewards: [{ kind: 'equipment', rarity: 'rare', tier: 3 }, { kind: 'xp', count: 400 }] }),
+    rewards: [{ kind: 'choice', pool: 'growth', rarity: 'rare', tier: 3, label: '三选一 · 成长武器' }, { kind: 'xp', count: 400 }] }),
   // ---------------------------------------------------------------- Chapter 3
   R({ id: 'c3_elites', chapter: 'c3', name: '精英猎手', objective: { kind: 'counter', key: 'rareKills', target: 6 },
     text: '击杀 6 个稀有怪物', hint: '金色名字的怪物是稀有怪，掉落更好、经验更多。',
@@ -153,6 +154,7 @@ export function choiceBases(pool, collections) {
   const docs = [...collections.equipment.values()].map(e => e.doc).filter(Boolean);
   if (pool === 'aura') return docs.filter(d => d.slot === 'ring' && d.id.startsWith('aura_') && !d.id.startsWith('aura_resist_'));
   if (pool === 'skill') return docs.filter(d => SKILL_JEWELRY.includes(d.id));
+  if (pool === 'growth') return docs.filter(d => d.slot === 'weapon' && GROWTH_STAGES[d.skills?.[0]]);
   if (pool === 'legendary') return docs.filter(d => d.rarity === 'legendary' && !['map', 'tower', 'lineage', 'rarity', 'character'].includes(d.slot) && !/^embers_echo_[2-5]_|_t\d+_/.test(d.id));
   return [];
 }
