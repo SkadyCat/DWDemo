@@ -64,7 +64,7 @@ void main(){
   float shape = 1. - smoothstep(.55, 1., r + (n - .5) * .55);
   vec3 col; float alpha; vec3 glow = vec3(0.);
   if (kind < .5) {                                   // scorch: soot with dying embers
-    col = vec3(.02, .015, .012); alpha = shape * (.55 + n * .4);
+    col = vec3(.05, .04, .035); alpha = shape * (.28 + n * .25);
     float ember = pow(max(0., fbm(vP * 7. + seed * 3.) - .6), 1.5) * 4. * shape * (1. - smoothstep(.2, .7, r));
     glow = vec3(3., .9, .15) * ember * max(0., 1. - t * 2.2);
   } else if (kind < 1.5) {                           // frost: pale crystalline flower
@@ -76,7 +76,7 @@ void main(){
     float e; voro(vP * 4.5 + seed, e);
     float crack = 1. - smoothstep(0., .07 + r * .05, e);
     float lines = crack * (1. - smoothstep(.4, 1., r)) ;
-    col = vec3(.03, .025, .02); alpha = max(shape * .35, lines * .9);
+    col = vec3(.06, .05, .04); alpha = max(shape * .2, lines * .7);
     glow = vec3(3.2, 1.3, .35) * lines * max(0., 1. - t * 1.6);
   } else if (kind < 3.5) {                           // poison pool: bubbling sheen
     col = vec3(.12, .35, .05); alpha = shape * (.45 + n * .3);

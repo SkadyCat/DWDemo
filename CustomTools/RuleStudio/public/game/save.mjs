@@ -81,6 +81,22 @@ export function craft(save, item, currency, rng, index) {
  * One-click build: the archetype's stage gear replaces the equipped items (the old ones go to the
  * inventory; earlier one-click presets are simply replaced) and the bar gets the build's skill.
  */
+/**
+ * 空白流派: take everything off. Your own items go back to the bag, one-click build items are discarded,
+ * and a plain starter wand (Fireball) goes on so maps can still be opened.
+ */
+export function clearArchetype(save) {
+  for (const slot of SLOTS) {
+    const it = save.equipped[slot];
+    if (it && !it.preset) save.inventory.push(it);
+    save.equipped[slot] = null;
+  }
+  save.equipped.weapon = makeItem('weapon', 'wand', 1, { skill: 'fireball', traits: [], lines: [] });
+  save.skills = ['fireball', null, null, null];
+  syncSkillBar(save);
+  save.archetype = null; save.bdStage = null;
+}
+
 export function applyArchetype(save, id, stageIndex) {
   const a = ARCHETYPES.find(x => x.id === id);
   const b = stageBuild(a, stageIndex), tier = STAGES[stageIndex].itemTier;

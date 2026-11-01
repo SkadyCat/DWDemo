@@ -6,13 +6,13 @@ import { CELL } from './textures.mjs';
 
 /** Element palettes: HDR colours (bloom picks up anything above ~1). */
 export const PAL = {
-  fire: { core: [3.4, 1.9, .7], hot: [2.8, .9, .16], mid: [1.5, .3, .04], ember: [4, 1.5, .3], smoke: [.07, .05, .045], mist: null, light: [1, .55, .2], ring: [3.5, 1.3, .25], ringMode: 1, decal: 0 },
+  fire: { core: [3.4, 1.9, .7], hot: [2.8, .9, .16], mid: [1.5, .3, .04], ember: [4, 1.5, .3], smoke: [.24, .18, .15], mist: null, light: [1, .55, .2], ring: [3.5, 1.3, .25], ringMode: 1, decal: 0 },
   cold: { core: [2.2, 3.1, 4], hot: [.7, 1.9, 3.8], mid: [.25, .85, 2], ember: [2.2, 3.6, 6], smoke: [.6, .78, .95], mist: true, light: [.45, .75, 1], ring: [1.2, 2.8, 5], ringMode: 2, decal: 1 },
   lightning: { core: [3.2, 3.4, 4.6], hot: [1.2, 1.5, 4.4], mid: [.7, .6, 2.6], ember: [3.5, 3.8, 6], smoke: [.42, .42, .6], mist: null, light: [.6, .7, 1], ring: [2, 2.4, 6], ringMode: 3, decal: 4 },
   physical: { core: [3, 2.7, 2.3], hot: [2.1, 1.5, .95], mid: [1, .7, .45], ember: [3.6, 2.6, 1.4], smoke: [.32, .28, .24], mist: null, light: [1, .85, .65], ring: [2.6, 2.2, 1.7], ringMode: 0, decal: 2 },
   chaos: { core: [2, 4, 1.1], hot: [.9, 2.6, .35], mid: [.8, .25, 1.8], ember: [2, 4.5, .8], smoke: [.15, .3, .07], mist: null, light: [.55, 1, .35], ring: [1.6, 3.6, .6], ringMode: 0, decal: 3 },
-  void: { core: [3.6, 1.6, 5], hot: [2.6, .5, 3.6], mid: [.9, .1, 1.6], ember: [3, 1, 4.5], smoke: [.06, .02, .08], mist: null, light: [.8, .3, 1], ring: [2.4, .6, 3.6], ringMode: 0, decal: 0 },
-  hostile: { core: [3.6, 1.2, .9], hot: [2.6, .35, .2], mid: [1.1, .06, .06], ember: [4, 1, .6], smoke: [.06, .02, .02], mist: null, light: [1, .25, .2], ring: [4, .6, .4], ringMode: 0, decal: 0 },
+  void: { core: [3.6, 1.6, 5], hot: [2.6, .5, 3.6], mid: [.9, .1, 1.6], ember: [3, 1, 4.5], smoke: [.22, .14, .26], mist: null, light: [.8, .3, 1], ring: [2.4, .6, 3.6], ringMode: 0, decal: 0 },
+  hostile: { core: [3.6, 1.2, .9], hot: [2.6, .35, .2], mid: [1.1, .06, .06], ember: [4, 1, .6], smoke: [.24, .12, .12], mist: null, light: [1, .25, .2], ring: [4, .6, .4], ringMode: 0, decal: 0 },
 };
 const pal = el => PAL[el] ?? PAL.physical;
 const mul = (c, k) => [c[0] * k, c[1] * k, c[2] * k];
@@ -107,7 +107,7 @@ export function createFx(T, scene) {
       if (el === 'fire' || el === 'void' || el === 'hostile' || el === 'physical') {
         // rolling fireball: hot cores that cool as they rise
         P.emit('add', Math.round(10 * q), { pos: at, spread: r * .35, life: [.35, .7], size: [r * .55, r * .9], grow: 1.9, color: c.hot, color1: mul(c.mid, .6), alpha: .38, cell: el === 'physical' ? CELL.dust : CELL.smoke2, dir: 'sphere', half: true, speed: [r * 1.2, r * 3], drag: 3.5, grav: 1.2, spin: [-2, 2], fadeIn: .05, fadePow: 1.2 });
-        P.emit('alpha', Math.round(9 * q), { pos: at, spread: r * .5, life: [.9, 1.8], size: [r * .6, r * .9], grow: 2.4, color: c.smoke, alpha: el === 'physical' ? .45 : .7, cell: CELL.smoke, dir: 'sphere', half: true, speed: [r * .6, r * 1.6], drag: 2.2, grav: .7, spin: [-.6, .6], fadeIn: .12, fadePow: 1.3, turb: 1.5 });
+        P.emit('alpha', Math.round(9 * q), { pos: at, spread: r * .5, life: [.9, 1.8], size: [r * .6, r * .9], grow: 2.4, color: c.smoke, alpha: el === 'physical' ? .35 : .45, cell: CELL.smoke, dir: 'sphere', half: true, speed: [r * .6, r * 1.6], drag: 2.2, grav: .7, spin: [-.6, .6], fadeIn: .12, fadePow: 1.3, turb: 1.5 });
         P.emit('add', Math.round(22 * q), { pos: at, life: [.4, .9], size: [.06, .12], color: c.ember, color1: c.mid, cell: CELL.streak, stretch: .04, dir: 'sphere', half: true, speed: [r * 4, r * 9], drag: 1.6, grav: -9, bounce: true, fadeIn: 0 });
         P.emit('add', Math.round(10 * q), { pos: at, spread: r * .6, life: [1, 2.2], size: [.05, .09], color: c.ember, cell: CELL.ember, dir: 'up', angle: .9, speed: [.5, 2], drag: 1, grav: .6, turb: 3, fadeIn: .1 });
       } else if (el === 'cold') {
@@ -162,7 +162,7 @@ export function createFx(T, scene) {
     whirl(pos, radius, el = 'physical') {
       const c = pal(el), r = Math.max(.8, radius);
       G.slash({ x: pos[0], z: pos[2], y: .55, angle: Math.random() * 6.28, span: 5.6, r0: r * .55, r1: r, color: mul(c.hot, .7), core: c.core, life: .3, lift: .25, dir: 1 });
-      P.emit('alpha', 2, { pos: [pos[0], .08, pos[2]], ring: r * .8, dir: 'flat', speed: [1, 2], life: [.5, .8], size: [.35, .6], grow: 1.6, color: [.16, .14, .12], alpha: .25, cell: CELL.dust, drag: 2, fadeIn: .1 });
+      P.emit('alpha', 2, { pos: [pos[0], .08, pos[2]], ring: r * .8, dir: 'flat', speed: [1, 2], life: [.5, .8], size: [.35, .6], grow: 1.6, color: [.42, .39, .35], alpha: .22, cell: CELL.dust, drag: 2, fadeIn: .1 });
       P.emit('add', 8, { pos: [pos[0], .6, pos[2]], ring: r, dir: 'flat', speed: [3, 6], life: [.15, .3], size: [.04, .07], color: c.core, cell: CELL.streak, stretch: .04, drag: 3, fadeIn: 0 });
     },
 
@@ -173,8 +173,8 @@ export function createFx(T, scene) {
       const ax = [Math.cos(angle), 0, -Math.sin(angle)], at = [pos[0] + ax[0] * r * .45, .1, pos[2] + ax[2] * r * .45];
       if (k > .35) G.decal({ x: at[0], z: at[2], radius: r * .8, kind: 2, life: 5 });
       G.ring({ x: at[0], z: at[2], from: .2, to: r, width: .14, color: mul(c.ring, .55), life: .4, mode: 1, ease: 3 });
-      P.emit('alpha', Math.round(10 * q * k), { pos: at, spread: r * .45, flat: true, dir: 'flat', speed: [r * 1.2, r * 2.6], lift: [.1, .4], life: [.7, 1.2], size: [r * .25, r * .4], grow: 2, color: [.16, .14, .12], alpha: .4, cell: CELL.dust, drag: 2.6, fadeIn: .06, turb: 1 });
-      P.emit('alpha', Math.round(14 * q), { pos: at, spread: r * .3, life: [.6, 1.1], size: [.08, .16], color: [.2, .17, .14], alpha: 1, cell: CELL.shard, dir: 'up', angle: .8, speed: [3, 7], grav: -14, bounce: true, spin: [-10, 10], fadeIn: 0 });
+      P.emit('alpha', Math.round(10 * q * k), { pos: at, spread: r * .45, flat: true, dir: 'flat', speed: [r * 1.2, r * 2.6], lift: [.1, .4], life: [.7, 1.2], size: [r * .25, r * .4], grow: 2, color: [.42, .39, .35], alpha: .3, cell: CELL.dust, drag: 2.6, fadeIn: .06, turb: 1 });
+      P.emit('alpha', Math.round(14 * q), { pos: at, spread: r * .3, life: [.6, 1.1], size: [.08, .16], color: [.55, .5, .44], alpha: .7, cell: CELL.dust, dir: 'up', angle: .8, speed: [3, 7], grav: -14, bounce: true, spin: [-10, 10], fadeIn: 0 });
       P.emit('add', Math.round(16 * q), { pos: at, life: [.25, .5], size: [.05, .09], color: c.ember, color1: c.mid, cell: CELL.streak, stretch: .04, dir: 'up', angle: 1, speed: [3, 8], drag: 2, grav: -9, fadeIn: 0 });
       if (el === 'lightning') for (let i = 0; i < 4; ++i) { const a = angle + (Math.random() - .5) * 1.6, L = r * R(.6, 1.1); lightning([at[0], .3, at[2]], [at[0] + Math.cos(a) * L, .1, at[2] - Math.sin(a) * L], { life: .25, branches: 1 }); }
       light([at[0], .6, at[2]], el === 'physical' ? [1, .7, .4] : c.light, 7 * q * k, r * 3 + 2, .3);
@@ -233,7 +233,7 @@ export function createFx(T, scene) {
     death(pos, el = 'physical', size = 1, { boss = false } = {}) {
       const c = pal(el), at = [pos[0], .6 * size, pos[2]];
       if (size <= 1.1 && calm() < .35) { P.emit('add', 4, { pos: at, life: [.25, .45], size: [.05, .08], color: c.ember, color1: c.mid, cell: CELL.streak, stretch: .035, dir: 'sphere', half: true, speed: [2, 4], drag: 2.5, grav: -6, fadeIn: 0 }); return; }
-      P.emit('alpha', Math.round(4 * size), { pos: at, spread: .3 * size, life: [.5, .9], size: [.5 * size, .8 * size], grow: 1.8, color: [.1, .08, .09], alpha: .45, cell: CELL.smoke, dir: 'sphere', half: true, speed: [.4, 1.2], drag: 2, grav: .5, fadeIn: .05 });
+      P.emit('alpha', Math.round(4 * size), { pos: at, spread: .3 * size, life: [.5, .9], size: [.5 * size, .8 * size], grow: 1.8, color: [.3, .27, .27], alpha: .3, cell: CELL.smoke, dir: 'sphere', half: true, speed: [.4, 1.2], drag: 2, grav: .5, fadeIn: .05 });
       P.emit('add', Math.round(8 * size), { pos: at, spread: .2, life: [.25, .5], size: [.05, .08], color: c.ember, color1: c.mid, cell: CELL.streak, stretch: .035, dir: 'sphere', half: true, speed: [2, 5], drag: 2.5, grav: -6, fadeIn: 0 });
       P.emit('add', Math.round(2 * size), { pos: at, spread: .2, life: [.7, 1.1], size: [.35 * size, .5 * size], color: mul(c.hot, .6), cell: CELL.wisp, dir: 'up', angle: .3, speed: [1.2, 2.2], drag: 1.2, fadeIn: .1, rot: 0 });
       if (size > 1.1) {
@@ -249,8 +249,8 @@ export function createFx(T, scene) {
       heat += r * r * .4;
       G.ring({ x: pos[0], z: pos[2], from: r * .2, to: r * 1.2, width: .12 + r * .05, color: mul(c.hot, .8 * k + .2), life: .4, mode: 0, ease: 3 });
       P.emit('add', Math.round(18 * k + 4), { pos: [pos[0], .5, pos[2]], dir: 'flat', lift: [.2, 1.2], speed: [r * 4, r * 8], life: [.2, .4], size: [.05, .09], color: c.core, color1: c.hot, cell: CELL.streak, stretch: .05, drag: 3, fadeIn: 0 });
-      P.emit('alpha', Math.round(8 * k + 2), { pos: [pos[0], .15, pos[2]], spread: r * .4, flat: true, dir: 'flat', speed: [r * 1.5, r * 3], life: [.6, 1], size: [r * .3, r * .5], grow: 2, color: [.18, .16, .14], alpha: .4, cell: CELL.dust, drag: 2.5, fadeIn: .05 });
-      P.emit('alpha', Math.round(10 * k + 2), { pos: [pos[0], .6, pos[2]], spread: r * .3, dir: 'sphere', half: true, speed: [3, 8], life: [.5, .9], size: [.06, .12], color: [.16, .14, .12], alpha: 1, cell: CELL.shard, grav: -12, bounce: true, spin: [-12, 12], fadeIn: 0 });
+      P.emit('alpha', Math.round(8 * k + 2), { pos: [pos[0], .15, pos[2]], spread: r * .4, flat: true, dir: 'flat', speed: [r * 1.5, r * 3], life: [.6, 1], size: [r * .3, r * .5], grow: 2, color: [.45, .42, .38], alpha: .3, cell: CELL.dust, drag: 2.5, fadeIn: .05 });
+      P.emit('alpha', Math.round(10 * k + 2), { pos: [pos[0], .6, pos[2]], spread: r * .3, dir: 'sphere', half: true, speed: [3, 8], life: [.5, .9], size: [.08, .14], color: [.55, .5, .44], alpha: .6, cell: CELL.dust, grav: -12, bounce: true, spin: [-12, 12], fadeIn: 0 });
       if (k > .5) ripple([pos[0], .3, pos[2]], r, .022, .45);
       shake(.1 * k);
     },
@@ -323,7 +323,7 @@ export function createFx(T, scene) {
         // hostile bolts and anything else: a dark core inside a coloured halo
         P.sprite('add', pos, r * 6, c.hot, .5 * dens, CELL.glow);
         P.sprite('add', pos, r * 2.8, c.core, 1, CELL.flare, time * 4 + p.id);
-        P.sprite('alpha', pos, r * 1.6, [.02, 0, .03], .9, CELL.core);
+        P.sprite('add', pos, r * 1.2, mul(c.core, .6), .9, CELL.core);
         if (Math.random() < .5) P.emit('add', 1, { pos, spread: r * .5, life: [.25, .45], size: [r * 1.2, r * 1.8], grow: .4, color: c.hot, alpha: .7, cell: CELL.smoke2, dir: 'sphere', speed: [.2, .6], fadeIn: .05 });
       }
       // ribbon trail
@@ -362,8 +362,8 @@ export function createFx(T, scene) {
       P.emit('add', 1, { pos: [z.x + Math.cos(th) * rad, .1 + u * H, z.z + Math.sin(th) * rad], vel: [-Math.sin(th) * sp, 1.2, Math.cos(th) * sp], life: [.18, .3], size: [.1, .18], color: c.core, alpha: .35, cell: CELL.streak, stretch: .06, fadeIn: .1, noThin: true });
     }
     // dust skirt and debris
-    if (Math.random() < .7 * dens) P.emit('alpha', 1, { pos: [z.x, .08, z.z], ring: R * .5, dir: 'flat', speed: [R * 1.5, R * 3], lift: [.3, 1], life: [.4, .8], size: [R * .5, R * .8], grow: 1.6, color: [.2, .18, .16], alpha: .35, cell: CELL.dust, drag: 2, spin: [-3, 3], fadeIn: .1 });
-    if (Math.random() < .8 * dens) { const th = Math.random() * 6.28; P.emit('alpha', 1, { pos: [z.x + Math.cos(th) * R * .6, R * .3 + Math.random() * H * .6, z.z + Math.sin(th) * R * .6], vel: [-Math.sin(th) * R * 6, R * 2, Math.cos(th) * R * 6], life: [.4, .7], size: [.05, .1], color: [.16, .14, .12], alpha: 1, cell: CELL.shard, grav: -4, drag: 1.5, spin: [-12, 12], fadeIn: 0, noThin: true }); }
+    if (Math.random() < .7 * dens) P.emit('alpha', 1, { pos: [z.x, .08, z.z], ring: R * .5, dir: 'flat', speed: [R * 1.5, R * 3], lift: [.3, 1], life: [.4, .8], size: [R * .5, R * .8], grow: 1.6, color: [.5, .48, .45], alpha: .25, cell: CELL.dust, drag: 2, spin: [-3, 3], fadeIn: .1 });
+    if (Math.random() < .8 * dens) { const th = Math.random() * 6.28; P.emit('alpha', 1, { pos: [z.x + Math.cos(th) * R * .6, R * .3 + Math.random() * H * .6, z.z + Math.sin(th) * R * .6], vel: [-Math.sin(th) * R * 6, R * 2, Math.cos(th) * R * 6], life: [.4, .7], size: [.08, .14], color: [.6, .58, .55], alpha: .45, cell: CELL.dust, grav: -4, drag: 1.5, spin: [-12, 12], fadeIn: .1, noThin: true }); }
     if (z.element === 'lightning' && Math.random() < .12 * dens) { const th = Math.random() * 6.28, h = Math.random() * H; lightning([z.x, h, z.z], [z.x + Math.cos(th) * R * 1.2, Math.max(.1, h - .6), z.z + Math.sin(th) * R * 1.2], { life: .08, branches: 0, rough: .4 }); }
   }
 

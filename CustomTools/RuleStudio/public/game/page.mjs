@@ -10,7 +10,7 @@ import { STAGES, collectionList } from '../../core/content/builds.mjs';
 import { mapProfile, mapRequirements, MAP_FAMILIES, MAP_TIERS, ELITE_MODS } from '../../core/content/maps.mjs';
 import { gameContent } from '../../core/content/game.mjs';
 import { defenceReport, roleReport } from '../../core/analysis.mjs';
-import { loadSave, writeSave, buildOf, equip, unequip, salvage, craft, applyArchetype, grantedSkills, syncSkillBar, SKILL_BAR } from './save.mjs';
+import { loadSave, writeSave, buildOf, equip, unequip, salvage, craft, applyArchetype, clearArchetype, grantedSkills, syncSkillBar, SKILL_BAR } from './save.mjs';
 import { equippedTraits, ladderStatus, detectArchetype } from './traits.mjs';
 import { MapRun } from './run.mjs';
 import { TalentBoard } from './talents-panel.mjs';
@@ -386,9 +386,16 @@ const TEMPLATE = /* html */ `
 
       <div v-if="center === 'bd'" class="bd">
         <ul class="bd-list">
+          <li><button :class="{ on: bdSel === 'blank', current: !save.archetype }" @click="bdSel = 'blank'">
+            <Gi n="cancel" c="el-gold" g="空"/><b>空白流派</b><small>从零开始自由搭配</small></button></li>
           <li v-for="a in archetypes" :key="a.id"><button :class="{ on: bdSel === a.id, current: save.archetype === a.id }" @click="bdSel = a.id">
             <Gi :n="skillIcon(a.skills[0])" :c="'el-' + skillEl(a.skills[0])"/><b>{{ a.name }}</b><small>{{ a.style }}</small></button></li>
         </ul>
+        <div class="bd-detail" v-if="bdSel === 'blank'">
+          <h3>空白流派 <small>自由搭配</small></h3>
+          <p class="bd-summary">卸下全部装备：你自己的装备放回背包，一键应用的流派装备直接移除；换上一把只有火球的初始法杖，技能栏清空。天赋不受影响（天赋盘里有「全部重置」）。</p>
+          <button class="orn-btn primary" @click="clearBd">清空，换成空白流派</button>
+        </div>
         <div class="bd-detail" v-if="bdArch">
           <h3>{{ bdArch.name }} <small>{{ bdArch.style }} · {{ skillName(bdArch.skills[0]) }}</small></h3>
           <p class="bd-summary">{{ bdArch.summary }}</p>
@@ -598,6 +605,10 @@ export function mountGame(el) {
         gearChanged();
         toast(`已换上 ${ARCHETYPES.find(x => x.id === id).name} · ${STAGES[i].name}`, 'good');
       }
+      function clearBd() {
+        clearArchetype(save); picked.value = null; hover.value = null; gearChanged();
+        toast('已换成空白流派：装备已卸下，从零开始', 'good');
+      }
       function grantLegendary(id) {
         const tier = Math.max(3, Math.min(10, Math.round(save.unlocked * 10 / 16) + 1));
         const it = rollLegendary(id, tier, rng); save.inventory.unshift(it); persist();
@@ -761,7 +772,7 @@ export function mountGame(el) {
         save, stage, overlay, tipEl, comboEl, flashEl, open, center, mapTier, mapFamily, picked, pickedLine, craftMsg, roles, evaluating, updateText, hover, bdSel, toasts, legendBanner,
         dragItem, dropSlot, run, resultLoot, hud,
         profile, requirements, statRows, bdArch, bdStages, currentBd, centerName, centerTitle, traits, granted, ladder, ladderFocus, primarySkill, bagCells,
-        pick, equippedFor, hoverOn, hoverOff, doEquip, doUnequip, dragStart, dropOn, doSalvage, doCraft, applyBd, grantLegendary, evaluate, update, toggle, isOpen, openCenter, startRun, leaveRun, selectSkill, gearChanged,
+        pick, equippedFor, hoverOn, hoverOff, doEquip, doUnequip, dragStart, dropOn, doSalvage, doCraft, applyBd, clearBd, grantLegendary, evaluate, update, toggle, isOpen, openCenter, startRun, leaveRun, selectSkill, gearChanged,
         panels: PANELS, tierList: Array.from({ length: MAP_TIERS }, (_, i) => i + 1), families: MAP_FAMILIES, slots: SLOTS, slotNames: SLOT_NAMES, currencies: CURRENCIES,
         archetypes: ARCHETYPES, legendaries: LEGENDARIES, skillBar: SKILL_BAR, glyph: SLOT_GLYPH,
         rarity: rarityOf, itemNameOf: itemName, skillName, skillTags, itemIcon, skillEl: id => EL_CLASS[skillElement(id)],
