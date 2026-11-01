@@ -6,7 +6,7 @@ import { MAP_TIERS } from '../../core/content/maps.mjs';
 import { patchMap } from '../../core/content/overrides.mjs';
 
 export const ATLAS_RADIUS = 1150;
-const FAMILY_ORDER = ['ember', 'storm', 'frost', 'blight', 'ruin'];
+export const FAMILY_ORDER = ['ember', 'storm', 'frost', 'blight', 'ruin'];
 export const FAMILY_HUE = { ember: '#ff8a3d', frost: '#8fd8ff', storm: '#ffe066', blight: '#9fe07a', ruin: '#d8c39a' };
 export const REGION_NAME = { ember: '余烬之域', frost: '霜原之域', storm: '雷暴之域', blight: '腐沼之域', ruin: '废墟之域' };
 
@@ -27,19 +27,19 @@ export const NODE_MODS = Object.freeze(patchMap('nodeMods', {
   rich: { text: '物品数量 +30%', quantity: 0.3 },
   relic: { text: '传奇几率 ×2', legend: 2 },
 }));
-const KIND_MODS = {
+export const KIND_MODS = {
   boss: { bossLife: 1.5, legend: 2.5, quantity: 0.5 },
   vault: { pack: 0.8, quantity: 1, legend: 3 },
   corrupt: { life: 1.35, damage: 1.3, quantity: 0.6, legend: 2 },
   trial: { pack: 1.8, elite: 1.3, quantity: 0.3 },
 };
 
-const PREFIX = {
+export const PREFIX = {
   ember: ['灰烬', '焚风', '熔岩', '赤焰', '炭火', '燎原'], frost: ['霜冢', '冰湖', '寒鸦', '雪葬', '凛风', '白骨'],
   storm: ['雷鸣', '风暴', '惊雷', '天穹', '电光', '鸣金'], blight: ['瘴林', '毒沼', '腐根', '蛛巢', '疫井', '苔原'],
   ruin: ['废都', '石像', '断碑', '旧王', '残垣', '古道'],
 };
-const SUFFIX = ['回廊', '祭坛', '深渊', '王座', '荒原', '渡口', '坟场', '尖塔', '裂谷', '圣所', '矿坑', '城郭', '港湾', '迷宫', '神殿', '营垒'];
+export const SUFFIX = ['回廊', '祭坛', '深渊', '王座', '荒原', '渡口', '坟场', '尖塔', '裂谷', '圣所', '矿坑', '城郭', '港湾', '迷宫', '神殿', '营垒'];
 
 function segmentsCross(a, b, c, d) {
   if (a === c || a === d || b === c || b === d) return false;

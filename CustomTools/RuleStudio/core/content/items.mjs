@@ -23,7 +23,7 @@ const ATTACKS = ['heavy_strike', 'cleave', 'cyclone', 'falling_thunder', 'flicke
 /** Skills that can appear as an item's first base line. */
 export const ITEM_SKILLS = Object.freeze([...SPELLS, ...ATTACKS]);
 /** Chance that a non-weapon item of this slot carries an active skill. */
-const SKILL_CHANCE = { weapon: 1, offhand: 0.45, helmet: 0.3, gloves: 0.3, boots: 0.25, amulet: 0.3 };
+export const SKILL_CHANCE = { weapon: 1, offhand: 0.45, helmet: 0.3, gloves: 0.3, boots: 0.25, amulet: 0.3 };
 
 /** Bases per slot: a name and the skills its first base line can roll. */
 const RAW_BASES = {
@@ -47,8 +47,8 @@ const RAW_BASES = {
 /** Edited per slot (the editor's 「装备基底」 shows one card per base). */
 export const BASES = Object.freeze(Object.fromEntries(Object.entries(RAW_BASES).map(([slot, list]) => [slot, patchList(`bases.${slot}`, list)])));
 /** Base defences (not lines): every armour piece protects by its base type and item tier, and adds some life. */
-const BASE_DEF = { armour: ['armour', 32, '护甲'], evasion: ['evasion', 32, '闪避'], es: ['es', 10, '能量护盾'], life: ['life', 14, '最大生命'] };
-const BIG_SLOT = { chest: 2, offhand: 1.2 };
+export const BASE_DEF = { armour: ['armour', 32, '护甲'], evasion: ['evasion', 32, '闪避'], es: ['es', 10, '能量护盾'], life: ['life', 14, '最大生命'] };
+export const BIG_SLOT = { chest: 2, offhand: 1.2 };
 export function baseDefence(item) {
   const kind = baseOf(item.slot, item.base)?.def;
   if (!kind) return [];
