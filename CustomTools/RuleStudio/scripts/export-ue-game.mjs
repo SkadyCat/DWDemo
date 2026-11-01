@@ -13,7 +13,7 @@ import { SLOTS, LAYERS, families, family, affixLine, lineTierFor } from '../core
 import { SLOT_NAMES, RARITY, MAX_LINES, BASE_LINES, BASE_LINE_ODDS, TRAIT_LAYERS, ITEM_SKILLS, SKILL_CHANCE, BASE_DEF, BIG_SLOT, BASES, CURRENCIES } from '../core/content/items.mjs';
 import { LEGENDARIES } from '../core/content/legendaries.mjs';
 import { ARCHETYPES } from '../core/content/archetypes.mjs';
-import { STAGES, stageBuild } from '../core/content/builds.mjs';
+import { STAGES, stageBuild, collectionList } from '../core/content/builds.mjs';
 import { MAP_TIERS, TRASH_LIFE, MAP_FAMILIES, ELITE_MODS, MONSTER_TYPES, mapProfile, mapRequirements } from '../core/content/maps.mjs';
 import { HERO_BASE } from '../core/sim.mjs';
 import { TALENT_TREE, TALENT_TIERS, talentLines, talentName } from '../core/content/talents.mjs';
@@ -75,7 +75,9 @@ export function buildGameExport() {
         const b = stageBuild(a, i);
         return Object.fromEntries(SLOTS.map(s => [s, { base: b.items[s].base, skill: b.items[s].skill ?? null,
           traits: b.items[s].traits.map(l => ({ id: l.id, tier: l.tier })), lines: b.items[s].lines.map(l => ({ id: l.id, tier: l.tier })) }]));
-      }) })),
+      }),
+      // collectionList(): what each stage collects (the 流派 panel shows counts and the new key lines).
+      collections: STAGES.map((_, i) => { const c = collectionList(a, i); return { total: c.total, traitCount: c.traitCount, newKeys: c.newKeys }; }) })),
     icons: { base: plain(BASE_ICON), slot: plain(SLOT_ICON), skill: plain(SKILL_ICON), currency: plain(CURRENCY_ICON), panel: plain(PANEL_ICON),
       family: plain(FAMILY_ICON), layer: plain(LAYER_ICON), buff: plain(BUFF_ICON) },
   };
