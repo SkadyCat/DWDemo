@@ -10,6 +10,7 @@ uniform sampler2D src; uniform float threshold, knee; varying vec2 vUv;
 void main(){
   vec3 c = texture2D(src, vUv).rgb;
   float br = max(c.r, max(c.g, c.b));
+  if (!(br < 60000.) || !(br >= 0.)) { gl_FragColor = vec4(0.); return; } // NaN / Inf never reaches the blur
   float soft = clamp(br - threshold + knee, 0., 2. * knee); soft = soft * soft / (4. * knee + 1e-4);
   float w = max(soft, br - threshold) / max(br, 1e-4);
   gl_FragColor = vec4(c * w, 1.);
@@ -51,7 +52,9 @@ void main(){
   uv -= off;
   vec2 ca = (uv - .5) * aberration;
   vec3 c = vec3(texture2D(scene, uv + ca).r, texture2D(scene, uv).g, texture2D(scene, uv - ca).b);
-  c += texture2D(bloom, uv).rgb * bloomStrength;
+  vec3 bl = texture2D(bloom, uv).rgb; if (!(dot(bl, vec3(1.)) < 1e5)) bl = vec3(0.);
+  if (!(dot(c, vec3(1.)) < 1e5)) c = vec3(0.);
+  c += bl * bloomStrength;
   c += flashColor * flash;
   c *= exposure;
   vec2 v = vUv - .5; c *= 1. - dot(v, v) * vignette;

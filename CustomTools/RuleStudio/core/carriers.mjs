@@ -4,6 +4,7 @@ import { hitAndFollow, run } from './actions.mjs';
 
 const FORK_ANGLE = Math.PI / 6;
 const MAX_PROJECTILES = 450;
+const MAX_ZONES = 400;
 
 export class Carriers {
   constructor() { this.projectiles = []; this.zones = []; this.spawned = 0; }
@@ -17,7 +18,11 @@ export class Carriers {
     p.inv.world.emit({ type: 'projectileSpawn', source: p.inv.caster, skill: p.inv.skill, x: p.x, y: p.y, angle: p.angle, carrier: p.id, kind: p.action.kind, depth: p.inv.depth });
     return p;
   }
-  spawnZone(z) { z.alive = true; z.id = ++this.spawned; this.zones.push(z); z.inv.world.emit({ type: 'zoneSpawn', source: z.inv.caster, skill: z.inv.skill, x: z.x, y: z.y, radius: z.radius, kind: z.action.kind, carrier: z.id, depth: z.inv.depth }); return z; }
+  spawnZone(z) {
+    // At most MAX_ZONES live zones per caster: a self-feeding storm replaces its oldest vortex instead of piling up.
+    const mine = this.zones.filter(o => o.alive && o.inv.caster === z.inv.caster);
+    if (mine.length >= MAX_ZONES) { mine[0].alive = false; mine[0].remaining = 0; }
+    z.alive = true; z.id = ++this.spawned; this.zones.push(z); z.inv.world.emit({ type: 'zoneSpawn', source: z.inv.caster, skill: z.inv.skill, x: z.x, y: z.y, radius: z.radius, kind: z.action.kind, carrier: z.id, depth: z.inv.depth }); return z; }
 
   step(world, dt) {
     for (const p of this.projectiles) if (p.alive) this.moveProjectile(world, p, dt);

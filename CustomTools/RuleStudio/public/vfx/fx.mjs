@@ -342,8 +342,10 @@ export function createFx(T, scene) {
   /** Ground zones: [{ x, z, radius, kind, element, left }] */
   /** A vortex: a rotating funnel of wind streaks, a dust skirt at its foot, debris flung around it. */
   function tornado(z, dens) {
-    const R = z.radius, H = 2.2 + R * .6, spin = 7, lv = 8, per = 5;
-    const c = z.element === 'lightning' ? PAL.lightning : z.element === 'fire' ? PAL.fire : z.element === 'cold' ? PAL.cold : { hot: [1.1, 1.15, 1.2], core: [2, 2.1, 2.2], mid: [.5, .55, .6] };
+    const c = z.element === 'lightning' ? PAL.lightning : z.element === 'fire' ? PAL.fire : z.element === 'cold' ? PAL.cold : { hot: [1.1, 1.15, 1.2], core: [2, 2.1, 2.2], mid: [.5, .55, .6] }, c0 = c;
+    // Very large vortices keep a readable funnel; their full reach shows as a ring on the floor.
+    const R = Math.min(2.2, z.radius), H = 2.2 + R * .6, spin = 7, lv = 8, per = 5;
+    if (z.radius > R * 1.15) P.sprite('add', [z.x, .06, z.z], z.radius * 2, mul(c0.hot, .25), .12 * dens, CELL.ring);
     const a0 = time * spin + z.seed;
     for (let l = 0; l < lv; ++l) {
       const u = l / (lv - 1), h = .1 + u * H, rad = R * (.22 + .9 * Math.pow(u, 1.25)), sway = Math.sin(time * 2.3 + z.seed + u * 2) * R * .18 * u;
@@ -352,7 +354,6 @@ export function createFx(T, scene) {
         const px = z.x + Math.cos(th) * rad + sway, pz = z.z + Math.sin(th) * rad;
         const tx = -Math.sin(th), tz = Math.cos(th), len = rad * .9;
         P.sprite('add', [px, h, pz], .16 + u * .34, c.hot, (.1 + .1 * (1 - u)) * dens, CELL.beam, 0, 1, [tx * len, .1, tz * len]);
-        if (j % 2 === 0) P.sprite('alpha', [px * .5 + z.x * .5, h, pz * .5 + z.z * .5], rad * 1.4 + .2, [.32, .33, .36], .08 * dens, CELL.smoke, th);
       }
     }
     P.sprite('add', [z.x, H * .45, z.z], R * 2.6, c.mid, .12 * dens, CELL.glow);
@@ -368,8 +369,12 @@ export function createFx(T, scene) {
   }
 
   function zones(list) {
-    const twisters = list.filter(z => z.kind === 'tornado'), dens = Math.min(1, 3 / Math.sqrt(Math.max(1, twisters.length)));
-    for (const z of twisters) tornado(z, dens);
+    // Only the vortices nearest the camera get a full funnel; the rest are drawn as a light spinning ring.
+    const twisters = list.filter(z => z.kind === 'tornado').sort((a, b) => (a.d ?? 0) - (b.d ?? 0)), dens = Math.min(1, 3 / Math.sqrt(Math.max(1, Math.min(10, twisters.length))));
+    twisters.forEach((z, i) => {
+      if (i < 10) tornado(z, dens);
+      else P.sprite('add', [z.x, .3, z.z], Math.min(4.4, z.radius * 2), [.5, .52, .56], .18, CELL.ring, time * 6 + i);
+    });
     for (const z of list) {
       if (z.kind === 'tornado') continue;
       const el = z.kind === 'flame_wall' ? 'fire' : z.element, c = pal(el), area = Math.min(30, z.radius * z.radius * 3.14);

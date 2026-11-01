@@ -110,7 +110,7 @@ export function createEffects(T, scene) {
     budget.impact = 14; budget.death = 12; budget.area = 16;
     const live = ['cleared', 'failed'].includes(run.phase) ? [] : run.projectiles();
     fx.projectiles(live.filter(p => p.kind !== 'arc').map(p => ({ id: p.id, x: p.x * M, y: p.z * M, z: -p.y * M, vx: p.vx * M, vy: 0, vz: -p.vy * M, radius: p.radius * M, kind: p.kind, element: p.element, hostile: p.hostile, age: p.age })), dt);
-    fx.zones(run.zones().filter(z => z.kind !== 'brand').map(z => ({ x: z.x * M, z: -z.y * M, radius: z.radius * M, kind: z.kind, element: z.element, left: z.remaining, seed: z.id * 1.37 })));
+    fx.zones(run.zones().filter(z => z.kind !== 'brand').map(z => ({ x: z.x * M, z: -z.y * M, radius: z.radius * M, kind: z.kind, element: z.element, left: z.remaining, seed: z.id * 1.37, d: Math.hypot(z.x - run.hero.x, z.y - run.hero.y) })));
     const hero = run.hero, st = [];
     for (const a of [hero, ...run.monsters]) {
       if (!a.alive || Math.hypot(a.x - hero.x, a.y - hero.y) > 1700) continue;
