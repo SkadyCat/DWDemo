@@ -48,7 +48,7 @@ const STATIC = {
   'ailmentDamage': N(100, 0), 'dotDamage': N(100, 0),
   // Effect of statuses the actor applies (tag with the status id, e.g. ['herald_ice']).
   'buffEffect': N(100, 0),
-  'knockback': N(0, 0), 'cannotAct': F(), 'cannotMove': F(),
+  'knockback': N(0, 0), 'cannotAct': F(), 'cannotMove': F(), 'immortal': F(),
 };
 
 const FAMILIES = [

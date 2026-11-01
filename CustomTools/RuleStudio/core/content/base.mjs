@@ -10,7 +10,7 @@ export const BASE = Object.freeze({
   ],
   statuses: [
     { id: 'ignited', name: '点燃', tags: ['ailment', 'elemental', 'fire', 'dot', 'ignite'], stacking: 'strongest', max: 8, duration: 4, dot: { type: 'fire' } },
-    { id: 'poisoned', name: '中毒', tags: ['ailment', 'chaos', 'dot', 'poison'], stacking: 'instances', max: 999, duration: 2, dot: { type: 'chaos' } },
+    { id: 'poisoned', name: '中毒', tags: ['ailment', 'chaos', 'dot', 'poison'], stacking: 'instances', max: 40, duration: 2, dot: { type: 'chaos' } },
     { id: 'bleeding', name: '流血', tags: ['ailment', 'physical', 'dot', 'bleed'], stacking: 'strongest', max: 8, duration: 5, dot: { type: 'physical' } },
     { id: 'shocked', name: '感电', tags: ['ailment', 'elemental', 'lightning', 'shock'], duration: 4, debuff: true,
       mods: [{ stat: 'damageTaken', op: 'inc', value: 100 }] },
@@ -29,7 +29,7 @@ export const BASE = Object.freeze({
   ],
   ailments: [
     ailment('ignite', 'ignited', 'dot', ['fire'], { pct: 20, duration: 4 }),
-    ailment('poison', 'poisoned', 'dot', ['physical', 'chaos'], { pct: 20, duration: 2 }),
+    ailment('poison', 'poisoned', 'dot', ['physical', 'chaos'], { pct: 14, duration: 2 }),
     ailment('bleed', 'bleeding', 'dot', ['physical'], { pct: 15, duration: 5 }),
     ailment('shock', 'shocked', 'soft', ['lightning'], { scale: 0.5, cap: 0.5, min: 0.05, duration: 4 }),
     ailment('chill', 'chilled', 'soft', ['cold'], { scale: 0.5, cap: 0.3, min: 0.05, duration: 2 }),

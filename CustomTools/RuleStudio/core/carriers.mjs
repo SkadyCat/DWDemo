@@ -74,7 +74,8 @@ export class Carriers {
         const t = world.nearest(target, 'ally', p.chainRadius, used);
         const ang = t && t.team !== p.inv.caster.team ? Math.atan2(t.y - p.y, t.x - p.x) : Math.atan2(p.dy, p.dx) + (i - (n - 1) / 2) * 0.5;
         if (t) used.add(t.id);
-        this.spawnProjectile({ ...p, angle: ang, split: 0, hitIds: new Set(p.hitIds), life: undefined });
+        // Split children keep piercing and returning but do not chain or fork again (no exponential trees).
+        this.spawnProjectile({ ...p, angle: ang, split: 0, chain: 0, fork: 0, hitIds: new Set(p.hitIds), life: undefined });
       }
       p.split = 0;
     }

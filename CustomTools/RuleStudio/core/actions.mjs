@@ -4,6 +4,7 @@
 // Numbers in actions can be expressions: 3 · {var:'charges', mul:3, add:1} · {res:'power', mul:50} (any measure).
 import { hit, kill } from './damage.mjs';
 import { measure } from './expr.mjs';
+import { activeInstances } from './status.mjs';
 
 export function num(v, inv, fallback = 0) {
   if (v === undefined || v === null) return fallback;
@@ -37,7 +38,7 @@ export function run(actions, inv) {
   for (const a of actions) {
     if (!inv.caster.alive && !a.afterDeath) return;
     if (a.when && !inv.world.testCond(a.when, inv.ctx())) continue;
-    if (a.chance !== undefined && inv.world.random() * 100 >= num(a.chance, inv)) continue;
+    if (a.chance !== undefined && inv.world.roll('action') * 100 >= num(a.chance, inv)) continue;
     const fn = ACTIONS.get(a.do);
     if (!fn) throw new Error(`未知动作 ${a.do}`);
     // `tags` on a carrier/damage action marks everything it produces (e.g. 'herald' so heralds don't feed themselves).
@@ -68,7 +69,7 @@ export function skillHit(inv, target, a = {}) {
   return hit(inv.world, {
     source: inv.caster, target, skill: inv.skill, tags: inv.tags, base,
     crit: a.crit ?? sk?.crit ?? 0, attack: inv.tags.has('attack'), effectiveness: a.effectiveness ?? sk?.effectiveness ?? 100,
-    mult: inv.mult * (a.mult !== undefined ? num(a.mult, inv) / 100 : 1), depth: inv.depth, vars: inv.vars,
+    mult: inv.mult * (a.mult !== undefined ? num(a.mult, inv) / 100 : 1), depth: inv.depth, vars: inv.vars, noAilments: a.ailments === false,
   });
 }
 
@@ -146,7 +147,11 @@ defineAction('consumeStatus', (a, inv) => {
   if (!t) return;
   const ids = Array.isArray(a.status) ? a.status : [a.status];
   let stacks = 0, dps = 0, left = 0;
-  for (const id of ids) for (const s of t.statuses) if (s.def.id === id) { stacks += s.stacks; dps += s.dps; left += s.dps * s.remaining; }
+  for (const id of ids) {
+    const def = inv.world.statusDef(id);
+    // Only instances that actually act count (a 'strongest' ignite contributes its strongest instance).
+    for (const s of activeInstances(t, def)) { stacks += s.stacks; dps += s.dps; left += s.dps * s.remaining; }
+  }
   for (const id of ids) inv.world.removeStatus(t, id);
   inv.vars[a.as ?? 'consumed'] = stacks;
   inv.vars[(a.as ?? 'consumed') + 'Damage'] = left;
@@ -160,7 +165,7 @@ defineAction('consume', (a, inv) => {
   const want = a.amount === 'all' || a.amount === undefined ? Infinity : num(a.amount, inv);
   const have = Math.min(who.resource(a.res), want);
   const keep = inv.world.stat(who, 'consumeKeep', new Set([a.res]));
-  const kept = keep > 0 && have > 0 && inv.world.random() * 100 < keep;
+  const kept = keep > 0 && have > 0 && inv.world.roll('keep') * 100 < keep;
   const n = kept ? have : inv.world.consume(who, a.res, want);
   if (kept) inv.world.emit({ type: 'resourceSpend', source: who, key: a.res, amount: n, kept: true, depth: inv.depth });
   inv.vars[a.as ?? a.res] = n;
@@ -175,7 +180,7 @@ defineAction('emit', (a, inv) => { inv.world.emit({ type: a.event, source: inv.c
 
 defineAction('repeat', (a, inv) => {
   // Fractional repeats: every full 100 % is one repeat, the remainder is a chance (Torchlight multistrike).
-  const raw = num(a.times, inv, 1), times = Math.floor(raw) + (inv.world.random() < raw - Math.floor(raw) ? 1 : 0), interval = num(a.interval, inv, 0);
+  const raw = num(a.times, inv, 1), times = Math.floor(raw) + (inv.world.roll('repeat') < raw - Math.floor(raw) ? 1 : 0), interval = num(a.interval, inv, 0);
   for (let i = 0; i < times; ++i) {
     const sub = inv.fork({ vars: { ...inv.vars, i } });
     if (interval > 0 && i > 0) inv.world.schedule(interval * i, () => run(a.actions, sub)); else run(a.actions, sub);

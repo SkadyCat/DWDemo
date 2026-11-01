@@ -200,8 +200,9 @@ test('毒叠层：每层独立实例、独立计时、按施加者快照；地�
   const times = new Set(target.statuses.filter(s => s.def.id === 'poisoned').map(s => s.remaining.toFixed(3)));
   assert.ok(times.size > 5, '各层剩余时间不同');
   const dps = target.statuses.filter(s => s.def.id === 'poisoned').reduce((s, x) => s + x.dps, 0);
-  assert.ok(target.statuses.filter(s => s.def.id === 'poisoned').every(s => Math.abs(s.dps - 4) < 1e-9 || Math.abs(s.dps - 0.4) < 1e-9), '每层按施加时的命中快照（飞箭 4/s、毒囊 0.4/s）');
-  assert.ok(target.statuses.filter(s => s.def.id === 'poisoned' && s.dps === 4).length >= 8 && dps > 40, `${dps}`);
+  const pct = BASE.ailments.find(a => a.id === 'poison').pct / 100, arrow = 20 * pct, pod = 2 * pct;
+  assert.ok(target.statuses.filter(s => s.def.id === 'poisoned').every(s => Math.abs(s.dps - arrow) < 1e-9 || Math.abs(s.dps - pod) < 1e-9), '每层按施加时的命中快照（飞箭、毒囊各自快照）');
+  assert.ok(target.statuses.filter(s => s.def.id === 'poisoned' && Math.abs(s.dps - arrow) < 1e-9).length >= 8 && dps > arrow * 8, `${dps}`);
   assert.ok(t.count('zoneSpawn') >= 15);
 });
 

@@ -17,7 +17,9 @@ export class World {
   constructor(content, { seed = 1, eventBudget = 20000, maxDepth = 8 } = {}) {
     this.content = content;
     this.time = 0;
+    this.seed = seed;
     this.random = rng(seed);
+    this.streams = new Map();
     this.actors = new Map();
     this.nextId = 1;
     this.queue = [];
@@ -28,6 +30,20 @@ export class World {
     this.handlers = new Map(); // event type → [(world, event) => void] engine-level handlers (rules, kill credit)
     this.timers = [];          // delayed actions: { at, fn }
     this.grid = new Grid();
+  }
+
+  /**
+   * Independent random streams per purpose ('crit', 'spawn', 'rule:<id>'…). Changing how often one
+   * kind of roll happens never shifts another kind, so A/B comparisons of builds stay stable.
+   */
+  roll(purpose) {
+    let r = this.streams.get(purpose);
+    if (!r) {
+      let h = this.seed >>> 0;
+      for (let i = 0; i < purpose.length; ++i) h = Math.imul(h ^ purpose.charCodeAt(i), 2654435761) >>> 0;
+      this.streams.set(purpose, r = rng(h));
+    }
+    return r();
   }
 
   // ---- actors -------------------------------------------------------------------------------

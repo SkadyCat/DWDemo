@@ -77,6 +77,7 @@ function absorb(world, target, byType) {
   const mom = world.stat(target, 'mindOverMatter') / 100;
   if (mom > 0 && rest > 0) { const m = Math.min(target.mana, rest * mom); target.mana -= m; rest -= m; }
   target.life -= rest;
+  if (target.life <= 0 && world.quick(target, 'immortal')) target.life = 1; // training dummies
   if (total > 0 && target.max.es > 0) target.esDelay = world.stat(target, 'es.rechargeDelay');
   return total;
 }
@@ -108,16 +109,16 @@ export function hit(world, spec) {
   const tctx = { world, self: target, target: source, tags, skill: null, event: null };
   if (spec.attack) {
     const chance = hitChance(world.stat(source, 'accuracy', tags, ctx), world.stat(target, 'evasion', tags, tctx));
-    if (world.random() >= chance) { world.emit({ type: 'evade', source: target, target: source, skill: spec.skill, depth: spec.depth }); return { landed: false, reason: 'evaded' }; }
+    if (world.roll('evade') >= chance) { world.emit({ type: 'evade', source: target, target: source, skill: spec.skill, depth: spec.depth }); return { landed: false, reason: 'evaded' }; }
   }
   const block = Math.min(world.stat(target, 'block.max'), world.stat(target, 'block', tags, tctx));
-  if (block > 0 && world.random() * 100 < block) { world.emit({ type: 'block', source: target, target: source, skill: spec.skill, depth: spec.depth }); return { landed: false, reason: 'blocked' }; }
+  if (block > 0 && world.roll('block') * 100 < block) { world.emit({ type: 'block', source: target, target: source, skill: spec.skill, depth: spec.depth }); return { landed: false, reason: 'blocked' }; }
 
   // Crit
   let crit = false;
   if (!world.stat(target, 'cannotBeCrit')) {
     const chance = world.scaled(source, 'crit.chance', spec.crit ?? 0, tags, ctx) + world.stat(target, 'crit.taken', tags, tctx);
-    const roll = world.stat(source, 'lucky.crit', tags, ctx) ? Math.min(world.random(), world.random()) : world.random();
+    const roll = world.stat(source, 'lucky.crit', tags, ctx) ? Math.min(world.roll('crit'), world.roll('crit')) : world.roll('crit');
     crit = roll * 100 < chance;
   }
   const critMult = crit ? 1 + world.stat(source, 'crit.bonus', tags, ctx) / 100 : 1;
@@ -168,7 +169,7 @@ export function applyAilments(world, source, target, raw, hitTags, ctx, depth) {
     const tags = new Set(hitTags); tags.add(a.id); tags.add('ailment');
     const actx = { ...ctx, tags };
     const chance = world.stat(source, `chance.${a.id}`, tags, actx) - world.stat(target, 'avoid.ailment', tags);
-    if (chance <= 0 || world.random() * 100 >= chance) continue;
+    if (chance <= 0 || world.roll(a.id) * 100 >= chance) continue;
     const effect = world.stat(source, `effect.${a.id}`, tags, actx) / 100;
     const duration = a.duration * world.stat(source, `ailmentDuration.${a.id}`, tags, actx) / 100 * world.stat(source, 'duration', tags, actx) / 100;
     if (a.kind === 'dot') {

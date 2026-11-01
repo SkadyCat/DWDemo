@@ -46,3 +46,18 @@ world.step(1 / 60);
 ## 验收
 
 `tests/core-archetypes.test.mjs` 用纯数据拼出设计文档里的 16 个流派（冰电捷、崩雷鸣、无限球、CoC、CWC、法术投掷、Winter Orb、毒叠层、点燃扩散、召唤、图腾/地雷、烙印、Blade Fall、多重打击/法术迸发、火炬自走），逐个验证机制链。`tests/core-engine.test.mjs` 是底层积木的单元测试。
+
+## 内容层（core/content/）
+
+| 文件 | 内容 |
+| --- | --- |
+| `skills.mjs` | 朴素技能、状态、资源、召唤物模板（词条规则要引用的「名词」） |
+| `families.mjs` | 词条族：四层稀有度（数值 / 形态 / 联动 / 核心），`affixLine(族, T)` 生成具体词条 |
+| `maps.mjs` | 地图压力：T 阶 → 怪物生命与伤害、元素构成、全抗惩罚、致命一击、精英词缀、首领狂暴 |
+| `archetypes.mjs` | 十个示范流派：技能 + 关键词条时间线 + 数值优先级 + 防守优先级 |
+| `builds.mjs` | 把收集清单铺到 10 件 × 9 条：五个阶段（起步/成型/卡关/突破/毕业） |
+| `game.mjs` | 完整内容包 |
+
+`core/sim.mjs` 把配装放进 T 阶地图跑（清怪/秒、死亡、最大单次受伤、首领用时）；`core/analysis.mjs` 给出「本图要求」达标情况和逐条词条的有效性（冗余率）。
+
+脚本：`scripts/core-calibrate-all.sh`（全部流派 × 阶段 × 地图）、`scripts/core-usefulness.mjs`（毕业有效率）、`scripts/core-archetype-report.mjs`（生成 `docs/core-archetypes.md`）。

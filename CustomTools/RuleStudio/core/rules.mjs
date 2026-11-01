@@ -83,7 +83,7 @@ function accumulate(inst, e, world) {
   const a = inst.rule.accumulate;
   switch (a.kind) {
     case 'instant': return 1;
-    case 'chance': return world.random() * 100 < a.pct ? 1 : 0;
+    case 'chance': return world.roll(`rule:${inst.rule.id}`) * 100 < a.pct ? 1 : 0;
     case 'count': if (++inst.counter >= a.n) { inst.counter = 0; return 1; } return 0;
     case 'periodic': {
       // The interval may be an expression (faster with more stages, charges…).

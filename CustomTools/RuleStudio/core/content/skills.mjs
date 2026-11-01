@@ -1,0 +1,75 @@
+// 朴素技能：每个技能只有最基本的形态。数量、连锁、分裂、触发、转化、元素反应……全部来自词条。
+// 状态、资源、召唤物模板也放在这里：它们是词条规则要引用的「名词」。
+
+export const GAME_SKILLS = Object.freeze({
+  stats: [
+    { key: 'stage.max', base: 10, min: 0 },
+    { key: 'instruction.max', base: 9, min: 0 },
+    { key: 'burst.max', base: 0, min: 0 },
+    { key: 'thunder.max', base: 3, min: 0 },
+  ],
+  resources: [
+    { id: 'stage', maxStat: 'stage.max' },
+    { id: 'instruction', maxStat: 'instruction.max' },
+    { id: 'burst', maxStat: 'burst.max' },
+  ],
+  statuses: [
+    { id: 'thunder_ready', name: '雷霆蓄势', stacking: 'stack', max: 3, duration: 8, tags: ['buff'] },
+    { id: 'onslaught', name: '猛攻', duration: 4, tags: ['buff'], mods: [{ stat: 'speed', op: 'inc', value: 20 }, { stat: 'moveSpeed', op: 'inc', value: 20 }] },
+    { id: 'fortify', name: '护体', duration: 4, tags: ['buff'], mods: [{ stat: 'damageTaken.hit', op: 'more', value: -20 }] },
+    { id: 'frostbite', name: '冻伤', stacking: 'strongest', max: 8, duration: 2, tags: ['dot', 'cold', 'elemental'], dot: { type: 'cold' } },
+    { id: 'superconduct', name: '超导', duration: 4, debuff: true, tags: ['reaction'], mods: [{ stat: 'exposure.cold', value: 25 }, { stat: 'exposure.lightning', value: 25 }, { stat: 'exposure.fire', value: 25 }] },
+    { id: 'blade_ward', name: '刃壁', stacking: 'stack', max: 10, duration: 5, tags: ['buff'], mods: [{ stat: 'damageTaken.hit', op: 'inc', value: -3 }] },
+  ],
+  minions: [
+    { id: 'spirit_blade', name: '灵刃', life: 80, radius: 20, skills: ['spirit_slash'], duration: 12 },
+    { id: 'storm_totem', name: '风暴图腾', life: 300, radius: 35, brain: 'turret', skills: ['totem_bolt'] },
+  ],
+  skills: [
+    // ---- spells ----
+    { id: 'fireball', name: '火球', tags: ['spell', 'projectile', 'fire'], time: 0.75, cost: 8, crit: 7, damage: { fire: 26 }, range: 800,
+      actions: [{ do: 'projectile', speed: 1200, radius: 24, kind: 'fireball', onEnd: [] }] },
+    { id: 'ice_nova', name: '冰霜新星', tags: ['spell', 'area', 'cold', 'nova'], time: 0.7, cost: 9, crit: 6, damage: { cold: 22 }, range: 260,
+      actions: [{ do: 'area', at: 'self', radius: 260, fx: 'ice_nova' }] },
+    { id: 'arc', name: '电弧', tags: ['spell', 'lightning', 'chaining'], time: 0.6, cost: 7, crit: 8, damage: { lightning: 20 }, range: 700,
+      actions: [{ do: 'projectile', speed: 5000, radius: 20, chain: 1, chainRadius: 450, kind: 'arc' }] },
+    { id: 'frost_bolt', name: '寒冰弹', tags: ['spell', 'projectile', 'cold'], time: 0.6, cost: 6, crit: 6, damage: { cold: 18 }, range: 800,
+      actions: [{ do: 'projectile', speed: 900, radius: 26, pierce: 1, kind: 'frost_bolt' }] },
+    { id: 'spark', name: '电花', tags: ['spell', 'projectile', 'lightning'], time: 0.55, cost: 6, crit: 6, damage: { lightning: 14 }, range: 700,
+      actions: [{ do: 'projectile', count: 3, spread: 50, speed: 1100, radius: 16, lifetime: 0.9, kind: 'spark' }] },
+    { id: 'flame_wall', name: '火墙', tags: ['spell', 'area', 'fire', 'duration'], time: 0.8, cost: 10, crit: 5, damage: { fire: 10 }, range: 600,
+      actions: [{ do: 'zone', kind: 'flame_wall', at: 'aim', radius: 140, duration: 3, interval: 0.4 }] },
+    // ---- attacks ----
+    { id: 'heavy_strike', name: '重击', tags: ['attack', 'melee', 'strike', 'physical'], time: 0.9, crit: 8, damage: { physical: 48 }, range: 140,
+      actions: [{ do: 'strike', range: 140 }] },
+    { id: 'cleave', name: '劈砍', tags: ['attack', 'melee', 'area', 'physical'], time: 0.85, crit: 5, damage: { physical: 34 }, range: 180,
+      actions: [{ do: 'area', shape: 'cone', angle: 120, radius: 200, fx: 'cleave' }] },
+    { id: 'cyclone', name: '旋风斩', tags: ['attack', 'melee', 'area', 'channel', 'physical'], channel: 0.25, cost: 1, crit: 5, damage: { physical: 14 }, range: 200,
+      actions: [{ do: 'area', at: 'self', radius: 170, fx: 'cyclone' }] },
+    { id: 'falling_thunder', name: '崩雷鸣', tags: ['attack', 'melee', 'slam', 'lightning', 'area'], time: 0.95, crit: 6, damage: { physical: 34, lightning: 14 }, range: 220,
+      actions: [
+        { do: 'consume', res: 'power', as: 'n' },
+        { do: 'more', value: { var: 'n', mul: 50 } },
+        { do: 'area', shape: 'cone', angle: 90, radius: 260, fx: 'slam' },
+        { do: 'if', cond: { var: 'n', gt: 0 }, then: [{ do: 'projectile', count: { var: 'n', mul: 3 }, spread: 40, speed: 1800, pierce: 99, radius: 22, lifetime: 0.6, mult: 40, tags: ['projectile'], kind: 'thunder_bolt' }] },
+      ] },
+    { id: 'flicker_strike', name: '闪现打击', tags: ['attack', 'melee', 'strike', 'movement', 'physical'], time: 0.5, cooldown: 0.6, crit: 6, damage: { physical: 44 }, range: 600,
+      actions: [{ do: 'blink', range: 600, avoidLast: true }, { do: 'strike', range: 130 }] },
+    { id: 'viper_knives', name: '蝰蛇飞刃', tags: ['attack', 'projectile', 'physical', 'chaos'], time: 0.6, crit: 6, damage: { physical: 8, chaos: 6 }, range: 700,
+      actions: [{ do: 'projectile', count: 3, spread: 34, speed: 1400, radius: 18, lifetime: 0.7, kind: 'viper_knife' }] },
+    { id: 'summon_blades', name: '灵刃召唤', tags: ['spell', 'minion'], time: 0.6, cost: 12, range: 900,
+      actions: [{ do: 'summon', minion: 'spirit_blade', count: 2, limit: 6 }] },
+    { id: 'storm_totem_place', name: '风暴图腾', tags: ['spell', 'totem', 'lightning'], time: 0.6, cost: 15, range: 600,
+      actions: [{ do: 'summon', minion: 'storm_totem', at: 'self', count: 1, limit: 1 }] },
+    // ---- skills only used by minions / triggers ----
+    { id: 'spirit_slash', name: '灵刃斩', tags: ['attack', 'melee', 'minion'], time: 0.5, crit: 5, damage: { physical: 10 }, range: 90, actions: [{ do: 'strike', range: 90 }] },
+    { id: 'totem_bolt', name: '图腾雷击', tags: ['spell', 'lightning', 'totem'], time: 0.5, crit: 6, damage: { lightning: 12 }, range: 700,
+      actions: [{ do: 'projectile', speed: 4000, chain: 2, chainRadius: 400, kind: 'arc' }] },
+    { id: 'thunder_fall', name: '落雷', tags: ['spell', 'area', 'lightning', 'triggered_only'], time: 0.5, crit: 8, damage: { lightning: 30 }, range: 900,
+      actions: [{ do: 'area', at: 'target', radius: 120, fx: 'thunder' }] },
+    { id: 'ice_spike_burst', name: '冰刺爆发', tags: ['spell', 'area', 'cold', 'triggered_only'], time: 0.5, crit: 8, damage: { cold: 26 }, range: 900,
+      actions: [{ do: 'area', at: 'target', radius: 150, fx: 'ice_burst' }] },
+    { id: 'flame_burst', name: '炎爆', tags: ['spell', 'area', 'fire', 'triggered_only'], time: 0.5, crit: 7, damage: { fire: 28 }, range: 900,
+      actions: [{ do: 'area', at: 'target', radius: 150, fx: 'flame_burst' }] },
+  ],
+});

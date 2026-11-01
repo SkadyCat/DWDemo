@@ -81,6 +81,12 @@ function think(world, a, dt) {
     if (sk.manual || d > sk.def.range) continue;
     if (cast(world, a, sk, { aim: { x: target.x, y: target.y }, target })) { a.busyUntil = world.time + castTime(world, a, sk); return; }
   }
+  // Kiting: ranged heroes step back when something gets too close (a competent player, not a turret).
+  if (a.kite && d < a.kite && !world.quick(a, 'cannotMove')) {
+    const sp = world.quick(a, 'moveBase') * world.quick(a, 'moveSpeed') / 100 * dt, l = Math.hypot(target.x - a.x, target.y - a.y) || 1;
+    a.x -= (target.x - a.x) / l * sp; a.y -= (target.y - a.y) / l * sp;
+    return;
+  }
   if (a.brain === 'chase' && d > (a.keepDistance ?? 0) && !world.quick(a, 'cannotMove')) {
     const sp = world.quick(a, 'moveBase') * world.quick(a, 'moveSpeed') / 100 * dt, l = Math.hypot(target.x - a.x, target.y - a.y) || 1;
     const step = Math.min(sp, d - (a.keepDistance ?? 0));

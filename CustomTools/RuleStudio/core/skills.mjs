@@ -93,7 +93,7 @@ export function cast(world, actor, sk, opts = {}) {
   world.emit({ type: 'cast', source: actor, target: opts.target ?? null, skill: sk, tags: [...sk.tags, ...(opts.triggered ? ['triggered'] : [])], x: inv.aim.x, y: inv.aim.y, depth: opts.depth ?? 0 });
   run(sk.def.actions, inv);
   // Repeats (multistrike, spell echo): the same invocation again with fresh carriers.
-  const rr = world.stat(actor, 'repeat', sk.tags, ctx), repeats = Math.floor(rr) + (world.random() < rr - Math.floor(rr) ? 1 : 0);
+  const rr = world.stat(actor, 'repeat', sk.tags, ctx), repeats = Math.floor(rr) + (world.roll('repeat') < rr - Math.floor(rr) ? 1 : 0);
   for (let i = 1; i <= repeats; ++i) world.schedule(0.12 * i, () => { if (actor.alive) run(sk.def.actions, inv.fork({ vars: { ...inv.vars, repeat: i } })); });
   return true;
 }
