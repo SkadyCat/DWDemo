@@ -13,6 +13,7 @@ import { defenceReport, roleReport } from '../../core/analysis.mjs';
 import { loadSave, writeSave, buildOf, equip, unequip, salvage, craft, applyArchetype, grantedSkills, syncSkillBar, SKILL_BAR } from './save.mjs';
 import { equippedTraits, ladderStatus, detectArchetype } from './traits.mjs';
 import { MapRun } from './run.mjs';
+import { LiquidOrb } from './orb.mjs';
 import { Scene3D, Overlay } from './scene.mjs';
 import { dungeonRandom } from './dungeon.mjs';
 import { runSelfUpdate } from '../self-update.mjs';
@@ -139,11 +140,7 @@ const TEMPLATE = /* html */ `
     <p class="clearflash" ref="flashEl">清 屏<small>{{ hud.flashN }} 杀 / 秒</small></p>
 
     <section class="dock">
-      <div class="orb life" :title="'生命 ' + hud.life + ' / ' + hud.lifeMax">
-        <div class="orb-fill" :style="{ height: pct(hud.life, hud.lifeMax) }"></div>
-        <div class="orb-es" v-if="hud.esMax" :style="{ '--p': hud.es / Math.max(1, hud.esMax) }"></div><div class="orb-glass"></div>
-        <span>{{ hud.life }}<small v-if="hud.esMax">+{{ hud.es }}</small></span>
-      </div>
+      <liquid-orb kind="life" side="left" label="生命" :value="hud.life" :max="hud.lifeMax" :es="hud.es" :es-max="hud.esMax"></liquid-orb>
       <div class="dock-mid">
         <div class="buffs">
           <span v-for="r in hud.resources" :key="r.id" class="buff res"><Gi :n="buffIcon(r.id)" c="el-gold"/>{{ r.name }}<sub>{{ r.value }}</sub></span>
@@ -158,10 +155,7 @@ const TEMPLATE = /* html */ `
           </button>
         </div>
       </div>
-      <div class="orb mana" :title="'魔力 ' + hud.mana + ' / ' + hud.manaMax">
-        <div class="orb-fill" :style="{ height: pct(hud.mana, hud.manaMax) }"></div><div class="orb-glass"></div>
-        <span>{{ hud.mana }}</span>
-      </div>
+      <liquid-orb kind="mana" side="right" label="魔力" :value="hud.mana" :max="hud.manaMax"></liquid-orb>
     </section>
 
     <div class="toasts"><p v-for="t in toasts" :key="t.id" :class="t.cls"><Gi v-if="t.icon" :n="t.icon" :c="t.ic || ''"/>{{ t.text }}</p></div>
@@ -362,7 +356,7 @@ const TEMPLATE = /* html */ `
 
 export function mountGame(el) {
   const app = createApp({
-    components: { ItemTip, Minimap, Gi },
+    components: { ItemTip, Minimap, Gi, LiquidOrb },
     template: TEMPLATE,
     setup() {
       const save = reactive(loadSave());
