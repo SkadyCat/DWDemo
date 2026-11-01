@@ -3,6 +3,7 @@
 // 只管数据：生成、可达性、节点修正；画面在 page.mjs。
 import { dungeonRandom } from './dungeon.mjs';
 import { MAP_TIERS } from '../../core/content/maps.mjs';
+import { patchMap } from '../../core/content/overrides.mjs';
 
 export const ATLAS_RADIUS = 1150;
 const FAMILY_ORDER = ['ember', 'storm', 'frost', 'blight', 'ruin'];
@@ -18,14 +19,14 @@ export const NODE_KINDS = Object.freeze({
 });
 
 /** Map modifiers a node can carry (rolled once with the atlas). */
-export const NODE_MODS = Object.freeze({
+export const NODE_MODS = Object.freeze(patchMap('nodeMods', {
   dense: { text: '怪群规模 +40%', pack: 1.4, quantity: 0.15 },
   elite: { text: '精英几率 +60%', elite: 1.6, quantity: 0.1 },
   hardy: { text: '怪物生命 +30%', life: 1.3, quantity: 0.12 },
   brutal: { text: '怪物伤害 +25%', damage: 1.25, quantity: 0.12 },
   rich: { text: '物品数量 +30%', quantity: 0.3 },
   relic: { text: '传奇几率 ×2', legend: 2 },
-});
+}));
 const KIND_MODS = {
   boss: { bossLife: 1.5, legend: 2.5, quantity: 0.5 },
   vault: { pack: 0.8, quantity: 1, legend: 3 },

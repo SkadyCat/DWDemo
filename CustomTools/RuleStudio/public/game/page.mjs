@@ -189,6 +189,7 @@ const TEMPLATE = /* html */ `
       <div class="crest"><Gi :n="skillIcon(primarySkill)" :c="'el-' + skillEl(primarySkill)"/></div>
       <div class="who"><h1>营 地</h1><p>{{ currentBd }}</p></div>
       <div class="facts"><span><b>T{{ save.unlocked }}</b>最高</span><span><b>{{ save.atlas.done.length }}</b>已打通</span><span><b>{{ save.stats.maps }}</b>通关</span><span><b>{{ save.stats.kills }}</b>击杀</span></div>
+      <a class="orn-btn ghost sm" href="/editor/" target="_blank" rel="noopener">内容编辑器</a>
       <button class="orn-btn ghost sm" @click="update">{{ updateText || '更新到最新' }}</button>
     </header>
 

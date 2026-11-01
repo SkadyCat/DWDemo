@@ -3,6 +3,8 @@
 //   GET  /core/...    -> core/（规则引擎，浏览器直接加载）
 //   POST /api/update  -> git fetch + 快进到最新提交（仅本机）
 //   GET  /api/version -> { pid, started }，更新后用来判断服务是否已重启
+//   GET  /api/overrides -> data/overrides.json（编辑器对内容的修改；没有时为 {}）
+//   PUT  /api/overrides -> 编辑器保存修改（仅本机）
 // node server.mjs [port]
 import http from 'node:http';
 import fs from 'node:fs';
@@ -16,6 +18,17 @@ const TOOL_ROOT = path.dirname(fileURLToPath(import.meta.url));
 const PORT = Number(process.argv[2] || process.env.PORT || 5291);
 const STATIC = [['/core/', path.join(TOOL_ROOT, 'core')], ['/', path.join(TOOL_ROOT, 'public')]];
 const STARTED = Date.now();
+const OVERRIDES_FILE = path.join(TOOL_ROOT, 'data', 'overrides.json');
+const LOCAL = ['127.0.0.1', '::1', '::ffff:127.0.0.1'];
+
+function readBody(req, limit = 2 << 20) {
+  return new Promise((resolve, reject) => {
+    let size = 0; const chunks = [];
+    req.on('data', c => { size += c.length; if (size > limit) { reject(new Error('body too large')); req.destroy(); } else chunks.push(c); });
+    req.on('end', () => resolve(Buffer.concat(chunks).toString('utf8')));
+    req.on('error', reject);
+  });
+}
 
 async function handle(req, res) {
   const send = (code, body) => respond(req, res, code, body);
@@ -29,6 +42,16 @@ async function handle(req, res) {
     return;
   }
   if (url.pathname === '/api/version' && req.method === 'GET') return send(200, { pid: process.pid, started: STARTED });
+  if (url.pathname === '/api/overrides') {
+    if (req.method === 'GET') return send(200, fs.existsSync(OVERRIDES_FILE) ? JSON.parse(fs.readFileSync(OVERRIDES_FILE, 'utf8')) : {});
+    if (req.method !== 'PUT') return send(405, { error: 'method not allowed' });
+    if (!LOCAL.includes(req.socket.remoteAddress)) return send(403, { error: 'local only' });
+    const data = JSON.parse(await readBody(req));
+    if (!data || typeof data !== 'object' || Array.isArray(data)) return send(400, { error: 'expected an object' });
+    fs.mkdirSync(path.dirname(OVERRIDES_FILE), { recursive: true });
+    fs.writeFileSync(OVERRIDES_FILE, JSON.stringify(data, null, 2) + '\n');
+    return send(200, { ok: true, categories: Object.keys(data).length });
+  }
   for (const [prefix, dir] of STATIC) {
     if (!url.pathname.startsWith(prefix)) continue;
     // Folders serve their index.html ("/design/" → design/index.html).

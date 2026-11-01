@@ -3,6 +3,7 @@
 // 传奇特性只用引擎已有的积木（规则、动作、修正），和普通特性一样可以被测试和组合。
 import { compileAffix } from '../content.mjs';
 import { gameContent } from './game.mjs';
+import { patchList } from './overrides.mjs';
 
 const trig = (on, filter, doList, extra = {}) => ({ on, filter, do: doList, ...extra });
 
@@ -10,7 +11,7 @@ const trig = (on, filter, doList, extra = {}) => ({ on, filter, do: doList, ...e
  * { id, name, slot, base, skill?, legend: { text, mods?, rules? }, flavor, theme }
  * slot/base follow items.mjs; `skill` (weapons, some off-slots) is the item's first base line.
  */
-export const LEGENDARIES = Object.freeze([
+export const LEGENDARIES = Object.freeze(patchList('legendaries', [
   // ---------------------------------------------------------------- weapons
   { id: 'pyre_staff', name: '焚城之杖', slot: 'weapon', base: 'war_staff', skill: 'fireball', theme: 'fire',
     legend: { text: '火球命中时 30% 几率从命中处再射出一发火球（每秒最多 6 次）',
@@ -131,7 +132,7 @@ export const LEGENDARIES = Object.freeze([
       mods: [{ stat: 'effect.shock', op: 'inc', value: 50 }],
       rules: [trig('kill', { cond: { status: 'shocked', of: 'target' } }, [{ do: 'repeat', times: 3, actions: [{ do: 'cast', skill: 'arc', from: 'event', range: 600 }] }], { role: 'owned', chain: true, at: 'event', limit: { perSecond: 4 } })] },
     flavor: '雷声从一个死人传到下一个。' },
-]);
+]));
 
 export const legendary = id => LEGENDARIES.find(l => l.id === id) ?? null;
 

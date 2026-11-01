@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DWDemo · 内容编辑器</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=ZCOOL+XiaoWei&family=Noto+Serif+SC:wght@400;600&family=Marcellus&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/game/game.css">
+<link rel="stylesheet" href="/editor/editor.css">
+</head>
+<body>
+<div id="editor"></div>
+<script type="module">
+import { mountEditor } from '/editor/editor.mjs';
+mountEditor(document.getElementById('editor'));
+</script>
+</body>
+</html>

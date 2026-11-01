@@ -4,6 +4,7 @@
 // 族的 make(v) 返回 { mods, rules, grants }；affixLine(族, T) 生成可装备的具体词条。
 import { compileAffix } from '../content.mjs';
 import { gameContent } from './game.mjs';
+import { patchOne } from './overrides.mjs';
 
 export const SLOTS = Object.freeze(['weapon', 'offhand', 'helmet', 'chest', 'gloves', 'boots', 'belt', 'amulet', 'ring1', 'ring2']);
 const JEWELRY = ['amulet', 'ring1', 'ring2'];
@@ -22,6 +23,7 @@ const round = (v, step) => Math.max(step, Math.round(v / step) * step);
 
 const FAMILIES = new Map();
 function fam(def) {
+  def = patchOne('families', def);
   const layer = LAYERS[def.layer ?? 'stat'];
   const n = def.levels ?? layer.tiers;
   const values = (def.values ?? (def.curve === 'lin' ? lin : geo)(def.from, def.to, n)).map(v => round(v, def.step ?? 1));

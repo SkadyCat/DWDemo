@@ -1,5 +1,6 @@
 // 朴素技能：每个技能只有最基本的形态。数量、连锁、分裂、触发、转化、元素反应……全部来自词条。
 // 状态、资源、召唤物模板也放在这里：它们是词条规则要引用的「名词」。
+import { patchList } from './overrides.mjs';
 
 export const GAME_SKILLS = Object.freeze({
   stats: [
@@ -13,19 +14,19 @@ export const GAME_SKILLS = Object.freeze({
     { id: 'instruction', maxStat: 'instruction.max' },
     { id: 'burst', maxStat: 'burst.max' },
   ],
-  statuses: [
+  statuses: patchList('statuses', [
     { id: 'thunder_ready', name: '雷霆蓄势', stacking: 'stack', max: 3, duration: 8, tags: ['buff'] },
     { id: 'onslaught', name: '猛攻', duration: 4, tags: ['buff'], mods: [{ stat: 'speed', op: 'inc', value: 20 }, { stat: 'moveSpeed', op: 'inc', value: 20 }] },
     { id: 'fortify', name: '护体', duration: 4, tags: ['buff'], mods: [{ stat: 'damageTaken.hit', op: 'more', value: -20 }] },
     { id: 'frostbite', name: '冻伤', stacking: 'strongest', max: 8, duration: 2, tags: ['dot', 'cold', 'elemental'], dot: { type: 'cold' } },
     { id: 'superconduct', name: '超导', duration: 4, debuff: true, tags: ['reaction'], mods: [{ stat: 'exposure.cold', value: 25 }, { stat: 'exposure.lightning', value: 25 }, { stat: 'exposure.fire', value: 25 }] },
     { id: 'blade_ward', name: '刃壁', stacking: 'stack', max: 10, duration: 5, tags: ['buff'], mods: [{ stat: 'damageTaken.hit', op: 'inc', value: -3 }] },
-  ],
-  minions: [
+  ]),
+  minions: patchList('minions', [
     { id: 'spirit_blade', name: '灵刃', life: 80, radius: 20, skills: ['spirit_slash'], duration: 12 },
     { id: 'storm_totem', name: '风暴图腾', life: 300, radius: 35, brain: 'turret', skills: ['totem_bolt'] },
-  ],
-  skills: [
+  ]),
+  skills: patchList('skills', [
     // ---- spells ----
     { id: 'fireball', name: '火球', tags: ['spell', 'projectile', 'fire'], time: 0.75, cost: 8, crit: 7, damage: { fire: 26 }, range: 800,
       actions: [{ do: 'projectile', speed: 1200, radius: 24, kind: 'fireball', onEnd: [] }] },
@@ -77,5 +78,5 @@ export const GAME_SKILLS = Object.freeze({
       actions: [{ do: 'area', at: 'self', radius: 190, fx: 'slam' }] },
     { id: 'flame_burst', name: '炎爆', tags: ['spell', 'area', 'fire', 'triggered_only'], time: 0.5, crit: 7, damage: { fire: 28 }, range: 900,
       actions: [{ do: 'area', at: 'target', radius: 150, fx: 'flame_burst' }] },
-  ],
+  ]),
 });

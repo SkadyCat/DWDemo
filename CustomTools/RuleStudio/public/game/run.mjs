@@ -2,7 +2,7 @@
 // 只管玩法；画面从这里读视图（hero / monsters / projectiles / flashes / loot），特效订阅 world 的事件。
 import { createWorld } from '../../core/index.mjs';
 import { gameContent } from '../../core/content/game.mjs';
-import { mapProfile, ELITE_MODS } from '../../core/content/maps.mjs';
+import { mapProfile, ELITE_MODS, MONSTER_TYPES } from '../../core/content/maps.mjs';
 import { HERO_BASE } from '../../core/sim.mjs';
 import { rollDrops } from '../../core/content/items.mjs';
 import { castTime } from '../../core/skills.mjs';
@@ -116,10 +116,11 @@ export class MapRun {
     let acc = 0, type = 'physical';
     const roll = r();
     for (const [t, w] of Object.entries(p.mix)) { acc += w; if (roll < acc) { type = t; break; } }
-    const ranged = !boss && r() < 0.3;
+    const T = MONSTER_TYPES, ranged = !boss && r() < (T.ranged.share ?? 0.3) / ((T.ranged.share ?? 0.3) + (T.melee.share ?? 0.7));
+    const kindRow = boss ? T.boss : elite ? T.elite : ranged ? T.ranged : T.melee, bodyRow = ranged ? T.ranged : T.melee;
     const mods = [
-      { stat: 'life', value: (boss ? p.bossLife * this.mods.bossLife : elite ? p.eliteLife : p.monsterLife) * this.mods.life },
-      { stat: `added.${type}`, value: p.monsterDamage * (boss ? 2 : elite ? 1.5 : 1) * this.mods.damage },
+      { stat: 'life', value: (boss ? p.bossLife * this.mods.bossLife : elite ? p.eliteLife : p.monsterLife) * this.mods.life * (kindRow.life ?? 1) },
+      { stat: `added.${type}`, value: p.monsterDamage * (kindRow.damage ?? 1) * this.mods.damage },
       { stat: 'armour', value: p.monsterArmour }, { stat: 'evasion', value: p.monsterEvasion }, { stat: 'accuracy', value: p.monsterAccuracy },
       ...['fire', 'cold', 'lightning'].map(e => ({ stat: `res.${e}`, value: p.monsterResist })), { stat: 'res.chaos', value: p.monsterResist / 2 },
     ];
@@ -129,11 +130,11 @@ export class MapRun {
       const keys = Object.keys(ELITE_MODS);
       for (let i = 0; i < p.eliteMods; ++i) { const k = keys[Math.floor(r() * keys.length)]; if (!names.includes(k)) { names.push(k); mods.push(...ELITE_MODS[k].mods); } }
     }
-    const m = this.world.spawnActor({ team: 1, kind: boss ? 'boss' : elite ? 'elite' : 'monster', x, y, radius: boss ? 70 : elite ? 40 : 28,
-      name: boss ? `${p.name} 首领` : elite ? `精英·${names.map(n => ELITE_MODS[n].name).join('·')}` : ranged ? '投弹手' : '掠食者',
-      mods, skills: boss ? ['mob_strike', 'boss_slam', 'boss_nova'] : [ranged ? 'mob_bolt' : 'mob_strike'], aggro: boss ? 900 : 750 });
+    const m = this.world.spawnActor({ team: 1, kind: boss ? 'boss' : elite ? 'elite' : 'monster', x, y, radius: kindRow.radius ?? 28,
+      name: boss ? `${p.name} ${T.boss.name}` : elite ? `${T.elite.name}·${names.map(n => ELITE_MODS[n].name).join('·')}` : bodyRow.name,
+      mods, skills: [...(boss ? T.boss.skills : kindRow.skills ?? bodyRow.skills)], aggro: kindRow.aggro ?? 750 });
     if (names.includes('shielded')) { m.max.es = m.max.life * ELITE_MODS.shielded.esFromLife; m.es = m.max.es; }
-    if (ranged) m.keepDistance = 420;
+    if (ranged && bodyRow.keepDistance) m.keepDistance = bodyRow.keepDistance;
     m.element = type; m.eliteMods = names; m.boss = boss; m.facing = { x: 0, y: 1 }; m.hitFlash = 0; m.lastSkill = ''; m.lastCastAt = -9;
     return m;
   }

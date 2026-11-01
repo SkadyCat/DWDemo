@@ -4,6 +4,7 @@
 import { SLOTS, LAYERS, families, family, affixLine, lineTierFor } from './families.mjs';
 import { compileAffix } from '../content.mjs';
 import { LEGENDARIES, legendary, legendAffix } from './legendaries.mjs';
+import { patchList, patchMap } from './overrides.mjs';
 
 export const SLOT_NAMES = Object.freeze({ weapon: '武器', offhand: '副手', helmet: '头盔', chest: '胸甲', gloves: '手套', boots: '鞋子', belt: '腰带', amulet: '项链', ring1: '戒指', ring2: '戒指' });
 export const RARITY = Object.freeze([
@@ -25,7 +26,7 @@ export const ITEM_SKILLS = Object.freeze([...SPELLS, ...ATTACKS]);
 const SKILL_CHANCE = { weapon: 1, offhand: 0.45, helmet: 0.3, gloves: 0.3, boots: 0.25, amulet: 0.3 };
 
 /** Bases per slot: a name and the skills its first base line can roll. */
-export const BASES = Object.freeze({
+const RAW_BASES = {
   weapon: [
     { id: 'war_staff', name: '战杖', skills: ['ice_nova', 'arc', 'flame_wall', 'storm_totem_place', 'fireball'] },
     { id: 'wand', name: '法杖', skills: ['fireball', 'spark', 'frost_bolt', 'arc'] },
@@ -42,7 +43,9 @@ export const BASES = Object.freeze({
   belt: [{ id: 'heavy_belt', name: '重带', def: 'life', skills: [] }, { id: 'chain_belt', name: '链带', def: 'life', skills: [] }],
   amulet: [{ id: 'jade_amulet', name: '玉坠', skills: SPELLS }, { id: 'onyx_amulet', name: '玛瑙坠', skills: ITEM_SKILLS }],
   ring1: [{ id: 'ruby_ring', name: '红玉戒', skills: [] }, { id: 'sapphire_ring', name: '蓝玉戒', skills: [] }, { id: 'topaz_ring', name: '黄玉戒', skills: [] }],
-});
+};
+/** Edited per slot (the editor's 「装备基底」 shows one card per base). */
+export const BASES = Object.freeze(Object.fromEntries(Object.entries(RAW_BASES).map(([slot, list]) => [slot, patchList(`bases.${slot}`, list)])));
 /** Base defences (not lines): every armour piece protects by its base type and item tier, and adds some life. */
 const BASE_DEF = { armour: ['armour', 32, '护甲'], evasion: ['evasion', 32, '闪避'], es: ['es', 10, '能量护盾'], life: ['life', 14, '最大生命'] };
 const BIG_SLOT = { chest: 2, offhand: 1.2 };
@@ -75,7 +78,7 @@ export const baseOf = (slot, id) => baseList(slot).find(b => b.id === id) ?? nul
 export const baseForSkill = (slot, skill) => baseList(slot).find(b => b.skills.includes(skill)) ?? baseList(slot)[0];
 
 /** Currencies (洗炼): what each one does to an item. */
-export const CURRENCIES = Object.freeze({
+export const CURRENCIES = Object.freeze(patchMap('currencies', {
   augment: { name: '魔晶', desc: '添加一条随机词条（不足 6 条时）', weight: 40 },
   chaos: { name: '混沌石', desc: '重洗全部随机词条（未封印的），条数不变', weight: 18 },
   upgrade: { name: '灵石', desc: '随机一条随机词条 T 阶 +1', weight: 22 },
@@ -86,7 +89,7 @@ export const CURRENCIES = Object.freeze({
   essence_link: { name: '联动精华', desc: '把选中的特性重铸为随机联动特性（物品 T3+）', weight: 2.5 },
   essence_core: { name: '核心精华', desc: '把选中的特性重铸为随机核心特性（物品 T6+）', weight: 0.5 },
   skill_gem: { name: '技能石', desc: '重铸装备上的主动技能（同底材技能池）', weight: 3 },
-});
+}));
 
 let uidSeq = 0;
 const uid = () => `it${Date.now().toString(36)}${(uidSeq++).toString(36)}`;

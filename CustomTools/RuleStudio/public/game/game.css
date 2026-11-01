@@ -482,3 +482,4 @@ select { font: inherit; color: var(--txt); background: var(--deep); border: 1px 
 .hub-count { color: var(--mute); font-size: 13px; margin-bottom: 18px; } .hub-count b { font: 17px var(--num); color: var(--gold-hi); }
 .lt.r-waystone { --c: #d9cfbf; background: rgba(20, 16, 10, .9); } .lt.r-waystone.w-magic { --c: #8eb4ff; } .lt.r-waystone.w-rare { --c: #f6d86c; }
 .toasts .w-magic { color: var(--r-magic); } .toasts .w-rare { color: var(--r-rare); } .toasts .w-normal { color: var(--txt); }
+.topbar a.orn-btn { text-decoration: none; pointer-events: auto; }
