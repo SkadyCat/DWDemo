@@ -82,7 +82,9 @@ export function hitAndFollow(a, inv, target) {
 defineAction('area', (a, inv) => {
   const delay = num(a.delay, inv);
   const fire = () => {
-    const shape = a.shape ?? 'circle', c = point(a.at ?? (shape === 'circle' ? 'aim' : 'origin'), inv), r = areaRadius(a, inv);
+    const shape = a.shape ?? 'circle', at = a.at ?? (shape === 'circle' ? 'aim' : 'origin'), c = point(at, inv);
+    // Areas centred on the caster reach from the caster's edge, matching how melee range is measured.
+    const r = areaRadius(a, inv) + (at === 'self' || (at === 'origin' && c.x === inv.caster.x && c.y === inv.caster.y) ? inv.caster.radius : 0);
     const dirx = inv.aim.x - inv.origin.x, diry = inv.aim.y - inv.origin.y, len = Math.hypot(dirx, diry) || 1;
     const half = (a.angle ?? 90) * Math.PI / 360, width = num(a.width, inv, 60);
     const hits = [];
@@ -235,7 +237,8 @@ defineAction('summon', (a, inv) => {
 defineAction('projectile', (a, inv) => {
   const w = inv.world;
   const count = Math.max(1, Math.round(inv.stat('proj.count', num(a.count, inv, 1))));
-  const spread = inv.stat('proj.spread', a.spread ?? 30) * Math.PI / 180;
+  // Adjacent projectiles are at most 8° apart, so a small volley still converges on one target.
+  const spread = Math.min(inv.stat('proj.spread', a.spread ?? 30), 8 * (count - 1)) * Math.PI / 180;
   const from = point(a.from ?? 'origin', inv);
   const to = inv.target && a.from !== 'event' ? { x: inv.target.x, y: inv.target.y } : inv.aim;
   const base = Math.atan2(to.y - from.y, to.x - from.x);

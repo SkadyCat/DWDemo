@@ -119,3 +119,64 @@ export function lineUsefulness(content, build, tier, { threshold = 0.02, seconds
   const useful = out.filter(l => l.useful).length;
   return { lines: out, useful, total: out.length, ratio: useful / Math.max(1, out.length), base };
 }
+
+// ================================================================== 两种专项评估：攻坚、速刷
+// 攻坚 = 对单体的持续伤害（首领战）；速刷 = 走完一段铺满怪群的路线要多久。两项都只看输出：
+// 英雄每帧回满生命，防守好坏不影响结果（防守由地图模拟和 defenceReport 单独评估）。
+
+/**
+ * 攻坚：一个不会死的首领木桩（首领的生命池、抗性、护甲、闪避），站着让构筑打 `seconds` 秒。
+ * 返回单体 DPS 与「击杀本 T 阶首领要几秒」。生命池决定异常强度，所以用真实首领生命。
+ */
+export function bossingProbe(content, build, tier, { seconds = 15, seed = 4 } = {}) {
+  const profile = mapProfile(tier);
+  const { world, hero } = heroIn(content, build, profile, seed);
+  hero.brain = 'chase'; hero.keepDistance = build.keepDistance ?? 0;
+  const boss = world.spawnActor({ team: 1, kind: 'boss', brain: 'none', x: 400, y: 0, radius: 70,
+    mods: [{ stat: 'life', value: profile.bossLife }, { stat: 'immortal', op: 'flag' }, { stat: 'life.regen', value: profile.bossLife },
+      ...['fire', 'cold', 'lightning'].map(e => ({ stat: `res.${e}`, value: profile.monsterResist })), { stat: 'res.chaos', value: profile.monsterResist / 2 },
+      { stat: 'armour', value: profile.monsterArmour * 2 }, { stat: 'evasion', value: profile.monsterEvasion }] });
+  let dealt = 0;
+  world.listeners.push(e => { if ((e.type === 'hit' || e.type === 'dotTick') && e.target === boss && e.source?.root === hero) dealt += e.amount; });
+  // Warm-up (charges, stacks, triggers ramp) is part of the fight; measured from the first frame.
+  for (let i = 0; i < seconds * 30; ++i) { world.step(1 / 30); hero.life = hero.max.life; }
+  const dps = dealt / seconds;
+  return { dps, ttk: dps > 0 ? profile.bossLife / dps : Infinity, enrage: profile.bossEnrage };
+}
+
+/**
+ * 速刷：一条路线上依次摆 `packs` 群怪（每群 `size` 只，本 T 阶普通怪），间隔 650。
+ * 英雄自己找最近的怪推进；返回清完全部的秒数和每秒击杀。超时按已清数量折算。
+ */
+export function clearingProbe(content, build, tier, { packs = 8, size = 10, limit = 60, seed = 6 } = {}) {
+  const profile = mapProfile(tier);
+  const { world, hero } = heroIn(content, build, profile, seed);
+  hero.brain = 'chase'; hero.keepDistance = build.keepDistance ?? 0; hero.aggro = 5000;
+  if (hero.keepDistance > 0) hero.kite = hero.keepDistance * 0.45;
+  const total = packs * size;
+  for (let p = 0; p < packs; ++p) for (let i = 0; i < size; ++i) {
+    const a = world.roll('spawn') * Math.PI * 2, r = 30 + world.roll('spawn') * 130;
+    world.spawnActor({ team: 1, brain: 'none', x: 500 + p * 650 + Math.cos(a) * r, y: (p % 2 ? 1 : -1) * 120 + Math.sin(a) * r, radius: 28,
+      mods: [{ stat: 'life', value: profile.monsterLife }, ...['fire', 'cold', 'lightning'].map(e => ({ stat: `res.${e}`, value: profile.monsterResist })),
+        { stat: 'res.chaos', value: profile.monsterResist / 2 }, { stat: 'armour', value: profile.monsterArmour }, { stat: 'evasion', value: profile.monsterEvasion }] });
+  }
+  let kills = 0;
+  world.listeners.push(e => { if (e.type === 'kill' && e.target.team === 1) kills++; });
+  let t = 0;
+  for (; t < limit && kills < total; t += 1 / 30) { world.step(1 / 30); hero.life = hero.max.life; }
+  const time = kills >= total ? t : limit * total / Math.max(1, kills);
+  return { time, kps: total / time, cleared: kills, total };
+}
+
+/**
+ * 两项评级。攻坚以首领狂暴时间为基准（狂暴前击杀 = 1.0），速刷以本图清图奖励线为基准。
+ * 分数 ≥ 1 表示达标；倾向 = 速刷分 / 攻坚分（>1.5 偏速刷，<0.67 偏攻坚）。
+ */
+export function roleReport(content, build, tier) {
+  const profile = mapProfile(tier);
+  const b = bossingProbe(content, build, tier), c = clearingProbe(content, build, tier);
+  const bossing = profile.bossEnrage / b.ttk, clearing = c.kps / profile.clearTarget;
+  const lean = clearing / bossing;
+  return { tier, bossing, clearing, ttk: b.ttk, dps: b.dps, clearTime: c.time, kps: c.kps,
+    lean: lean > 1.5 ? '速刷型' : lean < 0.67 ? '攻坚型' : '均衡' };
+}

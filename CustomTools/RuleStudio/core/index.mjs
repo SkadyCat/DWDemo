@@ -65,7 +65,18 @@ export function stopChannel(world, a) {
 }
 
 function think(world, a, dt) {
-  if (a.channeling) { if (!world.nearest(a, 'enemy', a.channeling.def.range + 200)) stopChannel(world, a); return; }
+  if (a.channeling) {
+    // Channelled skills keep moving toward the nearest enemy (cyclone walks while it spins).
+    const t = world.nearest(a, 'enemy', a.aggro ?? 2000);
+    if (!t) { stopChannel(world, a); return; }
+    const d = Math.hypot(t.x - a.x, t.y - a.y) - t.radius - a.radius;
+    if (a.brain === 'chase' && d > 20 && !world.quick(a, 'cannotMove')) {
+      const sp = world.quick(a, 'moveBase') * world.quick(a, 'moveSpeed') / 100 * dt * 0.7, l = Math.hypot(t.x - a.x, t.y - a.y) || 1;
+      const step = Math.min(sp, d - 20);
+      a.x += (t.x - a.x) / l * step; a.y += (t.y - a.y) / l * step;
+    }
+    return;
+  }
   if (world.time < (a.busyUntil ?? 0)) return;
   // Re-acquire the nearest enemy a few times per second, not every frame (staggered by id).
   let target = a.brainTarget;
