@@ -45,8 +45,15 @@ export async function selfUpdate(cwd, { restartPaths = [] } = {}) {
   if (!fetched.ok) return { status: 'error', message: `拉取失败：${String(fetched.error.stderr || fetched.error.message).trim().split('\n').pop()}` };
   const from = (await git(root, ['rev-parse', 'HEAD'])).trim(), to = (await git(root, ['rev-parse', 'FETCH_HEAD'])).trim();
   if (from === to) return { status: 'uptodate', message: '已经是最新版本。', from, to };
-  if (!(await tryGit(root, ['merge-base', '--is-ancestor', 'HEAD', to])).ok)
-    return { status: 'blocked', message: '本地有远端没有的提交，不能自动快进。请先推送或手动合并。', from, to };
+  let rewritten = false;
+  if (!(await tryGit(root, ['merge-base', '--is-ancestor', 'HEAD', to])).ok) {
+    // The remote history was rewritten (same content, new commit ids, e.g. authorship fixed):
+    // allowed when the local HEAD's tree is identical to some commit on the remote branch.
+    const tree = (await git(root, ['rev-parse', 'HEAD^{tree}'])).trim();
+    const trees = (await git(root, ['log', '--format=%T', '-n', '400', to])).split('\n');
+    if (!trees.includes(tree)) return { status: 'blocked', message: '本地有远端没有的提交，不能自动快进。请先推送或手动合并。', from, to };
+    rewritten = true;
+  }
 
   // Local edits: allow only content that some incoming commit already published (copied by hand
   // from the repo). Real local work is never overwritten.
@@ -69,7 +76,7 @@ export async function selfUpdate(cwd, { restartPaths = [] } = {}) {
     else await git(root, ['checkout', 'HEAD', '--', file]);
   }
 
-  const merged = await tryGit(root, ['merge', '--ff-only', '--quiet', to]);
+  const merged = await tryGit(root, rewritten ? ['reset', '--hard', '--quiet', to] : ['merge', '--ff-only', '--quiet', to]);
   if (!merged.ok) return { status: 'error', message: `快进失败：${String(merged.error.stderr || merged.error.message).trim().split('\n').pop()}`, from, to };
   const commits = (await git(root, ['log', '--format=%h %s', `${from}..${to}`])).split('\n').filter(Boolean);
   const files = [...changed];
