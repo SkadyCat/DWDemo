@@ -247,7 +247,7 @@ export class MapRun {
   monsterColor(m) { return ELEMENT_COLOR[m.element] ?? 0x7a2018; }
   projectiles() {
     return this.world.carriers.projectiles.filter(p => p.alive).map(p => ({ id: p.id, x: p.x, y: p.y, z: 70, vx: p.dx * p.speed, vy: p.dy * p.speed, vz: 0, radius: p.radius,
-      hostile: p.inv.caster.team !== 0, kind: p.action.kind ?? (p.inv.skill?.def.id ?? 'bolt'), element: elementOf(p.inv), age: p.lifetime - p.life }));
+      hostile: p.inv.caster.team !== 0, kind: p.action.kind ?? (p.inv.skill?.def.id ?? 'bolt'), element: elementOf(p.inv), age: p.age }));
   }
   zones() { return this.world.carriers.zones.filter(z => z.alive).map(z => ({ id: z.id, x: z.x, y: z.y, radius: z.radius, kind: z.kind ?? z.action.kind, remaining: z.remaining, element: elementOf(z.inv) })); }
 }

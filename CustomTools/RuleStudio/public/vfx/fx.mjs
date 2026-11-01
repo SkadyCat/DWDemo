@@ -284,7 +284,7 @@ export function createFx(T, scene) {
     const dens = Math.min(1, 2.5 / Math.sqrt(Math.max(1, list.length))), em = n => Math.floor(n * dens + Math.random());
     for (const p of list) {
       seen.add(p.id);
-      const el = p.hostile ? (p.element === 'chaos' ? 'void' : 'hostile') : p.element, c = pal(el), pos = [p.x, p.y, p.z], r = Math.max(.14, p.radius) * Math.min(1, .45 + (p.age ?? 1) * 7);
+      const el = p.hostile ? (p.element === 'chaos' ? 'void' : 'hostile') : p.element, c = pal(el), pos = [p.x, p.y, p.z], r = Math.max(.14, p.radius) * Math.min(1, .45 + Math.max(0, p.age ?? 1) * 7);
       const vel = [p.vx, p.vy, p.vz], speed = Math.hypot(...vel) || 1, back = [-p.vx / speed, 0, -p.vz / speed];
       let tr = trails.get(p.id);
       if (!tr) { tr = []; trails.set(p.id, tr); }

@@ -13,7 +13,7 @@ export class Carriers {
     // Screen-wide cap: past this many live projectiles new ones fizzle (keeps cascades smooth).
     if (this.projectiles.length >= MAX_PROJECTILES) return null;
     p.dx = Math.cos(p.angle); p.dy = Math.sin(p.angle);
-    p.life = p.lifetime; p.alive = true; p.returning = false; p.id = ++this.spawned;
+    p.life = p.lifetime; p.age = 0; p.alive = true; p.returning = false; p.id = ++this.spawned;
     this.projectiles.push(p);
     p.inv.world.emit({ type: 'projectileSpawn', source: p.inv.caster, skill: p.inv.skill, x: p.x, y: p.y, angle: p.angle, carrier: p.id, kind: p.action.kind, depth: p.inv.depth });
     return p;
@@ -35,7 +35,7 @@ export class Carriers {
     const caster = p.inv.caster;
     if (p.returning) { const dx = caster.x - p.x, dy = caster.y - p.y, d = Math.hypot(dx, dy) || 1; p.dx = dx / d; p.dy = dy / d; }
     let travel = p.speed * dt;
-    p.life -= dt;
+    p.life -= dt; p.age += dt;
     while (travel > 0 && p.alive) {
       // Closest enemy touched along this segment.
       let ex = p.x + p.dx * travel, ey = p.y + p.dy * travel, wall = false;
