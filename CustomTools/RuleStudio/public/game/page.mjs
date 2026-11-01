@@ -13,7 +13,6 @@ import { defenceReport, roleReport } from '../../core/analysis.mjs';
 import { loadSave, writeSave, buildOf, equip, unequip, salvage, craft, applyArchetype, grantedSkills, syncSkillBar, SKILL_BAR } from './save.mjs';
 import { equippedTraits, ladderStatus, detectArchetype } from './traits.mjs';
 import { MapRun } from './run.mjs';
-import { LiquidOrb } from './orb.mjs';
 import { Scene3D, Overlay } from './scene.mjs';
 import { dungeonRandom } from './dungeon.mjs';
 import { runSelfUpdate } from '../self-update.mjs';
@@ -140,22 +139,27 @@ const TEMPLATE = /* html */ `
     <p class="clearflash" ref="flashEl">清 屏<small>{{ hud.flashN }} 杀 / 秒</small></p>
 
     <section class="dock">
-      <liquid-orb kind="life" side="left" label="生命" :value="hud.life" :max="hud.lifeMax" :es="hud.es" :es-max="hud.esMax"></liquid-orb>
-      <div class="dock-mid">
-        <div class="buffs">
-          <span v-for="r in hud.resources" :key="r.id" class="buff res"><Gi :n="buffIcon(r.id)" c="el-gold"/>{{ r.name }}<sub>{{ r.value }}</sub></span>
-          <span v-for="s in hud.buffs" :key="s.id" class="buff" :style="{ '--c': s.color }">{{ s.name }}<sub v-if="s.stacks > 1">{{ s.stacks }}</sub></span>
-        </div>
-        <div class="xp" :title="'地图进度 ' + pct(hud.kills, hud.total)"><i :style="{ width: pct(hud.kills, hud.total) }"></i></div>
-        <div class="skills">
-          <button v-for="(s, i) in hud.skills" :key="i" class="skill" :class="['el-' + s.el, { on: i === hud.selected, channel: s.channel }]" @click="selectSkill(i)" :title="s.name + '（按 ' + (i + 1) + ' 选择，按住左键施放）'">
-            <Gi :n="s.icon" :c="'el-' + s.el" :g="s.name.slice(0, 1)"/>
-            <i class="cd" v-if="s.cd > 0" :style="{ '--p': s.cdPct }"></i>
-            <kbd>{{ i + 1 }}</kbd><span class="sname">{{ s.name }}</span>
-          </button>
-        </div>
+      <div class="buffs">
+        <span v-for="r in hud.resources" :key="r.id" class="buff res"><Gi :n="buffIcon(r.id)" c="el-gold"/>{{ r.name }}<sub>{{ r.value }}</sub></span>
+        <span v-for="s in hud.buffs" :key="s.id" class="buff" :style="{ '--c': s.color }">{{ s.name }}<sub v-if="s.stacks > 1">{{ s.stacks }}</sub></span>
       </div>
-      <liquid-orb kind="mana" side="right" label="魔力" :value="hud.mana" :max="hud.manaMax"></liquid-orb>
+      <div class="vital life" :class="{ low: hud.life < hud.lifeMax * 0.3 }" :title="'生命 ' + hud.life + ' / ' + hud.lifeMax">
+        <i class="ghost" :style="{ width: pct(hud.life, hud.lifeMax) }"></i><i class="fill" :style="{ width: pct(hud.life, hud.lifeMax) }"></i>
+        <i class="es" v-if="hud.esMax" :style="{ width: pct(hud.es, hud.esMax) }"></i>
+        <span class="v-num">{{ hud.life }}<small> / {{ hud.lifeMax }}</small><em v-if="hud.esMax">护盾 {{ hud.es }}</em></span>
+      </div>
+      <div class="vital mana" :title="'魔力 ' + hud.mana + ' / ' + hud.manaMax">
+        <i class="fill" :style="{ width: pct(hud.mana, hud.manaMax) }"></i>
+        <span class="v-num">{{ hud.mana }}<small> / {{ hud.manaMax }}</small></span>
+      </div>
+      <div class="skills">
+        <button v-for="(s, i) in hud.skills" :key="i" class="skill" :class="['el-' + s.el, { on: i === hud.selected, channel: s.channel }]" @click="selectSkill(i)" :title="s.name + '（按 ' + (i + 1) + ' 选择，按住左键施放）'">
+          <Gi :n="s.icon" :c="'el-' + s.el" :g="s.name.slice(0, 1)"/>
+          <i class="cd" v-if="s.cd > 0" :style="{ '--p': s.cdPct }"></i>
+          <kbd>{{ i + 1 }}</kbd>
+        </button>
+      </div>
+      <p class="kills-line"><i :style="{ width: pct(hud.kills, hud.total) }"></i></p>
     </section>
 
     <div class="toasts"><p v-for="t in toasts" :key="t.id" :class="t.cls"><Gi v-if="t.icon" :n="t.icon" :c="t.ic || ''"/>{{ t.text }}</p></div>
@@ -356,7 +360,7 @@ const TEMPLATE = /* html */ `
 
 export function mountGame(el) {
   const app = createApp({
-    components: { ItemTip, Minimap, Gi, LiquidOrb },
+    components: { ItemTip, Minimap, Gi },
     template: TEMPLATE,
     setup() {
       const save = reactive(loadSave());
