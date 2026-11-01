@@ -454,3 +454,31 @@ select { font: inherit; color: var(--txt); background: var(--deep); border: 1px 
 .atlas.far .node .name, .atlas.far .node .tier-sm { display: none; }
 .atlas.far .node.sel .name { display: block; font-size: 24px; }
 .er-right .er-hint { position: absolute; right: 14px; top: 100%; margin-top: 4px; white-space: nowrap; font-size: 11px; color: rgba(240, 232, 214, .4); }
+
+/* ---------- atlas window (rail · M) ---------- */
+.atlas-win { position: absolute; inset: 0; z-index: 20;
+  background: radial-gradient(ellipse 70% 50% at 50% 0%, #142042 0%, transparent 70%), radial-gradient(ellipse 60% 40% at 50% 110%, #22160e 0%, transparent 70%), linear-gradient(#070c1a, #03050b); }
+.atlas-top { position: absolute; left: 24px; right: 110px; top: 22px; z-index: 6; display: flex; align-items: center; gap: 18px; pointer-events: none; }
+.atlas-top h2 { font: 400 30px/1 var(--title); color: var(--gold-hi); letter-spacing: .5em; text-shadow: 0 0 18px rgba(251, 231, 176, .3); }
+.atlas-top span { color: var(--mute); font-size: 13px; }
+.atlas-top .x { margin-left: auto; pointer-events: auto; width: 36px; height: 36px; font-size: 22px; background: rgba(6, 10, 24, .8); }
+.atlas-win .atlas-card { top: 84px; }
+
+/* ---------- waystones ---------- */
+.gi.w-normal { --gg: linear-gradient(160deg, #f4efe4, #8d877b); } .gi.w-magic { --gg: linear-gradient(160deg, #e0ecff, #4f7fd6); } .gi.w-rare { --gg: linear-gradient(160deg, #fff3b8, #c9962a); }
+.ws { position: relative; width: 46px; height: 46px; padding: 8px; border-radius: 6px; background: radial-gradient(circle at 50% 35%, #1a2444, #060a18); box-shadow: inset 0 0 0 1px var(--gold-lo); transition: box-shadow .15s, transform .15s; }
+.ws b { position: absolute; right: 3px; bottom: 1px; font: 13px/1 var(--num); color: var(--txt); text-shadow: 0 1px 2px #000; }
+.ws.w-magic { box-shadow: inset 0 0 0 1px rgba(134, 172, 255, .6); } .ws.w-rare { box-shadow: inset 0 0 0 1px rgba(242, 211, 106, .7); }
+.ws:hover { transform: translateY(-2px); box-shadow: inset 0 0 0 1px var(--gold-hi); }
+.ws.on { box-shadow: inset 0 0 0 2px var(--gold-hi), 0 0 14px rgba(251, 231, 176, .45); }
+.ws-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.ws-none { color: var(--bad); font-size: 13px; padding: 10px 0; }
+.ws-mods { margin-top: 8px; } .ws-tier { margin-top: 6px; color: var(--warn); font-size: 12.5px; }
+.ac-stone { padding: 0 22px 10px; border-top: 1px solid var(--line); }
+.ac-stone .sub { margin-top: 10px; }
+.hub { position: absolute; left: 50%; top: 54%; transform: translate(-50%, -50%); width: min(720px, calc(100vw - 200px)); padding: 30px 34px 30px; text-align: center; }
+.hub-lead { color: var(--mute); font-size: 13.5px; max-width: 34em; margin: 0 auto 18px; }
+.ws-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; max-height: 220px; overflow-y: auto; padding: 4px; margin-bottom: 16px; }
+.hub-count { color: var(--mute); font-size: 13px; margin-bottom: 18px; } .hub-count b { font: 17px var(--num); color: var(--gold-hi); }
+.lt.r-waystone { --c: #d9cfbf; background: rgba(20, 16, 10, .9); } .lt.r-waystone.w-magic { --c: #8eb4ff; } .lt.r-waystone.w-rare { --c: #f6d86c; }
+.toasts .w-magic { color: var(--r-magic); } .toasts .w-rare { color: var(--r-rare); } .toasts .w-normal { color: var(--txt); }

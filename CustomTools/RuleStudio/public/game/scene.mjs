@@ -6,6 +6,7 @@ import { createLootMarkers } from '../prefabs/loot-markers.mjs';
 import { createGlowRenderer } from '../vfx/glow-renderer.mjs';
 import { createEffects } from './effects.mjs';
 import { rarityOf, itemName, CURRENCIES } from '../../core/content/items.mjs';
+import { waystoneName } from './waystones.mjs';
 
 const M = 0.01;
 const toV = (x, y, h = 0) => new THREE.Vector3(x * M, h, -y * M);
@@ -133,6 +134,7 @@ export class Scene3D {
     this.effects.update(run);
     this.loot.update(run.loot.map(l => {
       const d = l.drop, item = d.type === 'item';
+      if (d.type === 'waystone') return { key: l.key, x: l.x * M, z: -l.y * M, sourceX: l.sourceX * M, sourceZ: -l.sourceY * M, kind: 'item', category: 'omen' };
       return { key: l.key, x: l.x * M, z: -l.y * M, sourceX: l.sourceX * M, sourceZ: -l.sourceY * M, kind: 'item',
         rarity: item ? RARITY_KEY[rarityOf(d.item).id] : undefined, category: item ? 'equipment' : 'currency', currencyGrade: item ? undefined : (d.id.startsWith('essence') ? 3 : d.id === 'chaos' || d.id === 'seal' ? 2 : 1) };
     }), run.elapsed, []);
@@ -161,17 +163,18 @@ export class Overlay {
     for (const l of run.loot) {
       if (!scene.lootAnchor(l.key)) continue;                       // still in the air
       const d = l.drop, item = d.type === 'item';
-      const rid = item ? rarityOf(d.item).id : 'currency';
+      const stone = d.type === 'waystone';
+      const rid = item ? rarityOf(d.item).id : stone ? 'waystone' : 'currency';
       if (rid === 'normal' && !this.showAll) continue;
       const at = scene.project(toV(l.x, l.y, 0.42));
       if (!at || at.x < -80 || at.y < -40 || at.x > scene.width + 80 || at.y > scene.height + 40) continue;
       let lab = this.labels.get(l.key);
       if (!lab) {
         const el = document.createElement('div');
-        const grade = item ? '' : d.id.startsWith('essence') ? ' g3' : d.id === 'chaos' || d.id === 'seal' ? ' g2' : '';
+        const grade = item ? '' : stone ? ' w-' + d.stone.rarity : d.id.startsWith('essence') ? ' g3' : d.id === 'chaos' || d.id === 'seal' ? ' g2' : '';
         el.className = `lt r-${rid}${grade}`; el.dataset.key = l.key;
-        el.innerHTML = `<span>${item ? itemName(d.item) : CURRENCIES[d.id].name}</span>`;
-        if (!item) el.title = CURRENCIES[d.id].desc;
+        el.innerHTML = `<span>${item ? itemName(d.item) : stone ? waystoneName(d.stone) : CURRENCIES[d.id].name}</span>`;
+        if (!item && !stone) el.title = CURRENCIES[d.id].desc;
         this.labelLayer.appendChild(el);
         lab = { el, w: el.offsetWidth, h: el.offsetHeight };
         this.labels.set(l.key, lab);

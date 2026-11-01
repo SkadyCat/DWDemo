@@ -41,3 +41,15 @@ test('node modifiers change the run: trials are crowded, vaults pay', () => {
   const vault = nodeMods({ kind: 'vault', mods: ['rich'] });
   assert.ok(vault.quantity > 2 && vault.legend >= 3);
 });
+
+test('waystones: bosses always drop one, rarer stones carry map modifiers', async () => {
+  const { rollWaystoneDrops, rollWaystone, starterWaystones } = await import('../public/game/waystones.mjs');
+  const { dungeonRandom } = await import('../public/game/dungeon.mjs');
+  const rng = dungeonRandom(5);
+  for (let i = 0; i < 50; ++i) { const d = rollWaystoneDrops(7, 'boss', rng); assert.ok(d.length >= 1 && d.every(w => w.tier >= 7)); }
+  let trash = 0; for (let i = 0; i < 4000; ++i) trash += rollWaystoneDrops(7, 'monster', rng).length;
+  assert.ok(trash > 5 && trash < 60, `trash drops ${trash}`);
+  assert.equal(rollWaystone(3, rng, 'normal').mods.length, 0);
+  assert.ok(rollWaystone(3, rng, 'rare').mods.length >= 3);
+  assert.ok(starterWaystones([], rng).length >= 3);
+});

@@ -8,6 +8,7 @@ import { rollDrops } from '../../core/content/items.mjs';
 import { castTime } from '../../core/skills.mjs';
 import { detachRules } from '../../core/rules.mjs';
 import { generateDungeon, dungeonRandom } from './dungeon.mjs';
+import { rollWaystoneDrops } from './waystones.mjs';
 
 export const STATUS_LOOK = {
   ignited: { color: '#ff7a2e', glyph: '燃', fx: 'ignite' }, poisoned: { color: '#7ee36b', glyph: '毒', fx: 'poison' }, bleeding: { color: '#e0334a', glyph: '血', fx: 'bleed' },
@@ -218,6 +219,10 @@ export class MapRun {
       for (const drop of rollDrops(this.tier, kind, this.rng, { quantity: this.quantity, legend: this.mods.legend })) {
         const a = this.rng() * Math.PI * 2, r = 30 + this.rng() * (kind === 'boss' ? 160 : 60);
         this.loot.push({ key: `${this.elapsed.toFixed(3)}:${this.loot.length}:${this.rng()}`, x: e.target.x + Math.cos(a) * r, y: e.target.y + Math.sin(a) * r, sourceX: e.target.x, sourceY: e.target.y, drop, born: this.elapsed });
+      }
+      for (const stone of rollWaystoneDrops(this.tier, kind, this.rng, this.quantity)) {
+        const a = this.rng() * Math.PI * 2, r = 40 + this.rng() * (kind === 'boss' ? 120 : 50);
+        this.loot.push({ key: `w${this.elapsed.toFixed(3)}:${this.loot.length}:${this.rng()}`, x: e.target.x + Math.cos(a) * r, y: e.target.y + Math.sin(a) * r, sourceX: e.target.x, sourceY: e.target.y, drop: { type: 'waystone', stone }, born: this.elapsed });
       }
       if (e.target === this.boss) { this.phase = 'cleared'; this.clearedAt = this.elapsed; }
     }

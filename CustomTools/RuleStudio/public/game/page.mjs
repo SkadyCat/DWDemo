@@ -16,6 +16,7 @@ import { MapRun } from './run.mjs';
 import { Scene3D, Overlay } from './scene.mjs';
 import { dungeonRandom } from './dungeon.mjs';
 import { runSelfUpdate } from '../self-update.mjs';
+import { waystoneName, starterWaystones, FREE_TIER } from './waystones.mjs';
 import { generateAtlas, newAtlasState, atlasView, completeNode, nodeMods, NODE_KINDS, NODE_MODS, FAMILY_HUE, REGION_NAME } from './atlas.mjs';
 import { GI, BASE_ICON, SLOT_ICON, SKILL_ICON, CURRENCY_ICON, PANEL_ICON, FAMILY_ICON, LAYER_ICON, BUFF_ICON, probeIcons } from './icons.mjs';
 
@@ -25,7 +26,7 @@ const ELEMENT_HUE = { physical: '#d8c6a4', fire: '#ff8a3d', cold: '#8fd8ff', lig
 const EL_CLASS = { physical: 'phys', fire: 'fire', cold: 'cold', lightning: 'light', chaos: 'chaos' };
 const SLOT_GLYPH = { weapon: '兵', offhand: '副', helmet: '盔', chest: '甲', gloves: '手', boots: '靴', belt: '带', amulet: '坠', ring1: '戒', ring2: '戒' };
 const PANELS = [
-  { id: 'char', name: '角色', key: 'C' }, { id: 'bag', name: '背包', key: 'I' },
+  { id: 'atlas', name: '地图', key: 'M' }, { id: 'char', name: '角色', key: 'C' }, { id: 'bag', name: '背包', key: 'I' },
   { id: 'craft', name: '洗炼', key: 'K' }, { id: 'bd', name: '流派', key: 'B' }, { id: 'codex', name: '传奇', key: 'L' },
 ];
 const TIER_ROMAN = ['', 'Ⅰ', 'Ⅱ', 'Ⅲ', 'Ⅳ', 'Ⅴ', 'Ⅵ', 'Ⅶ', 'Ⅷ', 'Ⅸ', 'Ⅹ', 'Ⅺ', 'Ⅻ', 'XIII', 'XIV', 'XV', 'XVI'];
@@ -176,7 +177,7 @@ const TEMPLATE = /* html */ `
         <div><dt>用时</dt><dd>{{ hud.time }}</dd></div><div><dt>击杀</dt><dd>{{ hud.kills }}</dd></div>
         <div><dt>最高连杀</dt><dd>{{ run.bestCombo }}</dd></div><div><dt>连锁击杀</dt><dd>{{ pctNum(run.cascadeKills, hud.kills) }}%</dd></div>
       </dl>
-      <p v-if="run.phase === 'cleared'">带回 {{ resultLoot.items }} 件装备、{{ resultLoot.currencies }} 个通货<template v-if="resultLoot.legend">，其中 {{ resultLoot.legend }} 件传奇</template><template v-if="resultLoot.opened">；新开放 {{ resultLoot.opened }} 个节点</template></p>
+      <p v-if="run.phase === 'cleared'">带回 {{ resultLoot.items }} 件装备、{{ resultLoot.currencies }} 个通货、{{ resultLoot.stones }} 块路石<template v-if="resultLoot.legend">，其中 {{ resultLoot.legend }} 件传奇</template><template v-if="resultLoot.opened">；新开放 {{ resultLoot.opened }} 个节点</template></p>
       <p v-else>只带回已经拾取的东西。回营地看看「本图要求」哪一项没达标。</p>
       <button class="orn-btn primary" @click="leaveRun">回到营地</button>
     </section>
@@ -191,6 +192,22 @@ const TEMPLATE = /* html */ `
       <button class="orn-btn ghost sm" @click="update">{{ updateText || '更新到最新' }}</button>
     </header>
 
+    <!-- the map device: waystones in the stash; the atlas itself opens from the rail (M) -->
+    <main class="hub panel">
+      <h2 class="ttl">地图装置</h2>
+      <p class="hub-lead">每张地图要放入一块路石才能开启：路石 T 阶不低于节点，开图时消耗。打倒首领必掉路石，精英偶尔掉落。营地旁的 T1 节点不需要路石。</p>
+      <div class="ws-grid">
+        <button v-for="w in stash" :key="w.uid" class="ws" :class="'w-' + w.rarity" :title="waystoneTip(w)" @click="openAtlasFor(w)"><Gi n="stone-tablet" :c="'w-' + w.rarity"/><b>{{ w.tier }}</b></button>
+        <p v-if="!stash.length" class="hint">还没有路石。去 T1 节点打首领拿第一块。</p>
+      </div>
+      <p class="hub-count"><b>{{ save.waystones.length }}</b> 块路石 · 已打通 <b>{{ save.atlas.done.length }}</b> / {{ atlas.nodes.length }} 节点 · 可进入 <b>{{ atlasOpenCount }}</b></p>
+      <button class="orn-btn primary big" @click="toggle('atlas')">打开图集 · M</button>
+    </main>
+  </template>
+
+  <!-- =================== ATLAS (rail · M) =================== -->
+  <section class="atlas-win" v-if="atlasOpen" aria-label="地图图集">
+    <header class="atlas-top"><h2>图 集</h2><span>{{ save.waystones.length }} 块路石</span><button class="x" @click="toggle('atlas')" aria-label="关闭">×</button></header>
     <!-- PoE2-like atlas: a seeded star map; clear a node to open the roads around it -->
     <div class="atlas" ref="atlasEl" :class="{ dragging: atlasDrag.moved, far: atlasFar }" @pointerdown="atlasDown" @pointermove="atlasMove" @pointerup="atlasUp" @pointercancel="atlasUp" @wheel.prevent="atlasWheel">
       <svg class="atlas-svg" :viewBox="atlasBox" preserveAspectRatio="xMidYMid slice" aria-label="地图图集">
@@ -224,7 +241,7 @@ const TEMPLATE = /* html */ `
     <section class="atlas-card panel" v-if="selNode">
       <header class="ac-head">
         <div class="ac-icon" :style="{ '--hue': selNode.hue }"><Gi v-if="selNode.kind !== 'normal'" :n="kinds[selNode.kind].icon" c="el-gold"/><b v-else>{{ selNode.tier }}</b></div>
-        <div><h2>{{ selNode.name }}</h2><p>T{{ selNode.tier }} · {{ regionName(selNode.family) }} · <span :class="'st-' + selNode.st">{{ statusName(selNode.st) }}</span></p></div>
+        <div><h2>{{ selNode.name }}</h2><p>T{{ runTier }} · {{ regionName(selNode.family) }} · <span :class="'st-' + selNode.st">{{ statusName(selNode.st) }}</span></p></div>
       </header>
       <div class="ac-body">
         <p class="ac-kind" v-if="selNode.kind !== 'normal'"><b>{{ kinds[selNode.kind].name }}</b>{{ kinds[selNode.kind].text }}</p>
@@ -250,8 +267,17 @@ const TEMPLATE = /* html */ `
           </template>
         </div>
       </div>
+      <div class="ac-stone">
+        <h4 class="sub">路石 <small>{{ freeNode ? 'T1 节点不需要路石' : '需要 T' + selNode.tier + ' 及以上，开图时消耗' }}</small></h4>
+        <div class="ws-row" v-if="!freeNode">
+          <button v-for="w in usable" :key="w.uid" class="ws" :class="['w-' + w.rarity, { on: w.uid === wsSel }]" :title="waystoneTip(w)" @click="wsSel = w.uid"><Gi n="stone-tablet" :c="'w-' + w.rarity"/><b>{{ w.tier }}</b></button>
+          <p v-if="!usable.length" class="ws-none">没有 T{{ selNode.tier }}+ 路石</p>
+        </div>
+        <ul class="ac-mods ws-mods" v-if="stone && stone.mods.length"><li v-for="m in stone.mods" :key="m">{{ nodeModText(m) }}</li></ul>
+        <p class="ws-tier" v-if="stone && stone.tier > selNode.tier">路石 T{{ stone.tier }} 高于节点：本次按 T{{ stone.tier }} 打</p>
+      </div>
       <footer class="ac-foot">
-        <button class="orn-btn primary big" :disabled="selNode.st === 'seen' || selNode.st === 'hidden'" @click="startRun">{{ selNode.st === 'done' ? '再次进入' : selNode.st === 'open' ? '开启地图' : '尚未连通' }}</button>
+        <button class="orn-btn primary big" :disabled="!canStart" @click="startRun">{{ startText }}</button>
       </footer>
     </section>
 
@@ -260,7 +286,7 @@ const TEMPLATE = /* html */ `
       <ul><li v-for="(k, id) in kinds" :key="id" v-show="id !== 'normal'"><Gi :n="k.icon" c="el-gold"/>{{ k.name }}</li></ul>
       <button class="orn-btn ghost sm" @click="centerAtlas()">回到当前位置</button>
     </section>
-  </template>
+  </section>
 
   <!-- =================== RAIL =================== -->
   <nav class="rail" aria-label="功能">
@@ -407,7 +433,7 @@ export function mountGame(el) {
       const picked = ref(null), pickedLine = ref(null), craftMsg = ref(''), roles = ref(null), evaluating = ref(false), updateText = ref('');
       const hover = ref(null), bdSel = ref(save.archetype ?? ARCHETYPES[0].id), toasts = ref([]), legendBanner = ref(null);
       const dragItem = ref(null), dropSlot = ref(null);
-      const run = ref(null), resultLoot = reactive({ items: 0, currencies: 0, legend: 0, opened: 0, done: false });
+      const run = ref(null), resultLoot = reactive({ items: 0, currencies: 0, stones: 0, legend: 0, opened: 0, done: false });
       const hud = reactive({ combo: 0, cascadePct: 0, flashN: 0, tick: 0, time: '0:00', kills: 0, total: 0, life: 0, lifeMax: 1, es: 0, esMax: 0, mana: 0, manaMax: 1, skills: [], selected: 0, resources: [], buffs: [],
         bossShow: false, bossName: '', bossMods: [], bossLife: '100%', bossEs: '0%', bossEnraged: false });
       const rng = dungeonRandom(Date.now() >>> 0);
@@ -429,7 +455,29 @@ export function mountGame(el) {
       const atlasDrag = reactive({ on: false, moved: false, sx: 0, sy: 0, cx: 0, cy: 0 });
       const decorate = n => ({ ...n, st: view.value.status(n.id), hue: FAMILY_HUE[n.family] });
       const selNode = computed(() => decorate(atlas.nodes[atlasSel.value]));
-      const selMods = computed(() => nodeMods(atlas.nodes[atlasSel.value]));
+      // ---- waystones ------------------------------------------------------------------------------
+      const atlasOpen = ref(false), wsSel = ref(null);
+      if (!Array.isArray(save.waystones)) {
+        const tiers = [...new Set([...atlasView(atlas, save.atlas).open].map(id => atlas.nodes[id].tier).filter(t => t > FREE_TIER))].sort((a, b) => a - b).slice(0, 4);
+        save.waystones = starterWaystones(tiers, rng);
+      }
+      const RANK = { rare: 0, magic: 1, normal: 2 };
+      const stash = computed(() => [...save.waystones].sort((a, b) => a.tier - b.tier || RANK[a.rarity] - RANK[b.rarity]));
+      const freeNode = computed(() => atlas.nodes[atlasSel.value].tier <= FREE_TIER);
+      const usable = computed(() => stash.value.filter(w => w.tier >= atlas.nodes[atlasSel.value].tier));
+      const stone = computed(() => freeNode.value ? null : usable.value.find(w => w.uid === wsSel.value) ?? null);
+      watch([atlasSel, () => save.waystones.length], () => { if (!usable.value.some(w => w.uid === wsSel.value)) wsSel.value = usable.value[0]?.uid ?? null; }, { immediate: true });
+      const runTier = computed(() => Math.max(atlas.nodes[atlasSel.value].tier, stone.value?.tier ?? 0));
+      const reachable = computed(() => ['done', 'open'].includes(view.value.status(atlasSel.value)));
+      const canStart = computed(() => !run.value && reachable.value && (freeNode.value || !!stone.value));
+      const startText = computed(() => run.value ? '地图中无法开启' : !reachable.value ? '尚未连通' : !freeNode.value && !stone.value ? '需要路石' : view.value.status(atlasSel.value) === 'done' ? '再次进入' : '开启地图');
+      const waystoneTip = w => [waystoneName(w), ...w.mods.map(m => '· ' + NODE_MODS[m].text)].join('\n');
+      function openAtlasFor(w) {
+        const near = [...view.value.open, ...view.value.done].map(id => atlas.nodes[id]).filter(n => n.tier <= w.tier).sort((a, b) => b.tier - a.tier || (view.value.status(a.id) === 'open' ? -1 : 1))[0];
+        if (near) { atlasSel.value = near.id; nextTick(() => { wsSel.value = w.uid; }); }
+        if (!atlasOpen.value) toggle('atlas');
+      }
+      const selMods = computed(() => { const n = atlas.nodes[atlasSel.value]; return nodeMods({ kind: n.kind, mods: [...n.mods, ...(stone.value?.mods ?? [])] }); });
       const atlasShown = computed(() => atlas.nodes.map(decorate).filter(n => n.st !== 'hidden')
         .map(n => ({ ...n, label: n.id === atlasSel.value || n.st === 'open' || (n.kind === 'boss' && n.st !== 'seen') })));
       const atlasLit = computed(() => atlas.nodes.filter(n => view.value.status(n.id) !== 'hidden').map(n => ({ id: n.id, x: n.x, y: n.y, fog: { done: 210, open: 170, seen: 110 }[view.value.status(n.id)] })));
@@ -468,7 +516,7 @@ export function mountGame(el) {
         const wx = cam.x + mx / cam.k, wy = cam.y + my / cam.k;
         cam.k = k; cam.x = wx - mx / k; cam.y = wy - my / k;
       }
-      watch(atlasSel, id => { const n = atlas.nodes[id]; mapTier.value = n.tier; mapFamily.value = n.family; roles.value = null; }, { immediate: true });
+      watch([atlasSel, runTier], ([id, t]) => { const n = atlas.nodes[id]; mapTier.value = t; mapFamily.value = n.family; roles.value = null; }, { immediate: true });
       centerAtlas();
 
       const profile = computed(() => mapProfile(mapTier.value, mapFamily.value));
@@ -553,10 +601,11 @@ export function mountGame(el) {
         try { roles.value = roleReport(content, build(), mapTier.value); } finally { evaluating.value = false; }
       }
       async function update() { await runSelfUpdate(t => { updateText.value = t; }); }
-      const isOpen = id => id === 'char' || id === 'bag' ? open[id] : center.value === id;
+      const isOpen = id => id === 'atlas' ? atlasOpen.value : id === 'char' || id === 'bag' ? open[id] : center.value === id;
       function toggle(id) {
         hover.value = null;
-        if (id === 'char' || id === 'bag') open[id] = !open[id]; else center.value = center.value === id ? null : id;
+        if (id === 'atlas') { atlasOpen.value = !atlasOpen.value; if (atlasOpen.value) { center.value = null; open.char = open.bag = false; nextTick(() => { centerAtlas(); gsap?.fromTo('.atlas-win', { opacity: 0 }, { opacity: 1, duration: .35, ease: 'power2.out' }); }); } return; }
+        if (id === 'char' || id === 'bag') { open[id] = !open[id]; if (open[id]) atlasOpen.value = false; } else { center.value = center.value === id ? null : id; if (center.value) atlasOpen.value = false; }
         nextTick(() => { const sel = id === 'char' ? '.win-left' : id === 'bag' ? '.win-right' : '.win-center'; if (isOpen(id)) gsap?.fromTo(sel, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: .28, ease: 'power3.out', clearProps: 'transform' }); });
       }
       function openCenter(id) { if (center.value !== id) toggle(id); }
@@ -566,10 +615,14 @@ export function mountGame(el) {
         if (!buildOf(save).skills.length) { open.char = true; toast('技能栏是空的：装备一件带主动技能的装备（武器都带）', 'bad'); return; }
         const node = atlas.nodes[atlasSel.value], st = view.value.status(node.id);
         if (st !== 'done' && st !== 'open') { toast('这个节点还没连通：先打通与它相连的地图', 'bad'); return; }
-        const r = new MapRun(build(), { tier: node.tier, family: node.family, mods: nodeMods(node), seed: (Date.now() ^ (Math.random() * 1e9)) >>> 0 });
+        if (!freeNode.value && !stone.value) { toast(`需要一块 T${node.tier} 及以上的路石`, 'bad'); return; }
+        const used = stone.value, tier = runTier.value, mods = selMods.value;
+        if (used) save.waystones.splice(save.waystones.findIndex(w => w.uid === used.uid), 1);
+        persist(); atlasOpen.value = false;
+        const r = new MapRun(build(), { tier, family: node.family, mods, seed: (Date.now() ^ (Math.random() * 1e9)) >>> 0 });
         r.node = node.id;
         run.value = markRaw(r); open.char = open.bag = false; center.value = null; seenPicked = 0; seenClear = -1; seenLoot = new Set();
-        Object.assign(resultLoot, { items: 0, currencies: 0, legend: 0, opened: 0, done: false });
+        Object.assign(resultLoot, { items: 0, currencies: 0, stones: 0, legend: 0, opened: 0, done: false });
         nextTick(() => {
           if (!scene) { scene = new Scene3D(stage.value); ov = new Overlay(overlay.value); bindLabels(overlay.value); }
           stage.value.focus();
@@ -581,13 +634,13 @@ export function mountGame(el) {
       function leaveRun() {
         const r = run.value; if (!r) return;
         const loot = r.phase === 'failed' ? r.pickedUp : r.collectAll();
-        for (const d of loot) { if (d.type === 'item') save.inventory.unshift(d.item); else save.currencies[d.id] = (save.currencies[d.id] || 0) + d.count; }
+        for (const d of loot) { if (d.type === 'item') save.inventory.unshift(d.item); else if (d.type === 'waystone') save.waystones.push(d.stone); else save.currencies[d.id] = (save.currencies[d.id] || 0) + d.count; }
         if (r.phase === 'cleared') { save.unlocked = Math.min(MAP_TIERS, Math.max(save.unlocked, r.tier + 1)); save.stats.maps++; }
         save.stats.kills += r.kills;
         persist();
         cancelAnimationFrame(raf); ov?.clearLoot(); hover.value = null;
         run.value = null; roles.value = null; gearKey.value++;
-        if (r.phase === 'cleared') { atlasSel.value = firstNear(r.node); nextTick(() => centerAtlas(r.node)); }
+        if (r.phase === 'cleared') atlasSel.value = firstNear(r.node);
       }
       function frame(now) {
         const r = run.value; if (!r) return;
@@ -607,12 +660,13 @@ export function mountGame(el) {
           if (d.type === 'item') {
             const rr = rarityOf(d.item);
             toast(`${rr.name} · ${itemName(d.item)}`, 'r-' + rr.id, itemIcon(d.item), 'r-' + rr.id);
-          } else toast(CURRENCIES[d.id].name, 'cur', CURRENCY_ICON[d.id], 'r-currency');
+          } else if (d.type === 'waystone') toast(waystoneName(d.stone), 'w-' + d.stone.rarity, 'stone-tablet', 'w-' + d.stone.rarity);
+          else toast(CURRENCIES[d.id].name, 'cur', CURRENCY_ICON[d.id], 'r-currency');
         }
         if (r.phase !== 'running' && !resultLoot.done) {
           resultLoot.done = true;
           const loot = r.phase === 'cleared' ? [...r.pickedUp, ...r.loot.map(l => l.drop)] : r.pickedUp;
-          resultLoot.items = loot.filter(d => d.type === 'item').length; resultLoot.currencies = loot.filter(d => d.type === 'currency').length;
+          resultLoot.items = loot.filter(d => d.type === 'item').length; resultLoot.currencies = loot.filter(d => d.type === 'currency').length; resultLoot.stones = loot.filter(d => d.type === 'waystone').length;
           resultLoot.legend = loot.filter(d => d.item?.legend).length;
           if (r.phase === 'cleared' && r.node != null) { resultLoot.opened = completeNode(atlas, save.atlas, r.node); persist(); }
           nextTick(() => gsap?.from('.result', { opacity: 0, scale: .92, duration: .5, ease: 'back.out(1.6)', clearProps: 'transform,opacity' }));
@@ -674,7 +728,7 @@ export function mountGame(el) {
         if (/^[1-4]$/.test(k)) selectSkill(+k - 1);
         const p = PANELS.find(p => p.key.toLowerCase() === k); if (p) toggle(p.id);
         if (k === 'escape') {
-          if (open.char || open.bag || center.value) { open.char = open.bag = false; center.value = null; hover.value = null; }
+          if (atlasOpen.value || open.char || open.bag || center.value) { atlasOpen.value = false; open.char = open.bag = false; center.value = null; hover.value = null; }
           else if (run.value && run.value.phase !== 'running') leaveRun();
         }
       };
@@ -689,6 +743,7 @@ export function mountGame(el) {
       const pct = (a, b) => `${Math.max(0, Math.min(100, 100 * a / Math.max(1, b)))}%`;
       const bandIndex = t => STAGES.findIndex(s => t >= s.maps[0] && t <= s.maps[1]);
       return {
+        atlasOpen, wsSel, stash, freeNode, usable, stone, runTier, canStart, startText, waystoneTip, openAtlasFor,
         atlas, atlasEl, atlasSel, atlasDrag, selNode, selMods, atlasShown, atlasLit, atlasLandmarks, atlasStars, atlasRoads, atlasRegions, atlasRings, atlasBox, atlasOpenCount, atlasFar,
         centerAtlas, selectNode, atlasDown, atlasMove, atlasUp, atlasWheel, kinds: NODE_KINDS,
         kindIconUrl: (kind, color) => `https://api.iconify.design/game-icons/${NODE_KINDS[kind].icon}.svg?color=${encodeURIComponent(color)}`,
