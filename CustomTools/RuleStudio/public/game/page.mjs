@@ -13,6 +13,8 @@ import { defenceReport, roleReport } from '../../core/analysis.mjs';
 import { loadSave, writeSave, buildOf, equip, unequip, salvage, craft, applyArchetype, grantedSkills, syncSkillBar, SKILL_BAR } from './save.mjs';
 import { equippedTraits, ladderStatus, detectArchetype } from './traits.mjs';
 import { MapRun } from './run.mjs';
+import { TalentBoard } from './talents-panel.mjs';
+import { talentPoints } from '../../core/content/talents.mjs';
 import { Scene3D, Overlay } from './scene.mjs';
 import { dungeonRandom } from './dungeon.mjs';
 import { runSelfUpdate } from '../self-update.mjs';
@@ -26,7 +28,7 @@ const ELEMENT_HUE = { physical: '#d8c6a4', fire: '#ff8a3d', cold: '#8fd8ff', lig
 const EL_CLASS = { physical: 'phys', fire: 'fire', cold: 'cold', lightning: 'light', chaos: 'chaos' };
 const SLOT_GLYPH = { weapon: '兵', offhand: '副', helmet: '盔', chest: '甲', gloves: '手', boots: '靴', belt: '带', amulet: '坠', ring1: '戒', ring2: '戒' };
 const PANELS = [
-  { id: 'atlas', name: '地图', key: 'M' }, { id: 'char', name: '角色', key: 'C' }, { id: 'bag', name: '背包', key: 'I' },
+  { id: 'atlas', name: '地图', key: 'M' }, { id: 'talents', name: '天赋', key: 'P' }, { id: 'char', name: '角色', key: 'C' }, { id: 'bag', name: '背包', key: 'I' },
   { id: 'craft', name: '洗炼', key: 'K' }, { id: 'bd', name: '流派', key: 'B' }, { id: 'codex', name: '传奇', key: 'L' },
 ];
 const TIER_ROMAN = ['', 'Ⅰ', 'Ⅱ', 'Ⅲ', 'Ⅳ', 'Ⅴ', 'Ⅵ', 'Ⅶ', 'Ⅷ', 'Ⅸ', 'Ⅹ', 'Ⅺ', 'Ⅻ', 'XIII', 'XIV', 'XV', 'XVI'];
@@ -205,6 +207,9 @@ const TEMPLATE = /* html */ `
       <button class="orn-btn primary big" @click="toggle('atlas')">打开图集 · M</button>
     </main>
   </template>
+
+  <!-- =================== TALENTS (rail · P) =================== -->
+  <talent-board v-if="talentOpen" :save="save" :points="talentPts" @changed="gearChanged" @close="toggle('talents')"></talent-board>
 
   <!-- =================== ATLAS (rail · M) =================== -->
   <section class="atlas-win" v-if="atlasOpen" aria-label="地图图集">
@@ -423,7 +428,7 @@ const TEMPLATE = /* html */ `
 
 export function mountGame(el) {
   const app = createApp({
-    components: { ItemTip, Minimap, Gi },
+    components: { ItemTip, Minimap, Gi, TalentBoard },
     template: TEMPLATE,
     setup() {
       const save = reactive(loadSave());
@@ -457,7 +462,9 @@ export function mountGame(el) {
       const decorate = n => ({ ...n, st: view.value.status(n.id), hue: FAMILY_HUE[n.family] });
       const selNode = computed(() => decorate(atlas.nodes[atlasSel.value]));
       // ---- waystones ------------------------------------------------------------------------------
-      const atlasOpen = ref(false), wsSel = ref(null);
+      const atlasOpen = ref(false), talentOpen = ref(false), wsSel = ref(null);
+      if (!save.talents?.allocated) save.talents = { allocated: [] };
+      const talentPts = computed(() => talentPoints(save.atlas.done.map(id => atlas.nodes[id])));
       if (!Array.isArray(save.waystones)) {
         const tiers = [...new Set([...atlasView(atlas, save.atlas).open].map(id => atlas.nodes[id].tier).filter(t => t > FREE_TIER))].sort((a, b) => a - b).slice(0, 4);
         save.waystones = starterWaystones(tiers, rng);
@@ -602,11 +609,12 @@ export function mountGame(el) {
         try { roles.value = roleReport(content, build(), mapTier.value); } finally { evaluating.value = false; }
       }
       async function update() { await runSelfUpdate(t => { updateText.value = t; }); }
-      const isOpen = id => id === 'atlas' ? atlasOpen.value : id === 'char' || id === 'bag' ? open[id] : center.value === id;
+      const isOpen = id => id === 'talents' ? talentOpen.value : id === 'atlas' ? atlasOpen.value : id === 'char' || id === 'bag' ? open[id] : center.value === id;
       function toggle(id) {
         hover.value = null;
-        if (id === 'atlas') { atlasOpen.value = !atlasOpen.value; if (atlasOpen.value) { center.value = null; open.char = open.bag = false; nextTick(() => { centerAtlas(); gsap?.fromTo('.atlas-win', { opacity: 0 }, { opacity: 1, duration: .35, ease: 'power2.out' }); }); } return; }
-        if (id === 'char' || id === 'bag') { open[id] = !open[id]; if (open[id]) atlasOpen.value = false; } else { center.value = center.value === id ? null : id; if (center.value) atlasOpen.value = false; }
+        if (id === 'talents') { talentOpen.value = !talentOpen.value; if (talentOpen.value) { atlasOpen.value = false; center.value = null; open.char = open.bag = false; } return; }
+        if (id === 'atlas') { atlasOpen.value = !atlasOpen.value; if (atlasOpen.value) { talentOpen.value = false; center.value = null; open.char = open.bag = false; nextTick(() => { centerAtlas(); gsap?.fromTo('.atlas-win', { opacity: 0 }, { opacity: 1, duration: .35, ease: 'power2.out' }); }); } return; }
+        if (id === 'char' || id === 'bag') { open[id] = !open[id]; if (open[id]) atlasOpen.value = talentOpen.value = false; } else { center.value = center.value === id ? null : id; if (center.value) atlasOpen.value = talentOpen.value = false; }
         nextTick(() => { const sel = id === 'char' ? '.win-left' : id === 'bag' ? '.win-right' : '.win-center'; if (isOpen(id)) gsap?.fromTo(sel, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: .28, ease: 'power3.out', clearProps: 'transform' }); });
       }
       function openCenter(id) { if (center.value !== id) toggle(id); }
@@ -619,7 +627,7 @@ export function mountGame(el) {
         if (!freeNode.value && !stone.value) { toast(`需要一块 T${node.tier} 及以上的路石`, 'bad'); return; }
         const used = stone.value, tier = runTier.value, mods = selMods.value;
         if (used) save.waystones.splice(save.waystones.findIndex(w => w.uid === used.uid), 1);
-        persist(); atlasOpen.value = false;
+        persist(); atlasOpen.value = false; talentOpen.value = false;
         const r = new MapRun(build(), { tier, family: node.family, mods, seed: (Date.now() ^ (Math.random() * 1e9)) >>> 0 });
         r.node = node.id;
         run.value = markRaw(r); open.char = open.bag = false; center.value = null; seenPicked = 0; seenClear = -1; seenLoot = new Set();
@@ -730,7 +738,7 @@ export function mountGame(el) {
         if (/^[1-4]$/.test(k)) selectSkill(+k - 1);
         const p = PANELS.find(p => p.key.toLowerCase() === k); if (p) toggle(p.id);
         if (k === 'escape') {
-          if (atlasOpen.value || open.char || open.bag || center.value) { atlasOpen.value = false; open.char = open.bag = false; center.value = null; hover.value = null; }
+          if (talentOpen.value || atlasOpen.value || open.char || open.bag || center.value) { talentOpen.value = false; atlasOpen.value = false; open.char = open.bag = false; center.value = null; hover.value = null; }
           else if (run.value && run.value.phase !== 'running') leaveRun();
         }
       };
@@ -745,7 +753,7 @@ export function mountGame(el) {
       const pct = (a, b) => `${Math.max(0, Math.min(100, 100 * a / Math.max(1, b)))}%`;
       const bandIndex = t => STAGES.findIndex(s => t >= s.maps[0] && t <= s.maps[1]);
       return {
-        atlasOpen, wsSel, stash, freeNode, usable, stone, runTier, canStart, startText, waystoneTip, openAtlasFor,
+        talentOpen, talentPts, atlasOpen, wsSel, stash, freeNode, usable, stone, runTier, canStart, startText, waystoneTip, openAtlasFor,
         atlas, atlasEl, atlasSel, atlasDrag, selNode, selMods, atlasShown, atlasLit, atlasLandmarks, atlasStars, atlasRoads, atlasRegions, atlasRings, atlasBox, atlasOpenCount, atlasFar,
         centerAtlas, selectNode, atlasDown, atlasMove, atlasUp, atlasWheel, kinds: NODE_KINDS,
         kindIconUrl: (kind, color) => `https://api.iconify.design/game-icons/${NODE_KINDS[kind].icon}.svg?color=${encodeURIComponent(color)}`,

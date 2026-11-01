@@ -24,7 +24,7 @@ export const CURRENCY_ICON = {
   augment: 'crystal-cluster', chaos: 'vortex', upgrade: 'upgrade', annul: 'broken-shield', seal: 'rune-stone', temper: 'anvil-impact',
   essence_form: 'fire-gem', essence_link: 'emerald', essence_core: 'diamond-hard', skill_gem: 'gems',
 };
-export const PANEL_ICON = { atlas: 'treasure-map', char: 'person', bag: 'knapsack', craft: 'anvil', bd: 'scroll-unfurled', codex: 'laurel-crown' };
+export const PANEL_ICON = { atlas: 'treasure-map', talents: 'skills', char: 'person', bag: 'knapsack', craft: 'anvil', bd: 'scroll-unfurled', codex: 'laurel-crown' };
 export const FAMILY_ICON = { ember: 'campfire', frost: 'ice-cube', storm: 'lightning-storm', blight: 'poison-bottle', ruin: 'dungeon-gate' };
 export const LAYER_ICON = { form: 'magic-swirl', link: 'orbit', core: 'sun' };
 export const BUFF_ICON = { power: 'sparkles', frenzy: 'flaming-claw', endurance: 'checked-shield', burst: 'bolt-spell-cast', rage: 'skull-crossed-bones',

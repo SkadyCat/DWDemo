@@ -1,5 +1,6 @@
 // 存档：背包、10 个部位的装备、通货、技能栏、已解锁的地图 T 阶。旧存档不迁移（新词条体系）。
 // 主动技能来自装备的第 1 条基底：技能栏只能放身上装备带的技能。
+import { talentAffixes } from '../../core/content/talents.mjs';
 import { SLOTS } from '../../core/content/families.mjs';
 import { makeItem, itemAffixes, applyCurrency, CURRENCIES } from '../../core/content/items.mjs';
 import { ARCHETYPES } from '../../core/content/archetypes.mjs';
@@ -12,7 +13,7 @@ export const grantedSkills = save => [...new Set(SLOTS.map(s => save.equipped[s]
 
 export function newSave() {
   const save = { version: 2, inventory: [], equipped: Object.fromEntries(SLOTS.map(s => [s, null])), currencies: Object.fromEntries(Object.keys(CURRENCIES).map(k => [k, 0])),
-    skills: [null, null, null, null], unlocked: 1, best: {}, archetype: null, bdStage: null, stats: { maps: 0, kills: 0 } };
+    skills: [null, null, null, null], talents: { allocated: [] }, unlocked: 1, best: {}, archetype: null, bdStage: null, stats: { maps: 0, kills: 0 } };
   // A starter wand with Fireball so a fresh character can play.
   save.equipped.weapon = makeItem('weapon', 'wand', 1, { skill: 'fireball', traits: [{ id: 'proj_count', tier: 1 }, { id: 'proj_pierce', tier: 1 }], lines: [{ id: 'added_fire_spell', tier: 1 }] });
   syncSkillBar(save);
@@ -38,6 +39,8 @@ export function writeSave(save) { try { localStorage.setItem(KEY, JSON.stringify
 export function buildOf(save) {
   const affixes = [];
   for (const s of SLOTS) if (save.equipped[s]) affixes.push(...itemAffixes(save.equipped[s]));
+  // The talent board's nodes are ordinary affixes too.
+  affixes.push(...talentAffixes(save.talents?.allocated ?? []));
   const arch = ARCHETYPES.find(a => a.id === save.archetype);
   const granted = grantedSkills(save);
   return { skills: save.skills.filter(id => id && granted.includes(id)), affixes, keepDistance: arch?.keepDistance ?? 0 };

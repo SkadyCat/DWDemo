@@ -483,3 +483,47 @@ select { font: inherit; color: var(--txt); background: var(--deep); border: 1px 
 .lt.r-waystone { --c: #d9cfbf; background: rgba(20, 16, 10, .9); } .lt.r-waystone.w-magic { --c: #8eb4ff; } .lt.r-waystone.w-rare { --c: #f6d86c; }
 .toasts .w-magic { color: var(--r-magic); } .toasts .w-rare { color: var(--r-rare); } .toasts .w-normal { color: var(--txt); }
 .topbar a.orn-btn { text-decoration: none; pointer-events: auto; }
+
+/* ---------- talent board (rail · P) ---------- */
+.tal-win { position: absolute; inset: 0; z-index: 20; background: radial-gradient(ellipse 60% 50% at 50% 45%, #141c3a 0%, transparent 70%), linear-gradient(#070b18, #03050b); }
+.tal-board { position: absolute; inset: 0; cursor: grab; touch-action: none; }
+.tal-board.dragging { cursor: grabbing; }
+.tal-board svg { width: 100%; height: 100%; display: block; }
+.tal-domain { font: 72px var(--title); text-anchor: middle; dominant-baseline: middle; opacity: .22; letter-spacing: .1em; pointer-events: none; }
+.tal-edges line { stroke: rgba(141, 147, 168, .22); stroke-width: 4; stroke-linecap: round; }
+.tal-edges line.open { stroke: rgba(216, 180, 106, .45); stroke-width: 4; }
+.tal-edges line.on { stroke: var(--gold-hi); stroke-width: 6; filter: drop-shadow(0 0 6px rgba(251, 231, 176, .6)); }
+.tn { cursor: pointer; }
+.tn circle, .tn polygon { fill: #0c1328; stroke: #3c4664; stroke-width: 3; transition: fill .15s, stroke .15s; }
+.tn .outer { fill: none; stroke: #4a5272; stroke-width: 2.5; }
+.tn.s-open circle, .tn.s-open polygon { stroke: var(--gold); }
+.tn.s-open .outer { stroke: var(--gold-lo); }
+.tn.s-on circle, .tn.s-on polygon { fill: var(--gold); stroke: var(--gold-hi); filter: drop-shadow(0 0 8px rgba(251, 231, 176, .7)); }
+.tn.s-on .outer { fill: none; stroke: var(--gold-hi); }
+.tn:hover circle, .tn:hover polygon { stroke: #fff; }
+.tn.k-notable circle:not(.outer) { fill: #1a1630; }
+.tn.k-notable.s-on circle:not(.outer) { fill: #f2c46a; }
+.tn.k-trait polygon { fill: #0e1a30; stroke-width: 3.5; }
+.tn.k-trait.ly-form polygon { stroke: #6ac0e8; } .tn.k-trait.ly-link polygon { stroke: #b088ff; }
+.tn.k-trait.s-on.ly-form polygon { fill: #4aa0d0; stroke: #d8f2ff; } .tn.k-trait.s-on.ly-link polygon { fill: #8a5ae0; stroke: #efe0ff; }
+.tn.k-trait text { fill: #e7e2d4; font: 16px var(--title); text-anchor: middle; pointer-events: none; }
+.tn.k-keystone circle:not(.outer) { fill: #2a1408; stroke: #ff9a3a; stroke-width: 4; }
+.tn.k-keystone .outer { stroke: #8a4a1a; stroke-width: 3; }
+.tn.k-keystone .star { fill: #ffad5a; pointer-events: none; }
+.tn.k-keystone.s-on circle:not(.outer) { fill: #ff8a2a; stroke: #fff0d0; } .tn.k-keystone.s-on .star { fill: #2a1004; }
+.tn.k-start circle:not(.outer) { fill: #0f2a2a; stroke: var(--jade); } .tn.k-start .outer { stroke: var(--jade); }
+.tn .halo { fill: none !important; stroke: var(--jade) !important; stroke-width: 3; animation: halo 1.4s ease-out infinite; transform-box: fill-box; transform-origin: center; }
+.tal-board.far .tal-domain { opacity: .3; }
+.tal-side { position: absolute; left: 24px; top: 84px; bottom: 24px; width: 330px; padding: 20px 22px; display: flex; flex-direction: column; z-index: 5; }
+.tal-points { color: var(--mute); font-size: 12.5px; margin-bottom: 10px; } .tal-points b { font: 26px var(--num); color: var(--gold-hi); margin-right: 6px; } .tal-points small { display: block; }
+.tal-search { padding: 6px 12px; font: 13px var(--body); color: var(--txt); background: var(--inset); border: 1px solid var(--gold-lo); border-radius: 16px; margin-bottom: 8px; }
+.tal-sum { flex: 1; overflow-y: auto; scrollbar-width: thin; scrollbar-color: var(--gold-lo) transparent; }
+.tal-sum p { font-size: 12.5px; padding: 2px 0; }
+.tal-sum .sp-keystone { color: #ffbd7a; } .tal-sum .sp-trait { color: #c8b0ff; } .tal-sum .st { color: var(--txt); }
+.tal-msg { color: var(--warn); font-size: 12.5px; margin: 8px 0; }
+.tal-side .orn-btn { align-self: flex-start; margin-top: 10px; }
+.tal-tip { position: fixed; z-index: 40; max-width: 320px; padding: 10px 14px; pointer-events: none; background: rgba(8, 12, 28, .96); border: 1px solid var(--gold-lo); border-radius: 3px; box-shadow: 0 10px 30px rgba(0, 0, 0, .6); }
+.tal-tip h4 { font: 400 17px var(--title); color: var(--gold-hi); letter-spacing: .08em; margin-bottom: 4px; }
+.tal-tip h4 small { font: 11px var(--body); color: var(--mute); margin-left: 8px; letter-spacing: 0; }
+.tal-tip p { font-size: 13px; color: var(--r-magic); } .tal-tip em { display: block; margin-top: 6px; font-size: 11.5px; font-style: normal; color: var(--mute); }
+.tal-tip.s-open em { color: var(--jade); }
