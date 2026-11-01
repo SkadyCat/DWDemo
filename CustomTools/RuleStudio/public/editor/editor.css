@@ -82,3 +82,4 @@ body { background: radial-gradient(ellipse 80% 40% at 50% 0%, #15214a, transpare
 .dr-new input { flex: 1; padding: 5px 10px; font: 13px var(--body); color: var(--txt); background: rgba(4, 6, 13, .7); border: 1px solid rgba(216, 180, 106, .3); border-radius: 3px; }
 .dr-foot { display: flex; align-items: center; gap: 12px; padding: 12px 18px 16px; border-top: 1px solid var(--line); }
 .dr-msg { flex: 1; font-size: 12.5px; color: var(--jade); }
+.ed-top .orn-btn { white-space: nowrap; flex: none; }
