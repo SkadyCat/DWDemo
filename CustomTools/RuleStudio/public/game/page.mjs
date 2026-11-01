@@ -138,28 +138,30 @@ const TEMPLATE = /* html */ `
     <div class="combo" v-show="hud.combo >= 5" ref="comboEl" :class="{ hot: hud.combo >= 40 }"><b>{{ hud.combo }}</b><span>连杀</span><small v-if="hud.cascadePct">连锁 {{ hud.cascadePct }}%</small></div>
     <p class="clearflash" ref="flashEl">清 屏<small>{{ hud.flashN }} 杀 / 秒</small></p>
 
-    <section class="dock">
-      <div class="buffs">
-        <span v-for="r in hud.resources" :key="r.id" class="buff res"><Gi :n="buffIcon(r.id)" c="el-gold"/>{{ r.name }}<sub>{{ r.value }}</sub></span>
-        <span v-for="s in hud.buffs" :key="s.id" class="buff" :style="{ '--c': s.color }">{{ s.name }}<sub v-if="s.stacks > 1">{{ s.stacks }}</sub></span>
-      </div>
-      <div class="vital life" :class="{ low: hud.life < hud.lifeMax * 0.3 }" :title="'生命 ' + hud.life + ' / ' + hud.lifeMax">
+    <div class="buffs">
+      <span v-for="r in hud.resources" :key="r.id" class="buff res"><Gi :n="buffIcon(r.id)" c="el-gold"/>{{ r.name }}<sub>{{ r.value }}</sub></span>
+      <span v-for="s in hud.buffs" :key="s.id" class="buff" :style="{ '--c': s.color }">{{ s.name }}<sub v-if="s.stacks > 1">{{ s.stacks }}</sub></span>
+    </div>
+    <section class="dock panel">
+      <header class="v-labels">
+        <span class="v-life" :class="{ low: hud.life < hud.lifeMax * 0.3 }"><em>生命</em><b>{{ hud.life }}</b><small>/ {{ hud.lifeMax }}</small><i v-if="hud.esMax">护盾 {{ hud.es }}</i></span>
+        <span class="v-mana"><em>魔力</em><b>{{ hud.mana }}</b><small>/ {{ hud.manaMax }}</small></span>
+      </header>
+      <div class="vital life" :class="{ low: hud.life < hud.lifeMax * 0.3 }">
         <i class="ghost" :style="{ width: pct(hud.life, hud.lifeMax) }"></i><i class="fill" :style="{ width: pct(hud.life, hud.lifeMax) }"></i>
         <i class="es" v-if="hud.esMax" :style="{ width: pct(hud.es, hud.esMax) }"></i>
-        <span class="v-num">{{ hud.life }}<small> / {{ hud.lifeMax }}</small><em v-if="hud.esMax">护盾 {{ hud.es }}</em></span>
       </div>
-      <div class="vital mana" :title="'魔力 ' + hud.mana + ' / ' + hud.manaMax">
-        <i class="fill" :style="{ width: pct(hud.mana, hud.manaMax) }"></i>
-        <span class="v-num">{{ hud.mana }}<small> / {{ hud.manaMax }}</small></span>
-      </div>
+      <div class="vital mana"><i class="fill" :style="{ width: pct(hud.mana, hud.manaMax) }"></i></div>
       <div class="skills">
-        <button v-for="(s, i) in hud.skills" :key="i" class="skill" :class="['el-' + s.el, { on: i === hud.selected, channel: s.channel }]" @click="selectSkill(i)" :title="s.name + '（按 ' + (i + 1) + ' 选择，按住左键施放）'">
-          <Gi :n="s.icon" :c="'el-' + s.el" :g="s.name.slice(0, 1)"/>
-          <i class="cd" v-if="s.cd > 0" :style="{ '--p': s.cdPct }"></i>
-          <kbd>{{ i + 1 }}</kbd>
+        <button v-for="i in 4" :key="i" class="skill" :class="hud.skills[i - 1] ? ['el-' + hud.skills[i - 1].el, { on: i - 1 === hud.selected, channel: hud.skills[i - 1].channel }] : 'empty'" @click="selectSkill(i - 1)" :title="hud.skills[i - 1] ? hud.skills[i - 1].name + '（按 ' + i + ' 选择，按住左键施放）' : '空技能位：在角色面板放入技能'">
+          <template v-if="hud.skills[i - 1]">
+            <Gi :n="hud.skills[i - 1].icon" :c="'el-' + hud.skills[i - 1].el" :g="hud.skills[i - 1].name.slice(0, 1)"/>
+            <i class="cd" v-if="hud.skills[i - 1].cd > 0" :style="{ '--p': hud.skills[i - 1].cdPct }"></i>
+            <span class="sname">{{ hud.skills[i - 1].name }}</span>
+          </template>
+          <kbd>{{ i }}</kbd>
         </button>
       </div>
-      <p class="kills-line"><i :style="{ width: pct(hud.kills, hud.total) }"></i></p>
     </section>
 
     <div class="toasts"><p v-for="t in toasts" :key="t.id" :class="t.cls"><Gi v-if="t.icon" :n="t.icon" :c="t.ic || ''"/>{{ t.text }}</p></div>
