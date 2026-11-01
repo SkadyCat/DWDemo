@@ -6,6 +6,7 @@ import { mapProfile, ELITE_MODS } from '../../core/content/maps.mjs';
 import { HERO_BASE } from '../../core/sim.mjs';
 import { rollDrops } from '../../core/content/items.mjs';
 import { castTime } from '../../core/skills.mjs';
+import { detachRules } from '../../core/rules.mjs';
 import { generateDungeon, dungeonRandom } from './dungeon.mjs';
 
 export const STATUS_LOOK = {
@@ -44,8 +45,8 @@ export class MapRun {
     this.world.listeners.push(e => this.onEvent(e));
   }
 
-  spawnHero() {
-    const p = this.profile, e = this.dungeon.entry;
+  spawnHero(at = this.dungeon.entry) {
+    const p = this.profile, e = at;
     const hero = this.hero = this.world.spawnActor({
       kind: 'hero', team: 0, brain: 'none', x: e.x, y: e.y, radius: 30, name: '你',
       mods: [...HERO_BASE, ...['fire', 'cold', 'lightning', 'chaos'].map(r => ({ stat: `res.${r}`, value: -p.resistPenalty }))],
@@ -54,6 +55,25 @@ export class MapRun {
     this.skills = this.build.skills.filter(Boolean).map(id => this.world.addSkill(hero, id, { manual: true }));
     hero.aim = { x: 1, y: 0 }; hero.aimPoint = { x: hero.x + 300, y: hero.y };
     this.selected = 0;
+  }
+
+  /**
+   * Swap gear/skills mid-map (one-click builds, equipping from the bag): the hero is rebuilt in
+   * place from the new build, keeping position, aim and how full the pools were.
+   */
+  rebuildHero(build) {
+    const old = this.hero, fill = { life: old.life / Math.max(1, old.max.life), mana: old.mana / Math.max(1, old.max.mana), es: old.max.es ? old.es / old.max.es : 1 };
+    if (old.channeling) this.world.stopChannel(old);
+    detachRules(this.world, old);
+    for (const m of [...old.minions]) { m.alive = false; this.world.remove(m); }
+    old.alive = false; this.world.remove(old);
+    this.build = build;
+    this.spawnHero({ x: old.x, y: old.y });
+    const h = this.hero;
+    h.aim = old.aim; h.aimPoint = old.aimPoint; h.vx = old.vx; h.vy = old.vy;
+    h.life = Math.max(1, h.max.life * fill.life); h.mana = h.max.mana * fill.mana; h.es = h.max.es * fill.es;
+    for (const m of this.world.actors.values()) if (m.brainTarget === old) m.brainTarget = null;
+    this.selected = Math.min(this.selected, Math.max(0, this.skills.length - 1));
   }
 
   /** Packs in every room by the map's pressure profile; the boss waits in the boss room. */

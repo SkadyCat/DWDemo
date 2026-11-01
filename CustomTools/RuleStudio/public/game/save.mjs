@@ -11,7 +11,7 @@ export const PLAYABLE_SKILLS = ['fireball', 'ice_nova', 'arc', 'spark', 'frost_b
 
 export function newSave() {
   return { version: 1, inventory: [], equipped: Object.fromEntries(SLOTS.map(s => [s, null])), currencies: Object.fromEntries(Object.keys(CURRENCIES).map(k => [k, 0])),
-    skills: ['fireball', null, null, null], unlocked: 1, best: {}, archetype: null, stats: { maps: 0, kills: 0 } };
+    skills: ['fireball', null, null, null], unlocked: 1, best: {}, archetype: null, bdStage: null, stats: { maps: 0, kills: 0 } };
 }
 
 export function loadSave() {
