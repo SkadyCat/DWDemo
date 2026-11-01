@@ -434,7 +434,7 @@ const TEMPLATE = /* html */ `
         <label>音效<input type="range" min="0" max="1" step="0.01" v-model.number="audioSettings.volume" @input="configureAudio" aria-label="战斗音效音量"></label><output>{{ Math.round(audioSettings.volume * 100) }}%</output>
       </div>
     </div>
-    <BattleFunctions :hidden="playMode ? ['trait-equipment', 'bd', 'shop'] : []" :ready="ready" :map-ready="!!hud.map" :active="activeHUDFunction" :hunter-active="hunter.enabled" @release="releaseBattleInput" @activate="openHUDFunction" />
+    <BattleFunctions :hidden="playMode ? ['trait-equipment', 'bd', 'shop'] : []" :ready="ready" :map-ready="!!hud.map" :active="activeHUDFunction" :hunter-active="hunter.enabled && (hunter.targets.length > 0 || hunter.currencies.length > 0)" @release="releaseBattleInput" @activate="openHUDFunction" />
     <BattleMapEvents ref="mapEventUI" :run-key="eventRunKey" :tier="hud.map?.tier || 1" :menu="eventMenuOpen" @menu-close="eventMenuOpen=false" @open="openMapEvent" @close="closeMapEvent" @changed="mapEventChanged" @status="mapEventStatus" />
     <BattleMapEventTag v-for="event in mapEventTags" :key="event.id" :info="event" @activate="activateMapStation" @release="releaseBattleInput" />
       <section v-if="bdExpanded" class="b3-bd-panel b3-card" :class="{expanded: bdExpanded}" aria-label="可用 BD" @pointerenter="releaseBattleInput" @pointerdown.stop @pointermove.stop @wheel.stop @keydown.stop>
@@ -1777,9 +1777,11 @@ export function mountBattle(el, { input = null, rendering = {}, initialPaused = 
           nextDpsHud = now + 100;
         }
         if (h.casts > castsBefore || h.dead) mouse.pending = null;
-        const visibleLoot = (battle.rewards?.ground || []).filter(drop => !drop.claimed && (['inventory','catalogue'].includes(drop.origin) || hunterAllows(drop, hunter)));
+        // The Hunter only filters once the player has picked something to hunt; otherwise everything shows.
+        const hunting = hunter.enabled && (hunter.targets.length > 0 || hunter.currencies.length > 0);
+        const visibleLoot = (battle.rewards?.ground || []).filter(drop => !drop.claimed && (['inventory','catalogue'].includes(drop.origin) || !hunting || hunterAllows(drop, hunter)));
         hunterShown.value = visibleLoot.length;
-        scene.update(battle, now / 1000, paused.value, showLoot.value ? visibleLoot : [], showLoot.value && !hunter.enabled);
+        scene.update(battle, now / 1000, paused.value, showLoot.value ? visibleLoot : [], showLoot.value && !hunting);
         mapEventTags.value=(!h.dead&&!openedPanel.value&&!atlasOpen.value&&!eventOpen.value)
           ? (battle.mapEvents||[]).filter(event=>event.kind!=='shop').flatMap(event=>{
             const point=scene.project(toV(event.x,event.y,2.7));
