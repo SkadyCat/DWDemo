@@ -3,6 +3,7 @@
 //   PUT    /api/rules/<Traits|Timed|Builds|Statuses|Equipment|Items|Shop>/<id>.json -> write a file (whole rule set re-validated here)
 //   DELETE /api/rules/<Builds|Equipment|Items>/<id>.json        -> delete a collection (refused while referenced)
 //   GET    /api/parity                                          -> Saved/RuleParity/report.json (if present)
+//   POST   /api/update                                          -> git fetch + fast-forward to the latest commit (「更新」按钮)
 // node --watch server.mjs [port] (reload validation modules when engine sources change)
 import http from 'node:http';
 import fs from 'node:fs';
@@ -13,6 +14,8 @@ import { respond, serveFile, within } from './scripts/web-delivery.mjs';
 import { WEB_ROOT, releaseHtml, cosBase } from './scripts/web-release.mjs';
 import { loadWebRelease } from './scripts/web-release-loader.mjs';
 import { readMapDropPools } from './scripts/drop-pool-view.mjs';
+import { selfUpdate } from './scripts/self-update.mjs';
+import { spawn } from 'node:child_process';
 
 function validateRules(files, skill = '') {
   return new Promise((resolve, reject) => {
@@ -74,6 +77,15 @@ async function handle(req, res) {
     fs.writeFileSync(file, text.endsWith('\n') ? text : text + '\n');
     return send(res, 200, { ok: true, path: relative });
   }
+  if (url.pathname === '/api/update' && req.method === 'POST') {
+    // Local players only: the server listens on 127.0.0.1, and this refuses anything else as well.
+    if (!['127.0.0.1', '::1', '::ffff:127.0.0.1'].includes(req.socket.remoteAddress)) return send(res, 403, { error: 'local only' });
+    const result = await selfUpdate(TOOL_ROOT, { restartPaths: ['CustomTools/RuleStudio/server.mjs', 'CustomTools/RuleStudio/scripts/'] });
+    send(res, 200, result);
+    if (result.restart) setTimeout(restartServer, 300);
+    return;
+  }
+  if (url.pathname === '/api/version' && req.method === 'GET') return send(res, 200, { pid: process.pid, started: STARTED });
   if (url.pathname === '/api/parity') {
     const file = path.join(PROJECT_ROOT, 'Saved', 'RuleParity', 'report.json');
     return fs.existsSync(file) ? send(res, 200, fs.readFileSync(file)) : send(res, 404, { error: 'no parity report yet' });
@@ -103,7 +115,18 @@ async function handle(req, res) {
   send(res, 404, { error: 'not found' });
 }
 
-http.createServer((req, res) => handle(req, res).catch(error => {
+const STARTED = Date.now();
+// Server-side code changed in an update: hand over to a fresh process on the same port.
+function restartServer() {
+  console.log('RuleStudio：服务端代码已更新，正在重启…');
+  server.close(() => {
+    const child = spawn(process.execPath, process.argv.slice(1), { stdio: 'inherit', env: { ...process.env, RULESTUDIO_RESTARTED: '1' } });
+    child.on('exit', code => process.exit(code ?? 0));
+  });
+  setTimeout(() => server.closeAllConnections?.(), 100);
+}
+
+const server = http.createServer((req, res) => handle(req, res).catch(error => {
   if (res.headersSent) return res.destroy(error);
   return respond(req,res,500,{error:error.message});
 })).listen(PORT, '127.0.0.1', () => {

@@ -30,6 +30,7 @@ import { tutorialView, skipTutorial, dismissTip } from '/progression/tutorial.mj
 import { feedback, banner, toast, setStreak, chime, configureChimes } from '/progression/feedback.mjs';
 import { JourneyXpBar, ChainTracker, CoachMark, FeedbackLayer, ChainJournal } from '/progression/hud.mjs';
 import { GrowthTracker, growthView, applyGrowthStage } from '/progression/growth.mjs';
+import { runSelfUpdate } from '/self-update.mjs';
 import { onGameEvent } from '/progression/events.mjs';
 import { CraftBench } from '/progression/craft-bench.mjs';
 import { BattleCharacterPanel } from '/battle-character-panel.mjs';
@@ -435,6 +436,9 @@ const TEMPLATE = /* html */ `
         </button>
         <label>音效<input type="range" min="0" max="1" step="0.01" v-model.number="audioSettings.volume" @input="configureAudio" aria-label="战斗音效音量"></label><output>{{ Math.round(audioSettings.volume * 100) }}%</output>
       </div>
+      <button type="button" class="b3-update" :class="'is-' + updateState.kind" :disabled="updateState.kind === 'info'" title="从仓库拉取最新版本并刷新页面" @pointerenter="releaseBattleInput" @pointerdown.stop @click="updateGame">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.3-5.7M20 4v5h-5"/></svg><span>{{ updateState.text || '更新到最新' }}</span>
+      </button>
     </div>
     <BattleFunctions :hidden="playMode ? ['trait-equipment', 'shop'] : []" :ready="ready" :map-ready="!!hud.map" :active="activeHUDFunction" :hunter-active="hunter.enabled && (hunter.targets.length > 0 || hunter.currencies.length > 0)" @release="releaseBattleInput" @activate="openHUDFunction" />
     <BattleMapEvents ref="mapEventUI" :run-key="eventRunKey" :tier="hud.map?.tier || 1" :menu="eventMenuOpen" @menu-close="eventMenuOpen=false" @open="openMapEvent" @close="closeMapEvent" @changed="mapEventChanged" @status="mapEventStatus" />
@@ -861,6 +865,11 @@ export function mountBattle(el, { input = null, rendering = {}, initialPaused = 
       const floorMap = ref(null);
       const bdEntries = ref([]), bdLoading = ref(false), bdError = ref(''), openedBd = ref('');
       const appliedBdId = ref(''); // growth stages share gear; remember which stage was applied
+      const updateState = reactive({ text: '', kind: '' });
+      function updateGame() {
+        releaseBattleInput();
+        void runSelfUpdate((text, kind) => { Object.assign(updateState, { text, kind }); if (kind !== 'info') notify(text, kind === 'error'); });
+      }
       const bdExpanded = ref(false);
       const selectedBdFamilyId = ref('');
       const opts = reactive({ god: false, autoCast: false, monsterType: 'all', monsterCount: 20, floor: 1, timeLimitEnabled: false });
@@ -1943,7 +1952,7 @@ export function mountBattle(el, { input = null, rendering = {}, initialPaused = 
         INVENTORY_PAGE_SIZE, canSplitStack, draggedKey, dropSlot, startBagDrag, endBagDrag, hoverBagCell, dropBagItem, hoverBagPage, cancelBagPageHover, sortBag, splitItem, openStackSplit, closeStackSplit, confirmStackSplit,
         inspector, inspectedItem, inspectorPosition, inspectItem, inspectEquipment, identifiedItem, isInventoryNew, selectInventoryItem,
         equipmentMenu, menuItem, saleQuote, openEquipmentMenu, openEquippedMenu, closeEquipmentMenu, equipMenuItem, identifyMenuItem, sellMenuItem, overGround, dropOnGround, dropMenuItem,
-        bdRows, bdFamilies, selectedBdFamilyId, selectedBdFamily, bdLoading, bdError, openedBd, bdExpanded, loadBds, releaseBattleInput, applyBd, buildGuideId, openBuildGuide,
+        updateState, updateGame, bdRows, bdFamilies, selectedBdFamilyId, selectedBdFamily, bdLoading, bdError, openedBd, bdExpanded, loadBds, releaseBattleInput, applyBd, buildGuideId, openBuildGuide,
         SLOTS, PLAYER_GEAR_SLOTS, SKILL_SLOTS, BELT_SLOTS, BELT_KEYS, STATUS_STYLE, ownedCount, itemName, statusName, iconSrc,
         selectSkill, setSkill, toggleSkillPicker, closeSkillPicker, chooseSkill, skillPickerKey, useBelt, toggleBelt, openBeltPicker, closeBeltPicker, chooseBelt, beltPickerKey, beltPickSlot, beltChoices, auraChoices, auraId, auraBinding, docOf, setEquip, restart, nextFloor, challengeFloor, buyMerchant, MAX_TOWER_FLOOR, goShop, goCraft, beginProgression, openHUDFunction,
       };
