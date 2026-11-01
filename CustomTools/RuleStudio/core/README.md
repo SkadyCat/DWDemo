@@ -10,6 +10,10 @@ const hero = world.spawnActor({ kind: 'hero', team: 0, mods: [...], affixes: ['c
 world.step(1 / 60);
 ```
 
+## 移植到 Unreal
+
+要做 UE 版，先读 `docs/ue-rule-engine-port.md`：架构、逐模块对照、求值与伤害顺序、确定性要求、金样测试和里程碑都在里面。
+
 ## 文件
 
 | 文件 | 内容 |
