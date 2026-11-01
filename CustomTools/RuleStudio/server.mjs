@@ -27,7 +27,7 @@ function validateRules(files, skill = '') {
 }
 
 const PORT = Number(process.argv[2] || process.env.PORT || 5291);
-const STATIC = [['/talent-data/', path.join(RULES_DIR, 'Talents')], ['/presets/', path.join(RULES_DIR, 'Presets')], ['/engine/', path.join(TOOL_ROOT, 'engine')], ['/parity/', path.join(TOOL_ROOT, 'parity')], ['/', path.join(TOOL_ROOT, 'public')]];
+const STATIC = [['/core/', path.join(TOOL_ROOT, 'core')], ['/talent-data/', path.join(RULES_DIR, 'Talents')], ['/presets/', path.join(RULES_DIR, 'Presets')], ['/engine/', path.join(TOOL_ROOT, 'engine')], ['/parity/', path.join(TOOL_ROOT, 'parity')], ['/', path.join(TOOL_ROOT, 'public')]];
 
 // The map device renders the actual UICreator control tree, using its shared SVG runtime.
 STATIC.unshift(['/uicreator/', path.resolve(TOOL_ROOT, '../UICreatorAlpha/src')]);

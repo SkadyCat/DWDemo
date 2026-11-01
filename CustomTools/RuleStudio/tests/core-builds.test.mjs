@@ -12,7 +12,8 @@ import { lineUsefulness, defenceReport } from '../core/analysis.mjs';
 
 const content = gameContent();
 const SECONDS = 12;
-const boss = (b, tier) => Math.min(...[3, 5].map(seed => runMap(content, b, { tier, seconds: 1, seed, boss: true }).bossTime));
+// Pure single-target check: the boss without random elite modifiers (those are tested by the pressure check).
+const boss = (b, tier) => Math.min(...[3, 5].map(seed => runMap(content, b, { tier, seconds: 1, seed, boss: true, bossMods: [] }).bossTime));
 
 test('词条族：四层稀有度齐全，全部能编译成可装备词条', () => {
   const by = {};

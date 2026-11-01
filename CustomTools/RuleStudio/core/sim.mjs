@@ -15,7 +15,7 @@ function pickType(mix, r) {
   return Object.keys(mix)[0];
 }
 
-export function spawnMonster(world, profile, x, y, { elite = false, boss = false } = {}) {
+export function spawnMonster(world, profile, x, y, { elite = false, boss = false, mods: fixedMods = null } = {}) {
   const r = () => world.roll('spawn'), type = pickType(profile.mix, r());
   const ranged = !boss && r() < 0.3;
   const mods = [
@@ -26,10 +26,11 @@ export function spawnMonster(world, profile, x, y, { elite = false, boss = false
     { stat: 'res.chaos', value: profile.monsterResist / 2 },
   ];
   if (profile.ailmentChance) for (const [a, from] of [['ignite', 'fire'], ['shock', 'lightning'], ['freeze', 'cold'], ['poison', 'chaos']]) if (type === from) mods.push({ stat: `chance.${a}`, value: profile.ailmentChance });
-  const names = [];
+  const names = [...(fixedMods ?? [])];
+  for (const k of names) mods.push(...ELITE_MODS[k].mods);
   if (elite || boss) {
     const keys = Object.keys(ELITE_MODS);
-    for (let i = 0; i < (boss ? profile.eliteMods : profile.eliteMods); ++i) {
+    for (let i = 0; i < (fixedMods ? 0 : profile.eliteMods); ++i) {
       const k = keys[Math.floor(r() * keys.length)];
       if (names.includes(k)) continue;
       names.push(k); mods.push(...ELITE_MODS[k].mods);
@@ -84,7 +85,8 @@ export function runMap(content, build, opts = {}) {
   if (opts.boss) {
     for (const a of world.actors.values()) if (a.team === 1) a.alive = false;
     world.step(dt);
-    const boss = spawnMonster(world, profile, hero.x + 400, hero.y, { boss: true });
+    // opts.bossMods: fixed elite modifiers for the boss (e.g. [] for a pure damage check).
+    const boss = spawnMonster(world, profile, hero.x + 400, hero.y, { boss: true, mods: opts.bossMods ?? null });
     const t0 = world.time, deathsBefore = res.deaths;
     while (boss.alive && world.time - t0 < profile.bossEnrage * 2) {
       if (!res.bossEnraged && world.time - t0 >= profile.bossEnrage) { world.applyStatus(boss, 'enraged', {}); res.bossEnraged = true; }

@@ -30,7 +30,7 @@ const brains = {
       const ox = a.x, oy = a.y;
       if (a.channeling) channelTick(world, a, dt);
       if (a.brain && a.brain !== 'none' && !world.quick(a, 'cannotAct')) think(world, a, dt);
-      else if (a.vx || a.vy) { const sp = world.quick(a, 'moveBase') * world.quick(a, 'moveSpeed') / 100; const l = Math.hypot(a.vx, a.vy) || 1; if (!world.quick(a, 'cannotMove')) { a.x += a.vx / l * sp * dt; a.y += a.vy / l * sp * dt; } }
+      else if (a.vx || a.vy) { const sp = world.quick(a, 'moveBase') * world.quick(a, 'moveSpeed') / 100; const l = Math.hypot(a.vx, a.vy) || 1; if (!world.quick(a, 'cannotMove')) world.moveActor(a, a.x + a.vx / l * sp * dt, a.y + a.vy / l * sp * dt); }
       const moved = Math.hypot(a.x - ox, a.y - oy);
       a.moving = moved > 1e-6;
       if (a.moving && moveRules?.some(r => r.actor === a)) world.emit({ type: 'move', source: a, amount: moved, x: a.x, y: a.y });
@@ -72,8 +72,7 @@ function think(world, a, dt) {
     const d = Math.hypot(t.x - a.x, t.y - a.y) - t.radius - a.radius;
     if (a.brain === 'chase' && d > 20 && !world.quick(a, 'cannotMove')) {
       const sp = world.quick(a, 'moveBase') * world.quick(a, 'moveSpeed') / 100 * dt * 0.7, l = Math.hypot(t.x - a.x, t.y - a.y) || 1;
-      const step = Math.min(sp, d - 20);
-      a.x += (t.x - a.x) / l * step; a.y += (t.y - a.y) / l * step;
+      world.walkToward(a, t.x, t.y, Math.min(sp, d - 20));
     }
     return;
   }
@@ -87,6 +86,11 @@ function think(world, a, dt) {
   if (!target) return;
   const d = Math.hypot(target.x - a.x, target.y - a.y) - target.radius - a.radius;
   for (const sk of a.skills) if (sk.def.reserve && !sk.active) cast(world, a, sk);
+  // No line of sight (a wall in between): go around it instead of attacking or holding position.
+  if (world.terrain && !world.clearLine(a.x, a.y, target.x, target.y, 4)) {
+    if (a.brain === 'chase' && !world.quick(a, 'cannotMove')) world.walkToward(a, target.x, target.y, world.quick(a, 'moveBase') * world.quick(a, 'moveSpeed') / 100 * dt);
+    return;
+  }
   for (const sk of a.skills) {
     if (sk.def.reserve) continue;
     if (sk.manual || d > sk.def.range) continue;
@@ -95,13 +99,12 @@ function think(world, a, dt) {
   // Kiting: ranged heroes step back when something gets too close (a competent player, not a turret).
   if (a.kite && d < a.kite && !world.quick(a, 'cannotMove')) {
     const sp = world.quick(a, 'moveBase') * world.quick(a, 'moveSpeed') / 100 * dt, l = Math.hypot(target.x - a.x, target.y - a.y) || 1;
-    a.x -= (target.x - a.x) / l * sp; a.y -= (target.y - a.y) / l * sp;
+    world.moveActor(a, a.x - (target.x - a.x) / l * sp, a.y - (target.y - a.y) / l * sp);
     return;
   }
   if (a.brain === 'chase' && d > (a.keepDistance ?? 0) && !world.quick(a, 'cannotMove')) {
     const sp = world.quick(a, 'moveBase') * world.quick(a, 'moveSpeed') / 100 * dt, l = Math.hypot(target.x - a.x, target.y - a.y) || 1;
-    const step = Math.min(sp, d - (a.keepDistance ?? 0));
-    a.x += (target.x - a.x) / l * step; a.y += (target.y - a.y) / l * step;
+    world.walkToward(a, target.x, target.y, Math.min(sp, d - (a.keepDistance ?? 0)));
   }
 }
 

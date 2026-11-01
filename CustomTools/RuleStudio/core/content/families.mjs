@@ -42,9 +42,9 @@ fam({ id: 'armour_inc', name: '护甲提高 {v}%', from: 10, to: 45, slots: ARMO
 fam({ id: 'evasion', name: '+{v} 闪避', from: 60, to: 650, step: 5, slots: ARMOUR.concat(['ring1', 'ring2']), tags: ['defence', 'evasion'], make: M('evasion', 'base') });
 fam({ id: 'evasion_inc', name: '闪避提高 {v}%', from: 10, to: 45, slots: ARMOUR, tags: ['defence', 'evasion'], make: M('evasion', 'inc') });
 for (const [el, n] of [['fire', '火焰'], ['cold', '冰霜'], ['lightning', '闪电']])
-  fam({ id: `res_${el}`, name: `+{v}% ${n}抗性`, from: 8, to: 40, slots: ANY, tags: ['defence', 'resist', el], make: M(`res.${el}`, 'base') });
+  fam({ id: `res_${el}`, name: `+{v}% ${n}抗性`, from: 12, to: 46, slots: ANY, tags: ['defence', 'resist', el], make: M(`res.${el}`, 'base') });
 fam({ id: 'res_chaos', name: '+{v}% 混沌抗性', from: 6, to: 30, slots: ANY, tags: ['defence', 'resist', 'chaos'], make: M('res.chaos', 'base') });
-fam({ id: 'res_all', name: '+{v}% 全元素抗性', from: 4, to: 16, slots: JEWELRY.concat(['offhand']), tags: ['defence', 'resist'],
+fam({ id: 'res_all', name: '+{v}% 全元素抗性', from: 6, to: 18, slots: JEWELRY.concat(['offhand']), tags: ['defence', 'resist'],
   make: v => ({ mods: ['fire', 'cold', 'lightning'].map(e => ({ stat: `res.${e}`, op: 'base', value: v })) }) });
 fam({ id: 'res_max', name: '+{v}% 全元素抗性上限', layer: 'link', levels: 3, values: [1, 2, 3], slots: ['offhand', 'chest', 'amulet'], tags: ['defence', 'resist'],
   make: v => ({ mods: ['fire', 'cold', 'lightning'].map(e => ({ stat: `res.max.${e}`, op: 'base', value: v })) }) });

@@ -30,14 +30,15 @@ export class Carriers {
     p.life -= dt;
     while (travel > 0 && p.alive) {
       // Closest enemy touched along this segment.
-      const ex = p.x + p.dx * travel, ey = p.y + p.dy * travel;
+      let ex = p.x + p.dx * travel, ey = p.y + p.dy * travel, wall = false;
+      if (world.terrain) { const f = world.terrain.sweep(p.x, p.y, ex, ey, 1); if (f >= 0) { ex = p.x + (ex - p.x) * f; ey = p.y + (ey - p.y) * f; travel *= f; wall = true; } }
       let best = null, bestT = Infinity;
       world.grid.query((p.x + ex) / 2, (p.y + ey) / 2, travel / 2 + p.radius, o => {
         if (p.hitIds.has(o.id)) return;
         const t = segmentHit(p.x, p.y, ex, ey, o.x, o.y, o.radius + p.radius);
         if (t !== null && (t < bestT || (t === bestT && o.id < best.id))) { bestT = t; best = o; }
       }, { notTeam: caster.team });
-      if (!best) { p.x = ex; p.y = ey; travel = 0; break; }
+      if (!best) { p.x = ex; p.y = ey; travel = 0; if (wall) p.life = 0; break; }
       p.x += (ex - p.x) * bestT; p.y += (ey - p.y) * bestT;
       travel *= 1 - bestT;
       this.onHit(world, p, best);

@@ -81,8 +81,8 @@ export function hitAndFollow(a, inv, target) {
 // ---- immediate actions ---------------------------------------------------------------------------
 defineAction('area', (a, inv) => {
   const delay = num(a.delay, inv);
-  const fire = () => {
-    const shape = a.shape ?? 'circle', at = a.at ?? (shape === 'circle' ? 'aim' : 'origin'), c = point(at, inv);
+  const fire = (fixed = null) => {
+    const shape = a.shape ?? 'circle', at = a.at ?? (shape === 'circle' ? 'aim' : 'origin'), c = fixed ?? point(at, inv);
     // Areas centred on the caster reach from the caster's edge, matching how melee range is measured.
     const r = areaRadius(a, inv) + (at === 'self' || (at === 'origin' && c.x === inv.caster.x && c.y === inv.caster.y) ? inv.caster.radius : 0);
     const dirx = inv.aim.x - inv.origin.x, diry = inv.aim.y - inv.origin.y, len = Math.hypot(dirx, diry) || 1;
@@ -100,7 +100,12 @@ defineAction('area', (a, inv) => {
     for (const o of hits) hitAndFollow(a, inv.fork({ origin: c }), o);
     if (a.onCast) run(a.onCast, inv.fork({ origin: c, aim: c }));
   };
-  if (delay > 0) inv.world.schedule(delay, fire); else fire();
+  if (delay > 0) {
+    // Telegraph: where and when a delayed area will land (boss slams), so the player can react.
+    const c = point(a.at ?? 'aim', inv);
+    inv.world.emit({ type: 'telegraph', source: inv.caster, skill: inv.skill, x: c.x, y: c.y, radius: areaRadius(a, inv), delay, depth: inv.depth });
+    inv.world.schedule(delay, () => { if (inv.caster.alive) fire(c); });
+  } else fire();
 });
 
 defineAction('strike', (a, inv) => {
@@ -207,6 +212,7 @@ defineAction('blink', (a, inv) => {
   const t = a.to === 'aim' ? null : inv.world.nearest(inv.caster, 'enemy', range, a.avoidLast ? new Set([inv.caster.lastBlink]) : null);
   const p = t ? { x: t.x - Math.sign(t.x - inv.caster.x || 1) * (t.radius + inv.caster.radius), y: t.y } : inv.aim;
   inv.world.emit({ type: 'blink', source: inv.caster, x: p.x, y: p.y, fromX: inv.caster.x, fromY: inv.caster.y, depth: inv.depth });
+  if (!inv.world.clearLine(inv.caster.x, inv.caster.y, p.x, p.y, inv.caster.radius * 0.5)) return; // no blinking through walls
   inv.caster.x = p.x; inv.caster.y = p.y;
   if (t) { inv.caster.lastBlink = t.id; inv.target = t; inv.aim = { x: t.x, y: t.y }; }
 });

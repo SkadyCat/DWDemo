@@ -14,8 +14,10 @@ export function rng(seed) {
 const EMPTY_TAGS = new Set();
 
 export class World {
-  constructor(content, { seed = 1, eventBudget = 20000, maxDepth = 8 } = {}) {
+  constructor(content, { seed = 1, eventBudget = 20000, maxDepth = 8, terrain = null } = {}) {
     this.content = content;
+    // Optional level geometry: { move(actor, x, y), sweep(sx, sy, ex, ey, radius) → fraction | -1, flow(x, y) → Int32Array, tileOf, size }.
+    this.terrain = terrain;
     this.time = 0;
     this.seed = seed;
     this.random = rng(seed);
@@ -62,6 +64,35 @@ export class World {
     actor.owner?.minions.delete(actor);
   }
   rootOwner(actor) { return actor.root; }
+  /** Move with wall sliding when the level has geometry. */
+  moveActor(actor, x, y) { if (this.terrain) this.terrain.move(actor, x, y); else { actor.x = x; actor.y = y; } }
+  /** True when a straight segment is free of walls. */
+  clearLine(sx, sy, ex, ey, radius = 0) { return !this.terrain || this.terrain.sweep(sx, sy, ex, ey, radius) < 0; }
+  /**
+   * Walk `step` toward a point: straight when the line is clear, otherwise along the level's flow
+   * field (cached per target tile), so monsters find their way around walls.
+   */
+  walkToward(actor, tx, ty, step) {
+    const t = this.terrain;
+    let dx = tx - actor.x, dy = ty - actor.y;
+    if (t && !this.clearLine(actor.x, actor.y, tx, ty, actor.radius * 0.6)) {
+      const tile = t.tileOf(tx, ty), key = tile.y * t.size + tile.x;
+      this.flows ??= new Map();
+      let f = this.flows.get(key);
+      if (!f || this.time - f.at > 1) { f = { at: this.time, field: t.flow(tx, ty) }; this.flows.set(key, f); if (this.flows.size > 64) this.flows.delete(this.flows.keys().next().value); }
+      const me = t.tileOf(actor.x, actor.y), here = f.field[me.y * t.size + me.x];
+      if (here > 0) {
+        let best = null;
+        for (const [ox, oy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {
+          const v = f.field[(me.y + oy) * t.size + me.x + ox];
+          if (v >= 0 && v < here && (!best || v < best.v)) best = { v, ox, oy };
+        }
+        if (best) { const c = t.tileCenter(me.x + best.ox, me.y + best.oy); dx = c.x - actor.x; dy = c.y - actor.y; }
+      }
+    }
+    const l = Math.hypot(dx, dy) || 1;
+    this.moveActor(actor, actor.x + dx / l * step, actor.y + dy / l * step);
+  }
   areEnemies(a, b) { return a.team !== b.team; }
   *each(filter) { for (const a of this.actors.values()) if (a.alive && (!filter || filter(a))) yield a; }
   /** Live actors within `radius` of a point (edge distance), optionally filtered. */

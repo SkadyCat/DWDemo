@@ -26,7 +26,7 @@ export const ARCHETYPES = Object.freeze([
   {
     id: 'storm', name: '雷暴使徒', style: '纯元素·电', skills: ['arc'], keepDistance: 350,
     summary: '电弧在怪群里来回连锁，感电扩散整群；每几次感电召下一道落雷。',
-    key: [['chain_any', 0, 'weapon'], ['chance_shock', 0], ['shock_spread', 1], ['effect_shock', 2], ['cast_on_shock', 2], ['shock_bonus', 3], ['pen_lightning', 3], ['spell_echo', 4]],
+    key: [['chain_any', 0, 'weapon'], ['chance_shock', 0], ['shock_spread', 1], ['effect_shock', 2], ['cast_on_shock', 2], ['shock_bonus', 2], ['pen_lightning', 3], ['spell_echo', 4]],
     amp: ['dmg_lightning', 'added_lightning_spell', 'cast_speed', 'crit_chance', 'dmg_spell', 'crit_bonus', 'dmg_elemental', 'added_lightning_spell', 'cast_speed', 'crit_chance', 'mana_regen'],
     defence: interleave(DEF_LIFE, ES),
   },
@@ -40,14 +40,14 @@ export const ARCHETYPES = Object.freeze([
   {
     id: 'heralds', name: '冰电传令', style: '元素反应·近战', skills: ['cleave'], keepDistance: 0,
     summary: '劈砍转冰电：击碎冰冻爆出闪电，击杀感电召来冰霜落雷，两道传令互相喂养，自转清屏。',
-    key: [['conv_phys_cold', 0, 'weapon'], ['chance_freeze', 0], ['area_more', 0, 'helmet'], ['chance_shock', 1], ['shatter_burst', 1], ['frozen_bonus', 1], ['thunder_herald', 2], ['conv_phys_lightning', 2, 'gloves'], ['vs_ailing', 3], ['multistrike', 3], ['core_elemental_overload', 4, 'amulet']],
+    key: [['conv_phys_cold', 0, 'weapon'], ['chance_freeze', 0], ['area_more', 0, 'helmet'], ['chance_shock', 1], ['shatter_burst', 1], ['frozen_bonus', 1], ['thunder_herald', 2], ['conv_phys_lightning', 2, 'gloves'], ['vs_ailing', 2], ['multistrike', 3], ['core_elemental_overload', 4, 'amulet']],
     amp: ['added_cold_attack', 'dmg_elemental', 'attack_speed', 'dmg_melee', 'added_lightning_attack', 'dmg_area', 'dmg_cold', 'attack_speed', 'leech', 'dmg_lightning', 'area_inc'],
     defence: interleave(DEF_LIFE, ARMOUR),
   },
   {
     id: 'thunderslam', name: '崩雷战神', style: '近战·充能', skills: ['falling_thunder'], keepDistance: 0,
     summary: '暴击攒能量球，一锤全部打出：每球更多伤害、多三道穿透闪电；无尽核心让球永不耗尽。',
-    key: [['crit_base', 0, 'weapon'], ['crit_chance', 0], ['crit_power', 1, 'weapon'], ['per_power', 1], ['conv_phys_lightning', 1], ['charge_max', 2], ['shock_bonus', 3], ['chance_shock', 3], ['core_endless_charges', 4, 'helmet']],
+    key: [['crit_base', 0, 'weapon'], ['crit_chance', 0], ['crit_power', 1, 'weapon'], ['per_power', 1], ['conv_phys_lightning', 1], ['charge_max', 2], ['chance_shock', 2], ['shock_bonus', 3], ['core_endless_charges', 4, 'helmet']],
     amp: ['crit_chance', 'added_lightning_attack', 'attack_speed', 'crit_bonus', 'dmg_melee', 'dmg_lightning', 'area_inc', 'added_physical_attack', 'crit_chance', 'leech', 'attack_speed'],
     defence: interleave(DEF_LIFE, ARMOUR),
   },
@@ -68,7 +68,7 @@ export const ARCHETYPES = Object.freeze([
   {
     id: 'critengine', name: '冰晶自走', style: '触发', skills: ['heavy_strike'], keepDistance: 0,
     summary: '重击专注暴击，暴击触发冰刺爆发；核心「连锁反应」让爆发的暴击再次触发，自走清屏。',
-    key: [['crit_base', 0, 'weapon'], ['strike_targets', 0, 'weapon'], ['cast_on_crit', 1, 'gloves'], ['multistrike', 1], ['crit_power', 2], ['per_power', 2], ['frozen_bonus', 3], ['chance_freeze', 3], ['core_chain_reaction', 4, 'amulet']],
+    key: [['crit_base', 0, 'weapon'], ['strike_targets', 0, 'weapon'], ['cast_on_crit', 1, 'gloves'], ['multistrike', 1], ['crit_power', 2], ['per_power', 2], ['frozen_bonus', 2], ['chance_freeze', 2], ['charge_max', 3], ['chance_brittle', 3], ['core_chain_reaction', 4, 'amulet']],
     amp: ['crit_chance', 'added_cold_spell', 'crit_bonus', 'dmg_cold', 'attack_speed', 'dmg_spell', 'crit_chance', 'dmg_area', 'crit_bonus', 'dmg_elemental', 'leech'],
     defence: interleave(DEF_LIFE, EVASION),
   },

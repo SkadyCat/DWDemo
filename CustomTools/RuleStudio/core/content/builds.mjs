@@ -54,6 +54,17 @@ export function stageBuild(archetype, stageIndex) {
   // Defence and offence interleave so both sides grow together. The priority lists are walked
   // round after round (a family may sit on several items) until a full round places nothing.
   const share = archetype.defenceShare ?? 0.5;
+  // Resistances first: they are a hard requirement of every map. Up to 60 % of the defence budget.
+  const budget = Math.floor((cap * SLOTS.length - SLOTS.reduce((n, s) => n + items[s].length, 0)) * share * 0.45);
+  let resPlaced = 0;
+  for (let round = 0; round < 12 && resPlaced < budget; ++round) {
+    let any = false;
+    for (const e of ['fire', 'cold', 'lightning']) {
+      if (resPlaced >= budget || resSum[e] >= resTarget) continue;
+      if (place(`res_${e}`, 'defence')) { resPlaced++; any = true; }
+    }
+    if (!any) break;
+  }
   const lists = { defence: archetype.defence, offence: archetype.amp };
   const cursor = { defence: 0, offence: 0 }, placed = { defence: 0, offence: 0 }, stuck = { defence: 0, offence: 0 };
   const full = () => SLOTS.every(s => items[s].length >= cap);
