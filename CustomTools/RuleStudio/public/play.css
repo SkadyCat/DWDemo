@@ -483,7 +483,7 @@ button.pick-row { width: 100%; background: transparent; color: inherit; font: in
 .b3-top .b3-dps output { margin: 0 0 0 auto; font-size: 18px; white-space: nowrap; }
 .b3-inventory .b3-bag-wallet { display: flex; flex: none; align-items: center; gap: 7px; margin-right: 8px; color: #9ff5d2; white-space: nowrap; }
 .b3-bag-wallet b { font: 600 14px var(--mono); }.b3-bag-wallet small { color: var(--muted); }
-.b3-stage > .b3-bd-panel { position: absolute; z-index: 6; top: 64px; right: calc(var(--hud-right-inset) + var(--hud-map-width) + var(--hud-gap)); width: 300px; max-width: calc(100% - var(--hud-rail-width) - 3 * var(--hud-edge)); max-height: calc(100% - 180px); }
+.b3-stage > .b3-bd-panel { position: absolute; z-index: 50; top: 64px; right: calc(var(--hud-right-inset) + var(--hud-map-width) + var(--hud-gap)); width: 300px; max-width: calc(100% - var(--hud-rail-width) - 3 * var(--hud-edge)); max-height: calc(100% - 180px); }
 @container battle-hud (max-width: 760px) { .b3-stage .b3-top { flex-wrap: wrap; }.b3-stage > .b3-bd-panel { right: var(--hud-right-inset); top: var(--hud-edge); } }
 
 /* Player temporary effects: UICreator rs-prefab-player-effect. */
