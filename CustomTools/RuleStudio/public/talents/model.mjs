@@ -1,5 +1,10 @@
 // Allocation/collection host layer. The existing rule compiler and combat semantics are unchanged.
 const clone = value => JSON.parse(JSON.stringify(value));
+// Kinds: origin (free root), attribute (choose one of four), and fixed-stat small / notable / keystone / legendary nodes.
+export const NODE_KINDS = Object.freeze(['origin', 'attribute', 'small', 'notable', 'keystone', 'legendary']);
+const TRAIT_KINDS = ['small', 'notable', 'keystone', 'legendary'];
+/** Transformative nodes are destinations: automatic routing never passes through one. */
+export const isTerminalKind = kind => kind === 'legendary' || kind === 'keystone';
 export const freshAllocation = tree => ({ schema: 1, treeId: tree.id, revision: tree.revision, budget: tree.defaultBudget, allocated: [], choices: {} });
 export const spentPoints = (tree, state) => (state.allocated || []).reduce((sum, id) => sum + (tree.nodes.find(n => n.id === id)?.cost || 0), 0);
 export function adjacency(tree) {
@@ -13,7 +18,7 @@ function reachable(tree, ids) {
   return seen;
 }
 export function validateTree(tree, library = null) {
-  if (tree?.schema !== 1 || !Array.isArray(tree.nodes) || !Array.isArray(tree.edges) || !Array.isArray(tree.attributes) || !tree.attributes.length) return '星盘数据格式无效';
+  if (![1, 2].includes(tree?.schema) || !Array.isArray(tree.nodes) || !Array.isArray(tree.edges) || !Array.isArray(tree.attributes) || !tree.attributes.length) return '星盘数据格式无效';
   const ids = new Set(tree.nodes.map(n => n.id));
   if (ids.size !== tree.nodes.length || !ids.has(tree.root)) return '星盘节点重复或缺少起点';
   if (tree.nodes.filter(n => n.kind === 'origin').length !== 1 || tree.nodes.find(n => n.id === tree.root)?.kind !== 'origin') return '星盘起点无效';
@@ -23,7 +28,7 @@ export function validateTree(tree, library = null) {
     const key = [...edge].sort().join(':'); if (edges.has(key)) return '星盘连线重复'; edges.add(key);
   }
   if (reachable(tree, [...ids]).size !== ids.size) return '星盘存在无法到达的节点';
-  for (const node of tree.nodes) if (!['origin', 'attribute', 'legendary'].includes(node.kind) || !Number.isFinite(node.x) || !Number.isFinite(node.y) || node.cost !== (node.kind === 'origin' ? 0 : 1)) return `节点无效：${node.id}`;
+  for (const node of tree.nodes) if (!NODE_KINDS.includes(node.kind) || !Number.isFinite(node.x) || !Number.isFinite(node.y) || node.cost !== (node.kind === 'origin' ? 0 : 1)) return `节点无效：${node.id}`;
   if (new Set(tree.attributes.map(a => a.id)).size !== tree.attributes.length) return '属性选项重复';
   const checkEntries = entries => {
     if (!Array.isArray(entries) || !entries.length) return '缺少特性';
@@ -37,7 +42,7 @@ export function validateTree(tree, library = null) {
     }
     return '';
   };
-  for (const row of [...tree.attributes, ...tree.nodes.filter(n => n.kind === 'legendary')]) { const error = checkEntries(row.traits); if (error) return `${row.id}: ${error}`; }
+  for (const row of [...tree.attributes, ...tree.nodes.filter(n => TRAIT_KINDS.includes(n.kind))]) { const error = checkEntries(row.traits); if (error) return `${row.id}: ${error}`; }
   return '';
 }
 export function validateAllocation(tree, state) {
@@ -66,7 +71,7 @@ export function pathTo(tree, state, target) {
   const starts = [tree.root, ...state.allocated], previous = new Map(starts.map(id => [id, null])), queue = [...starts];
   for (const id of queue) {
     if (id === target) break;
-    for (const next of graph.get(id)) if (!previous.has(next) && (next===target || kinds.get(next)!=='legendary')) { previous.set(next, id); queue.push(next); }
+    for (const next of graph.get(id)) if (!previous.has(next) && (next===target || !isTerminalKind(kinds.get(next)))) { previous.set(next, id); queue.push(next); }
   }
   if (!previous.has(target)) return [];
   const route = []; let id = target;
@@ -77,7 +82,7 @@ export function allocateNode(tree, state, target, attribute = 'intelligence', co
   const fail = error => ({ state, error });
   const before = validateAllocation(tree, state); if (before) return fail(before);
   const node = tree.nodes.find(n => n.id === target);
-  if (!node || node.kind === 'origin') return fail('请选择属性或传奇节点');
+  if (!node || node.kind === 'origin') return fail('请选择要点亮的节点');
   if (state.allocated.includes(target)) return fail('节点已点亮');
   if (!tree.attributes.some(a => a.id === attribute)) return fail('未知属性');
   const route = pathTo(tree, state, target);
@@ -119,5 +124,7 @@ export function talentParts(tree, state) {
   return { parts, error: '' };
 }
 export function attributeTotals(tree, state) {
-  return tree.attributes.map(a => ({ ...a, total: state.allocated.filter(id => state.choices[id] === a.id).length * a.value }));
+  const allocated = new Set(state.allocated), nodes = tree.nodes.filter(n => allocated.has(n.id));
+  return tree.attributes.map(a => ({ ...a, total: nodes.reduce((sum, n) => sum + (n.kind === 'attribute' ? (state.choices[n.id] === a.id ? a.value : 0)
+    : (n.traits || []).filter(t => t.id === `attr_${a.id}`).reduce((v, t) => v + (t.params?.n || 0), 0)), 0) }));
 }

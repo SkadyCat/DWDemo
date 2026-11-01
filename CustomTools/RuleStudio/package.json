@@ -11,7 +11,7 @@
     "start": "node --watch server.mjs",
     "test": "node --test tests/*.test.mjs",
     "test:talents": "node --test tests/talents.test.mjs",
-    "build:talents-layout": "node scripts/build-organic-talent-atlas.mjs && node scripts/create-talent-constellation.mjs --layout-only && node scripts/audit-talent-layout.mjs",
+    "build:talents-layout": "node scripts/create-talent-tree.mjs",
     "test:tower-level": "node --test tests/tower-level.test.mjs",
     "bench:tower": "node scripts/test-tower.mjs",
     "parity:scenarios": "node parity/make-scenarios.mjs",
