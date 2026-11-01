@@ -12,6 +12,7 @@ const copy = value => JSON.parse(JSON.stringify(value));
 // Drawbacks are authored as negative values; read them naturally (「提高 -30%」 → 「降低 30%」).
 const readable = text => text.replace(/(提高|增加|\+)\s*-\s*/g, (m, w) => w === '+' ? '-' : '降低 ').replace(/额外降低 降低/g, '额外降低');
 const KIND_NAME = { origin: '起点', small: '小天赋', notable: '核心天赋', keystone: '基石天赋', attribute: '属性', legendary: '传奇' };
+const ATTR_GLYPH = { 力量: '力', 敏捷: '敏', 智力: '智', 体质: '体' };
 const RADIUS = { origin: 26, small: 9, notable: 17, keystone: 25, attribute: 9, legendary: 22 };
 
 const TEMPLATE = /*html*/`
@@ -22,16 +23,18 @@ const TEMPLATE = /*html*/`
         <radialGradient id="tt-core"><stop offset="0" stop-color="#3a3220" stop-opacity=".55"/><stop offset="1" stop-color="#3a3220" stop-opacity="0"/></radialGradient>
         <filter id="tt-glow" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
       </defs>
-      <g class="tt-sectors"><path v-for="s in domainArcs" :key="s.id" :d="s.path" :fill="s.color" class="tt-sector" :class="{hot: hoverSector === s.id}"/></g>
+      <g class="tt-glows"><circle v-for="s in domainArcs" :key="s.id" :cx="s.center.x" :cy="s.center.y" r="760" :fill="'url(#tt-glow-' + s.id + ')'" class="tt-glow" :class="{hot: hoverSector === s.id}"/></g>
+      <defs><radialGradient v-for="s in domainArcs" :key="'g' + s.id" :id="'tt-glow-' + s.id"><stop offset="0" :stop-color="s.color" stop-opacity=".16"/><stop offset=".55" :stop-color="s.color" stop-opacity=".05"/><stop offset="1" :stop-color="s.color" stop-opacity="0"/></radialGradient></defs>
       <circle r="330" fill="url(#tt-core)"/>
-      <g class="tt-labels"><text v-for="s in domainArcs" :key="'l' + s.id" :x="s.label.x" :y="s.label.y" :fill="s.color" class="tt-domain-label" @click.stop="focusSector(s)">{{ s.glyph }} {{ s.name }}</text></g>
-      <g class="tt-edges"><line v-for="e in edges" :key="e.key" :x1="e.a.x" :y1="e.a.y" :x2="e.b.x" :y2="e.b.y" :class="{lit: isOn(e.a.id) && isOn(e.b.id), route: routeEdges.has(e.key)}"/></g>
+      <g class="tt-start-ornament"><circle r="248"/><circle r="262" class="thin"/><circle r="132" class="thin"/></g>
+      <g class="tt-labels"><text v-for="s in domainArcs" :key="'l' + s.id" :x="s.center.x" :y="s.center.y + 14" :fill="s.color" class="tt-domain-label" @click.stop="focusSector(s)">{{ s.name }}</text></g>
+      <g class="tt-edges"><path v-for="e in edges" :key="e.key" :d="e.d" :class="{lit: isOn(e.a.id) && isOn(e.b.id), route: routeEdges.has(e.key)}"/></g>
       <g v-for="n in tree.nodes" :key="n.id" :transform="'translate(' + n.x + ',' + n.y + ')'" class="tt-node" :class="[n.kind, {lit: isOn(n.id), route: routeIds.has(n.id), reach: availableIds.has(n.id), match: matchIds.has(n.id), dim: query && !matchIds.has(n.id)}]" :style="{'--c': colorOf(n)}" :data-node="n.id" role="button" :aria-label="n.name + ' · ' + (isOn(n.id) ? '已点亮' : '未点亮')" @pointerenter="hover(n, $event)" @pointerleave="unhover(n)" @click.stop="clickNode(n)" @contextmenu.prevent.stop="refundAt(n)">
         <circle :r="radius(n) + 8" class="tt-hit"/>
         <template v-if="n.kind === 'keystone'"><path class="tt-shape" :d="hexPath(radius(n))"/><path class="tt-inner" :d="hexPath(radius(n) - 6)"/><text class="tt-glyph" y="6">{{ sectorOf(n).glyph || '◆' }}</text></template>
         <template v-else-if="n.kind === 'notable'"><circle class="tt-shape" :r="radius(n)"/><circle class="tt-inner" :r="radius(n) - 5"/><text v-if="zoom > 1.6" class="tt-name" :y="radius(n) + 16">{{ n.name }}</text></template>
         <template v-else-if="n.kind === 'origin'"><circle class="tt-shape" :r="radius(n)"/><path class="tt-star" d="M0 -16 5 -5 16 0 5 5 0 16 -5 5 -16 0 -5 -5Z"/></template>
-        <circle v-else class="tt-shape" :r="radius(n)"/>
+        <template v-else><circle class="tt-shape" :r="radius(n)"/><text v-if="zoom > 2.2 && ATTR_GLYPH[n.name]" class="tt-attr" y="4">{{ ATTR_GLYPH[n.name] }}</text></template>
         <text v-if="n.kind === 'keystone' && zoom > 1.1" class="tt-name key" :y="radius(n) + 18">{{ n.name }}</text>
       </g>
     </svg>
@@ -124,7 +127,13 @@ export const TalentConstellation = {
     const radius = n => RADIUS[n.kind] || 9;
     const hexPath = r => Array.from({ length: 6 }, (_, i) => { const a = Math.PI / 3 * i - Math.PI / 2; return `${i ? 'L' : 'M'}${(r * Math.cos(a)).toFixed(1)} ${(r * Math.sin(a)).toFixed(1)}`; }).join(' ') + 'Z';
     const edgeKey = (a, b) => [a, b].sort().join(':');
-    const edges = computed(() => (tree.value?.edges || []).map(([a, b]) => ({ a: nodeMap.value.get(a), b: nodeMap.value.get(b), key: edgeKey(a, b) })));
+    // Links between nodes on the same orbit are drawn as arcs around the group centre.
+    const edges = computed(() => (tree.value?.edges || []).map(([a, b]) => {
+      const na = nodeMap.value.get(a), nb = nodeMap.value.get(b), key = edgeKey(a, b), arc = tree.value.layout?.arcs?.[key];
+      let d = `M${na.x} ${na.y}L${nb.x} ${nb.y}`;
+      if (arc) { const cross = (na.x - arc.cx) * (nb.y - arc.cy) - (na.y - arc.cy) * (nb.x - arc.cx); d = `M${na.x} ${na.y}A${arc.r} ${arc.r} 0 0 ${cross > 0 ? 1 : 0} ${nb.x} ${nb.y}`; }
+      return { a: na, b: nb, key, d };
+    }));
 
     // Hover route: the shortest unlit path the click would buy.
     const hoverId = ref('');
@@ -185,12 +194,7 @@ export const TalentConstellation = {
     });
 
     // Side panel
-    const domainArcs = computed(() => (tree.value?.sectors || []).filter(s => Number.isFinite(s.angle) && s.glyph).map(s => {
-      const a0 = (s.angle - 30) * Math.PI / 180, a1 = (s.angle + 30) * Math.PI / 180, r0 = 300, r1 = 1720;
-      const p = (a, r) => `${(r * Math.cos(a)).toFixed(0)} ${(r * Math.sin(a)).toFixed(0)}`;
-      const la = s.angle * Math.PI / 180;
-      return { ...s, path: `M${p(a0, r0)} L${p(a0, r1)} A${r1} ${r1} 0 0 1 ${p(a1, r1)} L${p(a1, r0)} A${r0} ${r0} 0 0 0 ${p(a0, r0)}Z`, label: { x: 1690 * Math.cos(la), y: 1690 * Math.sin(la) + 10 } };
-    }));
+    const domainArcs = computed(() => (tree.value?.sectors || []).filter(s => s.domain && s.center));
     const countIn = id => (draft.value?.allocated || []).filter(n => nodeMap.value.get(n)?.sector === id).length;
     const pickedMajor = computed(() => (draft.value?.allocated || []).map(id => nodeMap.value.get(id)).filter(n => n && ['notable', 'keystone'].includes(n.kind)).sort((a, b) => (a.kind === 'keystone' ? 0 : 1) - (b.kind === 'keystone' ? 0 : 1)));
     const totalLines = computed(() => {
@@ -212,7 +216,7 @@ export const TalentConstellation = {
     const zoom = computed(() => camera.zoom);
     const extent = computed(() => {
       const b = tree.value?.layout?.bounds || { minX: -1800, maxX: 1800, minY: -1800, maxY: 1800 };
-      const h = Math.max((b.maxX - b.minX) / camera.aspect, b.maxY - b.minY) * 1.02 / camera.zoom, w = h * camera.aspect;
+      const h = Math.max((b.maxX - b.minX) / camera.aspect, b.maxY - b.minY) * 1.0 / camera.zoom, w = h * camera.aspect;
       return { x: camera.x - w / 2, y: camera.y - h / 2, w, h };
     });
     const viewBox = computed(() => { const e = extent.value; return `${e.x} ${e.y} ${e.w} ${e.h}`; });
@@ -230,7 +234,7 @@ export const TalentConstellation = {
     }
     function panEnd() { pan = null; setTimeout(() => { moved = false; }, 0); }
     function focusNode(n) { camera.x = n.x; camera.y = n.y; camera.zoom = Math.max(camera.zoom, 2.4); }
-    function focusSector(s) { const a = s.angle * Math.PI / 180; camera.x = 950 * Math.cos(a); camera.y = 950 * Math.sin(a); camera.zoom = 2; }
+    function focusSector(s) { camera.x = s.center.x; camera.y = s.center.y; camera.zoom = 2.2; }
 
     // Plan actions
     function setBudget(e) { const next = { ...draft.value, budget: Math.max(0, Math.trunc(+e.target.value) || 0) }; const error = validateAllocation(tree.value, next); if (error) { e.target.value = draft.value.budget; return tell(error, true); } draft.value = next; }
@@ -248,7 +252,7 @@ export const TalentConstellation = {
     watch(svg, el => { resizeObserver?.disconnect(); if (!el) return; resizeObserver = new ResizeObserver(([entry]) => { if (entry.contentRect.width > 0 && entry.contentRect.height > 0) camera.aspect = entry.contentRect.width / entry.contentRect.height; }); resizeObserver.observe(el); });
     onBeforeUnmount(() => { resizeObserver?.disconnect(); clearTimeout(messageTimer); });
 
-    return { store, talentStore, inBattle: props.inBattle, tree, draft, svg, mapWrap, query, hoverSector, message, messageBad, tip, tipStyle, KIND_NAME,
+    return { ATTR_GLYPH, store, talentStore, inBattle: props.inBattle, tree, draft, svg, mapWrap, query, hoverSector, message, messageBad, tip, tipStyle, KIND_NAME,
       isOn, spent, remaining, availableIds, catalogError, sectorOf, colorOf, radius, hexPath, edges, routeIds, routeEdges, effectLines, hover, unhover,
       clickNode, refundAt, matchIds, domainArcs, countIn, pickedMajor, totalLines, zoom, viewBox, overview, zoomBy, wheel, panStart, panMove, panEnd,
       focusNode, focusSector, setBudget, clearPlan, applied, apply, exportPlan, importPlan };

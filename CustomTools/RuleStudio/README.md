@@ -11,12 +11,12 @@ Studio3D 加载加速：`npm run build:web` 生成版本化脚本与样式包，
 任务系统（Opus 5291）：[进入游戏](http://127.0.0.1:5291/?view=battle)。新玩家默认装配冰锥术，左上角「初入高塔」引导通关第一层；击败守卫后从三把随机武器中选一把放入背包。任务、候选和领取状态随玩家存档保存，重复通关和刷新不重抽。点击任务卡、右侧任务图标或按 J 打开；说明与验证见 [首层任务](docs/quests.md)。
 
 六域星盘（天赋）：战斗内按 P 打开，或 [直接打开](http://127.0.0.1:5291/?view=battle&panel=talents)。
-- **结构：** 355 个节点，流放之路式大盘，包括 312 个小天赋、30 个核心天赋和 12 个基石。中心「启明」连出六条大道，通往六个领域：寒霜、雷霆、烈焰、蚀毒、铁血、灵契。相邻领域之间有六座桥（弹幕、元素调和、法域、嗜血、迅影、灵能护盾）。
+- **结构：** 约 690 个节点，流放之路式有机大盘，包括 634 个小天赋、44 个核心天赋和 12 个基石。节点团（轮盘、弧形、星簇、基石等）由泊松分布撒开，团内节点沿圆弧轨道排列，团与团之间由穿插属性节点的路网相连，存在多条路线和环路。六个领域（寒霜、雷霆、烈焰、蚀毒、铁血、灵契）之间穿插六个过渡主题（弹幕、元素调和、法域、嗜血、迅影、灵能护盾）。
 - **基石：** 每个领域两个，都带明确代价（显示为红色）。
 - **规则：** 全部节点都是现有词条，经由规则引擎正常聚合。
 - **天赋点：** 每级 2 点，另有任务奖励。
 - **操作：** 左键点亮，远处节点会沿最短路线自动点亮；右键退点。
-- **数据：** 由 `node scripts/create-talent-tree.mjs`（即 `npm run build:talents-layout`）生成到 `Content/Rules/Talents/constellation.json`，生成时校验词条参数、连线交叉和节点间距。验证：`npm run test:talents`。设计说明见 [progression.md](docs/progression.md)。
+- **数据：** 由 `node scripts/create-talent-tree.mjs`（即 `npm run build:talents-layout`）生成到 `Content/Rules/Talents/constellation.json`，生成时校验词条参数、连线交叉、节点间距和连线是否穿过节点；`--seed N` 可换一种随机布局。验证：`npm run test:talents`。设计说明见 [progression.md](docs/progression.md)。
 
 
 
