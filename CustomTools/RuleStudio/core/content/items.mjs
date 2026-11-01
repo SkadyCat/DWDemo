@@ -127,8 +127,13 @@ export function rollLine(item, rng, opts = {}) {
   return f ? { id: f.id, tier: rollLineTier(f.id, item.tier, rng) } : null;
 }
 export const rollTrait = (item, rng, layer = null) => rollLine(item, rng, { trait: true, layer });
+/** How many base lines this item has: dropped items roll 1–3, older saves and crafted presets have 3. */
+export const baseLinesOf = item => item.baseLines ?? BASE_LINES;
+/** Drop odds for 1 / 2 / 3 base lines: a full three-line base is the rare find. */
+export const BASE_LINE_ODDS = Object.freeze([0.5, 0.35, 0.15]);
+export function rollBaseLines(rng) { let r = rng(); for (let i = 0; i < BASE_LINE_ODDS.length; ++i) { r -= BASE_LINE_ODDS[i]; if (r < 0) return i + 1; } return BASE_LINES; }
 /** Base lines left for traits: the skill and a legendary trait each take one. */
-export const traitSlots = item => BASE_LINES - (item.skill ? 1 : 0) - (item.legend ? 1 : 0);
+export const traitSlots = item => Math.max(0, baseLinesOf(item) - (item.skill ? 1 : 0) - (item.legend ? 1 : 0));
 
 /** item: { uid, slot, base, tier, skill, traits:[{id,tier}], lines:[{id,tier}] } */
 export function makeItem(slot, baseId, tier, { skill = null, traits = [], lines = [] } = {}) {
@@ -137,10 +142,11 @@ export function makeItem(slot, baseId, tier, { skill = null, traits = [], lines 
   return { uid: uid(), slot, base: base.id, tier, skill, traits: traits.map(l => ({ ...l })), lines: lines.map(l => ({ ...l })) };
 }
 
-/** A dropped item: random base, maybe a skill, base traits, and 0–6 random lines. */
+/** A dropped item: random base, 1–3 base lines (maybe a skill, then traits), and 1–6 random lines. */
 export function rollItem(itemTier, rng, slot = SLOTS[Math.floor(rng() * SLOTS.length)]) {
   const bases = baseList(slot), base = bases[Math.floor(rng() * bases.length)];
   const item = makeItem(slot, base.id, itemTier);
+  item.baseLines = rollBaseLines(rng);
   if (base.skills.length && rng() < (SKILL_CHANCE[slot] ?? 0)) item.skill = base.skills[Math.floor(rng() * base.skills.length)];
   while (item.traits.length < traitSlots(item)) { const l = rollTrait(item, rng); if (!l) break; item.traits.push(l); }
   const r = rng();
@@ -237,8 +243,8 @@ export function applyCurrency(item, currency, rng, sel = null) {
       const pool = (baseOf(item.slot, item.base)?.skills ?? []).filter(s => s !== item.skill);
       if (!pool.length) return { ok: false, message: '这件底材不能带主动技能' };
       if (!item.skill) {
-        if (item.traits.length >= BASE_LINES && item.traits.every(l => l.sealed)) return { ok: false, message: '特性全部封印' };
-        if (item.traits.length >= BASE_LINES) { const f = item.traits.map((l, i) => i).filter(i => !item.traits[i].sealed); item.traits.splice(f[f.length - 1], 1); }
+        if (item.traits.length >= baseLinesOf(item) && item.traits.every(l => l.sealed)) return { ok: false, message: '特性全部封印' };
+        if (item.traits.length >= baseLinesOf(item)) { const f = item.traits.map((l, i) => i).filter(i => !item.traits[i].sealed); item.traits.splice(f[f.length - 1], 1); }
       }
       item.skill = pool[Math.floor(rng() * pool.length)];
       return { ok: true, message: `主动技能：${item.skill}` };
