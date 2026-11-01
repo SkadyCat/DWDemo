@@ -26,13 +26,16 @@ function dungeonTerrain(d) {
 export class MapRun {
   /**
    * build: { skills:[id], affixes:[compiled affix], keepDistance? }
-   * opts: { tier, family, seed, quantity }
+   * opts: { tier, family, seed, quantity, mods } — mods come from the atlas node (atlas.mjs nodeMods):
+   *   { quantity, pack, elite, legend, life, damage, bossLife }
    */
-  constructor(build, { tier = 1, family = 'ruin', seed = Date.now() % 1e9, quantity = 1 } = {}) {
+  constructor(build, { tier = 1, family = 'ruin', seed = Date.now() % 1e9, quantity = 1, mods = {} } = {}) {
     this.profile = mapProfile(tier, family);
     this.tier = this.profile.tier;
     this.seed = seed;
-    this.quantity = quantity;
+    this.mods = { pack: 1, elite: 1, legend: 1, life: 1, damage: 1, bossLife: 1, ...mods };
+    this.quantity = quantity * (mods.quantity ?? 1);
+    this.walkTo = null;
     this.dungeon = generateDungeon(seed, this.tier);
     this.world = createWorld(gameContent(), { seed, terrain: dungeonTerrain(this.dungeon) });
     this.rng = dungeonRandom(seed ^ 0x51ab);
@@ -91,14 +94,14 @@ export class MapRun {
         continue;
       }
       // Hordes: every room holds a few tight clusters (clearing is about reach and chain reactions).
-      const count = Math.round(p.packSize * (0.7 + this.rng() * 0.6));
+      const count = Math.round(p.packSize * this.mods.pack * (0.7 + this.rng() * 0.6));
       const clusters = Math.max(2, Math.ceil(count / 9));
       const centers = Array.from({ length: clusters }, () => { const t = tiles[Math.floor(this.rng() * tiles.length)]; return d.tileCenter(t.x, t.y); });
       let elites = 0;
       for (let i = 0; i < count; ++i) {
         const c = centers[i % clusters], a = this.rng() * Math.PI * 2, r = Math.sqrt(this.rng()) * 170;
         const x = c.x + Math.cos(a) * r, y = c.y + Math.sin(a) * r;
-        const elite = elites < 2 && this.rng() < p.eliteChance * 0.5;
+        const elite = elites < Math.ceil(2 * this.mods.elite) && this.rng() < p.eliteChance * 0.5 * this.mods.elite;
         if (elite) elites++;
         const tt = d.tileOf(x, y); if (!d.walkable(tt.x, tt.y)) continue;
         this.spawnMonster(x, y, { elite });
@@ -114,8 +117,8 @@ export class MapRun {
     for (const [t, w] of Object.entries(p.mix)) { acc += w; if (roll < acc) { type = t; break; } }
     const ranged = !boss && r() < 0.3;
     const mods = [
-      { stat: 'life', value: boss ? p.bossLife : elite ? p.eliteLife : p.monsterLife },
-      { stat: `added.${type}`, value: p.monsterDamage * (boss ? 2 : elite ? 1.5 : 1) },
+      { stat: 'life', value: (boss ? p.bossLife * this.mods.bossLife : elite ? p.eliteLife : p.monsterLife) * this.mods.life },
+      { stat: `added.${type}`, value: p.monsterDamage * (boss ? 2 : elite ? 1.5 : 1) * this.mods.damage },
       { stat: 'armour', value: p.monsterArmour }, { stat: 'evasion', value: p.monsterEvasion }, { stat: 'accuracy', value: p.monsterAccuracy },
       ...['fire', 'cold', 'lightning'].map(e => ({ stat: `res.${e}`, value: p.monsterResist })), { stat: 'res.chaos', value: p.monsterResist / 2 },
     ];
@@ -135,7 +138,12 @@ export class MapRun {
   }
 
   // ---- input ------------------------------------------------------------------------------
-  setMove(x, y) { this.hero.vx = x; this.hero.vy = y; }
+  setMove(x, y) {
+    if (x || y) this.walkTo = null;                 // the keyboard always wins over click-to-loot
+    if (!this.walkTo) { this.hero.vx = x; this.hero.vy = y; }
+  }
+  /** Click a ground label: walk to that drop and pick it up on arrival. */
+  walkToLoot(key) { if (this.loot.some(l => l.key === key)) this.walkTo = key; }
   setAim(x, y) {
     const h = this.hero, dx = x - h.x, dy = y - h.y, l = Math.hypot(dx, dy) || 1;
     h.aim = { x: dx / l, y: dy / l }; h.aimPoint = { x, y };
@@ -169,6 +177,12 @@ export class MapRun {
       if (h.channeling) h.channelTarget = this.heroTarget();
     }
     for (const sk of this.skills) if (sk.def.reserve && !sk.active) w.cast(h, sk);
+    if (this.walkTo) {
+      const l = this.loot.find(x => x.key === this.walkTo);
+      if (!l) { this.walkTo = null; h.vx = h.vy = 0; }
+      else if (Math.hypot(l.x - h.x, l.y - h.y) < 90) { l.taken = true; this.pickedUp.push(l.drop); this.walkTo = null; h.vx = h.vy = 0; }
+      else { h.vx = l.x - h.x; h.vy = l.y - h.y; }
+    }
     w.step(dt);
     for (const m of w.actors.values()) {
       if (m.team !== 1) continue;
@@ -177,8 +191,8 @@ export class MapRun {
     }
     for (const f of this.flashes) f.age += dt;
     this.flashes = this.flashes.filter(f => f.age < 1.1);
-    // Loot: walk over it to pick it up.
-    for (const l of this.loot) if (!l.taken && Math.hypot(l.x - h.x, l.y - h.y) < 110) { l.taken = true; this.pickedUp.push(l.drop); }
+    // Loot: currency is picked up by walking over it; equipment waits for a click on its label (like PoE).
+    for (const l of this.loot) if (!l.taken && l.drop.type === 'currency' && this.elapsed - l.born > 0.9 && Math.hypot(l.x - h.x, l.y - h.y) < 110) { l.taken = true; this.pickedUp.push(l.drop); }
     this.loot = this.loot.filter(l => !l.taken);
     if (!h.alive || h.life <= 0) { this.phase = 'failed'; this.endedAt = this.elapsed; }
   }
@@ -201,7 +215,7 @@ export class MapRun {
       if ((e.depth ?? 0) > 0) this.cascadeKills++;
       if (this.recentKills.length >= 20 && t - this.lastScreenClear > 2.5) { this.lastScreenClear = t; this.screenClears.push({ t, n: this.recentKills.length }); }
       const kind = e.target.kind === 'boss' ? 'boss' : e.target.kind === 'elite' ? 'elite' : 'monster';
-      for (const drop of rollDrops(this.tier, kind, this.rng, { quantity: this.quantity })) {
+      for (const drop of rollDrops(this.tier, kind, this.rng, { quantity: this.quantity, legend: this.mods.legend })) {
         const a = this.rng() * Math.PI * 2, r = 30 + this.rng() * (kind === 'boss' ? 160 : 60);
         this.loot.push({ key: `${this.elapsed.toFixed(3)}:${this.loot.length}:${this.rng()}`, x: e.target.x + Math.cos(a) * r, y: e.target.y + Math.sin(a) * r, sourceX: e.target.x, sourceY: e.target.y, drop, born: this.elapsed });
       }

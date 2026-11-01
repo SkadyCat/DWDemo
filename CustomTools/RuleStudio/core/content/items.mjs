@@ -245,14 +245,14 @@ export function applyCurrency(item, currency, rng, sel = null) {
 }
 
 /** Drops for one kill. kind: 'monster' | 'elite' | 'boss'. Returns [{ type:'item', item } | { type:'currency', id, count }]. */
-export function rollDrops(mapTier, kind, rng, { quantity = 1 } = {}) {
+export function rollDrops(mapTier, kind, rng, { quantity = 1, legend = 1 } = {}) {
   const out = [];
   const itemTier = () => Math.max(1, Math.min(10, Math.round(mapTier * 10 / 16 + (rng() - 0.5) * 2)));
   const items = kind === 'boss' ? 3 + Math.floor(rng() * 2) : (rng() < (kind === 'elite' ? 0.35 : 0.045) * quantity ? 1 : 0);
   for (let i = 0; i < items; ++i) out.push({ type: 'item', item: rollItem(Math.min(10, itemTier() + (kind === 'boss' ? 1 : 0)), rng) });
   // Legendaries: a boss drops one a third of the time, elites rarely, from map tier 3 up.
   const legendChance = mapTier < 3 ? 0 : kind === 'boss' ? 0.35 : kind === 'elite' ? 0.02 : 0.0008;
-  if (rng() < legendChance * quantity) out.push({ type: 'item', item: rollLegendary(LEGENDARIES[Math.floor(rng() * LEGENDARIES.length)].id, Math.min(10, itemTier() + 1), rng) });
+  if (rng() < legendChance * quantity * legend) out.push({ type: 'item', item: rollLegendary(LEGENDARIES[Math.floor(rng() * LEGENDARIES.length)].id, Math.min(10, itemTier() + 1), rng) });
   const currencyRolls = kind === 'boss' ? 6 : kind === 'elite' ? 2 : rng() < 0.12 * quantity ? 1 : 0;
   const entries = Object.entries(CURRENCIES);
   const total = entries.reduce((s, [, c]) => s + c.weight, 0);

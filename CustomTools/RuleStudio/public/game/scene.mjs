@@ -5,12 +5,12 @@ import { createDungeonPortal } from '../prefabs/dungeon-portal.mjs';
 import { createLootMarkers } from '../prefabs/loot-markers.mjs';
 import { createGlowRenderer } from '../vfx/glow-renderer.mjs';
 import { createEffects } from './effects.mjs';
-import { rarityOf } from '../../core/content/items.mjs';
+import { rarityOf, itemName, CURRENCIES } from '../../core/content/items.mjs';
 
 const M = 0.01;
 const toV = (x, y, h = 0) => new THREE.Vector3(x * M, h, -y * M);
 const sizeOf = m => m.boss ? 2.2 : m.kind === 'elite' ? 1.25 : 0.95;
-const RARITY_KEY = { normal: 'common', magic: 'magic', rare: 'rare', exalted: 'legendary' };
+const RARITY_KEY = { normal: 'common', magic: 'magic', rare: 'rare', exalted: 'legendary', legendary: 'unique' };
 
 export class Scene3D {
   constructor(host) {
@@ -146,7 +146,63 @@ export class Scene3D {
 
 /** Health bars, ailment badges and floating damage numbers as DOM over the canvas. */
 export class Overlay {
-  constructor(root) { this.root = root; this.bars = []; this.floats = []; this.heroBar = this.makeBar('hero'); }
+  constructor(root) {
+    this.root = root; this.bars = []; this.floats = []; this.heroBar = this.makeBar('hero');
+    this.labels = new Map();            // loot key -> { el, w, h }
+    this.labelLayer = document.createElement('div'); this.labelLayer.className = 'lt-layer'; root.appendChild(this.labelLayer);
+    this.showAll = false;               // hold Alt: also show plain (white) items
+  }
+  /**
+   * PoE-style ground labels: one name plate per drop, coloured by rarity, following the drop on screen.
+   * Plates never overlap — a crowded pile stacks upward and a thin thread ties each plate to its drop.
+   */
+  updateLoot(scene, run) {
+    const rows = [];
+    for (const l of run.loot) {
+      if (!scene.lootAnchor(l.key)) continue;                       // still in the air
+      const d = l.drop, item = d.type === 'item';
+      const rid = item ? rarityOf(d.item).id : 'currency';
+      if (rid === 'normal' && !this.showAll) continue;
+      const at = scene.project(toV(l.x, l.y, 0.42));
+      if (!at || at.x < -80 || at.y < -40 || at.x > scene.width + 80 || at.y > scene.height + 40) continue;
+      let lab = this.labels.get(l.key);
+      if (!lab) {
+        const el = document.createElement('div');
+        const grade = item ? '' : d.id.startsWith('essence') ? ' g3' : d.id === 'chaos' || d.id === 'seal' ? ' g2' : '';
+        el.className = `lt r-${rid}${grade}`; el.dataset.key = l.key;
+        el.innerHTML = `<span>${item ? itemName(d.item) : CURRENCIES[d.id].name}</span>`;
+        if (!item) el.title = CURRENCIES[d.id].desc;
+        this.labelLayer.appendChild(el);
+        lab = { el, w: el.offsetWidth, h: el.offsetHeight };
+        this.labels.set(l.key, lab);
+      }
+      rows.push({ key: l.key, lab, x: at.x, y: at.y, target: run.walkTo === l.key });
+    }
+    // Stack: nearest to the bottom of the screen first, each plate moves up until it is free.
+    rows.sort((a, b) => b.y - a.y);
+    const placed = [];
+    for (const r of rows) {
+      const w = r.lab.w, h = r.lab.h, x = r.x - w / 2;
+      let y = r.y - h;
+      for (let guard = 0; guard < 40; ++guard) {
+        const hit = placed.find(p => x < p.x + p.w + 2 && x + w + 2 > p.x && y < p.y + p.h + 1 && y + h + 1 > p.y);
+        if (!hit) break;
+        y = hit.y - h - 1;
+      }
+      placed.push({ x, y, w, h });
+      const el = r.lab.el;
+      el.style.transform = `translate3d(${x.toFixed(1)}px,${y.toFixed(1)}px,0)`;
+      el.style.setProperty('--thread', `${Math.max(0, r.y - (y + h)).toFixed(0)}px`);
+      el.classList.toggle('target', r.target);
+      el.style.display = '';
+    }
+    const live = new Set(rows.map(r => r.key)), exists = new Set(run.loot.map(l => l.key));
+    for (const [key, lab] of this.labels) {
+      if (!exists.has(key)) { lab.el.remove(); this.labels.delete(key); }
+      else if (!live.has(key)) lab.el.style.display = 'none';
+    }
+  }
+  clearLoot() { for (const lab of this.labels.values()) lab.el.remove(); this.labels.clear(); }
   makeBar(kind = '') {
     const el = document.createElement('div');
     el.className = `hb${kind ? ' hb-' + kind : ''}`;
@@ -202,5 +258,6 @@ export class Overlay {
       ft.el.style.opacity = Math.max(0, 1 - Math.max(0, fl.age - 0.6) / 0.5).toFixed(2);
     }
     for (let i = f; i < this.floats.length; ++i) this.floats[i].el.style.display = 'none';
+    this.updateLoot(scene, run);
   }
 }

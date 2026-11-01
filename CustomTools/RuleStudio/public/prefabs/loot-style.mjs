@@ -7,8 +7,9 @@ const currency = Object.freeze({
 });
 const specialCurrency = style('currency', 0xf2c178, '◆', 1.6, 1.2);
 const omen = style('omen', 0xc5b7f4, '✧', 1.65, 1.15);
-const rarities = Object.freeze(Object.fromEntries(Object.entries({ common: 0xb5bfcf, magic: 0x7daeff, rare: 0xffd263, legendary: 0xff9b4c, unique: 0xc890ff })
-  .map(([rarity, color]) => [rarity, style('', color, '', ['rare', 'legendary', 'unique'].includes(rarity) ? 1.5 : .6)])));
+const BEAM = { common: [.6, 1], magic: [.6, 1], rare: [1.5, 1], legendary: [2.1, 1.3], unique: [3.4, 1.9] };
+const rarities = Object.freeze(Object.fromEntries(Object.entries({ common: 0xb5bfcf, magic: 0x7daeff, rare: 0xffd263, legendary: 0xff9b4c, unique: 0xff6a1a })
+  .map(([rarity, color]) => [rarity, style('', color, '', ...BEAM[rarity])])));
 
 export function lootStyle(drop) {
   if (drop.kind === 'item' && drop.category === 'currency') return currency[drop.currencyGrade] || specialCurrency;
