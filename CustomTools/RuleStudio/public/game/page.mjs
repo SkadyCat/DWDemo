@@ -129,40 +129,42 @@ const TEMPLATE = /* html */ `
     <minimap :run="run" :tick="hud.tick"></minimap>
 
     <section class="bossbar" v-if="hud.bossShow" :class="{ enraged: hud.bossEnraged }">
-      <h3>{{ hud.bossName }}</h3>
-      <p class="boss-mods"><span v-for="m in hud.bossMods" :key="m">{{ m }}</span></p>
-      <div class="bossbar-track"><i class="es" :style="{ width: hud.bossEs }"></i><i class="life" :style="{ width: hud.bossLife }"></i></div>
-      <p v-if="hud.bossEnraged" class="boss-rage">狂暴 · 伤害 +200% · 速度 +50%</p>
+      <h3>{{ hud.bossName }}<small v-for="m in hud.bossMods" :key="m">{{ m }}</small><em v-if="hud.bossEnraged">狂暴</em></h3>
+      <div class="bossbar-track"><i class="ghost" :style="{ width: hud.bossLife }"></i><i class="life" :style="{ width: hud.bossLife }"></i><i class="es" :style="{ width: hud.bossEs }"></i></div>
     </section>
 
     <div class="combo" v-show="hud.combo >= 5" ref="comboEl" :class="{ hot: hud.combo >= 40 }"><b>{{ hud.combo }}</b><span>连杀</span><small v-if="hud.cascadePct">连锁 {{ hud.cascadePct }}%</small></div>
     <p class="clearflash" ref="flashEl">清 屏<small>{{ hud.flashN }} 杀 / 秒</small></p>
 
-    <div class="buffs">
-      <span v-for="r in hud.resources" :key="r.id" class="buff res"><Gi :n="buffIcon(r.id)" c="el-gold"/>{{ r.name }}<sub>{{ r.value }}</sub></span>
-      <span v-for="s in hud.buffs" :key="s.id" class="buff" :style="{ '--c': s.color }">{{ s.name }}<sub v-if="s.stacks > 1">{{ s.stacks }}</sub></span>
-    </div>
-    <section class="dock panel">
-      <header class="v-labels">
-        <span class="v-life" :class="{ low: hud.life < hud.lifeMax * 0.3 }"><em>生命</em><b>{{ hud.life }}</b><small>/ {{ hud.lifeMax }}</small><i v-if="hud.esMax">护盾 {{ hud.es }}</i></span>
-        <span class="v-mana"><em>魔力</em><b>{{ hud.mana }}</b><small>/ {{ hud.manaMax }}</small></span>
-      </header>
-      <div class="vital life" :class="{ low: hud.life < hud.lifeMax * 0.3 }">
-        <i class="ghost" :style="{ width: pct(hud.life, hud.lifeMax) }"></i><i class="fill" :style="{ width: pct(hud.life, hud.lifeMax) }"></i>
-        <i class="es" v-if="hud.esMax" :style="{ width: pct(hud.es, hud.esMax) }"></i>
+    <!-- Elden Ring-like: vitals and the skill cross in the bottom-left corner, nothing in the middle -->
+    <section class="er-left">
+      <div class="buffs">
+        <span v-for="r in hud.resources" :key="r.id" class="buff res"><Gi :n="buffIcon(r.id)" c="el-gold"/><sub>{{ r.value }}</sub></span>
+        <span v-for="s in hud.buffs" :key="s.id" class="buff" :style="{ '--c': s.color }" :title="s.name">{{ s.name }}<sub v-if="s.stacks > 1">{{ s.stacks }}</sub></span>
       </div>
-      <div class="vital mana"><i class="fill" :style="{ width: pct(hud.mana, hud.manaMax) }"></i></div>
-      <div class="skills">
-        <button v-for="i in 4" :key="i" class="skill" :class="hud.skills[i - 1] ? ['el-' + hud.skills[i - 1].el, { on: i - 1 === hud.selected, channel: hud.skills[i - 1].channel }] : 'empty'" @click="selectSkill(i - 1)" :title="hud.skills[i - 1] ? hud.skills[i - 1].name + '（按 ' + i + ' 选择，按住左键施放）' : '空技能位：在角色面板放入技能'">
+      <div class="er-bars">
+        <div class="er-bar life" :class="{ low: hud.life < hud.lifeMax * 0.3 }" :style="{ width: barLen(hud.lifeMax + hud.esMax, 3000, 230, 420) }" :title="'生命 ' + hud.life + ' / ' + hud.lifeMax">
+          <i class="ghost" :style="{ width: pct(hud.life, hud.lifeMax) }"></i><i class="fill" :style="{ width: pct(hud.life, hud.lifeMax) }"></i>
+          <i class="es" v-if="hud.esMax" :style="{ width: pct(hud.es, hud.esMax) }"></i>
+        </div>
+        <span class="er-num">{{ hud.life }}<template v-if="hud.esMax"> · <em>{{ hud.es }}</em></template></span>
+        <div class="er-bar mana" :style="{ width: barLen(hud.manaMax, 260, 150, 300) }" :title="'魔力 ' + hud.mana + ' / ' + hud.manaMax">
+          <i class="fill" :style="{ width: pct(hud.mana, hud.manaMax) }"></i>
+        </div>
+        <span class="er-num">{{ hud.mana }}</span>
+      </div>
+      <div class="er-cross">
+        <button v-for="i in 4" :key="i" class="skill" :class="['pos-' + i, hud.skills[i - 1] ? ['el-' + hud.skills[i - 1].el, { on: i - 1 === hud.selected, channel: hud.skills[i - 1].channel }] : 'empty']" @click="selectSkill(i - 1)" :title="hud.skills[i - 1] ? hud.skills[i - 1].name + '（按 ' + i + ' 选择，按住左键施放）' : '空技能位'">
           <template v-if="hud.skills[i - 1]">
             <Gi :n="hud.skills[i - 1].icon" :c="'el-' + hud.skills[i - 1].el" :g="hud.skills[i - 1].name.slice(0, 1)"/>
             <i class="cd" v-if="hud.skills[i - 1].cd > 0" :style="{ '--p': hud.skills[i - 1].cdPct }"></i>
-            <span class="sname">{{ hud.skills[i - 1].name }}</span>
           </template>
           <kbd>{{ i }}</kbd>
         </button>
+        <p class="er-skill-name">{{ hud.skills[hud.selected]?.name }}</p>
       </div>
     </section>
+    <section class="er-right"><b>{{ hud.kills }}</b><small>/ {{ hud.total }} 击杀</small></section>
 
     <div class="toasts"><p v-for="t in toasts" :key="t.id" :class="t.cls"><Gi v-if="t.icon" :n="t.icon" :c="t.ic || ''"/>{{ t.text }}</p></div>
     <div class="legend-drop" v-if="legendBanner" :key="legendBanner.id"><small>传奇掉落</small><b>{{ legendBanner.name }}</b></div>
@@ -589,6 +591,7 @@ export function mountGame(el) {
         bandIndex, bandName: t => STAGES[bandIndex(t)]?.name ?? '', roman: t => TIER_ROMAN[t] ?? t,
         slotClass: s => save.equipped[s] ? 'r-' + rarityOf(save.equipped[s]).id : 'empty',
         fmt: v => v >= 1e6 ? `${(v / 1e6).toFixed(1)}M` : v >= 1e4 ? `${Math.round(v / 1e3)}k` : Math.round(v),
+        barLen: (v, ref, base, cap) => `${Math.round(Math.min(cap, base + Math.sqrt(Math.max(0, v) / ref) * base * 0.45))}px`,
         pct, pctNum: (a, b) => Math.round(100 * a / Math.max(1, b)),
       };
     },

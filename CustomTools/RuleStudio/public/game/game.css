@@ -278,14 +278,16 @@ select { font: inherit; color: var(--txt); background: var(--deep); border: 1px 
 .minimap { position: absolute; right: 22px; top: 18px; width: 200px; height: 200px; border-radius: 50%; background: radial-gradient(circle, rgba(18, 30, 60, .78), rgba(6, 10, 24, .92)); box-shadow: 0 0 0 1px var(--gold), 0 0 0 6px rgba(10, 18, 38, .85), 0 0 0 7px var(--gold-lo), 0 10px 30px #000; z-index: 10; }
 .minimap canvas { width: 100%; height: 100%; border-radius: 50%; }
 .in-run .rail { right: 14px; }
-.bossbar { position: absolute; left: 50%; top: 22px; transform: translateX(-50%); width: min(620px, 50vw); text-align: center; z-index: 10; }
-.bossbar h3 { font: 400 20px var(--title); color: #ffc58a; letter-spacing: .3em; text-shadow: 0 0 12px rgba(255, 138, 58, .5), 0 2px 4px #000; }
-.boss-mods { display: flex; justify-content: center; gap: 8px; font-size: 11px; color: var(--gold); min-height: 16px; }
-.bossbar-track { position: relative; height: 12px; margin-top: 4px; background: rgba(6, 10, 24, .9); border: 1px solid var(--gold-lo); border-radius: 6px; overflow: hidden; box-shadow: 0 0 0 3px rgba(6, 10, 24, .7); }
-.bossbar-track i { position: absolute; inset: 0 auto 0 0; transition: width .2s; }
-.bossbar-track .life { background: linear-gradient(180deg, #ff6a5a, #9a1414); } .bossbar-track .es { background: rgba(143, 216, 255, .55); z-index: 1; height: 4px; }
-.bossbar.enraged .bossbar-track { border-color: #ff4a3a; box-shadow: 0 0 14px rgba(255, 74, 58, .6); }
-.boss-rage { margin-top: 3px; font-size: 12px; color: #ff6a5a; }
+.bossbar { position: absolute; left: 50%; bottom: 64px; transform: translateX(-50%); width: min(760px, 48vw); z-index: 10; }
+.bossbar h3 { display: flex; align-items: baseline; gap: 10px; margin-bottom: 5px; font: 400 17px var(--body); color: #f0e8d6; letter-spacing: .12em; text-shadow: 0 1px 3px #000; }
+.bossbar h3 small { font-size: 11px; color: rgba(216, 190, 130, .85); letter-spacing: .05em; }
+.bossbar h3 em { font-style: normal; font-size: 12px; color: #ff6a5a; margin-left: auto; }
+.bossbar-track { position: relative; height: 9px; background: rgba(10, 8, 6, .75); border: 1px solid rgba(190, 170, 120, .55); box-shadow: 0 0 0 1px rgba(0, 0, 0, .6); }
+.bossbar-track i { position: absolute; left: 0; top: 0; bottom: 0; }
+.bossbar-track .life { background: linear-gradient(180deg, #b8262a, #8a1418); transition: width .1s; }
+.bossbar-track .ghost { background: #d8b47a; opacity: .75; transition: width .6s ease-in .5s; }
+.bossbar-track .es { top: auto; bottom: 100%; height: 2px; margin-bottom: 1px; background: #a8e8d8; }
+.bossbar.enraged .bossbar-track { border-color: #c83a2a; }
 .combo { position: absolute; left: 50%; top: 104px; transform: translateX(-50%); display: flex; align-items: baseline; gap: 8px; pointer-events: none; z-index: 9; }
 .combo b { display: inline-block; font: 60px/1 var(--num); color: var(--gold-hi); text-shadow: 0 0 20px rgba(251, 231, 176, .55), 0 3px 6px #000; }
 .combo span { font: 22px var(--title); letter-spacing: .4em; color: var(--txt); text-shadow: 0 2px 6px #000; }
@@ -293,43 +295,39 @@ select { font: inherit; color: var(--txt); background: var(--deep); border: 1px 
 .combo.hot b { color: #ffd59a; text-shadow: 0 0 26px #ff9a3a, 0 3px 6px #000; }
 .clearflash { position: absolute; left: 50%; top: 172px; transform: translateX(-50%); display: none; white-space: nowrap; text-align: center; font: 44px var(--title); letter-spacing: .9em; color: #fff7e0; text-shadow: 0 0 24px var(--gold), 0 0 52px #ffad5a; pointer-events: none; z-index: 9; }
 .clearflash small { display: block; font: 13px var(--num); letter-spacing: .2em; color: var(--gold-hi); }
-/* bottom console: one slim night-silk plate (same frame language as the windows) holding vitals and skills */
-.in-run::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 200px; pointer-events: none; background: linear-gradient(transparent, rgba(2, 4, 12, .6)); z-index: 5; }
-.buffs { position: absolute; left: 50%; bottom: 152px; transform: translateX(-50%); display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; max-width: 520px; z-index: 10; }
-.buff { display: inline-flex; align-items: center; gap: 4px; padding: 0 9px; height: 20px; font-size: 11px; border-radius: 10px; color: var(--c, var(--txt)); background: rgba(8, 12, 26, .82); box-shadow: inset 0 0 0 1px rgba(216, 180, 106, .28); }
-.buff .gi { width: 12px; height: 12px; } .buff sub { font: 600 10px var(--ui); color: var(--gold-hi); vertical-align: baseline; }
-.dock.panel { position: absolute; left: 50%; bottom: 18px; transform: translateX(-50%); width: 420px; padding: 10px 22px 14px; z-index: 10; }
-.dock.panel::before { top: -7px; width: 90px; }
-.dock.panel::after { background: var(--c-tl) top left / 22px no-repeat, var(--c-tr) top right / 22px no-repeat, var(--c-bl) bottom left / 22px no-repeat, var(--c-br) bottom right / 22px no-repeat; }
-.v-labels { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 5px; font-variant-numeric: tabular-nums; }
-.v-labels span { display: flex; align-items: baseline; gap: 5px; }
-.v-labels em { font: 400 12px var(--title); font-style: normal; letter-spacing: .3em; color: var(--mute); }
-.v-labels b { font: 600 15px/1 var(--ui); color: var(--txt); }
-.v-labels small { font: 11px var(--ui); color: var(--mute); }
-.v-labels i { font: 11px var(--ui); font-style: normal; color: #9fe8d2; margin-left: 6px; }
-.v-life b { color: #f0c8c0; } .v-mana b { color: #c4d4f4; }
-.v-life.low b { color: #ff8a7a; animation: lowpulse .9s ease-in-out infinite; }
-.vital { position: relative; height: 7px; border-radius: 4px; background: rgba(2, 4, 10, .85); box-shadow: inset 0 0 0 1px rgba(216, 180, 106, .22); overflow: hidden; }
-.vital.mana { height: 3px; margin-top: 4px; box-shadow: none; background: rgba(255, 255, 255, .06); }
-.vital i { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 4px; }
-.vital .fill { transition: width .12s linear; }
-.vital.life .fill { background: linear-gradient(90deg, #6e1822, #a8323c 70%, #c85a5a); box-shadow: inset 0 1px 0 rgba(255, 220, 210, .25); }
-.vital.life .ghost { background: rgba(240, 200, 180, .28); transition: width .5s ease-in .4s; }
-.vital.life .es { top: 0; bottom: auto; height: 2px; background: #8fe8d0; box-shadow: 0 0 6px rgba(143, 232, 208, .9); z-index: 2; transition: width .15s; }
-.vital.mana .fill { background: linear-gradient(90deg, #1e3a80, #4a74c8); }
-.vital.low .fill { animation: lowpulse .9s ease-in-out infinite; }
-@keyframes lowpulse { 50% { filter: brightness(1.5); } }
-.skills { display: flex; justify-content: center; gap: 12px; margin-top: 12px; }
-.skill { position: relative; width: 52px; height: 52px; padding: 11px; border-radius: 4px; background: radial-gradient(circle at 50% 35%, rgba(30, 42, 78, .9), rgba(4, 7, 18, .95)); box-shadow: inset 0 0 0 1px rgba(216, 180, 106, .3); transition: box-shadow .15s; }
-.skill.empty { opacity: .45; cursor: default; }
-.skill.on { box-shadow: inset 0 0 0 1px var(--gold-hi), 0 0 14px rgba(251, 231, 176, .3); }
-.skill.on::after { content: ""; position: absolute; left: 50%; bottom: -7px; width: 5px; height: 5px; transform: translateX(-50%) rotate(45deg); background: var(--gold-hi); }
-.skill.channel { animation: chan .5s ease-in-out infinite alternate; }
-@keyframes chan { to { box-shadow: inset 0 0 0 1px var(--jade), 0 0 16px rgba(127, 224, 200, .5); } }
-.skill .cd { position: absolute; inset: 0; border-radius: 4px; background: conic-gradient(rgba(0, 0, 0, .7) calc(var(--p) * 360deg), transparent 0); }
-.skill kbd { position: absolute; left: 3px; top: 2px; font: 600 9px/1 var(--ui); color: rgba(251, 231, 176, .6); }
-.skill .sname { display: none; }
-.toasts { position: absolute; right: 24px; bottom: 190px; display: flex; flex-direction: column; align-items: flex-end; gap: 5px; pointer-events: none; z-index: 12; }
+/* HUD after Elden Ring: thin flat bars and the skill cross in the bottom-left; boss bar low in the centre; kills bottom-right */
+.in-run::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 220px; pointer-events: none; background: linear-gradient(transparent, rgba(0, 0, 0, .45)); z-index: 5; }
+.er-left { position: absolute; left: 34px; bottom: 40px; z-index: 10; display: flex; flex-direction: column; gap: 14px; }
+.buffs { display: flex; flex-wrap: wrap; gap: 5px; max-width: 420px; min-height: 18px; }
+.buff { display: inline-flex; align-items: center; gap: 3px; height: 18px; padding: 0 7px; font-size: 11px; color: var(--c, #e8e2d2); background: rgba(0, 0, 0, .55); border: 1px solid rgba(190, 170, 120, .35); }
+.buff .gi { width: 12px; height: 12px; } .buff sub { font: 600 10px var(--ui); color: #e8d6a8; vertical-align: baseline; }
+.er-bars { display: grid; grid-template-columns: auto auto; align-items: center; justify-content: start; column-gap: 10px; row-gap: 5px; }
+.er-bar { position: relative; height: 9px; background: rgba(10, 8, 6, .72); border: 1px solid rgba(190, 170, 120, .55); box-shadow: 0 0 0 1px rgba(0, 0, 0, .6), 0 2px 8px rgba(0, 0, 0, .5); }
+.er-bar.mana { height: 7px; }
+.er-bar i { position: absolute; left: 0; top: 0; bottom: 0; }
+.er-bar .fill { transition: width .1s linear; }
+.er-bar.life .fill { background: linear-gradient(180deg, #b8262a, #8a1418); }
+.er-bar.life .ghost { background: #d8b47a; opacity: .75; transition: width .6s ease-in .5s; }
+.er-bar.life .es { top: auto; bottom: 100%; height: 2px; margin-bottom: 1px; background: #a8e8d8; }
+.er-bar.mana .fill { background: linear-gradient(180deg, #3c62c8, #26429a); }
+.er-bar.low { animation: lowpulse 1s ease-in-out infinite; }
+@keyframes lowpulse { 50% { box-shadow: 0 0 0 1px rgba(0, 0, 0, .6), 0 0 14px rgba(220, 40, 40, .8); } }
+.er-num { font: 500 11px/1 var(--ui); font-variant-numeric: tabular-nums; color: rgba(240, 232, 214, .75); text-shadow: 0 1px 2px #000; }
+.er-num em { font-style: normal; color: #a8e8d8; }
+.er-cross { position: relative; width: 168px; height: 168px; margin-top: 2px; }
+.er-cross .skill { position: absolute; width: 56px; height: 56px; padding: 10px; background: rgba(8, 7, 6, .7); border: 1px solid rgba(190, 170, 120, .5); box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .7), 0 3px 10px rgba(0, 0, 0, .5); transition: border-color .15s, box-shadow .15s; }
+.er-cross .pos-1 { left: 56px; top: 0; } .er-cross .pos-2 { left: 0; top: 56px; } .er-cross .pos-3 { left: 112px; top: 56px; } .er-cross .pos-4 { left: 56px; top: 112px; }
+.er-cross .skill.empty { opacity: .45; cursor: default; }
+.er-cross .skill.on { border-color: #f0e2b4; box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .7), 0 0 12px rgba(240, 226, 180, .35); }
+.er-cross .skill.channel { animation: chan .5s ease-in-out infinite alternate; }
+@keyframes chan { to { box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .7), 0 0 16px rgba(127, 224, 200, .55); } }
+.er-cross .cd { position: absolute; inset: 0; background: conic-gradient(rgba(0, 0, 0, .72) calc(var(--p) * 360deg), transparent 0); }
+.er-cross kbd { position: absolute; right: 3px; bottom: 2px; font: 600 9px/1 var(--ui); color: rgba(240, 226, 180, .55); }
+.er-skill-name { position: absolute; left: 0; right: 0; bottom: -22px; text-align: center; white-space: nowrap; font: 400 13px var(--body); color: #f0e8d6; letter-spacing: .1em; text-shadow: 0 1px 3px #000; }
+.er-right { position: absolute; right: 34px; bottom: 34px; z-index: 10; display: flex; align-items: baseline; gap: 6px; padding: 6px 14px; background: linear-gradient(90deg, transparent, rgba(0, 0, 0, .55) 30%); border-bottom: 1px solid rgba(190, 170, 120, .45); }
+.er-right b { font: 500 22px var(--ui); font-variant-numeric: tabular-nums; color: #f0e8d6; }
+.er-right small { font-size: 12px; color: rgba(240, 232, 214, .6); }
+.toasts { position: absolute; right: 34px; bottom: 90px; display: flex; flex-direction: column; align-items: flex-end; gap: 5px; pointer-events: none; z-index: 12; }
 .toasts p { display: flex; align-items: center; gap: 8px; padding: 4px 14px 4px 6px; font-size: 13px; border-radius: 16px 3px 3px 16px; background: rgba(8, 12, 28, .9); box-shadow: inset 0 0 0 1px var(--gold-lo); animation: toast .25s ease-out; }
 .toasts .gi { width: 24px; height: 24px; }
 .toasts .r-magic { color: var(--r-magic); } .toasts .r-rare { color: var(--r-rare); } .toasts .r-exalted { color: var(--r-exalted); }
