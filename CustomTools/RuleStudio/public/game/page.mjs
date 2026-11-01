@@ -3,7 +3,7 @@
 // 交互：悬停看物品说明（Floating UI 定位）、拖到装备位或右键装备、右键装备位卸下；动效 GSAP；图标 game-icons.net。
 import { createApp, reactive, computed, ref, watch, onMounted, onBeforeUnmount, markRaw, nextTick } from '../vendor/vue.esm-browser.prod.js';
 import { SLOTS, LAYERS, family, lineTierFor } from '../../core/content/families.mjs';
-import { CURRENCIES, SLOT_NAMES, rarityOf, itemName, lineText, baseOf, baseDefence, rollLegendary } from '../../core/content/items.mjs';
+import { CURRENCIES, SLOT_NAMES, rarityOf, itemName, lineText, baseOf, baseDefence, rollLegendary, baseLinesOf } from '../../core/content/items.mjs';
 import { LEGENDARIES, legendary } from '../../core/content/legendaries.mjs';
 import { ARCHETYPES } from '../../core/content/archetypes.mjs';
 import { STAGES, collectionList } from '../../core/content/builds.mjs';
@@ -56,13 +56,14 @@ const ItemTip = {
   components: { Gi },
   props: { item: Object, compare: Object, selected: { type: Object, default: null }, selectable: Boolean, inline: Boolean },
   emits: ['line'],
-  setup() { return { rarityOf, itemName, lineText, family, LAYERS, SLOT_NAMES, SLOT_GLYPH, baseOf, baseDefence, skillName, skillTags, legendary, itemIcon, LAYER_ICON, SKILL_ICON }; },
+  setup() { return { baseLinesOf, rarityOf, itemName, lineText, family, LAYERS, SLOT_NAMES, SLOT_GLYPH, baseOf, baseDefence, skillName, skillTags, legendary, itemIcon, LAYER_ICON, SKILL_ICON }; },
   template: /* html */ `
   <article class="itip" :class="['r-' + rarityOf(item).id, { inline }]">
     <header class="itip-head">
       <div class="itip-icon"><Gi :n="itemIcon(item)" :c="'r-' + rarityOf(item).id" :g="SLOT_GLYPH[item.slot]"/></div>
       <h3>{{ itemName(item) }}</h3>
       <p>{{ rarityOf(item).name }}{{ SLOT_NAMES[item.slot] }} · {{ baseOf(item.slot, item.base)?.name }} · 物品 T{{ item.tier }}</p>
+      <p class="itip-bl" :class="'b' + baseLinesOf(item)" :title="'基底词条 ' + baseLinesOf(item) + ' / 3：主动技能和特性占用基底词条'">基底词条 <i v-for="k in 3" :key="k" :class="{ on: k <= baseLinesOf(item) }">◆</i></p>
       <p v-if="item.preset" class="itip-preset">流派配装 · {{ item.preset }}</p>
     </header>
     <p v-if="baseDefence(item).length" class="itip-base">{{ baseDefence(item).map(d => '+' + d.value + ' ' + d.name).join(' · ') }}</p>
@@ -129,7 +130,7 @@ const TEMPLATE = /* html */ `
         <div class="plate-bar"><i :style="{ width: pct(hud.kills, hud.total) }"></i></div>
         <p><span>{{ hud.time }}</span><span>击杀 {{ hud.kills }} / {{ hud.total }}</span><span v-if="run.profile.resistPenalty" class="warn">全抗 −{{ run.profile.resistPenalty }}%</span></p>
       </div>
-      <button class="plate-leave" @click="leaveRun">{{ run.phase === 'running' ? '撤离' : '离开' }}</button>
+      <button class="plate-leave" @click="leaveRun">{{ run.phase === 'running' ? '撤离' : '回营地' }}</button>
     </section>
     <minimap :run="run" :tick="hud.tick"></minimap>
 
@@ -174,14 +175,18 @@ const TEMPLATE = /* html */ `
     <div class="toasts"><p v-for="t in toasts" :key="t.id" :class="t.cls"><Gi v-if="t.icon" :n="t.icon" :c="t.ic || ''"/>{{ t.text }}</p></div>
     <div class="legend-drop" v-if="legendBanner" :key="legendBanner.id"><small>传奇掉落</small><b>{{ legendBanner.name }}</b></div>
 
-    <section class="result panel" v-if="run.phase !== 'running'" :class="run.phase">
-      <h2>{{ run.phase === 'cleared' ? '地 图 完 成' : '你 倒 下 了' }}</h2>
+    <section class="cleared-banner" v-if="run.phase === 'cleared' && clearedBanner" :key="'cb' + run.clearedAt">
+      <h2>地 图 完 成</h2>
+      <p>{{ hud.time }} · 击杀 {{ hud.kills }}<template v-if="resultLoot.opened"> · 新开放 {{ resultLoot.opened }} 个节点</template></p>
+      <small>首领留下了传送阵：走进去打开图集，选下一张图。掉落可以慢慢捡，装备也可以先换。</small>
+    </section>
+    <section class="result panel" v-if="run.phase === 'failed'" :class="run.phase">
+      <h2>你 倒 下 了</h2>
       <dl>
         <div><dt>用时</dt><dd>{{ hud.time }}</dd></div><div><dt>击杀</dt><dd>{{ hud.kills }}</dd></div>
         <div><dt>最高连杀</dt><dd>{{ run.bestCombo }}</dd></div><div><dt>连锁击杀</dt><dd>{{ pctNum(run.cascadeKills, hud.kills) }}%</dd></div>
       </dl>
-      <p v-if="run.phase === 'cleared'">带回 {{ resultLoot.items }} 件装备、{{ resultLoot.currencies }} 个通货、{{ resultLoot.stones }} 块路石<template v-if="resultLoot.legend">，其中 {{ resultLoot.legend }} 件传奇</template><template v-if="resultLoot.opened">；新开放 {{ resultLoot.opened }} 个节点</template></p>
-      <p v-else>只带回已经拾取的东西。回营地看看「本图要求」哪一项没达标。</p>
+      <p>只带回已经拾取的东西。回营地看看「本图要求」哪一项没达标。</p>
       <button class="orn-btn primary" @click="leaveRun">回到营地</button>
     </section>
   </template>
@@ -448,11 +453,12 @@ export function mountGame(el) {
       const picked = ref(null), pickedLine = ref(null), craftMsg = ref(''), roles = ref(null), evaluating = ref(false), updateText = ref('');
       const hover = ref(null), bdSel = ref(save.archetype ?? ARCHETYPES[0].id), toasts = ref([]), legendBanner = ref(null);
       const dragItem = ref(null), dropSlot = ref(null);
+      const clearedBanner = ref(false);
       const run = ref(null), resultLoot = reactive({ items: 0, currencies: 0, stones: 0, legend: 0, opened: 0, done: false });
       const hud = reactive({ combo: 0, cascadePct: 0, flashN: 0, tick: 0, time: '0:00', kills: 0, total: 0, life: 0, lifeMax: 1, es: 0, esMax: 0, mana: 0, manaMax: 1, skills: [], selected: 0, resources: [], buffs: [],
         bossShow: false, bossName: '', bossMods: [], bossLife: '100%', bossEs: '0%', bossEnraged: false });
       const rng = dungeonRandom(Date.now() >>> 0);
-      let scene = null, ov = null, raf = 0, last = 0, acc = 0, toastId = 0, seenPicked = 0, seenClear = -1, gsap = null, floating = null, seenLoot = new Set();
+      let scene = null, ov = null, raf = 0, last = 0, acc = 0, toastId = 0, seenPicked = 0, seenPortal = 0, seenClear = -1, gsap = null, floating = null, seenLoot = new Set();
       const keys = new Set(), mouse = { x: 0, y: 0, down: false };
 
       // Proven libraries from the CDN; the UI still works (plainer) without them.
@@ -486,8 +492,8 @@ export function mountGame(el) {
       watch([atlasSel, () => save.waystones.length], () => { if (!usable.value.some(w => w.uid === wsSel.value)) wsSel.value = usable.value[0]?.uid ?? null; }, { immediate: true });
       const runTier = computed(() => Math.max(atlas.nodes[atlasSel.value].tier, stone.value?.tier ?? 0));
       const reachable = computed(() => ['done', 'open'].includes(view.value.status(atlasSel.value)));
-      const canStart = computed(() => !run.value && reachable.value && (freeNode.value || !!stone.value));
-      const startText = computed(() => run.value ? '地图中无法开启' : !reachable.value ? '尚未连通' : !freeNode.value && !stone.value ? '需要路石' : view.value.status(atlasSel.value) === 'done' ? '再次进入' : '开启地图');
+      const canStart = computed(() => (!run.value || run.value.phase === 'cleared') && reachable.value && (freeNode.value || !!stone.value));
+      const startText = computed(() => run.value && run.value.phase !== 'cleared' ? '先打倒首领或撤离' : !reachable.value ? '尚未连通' : !freeNode.value && !stone.value ? '需要路石' : view.value.status(atlasSel.value) === 'done' ? '再次进入' : '开启地图');
       const waystoneTip = w => [waystoneName(w), ...w.mods.map(m => '· ' + NODE_MODS[m].text)].join('\n');
       function openAtlasFor(w) {
         const near = [...view.value.open, ...view.value.done].map(id => atlas.nodes[id]).filter(n => n.tier <= w.tier).sort((a, b) => b.tier - a.tier || (view.value.status(a.id) === 'open' ? -1 : 1))[0];
@@ -637,6 +643,11 @@ export function mountGame(el) {
       // ---- run lifecycle ----------------------------------------------------------------------
       function startRun() {
         if (!buildOf(save).skills.length) { open.char = true; toast('技能栏是空的：装备一件带主动技能的装备（武器都带）', 'bad'); return; }
+        if (run.value) {
+          // Leaving through the boss portal: bank the finished map, keep the node the player just picked.
+          if (run.value.phase !== 'cleared') { toast('先打倒首领，或者撤离当前地图', 'bad'); return; }
+          const sel = atlasSel.value; leaveRun(); atlasSel.value = sel;
+        }
         const node = atlas.nodes[atlasSel.value], st = view.value.status(node.id);
         if (st !== 'done' && st !== 'open') { toast('这个节点还没连通：先打通与它相连的地图', 'bad'); return; }
         if (!freeNode.value && !stone.value) { toast(`需要一块 T${node.tier} 及以上的路石`, 'bad'); return; }
@@ -645,7 +656,7 @@ export function mountGame(el) {
         persist(); atlasOpen.value = false; talentOpen.value = false;
         const r = new MapRun(build(), { tier, family: node.family, mods, seed: (Date.now() ^ (Math.random() * 1e9)) >>> 0 });
         r.node = node.id;
-        run.value = markRaw(r); open.char = open.bag = false; center.value = null; seenPicked = 0; seenClear = -1; seenLoot = new Set();
+        run.value = markRaw(r); open.char = open.bag = false; center.value = null; seenPicked = 0; seenClear = -1; seenLoot = new Set(); seenPortal = 0; clearedBanner.value = false;
         Object.assign(resultLoot, { items: 0, currencies: 0, stones: 0, legend: 0, opened: 0, done: false });
         nextTick(() => {
           if (!scene) { scene = new Scene3D(stage.value); ov = new Overlay(overlay.value); bindLabels(overlay.value); }
@@ -660,7 +671,6 @@ export function mountGame(el) {
         // Picked-up loot is already in the bag (see frame()); a cleared map also hands over what is still on the floor.
         if (r.phase !== 'failed') r.collectAll();
         for (; seenPicked < r.pickedUp.length; ++seenPicked) bank(r.pickedUp[seenPicked]);
-        if (r.phase === 'cleared') { save.unlocked = Math.min(MAP_TIERS, Math.max(save.unlocked, r.tier + 1)); save.stats.maps++; }
         save.stats.kills += r.kills;
         persist();
         cancelAnimationFrame(raf); ov?.clearLoot(); hover.value = null;
@@ -678,6 +688,10 @@ export function mountGame(el) {
         const at = scene.pick(mouse.x, mouse.y); if (at) r.setAim(at.x, at.y);
         r.setCasting(mouse.down && r.phase === 'running');
         while (acc >= 1 / 60) { r.step(1 / 60); acc -= 1 / 60; }
+        if (r.portalReached > seenPortal) {
+          seenPortal = r.portalReached;
+          if (!atlasOpen.value) { atlasSel.value = firstNear(r.node); toggle('atlas'); }
+        }
         for (const l of r.loot) {
           if (seenLoot.has(l.key)) continue;
           seenLoot.add(l.key);
@@ -688,7 +702,8 @@ export function mountGame(el) {
           const d = r.pickedUp[seenPicked]; bank(d);
           if (d.type === 'item') {
             const rr = rarityOf(d.item);
-            toast(`${rr.name} · ${itemName(d.item)}`, 'r-' + rr.id, itemIcon(d.item), 'r-' + rr.id);
+            const bl = baseLinesOf(d.item);
+            toast(`${bl > 1 ? '◆'.repeat(bl) + ' ' : ''}${rr.name} · ${itemName(d.item)}`, `r-${rr.id} b${bl}`, itemIcon(d.item), 'r-' + rr.id);
           } else if (d.type === 'waystone') toast(waystoneName(d.stone), 'w-' + d.stone.rarity, 'stone-tablet', 'w-' + d.stone.rarity);
           else toast(CURRENCIES[d.id].name, 'cur', CURRENCY_ICON[d.id], 'r-currency');
         }
@@ -697,7 +712,12 @@ export function mountGame(el) {
           const loot = r.phase === 'cleared' ? [...r.pickedUp, ...r.loot.map(l => l.drop)] : r.pickedUp;
           resultLoot.items = loot.filter(d => d.type === 'item').length; resultLoot.currencies = loot.filter(d => d.type === 'currency').length; resultLoot.stones = loot.filter(d => d.type === 'waystone').length;
           resultLoot.legend = loot.filter(d => d.item?.legend).length;
-          if (r.phase === 'cleared' && r.node != null) { resultLoot.opened = completeNode(atlas, save.atlas, r.node); persist(); }
+          if (r.phase === 'cleared') {
+            save.unlocked = Math.min(MAP_TIERS, Math.max(save.unlocked, r.tier + 1)); save.stats.maps++;
+            if (r.node != null) resultLoot.opened = completeNode(atlas, save.atlas, r.node);
+            persist();
+            clearedBanner.value = true; setTimeout(() => { if (run.value === r) clearedBanner.value = false; }, 7000);
+          }
           nextTick(() => gsap?.from('.result', { opacity: 0, scale: .92, duration: .5, ease: 'back.out(1.6)', clearProps: 'transform,opacity' }));
         }
         scene.update(r, now / 1000); ov.update(scene, r);
@@ -739,7 +759,8 @@ export function mountGame(el) {
         root.addEventListener('mousedown', e => {
           const el = e.target.closest('.lt'); if (!el || e.button !== 0) return;
           e.stopPropagation(); e.preventDefault();
-          run.value?.walkToLoot(el.dataset.key); hover.value = null;
+          if (el.classList.contains('lt-portal')) run.value?.walkToPortal(); else run.value?.walkToLoot(el.dataset.key);
+          hover.value = null;
         });
         root.addEventListener('mouseover', e => {
           const el = e.target.closest('.lt'); if (!el) return;
@@ -758,12 +779,18 @@ export function mountGame(el) {
         const p = PANELS.find(p => p.key.toLowerCase() === k); if (p) toggle(p.id);
         if (k === 'escape') {
           if (talentOpen.value || atlasOpen.value || open.char || open.bag || center.value) { talentOpen.value = false; atlasOpen.value = false; open.char = open.bag = false; center.value = null; hover.value = null; }
-          else if (run.value && run.value.phase !== 'running') leaveRun();
+          else if (run.value && run.value.phase === 'failed') leaveRun();
         }
       };
       const kd = e => onKey(e, true), ku = e => onKey(e, false);
       const mm = e => { const rect = stage.value?.getBoundingClientRect(); if (rect) { mouse.x = e.clientX - rect.left; mouse.y = e.clientY - rect.top; } };
-      const md = e => { if (e.button === 0 && run.value && e.target.closest('.stage')) mouse.down = true; };
+      const md = e => {
+        if (e.button !== 0 || !run.value || !e.target.closest('.stage')) return;
+        // A click on the portal walks there instead of casting.
+        const r = run.value, at = r.portal && scene?.pick(mouse.x, mouse.y);
+        if (at && Math.hypot(at.x - r.portal.x, at.y - r.portal.y) < 120) { r.walkToPortal(); return; }
+        mouse.down = true;
+      };
       const mu = e => { if (e.button === 0) mouse.down = false; };
       const rs = () => { scene?.resize(); viewSize.w = innerWidth; viewSize.h = innerHeight; };
       onMounted(() => { probeIcons(document.documentElement); addEventListener('keydown', kd); addEventListener('keyup', ku); addEventListener('mousemove', mm); addEventListener('mousedown', md); addEventListener('mouseup', mu); addEventListener('resize', rs); });
@@ -778,7 +805,7 @@ export function mountGame(el) {
         kindIconUrl: (kind, color) => `https://api.iconify.design/game-icons/${NODE_KINDS[kind].icon}.svg?color=${encodeURIComponent(color)}`,
         regionName: id => REGION_NAME[id], statusName: st => ({ done: '已打通', open: '可进入', seen: '尚未连通', hidden: '未知' })[st], nodeModText: id => NODE_MODS[id].text,
         save, stage, overlay, tipEl, comboEl, flashEl, open, center, mapTier, mapFamily, picked, pickedLine, craftMsg, roles, evaluating, updateText, hover, bdSel, toasts, legendBanner,
-        dragItem, dropSlot, run, resultLoot, hud,
+        dragItem, dropSlot, run, resultLoot, clearedBanner, hud,
         profile, requirements, statRows, bdArch, bdStages, currentBd, centerName, centerTitle, traits, granted, ladder, ladderFocus, primarySkill, bagCells,
         pick, equippedFor, hoverOn, hoverOff, doEquip, doUnequip, dragStart, dropOn, doSalvage, doCraft, applyBd, clearBd, accountName, leaveAccount, grantLegendary, evaluate, update, toggle, isOpen, openCenter, startRun, leaveRun, selectSkill, gearChanged,
         panels: PANELS, tierList: Array.from({ length: MAP_TIERS }, (_, i) => i + 1), families: MAP_FAMILIES, slots: SLOTS, slotNames: SLOT_NAMES, currencies: CURRENCIES,

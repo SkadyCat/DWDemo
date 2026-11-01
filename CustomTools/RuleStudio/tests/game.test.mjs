@@ -1,20 +1,22 @@
 // 游戏层：装备掉落与洗炼、存档与一键流派、地图挑战（无画面跑一局）。
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { rollItem, rollDrops, applyCurrency, rarityOf, itemAffixes, MAX_LINES, BASE_LINES, ITEM_SKILLS, isTrait } from '../core/content/items.mjs';
+import { rollItem, rollDrops, applyCurrency, rarityOf, itemAffixes, MAX_LINES, BASE_LINES, ITEM_SKILLS, isTrait, baseLinesOf } from '../core/content/items.mjs';
 import { family, LAYERS, SLOTS } from '../core/content/families.mjs';
 import { newSave, applyArchetype, buildOf, equip, unequip, craft } from '../public/game/save.mjs';
 import { MapRun } from '../public/game/run.mjs';
 import { dungeonRandom } from '../public/game/dungeon.mjs';
 import { ARCHETYPES } from '../core/content/archetypes.mjs';
 
-test('掉落：基底 3 条 = 主动技能（可能有）+ 特性；随机词条只出数值；按部位和层级门槛，同件不重复', () => {
+test('掉落：基底 1–3 条随机 = 主动技能（可能有）+ 特性；随机词条只出数值；按部位和层级门槛，同件不重复', () => {
   const rng = dungeonRandom(5);
-  let skills = 0, cores = 0;
+  let skills = 0, cores = 0; const byBase = [0, 0, 0, 0];
   for (let i = 0; i < 600; ++i) {
     const it = rollItem(1 + (i % 10), rng);
     assert.ok(it.lines.length <= MAX_LINES);
-    assert.equal(it.traits.length + (it.skill ? 1 : 0), BASE_LINES, '基底正好 3 条');
+    const bl = baseLinesOf(it); byBase[bl]++;
+    assert.ok(bl >= 1 && bl <= BASE_LINES, '基底 1–3 条');
+    assert.equal(it.traits.length + (it.skill ? 1 : 0), bl, '主动技能 + 特性 = 基底条数');
     if (it.slot === 'weapon') assert.ok(it.skill, '武器必带主动技能');
     if (it.skill) { skills++; assert.ok(ITEM_SKILLS.includes(it.skill)); }
     const ids = [...it.traits, ...it.lines].map(l => l.id);
@@ -29,6 +31,7 @@ test('掉落：基底 3 条 = 主动技能（可能有）+ 特性；随机词条
     assert.ok(itemAffixes(it).filter(a => !a.id.startsWith('base:')).length === it.traits.length + it.lines.length);
   }
   assert.ok(skills > 100 && cores > 0, `技能 ${skills} 核心 ${cores}`);
+  assert.ok(byBase[1] > byBase[2] && byBase[2] > byBase[3] && byBase[3] > 30, `基底分布 ${byBase}`);
   const boss = rollDrops(10, 'boss', rng);
   assert.ok(boss.filter(d => d.type === 'item').length >= 3 && boss.some(d => d.type === 'currency'));
 });

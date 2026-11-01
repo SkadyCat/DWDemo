@@ -18,6 +18,7 @@ export const STATUS_LOOK = {
   frostbite: { color: '#a6e6ff', glyph: '冻', fx: 'chill' }, onslaught: { color: '#ffd166', glyph: '猛', fx: null }, fortify: { color: '#c0c8d8', glyph: '护', fx: null },
   thunder_ready: { color: '#ffe680', glyph: '雷', fx: null },
 };
+const PORTAL_REACH = 85;
 const ELEMENT_COLOR = { physical: 0x8a3a2a, fire: 0xa8401c, cold: 0x2c6c9a, lightning: 0x9a8a24, chaos: 0x5a2a7a };
 
 function dungeonTerrain(d) {
@@ -42,6 +43,7 @@ export class MapRun {
     this.rng = dungeonRandom(seed ^ 0x51ab);
     this.elapsed = 0;
     this.phase = 'running';
+    this.portal = null; this.portalReached = 0;
     this.flashes = []; this.loot = []; this.log = []; this.kills = 0; this.pickedUp = [];
     this.recentKills = []; this.combo = 0; this.bestCombo = 0; this.lastKillAt = -9; this.cascadeKills = 0; this.screenClears = []; this.lastScreenClear = -9;
     this.build = build;
@@ -146,6 +148,8 @@ export class MapRun {
   }
   /** Click a ground label: walk to that drop and pick it up on arrival. */
   walkToLoot(key) { if (this.loot.some(l => l.key === key)) this.walkTo = key; }
+  /** Walk to the portal the boss left behind; arriving there raises portalReached (the page opens the atlas). */
+  walkToPortal() { if (!this.portal) return; if (this.portal.inside) this.portalReached++; else this.walkTo = 'portal'; }
   setAim(x, y) {
     const h = this.hero, dx = x - h.x, dy = y - h.y, l = Math.hypot(dx, dy) || 1;
     h.aim = { x: dx / l, y: dy / l }; h.aimPoint = { x, y };
@@ -179,7 +183,14 @@ export class MapRun {
       if (h.channeling) h.channelTarget = this.heroTarget();
     }
     for (const sk of this.skills) if (sk.def.reserve && !sk.active) w.cast(h, sk);
-    if (this.walkTo) {
+    if (this.portal) {
+      // Stepping onto the portal (or arriving after a click) opens the atlas once per visit.
+      const d = Math.hypot(this.portal.x - h.x, this.portal.y - h.y), inside = d < PORTAL_REACH;
+      if (inside && !this.portal.inside) { this.portalReached++; if (this.walkTo === 'portal') { this.walkTo = null; h.vx = h.vy = 0; } }
+      this.portal.inside = inside;
+      if (this.walkTo === 'portal' && !inside) { h.vx = this.portal.x - h.x; h.vy = this.portal.y - h.y; }
+    }
+    if (this.walkTo && this.walkTo !== 'portal') {
       const l = this.loot.find(x => x.key === this.walkTo);
       if (!l) { this.walkTo = null; h.vx = h.vy = 0; }
       else if (Math.hypot(l.x - h.x, l.y - h.y) < 90) { l.taken = true; this.pickedUp.push(l.drop); this.walkTo = null; h.vx = h.vy = 0; }
@@ -225,7 +236,7 @@ export class MapRun {
         const a = this.rng() * Math.PI * 2, r = 40 + this.rng() * (kind === 'boss' ? 120 : 50);
         this.loot.push({ key: `w${this.elapsed.toFixed(3)}:${this.loot.length}:${this.rng()}`, x: e.target.x + Math.cos(a) * r, y: e.target.y + Math.sin(a) * r, sourceX: e.target.x, sourceY: e.target.y, drop: { type: 'waystone', stone }, born: this.elapsed });
       }
-      if (e.target === this.boss) { this.phase = 'cleared'; this.clearedAt = this.elapsed; }
+      if (e.target === this.boss) { this.phase = 'cleared'; this.clearedAt = this.elapsed; this.portal = { x: e.target.x, y: e.target.y, born: this.elapsed, inside: false }; }
     }
   }
 
