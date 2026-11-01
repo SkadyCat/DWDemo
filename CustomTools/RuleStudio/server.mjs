@@ -31,7 +31,9 @@ async function handle(req, res) {
   if (url.pathname === '/api/version' && req.method === 'GET') return send(200, { pid: process.pid, started: STARTED });
   for (const [prefix, dir] of STATIC) {
     if (!url.pathname.startsWith(prefix)) continue;
-    const relative = decodeURIComponent(url.pathname.slice(prefix.length)) || 'index.html';
+    // Folders serve their index.html ("/design/" → design/index.html).
+    let relative = decodeURIComponent(url.pathname.slice(prefix.length));
+    if (!relative || relative.endsWith('/')) relative += 'index.html';
     const file = path.resolve(dir, relative);
     if (!within(dir, file) || !fs.existsSync(file) || fs.statSync(file).isDirectory()) continue;
     if (!['GET', 'HEAD'].includes(req.method)) return send(405, { error: 'method not allowed' });
