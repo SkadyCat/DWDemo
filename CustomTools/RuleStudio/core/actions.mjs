@@ -288,7 +288,7 @@ defineAction('projectile', (a, inv) => {
   const w = inv.world;
   const count = Math.max(1, Math.round(inv.stat('proj.count', num(a.count, inv, 1))));
   // Adjacent projectiles are at most 8° apart, so a small volley still converges on one target.
-  const nova = inv.stat('proj.nova') > 0 && count > 1;
+  const nova = (a.ring || inv.stat('proj.nova') > 0) && count > 1;
   const spread = nova ? Math.PI * 2 * (count - 1) / count : Math.min(inv.stat('proj.spread', a.spread ?? 30), 8 * (count - 1)) * Math.PI / 180;
   const from = point(a.from ?? 'origin', inv);
   const to = inv.target && a.from !== 'event' ? { x: inv.target.x, y: inv.target.y } : inv.aim;

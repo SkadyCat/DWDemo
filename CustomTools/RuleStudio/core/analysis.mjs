@@ -209,7 +209,13 @@ export function hordeProbe(content, build, tier, { count = 200, radius = 1300, l
     m.aggro = aggro;
   }
   const kills = [];
-  world.listeners.push(e => { if (e.type === 'kill' && e.target.team === 1) kills.push({ t: world.time, cascade: (e.depth ?? 0) > 0 || !!e.dot }); });
+  let dealt = 0, taken = 0, triggers = 0;
+  world.listeners.push(e => {
+    if (e.type === 'kill' && e.target.team === 1) kills.push({ t: world.time, cascade: (e.depth ?? 0) > 0 || !!e.dot });
+    else if ((e.type === 'hit' || e.type === 'dotTick') && e.target?.team === 1) dealt += e.amount;
+    else if (e.type === 'hit' && e.target === hero) taken += e.amount;
+    else if (e.type === 'trigger' && e.source === hero) triggers++;
+  });
   let t = 0;
   for (; t < limit && kills.length < count; t += 1 / 30) {
     world.step(1 / 30); hero.life = hero.max.life; hero.mana = hero.max.mana;
@@ -220,7 +226,7 @@ export function hordeProbe(content, build, tier, { count = 200, radius = 1300, l
   let burst = 0;
   for (let i = 0, j = 0; i < kills.length; ++i) { while (kills[i].t - kills[j].t > 0.25) ++j; burst = Math.max(burst, i - j + 1); }
   const time = kills.length >= count ? t : limit * count / Math.max(1, kills.length);
-  return { time, cleared: kills.length, total: count, kps: kills.length / Math.max(t, 1e-6), peak, burst,
+  return { time, cleared: kills.length, total: count, kps: kills.length / Math.max(t, 1e-6), peak, burst, dealt, taken, triggers,
     cascade: kills.length ? kills.filter(k => k.cascade).length / kills.length : 0 };
 }
 

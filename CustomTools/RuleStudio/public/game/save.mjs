@@ -43,16 +43,19 @@ export function buildOf(save) {
   return { skills: save.skills.filter(id => id && granted.includes(id)), affixes, keepDistance: arch?.keepDistance ?? 0 };
 }
 
-export function equip(save, uid) {
+/** Equip an item from the bag (onto `slot` when given and it fits: either ring slot takes a ring). */
+export function equip(save, uid, slot = null) {
   const i = save.inventory.findIndex(it => it.uid === uid);
-  if (i < 0) return;
+  if (i < 0) return false;
   const item = save.inventory[i];
-  let slot = item.slot;
-  if (slot === 'ring1' || slot === 'ring2') slot = !save.equipped.ring1 ? 'ring1' : !save.equipped.ring2 ? 'ring2' : 'ring1';
+  const ring = s => s === 'ring1' || s === 'ring2';
+  if (slot && !(slot === item.slot || (ring(slot) && ring(item.slot)))) return false;
+  if (!slot) slot = ring(item.slot) ? (!save.equipped.ring1 ? 'ring1' : !save.equipped.ring2 ? 'ring2' : 'ring1') : item.slot;
   save.inventory.splice(i, 1);
   if (save.equipped[slot]) save.inventory.push(save.equipped[slot]);
   save.equipped[slot] = { ...item, slot };
   syncSkillBar(save);
+  return true;
 }
 export function unequip(save, slot) { if (save.equipped[slot]) { save.inventory.push(save.equipped[slot]); save.equipped[slot] = null; syncSkillBar(save); } }
 /** Salvage: an item turns into a little currency (more lines, more back). */

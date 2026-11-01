@@ -69,6 +69,8 @@ export const GAME_SKILLS = Object.freeze({
       actions: [{ do: 'area', at: 'target', radius: 120, fx: 'thunder' }] },
     { id: 'ice_spike_burst', name: '冰刺爆发', tags: ['spell', 'area', 'cold', 'triggered_only'], time: 0.5, crit: 8, damage: { cold: 26 }, range: 900,
       actions: [{ do: 'area', at: 'target', radius: 150, fx: 'ice_burst' }] },
+    { id: 'blade_ring', name: '刀锋环', tags: ['attack', 'projectile', 'physical', 'triggered_only'], time: 0.5, crit: 6, damage: { physical: 16 }, range: 600,
+      actions: [{ do: 'projectile', count: 8, ring: true, speed: 1300, radius: 18, lifetime: 0.45, pierce: 2, kind: 'viper_knife' }] },
     { id: 'glacial_burst', name: '寒潮', tags: ['spell', 'area', 'cold', 'triggered_only'], time: 0.5, crit: 6, damage: { cold: 30 }, range: 900,
       actions: [{ do: 'area', at: 'target', radius: 230, fx: 'ice_nova' }] },
     { id: 'ground_slam', name: '落地冲击', tags: ['attack', 'melee', 'area', 'physical', 'triggered_only'], time: 0.5, crit: 6, damage: { physical: 30 }, range: 300,

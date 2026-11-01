@@ -3,11 +3,13 @@
 // 一切随机都走传入的 rng，存档里只存 { 底材, T 阶, 技能, 词条族 + 词条 T 阶 }，词条效果由 families.mjs 现算。
 import { SLOTS, LAYERS, families, family, affixLine, lineTierFor } from './families.mjs';
 import { compileAffix } from '../content.mjs';
+import { LEGENDARIES, legendary, legendAffix } from './legendaries.mjs';
 
 export const SLOT_NAMES = Object.freeze({ weapon: '武器', offhand: '副手', helmet: '头盔', chest: '胸甲', gloves: '手套', boots: '鞋子', belt: '腰带', amulet: '项链', ring1: '戒指', ring2: '戒指' });
 export const RARITY = Object.freeze([
   { id: 'normal', name: '普通', color: '#c8c8c8' }, { id: 'magic', name: '魔法', color: '#7aa8ff' },
   { id: 'rare', name: '稀有', color: '#ffd75e' }, { id: 'exalted', name: '传世', color: '#ff9a4d' },
+  { id: 'legendary', name: '传奇', color: '#ff7a2a' },
 ]);
 export const MAX_LINES = 6;
 /** Every item has three base lines: an active skill (weapons always, other slots sometimes) and traits. */
@@ -122,7 +124,8 @@ export function rollLine(item, rng, opts = {}) {
   return f ? { id: f.id, tier: rollLineTier(f.id, item.tier, rng) } : null;
 }
 export const rollTrait = (item, rng, layer = null) => rollLine(item, rng, { trait: true, layer });
-export const traitSlots = item => BASE_LINES - (item.skill ? 1 : 0);
+/** Base lines left for traits: the skill and a legendary trait each take one. */
+export const traitSlots = item => BASE_LINES - (item.skill ? 1 : 0) - (item.legend ? 1 : 0);
 
 /** item: { uid, slot, base, tier, skill, traits:[{id,tier}], lines:[{id,tier}] } */
 export function makeItem(slot, baseId, tier, { skill = null, traits = [], lines = [] } = {}) {
@@ -143,17 +146,31 @@ export function rollItem(itemTier, rng, slot = SLOTS[Math.floor(rng() * SLOTS.le
   return item;
 }
 
+/** A legendary item: its fixed legendary trait, the base's skill line if any, the rest rolled as usual. */
+export function rollLegendary(id, itemTier, rng) {
+  const L = legendary(id);
+  const item = makeItem(L.slot, L.base, Math.max(itemTier, 1), { skill: L.skill ?? null });
+  item.legend = id;
+  while (item.traits.length < traitSlots(item)) { const l = rollTrait(item, rng); if (!l) break; item.traits.push(l); }
+  const count = 3 + Math.floor(rng() * 4);
+  for (let i = 0; i < count; ++i) { const l = rollLine(item, rng); if (l) item.lines.push(l); }
+  return item;
+}
+export { LEGENDARIES };
+
 export function rarityOf(item) {
+  if (item.legend) return RARITY[4];
   const n = item.lines.length;
   if (item.traits.some(l => family(l.id).layer === 'core')) return RARITY[3];
   return n <= 1 ? RARITY[0] : n <= 3 ? RARITY[1] : RARITY[2];
 }
 export function itemName(item) {
+  if (item.legend) return legendary(item.legend).name;
   const base = baseOf(item.slot, item.base);
   return `T${item.tier} ${base?.name ?? item.base}`;
 }
 /** Compiled affixes for the engine (base defence + base traits + random lines). The skill line is a grant, not an affix. */
-export const itemAffixes = item => [baseAffix(item), ...[...item.traits, ...item.lines].map(l => affixLine(l.id, l.tier))].filter(Boolean);
+export const itemAffixes = item => [baseAffix(item), item.legend ? legendAffix(item.legend) : null, ...[...item.traits, ...item.lines].map(l => affixLine(l.id, l.tier))].filter(Boolean);
 export const lineText = l => affixLine(l.id, l.tier).name;
 
 /**
@@ -233,6 +250,9 @@ export function rollDrops(mapTier, kind, rng, { quantity = 1 } = {}) {
   const itemTier = () => Math.max(1, Math.min(10, Math.round(mapTier * 10 / 16 + (rng() - 0.5) * 2)));
   const items = kind === 'boss' ? 3 + Math.floor(rng() * 2) : (rng() < (kind === 'elite' ? 0.35 : 0.045) * quantity ? 1 : 0);
   for (let i = 0; i < items; ++i) out.push({ type: 'item', item: rollItem(Math.min(10, itemTier() + (kind === 'boss' ? 1 : 0)), rng) });
+  // Legendaries: a boss drops one a third of the time, elites rarely, from map tier 3 up.
+  const legendChance = mapTier < 3 ? 0 : kind === 'boss' ? 0.35 : kind === 'elite' ? 0.02 : 0.0008;
+  if (rng() < legendChance * quantity) out.push({ type: 'item', item: rollLegendary(LEGENDARIES[Math.floor(rng() * LEGENDARIES.length)].id, Math.min(10, itemTier() + 1), rng) });
   const currencyRolls = kind === 'boss' ? 6 : kind === 'elite' ? 2 : rng() < 0.12 * quantity ? 1 : 0;
   const entries = Object.entries(CURRENCIES);
   const total = entries.reduce((s, [, c]) => s + c.weight, 0);
