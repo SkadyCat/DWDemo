@@ -16,3 +16,6 @@ __pycache__/
 *.p12
 .DS_Store
 Thumbs.db
+
+# UE export (scripts/export-ue-content.mjs, export-golden-traces.mjs)
+CustomTools/RuleStudio/export/

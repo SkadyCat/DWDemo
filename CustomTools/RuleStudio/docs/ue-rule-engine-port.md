@@ -364,3 +364,38 @@ UE 里两种做法：
 1. 先在网页版里用同样的种子复现，确认 JS 的行为（`node` 里直接 `createWorld` 跑最快）。
 2. 用金样的「第一个不一致事件」定位到具体模块，对照本文 §4 的顺序表和 §4.10–4.11 的陷阱。
 3. 如果发现网页版本身有 bug：在网页版修、加测试、重新导出金样，并在提交说明里写清楚「改变了行为」。两边同时改。
+
+---
+
+## 11. 现状（2026-11-01）
+
+UE 版内核已经落在 DWEngine 的 `Plugins/DWRules`，旧的 DWRules 规则引擎整体替换掉（旧代码备份在 DWEngine 的 `Saved/RulesPort/legacy/`，WebVFX 表现层原样保留）。
+
+| 里程碑 | 状态 |
+| --- | --- |
+| M0 导出脚本 | 完成：`scripts/export-ue-content.mjs`、`scripts/export-golden-traces.mjs`（含 `golden-runner.mjs` 场景执行器、`golden-record-tests.mjs` 把 16 条流派机制链录成场景）。两次导出逐字节相同 |
+| M1/M2 内核 | 完成：`Source/DWRulesCore`（纯 C++17，std 容器，double）。`core-engine` 的积木测试移植为 12 个自检（`DWRules.Core.*`） |
+| M3 金样 | 完成：99 个场景全部逐事件一致（积木 11 · 技能 14 · 十流派×五阶段怪潮 50 · 首领 2 · 地牢地形 3 · 机制链 19 个世界），x86 / ARM、clang / gcc 都过 |
+| M4 桥接 | 代码已写（`UDWRulesSubsystem` 60Hz 定步长、`UDWRulesComponent`、`UDWRulesHordeRenderer`、`UDWContentBundle`、`UDWFxTable`），**还没在 UE 里编译过** |
+| M5 内容管线 | 导出 → `Plugins/DWRules/Data/dw-content.json`（或导入成 `UDWContentBundle` 资产再 Reimport） |
+
+常用命令：
+
+```sh
+# 内容包与金样（在 DWDemo/CustomTools/RuleStudio 下）
+node scripts/export-ue-content.mjs   <DWEngine>/Plugins/DWRules/Data/dw-content.json
+node scripts/export-golden-traces.mjs <DWEngine>/Plugins/DWRules/Tests/Golden
+# 不开 UE 直接跑内核（DWEngine/Plugins/DWRules/Tools/Standalone）
+make && ./dwrules-golden ../../Tests/Golden && ./dwrules-golden --selftest
+./dwrules-golden --bench=../../Tests/Golden/horde_inferno_final.json   # 200 / 1000 / 3000 只怪
+# UE 里
+UnrealEditor-Cmd DungeonWorldOpus.uproject -ExecCmds="Automation RunTests DWRules; Quit" -unattended -nopause -nullrhi
+# 或控制台：dw.Rules.Golden
+```
+
+移植中发现、需要记住的点：
+
+- **FMA 合并会让金样对不上**：Apple clang 在 arm64 上默认把 `a*b+c` 合并成一条指令，移动距离的累积阈值会晚一步触发。`DWCoreTypes.h` 用 pragma 关掉了合并和重结合，并且禁止 `-ffast-math`（可选字段用 NaN 表示 undefined）。
+- `Math.hypot` 按 V8 的算法实现（缩放 + Kahan 求和），不用 `std::hypot`。
+- 网页版的两个问题：① `content.mjs` 交叉引用没有跳过 `$primary`，全部词条一起 `compileContent` 会报错（已修，一行）；② 属性注册表是全局的（`registry.mjs` 的 `TABLE`），测试包里重定义的 `burst.max` 会和游戏内容冲突，所以机制链场景在单独进程里录制和重放。C++ 版每份内容一张注册表。
+- 性能（容器 x86，Release）：3000 只怪平均 ~2ms/步，毒爆流派 p95 9.5ms、最大 20ms，尖峰还要优化。

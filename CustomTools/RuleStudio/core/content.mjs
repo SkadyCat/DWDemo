@@ -68,7 +68,7 @@ export function compileAffix(raw) {
 const NESTED = ['onHit', 'onEnd', 'onPulse', 'onCast', 'actions', 'then', 'else'];
 function collectRefs(actions, out, where) {
   for (const a of actions ?? []) {
-    if (a.do === 'cast' && a.skill !== '$event') out.push(['skill', a.skill, where]);
+    if (a.do === 'cast' && a.skill !== '$event' && a.skill !== '$primary') out.push(['skill', a.skill, where]);
     if ((a.do === 'status' || a.do === 'removeStatus') && a.status) out.push(['status', a.status, where]);
     if (a.do === 'consumeStatus') for (const s of [a.status].flat()) out.push(['status', s, where]);
     if (a.do === 'summon') out.push(['minion', a.minion, where]);
