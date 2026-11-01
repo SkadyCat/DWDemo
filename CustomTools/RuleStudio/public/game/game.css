@@ -138,7 +138,7 @@ select { font: inherit; color: var(--txt); background: var(--deep); border: 1px 
 .hero-card { display: flex; gap: 14px; align-items: center; margin-bottom: 12px; }
 .portrait { width: 58px; height: 58px; padding: 12px; border-radius: 50%; border: 1px solid var(--gold); background: radial-gradient(circle, #1e2a4e, #060a18); flex: none; }
 .hero-card h3 { font: 400 22px var(--title); color: var(--gold-hi); letter-spacing: .2em; } .hero-card p { color: var(--mute); font-size: 12.5px; }
-.doll { display: grid; grid-template-columns: repeat(5, 62px); gap: 8px 14px; justify-content: center; padding: 6px 0 18px; }
+.doll { display: grid; grid-template-columns: repeat(5, 62px); gap: 24px 14px; justify-content: center; padding: 6px 0 18px; }
 .slot { position: relative; width: 62px; height: 62px; padding: 12px; border-radius: 50%; background: radial-gradient(circle at 50% 35%, rgba(30, 42, 78, .95), rgba(6, 10, 24, .95)); box-shadow: 0 0 0 1px var(--gold-lo); transition: box-shadow .15s; }
 .slot small { position: absolute; left: 50%; bottom: -16px; transform: translateX(-50%); font-size: 10px; color: var(--mute); white-space: nowrap; }
 .slot:hover { box-shadow: 0 0 0 1px var(--gold-hi), 0 0 0 4px rgba(251, 231, 176, .18); }
