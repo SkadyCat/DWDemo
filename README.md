@@ -27,7 +27,7 @@
 
 - `CustomTools/RuleStudio/core/`：规则引擎（见其中 README）与内容（词条族、技能、地图压力、十个流派、装备）。
 - `CustomTools/RuleStudio/public/game/`：游戏页、3D 画面、特效桥、存档。
-- `CustomTools/RuleStudio/public/prefabs/`、`public/vfx/`：特效预制体。
+- `CustomTools/RuleStudio/public/vfx/`：特效系统——程序化贴图集、GPU 实例化粒子、地面冲击环与印记、刀光、闪电、动态光源、HDR 后期（泛光、冲击波折射、色差、镜头震动）与各元素的特效配方；`/vfx/index.html` 是特效实验室，可逐个播放。`public/prefabs/` 只剩地牢地面、传送门和掉落标记。
 - `CustomTools/RuleStudio/tests/`：引擎单元测试、16 个验收流派、十个流派的分阶段验证。
 - `CustomTools/RuleStudio/scripts/`：校准与报告脚本（`core-calibrate-all.sh`、`core-roles.mjs`、`core-usefulness.mjs`、`core-archetype-report.mjs`）。
 

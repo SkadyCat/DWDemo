@@ -18,13 +18,9 @@ export function createDungeonFloor(layout) {
     matrix.makeTranslation(center.x * .01, .725, -center.y * .01); walls.setMatrixAt(i, matrix);
     matrix.makeTranslation(center.x * .01, 1.48, -center.y * .01); caps.setMatrixAt(i, matrix);
   });
-  const flames = new THREE.InstancedMesh(new THREE.ConeGeometry(.13, .52, 6), new THREE.MeshBasicMaterial({ color: 0xffba65, toneMapped: false }), layout.rooms.length * 4);
-  let index = 0;
-  for (const room of layout.rooms) for (const [x, y] of [[room.x + .6, room.y + .6], [room.x + room.w - .6, room.y + .6], [room.x + .6, room.y + room.h - .6], [room.x + room.w - .6, room.y + room.h - .6]]) {
-    matrix.makeTranslation((x * layout.tile - layout.half) * .01, 1.5, -(y * layout.tile - layout.half) * .01); flames.setMatrixAt(index++, matrix);
-  }
-  group.add(floors, walls, caps, flames);
-  for (const mesh of [floors, walls, caps, flames]) mesh.frustumCulled = false;
+  // Torch flames are drawn by the effects system (particles), at layout.torches.
+  group.add(floors, walls, caps);
+  for (const mesh of [floors, walls, caps]) mesh.frustumCulled = false;
   return {
     group,
     dispose() { group.traverse(object => { object.geometry?.dispose(); object.material?.dispose(); }); group.removeFromParent(); },

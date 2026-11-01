@@ -645,7 +645,8 @@ export function mountGame(el) {
       }
       function frame(now) {
         const r = run.value; if (!r) return;
-        const dt = Math.min(0.1, (now - last) / 1000); last = now; acc += dt;
+        // A frame queued before the run started can carry an older timestamp: never step backwards.
+        const dt = Math.max(0, Math.min(0.1, (now - last) / 1000)); last = Math.max(last, now); acc += dt;
         const mx = (keys.has('d') ? 1 : 0) - (keys.has('a') ? 1 : 0), my = (keys.has('w') ? 1 : 0) - (keys.has('s') ? 1 : 0);
         r.setMove(mx, my);
         const at = scene.pick(mouse.x, mouse.y); if (at) r.setAim(at.x, at.y);

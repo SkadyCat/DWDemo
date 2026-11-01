@@ -3,7 +3,7 @@ import * as THREE from '../vendor/three.module.js';
 import { createDungeonFloor } from '../prefabs/dungeon-floor.mjs';
 import { createDungeonPortal } from '../prefabs/dungeon-portal.mjs';
 import { createLootMarkers } from '../prefabs/loot-markers.mjs';
-import { createGlowRenderer } from '../vfx/glow-renderer.mjs';
+import { createPost } from '../vfx/post.mjs';
 import { createEffects } from './effects.mjs';
 import { rarityOf, itemName, CURRENCIES } from '../../core/content/items.mjs';
 import { waystoneName } from './waystones.mjs';
@@ -64,7 +64,8 @@ export class Scene3D {
 
     this.effects = createEffects(THREE, scene);
     this.loot = createLootMarkers(THREE); scene.add(this.loot.group);
-    this.glow = createGlowRenderer(THREE, this.renderer);
+    this.post = createPost(THREE, this.renderer);
+    this.camBase = new THREE.Vector3();
     this.tmp = { m: new THREE.Matrix4(), q: new THREE.Quaternion(), s: new THREE.Vector3(), p: new THREE.Vector3(), c: new THREE.Color(), e: new THREE.Euler() };
     this.raycaster = new THREE.Raycaster();
     this.resize();
@@ -94,12 +95,14 @@ export class Scene3D {
       this.floor?.dispose();
       this.layout = run.dungeon;
       this.floor = createDungeonFloor(run.dungeon); this.scene.add(this.floor.group);
-      this.camera.position.set(hp.x, 15.5 * this.zoom, hp.z + 10.5 * this.zoom);
+      this.camBase.set(hp.x, 15.5 * this.zoom, hp.z + 10.5 * this.zoom);
       this.loot.reset();
     }
     const offset = new THREE.Vector3(0, 15.5, 10.5).multiplyScalar(this.zoom);
-    this.camera.position.lerp(new THREE.Vector3(hp.x, 0, hp.z).add(offset), 0.12);
-    this.camera.lookAt(this.camera.position.clone().sub(offset));
+    this.camBase.lerp(new THREE.Vector3(hp.x, 0, hp.z).add(offset), 0.12);
+    this.camera.position.copy(this.camBase);
+    this.camera.lookAt(this.camBase.clone().sub(offset));
+    if (this.fxState) this.camera.position.add(this.fxState.shake);
     this.sun.position.set(hp.x + 10, 22, hp.z + 6); this.sun.target.position.set(hp.x, 0, hp.z);
 
     const boss = run.boss;
@@ -131,19 +134,20 @@ export class Scene3D {
     for (const mesh of [this.monsterBody, this.monsterVisor, this.monsterHorn]) { mesh.count = n; mesh.instanceMatrix.needsUpdate = true; }
     if (this.monsterBody.instanceColor) this.monsterBody.instanceColor.needsUpdate = true;
 
-    this.effects.update(run);
+    this.camera.updateMatrixWorld();
+    this.fxState = this.effects.update(run, this.camera);
     this.loot.update(run.loot.map(l => {
       const d = l.drop, item = d.type === 'item';
       if (d.type === 'waystone') return { key: l.key, x: l.x * M, z: -l.y * M, sourceX: l.sourceX * M, sourceZ: -l.sourceY * M, kind: 'item', category: 'omen' };
       return { key: l.key, x: l.x * M, z: -l.y * M, sourceX: l.sourceX * M, sourceZ: -l.sourceY * M, kind: 'item',
         rarity: item ? RARITY_KEY[rarityOf(d.item).id] : undefined, category: item ? 'equipment' : 'currency', currencyGrade: item ? undefined : (d.id.startsWith('essence') ? 3 : d.id === 'chaos' || d.id === 'seal' ? 2 : 1) };
     }), run.elapsed, []);
-    this.glow.render(this.scene, this.camera, this.effects.group);
+    this.post.render(this.scene, this.camera, this.fxState);
   }
 
   lootAnchor(key) { return this.loot.anchor(key); }
 
-  dispose() { this.portal.dispose(); this.floor?.dispose(); this.effects.dispose(); this.loot.dispose(); this.glow.dispose(); this.renderer.dispose(); this.renderer.domElement.remove(); }
+  dispose() { this.portal.dispose(); this.floor?.dispose(); this.effects.dispose(); this.loot.dispose(); this.post.dispose(); this.renderer.dispose(); this.renderer.domElement.remove(); }
 }
 
 /** Health bars, ailment badges and floating damage numbers as DOM over the canvas. */

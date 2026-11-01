@@ -1,146 +1,133 @@
-// 特效桥：新引擎的事件 → 预制体特效。只观察、不改玩法。
-// One-shot effects come from world events (area, strike, blink, hit, shatter, telegraph…);
-// continuous ones (projectiles, ground zones, status auras, minions) are read from the run's views each frame.
-import { modules } from '../vfx/catalog.mjs';
+// 特效桥：新引擎的事件 → 特效配方（public/vfx/fx.mjs）。只观察、不改玩法。
+// 一次性特效来自世界事件（区域、打击、闪现、命中、碎冰、预警、击杀……）；
+// 持续特效（投射物、地面区域、状态、召唤物）每帧从 run 的视图读取。
+import { createFx } from '../vfx/fx.mjs';
 
-const EL = { fire: 0, cold: 1, lightning: 2, physical: 3, chaos: 4 };
 const M = 0.01;
-const PROJECTILE_PREFAB = {
-  fireball: 'projectile-fireball', frost_bolt: 'projectile-ice-lance', viper_knife: 'projectile-viper-knife', thunder_bolt: 'projectile-ball-lightning',
-  spark: 'projectile-ball-lightning', mob_bolt: 'projectile-void-bolt', bolt: 'projectile-void-bolt',
-};
-// Fast chaining bolts (arc) are drawn as lightning between hits, not as a flying body.
-const INVISIBLE = new Set(['arc']);
-const ZONE_PREFAB = { flame_wall: 'ground-burning', pod: 'ground-poison', blade: 'ground-mirror' };
-const STATUS_PREFAB = { chilled: 'status-chill', frozen: 'status-freeze', shocked: 'status-shock', ignited: 'status-ignite', bleeding: 'status-bleed', poisoned: 'status-poison', electrocuted: 'status-stun', frostbite: 'status-chill' };
-const MINION_PREFAB = { spirit_blade: 'summon-spirit', storm_totem: 'summon-storm-totem' };
+const ELEMENTS = ['fire', 'cold', 'lightning', 'chaos', 'physical'];
+const V = (x, y, h = 0) => [x * M, h, -y * M];
 
 function mainElement(e) {
-  if (e.byType) { let best = 'physical', v = -1; for (const [k, x] of Object.entries(e.byType)) if (x > v) { v = x; best = k; } return best; }
-  for (const t of e.tags ?? []) if (t in EL) return t;
+  if (e.byType) { let best = null, v = 0; for (const [k, x] of Object.entries(e.byType)) if (x > v) { v = x; best = k; } if (best) return best; }
+  const tags = e.tags ?? e.skill?.def?.tags ?? [];
+  for (const el of ELEMENTS) if (tags.includes?.(el)) return el;
+  const dmg = e.skill?.def?.damage;
+  if (dmg) { let best = 'physical', v = -1; for (const [k, x] of Object.entries(dmg)) if (x > v) { v = x; best = k; } return best; }
   return 'physical';
 }
+const sizeOf = a => a?.boss ? 2.2 : a?.kind === 'elite' ? 1.4 : 1;
 
 export function createEffects(T, scene) {
-  const group = new T.Group(); group.name = 'CoreEffects'; scene.add(group);
-  const batches = new Map(), slots = [], queue = [], impacts = [], persistent = new Map();
-  let run = null, detach = null, lastHit = null;
-  const batch = (id, cap = 256) => { if (!batches.has(id)) { const fx = modules[id].createBatch(T, cap); group.add(fx.group); batches.set(id, fx); } return batches.get(id); };
-  const push = (id, data, x, y, scale = 1, rotation = 0, height = 0) => { if (modules[id] && queue.length < 160) queue.push({ id, data, position: { x: x * M, y: height, z: -y * M }, scale, rotation, born: run.elapsed }); };
-  const dirOf = e => { const s = e.source; if (!s) return 0; const ax = (e.x ?? s.x) - s.x, ay = (e.y ?? s.y) - s.y; return Math.hypot(ax, ay) > 1 ? Math.atan2(ay, ax) : Math.atan2(s.aim?.y ?? 0, s.aim?.x ?? 1); };
+  const fx = createFx(T, scene), R = fx.recipes;
+  globalThis.__fx = fx; // debug/automation hook
+  let run = null, detach = null, lastHit = null, last = 0;
+  const torches = { dungeon: null, list: [] };
+  // Per-frame budgets keep a 200-monster cascade readable instead of a white-out.
+  const budget = { impact: 0, death: 0, area: 0 };
 
   function receive(e) {
     const hostile = e.source?.team === 1;
     switch (e.type) {
       case 'area': {
-        const r = e.radius * M, el = mainElement(e), rot = dirOf(e);
-        const style = { ice_nova: ['gs-nova', 'frost'], cleave: ['gs-crescent', 'cleave'], cyclone: ['gs-crescent', 'whirl'], slam: ['gs-crescent', 'thunder'], ice_burst: ['gs-nova', 'frost'], thunder: ['gs-nova', 'storm'] }[e.fx];
-        if (e.fx === 'slam') push('gs-quake', { radius: r }, e.x, e.y, 1, rot);
-        if (e.fx === 'thunder' || e.tags?.includes('herald_thunder')) push('death-lightning', {}, e.x, e.y, r);
-        // Aftershocks are many and small: a light ring, not a second full skill effect.
-        if (e.tags?.includes('cascade')) { push('area-circle', { radius: r, element: EL[el] }, e.x, e.y); break; }
-        if (e.fx === 'splash') { push('element-hit', { element: EL[el] }, e.x, e.y, r * 1.6, 0, .4); break; }
-        if (e.fx === 'poison') { push('element-explosion', { element: 4 }, e.x, e.y, r); break; }
-        if (style) push(style[0], { style: style[1], radius: r, seed: (e.x * 7 + e.y * 13) % 17 }, e.x, e.y, 1, rot);
-        else if (e.fx === 'telegraph') push('element-explosion', { element: EL[el] }, e.x, e.y, r);
-        else if (e.fx === 'overload' || e.tags?.includes('overload')) { push('element-explosion', { element: 0 }, e.x, e.y, r); push('death-lightning', {}, e.x, e.y, r * 0.7); }
-        else if (e.fx === 'explode' || e.tags?.includes('explosion')) push('element-explosion', { element: EL[el] }, e.x, e.y, r);
-        else { push('element-explosion', { element: EL[el] }, e.x, e.y, r); push('area-circle', { radius: r, element: EL[el] }, e.x, e.y); }
+        if (budget.area-- <= 0 && !e.fx) break;
+        const r = e.radius * M, el = hostile ? 'hostile' : mainElement(e), at = V(e.x, e.y);
+        const ang = e.source ? Math.atan2(e.y - e.source.y, e.x - e.source.x) : 0;
+        const dir = Math.hypot(e.x - (e.source?.x ?? e.x), e.y - (e.source?.y ?? e.y)) > 5 ? ang : Math.atan2(e.source?.aim?.y ?? 0, e.source?.aim?.x ?? 1);
+        if (e.tags?.includes('cascade')) { el === 'cold' ? R.nova(at, r, el) : R.explosion(at, r * .8, el, { ground: false }); break; }
+        switch (e.fx) {
+          case 'ice_nova': case 'ice_burst': R.nova(at, r, 'cold'); break;
+          case 'cleave': R.slash(at, dir, r, el, { span: 2.2 }); break;
+          case 'cyclone': R.whirl(at, r, el); break;
+          case 'slam': R.slam(V(e.source?.x ?? e.x, e.source?.y ?? e.y), dir, r, mainElement(e)); break;
+          case 'thunder': R.thunder(at, r); break;
+          case 'flame_burst': R.explosion(at, r, 'fire'); break;
+          case 'overload': R.explosion(at, r, 'lightning', { big: true }); R.explosion(at, r * .7, 'fire', { ground: false }); break;
+          case 'poison': R.explosion(at, r, 'chaos'); break;
+          case 'splash': if (budget.impact-- > 0) R.impact([at[0], .6, at[2]], el, { scale: r * 1.2 }); break;
+          case 'telegraph': R.explosion(at, r, 'hostile', { big: true }); break;
+          case 'explode': default:
+            if (hostile && !e.fx) R.nova(at, r, 'hostile');
+            else R.explosion(at, r, el, { big: r > 2.2 });
+        }
         break;
       }
-      case 'strike': push(hostile ? 'melee-claw' : 'melee-slash', { radius: 1.4, element: 3 }, e.source.x, e.source.y, 1, dirOf(e)); break;
-      // A skill re-cast from a corpse: a flare where it starts, so the chain reads on screen.
-      case 'remoteCast': push('element-hit', { element: EL[mainElement({ tags: e.skill?.def.tags })] ?? 0 }, e.x, e.y, 1.1, 0, .5); break;
-      case 'blink': push('gs-blink', { length: Math.hypot(e.x - e.fromX, e.y - e.fromY) * M }, e.fromX, e.fromY, 1, Math.atan2(e.y - e.fromY, e.x - e.fromX)); break;
-      case 'telegraph': push('area-circle', { radius: e.radius * M, element: 0, warning: true }, e.x, e.y); break;
-      case 'shatter': push('status-freeze', {}, e.x, e.y, 1.2); push('element-explosion', { element: 1 }, e.x, e.y, 1.1); break;
-      case 'projectileHit': if (impacts.length < 256) impacts.push({ x: e.x * M, y: .7, z: -e.y * M, dx: 0, dy: 0, dz: 0, element: EL[mainElement(e)] ?? 3, radius: .2, born: run.elapsed }); break;
+      case 'strike': {
+        const s = e.source; if (!s) break;
+        const ang = Math.atan2(e.y - s.y, e.x - s.x), heavy = e.skill?.def.id === 'heavy_strike';
+        R.slash(V(s.x, s.y), ang, (heavy ? 1.9 : 1.5) * (hostile ? .75 : 1), hostile ? 'physical' : mainElement(e), { hostile, span: hostile ? 1.4 : heavy ? 1.6 : 2, heavy });
+        break;
+      }
+      case 'remoteCast': R.cast(V(e.x, e.y, .7), mainElement(e), [0, 1, 0]); break;
+      case 'cast': {
+        if (hostile || e.depth > 0 || !e.source || e.source.kind !== 'hero' || !e.tags?.includes('spell')) break;
+        const s = e.source, dx = (e.x ?? s.x + 1) - s.x, dy = (e.y ?? s.y) - s.y, l = Math.hypot(dx, dy) || 1;
+        R.cast(V(s.x + dx / l * 45, s.y + dy / l * 45, 1.1), mainElement(e), [dx / l, .1, -dy / l]);
+        break;
+      }
+      case 'blink': R.blink(V(e.fromX, e.fromY), V(e.x, e.y)); break;
+      case 'telegraph': R.telegraph(V(e.x, e.y), e.radius * M, e.delay ?? 1); break;
+      case 'shatter': R.shatter(V(e.x, e.y), sizeOf(e.target)); break;
+      case 'summon': R.summon(V(e.x, e.y), mainElement(e)); break;
+      case 'projectileEnd': if (e.skill?.def.id === 'fireball' && budget.impact-- > 0) R.impact(V(e.x, e.y, .7), 'fire', { scale: 1.3 }); break;
+      case 'kill': {
+        const t = e.target; if (!t || t.team !== 1) break;
+        const big = t.boss || t.kind === 'elite';
+        if (!big && budget.death-- <= 0) break;
+        R.death(V(t.x, t.y), mainElement(e), sizeOf(t), { boss: !!t.boss });
+        break;
+      }
       case 'hit': {
-        if (!e.target || e.amount <= 0) break;
-        const el = mainElement(e);
-        const chained = e.skill?.def.id === 'arc' || e.skill?.def.id === 'totem_bolt';
-        if (chained) {
-          const from = lastHit && run.elapsed - lastHit.t < 0.08 && lastHit.skill === e.skill ? lastHit : { x: e.source.x, y: e.source.y };
-          push('lightning-chain', { from: { x: from.x * M, y: .9, z: -from.y * M }, to: { x: e.target.x * M, y: .9, z: -e.target.y * M } }, 0, 0);
+        const t = e.target;
+        if (!t || e.amount <= 0) break;
+        if (t.kind === 'hero') { const k = Math.min(1, e.amount / Math.max(1, t.max.life) * 4); if (k > .15) { fx.pulse(.004 * k, .18 * k, [1, .08, .05]); fx.shake(.12 * k); } break; }
+        const el = mainElement(e), id = e.skill?.def.id;
+        if (id === 'arc' || id === 'totem_bolt') {
+          const from = lastHit && run.elapsed - lastHit.t < .08 && lastHit.skill === e.skill ? lastHit : { x: e.source.x, y: e.source.y };
+          R.chain(V(from.x, from.y, .9), V(t.x, t.y, .9));
+          lastHit = { x: t.x, y: t.y, t: run.elapsed, skill: e.skill };
+          break;
         }
-        if (!e.tags?.includes('projectile') || chained) push('element-hit', { element: EL[el] }, e.target.x, e.target.y, .65, 0, .7);
-        lastHit = { x: e.target.x, y: e.target.y, t: run.elapsed, skill: e.skill };
+        if (budget.impact-- <= 0) break;
+        const s = e.source, dx = t.x - (s?.x ?? t.x), dy = t.y - (s?.y ?? t.y), l = Math.hypot(dx, dy) || 1;
+        R.impact(V(t.x, t.y, .65 * sizeOf(t)), el, { scale: e.tags?.includes('projectile') ? .9 : .7, dir: [dx / l, 0, -dy / l], crit: !!e.crit });
         break;
       }
     }
   }
 
   function bind(next) {
-    detach?.(); run = next; queue.length = 0; impacts.length = 0; lastHit = null;
-    for (const s of slots) { s.active = false; s.effect.group.visible = false; }
-    for (const p of persistent.values()) { group.remove(p.effect.group); p.effect.dispose(); }
-    persistent.clear();
+    detach?.(); run = next; lastHit = null; fx.clear();
     const listener = e => { try { receive(e); } catch (err) { console.error('[VFX]', err); } };
     next.world.listeners.push(listener);
     detach = () => { const i = next.world.listeners.indexOf(listener); if (i >= 0) next.world.listeners.splice(i, 1); };
   }
 
-  function acquire(ev) {
-    let slot = slots.find(s => !s.active && s.id === ev.id);
-    if (!slot) {
-      if (slots.length >= 120) {
-        slot = slots.find(s => !s.active) || slots.reduce((a, b) => a.born < b.born ? a : b);
-        if (slot.id !== ev.id) { group.remove(slot.effect.group); slot.effect.dispose(); slot.effect = modules[ev.id].createEffect(T); group.add(slot.effect.group); }
-      } else { slot = { effect: modules[ev.id].createEffect(T) }; group.add(slot.effect.group); slots.push(slot); }
-    }
-    Object.assign(slot, ev, { active: true });
-    slot.effect.group.visible = true;
-    slot.effect.group.position.set(ev.position.x, ev.position.y, ev.position.z);
-    slot.effect.group.scale.set(ev.scale, 1, ev.scale); slot.effect.group.rotation.set(0, ev.rotation, 0);
-  }
-
-  function update(next) {
+  /** Called every frame after the run stepped; returns post-processing inputs (shake, ripples…). */
+  function update(next, camera) {
     if (next !== run) bind(next);
-    for (const ev of queue) acquire(ev); queue.length = 0;
-    for (const s of slots) {
-      if (!s.active) continue;
-      const age = run.elapsed - s.born;
-      if (age >= modules[s.id].meta.duration) { s.active = false; s.effect.group.visible = false; } else s.effect.update(age, s.data);
-    }
-    const liveImpacts = impacts.filter(h => run.elapsed - h.born < modules['projectile-hit'].meta.duration).map(h => ({ ...h, age: run.elapsed - h.born }));
-    impacts.length = 0; impacts.push(...liveImpacts.map(({ age, ...h }) => h));
-    if (liveImpacts.length || batches.has('projectile-hit')) batch('projectile-hit', 256).update(liveImpacts);
-    // Projectiles
-    const rows = {};
-    for (const id of new Set(Object.values(PROJECTILE_PREFAB))) rows[id] = [];
+    const now = run.elapsed, dt = Math.max(0, Math.min(.05, now - last)) || 1 / 60; last = now;
+    budget.impact = 14; budget.death = 12; budget.area = 16;
     const live = ['cleared', 'failed'].includes(run.phase) ? [] : run.projectiles();
-    for (const p of live) {
-      if (INVISIBLE.has(p.kind)) continue;
-      const id = PROJECTILE_PREFAB[p.kind] ?? (p.hostile ? 'projectile-void-bolt' : 'projectile-void-bolt');
-      rows[id].push({ x: p.x * M, y: p.z * M, z: -p.y * M, dx: p.vx * M, dy: 0, dz: -p.vy * M, vx: p.vx * M, vy: p.vy * M, radius: Math.max(.12, p.radius * M), hostile: p.hostile, element: EL[p.element] ?? 3, ordinal: p.id, visualSeed: p.id, age: p.age });
+    fx.projectiles(live.filter(p => p.kind !== 'arc').map(p => ({ id: p.id, x: p.x * M, y: p.z * M, z: -p.y * M, vx: p.vx * M, vy: 0, vz: -p.vy * M, radius: p.radius * M, kind: p.kind, element: p.element, hostile: p.hostile, age: p.age })), dt);
+    fx.zones(run.zones().filter(z => z.kind !== 'brand').map(z => ({ x: z.x * M, z: -z.y * M, radius: z.radius * M, kind: z.kind, element: z.element, left: z.remaining })));
+    const hero = run.hero, st = [];
+    for (const a of [hero, ...run.monsters]) {
+      if (!a.alive || Math.hypot(a.x - hero.x, a.y - hero.y) > 1700) continue;
+      const seen = new Set();
+      for (const s of a.statuses) if (!seen.has(s.def.id)) { seen.add(s.def.id); st.push({ x: a.x * M, z: -a.y * M, size: sizeOf(a), status: s.def.id, stacks: s.stacks }); }
     }
-    for (const [id, list] of Object.entries(rows)) if (list.length || batches.has(id)) batch(id, 1024).update(list, run.elapsed);
-    // Ground zones
-    const grounds = {};
-    for (const z of run.zones()) {
-      const id = ZONE_PREFAB[z.kind] ?? (z.element === 'fire' ? 'ground-burning' : z.element === 'cold' ? 'ground-chill' : z.element === 'lightning' ? 'ground-shock' : z.element === 'chaos' ? 'ground-poison' : null);
-      if (!id || z.kind === 'brand') continue;
-      (grounds[id] ??= []).push({ x: z.x * M, z: -z.y * M, radius: z.radius * M, seed: z.id * 2654435761 >>> 0, age: run.elapsed, left: z.remaining });
+    fx.statuses(st);
+    fx.minions(run.minions.map(m => ({ x: m.x * M, z: -m.y * M, template: m.template, id: m.id })));
+    // Wall torches at every room's corners (the dungeon only knows rooms; the flames are ours).
+    if (torches.dungeon !== run.dungeon) {
+      const d = run.dungeon; torches.dungeon = d; torches.list = [];
+      for (const room of d.rooms) for (const [x, y] of [[room.x + .6, room.y + .6], [room.x + room.w - .6, room.y + .6], [room.x + .6, room.y + room.h - .6], [room.x + room.w - .6, room.y + room.h - .6]])
+        torches.list.push([(x * d.tile - d.half) * M, 1.5, -(y * d.tile - d.half) * M]);
     }
-    for (const id of ['ground-burning', 'ground-poison', 'ground-chill', 'ground-shock', 'ground-mirror']) if (grounds[id]?.length || batches.has(id)) batch(id, 128).update(grounds[id] ?? [], run.elapsed);
-    // Status auras on monsters and the hero
-    const st = {};
-    const add = (a, size) => { for (const s of a.statuses) { const id = STATUS_PREFAB[s.def.id]; if (id) (st[id] ??= []).push({ x: a.x * M, z: -a.y * M, radius: .46 * size, height: 1.5 * size, stacks: s.stacks }); } };
-    for (const m of run.monsters) add(m, m.boss ? 2.2 : m.kind === 'elite' ? 1.25 : 1);
-    if (run.hero.alive) add(run.hero, 1);
-    for (const id of new Set(Object.values(STATUS_PREFAB))) if (st[id]?.length || batches.has(id)) batch(id, 256).update(st[id] ?? [], run.elapsed);
-    // Minions as their summon prefabs
-    const seen = new Set();
-    for (const m of run.minions) {
-      const id = MINION_PREFAB[m.template]; if (!id) continue;
-      seen.add(m.id);
-      if (!persistent.has(m.id)) { const effect = modules[id].createEffect(T); group.add(effect.group); persistent.set(m.id, { effect }); }
-      const fx = persistent.get(m.id).effect;
-      fx.group.position.set(m.x * M, 0, -m.y * M); fx.update(run.elapsed, { x: m.x * M, y: m.y * M, remaining: 1 });
-    }
-    for (const [id, p] of persistent) if (!seen.has(id)) { group.remove(p.effect.group); p.effect.dispose(); persistent.delete(id); }
+    fx.torches(torches.list.filter(t => Math.hypot(t[0] - hero.x * M, t[2] + hero.y * M) < 18));
+    return fx.update(dt, camera);
   }
 
-  function dispose() { detach?.(); for (const s of slots) s.effect.dispose(); for (const b of batches.values()) b.dispose(); for (const p of persistent.values()) p.effect.dispose(); group.clear(); scene.remove(group); }
-  return { group, update, dispose };
+  function dispose() { detach?.(); fx.dispose(); }
+  return { group: fx.group, update, dispose, fx };
 }
