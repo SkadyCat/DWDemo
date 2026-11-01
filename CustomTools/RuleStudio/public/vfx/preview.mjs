@@ -70,7 +70,7 @@ function draw(now) {
     const scaled = ['element-explosion', 'poison-flask-burst', 'death-lightning'].includes(selected.prefab); effect.group.scale.set(scaled ? radius : 1, 1, scaled ? radius : 1);
     // Show a projectile contact on the dummy's near surface, rather than inside it.
     const impact = selected.prefab === 'projectile-hit' ? { x: 0, y: .8, z: .5, dx: 0, dy: 0, dz: -1, radius: .2 } : {};
-    effect.update(time, { element: selected.element, radius, inner: radius * .5, length: radius * 3, width: .8, angle: Math.PI / 2, ...impact });
+    effect.update(time, { element: selected.element, style: selected.style, radius, inner: radius * .5, length: radius * 3, width: .8, angle: Math.PI / 2, ...impact });
     dummy.visible = $('target').checked;
     if ($('glow').checked) glow.render(scene, camera, effects); else renderer.render(scene, camera);
     if (!paused) $('timeline').value = Math.min(duration, time);

@@ -99,10 +99,9 @@ export const GROWTH_BDS = [
     params: { damage: 26, radius: 2.2, cooldown: 0.4, combo_radius: 3.6, charge_every: 3, charge_bonus: 5, surge_every: 8, surge_power: 30 },
     growth: {},
     feed: { event: 'hit', conditions: [status('shock')] },
-    cast: [
-      area('lightning', ['lightning', 'melee'], { param: 'radius' }, 1),
-      { op: 'counter', key: 'combo', value: 1, threshold: 3, then: [area('lightning', ['lightning', 'melee', 'thunder'], { param: 'combo_radius' }, 2.5)] },
-    ],
+    cast: [area('lightning', ['lightning', 'melee'], { param: 'radius' }, 1)],
+    extraRules: [{ id: 'thunder_strike_combo', event: 'cast', actions: [
+      { op: 'counter', key: 'combo', value: 1, threshold: 3, then: [area('lightning', ['lightning', 'melee', 'thunder'], { param: 'combo_radius' }, 2.5)] }] }],
     burst: [area('lightning', ['lightning', 'spell'], 5, 2.2)],
     awaken: [{ event: 'hit', chain: { maxDepth: 1 }, conditions: [{ op: 'chance', value: 35 }], actions: [area('lightning', ['lightning', 'spell'], 2.4, 0.6)] }],
     ultimate: [{ event: 'cast', actions: [{ op: 'counter', key: 'storm', value: 1, threshold: 3, then: [area('lightning', ['lightning', 'spell'], 6, 2)] }] }],

@@ -95,3 +95,19 @@ for (const bd of GROWTH_BDS) {
     assert.equal(peak.growth, growth, 'growth buff mirrors the counter');
   });
 }
+
+test('成长型 BD 特效：每条路由都对应真实规则与已注册预制体，每个专属投射物都有批量渲染', async () => {
+  const { GROWTH_AREA_FX, GROWTH_PROJECTILES, GROWTH_AURA_STYLE } = await import('../public/vfx/growth-routing.mjs');
+  const { modules } = await import('../public/vfx/catalog.mjs');
+  const rules = new Set(GROWTH_BDS.flatMap(bd => growthTrait(bd).rules.map(r => r.id)));
+  for (const [rule, list] of Object.entries(GROWTH_AREA_FX)) {
+    assert.ok(rules.has(rule), rule);
+    for (const [id] of list) assert.ok(modules[id], id);
+  }
+  // Every damage_area rule of a melee/area skill has a dedicated look.
+  for (const bd of GROWTH_BDS) for (const rule of growthTrait(bd).rules)
+    if (JSON.stringify(rule.actions).includes('"damage_area"')) assert.ok(GROWTH_AREA_FX[rule.id], rule.id);
+  const kinds = new Set(GROWTH_BDS.flatMap(bd => JSON.stringify(growthTrait(bd)).match(/"kind":"[a-z_]+"/g) || []).map(k => k.slice(8, -1)));
+  for (const kind of Object.keys(GROWTH_PROJECTILES)) { assert.ok(kinds.has(kind), kind); assert.ok(modules[GROWTH_PROJECTILES[kind]]?.createBatch, kind); }
+  assert.deepEqual(Object.keys(GROWTH_AURA_STYLE).sort(), GROWTH_BDS.map(bd => bd.id).sort());
+});

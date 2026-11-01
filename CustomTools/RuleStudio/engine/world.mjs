@@ -1355,7 +1355,7 @@ export class RuleWorld {
       if (this.isHostile(context.root.owner, target)) victims.push(target);
     });
     victims.sort((a, b) => a - b);
-    if (this.trace) this.trace('area', { x: event.px, y: event.py, radius, amount, element, victims: victims.length, effect: context.plan.traitIds[context.rule.trait].split('~')[0] });
+    if (this.trace) this.trace('area', { x: event.px, y: event.py, radius, amount, element, victims: victims.length, effect: context.plan.traitIds[context.rule.trait].split('~')[0], rule: context.rule.id });
     for (const target of victims) {
       const sequence = context.root.nextSequence++;
       const result = this.resolveDamage(context.root, target, amount, element, sequence,

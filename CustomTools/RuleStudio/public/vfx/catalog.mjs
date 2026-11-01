@@ -40,6 +40,7 @@ import * as treasuryGate from '../prefabs/royal-treasury/gate.mjs';
 import * as treasuryEa from '../prefabs/royal-treasury/ea.mjs';
 import { createFlaskProjectiles, createPoisonBurst } from '../prefabs/poison-flask.mjs';
 import * as loot from '../prefabs/loot-markers.mjs';
+import { GROWTH_PREFABS } from '../prefabs/growth-skills.mjs';
 
 const flask = {
   meta: { id: 'projectile-poison-flask', name: '毒瓶抛射', category: '投射物', continuous: true, duration: 2 },
@@ -54,10 +55,12 @@ const poisonBurst = {
     return { group, update(t) { a.update(t); b.update(t); group.visible = t < .9; }, dispose() { if (disposed) return; disposed = true; a.dispose(); b.dispose(); group.clear(); } };
   },
 };
-export const modules = Object.freeze(Object.fromEntries([explosion, hit, projectileHit, ice, fireball, bolt, lightning, chain, sentinel, spirit, iron_guard, ember_hound, fire_turret, storm_totem, circle, ring, sector, earth, slash, claw, heavy, chill, freeze, shock, ignite, bleed, slow, poison, erosion, stun, burningGround, poisonGround, chillGround, shockGround, mirrorGround, whirlwind, treasuryWeapons, treasuryGate, treasuryEa, treasuryEa.impact, flask, poisonBurst, loot].map(m => [m.meta.id, m])));
+export const modules = Object.freeze(Object.fromEntries([explosion, hit, projectileHit, ice, fireball, bolt, lightning, chain, sentinel, spirit, iron_guard, ember_hound, fire_turret, storm_totem, circle, ring, sector, earth, slash, claw, heavy, chill, freeze, shock, ignite, bleed, slow, poison, erosion, stun, burningGround, poisonGround, chillGround, shockGround, mirrorGround, whirlwind, treasuryWeapons, treasuryGate, treasuryEa, treasuryEa.impact, flask, poisonBurst, loot, ...GROWTH_PREFABS].map(m => [m.meta.id, m])));
 export const elementNames = ['火焰', '冰霜', '闪电', '物理', '毒素', '虚空'];
 export const elementColors = ['#ff8b48', '#83dfff', '#a8cfff', '#e6cfaa', '#a3ef57', '#cb9aff'];
-export const presets = Object.freeze(Object.values(modules).flatMap(m => m.meta.elements
+export const presets = Object.freeze(Object.values(modules).flatMap(m => m.meta.styles
+  ? m.meta.styles.map(([style, label]) => ({ ...m.meta, id: `${m.meta.id}-${style}`, prefab: m.meta.id, name: `${label}·${m.meta.name}`, style }))
+  : m.meta.elements
   ? elementNames.map((name, element) => ({ ...m.meta, id: `${m.meta.id}-${element}`, prefab: m.meta.id, name: `${name}${m.meta.id === 'projectile-hit' ? '投射命中' : m.meta.id === 'element-hit' ? '命中' : '爆炸'}`, element, color: elementColors[element] }))
   : [{ ...m.meta, prefab: m.meta.id }]));
 

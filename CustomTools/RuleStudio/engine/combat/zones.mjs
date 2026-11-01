@@ -48,7 +48,7 @@ export class Zones {
     const R = this.R;
     const { context } = request;
     const victims = R.enemiesNear(request.x, request.y, radius);
-    if (R.world.trace) R.world.trace('area', { x: request.x, y: request.y, radius, amount: request.amount, element: request.element, victims: victims.length, effect: context.plan.traitIds[context.rule.trait].split('~')[0] });
+    if (R.world.trace) R.world.trace('area', { x: request.x, y: request.y, radius, amount: request.amount, element: request.element, victims: victims.length, effect: context.plan.traitIds[context.rule.trait].split('~')[0], rule: context.rule.id });
     for (const m of victims) R.world.hostHit(context.rootIndex, m.id, request.amount, request.element, request.x, request.y, { base: request.base, eventType: request.action.event, info: { cx: request.x, cy: request.y, radius } });
     void ri;
   }
@@ -105,7 +105,7 @@ export class Zones {
     const baseLife = roamers.length ? Math.max(.05, ...roamers.map(t => t.params.duration)) : 2;
     const template = {
       rootIndex: context.rootIndex, base: request.base, eventType: request.action.event, element, amount: request.amount,
-      effect: context.plan.traitIds[context.rule.trait].split('~')[0], shape, radius: Math.max(0.2, radius),
+      effect: context.plan.traitIds[context.rule.trait].split('~')[0], rule: context.rule.id, shape, radius: Math.max(0.2, radius),
       inner: Math.max(0, radius * 0.5 - s('area.ring_inner')), outer: radius + s('area.ring_outer'),
       angle: (90 + s('area.sector_angle')) * Math.PI / 180, sectorRadius: radius * 2.5 + s('area.sector_radius'),
       length: 7 * (radius / Math.max(0.1, request.radius || radius)) + s('area.line_length'), width: 1.2 + s('area.line_width'),
@@ -189,7 +189,7 @@ export class Zones {
       const gap = 0.5 * Math.max(0, 1 - s('area.rehit_interval') / 100);
       list = list.filter(v => (zone.hitCounts.get(v.m.id) || 0) < cap && now - (zone.lastHit.get(v.m.id) ?? -Infinity) >= gap - 1e-6);
     }
-    if (R.world.trace) R.world.trace('area', { x: zone.x, y: zone.y, radius: zone.shape === 'line' ? zone.width / 2 : radius, amount: zone.amount, element: zone.element, victims: list.length, effect: zone.effect, shape: zone.shape, dir: zone.dir, length: zone.length });
+    if (R.world.trace) R.world.trace('area', { x: zone.x, y: zone.y, radius: zone.shape === 'line' ? zone.width / 2 : radius, amount: zone.amount, element: zone.element, victims: list.length, effect: zone.effect, rule: zone.rule, shape: zone.shape, dir: zone.dir, length: zone.length });
     const count = list.length;
     let countBonus = count === 1 ? s('area.single_target') : 0;
     for (const t of R.t('area_per_enemy')) countBonus += Math.min(t.params.max, t.params.n * count);

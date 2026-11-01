@@ -43,41 +43,6 @@
               }
             ]
           }
-        },
-        {
-          "op": "counter",
-          "key": "combo",
-          "value": 1,
-          "threshold": 3,
-          "then": [
-            {
-              "op": "damage_area",
-              "element": "lightning",
-              "tags": [
-                "lightning",
-                "melee",
-                "thunder"
-              ],
-              "radius": {
-                "param": "combo_radius"
-              },
-              "amount": {
-                "mul": [
-                  {
-                    "max": [
-                      {
-                        "param": "damage"
-                      },
-                      {
-                        "event": "amount"
-                      }
-                    ]
-                  },
-                  2.5
-                ]
-              }
-            }
-          ]
         }
       ]
     },
@@ -282,6 +247,47 @@
           "value": {
             "param": "ultimate_at"
           }
+        }
+      ]
+    },
+    {
+      "id": "thunder_strike_combo",
+      "event": "cast",
+      "actions": [
+        {
+          "op": "counter",
+          "key": "combo",
+          "value": 1,
+          "threshold": 3,
+          "then": [
+            {
+              "op": "damage_area",
+              "element": "lightning",
+              "tags": [
+                "lightning",
+                "melee",
+                "thunder"
+              ],
+              "radius": {
+                "param": "combo_radius"
+              },
+              "amount": {
+                "mul": [
+                  {
+                    "max": [
+                      {
+                        "param": "damage"
+                      },
+                      {
+                        "event": "amount"
+                      }
+                    ]
+                  },
+                  2.5
+                ]
+              }
+            }
+          ]
         }
       ]
     }

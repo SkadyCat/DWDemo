@@ -78,7 +78,7 @@ export class Battle extends Arena {
       h.aim = { x: ax / length, y: ay / length }; h.aimPoint = { x: target.x, y: target.y, z: 0 };
       this.lastFlicker = target;
       this.flickers = (this.flickers || 0) + 1;
-      this.host.world.trace?.('area', { x: from.x / 100, y: from.y / 100, radius: 0.9, amount: 0, element: 3, victims: 0, effect: 'flicker_blink' });
+      this.host.world.trace?.('blink', { x: from.x / 100, y: from.y / 100, tx: h.x / 100, ty: h.y / 100 });
       return true;
     }
     return false;

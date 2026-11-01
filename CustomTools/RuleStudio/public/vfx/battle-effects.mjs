@@ -1,6 +1,8 @@
 // The only game-facing adapter. Observes traces and reads views; never casts, deals damage,
 // consumes random numbers, alters rules, or owns gameplay time.
 import { modules, summonPresentation } from './catalog.mjs';
+import { GROWTH_AREA_FX, GROWTH_PROJECTILES, GROWTH_AURA_STYLE } from './growth-routing.mjs';
+import { GROWTH_STAGES } from '../progression/growth-stages.mjs';
 
 export function observeBattle(battle, receive, onError = error => console.error('[VFX]', error)) {
   const world = battle.host.world, previous = world.trace;
@@ -43,6 +45,16 @@ export function createBattleEffects(T, scene, { capacity = 96, impactCapacity = 
         radius: c.radius[i], born: battle.elapsed, kind: p.plan.kindNames.names[p.kind], visualSeed: battle.combat?.projectiles.state.get(p.id)?.visualSeed ?? c.id[i] };
       if (launches.size >= 4096) launches.delete(launches.keys().next().value);
       launches.set(p.id, launch); portals[portalCursor] = launch; portalCursor = (portalCursor + 1) % portalCapacity;
+    } else if (kind === 'blink') {
+      const dx = p.tx - p.x, dy = p.ty - p.y;
+      push('gs-blink', { length: Math.hypot(dx, dy) }, { x: p.x, y: 0, z: -p.y }, 1, Math.atan2(dy, dx));
+    } else if (kind === 'area' && GROWTH_AREA_FX[p.rule]) {
+      // Growth builds: every stage of the skill has its own look.
+      const position = { x: p.x, y: 0, z: -p.y }, rotation = p.dir ?? ruleDirection;
+      for (const [id, style, k] of GROWTH_AREA_FX[p.rule]) {
+        if (id === 'death-lightning') push(id, {}, position, p.radius * k);
+        else push(id, { style, radius: p.radius * k, seed: (p.x * 7 + p.y * 13) % 17 }, position, 1, rotation);
+      }
     } else if (kind === 'area') {
       const z = battle.combat?.zones.zones.find(z => z.effect === p.effect && z.shape === p.shape && Math.abs(z.x - p.x) < .001 && Math.abs(z.y - p.y) < .001);
       let radius = p.radius;
@@ -51,11 +63,8 @@ export function createBattleEffects(T, scene, { capacity = 96, impactCapacity = 
       const data = { radius, inner: z ? z.inner * p.radius / z.radius : radius * .5, angle: z?.angle, width: z?.width, length: p.length, element: p.element };
       const position = { x: p.x, y: 0, z: -p.y }, rotation = p.dir ?? ruleDirection;
       const shaped = { ring: 'area-ring', sector: 'area-sector', line: 'area-earth-wave' }[p.shape];
-      const melee = radius <= 3.2 ? { player_slash: 'melee-slash', monster_claw: 'melee-claw', monster_strike: 'melee-heavy-strike',
-        // Growth builds: the swing itself; larger areas from the same skill (bursts, stages) read as explosions.
-        create_rage_cleave: 'melee-heavy-strike', create_thunder_strike: 'melee-slash', create_ground_slam: 'melee-heavy-strike',
-        create_shield_slam: 'melee-heavy-strike', create_soul_reap: 'melee-slash', create_flicker_strike: 'melee-slash' }[p.effect] : null;
-      if (p.effect === 'death_lightning' || p.effect === 'shock_consume_strike' || (p.effect === 'create_thunder_strike' && radius > 3.2)) { push('death-lightning', {}, position, radius); if(p.effect === 'shock_consume_strike')push('area-circle',data,position); }
+      const melee = { player_slash: 'melee-slash', monster_claw: 'melee-claw', monster_strike: 'melee-heavy-strike' }[p.effect];
+      if (p.effect === 'death_lightning' || p.effect === 'shock_consume_strike') { push('death-lightning', {}, position, radius); if(p.effect === 'shock_consume_strike')push('area-circle',data,position); }
       else if (p.effect === 'poison_flask_burst') push('poison-flask-burst', {}, position, radius);
       else if (shaped) push(shaped, data, position, 1, rotation);
       else if (melee) push(melee, data, position, 1, rotation);
@@ -128,13 +137,13 @@ export function createBattleEffects(T, scene, { capacity = 96, impactCapacity = 
     }
     impactCount = liveImpacts.length;
     if (impactCount || batches.has('projectile-hit')) batch('projectile-hit', impactCapacity).update(liveImpacts);
-    const projectiles = { 'projectile-ice-lance': [], 'projectile-fireball': [], 'projectile-void-bolt': [], 'projectile-poison-flask': [], 'projectile-treasury-weapon': [], 'projectile-treasury-ea': [] }, whirlwinds = [];
+    const projectiles = { 'projectile-ice-lance': [], 'projectile-fireball': [], 'projectile-void-bolt': [], 'projectile-poison-flask': [], 'projectile-treasury-weapon': [], 'projectile-treasury-ea': [], ...Object.fromEntries(Object.values(GROWTH_PROJECTILES).map(id => [id, []])) }, whirlwinds = [];
     for (const p of ['cleared', 'failed'].includes(battle.phase) ? [] : battle.projectiles()) {
       if (p.kind === 'whirlwind') { whirlwinds.push(p); continue; }
-      const id = p.kind === 'treasury_ea' ? 'projectile-treasury-ea' : p.kind === 'treasury_weapon' || p.kind === 'dance_blade' ? 'projectile-treasury-weapon' : p.kind === 'poison_flask' ? 'projectile-poison-flask' : p.kind === 'ice_lance' ? 'projectile-ice-lance' : p.kind === 'fireball' ? 'projectile-fireball' : 'projectile-void-bolt';
+      const id = GROWTH_PROJECTILES[p.kind] || (p.kind === 'treasury_ea' ? 'projectile-treasury-ea' : p.kind === 'treasury_weapon' ? 'projectile-treasury-weapon' : p.kind === 'poison_flask' ? 'projectile-poison-flask' : p.kind === 'ice_lance' ? 'projectile-ice-lance' : p.kind === 'fireball' ? 'projectile-fireball' : 'projectile-void-bolt');
       projectiles[id].push({ x: p.x * .01, y: p.z * .01, z: -p.y * .01, dx: p.vx, dy: p.vz, dz: -p.vy, vx: p.vx, vy: p.vy, radius: p.radius * .01, hostile: p.hostile, element: p.element, ordinal: p.ordinal, visualSeed: p.visualSeed, age: p.age, launch: launches.get(p.id) });
     }
-    for (const [id, rows] of Object.entries(projectiles)) if (id !== 'projectile-treasury-ea' && (rows.length || batches.has(id))) batch(id, id === 'projectile-poison-flask' ? 512 : 4096).update(rows, battle.elapsed);
+    for (const [id, rows] of Object.entries(projectiles)) if (id !== 'projectile-treasury-ea' && (rows.length || batches.has(id))) batch(id, id === 'projectile-poison-flask' || Object.values(GROWTH_PROJECTILES).includes(id) ? 512 : 4096).update(rows, battle.elapsed);
     const livePortals = [], eaPortals = [];
     for (const launch of portals) {
       const age = Math.max(0, battle.elapsed - launch.born + tailAge);
@@ -185,6 +194,15 @@ export function createBattleEffects(T, scene, { capacity = 96, impactCapacity = 
       const closingAge = wallTime - fx.exitStarted;
       if (outro && closingAge < outro) { fx.effect.update(fx.age + closingAge, { ...fx.data, stock: 0, persistent: true, closingAge }); continue; }
       group.remove(fx.effect.group); fx.effect.dispose(); persistent.delete(key);
+    }
+    // Growth builds: charge pips and surge ribbons at the hero's feet.
+    const skillId = battle.skills?.[battle.selected]?.id, growth = GROWTH_STAGES[skillId];
+    if (growth || batches.has('gs-hero-aura')) {
+      const w = battle.host.world, id = battle.heroTargetId;
+      const kills = growth ? w.ownerState.get(`affix:${growth.trait}:growth|o${battle.hero.owner}`) || 0 : 0;
+      batch('gs-hero-aura', 1).update(growth && !battle.hero.dead ? { x: battle.hero.x * .01, z: -battle.hero.y * .01, style: GROWTH_AURA_STYLE[skillId],
+        stacks: w.getStatusStacks(id, `status:${growth.charge.id}`), max: growth.charge.max, surge: w.getStatus(id, `status:${growth.surge.id}`) > 0,
+        stage: kills >= growth.ultimate ? 2 : kills >= growth.awaken ? 1 : 0 } : null, battle.elapsed);
     }
     const live = new Set();
     for (const s of battle.summons()) {
