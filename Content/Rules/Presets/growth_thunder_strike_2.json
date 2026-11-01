@@ -1,0 +1,558 @@
+{
+  "skills": [
+    "thunder_strike",
+    null,
+    null,
+    null
+  ],
+  "equipment": {
+    "weapon": "growth_thunder_strike_weapon_bdt1",
+    "helmet": "growth_thunder_strike_helmet_bdt1",
+    "chest": "growth_thunder_strike_chest_bdt1",
+    "gloves": "growth_thunder_strike_gloves_bdt1",
+    "boots": "growth_thunder_strike_boots_bdt1",
+    "ring": "growth_thunder_strike_ring_bdt1"
+  },
+  "instances": {
+    "growth_thunder_strike_weapon_bdt1": {
+      "uid": "growth_thunder_strike_weapon_bdt1",
+      "baseId": "stormbreaker_hammer",
+      "name": "雷击三连·碎雷战锤",
+      "slot": "weapon",
+      "level": 1,
+      "rarity": "rare",
+      "tier": 1,
+      "skill": "thunder_strike",
+      "affixes": [
+        {
+          "id": "flat_lightning",
+          "name": "基础闪电伤害 +n",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "flat_lightning",
+              "params": {
+                "n": 4
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "inc_lightning",
+          "name": "闪电伤害 +n%",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "inc_lightning",
+              "params": {
+                "n": 14
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "more_lightning",
+          "name": "闪电伤害额外提高 n%",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "more_lightning",
+              "params": {
+                "n": 5
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "shock_effect",
+          "name": "感电效果 +n%",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "shock_effect",
+              "params": {
+                "n": 17
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "area_cast_speed",
+          "name": "范围技能施放速度 +n%",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "area_cast_speed",
+              "params": {
+                "n": 9
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "lightning_crit",
+          "name": "闪电技能暴击率 +n%",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "lightning_crit",
+              "params": {
+                "n": 28
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        }
+      ],
+      "legendary": null
+    },
+    "growth_thunder_strike_helmet_bdt1": {
+      "uid": "growth_thunder_strike_helmet_bdt1",
+      "baseId": "cinder_guard_helmet",
+      "name": "雷击三连·战盔",
+      "slot": "helmet",
+      "level": 30,
+      "rarity": "rare",
+      "tier": 1,
+      "skill": "",
+      "affixes": [
+        {
+          "id": "life_base",
+          "name": "基础气血 +n点",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "life_base",
+              "params": {
+                "n": 34
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "life_increased",
+          "name": "气血上限 +n%",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "life_increased",
+              "params": {
+                "n": 11
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "shock_duration",
+          "name": "感电持续时间 +n%",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "shock_duration",
+              "params": {
+                "n": 17
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "inc_lightning",
+          "name": "闪电伤害 +n%",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "inc_lightning",
+              "params": {
+                "n": 14
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "life_on_hit",
+          "name": "命中时恢复气血 +n点",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "life_on_hit",
+              "params": {
+                "n": 2
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "evasion",
+          "name": "基础闪避 +n点",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "evasion",
+              "params": {
+                "n": 115
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        }
+      ],
+      "legendary": null
+    },
+    "growth_thunder_strike_chest_bdt1": {
+      "uid": "growth_thunder_strike_chest_bdt1",
+      "baseId": "cinder_guard_chest",
+      "name": "雷击三连·胸甲",
+      "slot": "chest",
+      "level": 30,
+      "rarity": "rare",
+      "tier": 1,
+      "skill": "",
+      "affixes": [
+        {
+          "id": "life_base",
+          "name": "基础气血 +n点",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "life_base",
+              "params": {
+                "n": 34
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "life_increased",
+          "name": "气血上限 +n%",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "life_increased",
+              "params": {
+                "n": 11
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "evasion",
+          "name": "基础闪避 +n点",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "evasion",
+              "params": {
+                "n": 115
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "shield_base",
+          "name": "基础护盾 +n点",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "shield_base",
+              "params": {
+                "n": 34
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "leech_life_elemental",
+          "name": "元素伤害的n%偷取为气血",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "leech_life_elemental",
+              "params": {
+                "n": 1
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "life_regen_percent",
+          "name": "每秒恢复最大气血的n%",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "life_regen_percent",
+              "params": {
+                "n": 1
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        }
+      ],
+      "legendary": null
+    },
+    "growth_thunder_strike_gloves_bdt1": {
+      "uid": "growth_thunder_strike_gloves_bdt1",
+      "baseId": "bloodthirst_gauntlets",
+      "name": "雷击三连·护手",
+      "slot": "gloves",
+      "level": 20,
+      "rarity": "rare",
+      "tier": 1,
+      "skill": "",
+      "affixes": [
+        {
+          "id": "flat_lightning",
+          "name": "基础闪电伤害 +n",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "flat_lightning",
+              "params": {
+                "n": 4
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "shock_chance",
+          "name": "命中时，感电概率 +n个百分点",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "shock_chance",
+              "params": {
+                "n": 11
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "shock_per_layer",
+          "name": "目标每有一层感电，你对其造成的闪电伤害 +n%",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "shock_per_layer",
+              "params": {
+                "n": 4
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "area_damage",
+          "name": "范围伤害 +n%",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "area_damage",
+              "params": {
+                "n": 14
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "life_on_kill",
+          "name": "击败敌人时恢复气血 +n点",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "life_on_kill",
+              "params": {
+                "n": 6
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "evasion",
+          "name": "基础闪避 +n点",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "evasion",
+              "params": {
+                "n": 115
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        }
+      ],
+      "legendary": null
+    },
+    "growth_thunder_strike_boots_bdt1": {
+      "uid": "growth_thunder_strike_boots_bdt1",
+      "baseId": "warden_boots",
+      "name": "雷击三连·战靴",
+      "slot": "boots",
+      "level": 3,
+      "rarity": "rare",
+      "tier": 1,
+      "skill": "",
+      "affixes": [
+        {
+          "id": "life_base",
+          "name": "基础气血 +n点",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "life_base",
+              "params": {
+                "n": 34
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "full_life_move",
+          "name": "满血时，移动速度 +n%",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "full_life_move",
+              "params": {
+                "n": 5
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "evasion",
+          "name": "基础闪避 +n点",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "evasion",
+              "params": {
+                "n": 115
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "life_increased",
+          "name": "气血上限 +n%",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "life_increased",
+              "params": {
+                "n": 11
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "shock_max_stacks",
+          "name": "感电最大层数 +n层",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "shock_max_stacks",
+              "params": {
+                "n": 1
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "inc_elemental",
+          "name": "元素伤害 +n%",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "inc_elemental",
+              "params": {
+                "n": 11
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        }
+      ],
+      "legendary": null
+    },
+    "growth_thunder_strike_ring_bdt1": {
+      "uid": "growth_thunder_strike_ring_bdt1",
+      "baseId": "aura_lightning_ring",
+      "name": "雷击三连·光环指环",
+      "slot": "ring",
+      "level": 1,
+      "rarity": "common",
+      "tier": 1,
+      "skill": "aura_lightning",
+      "affixes": [],
+      "legendary": null
+    }
+  },
+  "belt": [],
+  "authored": {
+    "source": "generated-existing-traits",
+    "family": "growth",
+    "name": "雷击三连·成长",
+    "revision": 1,
+    "minimumTier": 1
+  },
+  "growth": {
+    "skill": "thunder_strike",
+    "stage": 2,
+    "kills": 15
+  }
+}

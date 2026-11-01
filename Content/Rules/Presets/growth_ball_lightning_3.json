@@ -1,36 +1,36 @@
 {
   "skills": [
-    "shield_slam",
+    "ball_lightning",
     null,
     null,
     null
   ],
   "equipment": {
-    "weapon": "growth_shield_slam_weapon_bdt1",
-    "helmet": "growth_shield_slam_helmet_bdt1",
-    "chest": "growth_shield_slam_chest_bdt1",
-    "gloves": "growth_shield_slam_gloves_bdt1",
-    "boots": "growth_shield_slam_boots_bdt1",
-    "ring": "growth_shield_slam_ring_bdt1"
+    "weapon": "growth_ball_lightning_weapon_bdt1",
+    "helmet": "growth_ball_lightning_helmet_bdt1",
+    "chest": "growth_ball_lightning_chest_bdt1",
+    "gloves": "growth_ball_lightning_gloves_bdt1",
+    "boots": "growth_ball_lightning_boots_bdt1",
+    "ring": "growth_ball_lightning_ring_bdt1"
   },
   "instances": {
-    "growth_shield_slam_weapon_bdt1": {
-      "uid": "growth_shield_slam_weapon_bdt1",
-      "baseId": "bulwark_mace",
-      "name": "盾击·壁垒钉锤",
+    "growth_ball_lightning_weapon_bdt1": {
+      "uid": "growth_ball_lightning_weapon_bdt1",
+      "baseId": "stormorb_scepter",
+      "name": "球状闪电·雷珠权杖",
       "slot": "weapon",
       "level": 1,
       "rarity": "rare",
       "tier": 1,
-      "skill": "shield_slam",
+      "skill": "ball_lightning",
       "affixes": [
         {
-          "id": "flat_physical",
-          "name": "基础物理伤害 +n",
+          "id": "flat_lightning",
+          "name": "基础闪电伤害 +n",
           "tier": 1,
           "traits": [
             {
-              "id": "flat_physical",
+              "id": "flat_lightning",
               "params": {
                 "n": 4
               },
@@ -40,12 +40,12 @@
           ]
         },
         {
-          "id": "inc_physical",
-          "name": "物理伤害 +n%",
+          "id": "inc_lightning",
+          "name": "闪电伤害 +n%",
           "tier": 1,
           "traits": [
             {
-              "id": "inc_physical",
+              "id": "inc_lightning",
               "params": {
                 "n": 14
               },
@@ -55,12 +55,12 @@
           ]
         },
         {
-          "id": "more_physical",
-          "name": "物理伤害额外提高 n%",
+          "id": "more_lightning",
+          "name": "闪电伤害额外提高 n%",
           "tier": 1,
           "traits": [
             {
-              "id": "more_physical",
+              "id": "more_lightning",
               "params": {
                 "n": 5
               },
@@ -70,12 +70,12 @@
           ]
         },
         {
-          "id": "area_damage",
-          "name": "范围伤害 +n%",
+          "id": "proj_damage",
+          "name": "投射物伤害 +n%",
           "tier": 1,
           "traits": [
             {
-              "id": "area_damage",
+              "id": "proj_damage",
               "params": {
                 "n": 14
               },
@@ -85,12 +85,12 @@
           ]
         },
         {
-          "id": "block_chance",
-          "name": "攻击格挡率 +n个百分点",
+          "id": "lightning_cast_speed",
+          "name": "闪电技能施放速度 +n%",
           "tier": 1,
           "traits": [
             {
-              "id": "block_chance",
+              "id": "lightning_cast_speed",
               "params": {
                 "n": 9
               },
@@ -100,14 +100,14 @@
           ]
         },
         {
-          "id": "life_on_hit",
-          "name": "命中时恢复气血 +n点",
+          "id": "shock_effect",
+          "name": "感电效果 +n%",
           "tier": 1,
           "traits": [
             {
-              "id": "life_on_hit",
+              "id": "shock_effect",
               "params": {
-                "n": 2
+                "n": 17
               },
               "with": [],
               "tier": 1
@@ -117,10 +117,10 @@
       ],
       "legendary": null
     },
-    "growth_shield_slam_helmet_bdt1": {
-      "uid": "growth_shield_slam_helmet_bdt1",
+    "growth_ball_lightning_helmet_bdt1": {
+      "uid": "growth_ball_lightning_helmet_bdt1",
       "baseId": "cinder_guard_helmet",
-      "name": "盾击·战盔",
+      "name": "球状闪电·战盔",
       "slot": "helmet",
       "level": 30,
       "rarity": "rare",
@@ -143,14 +143,14 @@
           ]
         },
         {
-          "id": "life_increased",
-          "name": "气血上限 +n%",
+          "id": "shield_base",
+          "name": "基础护盾 +n点",
           "tier": 1,
           "traits": [
             {
-              "id": "life_increased",
+              "id": "shield_base",
               "params": {
-                "n": 11
+                "n": 34
               },
               "with": [],
               "tier": 1
@@ -158,14 +158,14 @@
           ]
         },
         {
-          "id": "armour",
-          "name": "护甲 +n",
+          "id": "proj_damage",
+          "name": "投射物伤害 +n%",
           "tier": 1,
           "traits": [
             {
-              "id": "armour",
+              "id": "proj_damage",
               "params": {
-                "n": 115
+                "n": 14
               },
               "with": [],
               "tier": 1
@@ -173,14 +173,14 @@
           ]
         },
         {
-          "id": "block_chance",
-          "name": "攻击格挡率 +n个百分点",
+          "id": "inc_lightning",
+          "name": "闪电伤害 +n%",
           "tier": 1,
           "traits": [
             {
-              "id": "block_chance",
+              "id": "inc_lightning",
               "params": {
-                "n": 9
+                "n": 14
               },
               "with": [],
               "tier": 1
@@ -203,14 +203,14 @@
           ]
         },
         {
-          "id": "block_life",
-          "name": "格挡成功时，恢复气血 +n点",
+          "id": "life_increased",
+          "name": "气血上限 +n%",
           "tier": 1,
           "traits": [
             {
-              "id": "block_life",
+              "id": "life_increased",
               "params": {
-                "n": 9
+                "n": 11
               },
               "with": [],
               "tier": 1
@@ -220,10 +220,10 @@
       ],
       "legendary": null
     },
-    "growth_shield_slam_chest_bdt1": {
-      "uid": "growth_shield_slam_chest_bdt1",
+    "growth_ball_lightning_chest_bdt1": {
+      "uid": "growth_ball_lightning_chest_bdt1",
       "baseId": "cinder_guard_chest",
-      "name": "盾击·胸甲",
+      "name": "球状闪电·胸甲",
       "slot": "chest",
       "level": 30,
       "rarity": "rare",
@@ -261,14 +261,14 @@
           ]
         },
         {
-          "id": "armour",
-          "name": "护甲 +n",
+          "id": "shield_base",
+          "name": "基础护盾 +n点",
           "tier": 1,
           "traits": [
             {
-              "id": "armour",
+              "id": "shield_base",
               "params": {
-                "n": 115
+                "n": 34
               },
               "with": [],
               "tier": 1
@@ -276,29 +276,14 @@
           ]
         },
         {
-          "id": "life_more",
-          "name": "气血上限额外提高 n%",
+          "id": "shield_increased",
+          "name": "护盾上限 +n%",
           "tier": 1,
           "traits": [
             {
-              "id": "life_more",
+              "id": "shield_increased",
               "params": {
-                "n": 5
-              },
-              "with": [],
-              "tier": 1
-            }
-          ]
-        },
-        {
-          "id": "block_reduction",
-          "name": "格挡伤害减免 +n个百分点",
-          "tier": 1,
-          "traits": [
-            {
-              "id": "block_reduction",
-              "params": {
-                "n": 5
+                "n": 17
               },
               "with": [],
               "tier": 1
@@ -319,14 +304,29 @@
               "tier": 1
             }
           ]
+        },
+        {
+          "id": "lightning_resistance",
+          "name": "闪电抗性",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "lightning_resistance",
+              "params": {
+                "resistance": 14
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
         }
       ],
       "legendary": null
     },
-    "growth_shield_slam_gloves_bdt1": {
-      "uid": "growth_shield_slam_gloves_bdt1",
+    "growth_ball_lightning_gloves_bdt1": {
+      "uid": "growth_ball_lightning_gloves_bdt1",
       "baseId": "bloodthirst_gauntlets",
-      "name": "盾击·护手",
+      "name": "球状闪电·护手",
       "slot": "gloves",
       "level": 20,
       "rarity": "rare",
@@ -334,12 +334,12 @@
       "skill": "",
       "affixes": [
         {
-          "id": "flat_physical",
-          "name": "基础物理伤害 +n",
+          "id": "flat_lightning",
+          "name": "基础闪电伤害 +n",
           "tier": 1,
           "traits": [
             {
-              "id": "flat_physical",
+              "id": "flat_lightning",
               "params": {
                 "n": 4
               },
@@ -349,15 +349,14 @@
           ]
         },
         {
-          "id": "block_buff_damage",
-          "name": "格挡成功后，伤害 +n%，持续n秒",
+          "id": "shock_chance",
+          "name": "命中时，感电概率 +n个百分点",
           "tier": 1,
           "traits": [
             {
-              "id": "block_buff_damage",
+              "id": "shock_chance",
               "params": {
-                "n": 11,
-                "duration": 2
+                "n": 11
               },
               "with": [],
               "tier": 1
@@ -365,14 +364,14 @@
           ]
         },
         {
-          "id": "area_damage",
-          "name": "范围伤害 +n%",
+          "id": "proj_more",
+          "name": "投射物伤害额外提高 n%",
           "tier": 1,
           "traits": [
             {
-              "id": "area_damage",
+              "id": "proj_more",
               "params": {
-                "n": 14
+                "n": 9
               },
               "with": [],
               "tier": 1
@@ -380,14 +379,14 @@
           ]
         },
         {
-          "id": "armour",
-          "name": "护甲 +n",
+          "id": "shock_per_layer",
+          "name": "目标每有一层感电，你对其造成的闪电伤害 +n%",
           "tier": 1,
           "traits": [
             {
-              "id": "armour",
+              "id": "shock_per_layer",
               "params": {
-                "n": 115
+                "n": 4
               },
               "with": [],
               "tier": 1
@@ -410,14 +409,14 @@
           ]
         },
         {
-          "id": "block_counter",
-          "name": "格挡成功时，有n%概率触发一次反击",
+          "id": "shield_base",
+          "name": "基础护盾 +n点",
           "tier": 1,
           "traits": [
             {
-              "id": "block_counter",
+              "id": "shield_base",
               "params": {
-                "n": 17
+                "n": 34
               },
               "with": [],
               "tier": 1
@@ -427,10 +426,10 @@
       ],
       "legendary": null
     },
-    "growth_shield_slam_boots_bdt1": {
-      "uid": "growth_shield_slam_boots_bdt1",
+    "growth_ball_lightning_boots_bdt1": {
+      "uid": "growth_ball_lightning_boots_bdt1",
       "baseId": "warden_boots",
-      "name": "盾击·战靴",
+      "name": "球状闪电·战靴",
       "slot": "boots",
       "level": 3,
       "rarity": "rare",
@@ -468,14 +467,14 @@
           ]
         },
         {
-          "id": "armour",
-          "name": "护甲 +n",
+          "id": "shield_base",
+          "name": "基础护盾 +n点",
           "tier": 1,
           "traits": [
             {
-              "id": "armour",
+              "id": "shield_base",
               "params": {
-                "n": 115
+                "n": 34
               },
               "with": [],
               "tier": 1
@@ -498,14 +497,14 @@
           ]
         },
         {
-          "id": "block_recovery",
-          "name": "格挡恢复速度 +n%",
+          "id": "inc_elemental",
+          "name": "元素伤害 +n%",
           "tier": 1,
           "traits": [
             {
-              "id": "block_recovery",
+              "id": "inc_elemental",
               "params": {
-                "n": 23
+                "n": 11
               },
               "with": [],
               "tier": 1
@@ -513,14 +512,14 @@
           ]
         },
         {
-          "id": "life_regen_flat",
-          "name": "每秒恢复气血 +n点",
+          "id": "shock_duration",
+          "name": "感电持续时间 +n%",
           "tier": 1,
           "traits": [
             {
-              "id": "life_regen_flat",
+              "id": "shock_duration",
               "params": {
-                "n": 3
+                "n": 17
               },
               "with": [],
               "tier": 1
@@ -530,15 +529,15 @@
       ],
       "legendary": null
     },
-    "growth_shield_slam_ring_bdt1": {
-      "uid": "growth_shield_slam_ring_bdt1",
-      "baseId": "aura_armour_ring",
-      "name": "盾击·光环指环",
+    "growth_ball_lightning_ring_bdt1": {
+      "uid": "growth_ball_lightning_ring_bdt1",
+      "baseId": "aura_lightning_ring",
+      "name": "球状闪电·光环指环",
       "slot": "ring",
       "level": 1,
       "rarity": "common",
       "tier": 1,
-      "skill": "aura_armour",
+      "skill": "aura_lightning",
       "affixes": [],
       "legendary": null
     }
@@ -547,8 +546,13 @@
   "authored": {
     "source": "generated-existing-traits",
     "family": "growth",
-    "name": "盾击·成长",
+    "name": "球状闪电·成长",
     "revision": 1,
     "minimumTier": 1
+  },
+  "growth": {
+    "skill": "ball_lightning",
+    "stage": 3,
+    "kills": 40
   }
 }

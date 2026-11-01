@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import { readRuleFiles } from '../scripts/rule-files.mjs';
 import * as engine from '../engine/index.mjs';
 import { GROWTH_BDS, growthTrait, growthStatuses } from '../scripts/growth-bds-data.mjs';
-import { growthBuild, growthWeapon, growthIndexRow, createGrowthPreset, growthStageTable } from '../scripts/create-growth-bds.mjs';
+import { growthBuild, growthWeapon, growthIndexRows, createGrowthPreset, growthStageTable, growthPresetId, GROWTH_PRESET_STAGES } from '../scripts/create-growth-bds.mjs';
 import { GROWTH_STAGES } from '../public/progression/growth-stages.mjs';
 import { choiceBases } from '../public/progression/quest-chain.mjs';
 import { minimumTierPreset } from '../public/build-preset-tier.mjs';
@@ -44,12 +44,19 @@ test('成长型 BD：预设可复现、装备绑定技能、只用现有词条',
   const index = readJson('Presets/index.json');
   const deps = { ...engine, minimumTierPreset, applyBuildPreset };
   for (const bd of GROWTH_BDS) {
-    const preset = readJson(`Presets/growth_${bd.id}.json`);
-    assert.deepEqual(preset, createGrowthPreset(bd, library, collections, deps), bd.id);
-    assert.deepEqual(index.find(row => row.id === `growth_${bd.id}`), growthIndexRow(bd));
-    assert.deepEqual(preset.skills, [bd.id, null, null, null]);
-    const save = { owned: { skill: {}, equipment: {}, item: {} }, instances: {}, loadout: {} };
-    assert.equal(applyBuildPreset(save, preset, collections, library).error, '', bd.id);
+    const rows = index.filter(row => row.group === `growth_${bd.id}`);
+    assert.deepEqual(rows, growthIndexRows(bd));
+    assert.deepEqual(rows.map(r => r.grade), [1, 2, 3]);
+    const kills = [];
+    for (const { stage } of GROWTH_PRESET_STAGES) {
+      const preset = readJson(`Presets/${growthPresetId(bd, stage)}.json`);
+      assert.deepEqual(preset, createGrowthPreset(bd, library, collections, deps, stage), `${bd.id} ${stage}`);
+      assert.deepEqual(preset.skills, [bd.id, null, null, null]);
+      assert.equal(preset.growth.skill, bd.id); kills.push(preset.growth.kills);
+      const save = { owned: { skill: {}, equipment: {}, item: {} }, instances: {}, loadout: {} };
+      assert.equal(applyBuildPreset(save, preset, collections, library).error, '', bd.id);
+    }
+    assert.deepEqual(kills, [0, GROWTH_STAGES[bd.id].awaken, GROWTH_STAGES[bd.id].ultimate]);
   }
 });
 
@@ -60,7 +67,7 @@ test('成长型 BD：主线「第三层」三选一成长武器覆盖全部成�
 
 // Real battle: every build casts, stacks its charge buff, releases a surge and grows to its final stage.
 function run(bd, seconds = 24) {
-  const preset = readJson(`Presets/growth_${bd.id}.json`);
+  const preset = readJson(`Presets/growth_${bd.id}_1.json`);
   const battle = new Battle(files, { collections, maxMonsters: 0, spawnRate: 0, god: true, seed: 11 });
   battle.setLoadout(preset);
   assert.ok(!battle.skills.some(s => s?.error), `${bd.id}: ${battle.skills.map(s => s?.error).filter(Boolean)}`);

@@ -549,5 +549,10 @@
     "name": "怒焰劈斩·成长",
     "revision": 1,
     "minimumTier": 1
+  },
+  "growth": {
+    "skill": "rage_cleave",
+    "stage": 2,
+    "kills": 15
   }
 }

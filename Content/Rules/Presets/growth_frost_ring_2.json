@@ -1,36 +1,36 @@
 {
   "skills": [
-    "ground_slam",
+    "frost_ring",
     null,
     null,
     null
   ],
   "equipment": {
-    "weapon": "growth_ground_slam_weapon_bdt1",
-    "helmet": "growth_ground_slam_helmet_bdt1",
-    "chest": "growth_ground_slam_chest_bdt1",
-    "gloves": "growth_ground_slam_gloves_bdt1",
-    "boots": "growth_ground_slam_boots_bdt1",
-    "ring": "growth_ground_slam_ring_bdt1"
+    "weapon": "growth_frost_ring_weapon_bdt1",
+    "helmet": "growth_frost_ring_helmet_bdt1",
+    "chest": "growth_frost_ring_chest_bdt1",
+    "gloves": "growth_frost_ring_gloves_bdt1",
+    "boots": "growth_frost_ring_boots_bdt1",
+    "ring": "growth_frost_ring_ring_bdt1"
   },
   "instances": {
-    "growth_ground_slam_weapon_bdt1": {
-      "uid": "growth_ground_slam_weapon_bdt1",
-      "baseId": "earthshaker_maul",
-      "name": "震地猛击·撼地巨槌",
+    "growth_frost_ring_weapon_bdt1": {
+      "uid": "growth_frost_ring_weapon_bdt1",
+      "baseId": "rimeheart_wand",
+      "name": "霜环·凛心法环",
       "slot": "weapon",
       "level": 1,
       "rarity": "rare",
       "tier": 1,
-      "skill": "ground_slam",
+      "skill": "frost_ring",
       "affixes": [
         {
-          "id": "flat_physical",
-          "name": "基础物理伤害 +n",
+          "id": "flat_frost",
+          "name": "基础冰霜伤害 +n",
           "tier": 1,
           "traits": [
             {
-              "id": "flat_physical",
+              "id": "flat_frost",
               "params": {
                 "n": 4
               },
@@ -40,12 +40,12 @@
           ]
         },
         {
-          "id": "inc_physical",
-          "name": "物理伤害 +n%",
+          "id": "inc_frost",
+          "name": "冰霜伤害 +n%",
           "tier": 1,
           "traits": [
             {
-              "id": "inc_physical",
+              "id": "inc_frost",
               "params": {
                 "n": 14
               },
@@ -55,12 +55,12 @@
           ]
         },
         {
-          "id": "more_physical",
-          "name": "物理伤害额外提高 n%",
+          "id": "more_frost",
+          "name": "冰霜伤害额外提高 n%",
           "tier": 1,
           "traits": [
             {
-              "id": "more_physical",
+              "id": "more_frost",
               "params": {
                 "n": 5
               },
@@ -70,14 +70,14 @@
           ]
         },
         {
-          "id": "area_size_more",
-          "name": "范围面积额外提高 n%",
+          "id": "area_more",
+          "name": "范围伤害额外提高 n%",
           "tier": 1,
           "traits": [
             {
-              "id": "area_size_more",
+              "id": "area_more",
               "params": {
-                "n": 11
+                "n": 9
               },
               "with": [],
               "tier": 1
@@ -85,14 +85,14 @@
           ]
         },
         {
-          "id": "area_damage",
-          "name": "范围伤害 +n%",
+          "id": "area_cast_speed",
+          "name": "范围技能施放速度 +n%",
           "tier": 1,
           "traits": [
             {
-              "id": "area_damage",
+              "id": "area_cast_speed",
               "params": {
-                "n": 14
+                "n": 9
               },
               "with": [],
               "tier": 1
@@ -100,14 +100,14 @@
           ]
         },
         {
-          "id": "life_on_kill",
-          "name": "击败敌人时恢复气血 +n点",
+          "id": "chill_effect",
+          "name": "冰缓效果 +n%",
           "tier": 1,
           "traits": [
             {
-              "id": "life_on_kill",
+              "id": "chill_effect",
               "params": {
-                "n": 6
+                "n": 17
               },
               "with": [],
               "tier": 1
@@ -117,10 +117,10 @@
       ],
       "legendary": null
     },
-    "growth_ground_slam_helmet_bdt1": {
-      "uid": "growth_ground_slam_helmet_bdt1",
+    "growth_frost_ring_helmet_bdt1": {
+      "uid": "growth_frost_ring_helmet_bdt1",
       "baseId": "cinder_guard_helmet",
-      "name": "震地猛击·战盔",
+      "name": "霜环·战盔",
       "slot": "helmet",
       "level": 30,
       "rarity": "rare",
@@ -143,14 +143,14 @@
           ]
         },
         {
-          "id": "life_increased",
-          "name": "气血上限 +n%",
+          "id": "shield_base",
+          "name": "基础护盾 +n点",
           "tier": 1,
           "traits": [
             {
-              "id": "life_increased",
+              "id": "shield_base",
               "params": {
-                "n": 11
+                "n": 34
               },
               "with": [],
               "tier": 1
@@ -173,14 +173,14 @@
           ]
         },
         {
-          "id": "armour",
-          "name": "护甲 +n",
+          "id": "inc_frost",
+          "name": "冰霜伤害 +n%",
           "tier": 1,
           "traits": [
             {
-              "id": "armour",
+              "id": "inc_frost",
               "params": {
-                "n": 115
+                "n": 14
               },
               "with": [],
               "tier": 1
@@ -203,14 +203,14 @@
           ]
         },
         {
-          "id": "inc_physical",
-          "name": "物理伤害 +n%",
+          "id": "life_increased",
+          "name": "气血上限 +n%",
           "tier": 1,
           "traits": [
             {
-              "id": "inc_physical",
+              "id": "life_increased",
               "params": {
-                "n": 14
+                "n": 11
               },
               "with": [],
               "tier": 1
@@ -220,10 +220,10 @@
       ],
       "legendary": null
     },
-    "growth_ground_slam_chest_bdt1": {
-      "uid": "growth_ground_slam_chest_bdt1",
+    "growth_frost_ring_chest_bdt1": {
+      "uid": "growth_frost_ring_chest_bdt1",
       "baseId": "cinder_guard_chest",
-      "name": "震地猛击·胸甲",
+      "name": "霜环·胸甲",
       "slot": "chest",
       "level": 30,
       "rarity": "rare",
@@ -261,14 +261,14 @@
           ]
         },
         {
-          "id": "armour",
-          "name": "护甲 +n",
+          "id": "shield_base",
+          "name": "基础护盾 +n点",
           "tier": 1,
           "traits": [
             {
-              "id": "armour",
+              "id": "shield_base",
               "params": {
-                "n": 115
+                "n": 34
               },
               "with": [],
               "tier": 1
@@ -276,29 +276,14 @@
           ]
         },
         {
-          "id": "life_more",
-          "name": "气血上限额外提高 n%",
+          "id": "shield_increased",
+          "name": "护盾上限 +n%",
           "tier": 1,
           "traits": [
             {
-              "id": "life_more",
+              "id": "shield_increased",
               "params": {
-                "n": 5
-              },
-              "with": [],
-              "tier": 1
-            }
-          ]
-        },
-        {
-          "id": "block_chance",
-          "name": "攻击格挡率 +n个百分点",
-          "tier": 1,
-          "traits": [
-            {
-              "id": "block_chance",
-              "params": {
-                "n": 9
+                "n": 17
               },
               "with": [],
               "tier": 1
@@ -319,14 +304,29 @@
               "tier": 1
             }
           ]
+        },
+        {
+          "id": "frost_resistance",
+          "name": "冰霜抗性",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "frost_resistance",
+              "params": {
+                "resistance": 14
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
         }
       ],
       "legendary": null
     },
-    "growth_ground_slam_gloves_bdt1": {
-      "uid": "growth_ground_slam_gloves_bdt1",
+    "growth_frost_ring_gloves_bdt1": {
+      "uid": "growth_frost_ring_gloves_bdt1",
       "baseId": "bloodthirst_gauntlets",
-      "name": "震地猛击·护手",
+      "name": "霜环·护手",
       "slot": "gloves",
       "level": 20,
       "rarity": "rare",
@@ -334,12 +334,12 @@
       "skill": "",
       "affixes": [
         {
-          "id": "flat_physical",
-          "name": "基础物理伤害 +n",
+          "id": "flat_frost",
+          "name": "基础冰霜伤害 +n",
           "tier": 1,
           "traits": [
             {
-              "id": "flat_physical",
+              "id": "flat_frost",
               "params": {
                 "n": 4
               },
@@ -349,14 +349,14 @@
           ]
         },
         {
-          "id": "area_more",
-          "name": "范围伤害额外提高 n%",
+          "id": "chill_duration",
+          "name": "冰缓持续时间 +n%",
           "tier": 1,
           "traits": [
             {
-              "id": "area_more",
+              "id": "chill_duration",
               "params": {
-                "n": 9
+                "n": 17
               },
               "with": [],
               "tier": 1
@@ -409,14 +409,14 @@
           ]
         },
         {
-          "id": "armour",
-          "name": "护甲 +n",
+          "id": "shield_base",
+          "name": "基础护盾 +n点",
           "tier": 1,
           "traits": [
             {
-              "id": "armour",
+              "id": "shield_base",
               "params": {
-                "n": 115
+                "n": 34
               },
               "with": [],
               "tier": 1
@@ -426,10 +426,10 @@
       ],
       "legendary": null
     },
-    "growth_ground_slam_boots_bdt1": {
-      "uid": "growth_ground_slam_boots_bdt1",
+    "growth_frost_ring_boots_bdt1": {
+      "uid": "growth_frost_ring_boots_bdt1",
       "baseId": "warden_boots",
-      "name": "震地猛击·战靴",
+      "name": "霜环·战靴",
       "slot": "boots",
       "level": 3,
       "rarity": "rare",
@@ -467,14 +467,14 @@
           ]
         },
         {
-          "id": "armour",
-          "name": "护甲 +n",
+          "id": "shield_base",
+          "name": "基础护盾 +n点",
           "tier": 1,
           "traits": [
             {
-              "id": "armour",
+              "id": "shield_base",
               "params": {
-                "n": 115
+                "n": 34
               },
               "with": [],
               "tier": 1
@@ -497,14 +497,14 @@
           ]
         },
         {
-          "id": "inc_physical",
-          "name": "物理伤害 +n%",
+          "id": "inc_elemental",
+          "name": "元素伤害 +n%",
           "tier": 1,
           "traits": [
             {
-              "id": "inc_physical",
+              "id": "inc_elemental",
               "params": {
-                "n": 14
+                "n": 11
               },
               "with": [],
               "tier": 1
@@ -512,14 +512,14 @@
           ]
         },
         {
-          "id": "life_regen_flat",
-          "name": "每秒恢复气血 +n点",
+          "id": "freeze_buildup",
+          "name": "冻结积累效率 +n%",
           "tier": 1,
           "traits": [
             {
-              "id": "life_regen_flat",
+              "id": "freeze_buildup",
               "params": {
-                "n": 3
+                "n": 23
               },
               "with": [],
               "tier": 1
@@ -529,15 +529,15 @@
       ],
       "legendary": null
     },
-    "growth_ground_slam_ring_bdt1": {
-      "uid": "growth_ground_slam_ring_bdt1",
-      "baseId": "aura_armour_ring",
-      "name": "震地猛击·光环指环",
+    "growth_frost_ring_ring_bdt1": {
+      "uid": "growth_frost_ring_ring_bdt1",
+      "baseId": "aura_frost_ring",
+      "name": "霜环·光环指环",
       "slot": "ring",
       "level": 1,
       "rarity": "common",
       "tier": 1,
-      "skill": "aura_armour",
+      "skill": "aura_frost",
       "affixes": [],
       "legendary": null
     }
@@ -546,8 +546,13 @@
   "authored": {
     "source": "generated-existing-traits",
     "family": "growth",
-    "name": "震地猛击·成长",
+    "name": "霜环·成长",
     "revision": 1,
     "minimumTier": 1
+  },
+  "growth": {
+    "skill": "frost_ring",
+    "stage": 2,
+    "kills": 15
   }
 }

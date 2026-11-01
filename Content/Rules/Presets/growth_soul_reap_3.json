@@ -1,36 +1,36 @@
 {
   "skills": [
-    "meteor",
+    "soul_reap",
     null,
     null,
     null
   ],
   "equipment": {
-    "weapon": "growth_meteor_weapon_bdt1",
-    "helmet": "growth_meteor_helmet_bdt1",
-    "chest": "growth_meteor_chest_bdt1",
-    "gloves": "growth_meteor_gloves_bdt1",
-    "boots": "growth_meteor_boots_bdt1",
-    "ring": "growth_meteor_ring_bdt1"
+    "weapon": "growth_soul_reap_weapon_bdt1",
+    "helmet": "growth_soul_reap_helmet_bdt1",
+    "chest": "growth_soul_reap_chest_bdt1",
+    "gloves": "growth_soul_reap_gloves_bdt1",
+    "boots": "growth_soul_reap_boots_bdt1",
+    "ring": "growth_soul_reap_ring_bdt1"
   },
   "instances": {
-    "growth_meteor_weapon_bdt1": {
-      "uid": "growth_meteor_weapon_bdt1",
-      "baseId": "starfall_staff",
-      "name": "天火陨星·陨星法杖",
+    "growth_soul_reap_weapon_bdt1": {
+      "uid": "growth_soul_reap_weapon_bdt1",
+      "baseId": "soulreaver_scythe",
+      "name": "灵魂收割·噬魂长镰",
       "slot": "weapon",
       "level": 1,
       "rarity": "rare",
       "tier": 1,
-      "skill": "meteor",
+      "skill": "soul_reap",
       "affixes": [
         {
-          "id": "flat_fire",
-          "name": "基础火焰伤害 +n",
+          "id": "flat_void",
+          "name": "基础虚空伤害 +n",
           "tier": 1,
           "traits": [
             {
-              "id": "flat_fire",
+              "id": "flat_void",
               "params": {
                 "n": 4
               },
@@ -40,12 +40,12 @@
           ]
         },
         {
-          "id": "inc_fire",
-          "name": "火焰伤害 +n%",
+          "id": "inc_void",
+          "name": "虚空伤害 +n%",
           "tier": 1,
           "traits": [
             {
-              "id": "inc_fire",
+              "id": "inc_void",
               "params": {
                 "n": 14
               },
@@ -55,12 +55,12 @@
           ]
         },
         {
-          "id": "more_fire",
-          "name": "火焰伤害额外提高 n%",
+          "id": "more_void",
+          "name": "虚空伤害额外提高 n%",
           "tier": 1,
           "traits": [
             {
-              "id": "more_fire",
+              "id": "more_void",
               "params": {
                 "n": 5
               },
@@ -100,14 +100,14 @@
           ]
         },
         {
-          "id": "ignite_chance",
-          "name": "命中时，点燃概率 +n个百分点",
+          "id": "leech_life_all",
+          "name": "伤害的n%偷取为气血",
           "tier": 1,
           "traits": [
             {
-              "id": "ignite_chance",
+              "id": "leech_life_all",
               "params": {
-                "n": 11
+                "n": 1
               },
               "with": [],
               "tier": 1
@@ -117,10 +117,10 @@
       ],
       "legendary": null
     },
-    "growth_meteor_helmet_bdt1": {
-      "uid": "growth_meteor_helmet_bdt1",
+    "growth_soul_reap_helmet_bdt1": {
+      "uid": "growth_soul_reap_helmet_bdt1",
       "baseId": "cinder_guard_helmet",
-      "name": "天火陨星·战盔",
+      "name": "灵魂收割·战盔",
       "slot": "helmet",
       "level": 30,
       "rarity": "rare",
@@ -143,14 +143,14 @@
           ]
         },
         {
-          "id": "shield_base",
-          "name": "基础护盾 +n点",
+          "id": "life_increased",
+          "name": "气血上限 +n%",
           "tier": 1,
           "traits": [
             {
-              "id": "shield_base",
+              "id": "life_increased",
               "params": {
-                "n": 34
+                "n": 11
               },
               "with": [],
               "tier": 1
@@ -173,12 +173,12 @@
           ]
         },
         {
-          "id": "inc_fire",
-          "name": "火焰伤害 +n%",
+          "id": "inc_void",
+          "name": "虚空伤害 +n%",
           "tier": 1,
           "traits": [
             {
-              "id": "inc_fire",
+              "id": "inc_void",
               "params": {
                 "n": 14
               },
@@ -203,14 +203,14 @@
           ]
         },
         {
-          "id": "life_increased",
-          "name": "气血上限 +n%",
+          "id": "shield_base",
+          "name": "基础护盾 +n点",
           "tier": 1,
           "traits": [
             {
-              "id": "life_increased",
+              "id": "shield_base",
               "params": {
-                "n": 11
+                "n": 34
               },
               "with": [],
               "tier": 1
@@ -220,10 +220,10 @@
       ],
       "legendary": null
     },
-    "growth_meteor_chest_bdt1": {
-      "uid": "growth_meteor_chest_bdt1",
+    "growth_soul_reap_chest_bdt1": {
+      "uid": "growth_soul_reap_chest_bdt1",
       "baseId": "cinder_guard_chest",
-      "name": "天火陨星·胸甲",
+      "name": "灵魂收割·胸甲",
       "slot": "chest",
       "level": 30,
       "rarity": "rare",
@@ -276,14 +276,29 @@
           ]
         },
         {
-          "id": "shield_increased",
-          "name": "护盾上限 +n%",
+          "id": "life_more",
+          "name": "气血上限额外提高 n%",
           "tier": 1,
           "traits": [
             {
-              "id": "shield_increased",
+              "id": "life_more",
               "params": {
-                "n": 17
+                "n": 5
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "leech_life_all",
+          "name": "伤害的n%偷取为气血",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "leech_life_all",
+              "params": {
+                "n": 1
               },
               "with": [],
               "tier": 1
@@ -304,29 +319,14 @@
               "tier": 1
             }
           ]
-        },
-        {
-          "id": "fire_resistance",
-          "name": "火焰抗性",
-          "tier": 1,
-          "traits": [
-            {
-              "id": "fire_resistance",
-              "params": {
-                "resistance": 14
-              },
-              "with": [],
-              "tier": 1
-            }
-          ]
         }
       ],
       "legendary": null
     },
-    "growth_meteor_gloves_bdt1": {
-      "uid": "growth_meteor_gloves_bdt1",
+    "growth_soul_reap_gloves_bdt1": {
+      "uid": "growth_soul_reap_gloves_bdt1",
       "baseId": "bloodthirst_gauntlets",
-      "name": "天火陨星·护手",
+      "name": "灵魂收割·护手",
       "slot": "gloves",
       "level": 20,
       "rarity": "rare",
@@ -334,12 +334,12 @@
       "skill": "",
       "affixes": [
         {
-          "id": "flat_fire",
-          "name": "基础火焰伤害 +n",
+          "id": "flat_void",
+          "name": "基础虚空伤害 +n",
           "tier": 1,
           "traits": [
             {
-              "id": "flat_fire",
+              "id": "flat_void",
               "params": {
                 "n": 4
               },
@@ -349,12 +349,12 @@
           ]
         },
         {
-          "id": "ignite_damage",
-          "name": "点燃伤害 +n%",
+          "id": "void_area",
+          "name": "虚空技能范围面积 +n%",
           "tier": 1,
           "traits": [
             {
-              "id": "ignite_damage",
+              "id": "void_area",
               "params": {
                 "n": 17
               },
@@ -379,14 +379,14 @@
           ]
         },
         {
-          "id": "proj_damage",
-          "name": "投射物伤害 +n%",
+          "id": "minion_damage",
+          "name": "召唤物伤害 +n%",
           "tier": 1,
           "traits": [
             {
-              "id": "proj_damage",
+              "id": "minion_damage",
               "params": {
-                "n": 14
+                "n": 17
               },
               "with": [],
               "tier": 1
@@ -426,10 +426,10 @@
       ],
       "legendary": null
     },
-    "growth_meteor_boots_bdt1": {
-      "uid": "growth_meteor_boots_bdt1",
+    "growth_soul_reap_boots_bdt1": {
+      "uid": "growth_soul_reap_boots_bdt1",
       "baseId": "warden_boots",
-      "name": "天火陨星·战靴",
+      "name": "灵魂收割·战靴",
       "slot": "boots",
       "level": 3,
       "rarity": "rare",
@@ -497,14 +497,14 @@
           ]
         },
         {
-          "id": "inc_elemental",
-          "name": "元素伤害 +n%",
+          "id": "void_vs_low",
+          "name": "对低血敌人的虚空伤害 +n%",
           "tier": 1,
           "traits": [
             {
-              "id": "inc_elemental",
+              "id": "void_vs_low",
               "params": {
-                "n": 11
+                "n": 23
               },
               "with": [],
               "tier": 1
@@ -512,14 +512,14 @@
           ]
         },
         {
-          "id": "ignite_duration",
-          "name": "点燃持续时间 +n%",
+          "id": "life_regen_flat",
+          "name": "每秒恢复气血 +n点",
           "tier": 1,
           "traits": [
             {
-              "id": "ignite_duration",
+              "id": "life_regen_flat",
               "params": {
-                "n": 17
+                "n": 3
               },
               "with": [],
               "tier": 1
@@ -529,15 +529,15 @@
       ],
       "legendary": null
     },
-    "growth_meteor_ring_bdt1": {
-      "uid": "growth_meteor_ring_bdt1",
-      "baseId": "aura_fire_ring",
-      "name": "天火陨星·光环指环",
+    "growth_soul_reap_ring_bdt1": {
+      "uid": "growth_soul_reap_ring_bdt1",
+      "baseId": "aura_void_ring",
+      "name": "灵魂收割·光环指环",
       "slot": "ring",
       "level": 1,
       "rarity": "common",
       "tier": 1,
-      "skill": "aura_fire",
+      "skill": "aura_void",
       "affixes": [],
       "legendary": null
     }
@@ -546,8 +546,13 @@
   "authored": {
     "source": "generated-existing-traits",
     "family": "growth",
-    "name": "天火陨星·成长",
+    "name": "灵魂收割·成长",
     "revision": 1,
     "minimumTier": 1
+  },
+  "growth": {
+    "skill": "soul_reap",
+    "stage": 3,
+    "kills": 40
   }
 }

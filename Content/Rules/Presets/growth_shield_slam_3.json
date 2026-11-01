@@ -1,28 +1,28 @@
 {
   "skills": [
-    "flicker_strike",
+    "shield_slam",
     null,
     null,
     null
   ],
   "equipment": {
-    "weapon": "growth_flicker_strike_weapon_bdt1",
-    "helmet": "growth_flicker_strike_helmet_bdt1",
-    "chest": "growth_flicker_strike_chest_bdt1",
-    "gloves": "growth_flicker_strike_gloves_bdt1",
-    "boots": "growth_flicker_strike_boots_bdt1",
-    "ring": "growth_flicker_strike_ring_bdt1"
+    "weapon": "growth_shield_slam_weapon_bdt1",
+    "helmet": "growth_shield_slam_helmet_bdt1",
+    "chest": "growth_shield_slam_chest_bdt1",
+    "gloves": "growth_shield_slam_gloves_bdt1",
+    "boots": "growth_shield_slam_boots_bdt1",
+    "ring": "growth_shield_slam_ring_bdt1"
   },
   "instances": {
-    "growth_flicker_strike_weapon_bdt1": {
-      "uid": "growth_flicker_strike_weapon_bdt1",
-      "baseId": "phantom_blade",
-      "name": "闪现打击·幻影长剑",
+    "growth_shield_slam_weapon_bdt1": {
+      "uid": "growth_shield_slam_weapon_bdt1",
+      "baseId": "bulwark_mace",
+      "name": "盾击·壁垒钉锤",
       "slot": "weapon",
       "level": 1,
       "rarity": "rare",
       "tier": 1,
-      "skill": "flicker_strike",
+      "skill": "shield_slam",
       "affixes": [
         {
           "id": "flat_physical",
@@ -70,12 +70,27 @@
           ]
         },
         {
-          "id": "area_cast_speed",
-          "name": "范围技能施放速度 +n%",
+          "id": "area_damage",
+          "name": "范围伤害 +n%",
           "tier": 1,
           "traits": [
             {
-              "id": "area_cast_speed",
+              "id": "area_damage",
+              "params": {
+                "n": 14
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "block_chance",
+          "name": "攻击格挡率 +n个百分点",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "block_chance",
               "params": {
                 "n": 9
               },
@@ -85,29 +100,14 @@
           ]
         },
         {
-          "id": "leech_life_physical",
-          "name": "物理伤害的n%偷取为气血",
+          "id": "life_on_hit",
+          "name": "命中时恢复气血 +n点",
           "tier": 1,
           "traits": [
             {
-              "id": "leech_life_physical",
+              "id": "life_on_hit",
               "params": {
-                "n": 1
-              },
-              "with": [],
-              "tier": 1
-            }
-          ]
-        },
-        {
-          "id": "life_on_kill",
-          "name": "击败敌人时恢复气血 +n点",
-          "tier": 1,
-          "traits": [
-            {
-              "id": "life_on_kill",
-              "params": {
-                "n": 6
+                "n": 2
               },
               "with": [],
               "tier": 1
@@ -117,10 +117,10 @@
       ],
       "legendary": null
     },
-    "growth_flicker_strike_helmet_bdt1": {
-      "uid": "growth_flicker_strike_helmet_bdt1",
+    "growth_shield_slam_helmet_bdt1": {
+      "uid": "growth_shield_slam_helmet_bdt1",
       "baseId": "cinder_guard_helmet",
-      "name": "闪现打击·战盔",
+      "name": "盾击·战盔",
       "slot": "helmet",
       "level": 30,
       "rarity": "rare",
@@ -158,12 +158,12 @@
           ]
         },
         {
-          "id": "evasion",
-          "name": "基础闪避 +n点",
+          "id": "armour",
+          "name": "护甲 +n",
           "tier": 1,
           "traits": [
             {
-              "id": "evasion",
+              "id": "armour",
               "params": {
                 "n": 115
               },
@@ -173,14 +173,14 @@
           ]
         },
         {
-          "id": "inc_physical",
-          "name": "物理伤害 +n%",
+          "id": "block_chance",
+          "name": "攻击格挡率 +n个百分点",
           "tier": 1,
           "traits": [
             {
-              "id": "inc_physical",
+              "id": "block_chance",
               "params": {
-                "n": 14
+                "n": 9
               },
               "with": [],
               "tier": 1
@@ -203,14 +203,14 @@
           ]
         },
         {
-          "id": "area_damage",
-          "name": "范围伤害 +n%",
+          "id": "block_life",
+          "name": "格挡成功时，恢复气血 +n点",
           "tier": 1,
           "traits": [
             {
-              "id": "area_damage",
+              "id": "block_life",
               "params": {
-                "n": 14
+                "n": 9
               },
               "with": [],
               "tier": 1
@@ -220,10 +220,10 @@
       ],
       "legendary": null
     },
-    "growth_flicker_strike_chest_bdt1": {
-      "uid": "growth_flicker_strike_chest_bdt1",
+    "growth_shield_slam_chest_bdt1": {
+      "uid": "growth_shield_slam_chest_bdt1",
       "baseId": "cinder_guard_chest",
-      "name": "闪现打击·胸甲",
+      "name": "盾击·胸甲",
       "slot": "chest",
       "level": 30,
       "rarity": "rare",
@@ -261,12 +261,12 @@
           ]
         },
         {
-          "id": "evasion",
-          "name": "基础闪避 +n点",
+          "id": "armour",
+          "name": "护甲 +n",
           "tier": 1,
           "traits": [
             {
-              "id": "evasion",
+              "id": "armour",
               "params": {
                 "n": 115
               },
@@ -276,14 +276,14 @@
           ]
         },
         {
-          "id": "evasion_increased",
-          "name": "闪避值 +n%",
+          "id": "life_more",
+          "name": "气血上限额外提高 n%",
           "tier": 1,
           "traits": [
             {
-              "id": "evasion_increased",
+              "id": "life_more",
               "params": {
-                "n": 17
+                "n": 5
               },
               "with": [],
               "tier": 1
@@ -291,14 +291,14 @@
           ]
         },
         {
-          "id": "leech_life_all",
-          "name": "伤害的n%偷取为气血",
+          "id": "block_reduction",
+          "name": "格挡伤害减免 +n个百分点",
           "tier": 1,
           "traits": [
             {
-              "id": "leech_life_all",
+              "id": "block_reduction",
               "params": {
-                "n": 1
+                "n": 5
               },
               "with": [],
               "tier": 1
@@ -323,10 +323,10 @@
       ],
       "legendary": null
     },
-    "growth_flicker_strike_gloves_bdt1": {
-      "uid": "growth_flicker_strike_gloves_bdt1",
+    "growth_shield_slam_gloves_bdt1": {
+      "uid": "growth_shield_slam_gloves_bdt1",
       "baseId": "bloodthirst_gauntlets",
-      "name": "闪现打击·护手",
+      "name": "盾击·护手",
       "slot": "gloves",
       "level": 20,
       "rarity": "rare",
@@ -349,14 +349,15 @@
           ]
         },
         {
-          "id": "more_physical",
-          "name": "物理伤害额外提高 n%",
+          "id": "block_buff_damage",
+          "name": "格挡成功后，伤害 +n%，持续n秒",
           "tier": 1,
           "traits": [
             {
-              "id": "more_physical",
+              "id": "block_buff_damage",
               "params": {
-                "n": 5
+                "n": 11,
+                "duration": 2
               },
               "with": [],
               "tier": 1
@@ -379,6 +380,21 @@
           ]
         },
         {
+          "id": "armour",
+          "name": "护甲 +n",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "armour",
+              "params": {
+                "n": 115
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
           "id": "life_on_kill",
           "name": "击败敌人时恢复气血 +n点",
           "tier": 1,
@@ -394,29 +410,14 @@
           ]
         },
         {
-          "id": "evasion",
-          "name": "基础闪避 +n点",
+          "id": "block_counter",
+          "name": "格挡成功时，有n%概率触发一次反击",
           "tier": 1,
           "traits": [
             {
-              "id": "evasion",
+              "id": "block_counter",
               "params": {
-                "n": 115
-              },
-              "with": [],
-              "tier": 1
-            }
-          ]
-        },
-        {
-          "id": "evade_chance",
-          "name": "攻击闪避率 +n个百分点",
-          "tier": 1,
-          "traits": [
-            {
-              "id": "evade_chance",
-              "params": {
-                "n": 5
+                "n": 17
               },
               "with": [],
               "tier": 1
@@ -426,10 +427,10 @@
       ],
       "legendary": null
     },
-    "growth_flicker_strike_boots_bdt1": {
-      "uid": "growth_flicker_strike_boots_bdt1",
+    "growth_shield_slam_boots_bdt1": {
+      "uid": "growth_shield_slam_boots_bdt1",
       "baseId": "warden_boots",
-      "name": "闪现打击·战靴",
+      "name": "盾击·战靴",
       "slot": "boots",
       "level": 3,
       "rarity": "rare",
@@ -467,12 +468,12 @@
           ]
         },
         {
-          "id": "evasion",
-          "name": "基础闪避 +n点",
+          "id": "armour",
+          "name": "护甲 +n",
           "tier": 1,
           "traits": [
             {
-              "id": "evasion",
+              "id": "armour",
               "params": {
                 "n": 115
               },
@@ -497,14 +498,14 @@
           ]
         },
         {
-          "id": "inc_physical",
-          "name": "物理伤害 +n%",
+          "id": "block_recovery",
+          "name": "格挡恢复速度 +n%",
           "tier": 1,
           "traits": [
             {
-              "id": "inc_physical",
+              "id": "block_recovery",
               "params": {
-                "n": 14
+                "n": 23
               },
               "with": [],
               "tier": 1
@@ -512,14 +513,14 @@
           ]
         },
         {
-          "id": "evade_chance",
-          "name": "攻击闪避率 +n个百分点",
+          "id": "life_regen_flat",
+          "name": "每秒恢复气血 +n点",
           "tier": 1,
           "traits": [
             {
-              "id": "evade_chance",
+              "id": "life_regen_flat",
               "params": {
-                "n": 5
+                "n": 3
               },
               "with": [],
               "tier": 1
@@ -529,15 +530,15 @@
       ],
       "legendary": null
     },
-    "growth_flicker_strike_ring_bdt1": {
-      "uid": "growth_flicker_strike_ring_bdt1",
-      "baseId": "aura_physical_ring",
-      "name": "闪现打击·光环指环",
+    "growth_shield_slam_ring_bdt1": {
+      "uid": "growth_shield_slam_ring_bdt1",
+      "baseId": "aura_armour_ring",
+      "name": "盾击·光环指环",
       "slot": "ring",
       "level": 1,
       "rarity": "common",
       "tier": 1,
-      "skill": "aura_physical",
+      "skill": "aura_armour",
       "affixes": [],
       "legendary": null
     }
@@ -546,8 +547,13 @@
   "authored": {
     "source": "generated-existing-traits",
     "family": "growth",
-    "name": "闪现打击·成长",
+    "name": "盾击·成长",
     "revision": 1,
     "minimumTier": 1
+  },
+  "growth": {
+    "skill": "shield_slam",
+    "stage": 3,
+    "kills": 40
   }
 }

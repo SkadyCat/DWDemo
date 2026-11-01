@@ -21,13 +21,25 @@ export function growthWeapon(bd) {
     slot: 'weapon', rarity: 'common', level: 1, tier: 1, tags: w.tags, skills: [bd.id], traits: [], legendary: w.legendary, bases: [w.base] };
 }
 
-/** Preset index rows (BD 面板说明). */
-export function growthIndexRow(bd) {
-  return { id: `growth_${bd.id}`, name: `${bd.name}·成长`, group: 'growth', groupName: '成长型 BD', grade: 1, gradeName: 'Ⅰ阶',
-    mechanism: bd.melee ? '近战成长' : '法术成长', description: `${bd.description} 阶段：${bd.stages.join('；')}。五件稀有装备 + 光环指环，仅使用现有词条。` };
+/** The three one-click stages of every growth build: same gear, different kill progress. */
+export const GROWTH_PRESET_STAGES = Object.freeze([
+  { stage: 1, gradeName: 'Ⅰ · 起势', at: () => 0, note: '从零开始成长，体验叠层与爆发' },
+  { stage: 2, gradeName: 'Ⅱ · 觉醒', at: t => t.awaken_at, note: '直接进入觉醒' },
+  { stage: 3, gradeName: 'Ⅲ · 极境', at: t => t.ultimate_at, note: '直接进入极境，全部效果解锁' },
+]);
+export const growthPresetId = (bd, stage) => `growth_${bd.id}_${stage}`;
+
+/** Preset index rows (BD 面板): one family per build, three stage rows. */
+export function growthIndexRows(bd) {
+  const params = growthTrait(bd).params;
+  return GROWTH_PRESET_STAGES.map(({ stage, gradeName, at, note }, i) => ({
+    id: growthPresetId(bd, stage), name: `${bd.name}·${gradeName.split(' · ')[1]}`, group: `growth_${bd.id}`, groupName: bd.name, grade: stage, gradeName,
+    mechanism: `${note}${at(params) ? `（本层已击杀 ${at(params)}）` : ''}`,
+    description: `${bd.description} ${i === 0 ? bd.stages.slice(0, 2).join('；') : bd.stages[i + 1]}。五件稀有装备 + 光环指环，仅使用现有词条。`,
+  }));
 }
 
-export function createGrowthPreset(bd, library, collections, deps) {
+export function createGrowthPreset(bd, library, collections, deps, stage = 1) {
   const { createTraitValueEntry, equipmentRandom, validateTraitValueEntry, minimumTierPreset, applyBuildPreset } = deps;
   const random = equipmentRandom(20261031 + bd.id.length);
   const entry = id => createTraitValueEntry(library, id, { tier: library.trait(id)?.source.params.size ? 10 : null, random });
@@ -53,7 +65,11 @@ export function createGrowthPreset(bd, library, collections, deps) {
   }
   const result = applyBuildPreset({ owned: { skill: {}, equipment: {}, item: {} }, instances: {}, loadout: {} }, preset, collections, library);
   if (result.error) throw new Error(`${bd.id}: ${result.error}`);
-  return minimumTierPreset(preset, library);
+  const out = minimumTierPreset(preset, library);
+  // Applying a later stage also sets this floor's kill progress (read by battle3d applyBd).
+  const step = GROWTH_PRESET_STAGES[(stage || 1) - 1];
+  out.growth = { skill: bd.id, stage: step.stage, kills: step.at(growthTrait(bd).params) };
+  return out;
 }
 
 /** Presentation table for the in-battle growth tracker (public/progression/growth.mjs). */
@@ -85,11 +101,11 @@ async function writePresets() {
   if (!check.ok) throw new Error(check.error);
   const deps = { ...engine, minimumTierPreset, applyBuildPreset };
   const indexFile = path.join(RULES, 'Presets/index.json');
-  const ids = new Set(GROWTH_BDS.map(bd => `growth_${bd.id}`));
-  const index = JSON.parse(fs.readFileSync(indexFile, 'utf8')).filter(row => row.group !== 'growth' && !ids.has(row.id));
+  const index = JSON.parse(fs.readFileSync(indexFile, 'utf8')).filter(row => !/^growth/.test(row.group || ''));
+  for (const file of fs.readdirSync(path.join(RULES, 'Presets'))) if (/^growth_.*\.json$/.test(file)) fs.rmSync(path.join(RULES, 'Presets', file));
   for (const bd of GROWTH_BDS) {
-    write('Presets', `growth_${bd.id}`, createGrowthPreset(bd, check.library, check.collections, deps));
-    index.push(growthIndexRow(bd));
+    for (const { stage } of GROWTH_PRESET_STAGES) write('Presets', growthPresetId(bd, stage), createGrowthPreset(bd, check.library, check.collections, deps, stage));
+    index.push(...growthIndexRows(bd));
   }
   fs.writeFileSync(indexFile, JSON.stringify(index, null, 2) + '\n');
 }

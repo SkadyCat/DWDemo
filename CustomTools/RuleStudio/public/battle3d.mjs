@@ -29,7 +29,7 @@ import { ensureChain, observeChain, chainRows, trackedQuest as chainTracked, cla
 import { tutorialView, skipTutorial, dismissTip } from '/progression/tutorial.mjs';
 import { feedback, banner, toast, setStreak, chime, configureChimes } from '/progression/feedback.mjs';
 import { JourneyXpBar, ChainTracker, CoachMark, FeedbackLayer, ChainJournal } from '/progression/hud.mjs';
-import { GrowthTracker, growthView } from '/progression/growth.mjs';
+import { GrowthTracker, growthView, applyGrowthStage } from '/progression/growth.mjs';
 import { onGameEvent } from '/progression/events.mjs';
 import { CraftBench } from '/progression/craft-bench.mjs';
 import { BattleCharacterPanel } from '/battle-character-panel.mjs';
@@ -436,7 +436,7 @@ const TEMPLATE = /* html */ `
         <label>音效<input type="range" min="0" max="1" step="0.01" v-model.number="audioSettings.volume" @input="configureAudio" aria-label="战斗音效音量"></label><output>{{ Math.round(audioSettings.volume * 100) }}%</output>
       </div>
     </div>
-    <BattleFunctions :hidden="playMode ? ['trait-equipment', 'bd', 'shop'] : []" :ready="ready" :map-ready="!!hud.map" :active="activeHUDFunction" :hunter-active="hunter.enabled && (hunter.targets.length > 0 || hunter.currencies.length > 0)" @release="releaseBattleInput" @activate="openHUDFunction" />
+    <BattleFunctions :hidden="playMode ? ['trait-equipment', 'shop'] : []" :ready="ready" :map-ready="!!hud.map" :active="activeHUDFunction" :hunter-active="hunter.enabled && (hunter.targets.length > 0 || hunter.currencies.length > 0)" @release="releaseBattleInput" @activate="openHUDFunction" />
     <BattleMapEvents ref="mapEventUI" :run-key="eventRunKey" :tier="hud.map?.tier || 1" :menu="eventMenuOpen" @menu-close="eventMenuOpen=false" @open="openMapEvent" @close="closeMapEvent" @changed="mapEventChanged" @status="mapEventStatus" />
     <BattleMapEventTag v-for="event in mapEventTags" :key="event.id" :info="event" @activate="activateMapStation" @release="releaseBattleInput" />
       <section v-if="bdExpanded" class="b3-bd-panel b3-card" :class="{expanded: bdExpanded}" aria-label="可用 BD" @pointerenter="releaseBattleInput" @pointerdown.stop @pointermove.stop @wheel.stop @keydown.stop>
@@ -860,6 +860,7 @@ export function mountBattle(el, { input = null, rendering = {}, initialPaused = 
       }
       const floorMap = ref(null);
       const bdEntries = ref([]), bdLoading = ref(false), bdError = ref(''), openedBd = ref('');
+      const appliedBdId = ref(''); // growth stages share gear; remember which stage was applied
       const bdExpanded = ref(false);
       const selectedBdFamilyId = ref('');
       const opts = reactive({ god: false, autoCast: false, monsterType: 'all', monsterCount: 20, floor: 1, timeLimitEnabled: false });
@@ -899,7 +900,7 @@ export function mountBattle(el, { input = null, rendering = {}, initialPaused = 
             name: entry.loadout.instances?.[id] ? `T${entry.loadout.instances[id].tier} · ${entry.loadout.instances[id].name}` : docOf('equipment', id)?.name || id,
             owned: ownsEquipment(id), equipped: ownsEquipment(id) && player.loadout.equipment[slot] === id,
           }));
-          const equipped = equipment.every(eq => eq.equipped) && player.loadout.skills.includes(skill);
+          const equipped = equipment.every(eq => eq.equipped) && player.loadout.skills.includes(skill) && (!entry.loadout.growth || appliedBdId.value === entry.id);
           return { ...entry, skillName: lib()?.buildDisplayName(skill) || skill, equipment, equipped };
         });
       });
@@ -933,7 +934,10 @@ export function mountBattle(el, { input = null, rendering = {}, initialPaused = 
         resetDps();
         if (bd.loadout.provenance && player.progression) player.progression.preview = bd.name;
         if (tower) { tower.setLoadout(ownedLoadout()); selectSkill(result.selected); syncHud(); }
-        notify(`已应用「${bd.name}」BD`);
+        // Growth builds: a later stage starts this floor with its kill progress already reached.
+        if (bd.loadout.growth?.kills > 0) applyGrowthStage(battle, bd.loadout.growth);
+        appliedBdId.value = bd.id;
+        notify(`已应用「${bd.name}」BD${bd.gradeName ? ` · ${bd.gradeName}` : ''}`);
       }
       const rawBagEntries = computed(() => { store.version; return inventoryEntries(player, store.collections); });
       const mapDeviceItems = computed(() => rawBagEntries.value.map(item=>({...item,tier:item.tier || store.collections.item?.get(item.id)?.doc?.tier || 0,iconSrc:iconSrc(item.kind,item)})));

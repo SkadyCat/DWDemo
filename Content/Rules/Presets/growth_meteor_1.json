@@ -1,36 +1,36 @@
 {
   "skills": [
-    "blade_dance",
+    "meteor",
     null,
     null,
     null
   ],
   "equipment": {
-    "weapon": "growth_blade_dance_weapon_bdt1",
-    "helmet": "growth_blade_dance_helmet_bdt1",
-    "chest": "growth_blade_dance_chest_bdt1",
-    "gloves": "growth_blade_dance_gloves_bdt1",
-    "boots": "growth_blade_dance_boots_bdt1",
-    "ring": "growth_blade_dance_ring_bdt1"
+    "weapon": "growth_meteor_weapon_bdt1",
+    "helmet": "growth_meteor_helmet_bdt1",
+    "chest": "growth_meteor_chest_bdt1",
+    "gloves": "growth_meteor_gloves_bdt1",
+    "boots": "growth_meteor_boots_bdt1",
+    "ring": "growth_meteor_ring_bdt1"
   },
   "instances": {
-    "growth_blade_dance_weapon_bdt1": {
-      "uid": "growth_blade_dance_weapon_bdt1",
-      "baseId": "twin_moon_blades",
-      "name": "刃舞·双月刃",
+    "growth_meteor_weapon_bdt1": {
+      "uid": "growth_meteor_weapon_bdt1",
+      "baseId": "starfall_staff",
+      "name": "天火陨星·陨星法杖",
       "slot": "weapon",
       "level": 1,
       "rarity": "rare",
       "tier": 1,
-      "skill": "blade_dance",
+      "skill": "meteor",
       "affixes": [
         {
-          "id": "flat_physical",
-          "name": "基础物理伤害 +n",
+          "id": "flat_fire",
+          "name": "基础火焰伤害 +n",
           "tier": 1,
           "traits": [
             {
-              "id": "flat_physical",
+              "id": "flat_fire",
               "params": {
                 "n": 4
               },
@@ -40,12 +40,12 @@
           ]
         },
         {
-          "id": "inc_physical",
-          "name": "物理伤害 +n%",
+          "id": "inc_fire",
+          "name": "火焰伤害 +n%",
           "tier": 1,
           "traits": [
             {
-              "id": "inc_physical",
+              "id": "inc_fire",
               "params": {
                 "n": 14
               },
@@ -55,29 +55,29 @@
           ]
         },
         {
-          "id": "proj_more",
-          "name": "投射物伤害额外提高 n%",
+          "id": "more_fire",
+          "name": "火焰伤害额外提高 n%",
           "tier": 1,
           "traits": [
             {
-              "id": "proj_more",
+              "id": "more_fire",
+              "params": {
+                "n": 5
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "area_more",
+          "name": "范围伤害额外提高 n%",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "area_more",
               "params": {
                 "n": 9
-              },
-              "with": [],
-              "tier": 1
-            }
-          ]
-        },
-        {
-          "id": "proj_damage",
-          "name": "投射物伤害 +n%",
-          "tier": 1,
-          "traits": [
-            {
-              "id": "proj_damage",
-              "params": {
-                "n": 14
               },
               "with": [],
               "tier": 1
@@ -100,14 +100,14 @@
           ]
         },
         {
-          "id": "leech_life_physical",
-          "name": "物理伤害的n%偷取为气血",
+          "id": "ignite_chance",
+          "name": "命中时，点燃概率 +n个百分点",
           "tier": 1,
           "traits": [
             {
-              "id": "leech_life_physical",
+              "id": "ignite_chance",
               "params": {
-                "n": 1
+                "n": 11
               },
               "with": [],
               "tier": 1
@@ -117,10 +117,10 @@
       ],
       "legendary": null
     },
-    "growth_blade_dance_helmet_bdt1": {
-      "uid": "growth_blade_dance_helmet_bdt1",
+    "growth_meteor_helmet_bdt1": {
+      "uid": "growth_meteor_helmet_bdt1",
       "baseId": "cinder_guard_helmet",
-      "name": "刃舞·战盔",
+      "name": "天火陨星·战盔",
       "slot": "helmet",
       "level": 30,
       "rarity": "rare",
@@ -143,14 +143,14 @@
           ]
         },
         {
-          "id": "evasion",
-          "name": "基础闪避 +n点",
+          "id": "shield_base",
+          "name": "基础护盾 +n点",
           "tier": 1,
           "traits": [
             {
-              "id": "evasion",
+              "id": "shield_base",
               "params": {
-                "n": 115
+                "n": 34
               },
               "with": [],
               "tier": 1
@@ -158,14 +158,14 @@
           ]
         },
         {
-          "id": "proj_damage",
-          "name": "投射物伤害 +n%",
+          "id": "area_size",
+          "name": "范围面积 +n%",
           "tier": 1,
           "traits": [
             {
-              "id": "proj_damage",
+              "id": "area_size",
               "params": {
-                "n": 14
+                "n": 17
               },
               "with": [],
               "tier": 1
@@ -173,12 +173,12 @@
           ]
         },
         {
-          "id": "inc_physical",
-          "name": "物理伤害 +n%",
+          "id": "inc_fire",
+          "name": "火焰伤害 +n%",
           "tier": 1,
           "traits": [
             {
-              "id": "inc_physical",
+              "id": "inc_fire",
               "params": {
                 "n": 14
               },
@@ -220,10 +220,10 @@
       ],
       "legendary": null
     },
-    "growth_blade_dance_chest_bdt1": {
-      "uid": "growth_blade_dance_chest_bdt1",
+    "growth_meteor_chest_bdt1": {
+      "uid": "growth_meteor_chest_bdt1",
       "baseId": "cinder_guard_chest",
-      "name": "刃舞·胸甲",
+      "name": "天火陨星·胸甲",
       "slot": "chest",
       "level": 30,
       "rarity": "rare",
@@ -261,14 +261,14 @@
           ]
         },
         {
-          "id": "evasion",
-          "name": "基础闪避 +n点",
+          "id": "shield_base",
+          "name": "基础护盾 +n点",
           "tier": 1,
           "traits": [
             {
-              "id": "evasion",
+              "id": "shield_base",
               "params": {
-                "n": 115
+                "n": 34
               },
               "with": [],
               "tier": 1
@@ -276,29 +276,14 @@
           ]
         },
         {
-          "id": "evasion_increased",
-          "name": "闪避值 +n%",
+          "id": "shield_increased",
+          "name": "护盾上限 +n%",
           "tier": 1,
           "traits": [
             {
-              "id": "evasion_increased",
+              "id": "shield_increased",
               "params": {
                 "n": 17
-              },
-              "with": [],
-              "tier": 1
-            }
-          ]
-        },
-        {
-          "id": "leech_life_all",
-          "name": "伤害的n%偷取为气血",
-          "tier": 1,
-          "traits": [
-            {
-              "id": "leech_life_all",
-              "params": {
-                "n": 1
               },
               "with": [],
               "tier": 1
@@ -319,14 +304,29 @@
               "tier": 1
             }
           ]
+        },
+        {
+          "id": "fire_resistance",
+          "name": "火焰抗性",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "fire_resistance",
+              "params": {
+                "resistance": 14
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
         }
       ],
       "legendary": null
     },
-    "growth_blade_dance_gloves_bdt1": {
-      "uid": "growth_blade_dance_gloves_bdt1",
+    "growth_meteor_gloves_bdt1": {
+      "uid": "growth_meteor_gloves_bdt1",
       "baseId": "bloodthirst_gauntlets",
-      "name": "刃舞·护手",
+      "name": "天火陨星·护手",
       "slot": "gloves",
       "level": 20,
       "rarity": "rare",
@@ -334,14 +334,44 @@
       "skill": "",
       "affixes": [
         {
-          "id": "flat_physical",
-          "name": "基础物理伤害 +n",
+          "id": "flat_fire",
+          "name": "基础火焰伤害 +n",
           "tier": 1,
           "traits": [
             {
-              "id": "flat_physical",
+              "id": "flat_fire",
               "params": {
                 "n": 4
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "ignite_damage",
+          "name": "点燃伤害 +n%",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "ignite_damage",
+              "params": {
+                "n": 17
+              },
+              "with": [],
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "id": "area_damage",
+          "name": "范围伤害 +n%",
+          "tier": 1,
+          "traits": [
+            {
+              "id": "area_damage",
+              "params": {
+                "n": 14
               },
               "with": [],
               "tier": 1
@@ -364,36 +394,6 @@
           ]
         },
         {
-          "id": "more_physical",
-          "name": "物理伤害额外提高 n%",
-          "tier": 1,
-          "traits": [
-            {
-              "id": "more_physical",
-              "params": {
-                "n": 5
-              },
-              "with": [],
-              "tier": 1
-            }
-          ]
-        },
-        {
-          "id": "proj_crit",
-          "name": "投射物暴击率 +n%",
-          "tier": 1,
-          "traits": [
-            {
-              "id": "proj_crit",
-              "params": {
-                "n": 28
-              },
-              "with": [],
-              "tier": 1
-            }
-          ]
-        },
-        {
           "id": "life_on_kill",
           "name": "击败敌人时恢复气血 +n点",
           "tier": 1,
@@ -409,14 +409,14 @@
           ]
         },
         {
-          "id": "evasion",
-          "name": "基础闪避 +n点",
+          "id": "shield_base",
+          "name": "基础护盾 +n点",
           "tier": 1,
           "traits": [
             {
-              "id": "evasion",
+              "id": "shield_base",
               "params": {
-                "n": 115
+                "n": 34
               },
               "with": [],
               "tier": 1
@@ -426,10 +426,10 @@
       ],
       "legendary": null
     },
-    "growth_blade_dance_boots_bdt1": {
-      "uid": "growth_blade_dance_boots_bdt1",
+    "growth_meteor_boots_bdt1": {
+      "uid": "growth_meteor_boots_bdt1",
       "baseId": "warden_boots",
-      "name": "刃舞·战靴",
+      "name": "天火陨星·战靴",
       "slot": "boots",
       "level": 3,
       "rarity": "rare",
@@ -467,14 +467,14 @@
           ]
         },
         {
-          "id": "evasion",
-          "name": "基础闪避 +n点",
+          "id": "shield_base",
+          "name": "基础护盾 +n点",
           "tier": 1,
           "traits": [
             {
-              "id": "evasion",
+              "id": "shield_base",
               "params": {
-                "n": 115
+                "n": 34
               },
               "with": [],
               "tier": 1
@@ -497,14 +497,14 @@
           ]
         },
         {
-          "id": "inc_physical",
-          "name": "物理伤害 +n%",
+          "id": "inc_elemental",
+          "name": "元素伤害 +n%",
           "tier": 1,
           "traits": [
             {
-              "id": "inc_physical",
+              "id": "inc_elemental",
               "params": {
-                "n": 14
+                "n": 11
               },
               "with": [],
               "tier": 1
@@ -512,14 +512,14 @@
           ]
         },
         {
-          "id": "evade_chance",
-          "name": "攻击闪避率 +n个百分点",
+          "id": "ignite_duration",
+          "name": "点燃持续时间 +n%",
           "tier": 1,
           "traits": [
             {
-              "id": "evade_chance",
+              "id": "ignite_duration",
               "params": {
-                "n": 5
+                "n": 17
               },
               "with": [],
               "tier": 1
@@ -529,15 +529,15 @@
       ],
       "legendary": null
     },
-    "growth_blade_dance_ring_bdt1": {
-      "uid": "growth_blade_dance_ring_bdt1",
-      "baseId": "aura_evasion_ring",
-      "name": "刃舞·光环指环",
+    "growth_meteor_ring_bdt1": {
+      "uid": "growth_meteor_ring_bdt1",
+      "baseId": "aura_fire_ring",
+      "name": "天火陨星·光环指环",
       "slot": "ring",
       "level": 1,
       "rarity": "common",
       "tier": 1,
-      "skill": "aura_evasion",
+      "skill": "aura_fire",
       "affixes": [],
       "legendary": null
     }
@@ -546,8 +546,13 @@
   "authored": {
     "source": "generated-existing-traits",
     "family": "growth",
-    "name": "刃舞·成长",
+    "name": "天火陨星·成长",
     "revision": 1,
     "minimumTier": 1
+  },
+  "growth": {
+    "skill": "meteor",
+    "stage": 1,
+    "kills": 0
   }
 }

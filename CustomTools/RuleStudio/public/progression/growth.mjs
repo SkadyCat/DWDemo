@@ -40,6 +40,18 @@ export function growthView(battle) {
   };
 }
 
+/** BD 面板「一键应用」阶段：把本层击杀进度直接设为该阶段（与正常击杀走同一状态与增益）。 */
+export function applyGrowthStage(battle, growth) {
+  const row = GROWTH_STAGES[growth?.skill];
+  if (!row || !battle?.host || !battle.hero) return false;
+  const world = battle.host.world, owner = battle.hero.owner, target = battle.heroTargetId;
+  const kills = Math.max(0, Math.min(row.cap, growth.kills | 0));
+  world.ownerState.set(`affix:${row.trait}:growth|o${owner}`.toLowerCase(), kills);
+  const key = `status:${growth.skill}_growth`;
+  for (let i = 0; i < kills; i++) world.applyStatusKey(target, key, 1, 900, owner);
+  return true;
+}
+
 export const GrowthTracker = {
   props: ['view'],
   setup(props) {
