@@ -679,3 +679,51 @@ select { font: inherit; color: var(--txt); background: var(--deep); border: 1px 
 .cur-peek b { font: 400 15px var(--title); letter-spacing: .1em; color: var(--r-currency); } .cur-peek small { float: right; font: 11px var(--num); color: var(--mute); margin-top: 3px; }
 .cur-peek p { margin-top: 4px; font-size: 12.5px; line-height: 1.5; color: #dcdde3; }
 .cur-peek em { display: block; margin-top: 4px; font-style: normal; font-size: 11.5px; color: var(--jade); }
+
+/* ---------- main quest: tracker, story cards, quest log, atlas marks ---------- */
+.qtrack { position: absolute; left: 24px; bottom: 28px; z-index: 14; width: 300px; padding: 12px 14px 10px; cursor: pointer;
+  background: linear-gradient(90deg, rgba(8, 12, 28, .88), rgba(8, 12, 28, .55) 80%, transparent); border-left: 2px solid var(--gold); transition: background .2s; }
+.qtrack:hover { background: linear-gradient(90deg, rgba(20, 26, 50, .95), rgba(8, 12, 28, .6) 80%, transparent); }
+.qtrack.inrun { top: 116px; bottom: auto; width: 290px; }
+.qtrack header small { display: block; font-size: 11px; color: var(--mute); letter-spacing: .08em; }
+.qtrack header b { font: 400 19px var(--title); letter-spacing: .16em; color: var(--gold-hi); }
+.qtrack ul { margin-top: 6px; display: flex; flex-direction: column; gap: 3px; }
+.qtrack li, .ql-steps li { display: grid; grid-template-columns: 12px 1fr auto; gap: 7px; align-items: baseline; font-size: 12.5px; color: #e2e2ea; }
+.qtrack li i, .ql-steps li i { width: 8px; height: 8px; transform: rotate(45deg) translateY(-1px); border: 1px solid var(--gold); }
+.qtrack li em, .ql-steps li em { font: 11.5px var(--num); font-style: normal; color: var(--gold-hi); }
+.qtrack li.done, .ql-steps li.done { color: var(--mute); text-decoration: line-through; text-decoration-color: rgba(200, 190, 160, .4); }
+.qtrack li.done i, .ql-steps li.done i { background: var(--jade); border-color: var(--jade); }
+.qready { margin-top: 6px; font-size: 12.5px; color: var(--jade); animation: portal-pulse 1.4s ease-in-out infinite alternate; }
+.toasts.camp { bottom: 40px; }
+.toasts p.quest { color: var(--gold-hi); box-shadow: inset 0 0 0 1px var(--gold); background: linear-gradient(90deg, rgba(60, 44, 12, .95), rgba(8, 12, 28, .92)); }
+.toasts p.quest.big { font-size: 15px; padding: 7px 16px 7px 8px; }
+.story { position: fixed; inset: 0; z-index: 70; display: grid; place-items: center; background: radial-gradient(ellipse at 50% 40%, rgba(10, 16, 36, .7), rgba(2, 3, 8, .92)); animation: story-fade .5s ease-out; }
+@keyframes story-fade { from { opacity: 0; } }
+.story-card { width: min(620px, calc(100vw - 40px)); max-height: calc(100vh - 60px); overflow-y: auto; padding: 34px 40px 30px; text-align: center; }
+.story-ch { display: block; font-size: 12px; letter-spacing: .2em; color: var(--mute); }
+.story-card h2 { margin: 6px 0 18px; font: 400 38px var(--title); letter-spacing: .4em; color: var(--gold-hi); text-shadow: 0 0 22px rgba(251, 231, 176, .35); }
+.story-text { text-align: left; }
+.story-text p { margin-bottom: 12px; font-size: 15px; line-height: 1.9; color: #e4e2da; text-indent: 2em; animation: story-in .9s ease-out both; }
+@keyframes story-in { from { opacity: 0; transform: translateY(8px); } }
+.story-text p:nth-child(2) { animation-delay: .35s; } .story-text p:nth-child(3) { animation-delay: .7s; } .story-text p:nth-child(4) { animation-delay: 1.05s; } .story-text p:nth-child(5) { animation-delay: 1.4s; }
+.story-goals { text-align: left; margin: 0 0 20px; display: flex; flex-direction: column; gap: 4px; }
+.story-goals li { font-size: 13px; color: #cfd2da; padding-left: 16px; position: relative; }
+.story-goals li::before { content: "◇"; position: absolute; left: 0; color: var(--gold); }
+.story-reward { margin-bottom: 20px; font-size: 13.5px; color: var(--r-currency); line-height: 1.8; }
+.story-card .sub { text-align: left; }
+.questlog { display: grid; grid-template-columns: 190px 1fr; gap: 20px; min-height: 0; }
+.ql-list { display: flex; flex-direction: column; gap: 6px; }
+.ql-list button { width: 100%; display: grid; grid-template-columns: 1fr auto; text-align: left; padding: 8px 12px; border-radius: 3px; background: var(--inset); box-shadow: inset 0 0 0 1px var(--line); }
+.ql-list button small { grid-column: 1 / 3; font-size: 11px; color: var(--mute); }
+.ql-list button b { font: 400 16px var(--title); letter-spacing: .1em; color: var(--txt); } .ql-list button em { font: 11px var(--num); font-style: normal; color: var(--mute); align-self: center; }
+.ql-list button.done b { color: var(--mute); } .ql-list button.now { box-shadow: inset 0 0 0 1px var(--gold); } .ql-list button.now b { color: var(--gold-hi); }
+.ql-list button.on { background: rgba(60, 46, 18, .5); box-shadow: inset 0 0 0 1px var(--gold-hi); }
+.ql-list button.locked { opacity: .45; cursor: default; }
+.ql-body { min-width: 0; overflow-y: auto; padding-right: 6px; }
+.ql-body h3 { margin: 4px 0 14px; font: 400 30px var(--title); letter-spacing: .3em; color: var(--gold-hi); }
+.ql-steps { display: flex; flex-direction: column; gap: 5px; margin-bottom: 12px; }
+.ql-steps li { font-size: 13.5px; }
+.ql-end { grid-column: 1 / 3; color: var(--jade); text-align: center; }
+.atlas .node .qmark circle { fill: #e9b84a; stroke: #fff3cf; stroke-width: 1.2; }
+.atlas .node .qmark text { font: 700 11px var(--num); fill: #2a1a06; text-anchor: middle; }
+.atlas .node.quest .halo { stroke: #e9b84a; stroke-opacity: .7; }

@@ -15,6 +15,7 @@ import { equippedTraits, ladderStatus, detectArchetype } from './traits.mjs';
 import { MapRun } from './run.mjs';
 import { TalentBoard } from './talents-panel.mjs';
 import { switchAccount } from './accounts.mjs';
+import { CHAPTERS, newQuestState, questView, questEvent, questTick, claimChapter } from './quests.mjs';
 import { talentPoints } from '../../core/content/talents.mjs';
 import { Scene3D, Overlay } from './scene.mjs';
 import { dungeonRandom } from './dungeon.mjs';
@@ -30,7 +31,7 @@ const EL_CLASS = { physical: 'phys', fire: 'fire', cold: 'cold', lightning: 'lig
 const SLOT_GLYPH = { weapon: '兵', offhand: '副', helmet: '盔', chest: '甲', gloves: '手', boots: '靴', belt: '带', amulet: '坠', ring1: '戒', ring2: '戒' };
 const PANELS = [
   { id: 'atlas', name: '地图', key: 'M' }, { id: 'talents', name: '天赋', key: 'P' }, { id: 'char', name: '角色', key: 'C' }, { id: 'bag', name: '背包', key: 'I' },
-  { id: 'craft', name: '洗炼', key: 'K' }, { id: 'bd', name: '流派', key: 'B' }, { id: 'codex', name: '传奇', key: 'L' },
+  { id: 'quest', name: '任务', key: 'J' }, { id: 'craft', name: '洗炼', key: 'K' }, { id: 'bd', name: '流派', key: 'B' }, { id: 'codex', name: '传奇', key: 'L' },
 ];
 const TIER_ROMAN = ['', 'Ⅰ', 'Ⅱ', 'Ⅲ', 'Ⅳ', 'Ⅴ', 'Ⅵ', 'Ⅶ', 'Ⅷ', 'Ⅸ', 'Ⅹ', 'Ⅺ', 'Ⅻ', 'XIII', 'XIV', 'XV', 'XVI'];
 
@@ -275,7 +276,6 @@ const TEMPLATE = /* html */ `
     </section>
     <section class="er-right"><b>{{ hud.kills }}</b><small>/ {{ hud.total }} 击杀</small><small class="er-hint">点掉落名拾取 · 按住 Alt 显示全部</small></section>
 
-    <div class="toasts"><p v-for="t in toasts" :key="t.id" :class="t.cls"><Gi v-if="t.icon" :n="t.icon" :c="t.ic || ''"/>{{ t.text }}</p></div>
     <div class="legend-drop" v-if="legendBanner" :key="legendBanner.id"><small>传奇掉落</small><b>{{ legendBanner.name }}</b></div>
 
     <section class="cleared-banner" v-if="run.phase === 'cleared' && clearedBanner" :key="'cb' + run.clearedAt">
@@ -318,6 +318,32 @@ const TEMPLATE = /* html */ `
     </main>
   </template>
 
+  <div class="toasts" :class="{ camp: !run }"><p v-for="t in toasts" :key="t.id" :class="t.cls"><Gi v-if="t.icon" :n="t.icon" :c="t.ic || ''"/>{{ t.text }}</p></div>
+
+  <!-- =================== QUEST TRACKER + STORY =================== -->
+  <aside class="qtrack" v-if="quest && !atlasOpen && !talentOpen && !open.char && !center" :class="{ inrun: !!run }" @click="openCenter('quest')" title="打开任务（J）">
+    <header><small>第 {{ chapterNo(quest.index) }} 章 · {{ quest.chapter.sub }}</small><b>{{ quest.chapter.title }}</b></header>
+    <ul><li v-for="(st, i) in quest.steps" :key="i" :class="{ done: st.done }"><i></i><span>{{ st.text }}</span><em v-if="st.need > 1 && !st.done && st.goal.type !== 'tier'">{{ fmtN(st.have) }}/{{ fmtN(st.need) }}</em></li></ul>
+    <p v-if="quest.complete" class="qready">本章完成 · 点这里领取奖励</p>
+  </aside>
+  <div class="story" v-if="story" @click.self="null">
+    <section class="story-card panel">
+      <small class="story-ch">第 {{ chapterNo(story.index) }} 章 · {{ chapters[story.index].sub }} · {{ chapters[story.index].tiers }}</small>
+      <h2>{{ chapters[story.index].title }}</h2>
+      <div class="story-text"><p v-for="(t, i) in story.mode === 'intro' ? chapters[story.index].intro : chapters[story.index].outro" :key="i">{{ t }}</p></div>
+      <template v-if="story.mode === 'intro'">
+        <h4 class="sub">本章目标</h4>
+        <ul class="story-goals"><li v-for="(st, i) in chapters[story.index].steps" :key="i">{{ st.text }}</li></ul>
+        <button class="orn-btn primary big" @click="closeStory">启 程</button>
+      </template>
+      <template v-else>
+        <h4 class="sub">奖励</h4>
+        <p class="story-reward">{{ rewardText(chapters[story.index].reward) }}</p>
+        <button class="orn-btn primary big" @click="claimStory">{{ story.index + 1 < chapters.length ? '领取奖励 · 继续' : '领取奖励' }}</button>
+      </template>
+    </section>
+  </div>
+
   <!-- =================== TALENTS (rail · P) =================== -->
   <talent-board v-if="talentOpen" :save="save" :points="talentPts" @changed="gearChanged" @close="toggle('talents')"></talent-board>
 
@@ -342,8 +368,9 @@ const TEMPLATE = /* html */ `
         <text v-for="r in atlasRegions" :key="'n' + r.id" class="region-name" :x="r.lx" :y="r.ly" :fill="r.hue">{{ r.name }}</text>
         <g class="roads"><line v-for="e in atlasRoads" :key="e.k" :class="e.cls" :x1="e.x1" :y1="e.y1" :x2="e.x2" :y2="e.y2"/></g>
         <g v-for="n in atlasLandmarks" :key="'l' + n.id" class="landmark" :transform="'translate(' + n.x + ' ' + n.y + ')'"><image :href="kindIconUrl('boss', '#7a6a8a')" x="-14" y="-14" width="28" height="28"/></g>
-        <g v-for="n in atlasShown" :key="n.id" class="node" :class="['st-' + n.st, 'k-' + n.kind, { sel: n.id === atlasSel, here: n.id === save.atlas.at }]" :style="{ '--hue': n.hue }" :transform="'translate(' + n.x + ' ' + n.y + ')'" @click="selectNode(n.id)">
+        <g v-for="n in atlasShown" :key="n.id" class="node" :class="['st-' + n.st, 'k-' + n.kind, { sel: n.id === atlasSel, here: n.id === save.atlas.at, quest: n.quest }]" :style="{ '--hue': n.hue }" :transform="'translate(' + n.x + ' ' + n.y + ')'" @click="selectNode(n.id)">
           <circle class="halo" :r="n.kind === 'boss' ? 30 : 22"/>
+          <g v-if="n.quest" class="qmark" :transform="'translate(' + (n.kind === 'boss' ? 20 : 15) + ' ' + (n.kind === 'boss' ? -22 : -17) + ')'"><circle r="8"/><text dy=".36em">!</text></g>
           <circle class="ring" :r="n.kind === 'boss' ? 19 : n.kind === 'normal' ? 12 : 15"/>
           <image v-if="n.kind !== 'normal'" :href="kindIconUrl(n.kind, n.st === 'done' ? '#2a1a06' : '#fbe7b0')" :x="n.kind === 'boss' ? -12 : -9" :y="n.kind === 'boss' ? -12 : -9" :width="n.kind === 'boss' ? 24 : 18" :height="n.kind === 'boss' ? 24 : 18"/>
           <text v-else class="tier" dy=".35em">{{ n.st === 'seen' ? '?' : n.tier }}</text>
@@ -535,6 +562,27 @@ const TEMPLATE = /* html */ `
         </div>
       </div>
 
+      <div v-if="center === 'quest'" class="questlog">
+        <ol class="ql-list">
+          <li v-for="(c, i) in chapters" :key="c.id"><button :class="{ on: questSel === i, done: questIndex > i, now: questIndex === i, locked: questIndex < i }" :disabled="questIndex < i" @click="questSel = i">
+            <small>第 {{ chapterNo(i) }} 章</small><b>{{ questIndex < i ? '？？？' : c.title }}</b><em>{{ c.tiers }}</em></button></li>
+        </ol>
+        <article class="ql-body" v-if="chapters[questSel]">
+          <small class="story-ch">第 {{ chapterNo(questSel) }} 章 · {{ chapters[questSel].sub }} · {{ chapters[questSel].tiers }}</small>
+          <h3>{{ chapters[questSel].title }}</h3>
+          <div class="story-text"><p v-for="(t, i) in chapters[questSel].intro" :key="i">{{ t }}</p></div>
+          <h4 class="sub">目标</h4>
+          <ul class="ql-steps">
+            <li v-for="(st, i) in (questSel === questIndex && quest ? quest.steps : chapters[questSel].steps)" :key="i" :class="{ done: questSel < questIndex || st.done }">
+              <i></i><span>{{ st.text }}</span><em v-if="questSel === questIndex && st.need > 1 && st.goal.type !== 'tier'">{{ fmtN(st.have) }}/{{ fmtN(st.need) }}</em></li>
+          </ul>
+          <h4 class="sub">奖励</h4><p class="story-reward">{{ rewardText(chapters[questSel].reward) }}</p>
+          <template v-if="questSel < questIndex"><h4 class="sub">后来</h4><div class="story-text"><p v-for="(t, i) in chapters[questSel].outro" :key="i">{{ t }}</p></div></template>
+          <button v-if="questSel === questIndex && quest?.complete" class="orn-btn primary" @click="story = { mode: 'outro', index: questIndex }">领取本章奖励</button>
+        </article>
+        <p v-if="!quest" class="ql-end">星烬纪已经完结。图集还在，继续往外走吧。</p>
+      </div>
+
       <div v-if="center === 'codex'" class="codex">
         <p class="hint">{{ legendaries.length }} 件传奇，每件一条改写玩法的传奇特性；基底其余特性和随机词条照常随机。首领约三分之一几率掉落，精英偶尔掉落。「试玩」直接放一件进背包。</p>
         <div class="codex-grid">
@@ -561,7 +609,41 @@ export function mountGame(el) {
     template: TEMPLATE,
     setup() {
       const save = reactive(loadSave());
-      const persist = () => writeSave(save);
+      if (!save.quests) save.quests = newQuestState();
+      const questKey = ref(0);
+      const quest = computed(() => { void questKey.value; void gearKey.value; return questView(save); });
+      const questIndex = computed(() => { void questKey.value; return save.quests.chapter; });
+      const questSel = ref(Math.min(save.quests.chapter, CHAPTERS.length - 1));
+      const story = ref(null), pendingOutro = ref(false);
+      const CN = ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十'];
+      const chapterNo = i => CN[i] ?? i + 1;
+      const fmtN = n => n >= 1000 ? (n / 1000).toFixed(n % 1000 ? 1 : 0) + 'k' : n;
+      const rewardText = r => [...Object.entries(r.currencies ?? {}).map(([id, n]) => `${CURRENCIES[id].name} ×${n}`), ...(r.waystones ?? []).map(([t, rar]) => `${{ normal: '普通', magic: '魔法', rare: '稀有' }[rar]}路石 T${t}`)].join('　');
+      // Quest notices: a toast per finished step; a finished chapter opens its ending (once the fight is over).
+      function questNotes(list) {
+        if (!list?.length) return;
+        questKey.value++;
+        for (const n of list) {
+          if (n.type === 'step') toast(`任务完成 · ${n.text}`, 'quest', 'scroll-unfurled', 'el-gold');
+          else { toast(`第 ${chapterNo(n.index)} 章「${CHAPTERS[n.index].title}」完成`, 'quest big', 'laurel-crown', 'el-gold'); pendingOutro.value = true; }
+        }
+        showPendingStory();
+      }
+      function showPendingStory() {
+        if (story.value || (run.value && run.value.phase === 'running')) return;
+        const q = save.quests;
+        if (pendingOutro.value && questView(save)?.complete) { story.value = { mode: 'outro', index: q.chapter }; pendingOutro.value = false; }
+        else if (q.chapter < CHAPTERS.length && q.introSeen < q.chapter) story.value = { mode: 'intro', index: q.chapter };
+      }
+      function closeStory() { if (story.value?.mode === 'intro') save.quests.introSeen = story.value.index; story.value = null; writeSave(save); questKey.value++; }
+      function claimStory() {
+        const got = claimChapter(save, rng); story.value = null; questKey.value++;
+        if (got) { toast(`得到 ${Object.entries(got.currencies).map(([id, n]) => CURRENCIES[id].name + '×' + n).join('、')}，${got.waystones.length} 块路石`, 'quest', 'locked-chest', 'el-gold'); questSel.value = Math.min(save.quests.chapter, CHAPTERS.length - 1); }
+        writeSave(save); nextTick(showPendingStory);
+      }
+      const persist = () => { writeSave(save); const n = questTick(save); if (n.length) { questNotes(n); writeSave(save); } };
+      const questFire = ev => { questNotes(questEvent(save, ev)); writeSave(save); };
+      onMounted(() => setTimeout(showPendingStory, 400));
       const stage = ref(null), overlay = ref(null), tipEl = ref(null), comboEl = ref(null), flashEl = ref(null);
       const open = reactive({ char: false, bag: false }), center = ref(null);
       const mapTier = ref(Math.min(save.unlocked, MAP_TIERS)), mapFamily = ref('ruin');
@@ -619,8 +701,16 @@ export function mountGame(el) {
         if (!atlasOpen.value) toggle('atlas');
       }
       const selMods = computed(() => { const n = atlas.nodes[atlasSel.value]; return nodeMods({ kind: n.kind, mods: [...n.mods, ...(stone.value?.mods ?? [])] }); });
+      // Atlas nodes that move an unfinished "clear" goal of the current chapter forward get a quest mark.
+      const questNodes = computed(() => {
+        const v = quest.value, out = new Set(); if (!v) return out;
+        const goals = v.steps.filter(st => !st.done && st.goal.type === 'clear' && (st.goal.family || st.goal.kind || st.goal.minTier)).map(st => st.goal);
+        for (const n of atlas.nodes) { const st = view.value.status(n.id); if (st !== 'open' && st !== 'done') continue;
+          if (goals.some(g => (!g.family || g.family === n.family) && (!g.kind || g.kind === n.kind) && (!g.minTier || n.tier >= g.minTier))) out.add(n.id); }
+        return out;
+      });
       const atlasShown = computed(() => atlas.nodes.map(decorate).filter(n => n.st !== 'hidden')
-        .map(n => ({ ...n, label: n.id === atlasSel.value || n.st === 'open' || (n.kind === 'boss' && n.st !== 'seen') })));
+        .map(n => ({ ...n, quest: questNodes.value.has(n.id), label: n.id === atlasSel.value || n.st === 'open' || questNodes.value.has(n.id) || (n.kind === 'boss' && n.st !== 'seen') })));
       const atlasLit = computed(() => atlas.nodes.filter(n => view.value.status(n.id) !== 'hidden').map(n => ({ id: n.id, x: n.x, y: n.y, fog: { done: 210, open: 170, seen: 110 }[view.value.status(n.id)] })));
       // Unknown maps still glint through the fog, so the whole star map reads at a glance.
       const atlasStars = computed(() => atlas.nodes.filter(n => view.value.status(n.id) === 'hidden' && n.kind !== 'boss').map(n => ({ id: n.id, x: n.x, y: n.y, hue: FAMILY_HUE[n.family], r: 2 + (n.id * 7 % 5) * 0.5 })));
@@ -692,7 +782,7 @@ export function mountGame(el) {
       const primarySkill = computed(() => { void gearKey.value; return save.skills.find(Boolean) ?? 'fireball'; });
       const bagCells = computed(() => { const n = Math.max(48, Math.ceil((save.inventory.length + 1) / 8) * 8); return Array.from({ length: n }, (_, i) => save.inventory[i] ?? null); });
       const centerName = computed(() => PANELS.find(p => p.id === center.value)?.name ?? '');
-      const centerTitle = computed(() => ({ craft: '洗 炼', bd: '流 派', codex: '传 奇 图 鉴' })[center.value] ?? '');
+      const centerTitle = computed(() => ({ quest: '星 烬 纪', craft: '洗 炼', bd: '流 派', codex: '传 奇 图 鉴' })[center.value] ?? '');
 
       function toast(text, cls = '', icon = null, ic = '') { const id = ++toastId; toasts.value.push({ id, text, cls, icon, ic }); if (toasts.value.length > 6) toasts.value.shift(); setTimeout(() => { toasts.value = toasts.value.filter(t => t.id !== id); }, 3200); }
       // ---- skill bar drag & drop ----
@@ -753,6 +843,7 @@ export function mountGame(el) {
         const r = craft(save, it, id, rng, sel);
         craftMsg.value = r.message;
         if (r.ok) {
+          questFire({ type: 'craft' });
           if (Object.values(save.equipped).includes(it)) gearChanged(); else persist();
           // keep the highlight on one cell: the same slot if it is still this currency, else its last stack
           if (!(save.currencies[id] > 0)) pickCur(null);
@@ -760,7 +851,7 @@ export function mountGame(el) {
           nextTick(() => gsap?.fromTo('.tipwrap .itip', { filter: 'brightness(1.7)' }, { filter: 'brightness(1)', duration: .45, ease: 'power2.out' }));
         }
       }
-      function doEquip(uid, slot = null) { if (equip(save, uid, slot)) { picked.value = null; hover.value = null; gearChanged(); } }
+      function doEquip(uid, slot = null) { if (equip(save, uid, slot)) { picked.value = null; hover.value = null; questFire({ type: 'equip' }); gearChanged(); } }
       function doUnequip(s) { if (!save.equipped[s]) return; unequip(save, s); picked.value = null; hover.value = null; gearChanged(); }
       function dragStart(it) { dragItem.value = it; hover.value = null; }
       function dropOn(s) { const it = dragItem.value; dropSlot.value = null; dragItem.value = null; if (it) doEquip(it.uid, s); }
@@ -768,6 +859,7 @@ export function mountGame(el) {
       function doCraft(id) {
         const r = craft(save, picked.value, id, rng, pickedLine.value);
         craftMsg.value = r.message; if (!r.ok) return;
+        questFire({ type: 'craft' });
         if (Object.values(save.equipped).includes(picked.value)) gearChanged(); else persist();
         nextTick(() => gsap?.fromTo('.craft .itip', { scale: 1.03, filter: 'brightness(1.6)' }, { scale: 1, filter: 'brightness(1)', duration: .45, ease: 'power2.out' }));
       }
@@ -836,13 +928,14 @@ export function mountGame(el) {
         if (r.phase !== 'failed') r.collectAll();
         for (; seenPicked < r.pickedUp.length; ++seenPicked) bank(r.pickedUp[seenPicked]);
         save.stats.kills += r.kills;
+        questFire({ type: 'kills', n: r.kills });
         persist();
         cancelAnimationFrame(raf); ov?.clearLoot(); hover.value = null;
-        run.value = null; roles.value = null; gearKey.value++;
+        run.value = null; roles.value = null; gearKey.value++; nextTick(showPendingStory);
         if (r.phase === 'cleared') atlasSel.value = firstNear(r.node);
       }
       // Everything picked up goes straight into the save, so the bag shows it during the run too.
-      function bank(d) { if (d.type === 'item') save.inventory.unshift(d.item); else if (d.type === 'waystone') save.waystones.push(d.stone); else save.currencies[d.id] = (save.currencies[d.id] || 0) + d.count; }
+      function bank(d) { if (d.type === 'item') questFire({ type: 'pickup', item: d.item }); if (d.type === 'item') save.inventory.unshift(d.item); else if (d.type === 'waystone') save.waystones.push(d.stone); else save.currencies[d.id] = (save.currencies[d.id] || 0) + d.count; }
       function frame(now) {
         const r = run.value; if (!r) return;
         // A frame queued before the run started can carry an older timestamp: never step backwards.
@@ -879,6 +972,8 @@ export function mountGame(el) {
           if (r.phase === 'cleared') {
             save.unlocked = Math.min(MAP_TIERS, Math.max(save.unlocked, r.tier + 1)); save.stats.maps++;
             if (r.node != null) resultLoot.opened = completeNode(atlas, save.atlas, r.node);
+            const qn = atlas.nodes[r.node] ?? {};
+            questFire({ type: 'clear', tier: r.tier, family: qn.family, kind: qn.kind });
             persist();
             clearedBanner.value = true; setTimeout(() => { if (run.value === r) clearedBanner.value = false; }, 7000);
           }
@@ -978,7 +1073,7 @@ export function mountGame(el) {
         kindIconUrl: (kind, color) => `https://api.iconify.design/game-icons/${NODE_KINDS[kind].icon}.svg?color=${encodeURIComponent(color)}`,
         regionName: id => REGION_NAME[id], statusName: st => ({ done: '已打通', open: '可进入', seen: '尚未连通', hidden: '未知' })[st], nodeModText: id => NODE_MODS[id].text,
         save, stage, overlay, tipEl, comboEl, flashEl, open, center, mapTier, mapFamily, picked, pickedLine, craftMsg, roles, evaluating, updateText, hover, bdSel, toasts, legendBanner,
-        dragItem, dropSlot, dropBar, skillCards, skillGrid, hoverThing, tipPinned, activeCur, activeIdx, pickCur, curStacks, unpinTip, tipCraft, setBar, skillDragStart, skillDragEnd, skillDrop, quickBar, run, resultLoot, clearedBanner, hud,
+        quest, questIndex, questSel, story, chapters: CHAPTERS, chapterNo, fmtN, rewardText, closeStory, claimStory, dragItem, dropSlot, dropBar, skillCards, skillGrid, hoverThing, tipPinned, activeCur, activeIdx, pickCur, curStacks, unpinTip, tipCraft, setBar, skillDragStart, skillDragEnd, skillDrop, quickBar, run, resultLoot, clearedBanner, hud,
         profile, requirements, statRows, bdArch, bdStages, currentBd, centerName, centerTitle, traits, granted, ladder, ladderFocus, primarySkill, bagCells,
         pick, equippedFor, hoverOn, hoverOff, doEquip, doUnequip, dragStart, dropOn, doSalvage, doCraft, applyBd, clearBd, accountName, leaveAccount, grantLegendary, evaluate, update, toggle, isOpen, openCenter, startRun, leaveRun, selectSkill, gearChanged,
         panels: PANELS, tierList: Array.from({ length: MAP_TIERS }, (_, i) => i + 1), families: MAP_FAMILIES, slots: SLOTS, slotNames: SLOT_NAMES, currencies: CURRENCIES,
