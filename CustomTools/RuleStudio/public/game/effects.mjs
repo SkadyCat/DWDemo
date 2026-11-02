@@ -2,6 +2,7 @@
 // 一次性特效来自世界事件（区域、打击、闪现、命中、碎冰、预警、击杀……）；
 // 持续特效（投射物、地面区域、状态、召唤物）每帧从 run 的视图读取。
 import { createFx } from '../vfx/fx.mjs';
+import { sfx, setLoop } from './audio.mjs';
 
 const M = 0.01;
 const ELEMENTS = ['fire', 'cold', 'lightning', 'chaos', 'physical'];
@@ -25,7 +26,40 @@ export function createEffects(T, scene) {
   // Per-frame budgets keep a 200-monster cascade readable instead of a white-out.
   const budget = { impact: 0, death: 0, area: 0 };
 
+  // Sound placement: pan by where it happens relative to the hero, quieter the farther away.
+  const here = (x, y) => { const h = run?.hero; if (!h || x == null) return {}; const dx = x - h.x, d = Math.hypot(dx, y - h.y); return { pan: Math.max(-.8, Math.min(.8, dx / 900)), gain: Math.max(.15, 1 - d / 1500) }; };
+  function sound(e) {
+    const hostile = e.source?.team === 1, at = here(e.x ?? e.target?.x, e.y ?? e.target?.y);
+    switch (e.type) {
+      case 'area': {
+        const el = hostile ? 'fire' : mainElement(e), big = e.radius * M > 2.2;
+        if (e.fx === 'cleave' || e.fx === 'cyclone') sfx('swing', { ...at, heavy: e.fx === 'cleave' });
+        else if (e.fx === 'slam') sfx('slam', at);
+        else if (e.fx === 'thunder') sfx('thunder', at);
+        else if (e.fx === 'splash') sfx('hit', { ...at, el });
+        else if (e.fx === 'telegraph') sfx('telegraph', at);
+        else sfx('boom', { ...at, gain: (at.gain ?? 1) * (hostile ? .7 : 1), big, el: e.fx === 'ice_nova' || e.fx === 'ice_burst' ? 'cold' : el });
+        break;
+      }
+      case 'strike': if (e.source) sfx('swing', { ...here(e.source.x, e.source.y), heavy: e.skill?.def.id === 'heavy_strike', gain: hostile ? .5 : 1 }); break;
+      case 'cast': if (!hostile && e.depth === 0 && e.source?.kind === 'hero' && e.tags?.includes('spell')) sfx('cast', { el: mainElement(e) }); break;
+      case 'blink': sfx('blink', at); break;
+      case 'shatter': sfx('shatter', at); break;
+      case 'summon': if (!hostile) sfx('summon', at); break;
+      case 'telegraph': sfx('telegraph', at); break;
+      case 'kill': { const t = e.target; if (!t || t.team !== 1) break; sfx(t.boss ? 'bossKill' : t.kind === 'elite' ? 'eliteKill' : 'kill', at); break; }
+      case 'hit': {
+        const t = e.target; if (!t || e.amount <= 0) break;
+        if (t.kind === 'hero') { if (e.amount / Math.max(1, t.max.life) > .04) sfx('hurt'); break; }
+        const id = e.skill?.def.id;
+        if (id === 'arc' || id === 'totem_bolt') sfx('zap', at); else sfx('hit', { ...at, el: mainElement(e), crit: !!e.crit });
+        break;
+      }
+    }
+  }
+
   function receive(e) {
+    try { sound(e); } catch { /* sound never breaks visuals */ }
     const hostile = e.source?.team === 1;
     switch (e.type) {
       case 'area': {
@@ -98,6 +132,7 @@ export function createEffects(T, scene) {
 
   function bind(next) {
     detach?.(); run = next; lastHit = null; fx.clear();
+    sfx('mapStart'); setLoop('drone', 1);
     const listener = e => { try { receive(e); } catch (err) { console.error('[VFX]', err); } };
     next.world.listeners.push(listener);
     detach = () => { const i = next.world.listeners.indexOf(listener); if (i >= 0) next.world.listeners.splice(i, 1); };
@@ -109,6 +144,8 @@ export function createEffects(T, scene) {
     const now = run.elapsed, dt = Math.max(0, Math.min(.05, now - last)) || 1 / 60; last = now;
     budget.impact = 14; budget.death = 12; budget.area = 16;
     const live = ['cleared', 'failed'].includes(run.phase) ? [] : run.projectiles();
+    // wind for the tornadoes near the hero
+    { let n = 0; for (const z of run.zones()) if (z.kind === 'tornado' && Math.hypot(z.x - run.hero.x, z.y - run.hero.y) < 1200) n++; setLoop('wind', Math.min(1, n / 5)); }
     fx.projectiles(live.filter(p => p.kind !== 'arc').map(p => ({ id: p.id, x: p.x * M, y: p.z * M, z: -p.y * M, vx: p.vx * M, vy: 0, vz: -p.vy * M, radius: p.radius * M, kind: p.kind, element: p.element, hostile: p.hostile, age: p.age })), dt);
     fx.zones(run.zones().filter(z => z.kind !== 'brand').map(z => ({ x: z.x * M, z: -z.y * M, radius: z.radius * M, kind: z.kind, element: z.element, left: z.remaining, seed: z.id * 1.37, d: Math.hypot(z.x - run.hero.x, z.y - run.hero.y) })));
     const hero = run.hero, st = [];
@@ -129,6 +166,6 @@ export function createEffects(T, scene) {
     return fx.update(dt, camera);
   }
 
-  function dispose() { detach?.(); fx.dispose(); }
+  function dispose() { detach?.(); fx.dispose(); setLoop('wind', 0); setLoop('drone', 0); }
   return { group: fx.group, update, dispose, fx };
 }

@@ -15,6 +15,7 @@ import { equippedTraits, ladderStatus, detectArchetype } from './traits.mjs';
 import { MapRun } from './run.mjs';
 import { TalentBoard } from './talents-panel.mjs';
 import { switchAccount } from './accounts.mjs';
+import { sfx, setLoop, audio } from './audio.mjs';
 import { CHAPTERS, newQuestState, questView, questEvent, questTick, claimChapter } from './quests.mjs';
 import { talentPoints } from '../../core/content/talents.mjs';
 import { Scene3D, Overlay } from './scene.mjs';
@@ -300,6 +301,7 @@ const TEMPLATE = /* html */ `
       <div class="crest"><Gi :n="skillIcon(primarySkill)" :c="'el-' + skillEl(primarySkill)"/></div>
       <div class="who"><h1>营 地</h1><p>{{ currentBd }}</p></div>
       <div class="facts"><span><b>T{{ save.unlocked }}</b>最高</span><span><b>{{ save.atlas.done.length }}</b>已打通</span><span><b>{{ save.stats.maps }}</b>通关</span><span><b>{{ save.stats.kills }}</b>击杀</span></div>
+      <button class="orn-btn ghost sm vol" @click="cycleVolume" :title="'音效音量（点一下切换）'">{{ volume === 0 ? '音效 关' : '音效 ' + Math.round(volume * 100) + '%' }}</button>
       <button class="orn-btn ghost sm" @click="leaveAccount" :title="'当前账号：' + accountName">账号 · {{ accountName }}</button>
       <a class="orn-btn ghost sm" href="/editor/index.html" target="_blank" rel="noopener">内容编辑器</a>
       <button class="orn-btn ghost sm" @click="update">{{ updateText || '更新到最新' }}</button>
@@ -624,16 +626,16 @@ export function mountGame(el) {
         if (!list?.length) return;
         questKey.value++;
         for (const n of list) {
-          if (n.type === 'step') toast(`任务完成 · ${n.text}`, 'quest', 'scroll-unfurled', 'el-gold');
-          else { toast(`第 ${chapterNo(n.index)} 章「${CHAPTERS[n.index].title}」完成`, 'quest big', 'laurel-crown', 'el-gold'); pendingOutro.value = true; }
+          if (n.type === 'step') { sfx('quest'); toast(`任务完成 · ${n.text}`, 'quest', 'scroll-unfurled', 'el-gold'); }
+          else { sfx('chapter'); toast(`第 ${chapterNo(n.index)} 章「${CHAPTERS[n.index].title}」完成`, 'quest big', 'laurel-crown', 'el-gold'); pendingOutro.value = true; }
         }
         showPendingStory();
       }
       function showPendingStory() {
         if (story.value || run.value) return;   // never in a map: chapter endings wait until you are back in camp
         const q = save.quests;
-        if (pendingOutro.value && questView(save)?.complete) { story.value = { mode: 'outro', index: q.chapter }; pendingOutro.value = false; }
-        else if (q.chapter < CHAPTERS.length && q.introSeen < q.chapter) story.value = { mode: 'intro', index: q.chapter };
+        if (pendingOutro.value && questView(save)?.complete) { story.value = { mode: 'outro', index: q.chapter }; pendingOutro.value = false; sfx('story'); }
+        else if (q.chapter < CHAPTERS.length && q.introSeen < q.chapter) { story.value = { mode: 'intro', index: q.chapter }; sfx('story'); }
       }
       function closeStory() { if (story.value?.mode === 'intro') save.quests.introSeen = story.value.index; story.value = null; writeSave(save); questKey.value++; }
       function claimStory() {
@@ -641,6 +643,8 @@ export function mountGame(el) {
         if (got) { toast(`得到 ${Object.entries(got.currencies).map(([id, n]) => CURRENCIES[id].name + '×' + n).join('、')}，${got.waystones.length} 块路石`, 'quest', 'locked-chest', 'el-gold'); questSel.value = Math.min(save.quests.chapter, CHAPTERS.length - 1); }
         writeSave(save); nextTick(showPendingStory);
       }
+      const volume = ref(audio.volume);
+      function cycleVolume() { const steps = [0, .3, .6, 1], i = steps.findIndex(v => Math.abs(v - volume.value) < .05); audio.setVolume(steps[(i + 1) % steps.length]); volume.value = audio.volume; sfx('click'); }
       const persist = () => { writeSave(save); const n = questTick(save); if (n.length) { questNotes(n); writeSave(save); } };
       const questFire = ev => { questNotes(questEvent(save, ev)); writeSave(save); };
       onMounted(() => setTimeout(showPendingStory, 400));
@@ -846,6 +850,7 @@ export function mountGame(el) {
         const it = hover.value?.item, id = activeCur.value; if (!it || !id) return;
         const r = craft(save, it, id, rng, sel);
         craftMsg.value = r.message;
+        sfx(r.ok ? 'craft' : 'craftFail', { kind: id });
         if (r.ok) {
           questFire({ type: 'craft' });
           if (Object.values(save.equipped).includes(it)) gearChanged(); else persist();
@@ -859,19 +864,19 @@ export function mountGame(el) {
         const at = save.inventory.findIndex(it => it.uid === uid), anchor = lastAnchor, n = save.inventory.length;
         if (!equip(save, uid, slot)) return;
         const swapped = save.inventory.length === n;
-        hover.value = null; questFire({ type: 'equip' }); gearChanged();
+        hover.value = null; sfx('equip'); questFire({ type: 'equip' }); gearChanged();
         // The old piece now sits in the same cell: select it and show its tooltip there, so it can be swapped straight back.
         const back = save.inventory[at];
         picked.value = swapped && at >= 0 ? back : null;
         if (picked.value && anchor?.isConnected) nextTick(() => hoverOn({ currentTarget: anchor }, picked.value));
       }
-      function doUnequip(s) { if (!save.equipped[s]) return; unequip(save, s); picked.value = null; hover.value = null; gearChanged(); }
+      function doUnequip(s) { if (!save.equipped[s]) return; sfx('unequip'); unequip(save, s); picked.value = null; hover.value = null; gearChanged(); }
       function dragStart(it) { dragItem.value = it; hover.value = null; }
       function dropOn(s) { const it = dragItem.value; dropSlot.value = null; dragItem.value = null; if (it) doEquip(it.uid, s); }
       function doSalvage(uid) { const g = salvage(save, uid, rng); if (picked.value?.uid === uid) picked.value = null; hover.value = null; craftMsg.value = g ? `分解得到 ${CURRENCIES[g].name}` : '已分解'; persist(); }
       function doCraft(id) {
         const r = craft(save, picked.value, id, rng, pickedLine.value);
-        craftMsg.value = r.message; if (!r.ok) return;
+        craftMsg.value = r.message; sfx(r.ok ? 'craft' : 'craftFail', { kind: id }); if (!r.ok) return;
         questFire({ type: 'craft' });
         if (Object.values(save.equipped).includes(picked.value)) gearChanged(); else persist();
         nextTick(() => gsap?.fromTo('.craft .itip', { scale: 1.03, filter: 'brightness(1.6)' }, { scale: 1, filter: 'brightness(1)', duration: .45, ease: 'power2.out' }));
@@ -901,6 +906,7 @@ export function mountGame(el) {
       async function update() { await runSelfUpdate(t => { updateText.value = t; }); }
       const isOpen = id => id === 'talents' ? talentOpen.value : id === 'atlas' ? atlasOpen.value : id === 'char' || id === 'bag' ? open[id] : center.value === id;
       function toggle(id) {
+        sfx(isOpen(id) ? 'close' : 'open');
         hover.value = null;
         if (id === 'talents') { talentOpen.value = !talentOpen.value; if (talentOpen.value) { atlasOpen.value = false; center.value = null; open.char = open.bag = false; } return; }
         if (id === 'atlas') { atlasOpen.value = !atlasOpen.value; if (atlasOpen.value) { talentOpen.value = false; center.value = null; open.char = open.bag = false; nextTick(() => { centerAtlas(); gsap?.fromTo('.atlas-win', { opacity: 0 }, { opacity: 1, duration: .35, ease: 'power2.out' }); }); } return; }
@@ -943,12 +949,14 @@ export function mountGame(el) {
         save.stats.kills += r.kills;
         questFire({ type: 'kills', n: r.kills });
         persist();
-        cancelAnimationFrame(raf); ov?.clearLoot(); hover.value = null;
+        cancelAnimationFrame(raf); ov?.clearLoot(); hover.value = null; setLoop('drone', 0); setLoop('wind', 0);
         run.value = null; roles.value = null; gearKey.value++; nextTick(showPendingStory);
         if (r.phase === 'cleared') atlasSel.value = firstNear(r.node);
       }
       // Everything picked up goes straight into the save, so the bag shows it during the run too.
-      function bank(d) { if (d.type === 'item') questFire({ type: 'pickup', item: d.item }); if (d.type === 'item') save.inventory.unshift(d.item); else if (d.type === 'waystone') save.waystones.push(d.stone); else save.currencies[d.id] = (save.currencies[d.id] || 0) + d.count; }
+      function bank(d) {
+        sfx(d.type === 'item' ? 'pickup' : d.type === 'waystone' ? 'stoneDrop' : 'coin', d.type === 'item' ? { rarity: rarityOf(d.item).id } : {});
+        if (d.type === 'item') questFire({ type: 'pickup', item: d.item }); if (d.type === 'item') save.inventory.unshift(d.item); else if (d.type === 'waystone') save.waystones.push(d.stone); else save.currencies[d.id] = (save.currencies[d.id] || 0) + d.count; }
       function frame(now) {
         const r = run.value; if (!r) return;
         // A frame queued before the run started can carry an older timestamp: never step backwards.
@@ -965,6 +973,10 @@ export function mountGame(el) {
         for (const l of r.loot) {
           if (seenLoot.has(l.key)) continue;
           seenLoot.add(l.key);
+          { const d = l.drop, h = r.hero, at = { pan: Math.max(-.8, Math.min(.8, (l.x - h.x) / 900)) };
+            if (d.type === 'waystone') sfx('stoneDrop', at);
+            else if (d.type === 'item') { const rid = rarityOf(d.item).id, bl = baseLinesOf(d.item); sfx('drop', { ...at, tier: d.item.legend || rid === 'exalted' || bl >= 3 ? 4 : rid === 'rare' ? 3 : rid === 'magic' || bl === 2 ? 2 : 1 }); }
+            else if (d.id === 'chaos' || d.id === 'seal' || d.id.startsWith('essence') || d.id === 'skill_gem') sfx('drop', { ...at, tier: 2 }); }
           if (l.drop.item?.legend) { legendBanner.value = { id: l.key, name: itemName(l.drop.item) }; setTimeout(() => { if (legendBanner.value?.id === l.key) legendBanner.value = null; }, 2600); }
         }
         if (seenPicked < r.pickedUp.length) queueMicrotask(persist);
@@ -988,6 +1000,7 @@ export function mountGame(el) {
             const qn = atlas.nodes[r.node] ?? {};
             questFire({ type: 'clear', tier: r.tier, family: qn.family, kind: qn.kind });
             persist();
+            setTimeout(() => sfx('portal'), 900);
             clearedBanner.value = true; setTimeout(() => { if (run.value === r) clearedBanner.value = false; }, 7000);
           }
           nextTick(() => gsap?.from('.result', { opacity: 0, scale: .92, duration: .5, ease: 'back.out(1.6)', clearProps: 'transform,opacity' }));
@@ -1071,6 +1084,8 @@ export function mountGame(el) {
       const mu = e => { if (e.button === 0) mouse.down = false; };
       const rs = () => { scene?.resize(); viewSize.w = innerWidth; viewSize.h = innerHeight; };
       // A click anywhere outside a pinned tooltip closes it.
+      const uiClick = e => { if (e.button === 0 && e.target.closest?.('.orn-btn:not(:disabled), .ws, .skill-cell, .bar-cell, .cur-cell, .ql-list button')) sfx('click'); };
+      onMounted(() => addEventListener('click', uiClick, true)); onBeforeUnmount(() => removeEventListener('click', uiClick, true));
       const outside = e => { if (tipPinned.value && !e.target.closest?.('.tipwrap')) unpinTip(); };
       onMounted(() => { addEventListener('mousedown', outside, true); });
       onBeforeUnmount(() => removeEventListener('mousedown', outside, true));
@@ -1086,7 +1101,7 @@ export function mountGame(el) {
         kindIconUrl: (kind, color) => `https://api.iconify.design/game-icons/${NODE_KINDS[kind].icon}.svg?color=${encodeURIComponent(color)}`,
         regionName: id => REGION_NAME[id], statusName: st => ({ done: '已打通', open: '可进入', seen: '尚未连通', hidden: '未知' })[st], nodeModText: id => NODE_MODS[id].text,
         save, stage, overlay, tipEl, comboEl, flashEl, open, center, mapTier, mapFamily, picked, pickedLine, craftMsg, roles, evaluating, updateText, hover, bdSel, toasts, legendBanner,
-        quest, questIndex, questSel, story, chapters: CHAPTERS, chapterNo, fmtN, rewardText, closeStory, claimStory, dragItem, dropSlot, dropBar, skillCards, skillGrid, hoverThing, tipPinned, activeCur, activeIdx, pickCur, curStacks, unpinTip, tipCraft, setBar, skillDragStart, skillDragEnd, skillDrop, quickBar, run, resultLoot, clearedBanner, hud,
+        volume, cycleVolume, quest, questIndex, questSel, story, chapters: CHAPTERS, chapterNo, fmtN, rewardText, closeStory, claimStory, dragItem, dropSlot, dropBar, skillCards, skillGrid, hoverThing, tipPinned, activeCur, activeIdx, pickCur, curStacks, unpinTip, tipCraft, setBar, skillDragStart, skillDragEnd, skillDrop, quickBar, run, resultLoot, clearedBanner, hud,
         profile, requirements, statRows, bdArch, bdStages, currentBd, centerName, centerTitle, traits, granted, ladder, ladderFocus, primarySkill, bagCells,
         pick, equippedFor, hoverOn, hoverOff, doEquip, doUnequip, dragStart, dropOn, doSalvage, doCraft, applyBd, clearBd, accountName, leaveAccount, grantLegendary, evaluate, update, toggle, isOpen, openCenter, startRun, leaveRun, selectSkill, gearChanged,
         panels: PANELS, tierList: Array.from({ length: MAP_TIERS }, (_, i) => i + 1), families: MAP_FAMILIES, slots: SLOTS, slotNames: SLOT_NAMES, currencies: CURRENCIES,
