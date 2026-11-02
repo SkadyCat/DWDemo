@@ -43,6 +43,13 @@ world.step(1 / 60);
 
 **动作里的数字** 可以是常数，也可以是 `{var:'n', mul:3, add:1}` 或任意度量。
 
+**闪现与护盾相关的积木**
+- `blink` 飞向一点时不超出 `range`；落地后发 `blinkLand`（`x/y` 落点、`fromX/fromY` 起点、`amount` 距离）。规则在 `blinkLand` 上做落点 / 路径 / 起点效果。
+- 位置 `at:'eventFrom'` = 事件的起点（闪现起跳处）；`shape:'line'` 的区域从中心指向瞄准点，长度用 `radius`（可以是 `{event:'amount'}`）。
+- `spendPool {pool:'es'|'mana'|'life', pct, pctMax, keep, as}`：把一部分资源当燃料，消耗量写进变量并发 `poolSpent`；不打断护盾充能。
+- 事件 `shieldBreak`（能量护盾被打空，`target` 是打破它的人）、`shieldFull`（充能充满，只在有规则监听时发）。
+- 召唤物的 `death` 事件带 `key` = 召唤物模板 id（到时消散的还带 `expired`），规则可以 `filter:{ key:'phantom' }`。属性 `summon.count` 给召唤动作加数量。
+
 **技能** `{ id, tags, time, cost, cooldown, crit, damage:{type:n}, channel, reserve, status, mods, rules, actions }`
 
 **词条** `{ id, mods, rules, grants:{ skills:[{ skill, supports, groups }] } }`
@@ -58,7 +65,7 @@ world.step(1 / 60);
 | `skills.mjs` | 朴素技能、状态、资源、召唤物模板（词条规则要引用的「名词」） |
 | `families.mjs` | 词条族：四层稀有度（数值 / 形态 / 联动 / 核心），`affixLine(族, T)` 生成具体词条 |
 | `maps.mjs` | 地图压力：T 阶 → 怪物生命与伤害、元素构成、全抗惩罚、致命一击、精英词缀、首领狂暴 |
-| `archetypes.mjs` | 十一个示范流派：技能 + 关键词条时间线 + 数值优先级 + 防守优先级 |
+| `archetypes.mjs` | 十九个示范流派：技能 + 关键词条时间线 + 数值优先级 + 防守优先级 |
 | `builds.mjs` | 把收集清单铺到 10 件 × 9 条：五个阶段（起步/成型/卡关/突破/毕业） |
 | `game.mjs` | 完整内容包 |
 

@@ -1,4 +1,4 @@
-// 十一个示范流派：纯元素 ×3、元素反应 ×2、近战 ×3、触发 ×1、投射物持续伤害 ×1、持续区域 ×1。
+// 十九个示范流派：纯元素 ×3、元素反应 ×2、近战 ×3、触发 ×1、投射物持续伤害 ×1、持续区域 ×1、闪现 ×5、炸盾 ×3。
 // 每个流派 = 一个朴素技能 + 五级「质变」阶梯（每阶段拿到的关键词条和它带来的玩法变化）+ 数值放大优先级 + 防守优先级。
 // 阶段 0–4 = 起步 / 成型 / 卡关 / 突破 / 毕业。
 const RES = ['res_fire', 'res_cold', 'res_lightning'];
@@ -6,6 +6,8 @@ const DEF_LIFE = [...RES, 'life', ...RES, 'life', 'life_inc', 'res_chaos', 'life
 const ARMOUR = ['armour', 'armour_inc', 'armour', 'block'];
 const EVASION = ['evasion', 'evasion_inc', 'evasion'];
 const ES = ['es', 'es_inc', 'es', 'es_inc'];
+// Shield-as-fuel builds want a big shield that comes back fast.
+const SHIELD = ['es', 'es_inc', 'es_recharge', 'es', 'es_inc', 'es', 'es_recharge', 'es_inc'];
 const interleave = (a, b) => { const out = []; for (let i = 0; i < Math.max(a.length, b.length); ++i) { if (a[i]) out.push(a[i]); if (b[i]) out.push(b[i]); } return out; };
 
 // ladder：五个阶段各自的「质变」——这一阶段新拿到的关键词条，以及它让玩法变成什么样。
@@ -166,6 +168,120 @@ export const ARCHETYPES = Object.freeze([
     traits: ['zone_count', 'zone_pull', 'area_more', 'spell_echo', 'kill_recast', 'zone_growth', 'conv_phys_lightning', 'kill_onslaught', 'vs_ailing', 'proliferate', 'kill_minion', 'cast_on_shock'],
     amp: ['added_physical_spell', 'cast_speed', 'dmg_area', 'dmg_spell', 'dmg_physical', 'cast_speed', 'added_lightning_spell', 'dmg_lightning', 'area_inc', 'duration', 'crit_chance'],
     defence: interleave(DEF_LIFE, ES),
+  }),
+  // ================================================================ 闪现 ×5：跳过去，落地触发，产生连锁
+  A({
+    id: 'thunderstep', name: '雷闪游侠', style: '闪现·雷·远程', skills: ['storm_step'], keepDistance: 220,
+    summary: '闪到怪群里落雷 → 落点放出迹电连锁 → 感电的怪死时再劈下落雷、电弧跳向下一群 → 风暴之心让每一道触发的雷都更狠。',
+    ladder: [
+      { title: '雷步', text: '闪到怪群中间，每一步都炸开一圈雷。', keys: [['chance_shock'], ['area_more']] },
+      { title: '雷迹', text: '落地时放出迹电，在怪群里连锁跳跃——走到哪里电到哪里。', keys: [['blink_arc', 'boots']] },
+      { title: '雷葬', text: '感电的怪死时劈下落雷，感电跟着扩散，下一群还没碰到就已经感电。', keys: [['kill_thunder'], ['shock_spread']] },
+      { title: '回响', text: '每次施法闪两次、雷两遍；感电尸体放出电弧，链条越拉越长。', keys: [['spell_echo'], ['kill_arc']] },
+      { title: '风暴之心', text: '被触发的闪电全部更痛、必定感电：一次闪现点燃整屏雷暴。', keys: [['core_storm_heart', 'amulet']] },
+    ],
+    traits: ['chain_any', 'cast_on_shock', 'vs_ailing', 'shock_bonus', 'kill_onslaught', 'proliferate', 'kill_recast', 'area_cascade', 'conv_phys_lightning'],
+    amp: ['dmg_lightning', 'added_lightning_spell', 'cast_speed', 'dmg_spell', 'effect_shock', 'dmg_area', 'crit_chance', 'pen_lightning', 'added_lightning_spell', 'dmg_elemental', 'cast_speed', 'mana_regen'],
+    defence: interleave(DEF_LIFE, EVASION),
+  }),
+  A({
+    id: 'frostblade', name: '霜刃追猎', style: '闪现·冰·近战路径', skills: ['frost_dash'], keepDistance: 0,
+    summary: '突进斩冻住目标 → 突进的路径凝成冰刃 → 击碎冰冻的怪立即再突进下一只 → 冰川疾驰让每一刀、每一道冰痕都冻结：一条冰线在怪群里来回折返。',
+    ladder: [
+      { title: '突进', text: '突进到怪身边一刀斩下，一次砍到几只。', keys: [['chance_freeze'], ['strike_targets', 'gloves']] },
+      { title: '冰痕', text: '突进划过的路径凝成冰刃：穿过怪群就把一整条线都冻住。', keys: [['blink_trail', 'boots']] },
+      { title: '碎冰追击', text: '击碎冰冻的怪立即再突进下一只，碎冰爆出寒霜冻住周围——自己就停不下来。', keys: [['shatter_dash', 'weapon'], ['shatter_nova']] },
+      { title: '寒刃', text: '对冰冻敌人伤害大增，一刀多段。', keys: [['frozen_bonus'], ['multistrike']] },
+      { title: '冰川疾驰', text: '突进和冰痕必定冰冻：冻结 → 击碎 → 突进 → 冻结，冰线在整屏折返。', keys: [['core_glacial_rush', 'amulet']] },
+    ],
+    traits: ['strike_splash', 'area_more', 'kill_onslaught', 'hit_fortify', 'shatter_burst', 'proliferate', 'kill_recast', 'conv_phys_cold', 'area_cascade', 'vs_ailing'],
+    amp: ['added_cold_attack', 'attack_speed', 'dmg_cold', 'dmg_melee', 'crit_chance', 'dmg_attack', 'added_physical_attack', 'crit_bonus', 'attack_speed', 'pen_cold', 'leech', 'dmg_area'],
+    defence: interleave(DEF_LIFE, ARMOUR),
+  }),
+  A({
+    id: 'phantasm', name: '残影术士', style: '闪现·残影·火', skills: ['phantom_step'], keepDistance: 260,
+    summary: '闪走时在原地留下残影吸引火力 → 残影消散时炸开火焰 → 被炸死的怪在尸体上留下新的残影 → 残影军团每个都炸两次：越跳越多的火焰分身。',
+    ladder: [
+      { title: '残影', text: '每次闪现在起点留下几个残影，怪去打残影，残影消散时炸开。', keys: [['phantom_count', 'helmet'], ['chance_ignite']] },
+      { title: '余烬残影', text: '被残影炸死的怪在尸体上再留下一个残影——爆炸开始自己繁殖。', keys: [['phantom_corpse', 'weapon']] },
+      { title: '燎原', text: '残影爆炸会点燃，被点燃的怪死时把火传给身边的怪。', keys: [['explode_ignite'], ['ignite_spread']] },
+      { title: '尸爆', text: '击杀的怪爆炸，施法重复：残影、尸体、爆炸一层套一层。', keys: [['kill_explode'], ['spell_echo']] },
+      { title: '残影军团', text: '残影爆炸更痛、必定点燃，并在原地再炸一次：满屏都是你的火焰分身。', keys: [['core_phantom_legion', 'amulet']] },
+    ],
+    traits: ['minion_count', 'area_more', 'area_cascade', 'kill_recast', 'vs_ailing', 'proliferate', 'kill_onslaught', 'kill_minion', 'conv_phys_fire'],
+    amp: ['dmg_fire', 'added_fire_spell', 'cast_speed', 'dmg_area', 'dmg_spell', 'ailment_ignite', 'dmg_elemental', 'added_fire_spell', 'pen_fire', 'crit_chance', 'cast_speed', 'mana_regen'],
+    defence: interleave(DEF_LIFE, ES),
+  }),
+  A({
+    id: 'starblade', name: '星刃舞者', style: '闪现·刀环·狂怒', skills: ['star_step'], keepDistance: 0,
+    summary: '瞬步斩到怪身边 → 落地射出一圈刀锋环 → 击杀攒狂怒，狂怒越多刀环越密 → 影舞让刀环必定中毒，中毒的怪死时爆出毒雾：每一次落地都是一朵刀花。',
+    ladder: [
+      { title: '瞬步', text: '瞬移到怪身边斩下，一次砍几只、砍几刀。', keys: [['multistrike', 'weapon'], ['strike_targets', 'gloves']] },
+      { title: '落刃', text: '每次落地射出一圈刀锋环，近身一圈全被削到。', keys: [['blink_knives', 'boots']] },
+      { title: '狂怒', text: '击杀攒狂怒球，每个狂怒球都让伤害更高。', keys: [['kill_frenzy'], ['per_frenzy']] },
+      { title: '毒刃', text: '刀刃带毒，中毒的怪死时爆出毒雾，毒雾再让周围中毒。', keys: [['chance_poison'], ['poison_burst']] },
+      { title: '影舞', text: '每个狂怒球让刀锋环多一把刀，刀环必定中毒：越杀越快、刀越多、毒越浓。', keys: [['core_shadow_dance', 'helmet']] },
+    ],
+    traits: ['proj_count', 'proj_pierce', 'charge_max', 'kill_onslaught', 'proliferate', 'kill_recast', 'poison_spread', 'vs_ailing', 'strike_splash', 'hit_fortify'],
+    amp: ['added_physical_attack', 'attack_speed', 'dmg_projectile', 'dmg_physical', 'ailment_poison', 'added_chaos_attack', 'dmg_chaos', 'crit_chance', 'attack_speed', 'dot_inc', 'dmg_attack', 'leech'],
+    defence: interleave(DEF_LIFE, EVASION),
+  }),
+  A({
+    id: 'voidwalker', name: '虚空行者', style: '闪现·裂隙·混沌', skills: ['void_leap'], keepDistance: 0,
+    summary: '跃迁到怪身边炸开混沌 → 起跳点撕开虚空裂隙持续吞噬 → 被裂隙杀死的怪让你再跃迁一次 → 事件视界：裂隙把怪吸进中心再坍缩爆炸，一路跳一路留下黑洞。',
+    ladder: [
+      { title: '跃迁', text: '跃到怪身边炸开一圈混沌，混沌会让怪中毒。', keys: [['area_more'], ['chance_poison']] },
+      { title: '裂隙', text: '每次起跳的地方撕开一道虚空裂隙，留下来持续吞噬路过的怪。', keys: [['blink_rift', 'boots']] },
+      { title: '吞噬', text: '被裂隙杀死的怪让你立即再跃迁一次，裂隙越转越大——跳得越多，裂隙越多。', keys: [['rift_leap', 'weapon'], ['zone_growth']] },
+      { title: '毒蚀', text: '每次起跳撕开好几道裂隙；中毒的怪死时爆出毒雾，毒顺着裂隙一路蔓延。', keys: [['zone_count'], ['poison_burst']] },
+      { title: '事件视界', text: '裂隙把怪吸到中心，结束时坍缩爆炸：跳过的路线上一个接一个塌陷。', keys: [['core_event_horizon', 'amulet']] },
+    ],
+    traits: ['duration', 'poison_spread', 'kill_recast', 'vs_ailing', 'proliferate', 'kill_onslaught', 'area_cascade'],
+    amp: ['dmg_chaos', 'added_chaos_spell', 'cast_speed', 'dmg_area', 'dmg_spell', 'ailment_poison', 'dot_inc', 'added_chaos_spell', 'pen_chaos', 'duration', 'cast_speed', 'mana_regen'],
+    defence: interleave(DEF_LIFE, ES),
+  }),
+  // ================================================================ 炸盾 ×3：能量护盾当燃料
+  A({
+    id: 'aegisknight', name: '盾爆骑士', style: '炸盾·主动引爆', skills: ['aegis_nova'], keepDistance: 0, defenceShare: 0.55,
+    summary: '冲进怪群引爆一半护盾 → 护盾越满爆得越痛 → 每消耗一段护盾劈下落雷 → 击杀回盾、过载护盾让充能不断：爆、回、爆，节奏就是你的输出。',
+    ladder: [
+      { title: '盾爆', text: '引爆一半能量护盾，炸开一圈：护盾越多，爆得越痛。', keys: [['es_quick', 'chest'], ['area_more']] },
+      { title: '盾能外泄', text: '每消耗一段护盾，附近的怪头上就落下一道雷。', keys: [['spend_thunder', 'gloves']] },
+      { title: '汲盾', text: '击杀回复护盾，施法重复：盾刚炸完就又满了。', keys: [['kill_es', 'weapon'], ['spell_echo']] },
+      { title: '余震', text: '盾爆带余震，护盾充得更快。', keys: [['area_cascade'], ['es_recharge']] },
+      { title: '过载护盾', text: '护盾充能永不被打断，盾爆伤害大增：边挨打边充、边充边炸。', keys: [['core_overcharge', 'amulet']] },
+    ],
+    traits: ['kill_onslaught', 'vs_ailing', 'kill_recast', 'proliferate', 'hit_fortify', 'conv_phys_lightning', 'struck_endurance', 'per_endurance'],
+    amp: ['dmg_area', 'dmg_spell', 'cast_speed', 'dmg_physical', 'added_physical_spell', 'crit_chance', 'dmg_lightning', 'cast_speed', 'area_inc', 'crit_bonus', 'mana_regen'],
+    defence: interleave(SHIELD, DEF_LIFE),
+  }),
+  A({
+    id: 'shatterguard', name: '碎盾卫士', style: '炸盾·破盾反击', skills: ['shield_bash'], keepDistance: 0, defenceShare: 0.55,
+    summary: '站进怪堆里挨打 → 护盾被打碎时炸出寒潮 → 护盾充满时再放一次电涌 → 碎盾不息：护盾刚碎就回、回满再碎，怪越多爆得越勤。',
+    ladder: [
+      { title: '盾击', text: '盾击溅射周围，护盾充能更早开始。', keys: [['strike_splash'], ['es_quick']] },
+      { title: '碎盾', text: '护盾被打破时炸出一圈寒潮——怪打你，就是在帮你清场。', keys: [['shield_break_nova', 'chest']] },
+      { title: '满盾', text: '护盾充满时放出电涌，击杀回复护盾：碎了就爆，满了又爆。', keys: [['shield_full_pulse', 'helmet'], ['kill_es']] },
+      { title: '冻裂', text: '寒潮冻住的怪被击碎时爆出寒霜，冻住下一圈。', keys: [['chance_freeze'], ['shatter_nova']] },
+      { title: '碎盾不息', text: '护盾碎了几乎立刻重新充能，碎盾寒潮必定冰冻、带余震：一碎一冻一爆，循环不停。', keys: [['core_shatterguard', 'offhand']] },
+    ],
+    traits: ['hit_fortify', 'area_more', 'struck_nova', 'kill_onslaught', 'vs_ailing', 'frozen_bonus', 'shatter_burst', 'proliferate', 'struck_endurance', 'per_endurance'],
+    amp: ['dmg_area', 'dmg_cold', 'dmg_lightning', 'dmg_elemental', 'added_physical_attack', 'dmg_melee', 'attack_speed', 'pen_cold', 'crit_chance', 'area_inc', 'dmg_attack'],
+    defence: interleave(SHIELD, interleave(DEF_LIFE, ARMOUR)),
+  }),
+  A({
+    id: 'aegisstorm', name: '盾刃弹幕', style: '炸盾·投射物循环', skills: ['aegis_shards'], keepDistance: 340, defenceShare: 0.55,
+    summary: '把一小截护盾削成冰刃射出去 → 冰刃命中回盾 → 命中爆炸、连锁 → 盾刃风暴：护盾一边被射出去一边被打回来，弹幕停不下来。',
+    ladder: [
+      { title: '盾刃', text: '每次施法削下一截护盾化成冰刃，护盾越厚刃越痛。', keys: [['proj_count'], ['proj_pierce']] },
+      { title: '回流', text: '冰刃命中回复护盾：射得越多，盾回得越快。', keys: [['shard_es', 'gloves']] },
+      { title: '碎裂', text: '冰刃命中爆炸，冻住爆炸里的怪。', keys: [['proj_explode'], ['chance_freeze']] },
+      { title: '连锁', text: '冰刃在怪之间连锁跳跃，击杀再回盾。', keys: [['proj_chain'], ['kill_es']] },
+      { title: '盾刃风暴', text: '每次多射几把、多跳一次：护盾变成了一场不会停的冰刃暴风。', keys: [['core_aegis_storm', 'amulet']] },
+    ],
+    traits: ['proj_fork', 'spell_echo', 'shatter_nova', 'vs_ailing', 'frozen_bonus', 'kill_recast', 'proliferate', 'kill_onslaught', 'shatter_burst'],
+    amp: ['dmg_cold', 'dmg_projectile', 'cast_speed', 'dmg_spell', 'added_cold_spell', 'crit_chance', 'pen_cold', 'dmg_elemental', 'cast_speed', 'crit_bonus', 'mana_regen'],
+    defence: interleave(SHIELD, DEF_LIFE),
   }),
 ]);
 

@@ -277,6 +277,57 @@ fam({ id: 'core_gale', name: '核心·疾风：每个狂怒球使攻击与移动
 fam({ id: 'core_maelstrom', name: '核心·风暴眼：持续区域每秒扩大 25%、持续时间延长 {v}%，结束时爆裂造成 300% 伤害', layer: 'core', values: [30, 45, 60], slots: ['amulet', 'chest', 'helmet'], tags: ['core', 'area', 'duration'],
   make: v => ({ mods: [{ stat: 'zone.growth', op: 'base', value: 25 }, { stat: 'duration', op: 'inc', value: v, tags: ['duration'] }, { stat: 'zone.burst', op: 'base', value: 300 }] }) });
 
+// ================================================================== 闪现体系：跳过去 → 落地（blinkLand）触发 → 连锁
+// 五种走法：雷闪（落点放电）· 霜刃（路径冻结，击碎再突进）· 残影（起点留下会爆的分身）· 星刃（落点刀环，狂怒越多刀越多）· 虚空（起点撕开裂隙，裂隙杀怪再跃迁）
+fam({ id: 'blink_arc', name: '雷迹：闪现落地时放出 {v} 道迹电（每秒最多 8 次）', layer: 'link', values: [1, 1, 2, 2, 3], tags: ['link', 'movement', 'lightning', 'trigger'],
+  make: v => ({ rules: [trig('blinkLand', {}, [{ do: 'repeat', times: v, actions: [{ do: 'cast', skill: 'step_arc' }] }], { at: 'nearest', range: 750, chain: true, limit: { perSecond: 8 } })] }) });
+fam({ id: 'blink_trail', name: '冰痕：闪现划过的路径凝成冰刃，造成冰痕伤害（{v}%，每秒最多 6 次）', layer: 'link', values: [60, 75, 90, 110, 130], tags: ['link', 'movement', 'cold', 'area', 'trigger'],
+  make: v => ({ rules: [trig('blinkLand', {}, [{ do: 'cast', skill: 'frost_trail', at: 'self', mult: v }], { at: 'self', chain: true, limit: { perSecond: 6 } })] }) });
+fam({ id: 'shatter_dash', name: '碎冰追击：击碎冰冻敌人时 {v}% 几率立即再施放一次主技能（每秒最多 5 次）', layer: 'link', values: [25, 35, 45, 55, 70], tags: ['link', 'movement', 'cold', 'shatter', 'trigger'],
+  make: v => ({ rules: [trig('shatter', {}, [{ do: 'cast', skill: '$primary', at: 'self' }], { role: 'owned', chain: true, at: 'self', accumulate: { kind: 'chance', pct: v }, limit: { perSecond: 5 } })] }) });
+fam({ id: 'phantom_count', name: '残影 +{v}：每次闪现额外留下 {v} 个残影', layer: 'form', values: [1, 1, 1, 2, 2, 3], tags: ['form', 'movement', 'minion'],
+  make: v => ({ mods: [{ stat: 'summon.count', op: 'base', value: v, tags: ['movement'] }, { stat: 'minion.limit', op: 'base', value: v * 2, tags: ['movement'] }] }) });
+fam({ id: 'phantom_corpse', name: '余烬残影：被残影爆炸击杀的敌人 {v}% 几率在尸体处再留下一个残影（每秒最多 6 个）', layer: 'link', values: [45, 55, 65, 75, 90], tags: ['link', 'minion', 'fire', 'trigger'],
+  make: v => ({ rules: [trig('kill', { tags: ['phantom'] }, [{ do: 'summon', minion: 'phantom', at: 'event', count: 1, limit: 10 }], { role: 'owned', chain: true, at: 'event', accumulate: { kind: 'chance', pct: v }, limit: { perSecond: 10 } })] }) });
+fam({ id: 'blink_knives', name: '落刃：闪现落地时射出一圈刀锋环（{v}% 伤害，每秒最多 6 次）', layer: 'link', values: [60, 75, 90, 110, 130], tags: ['link', 'movement', 'projectile', 'trigger'],
+  make: v => ({ rules: [trig('blinkLand', {}, [{ do: 'cast', skill: 'blade_ring', at: 'self', mult: v }], { at: 'self', chain: true, limit: { perSecond: 6 } })] }) });
+fam({ id: 'blink_rift', name: '裂隙：闪现起点撕开虚空裂隙，持续吞噬附近敌人（{v}% 伤害，每秒最多 3 个）', layer: 'link', values: [45, 55, 70, 85, 100], tags: ['link', 'movement', 'chaos', 'area', 'trigger'],
+  make: v => ({ rules: [trig('blinkLand', {}, [{ do: 'cast', skill: 'void_rift', at: 'self', mult: v }], { at: 'self', chain: true, limit: { perSecond: 3 } })] }) });
+fam({ id: 'rift_leap', name: '跃迁回响：被裂隙击杀的敌人 {v}% 几率让你立即再施放一次主技能（每秒最多 4 次）', layer: 'link', values: [12, 16, 20, 25, 30], tags: ['link', 'movement', 'chaos', 'trigger'],
+  make: v => ({ rules: [trig('kill', { tags: ['rift'] }, [{ do: 'cast', skill: '$primary', at: 'self' }], { role: 'owned', chain: true, at: 'self', accumulate: { kind: 'chance', pct: v }, limit: { perSecond: 4 } })] }) });
+fam({ id: 'core_glacial_rush', name: '核心·冰川疾驰：突进与冰痕必定冰冻，对冰冻敌人的伤害提高 {v}%（更多）', layer: 'core', values: [30, 45, 60], slots: ['amulet', 'chest', 'helmet'], tags: ['core', 'movement', 'cold'],
+  make: v => ({ mods: [{ stat: 'chance.freeze', op: 'base', value: 100, tags: ['cold'] }, { stat: 'damage', op: 'more', value: v, when: { status: 'frozen', of: 'target' } }] }) });
+fam({ id: 'core_phantom_legion', name: '核心·残影军团：残影爆炸伤害提高 {v}%（更多）并必定点燃，0.4 秒后原地再爆一次', layer: 'core', values: [30, 45, 60], slots: ['amulet', 'chest', 'helmet'], tags: ['core', 'minion', 'fire'],
+  make: v => ({ mods: [{ stat: 'damage', op: 'more', value: v, tags: ['phantom'] }, { stat: 'chance.ignite', op: 'base', value: 100, tags: ['phantom'] }],
+    rules: [trig('death', { key: 'phantom' }, [{ do: 'area', at: 'event', delay: 0.4, radius: 180, damage: { fire: 30 }, fx: 'flame_burst', tags: ['phantom', 'explosion', 'area', 'fire'] }], { role: 'minion', at: 'event', chain: true, limit: { perSecond: 8 } })] }) });
+fam({ id: 'core_shadow_dance', name: '核心·影舞：每个狂怒球使刀锋环 +1 投射物；刀锋环伤害提高 {v}%（更多）并必定中毒', layer: 'core', values: [40, 60, 90], slots: ['amulet', 'helmet', 'gloves'], tags: ['core', 'charge', 'projectile'],
+  make: v => ({ mods: [{ stat: 'proj.count', op: 'base', value: 1, tags: ['triggered', 'projectile'], per: { res: 'frenzy' } }, { stat: 'damage', op: 'more', value: v, tags: ['triggered', 'projectile'] },
+    { stat: 'chance.poison', op: 'base', value: 100, tags: ['triggered', 'projectile'] }] }) });
+fam({ id: 'core_event_horizon', name: '核心·事件视界：裂隙把敌人吸向中心，结束时坍缩造成 300% 伤害；混沌伤害提高 {v}%（更多）', layer: 'core', values: [25, 35, 45], slots: ['amulet', 'chest', 'helmet'], tags: ['core', 'chaos', 'area', 'duration'],
+  make: v => ({ mods: [{ stat: 'zone.pull', op: 'base', value: 260, tags: ['rift'] }, { stat: 'zone.burst', op: 'base', value: 300, tags: ['rift'] }, { stat: 'damage', op: 'more', value: v, tags: ['chaos'] }] }) });
+
+// ================================================================== 炸盾体系：能量护盾当燃料
+// 三种玩法：盾爆骑士（主动消耗护盾，越满越痛）· 碎盾反击（被打破、充满时自动爆发）· 盾刃弹幕（消耗护盾射刃，命中回盾，循环）
+fam({ id: 'es_recharge', name: '能量护盾充能速度提高 {v}%', from: 10, to: 60, slots: ['helmet', 'chest', 'gloves', 'boots', 'offhand', 'amulet', 'belt'], tags: ['defence', 'es'], make: M('es.rechargeRate', 'inc') });
+fam({ id: 'es_quick', name: '急充：能量护盾充能延迟缩短 {v}%', layer: 'form', values: [15, 20, 25, 30, 40, 50], tags: ['form', 'defence', 'es'],
+  make: v => ({ mods: [{ stat: 'es.rechargeDelay', op: 'more', value: -v }] }) });
+fam({ id: 'shield_break_nova', name: '碎盾：能量护盾被打破时掀起碎盾寒潮（{v}% 伤害，冷却 0.4 秒）', layer: 'link', values: [70, 90, 110, 135, 160], tags: ['link', 'es', 'cold', 'trigger', 'defence'],
+  make: v => ({ rules: [trig('shieldBreak', {}, [{ do: 'cast', skill: 'shield_shatter', at: 'self', mult: v }], { at: 'self', limit: { cooldown: 0.4 } })] }) });
+fam({ id: 'shield_full_pulse', name: '满盾：能量护盾充满时放出满盾电涌（{v}% 伤害）', layer: 'link', values: [70, 90, 110, 135, 160], tags: ['link', 'es', 'lightning', 'trigger'],
+  make: v => ({ rules: [trig('shieldFull', {}, [{ do: 'cast', skill: 'shield_pulse', at: 'self', mult: v }], { at: 'self', limit: { cooldown: 0.3 } })] }) });
+fam({ id: 'kill_es', name: '汲盾：击杀时回复 {v}% 能量护盾', layer: 'link', values: [1, 1.5, 2, 3, 4], step: 0.5, tags: ['link', 'es', 'kill', 'defence'],
+  make: v => ({ rules: [trig('kill', {}, [{ do: 'heal', pool: 'es', pct: v }], { role: 'owned', at: 'self', chain: true, limit: { perSecond: 30 } })] }) });
+fam({ id: 'shard_es', name: '回流：消耗护盾的投射物命中时回复 {v} 点能量护盾', layer: 'link', values: [4, 6, 8, 11, 15], tags: ['link', 'es', 'projectile', 'defence'],
+  make: v => ({ rules: [trig('hit', { tags: ['shield', 'projectile'] }, [{ do: 'heal', pool: 'es', amount: v }], { at: 'self', chain: true, limit: { perSecond: 40 } })] }) });
+fam({ id: 'spend_thunder', name: '盾能外泄：每消耗 {v} 点能量护盾，在附近敌人身上落雷', layer: 'link', values: [120, 100, 80, 65, 50], tags: ['link', 'es', 'lightning', 'trigger'],
+  make: v => ({ rules: [trig('poolSpent', { key: 'es' }, [{ do: 'cast', skill: 'thunder_fall' }], { at: 'nearest', range: 600, chain: true, accumulate: { kind: 'meter', amount: { event: 'amount' }, threshold: v }, limit: { perSecond: 12 } })] }) });
+fam({ id: 'core_overcharge', name: '核心·过载护盾：能量护盾充能不会被打断；消耗护盾的技能伤害提高 {v}%（更多）', layer: 'core', values: [30, 45, 60], slots: ['amulet', 'chest', 'helmet'], tags: ['core', 'es'],
+  make: v => ({ mods: [{ stat: 'es.rechargeDelay', op: 'more', value: -100 }, { stat: 'damage', op: 'more', value: v, tags: ['shield'] }] }) });
+fam({ id: 'core_shatterguard', name: '核心·碎盾不息：护盾打破后几乎立刻重新充能，碎盾技能必定冰冻、余震 +2，伤害提高 {v}%（更多）', layer: 'core', values: [30, 45, 60], slots: ['chest', 'offhand', 'amulet'], tags: ['core', 'es', 'cold'],
+  make: v => ({ mods: [{ stat: 'es.rechargeDelay', op: 'more', value: -85 }, { stat: 'chance.freeze', op: 'base', value: 100, tags: ['shield'] }, { stat: 'area.cascade', op: 'base', value: 2, tags: ['shield'] }, { stat: 'damage', op: 'more', value: v, tags: ['shield'] }] }) });
+fam({ id: 'core_aegis_storm', name: '核心·盾刃风暴：消耗护盾的投射物 +{v} 个、连锁 +1 次', layer: 'core', values: [2, 3, 4], slots: ['amulet', 'chest', 'helmet'], tags: ['core', 'es', 'projectile'],
+  make: v => ({ mods: [{ stat: 'proj.count', op: 'base', value: v, tags: ['shield'] }, { stat: 'proj.chain', op: 'base', value: 1, tags: ['shield'] }] }) });
+
 // ================================================================== API
 export const families = () => [...FAMILIES.values()];
 export const family = id => { const f = FAMILIES.get(id); if (!f) throw new Error(`未知词条族 ${id}`); return f; };

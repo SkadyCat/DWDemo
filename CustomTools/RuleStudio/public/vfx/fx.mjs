@@ -385,6 +385,16 @@ export function createFx(T, scene) {
     });
     for (const z of list) {
       if (z.kind === 'tornado') continue;
+      if (z.kind === 'rift') {
+        // A tear in space (虚空裂隙): a dark violet swirl with motes falling into the middle.
+        const c = PAL.void, r = z.radius;
+        P.sprite('add', [z.x, .06, z.z], r * 2.3, mul(c.mid, .7), .4, CELL.ring, time * 4 + (z.seed ?? 0));
+        P.sprite('add', [z.x, .08, z.z], r * 1.6, mul(c.hot, .5), .3, CELL.ring, -time * 6 + (z.seed ?? 0));
+        P.sprite('add', [z.x, .5, z.z], r * 1.8, mul(c.mid, .5), .25, CELL.glow);
+        P.sprite('add', [z.x, .5, z.z], r * .5, c.core, .5, CELL.core);
+        if (Math.random() < .8) { const a = Math.random() * 6.28, d = r * (.8 + Math.random() * .4); P.emit('add', 1, { pos: [z.x + Math.cos(a) * d, .3, z.z + Math.sin(a) * d], vel: [-Math.cos(a) * d * 2.2 - Math.sin(a) * d * 1.5, .2, -Math.sin(a) * d * 2.2 + Math.cos(a) * d * 1.5], life: [.35, .5], size: [.06, .1], color: c.core, cell: CELL.streak, stretch: .05, fadeIn: .05, noThin: true }); }
+        continue;
+      }
       const el = z.kind === 'flame_wall' ? 'fire' : z.element, c = pal(el), area = Math.min(30, z.radius * z.radius * 3.14);
       const n = Math.max(1, Math.round(area * .9));
       if (el === 'fire') {
@@ -419,6 +429,15 @@ export function createFx(T, scene) {
   /** Minions: [{ x, z, template, id }] */
   function minions(list) {
     for (const m of list) {
+      if (m.template === 'phantom') {
+        // A flickering fire silhouette where the caster blinked from (残影).
+        const c = PAL.fire, pos = [m.x, .9, m.z], fl = .75 + Math.sin(time * 17 + m.id) * .15;
+        P.sprite('add', pos, 1.9, mul(c.mid, .8), .35 * fl, CELL.glow);
+        P.sprite('add', [m.x, .7, m.z], 1.2, c.hot, .55 * fl, CELL.flame2, Math.sin(time * 3 + m.id) * .2);
+        P.sprite('add', [m.x, 1.35, m.z], .6, c.core, .7 * fl, CELL.core);
+        if (Math.random() < .5) P.emit('add', 1, { pos: [m.x, .4, m.z], spread: .3, life: [.4, .7], size: [.35, .55], grow: .3, color: c.hot, color1: c.mid, alpha: .7, cell: CELL.flame2, dir: 'up', speed: [.6, 1.4], fadeIn: .1 });
+        continue;
+      }
       if (m.template === 'spirit_blade') {
         const a = time * 9 + m.id, pos = [m.x, .9 + Math.sin(time * 4 + m.id) * .1, m.z];
         P.sprite('add', pos, 1.3, [2.5, 3.2, 4.5], .9, CELL.streak, a);

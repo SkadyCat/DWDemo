@@ -25,6 +25,8 @@ export const GAME_SKILLS = Object.freeze({
   minions: patchList('minions', [
     { id: 'spirit_blade', name: '灵刃', life: 80, radius: 20, skills: ['spirit_slash'], duration: 12 },
     { id: 'storm_totem', name: '风暴图腾', life: 300, radius: 35, brain: 'turret', skills: ['totem_bolt'] },
+    // A decoy left where you blinked from: stands still, draws hits, and bursts when it fades (残影步).
+    { id: 'phantom', name: '残影', life: 60, radius: 26, brain: 'none', skills: [], duration: 1.4 },
   ]),
   skills: patchList('skills', [
     // ---- spells ----
@@ -65,7 +67,40 @@ export const GAME_SKILLS = Object.freeze({
       actions: [{ do: 'summon', minion: 'spirit_blade', count: 2, limit: 6 }] },
     { id: 'storm_totem_place', name: '风暴图腾', tags: ['spell', 'totem', 'lightning'], time: 0.6, cost: 15, range: 600,
       actions: [{ do: 'summon', minion: 'storm_totem', at: 'self', count: 1, limit: 1 }] },
+    // ---- blink skills (闪现体系): move first, then the landing does something; traits chain off 'blinkLand' ----
+    { id: 'storm_step', name: '雷闪步', tags: ['spell', 'movement', 'lightning', 'area'], time: 0.45, cost: 6, crit: 7, damage: { lightning: 24 }, range: 520,
+      actions: [{ do: 'blink', to: 'aim', range: 520 }, { do: 'area', at: 'self', radius: 130, fx: 'thunder' }] },
+    { id: 'frost_dash', name: '霜刃突进', tags: ['attack', 'melee', 'movement', 'cold', 'strike'], time: 0.55, crit: 6, damage: { physical: 16, cold: 22 }, range: 460,
+      actions: [{ do: 'blink', range: 460, avoidLast: true }, { do: 'strike', range: 150 }] },
+    // The phantom bursts in fire when it fades or is killed; the burst is this skill's damage.
+    { id: 'phantom_step', name: '残影步', tags: ['spell', 'movement', 'fire', 'minion'], time: 0.5, cost: 7, crit: 6, damage: { fire: 20 }, range: 500,
+      actions: [{ do: 'summon', minion: 'phantom', at: 'self', count: 1, limit: 4 }, { do: 'blink', to: 'aim', range: 500 }],
+      rules: [{ id: 'phantom_burst', on: 'death', role: 'minion', filter: { key: 'phantom' }, at: 'event', chain: true,
+        do: [{ do: 'area', at: 'event', radius: 210, fx: 'flame_burst', tags: ['phantom', 'explosion', 'area'] }] }] },
+    { id: 'star_step', name: '星刃瞬步', tags: ['attack', 'melee', 'movement', 'physical', 'strike'], time: 0.5, crit: 7, damage: { physical: 15, chaos: 6 }, range: 560,
+      actions: [{ do: 'blink', range: 560, avoidLast: true }, { do: 'strike', range: 130 }] },
+    { id: 'void_leap', name: '虚空跃迁', tags: ['spell', 'movement', 'chaos', 'area'], time: 0.5, cost: 7, crit: 6, damage: { chaos: 13 }, range: 600,
+      actions: [{ do: 'blink', range: 600, avoidLast: true }, { do: 'area', at: 'self', radius: 150, fx: 'poison' }] },
+    // ---- energy-shield skills (炸盾体系): energy shield is the fuel ----
+    // Spends half the current shield: the burst's base damage is a share of what was spent.
+    { id: 'aegis_nova', name: '盾爆', tags: ['spell', 'area', 'physical', 'nova', 'shield'], time: 0.6, cost: 4, crit: 6, damage: { physical: 26 }, range: 260,
+      actions: [{ do: 'spendPool', pool: 'es', pct: 50, as: 'spent' }, { do: 'area', at: 'self', radius: 250, fx: 'overload', damage: { physical: { var: 'spent', mul: 0.4, add: 26 } } }] },
+    { id: 'shield_bash', name: '盾击', tags: ['attack', 'melee', 'strike', 'physical', 'shield'], time: 0.6, crit: 6, damage: { physical: 40 }, range: 150,
+      // The shield arm hits harder the bigger the shield (a share of maximum energy shield is added).
+      actions: [{ do: 'strike', range: 150, damage: { physical: { pool: 'es', mul: 0.06, add: 40 } } }] },
+    { id: 'aegis_shards', name: '盾刃弹幕', tags: ['spell', 'projectile', 'cold', 'shield'], time: 0.5, cost: 3, crit: 7, damage: { cold: 10 }, range: 750,
+      actions: [{ do: 'spendPool', pool: 'es', pct: 10, as: 'spent' }, { do: 'projectile', count: 3, spread: 30, speed: 1400, radius: 18, lifetime: 0.8, pierce: 1, kind: 'frost_bolt', damage: { cold: { var: 'spent', mul: 0.06, add: 10 } } }] },
     // ---- skills only used by minions / triggers ----
+    { id: 'frost_trail', name: '冰痕', tags: ['attack', 'area', 'cold', 'triggered_only'], time: 0.5, crit: 6, damage: { cold: 26 }, range: 900,
+      actions: [{ do: 'area', shape: 'line', at: 'eventFrom', radius: { event: 'amount', add: 60 }, width: 120, fx: 'ice_burst' }] },
+    { id: 'step_arc', name: '迹电', tags: ['spell', 'lightning', 'chaining', 'triggered_only'], time: 0.5, crit: 8, damage: { lightning: 18 }, range: 700,
+      actions: [{ do: 'projectile', speed: 5000, radius: 20, chain: 2, chainRadius: 450, kind: 'arc', from: 'self' }] },
+    { id: 'void_rift', name: '虚空裂隙', tags: ['spell', 'area', 'chaos', 'duration', 'rift', 'triggered_only'], time: 0.5, crit: 5, damage: { chaos: 8 }, range: 900,
+      actions: [{ do: 'zone', kind: 'rift', at: 'eventFrom', radius: 170, duration: 2, interval: 0.3, hit: true }] },
+    { id: 'shield_shatter', name: '碎盾寒潮', tags: ['spell', 'area', 'cold', 'shield', 'triggered_only'], time: 0.5, crit: 6, damage: { cold: { pool: 'es', mul: 0.3, add: 20 } }, range: 900,
+      actions: [{ do: 'area', at: 'self', radius: 270, fx: 'ice_nova' }] },
+    { id: 'shield_pulse', name: '满盾电涌', tags: ['spell', 'area', 'lightning', 'shield', 'triggered_only'], time: 0.5, crit: 6, damage: { lightning: { pool: 'es', mul: 0.12, add: 10 } }, range: 900,
+      actions: [{ do: 'area', at: 'self', radius: 300, fx: 'overload' }] },
     { id: 'spirit_slash', name: '灵刃斩', tags: ['attack', 'melee', 'minion'], time: 0.5, crit: 5, damage: { physical: 10 }, range: 90, actions: [{ do: 'strike', range: 90 }] },
     { id: 'totem_bolt', name: '图腾雷击', tags: ['spell', 'lightning', 'totem'], time: 0.5, crit: 6, damage: { lightning: 12 }, range: 700,
       actions: [{ do: 'projectile', speed: 4000, chain: 2, chainRadius: 400, kind: 'arc' }] },

@@ -1,4 +1,4 @@
-// 生成十一个流派的分阶段收集清单与验证数字（docs/core-archetypes.md）。
+// 生成全部示范流派的分阶段收集清单与验证数字（docs/core-archetypes.md）。
 import fs from 'node:fs';
 import { gameContent } from '../core/content/game.mjs';
 import { ARCHETYPES } from '../core/content/archetypes.mjs';
@@ -9,7 +9,7 @@ import { lineUsefulness, hordeProbe } from '../core/analysis.mjs';
 const content = gameContent();
 const out = [];
 const by = {}; for (const f of families()) by[f.layer] = (by[f.layer] || 0) + 1;
-out.push('# 十个示范流派：分阶段收集清单', '', `词条族 ${families().length} 个（${Object.entries(by).map(([k, v]) => `${LAYERS[k].name} ${v}`).join('、')}），共 ${lineCount()} 条不同词条（族 × T 阶）。`, '',
+out.push(`# ${ARCHETYPES.length} 个示范流派：分阶段收集清单`, '', `词条族 ${families().length} 个（${Object.entries(by).map(([k, v]) => `${LAYERS[k].name} ${v}`).join('、')}），共 ${lineCount()} 条不同词条（族 × T 阶）。`, '',
   '每件装备 = 3 条基底（武器第 1 条是主动技能，其余是特性：形态/联动/核心）+ 随机数值词条（各阶段每件 2/3/4/5/6 条）。',
   '每个阶段的配装由 `core/content/builds.mjs` 按质变阶梯自动铺到 10 件装备上。清怪/首领来自 `core/sim.mjs`（12 秒 + 首领战，种子 3）；怪潮来自 `hordeProbe`（200 只怪铺满半径 1300）。', '');
 const json = [];

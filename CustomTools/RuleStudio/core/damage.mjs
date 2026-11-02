@@ -67,8 +67,9 @@ function mitigate(world, attacker, target, type, amount, tags, isHit) {
 }
 
 /** Take damage into energy shield then life (chaos skips shield unless the defender says otherwise). */
-function absorb(world, target, byType) {
+function absorb(world, target, byType, source = null) {
   let total = 0;
+  const esBefore = target.es;
   for (const t in byType) total += byType[t];
   let toEs = total - (byType.chaos || 0) * (world.stat(target, 'chaosBypassEs') ? 1 : 0);
   const fromEs = Math.min(target.es, toEs);
@@ -79,6 +80,8 @@ function absorb(world, target, byType) {
   target.life -= rest;
   if (target.life <= 0 && world.quick(target, 'immortal')) target.life = 1; // training dummies
   if (total > 0 && target.max.es > 0) target.esDelay = world.stat(target, 'es.rechargeDelay');
+  // The shield just broke: rules can answer it (炸盾 / 破盾反击). `target` of the event is whoever broke it.
+  if (esBefore > 0 && target.es <= 0 && target.max.es > 0) world.emit({ type: 'shieldBreak', source: target, target: source, key: 'es', amount: esBefore, x: target.x, y: target.y });
   return total;
 }
 
@@ -87,7 +90,7 @@ export function kill(world, target, source, extra = {}) {
   target.alive = false; target.life = 0;
   world.emit({ type: 'kill', source, target, x: target.x, y: target.y, ...extra });
   if (target.hasStatus('frozen')) world.emit({ type: 'shatter', source, target, x: target.x, y: target.y, ...extra });
-  world.emit({ type: 'death', source: target, target: source, x: target.x, y: target.y, depth: extra.depth ?? 0 });
+  world.emit({ type: 'death', source: target, target: source, key: target.template, x: target.x, y: target.y, depth: extra.depth ?? 0 });
 }
 
 /**
@@ -137,7 +140,7 @@ export function hit(world, spec) {
     for (const l of c.lineage) raw[`~${l}`] = (raw[`~${l}`] || 0) + scaled;
     byType[c.type] = (byType[c.type] || 0) + mitigate(world, source, target, c.type, scaled, ct, true);
   }
-  const amount = absorb(world, target, byType);
+  const amount = absorb(world, target, byType, source);
   const eventTags = [...hitTags, ...Object.keys(byType).filter(t => byType[t] > 0)];
   for (const t of Object.keys(byType)) if (ELEMENTS.includes(t) && byType[t] > 0) { eventTags.push('elemental'); break; }
 
@@ -199,7 +202,7 @@ export function dotDamage(world, bearer, inst, dt) {
   let dps = inst.dps;
   if (source) dps *= world.stat(source, 'dotDamage', tags, { world, self: source, target: bearer, tags }) / 100;
   const amount = mitigate(world, source, bearer, type, dps * dt, tags, false);
-  absorb(world, bearer, { [type]: amount });
+  absorb(world, bearer, { [type]: amount }, source);
   inst.dealt = (inst.dealt || 0) + amount;
   inst.tickTimer = (inst.tickTimer ?? 0.5) - dt;
   if (inst.tickTimer <= 0) {

@@ -55,6 +55,8 @@ function point(at, inv) {
     case 'origin': return inv.origin;
     case 'target': return inv.target ? { x: inv.target.x, y: inv.target.y } : inv.aim;
     case 'event': return inv.event ? { x: inv.event.x ?? inv.event.target?.x ?? inv.caster.x, y: inv.event.y ?? inv.event.target?.y ?? inv.caster.y } : inv.aim;
+    // Where a movement event started (a blink's take-off point): for trails along the path.
+    case 'eventFrom': return inv.event?.fromX !== undefined ? { x: inv.event.fromX, y: inv.event.fromY } : point('self', inv);
     default: return inv.aim;
   }
 }
@@ -87,7 +89,10 @@ defineAction('area', (a, inv) => {
     const shape = a.shape ?? 'circle', at = a.at ?? (shape === 'circle' ? 'aim' : 'origin'), c = fixed ?? point(at, inv);
     // Areas centred on the caster reach from the caster's edge, matching how melee range is measured.
     const r = areaRadius(a, inv) + (!inv.remote && (at === 'self' || (at === 'origin' && c.x === inv.caster.x && c.y === inv.caster.y)) ? inv.caster.radius : 0);
-    const dirx = inv.aim.x - inv.origin.x, diry = inv.aim.y - inv.origin.y, len = Math.hypot(dirx, diry) || 1;
+    // Cones and lines point from their centre toward the aim (from the origin when the centre is the aim itself).
+    let dirx = inv.aim.x - c.x, diry = inv.aim.y - c.y;
+    if (Math.hypot(dirx, diry) < 1e-6) { dirx = inv.aim.x - inv.origin.x; diry = inv.aim.y - inv.origin.y; }
+    const len = Math.hypot(dirx, diry) || 1;
     const half = (a.angle ?? 90) * Math.PI / 360, width = num(a.width, inv, 60);
     const hits = [];
     inv.world.grid.query(c.x, c.y, shape === 'line' ? r + width : r, o => {
@@ -98,7 +103,7 @@ defineAction('area', (a, inv) => {
       hits.push(o);
     }, { notTeam: inv.caster.team });
     hits.sort((p, q) => p.id - q.id);
-    inv.world.emit({ type: 'area', source: inv.caster, skill: inv.skill, x: c.x, y: c.y, radius: r, shape, fx: a.fx, tags: [...inv.tags], depth: inv.depth });
+    inv.world.emit({ type: 'area', source: inv.caster, skill: inv.skill, x: c.x, y: c.y, radius: r, shape, dx: dirx / len, dy: diry / len, fx: a.fx, tags: [...inv.tags], depth: inv.depth });
     for (const o of hits) hitAndFollow(a, inv.fork({ origin: c }), o);
     if (a.onCast) run(a.onCast, inv.fork({ origin: c, aim: c }));
     // Aftershocks (area.cascade): smaller repeats of a skill's area landing around it.
@@ -202,6 +207,20 @@ defineAction('consume', (a, inv) => {
   if (kept) inv.world.emit({ type: 'resourceSpend', source: who, key: a.res, amount: n, kept: true, depth: inv.depth });
   inv.vars[a.as ?? a.res] = n;
 });
+/**
+ * Spend part of a pool (energy shield, mana, life) as fuel: `pct` of what is there now (or `pctMax` of the
+ * maximum), never below `keep`. The amount spent goes into `as` and a 'poolSpent' event. Spending does not
+ * interrupt energy shield recharge — that is what makes "detonate, refill, detonate" builds work.
+ */
+defineAction('spendPool', (a, inv) => {
+  const t = a.on === 'target' ? inv.target : inv.caster, pool = a.pool ?? 'es';
+  if (!t?.alive) { if (a.as) inv.vars[a.as] = 0; return; }
+  const have = t[pool] ?? 0, want = have * num(a.pct, inv, 0) / 100 + t.max[pool] * num(a.pctMax, inv, 0) / 100;
+  const spent = Math.max(0, Math.min(have - num(a.keep, inv, pool === 'life' ? 1 : 0), want));
+  t[pool] = have - spent;
+  if (a.as) inv.vars[a.as] = spent;
+  if (spent > 0) inv.world.emit({ type: 'poolSpent', source: t, key: pool, amount: spent, skill: inv.skill, tags: [...inv.tags], x: t.x, y: t.y, depth: inv.depth });
+});
 defineAction('set', (a, inv) => { inv.vars[a.var] = num(a.value, inv); });
 defineAction('more', (a, inv) => { inv.mult *= Math.max(0, 1 + num(a.value, inv) / 100); });
 defineAction('tag', (a, inv) => { inv.tags = new Set([...inv.tags, ...a.tags]); });
@@ -254,11 +273,15 @@ defineAction('blink', (a, inv) => {
   if (inv.remote) return; // a re-cast from a corpse strikes there; it never moves the caster
   const range = num(a.range, inv, 600);
   const t = a.to === 'aim' ? null : inv.world.nearest(inv.caster, 'enemy', range, a.avoidLast ? new Set([inv.caster.lastBlink]) : null);
-  const p = t ? { x: t.x - Math.sign(t.x - inv.caster.x || 1) * (t.radius + inv.caster.radius), y: t.y } : inv.aim;
-  inv.world.emit({ type: 'blink', source: inv.caster, x: p.x, y: p.y, fromX: inv.caster.x, fromY: inv.caster.y, depth: inv.depth });
-  if (!inv.world.clearLine(inv.caster.x, inv.caster.y, p.x, p.y, inv.caster.radius * 0.5)) return; // no blinking through walls
+  let p = t ? { x: t.x - Math.sign(t.x - inv.caster.x || 1) * (t.radius + inv.caster.radius), y: t.y } : { ...inv.aim };
+  const fromX = inv.caster.x, fromY = inv.caster.y, far = Math.hypot(p.x - fromX, p.y - fromY);
+  if (!t && far > range) p = { x: fromX + (p.x - fromX) / far * range, y: fromY + (p.y - fromY) / far * range }; // blinking to a point stays within range
+  inv.world.emit({ type: 'blink', source: inv.caster, x: p.x, y: p.y, fromX, fromY, depth: inv.depth });
+  if (!inv.world.clearLine(fromX, fromY, p.x, p.y, inv.caster.radius * 0.5)) return; // no blinking through walls
   inv.caster.x = p.x; inv.caster.y = p.y;
   if (t) { inv.caster.lastBlink = t.id; inv.target = t; inv.aim = { x: t.x, y: t.y }; }
+  // Landed: rules that act at the destination or along the path (trails, landing novas, phantoms at the take-off point).
+  inv.world.emit({ type: 'blinkLand', source: inv.caster, target: t ?? null, skill: inv.skill, tags: [...inv.tags], x: p.x, y: p.y, fromX, fromY, amount: Math.hypot(p.x - fromX, p.y - fromY), depth: inv.depth });
 });
 
 /** Explode the event's dead target for a share of its maximum life (corpse/kill explosions). */
@@ -271,11 +294,11 @@ defineAction('explode', (a, inv) => {
 
 defineAction('summon', (a, inv) => {
   const w = inv.world, c = point(a.at ?? 'self', inv);
-  const count = Math.round(num(a.count, inv, 1));
+  const count = Math.round(num(a.count, inv, 1) + inv.stat('summon.count'));
   const limit = Math.round(inv.stat('minion.limit', num(a.limit, inv, count)));
   const mine = [...inv.caster.minions].filter(m => m.alive && m.template === a.minion);
   for (let i = 0; i < count; ++i) {
-    if (mine.length >= limit) { const old = mine.shift(); old.alive = false; w.emit({ type: 'death', source: old, x: old.x, y: old.y, unsummoned: true }); }
+    if (mine.length >= limit) { const old = mine.shift(); old.alive = false; w.emit({ type: 'death', source: old, key: old.template, x: old.x, y: old.y, unsummoned: true }); }
     const ang = (i / Math.max(1, count)) * Math.PI * 2;
     const m = w.spawnFromTemplate(a.minion, { owner: inv.caster, team: inv.caster.team, x: c.x + Math.cos(ang) * 60, y: c.y + Math.sin(ang) * 60, duration: a.duration !== undefined ? num(a.duration, inv) * inv.stat('duration') / 100 : undefined });
     mine.push(m);

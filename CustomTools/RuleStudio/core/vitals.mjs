@@ -35,7 +35,11 @@ export const vitals = {
       if (mr) a.mana = Math.min(a.max.mana * (1 - a.reserved / 100), a.mana + mr * dt);
       if (a.max.es > 0) {
         if (a.esDelay > 0) a.esDelay -= dt;
-        else if (a.es < a.max.es) a.es = Math.min(a.max.es, a.es + a.max.es * world.stat(a, 'es.rechargeRate') / 100 * dt);
+        else if (a.es < a.max.es) {
+          a.es = Math.min(a.max.es, a.es + a.max.es * world.stat(a, 'es.rechargeRate') / 100 * dt);
+          // Recharged to full: an event for shield rules (only when some rule listens).
+          if (a.es >= a.max.es && world.ruleIndex?.get('shieldFull')?.length) world.emit({ type: 'shieldFull', source: a, key: 'es', amount: a.max.es, x: a.x, y: a.y });
+        }
       }
       // Charges expire together when not refreshed
       if (a.resourceTimers.size) for (const c of CHARGES) {

@@ -68,6 +68,12 @@ export function createEffects(T, scene) {
         const ang = e.source ? Math.atan2(e.y - e.source.y, e.x - e.source.x) : 0;
         const dir = Math.hypot(e.x - (e.source?.x ?? e.x), e.y - (e.source?.y ?? e.y)) > 5 ? ang : Math.atan2(e.source?.aim?.y ?? 0, e.source?.aim?.x ?? 1);
         if (e.tags?.includes('cascade')) { el === 'cold' ? R.nova(at, r, el) : R.explosion(at, r * .8, el, { ground: false }); break; }
+        if (e.shape === 'line' && e.dx !== undefined) {
+          // A path (冰痕 and other trails): bursts every ~0.8 m along it.
+          const n = Math.max(2, Math.min(10, Math.round(e.radius / 80)));
+          for (let i = 0; i <= n; ++i) { const t = e.radius * i / n; R.impact(V(e.x + e.dx * t, e.y + e.dy * t, .3), el, { scale: 1.1 }); }
+          break;
+        }
         switch (e.fx) {
           case 'ice_nova': case 'ice_burst': R.nova(at, r, 'cold'); break;
           case 'cleave': R.slash(at, dir, r, el, { span: 2.2 }); break;

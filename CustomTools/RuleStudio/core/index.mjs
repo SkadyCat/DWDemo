@@ -26,7 +26,7 @@ const brains = {
     const moveRules = world.ruleIndex.get('move');
     for (const a of world.actors.values()) {
       if (!a.alive) continue;
-      if (a.expireAt !== undefined && world.time >= a.expireAt) { a.alive = false; world.emit({ type: 'death', source: a, x: a.x, y: a.y }); continue; }
+      if (a.expireAt !== undefined && world.time >= a.expireAt) { a.alive = false; world.emit({ type: 'death', source: a, key: a.template, x: a.x, y: a.y, expired: true }); continue; }
       const ox = a.x, oy = a.y;
       if (a.channeling) channelTick(world, a, dt);
       if (a.brain && a.brain !== 'none' && !world.quick(a, 'cannotAct')) think(world, a, dt);

@@ -54,6 +54,10 @@ const SKILL_DESC = {
   cleave: '向前方挥出 120° 的弧形斩击。', cyclone: '按住持续旋转，不停斩击身边的敌人。',
   falling_thunder: '向前砸地，扇形范围伤害；每消耗 1 个暴击球，额外伤害提高并射出两道雷电。', flicker_strike: '闪到附近的敌人身边并攻击它。',
   viper_knives: '扔出三把带毒的飞刃。',
+  storm_step: '闪到瞄准的地方，落地炸开一圈雷。', frost_dash: '突进到附近的敌人身边斩下一刀（冰霜）。',
+  phantom_step: '在原地留下一个残影再闪走；残影消散或被打死时炸开火焰。怪会先去打残影。', star_step: '瞬移到附近的敌人身边斩下一刀。',
+  void_leap: '跃到附近的敌人身边，炸开一圈混沌。', aegis_nova: '引爆当前一半的能量护盾，炸开一圈：消耗的护盾越多伤害越高。护盾会照常重新充能。',
+  shield_bash: '用盾猛击面前的敌人，最大能量护盾越高打得越痛。', aegis_shards: '削下当前 10% 的能量护盾化成三把冰刃射出，伤害随消耗量提高。',
 };
 /** Currencies that act on one chosen line: 'trait' = base traits only, 'any' = a trait or a random line. */
 const CURRENCY_TARGET = { seal: 'any', temper: 'trait', essence_form: 'trait', essence_link: 'trait', essence_core: 'trait' };
