@@ -164,7 +164,7 @@ const ThingTip = {
       <ul class="itip-lines" v-if="data.stone.mods.length"><li v-for="m in data.stone.mods" :key="m"><span>{{ NODE_MODS[m].text }}</span></li></ul>
       <p v-else class="thing-desc">没有地图词缀。</p>
       <dl class="thing-rows" v-if="stoneLoot(data.stone).length"><div v-for="r in stoneLoot(data.stone)" :key="r[0]"><dt>{{ r[0] }}</dt><dd>{{ r[1] }}</dd></div></dl>
-      <p class="thing-desc">开启 T{{ data.stone.tier }} 及以下的节点，开图时消耗；节点阶更低时按 T{{ data.stone.tier }} 打。</p>
+      <p class="thing-desc">可以放进任意节点，开图时消耗；这张图按路石的阶 T{{ data.stone.tier }} 打。</p>
       <p v-if="data.note" class="thing-note">{{ data.note }}</p>
     </template>
     <template v-else-if="kind === 'currency'">
@@ -308,9 +308,9 @@ const TEMPLATE = /* html */ `
     <!-- the map device: waystones in the stash; the atlas itself opens from the rail (M) -->
     <main class="hub panel">
       <h2 class="ttl">地图装置</h2>
-      <p class="hub-lead">每张地图要放入一块路石才能开启：路石 T 阶不低于节点，开图时消耗。打倒首领必掉路石，精英偶尔掉落。营地旁的 T1 节点不需要路石。</p>
+      <p class="hub-lead">每张地图要放入一块路石才能开启：任意阶的路石都能放进任意节点，这张图按路石的阶打，开图时消耗。打倒首领必掉路石，精英偶尔掉落。营地旁的 T1 节点不需要路石。</p>
       <div class="ws-grid">
-        <button v-for="w in stash" :key="w.uid" class="ws" :class="'w-' + w.rarity" @mouseenter="hoverThing($event, 'waystone', { stone: w, note: '点一下：在图集里选一个能用它的节点' })" @mouseleave="hoverOff" @click="openAtlasFor(w)"><Gi n="stone-tablet" :c="'w-' + w.rarity"/><b>{{ w.tier }}</b></button>
+        <button v-for="w in stash" :key="w.uid" class="ws" :class="'w-' + w.rarity" @mouseenter="hoverThing($event, 'waystone', { stone: w, note: '点一下：打开图集，选一个节点用它' })" @mouseleave="hoverOff" @click="openAtlasFor(w)"><Gi n="stone-tablet" :c="'w-' + w.rarity"/><b>{{ w.tier }}</b></button>
         <p v-if="!stash.length" class="hint">还没有路石。去 T1 节点打首领拿第一块。</p>
       </div>
       <p class="hub-count"><b>{{ save.waystones.length }}</b> 块路石 · 已打通 <b>{{ save.atlas.done.length }}</b> / {{ atlas.nodes.length }} 节点 · 可进入 <b>{{ atlasOpenCount }}</b></p>
@@ -412,18 +412,18 @@ const TEMPLATE = /* html */ `
         <!-- every waystone in the bag: pick one to run this node at the stone's tier -->
         <h4 class="sub">地图 <small>背包里的路石 {{ save.waystones.length }} 块 · 选一块按它的阶打</small></h4>
         <div class="ws-grid">
-          <button v-for="(w, i) in stoneCells" :key="w ? w.uid : 'e' + i" class="ws" :disabled="!w || w.tier < selNode.tier"
-            :class="w ? ['w-' + w.rarity, { on: w.uid === wsSel, low: w.tier < selNode.tier }] : 'empty'"
-             @mouseenter="w && hoverThing($event, 'waystone', { stone: w, note: w.tier < selNode.tier ? '低于这个节点（T' + selNode.tier + '），不能用' : w.uid === wsSel ? '已选中' + (freeNode ? '：再点一下取消' : '') : '点一下选中，本次按 T' + Math.max(w.tier, selNode.tier) + ' 打' })" @mouseleave="hoverOff" @click="w && pickStone(w)">
+          <button v-for="(w, i) in stoneCells" :key="w ? w.uid : 'e' + i" class="ws" :disabled="!w"
+            :class="w ? ['w-' + w.rarity, { on: w.uid === wsSel }] : 'empty'"
+             @mouseenter="w && hoverThing($event, 'waystone', { stone: w, note: w.uid === wsSel ? '已选中' + (freeNode ? '：再点一下取消' : '') : '点一下选中，本次按 T' + w.tier + ' 打' })" @mouseleave="hoverOff" @click="w && pickStone(w)">
             <template v-if="w"><Gi n="stone-tablet" :c="'w-' + w.rarity"/><b>{{ w.tier }}</b></template></button>
         </div>
         <p v-if="!save.waystones.length" class="ws-none">背包里还没有路石：打倒首领必掉。</p>
         <ul class="ac-mods ws-mods" v-if="stone && stone.mods.length"><li v-for="m in stone.mods" :key="m">{{ nodeModText(m) }}</li></ul>
       </div>
       <div class="ac-stone">
-        <p class="ws-sum" v-if="stone">消耗 <b :class="'w-' + stone.rarity">{{ waystoneName(stone) }}</b> · 本次按 <b>T{{ runTier }}</b> 打<template v-if="stone.tier > selNode.tier">（节点 T{{ selNode.tier }}）</template></p>
-        <p class="ws-sum" v-else-if="freeNode">T{{ selNode.tier }} 节点不需要路石；选一块路石可以提高本次的阶。</p>
-        <p class="ws-sum bad" v-else>需要一块 T{{ selNode.tier }} 及以上的路石</p>
+        <p class="ws-sum" v-if="stone">消耗 <b :class="'w-' + stone.rarity">{{ waystoneName(stone) }}</b> · 本次按 <b>T{{ runTier }}</b> 打<template v-if="stone.tier !== selNode.tier">（节点标注 T{{ selNode.tier }}）</template></p>
+        <p class="ws-sum" v-else-if="freeNode">T{{ selNode.tier }} 节点不需要路石；放一块路石就按路石的阶打。</p>
+        <p class="ws-sum bad" v-else>需要一块路石（任意阶都行）</p>
       </div>
       <footer class="ac-foot">
         <button class="orn-btn primary big" :disabled="!canStart" @click="startRun">{{ startText }}</button>
@@ -684,19 +684,21 @@ export function mountGame(el) {
       const RANK = { rare: 0, magic: 1, normal: 2 };
       const stash = computed(() => [...save.waystones].sort((a, b) => a.tier - b.tier || RANK[a.rarity] - RANK[b.rarity]));
       const freeNode = computed(() => atlas.nodes[atlasSel.value].tier <= FREE_TIER);
-      const usable = computed(() => stash.value.filter(w => w.tier >= atlas.nodes[atlasSel.value].tier));
+      // Any waystone fits any node: the stone's tier is the run's tier.
+      const usable = computed(() => stash.value);
+      const nearestStone = t => { const up = stash.value.find(w => w.tier >= t); return up ?? stash.value[stash.value.length - 1] ?? null; };
       const stone = computed(() => usable.value.find(w => w.uid === wsSel.value) ?? null);
       // Nodes that need a stone pick the lowest fitting one; free nodes start without one (a stone only raises the tier).
-      watch([atlasSel, () => save.waystones.length], () => { if (!usable.value.some(w => w.uid === wsSel.value)) wsSel.value = freeNode.value ? null : usable.value[0]?.uid ?? null; }, { immediate: true });
+      watch([atlasSel, () => save.waystones.length], () => { if (!usable.value.some(w => w.uid === wsSel.value)) wsSel.value = freeNode.value ? null : nearestStone(atlas.nodes[atlasSel.value].tier)?.uid ?? null; }, { immediate: true });
       const stoneCells = computed(() => { const n = Math.max(12, Math.ceil(stash.value.length / 6) * 6); return Array.from({ length: n }, (_, i) => stash.value[i] ?? null); });
-      function pickStone(w) { if (w.tier < atlas.nodes[atlasSel.value].tier) return; wsSel.value = wsSel.value === w.uid && freeNode.value ? null : w.uid; }
-      const runTier = computed(() => Math.max(atlas.nodes[atlasSel.value].tier, stone.value?.tier ?? 0));
+      function pickStone(w) { wsSel.value = wsSel.value === w.uid && freeNode.value ? null : w.uid; }
+      const runTier = computed(() => stone.value ? stone.value.tier : atlas.nodes[atlasSel.value].tier);
       const reachable = computed(() => ['done', 'open'].includes(view.value.status(atlasSel.value)));
       const canStart = computed(() => (!run.value || run.value.phase === 'cleared') && reachable.value && (freeNode.value || !!stone.value));
       const startText = computed(() => run.value && run.value.phase !== 'cleared' ? '先打倒首领或撤离' : !reachable.value ? '尚未连通' : !freeNode.value && !stone.value ? '需要路石' : view.value.status(atlasSel.value) === 'done' ? '再次进入' : '开启地图');
       const waystoneTip = w => [waystoneName(w), ...w.mods.map(m => '· ' + NODE_MODS[m].text)].join('\n');
       function openAtlasFor(w) {
-        const near = [...view.value.open, ...view.value.done].map(id => atlas.nodes[id]).filter(n => n.tier <= w.tier).sort((a, b) => b.tier - a.tier || (view.value.status(a.id) === 'open' ? -1 : 1))[0];
+        const near = [...view.value.open, ...view.value.done].map(id => atlas.nodes[id]).sort((a, b) => (view.value.status(a.id) === 'open' ? 0 : 1) - (view.value.status(b.id) === 'open' ? 0 : 1) || Math.abs(a.tier - w.tier) - Math.abs(b.tier - w.tier))[0];
         if (near) { atlasSel.value = near.id; nextTick(() => { wsSel.value = w.uid; }); }
         if (!atlasOpen.value) toggle('atlas');
       }
@@ -917,7 +919,7 @@ export function mountGame(el) {
         }
         const node = atlas.nodes[atlasSel.value], st = view.value.status(node.id);
         if (st !== 'done' && st !== 'open') { toast('这个节点还没连通：先打通与它相连的地图', 'bad'); return; }
-        if (!freeNode.value && !stone.value) { toast(`需要一块 T${node.tier} 及以上的路石`, 'bad'); return; }
+        if (!freeNode.value && !stone.value) { toast('需要一块路石（任意阶都行）', 'bad'); return; }
         const used = stone.value, tier = runTier.value, mods = selMods.value;
         if (used) save.waystones.splice(save.waystones.findIndex(w => w.uid === used.uid), 1);
         persist(); atlasOpen.value = false; talentOpen.value = false;
