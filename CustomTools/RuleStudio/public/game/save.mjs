@@ -58,8 +58,8 @@ export function equip(save, uid, slot = null) {
   const ring = s => s === 'ring1' || s === 'ring2';
   if (slot && !(slot === item.slot || (ring(slot) && ring(item.slot)))) return false;
   if (!slot) slot = ring(item.slot) ? (!save.equipped.ring1 ? 'ring1' : !save.equipped.ring2 ? 'ring2' : 'ring1') : item.slot;
-  save.inventory.splice(i, 1);
-  if (save.equipped[slot]) save.inventory.push(save.equipped[slot]);
+  // The piece taken off lands in the bag cell the new one came from (a swap, not a reshuffle).
+  if (save.equipped[slot]) save.inventory.splice(i, 1, save.equipped[slot]); else save.inventory.splice(i, 1);
   save.equipped[slot] = { ...item, slot };
   syncSkillBar(save);
   return true;

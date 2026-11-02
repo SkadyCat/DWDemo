@@ -817,7 +817,9 @@ export function mountGame(el) {
         if (kind === 'currency' && data.have === undefined) data = { ...data, have: save.currencies[data.id] || 0 };
         return placeTip(e.currentTarget, { kind, data });
       }
+      let lastAnchor = null;
       async function placeTip(anchor, value) {
+        lastAnchor = anchor;
         if (tipPinned.value) return;          // a pinned tooltip stays until it is closed
         hover.value = value;
         await nextTick();
@@ -851,7 +853,16 @@ export function mountGame(el) {
           nextTick(() => gsap?.fromTo('.tipwrap .itip', { filter: 'brightness(1.7)' }, { filter: 'brightness(1)', duration: .45, ease: 'power2.out' }));
         }
       }
-      function doEquip(uid, slot = null) { if (equip(save, uid, slot)) { picked.value = null; hover.value = null; questFire({ type: 'equip' }); gearChanged(); } }
+      function doEquip(uid, slot = null) {
+        const at = save.inventory.findIndex(it => it.uid === uid), anchor = lastAnchor, n = save.inventory.length;
+        if (!equip(save, uid, slot)) return;
+        const swapped = save.inventory.length === n;
+        hover.value = null; questFire({ type: 'equip' }); gearChanged();
+        // The old piece now sits in the same cell: select it and show its tooltip there, so it can be swapped straight back.
+        const back = save.inventory[at];
+        picked.value = swapped && at >= 0 ? back : null;
+        if (picked.value && anchor?.isConnected) nextTick(() => hoverOn({ currentTarget: anchor }, picked.value));
+      }
       function doUnequip(s) { if (!save.equipped[s]) return; unequip(save, s); picked.value = null; hover.value = null; gearChanged(); }
       function dragStart(it) { dragItem.value = it; hover.value = null; }
       function dropOn(s) { const it = dragItem.value; dropSlot.value = null; dragItem.value = null; if (it) doEquip(it.uid, s); }
