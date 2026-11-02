@@ -1,0 +1,59 @@
+{
+ "generator": "Tools/LowPoly/lowpoly_fantasy_gen.py",
+ "heroes": [
+  {
+   "name": "LP_Wizard",
+   "seed": 500,
+   "mage_kind": "wizard",
+   "height_m": 1.648,
+   "head_top_m": 1.648,
+   "bones": 87,
+   "tris": 3494
+  },
+  {
+   "name": "LP_Pyromancer",
+   "seed": 501,
+   "mage_kind": "pyromancer",
+   "height_m": 1.661,
+   "head_top_m": 1.661,
+   "bones": 87,
+   "tris": 3180
+  },
+  {
+   "name": "LP_Frost",
+   "seed": 502,
+   "mage_kind": "frost",
+   "height_m": 1.604,
+   "head_top_m": 1.604,
+   "bones": 87,
+   "tris": 2938
+  },
+  {
+   "name": "LP_Druid",
+   "seed": 503,
+   "mage_kind": "druid",
+   "height_m": 1.56,
+   "head_top_m": 1.56,
+   "bones": 87,
+   "tris": 3348
+  },
+  {
+   "name": "LP_Warlock",
+   "seed": 504,
+   "mage_kind": "warlock",
+   "height_m": 1.593,
+   "head_top_m": 1.593,
+   "bones": 87,
+   "tris": 3224
+  },
+  {
+   "name": "LP_Alchemist",
+   "seed": 505,
+   "mage_kind": "alchemist",
+   "height_m": 1.688,
+   "head_top_m": 1.688,
+   "bones": 87,
+   "tris": 2964
+  }
+ ]
+}

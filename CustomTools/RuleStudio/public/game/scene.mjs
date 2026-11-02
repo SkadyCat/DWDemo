@@ -5,6 +5,7 @@ import { createDungeonPortal } from '../prefabs/dungeon-portal.mjs';
 import { createLootMarkers } from '../prefabs/loot-markers.mjs';
 import { createPost } from '../vfx/post.mjs';
 import { createEffects } from './effects.mjs';
+import { Characters } from './characters.mjs';
 import { rarityOf, itemName, CURRENCIES, baseLinesOf } from '../../core/content/items.mjs';
 import { waystoneName } from './waystones.mjs';
 
@@ -56,6 +57,9 @@ export class Scene3D {
     const ring = new THREE.Mesh(new THREE.RingGeometry(0.5, 0.58, 40), new THREE.MeshBasicMaterial({ color: 0x33e6ff, transparent: true, opacity: 0.7 }));
     ring.rotation.x = -Math.PI / 2; ring.position.y = 0.02;
     hero.add(body, head, staff, focus, ring); scene.add(hero);
+    this.heroParts = [body, head, staff, focus];
+    // The real low-poly models and animation; until they load (or if they fail) the capsules stand in.
+    this.chars = new Characters(scene);
     this.aimArrow = new THREE.Mesh(new THREE.ConeGeometry(0.16, 0.5, 12), new THREE.MeshBasicMaterial({ color: 0x33e6ff, transparent: true, opacity: 0.85 }));
     scene.add(this.aimArrow);
 
@@ -116,6 +120,10 @@ export class Scene3D {
     this.sun.position.set(hp.x + 10, 22, hp.z + 6); this.sun.target.position.set(hp.x, 0, hp.z);
 
     this.portal.update(run.portal ? { x: run.portal.x, y: run.portal.y, radius: 90, active: true } : null, time);
+    const dt = this.lastRun === run ? run.elapsed - this.lastElapsed : 0;
+    this.lastRun = run; this.lastElapsed = run.elapsed;
+    const ch = this.chars.update(run, dt);
+    for (const part of this.heroParts) part.visible = !ch.hero;
     this.hero.visible = hero.alive;
     this.hero.position.copy(hp);
     this.hero.rotation.y = Math.atan2(hero.aim.x, -hero.aim.y);
@@ -128,6 +136,7 @@ export class Scene3D {
     let n = 0;
     for (const mon of run.monsters) {
       if (n >= 512) break;
+      if (ch.shown.has(mon.id)) continue;
       const size = sizeOf(mon), frozen = mon.hasStatus('frozen');
       const bob = frozen ? 0 : Math.abs(Math.sin(time * 9 + mon.id)) * 0.06, pulse = 1 + mon.hitFlash * 0.25;
       p.set(mon.x * M, (0.57 + bob) * size, -mon.y * M);
@@ -143,7 +152,7 @@ export class Scene3D {
     for (const mesh of [this.monsterBody, this.monsterVisor, this.monsterHorn]) { mesh.count = n; mesh.instanceMatrix.needsUpdate = true; }
     let k = 0;
     for (const mn of run.minions) {
-      const look = MINION_LOOK[mn.template]; if (!look || k >= 256) continue;
+      const look = MINION_LOOK[mn.template]; if (!look || k >= 256 || ch.shown.has(mn.id)) continue;
       const sz = look.size, bob = Math.abs(Math.sin(time * 8 + mn.id)) * 0.05 * sz;
       p.set(mn.x * M, (0.5 + bob) * sz + (look.float ?? 0), -mn.y * M);
       e.set(0, time * (look.spin ?? 0) + mn.id, 0); q.setFromEuler(e); s.set(sz * (look.wide ?? 1), sz * (look.tall ?? 1), sz * (look.wide ?? 1));
@@ -165,7 +174,7 @@ export class Scene3D {
 
   lootAnchor(key) { return this.loot.anchor(key); }
 
-  dispose() { this.portal.dispose(); this.floor?.dispose(); this.effects.dispose(); this.loot.dispose(); this.post.dispose(); this.renderer.dispose(); this.renderer.domElement.remove(); }
+  dispose() { this.chars.dispose(); this.portal.dispose(); this.floor?.dispose(); this.effects.dispose(); this.loot.dispose(); this.post.dispose(); this.renderer.dispose(); this.renderer.domElement.remove(); }
 }
 
 /** Health bars, ailment badges and floating damage numbers as DOM over the canvas. */

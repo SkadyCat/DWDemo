@@ -4,7 +4,7 @@ import { gzip, brotliCompress, constants } from 'node:zlib';
 import { promisify } from 'node:util';
 const brotli = promisify(brotliCompress);
 export const encoders = { gzip: promisify(gzip), br: bytes => brotli(bytes,{params:{[constants.BROTLI_PARAM_QUALITY]:4}}) };
-const MIME = { '.html':'text/html; charset=utf-8', '.mjs':'text/javascript; charset=utf-8', '.js':'text/javascript; charset=utf-8', '.css':'text/css; charset=utf-8', '.json':'application/json; charset=utf-8', '.svg':'image/svg+xml', '.png':'image/png', '.jpg':'image/jpeg', '.webp':'image/webp', '.ogg':'audio/ogg', '.wav':'audio/wav', '.mp3':'audio/mpeg', '.woff2':'font/woff2' };
+const MIME = { '.html':'text/html; charset=utf-8', '.mjs':'text/javascript; charset=utf-8', '.js':'text/javascript; charset=utf-8', '.css':'text/css; charset=utf-8', '.json':'application/json; charset=utf-8', '.svg':'image/svg+xml', '.png':'image/png', '.jpg':'image/jpeg', '.webp':'image/webp', '.ogg':'audio/ogg', '.wav':'audio/wav', '.mp3':'audio/mpeg', '.woff2':'font/woff2', '.glb':'model/gltf-binary' };
 
 function encodingFor(req) {
   const accepted = new Map(String(req.headers['accept-encoding'] || '').split(',').map(part => {

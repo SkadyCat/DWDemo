@@ -945,7 +945,7 @@ export function mountGame(el) {
         run.value = markRaw(r); open.char = open.bag = false; center.value = null; seenPicked = 0; seenClear = -1; seenLoot = new Set(); seenPortal = 0; clearedBanner.value = false;
         Object.assign(resultLoot, { items: 0, currencies: 0, stones: 0, legend: 0, opened: 0, done: false });
         nextTick(() => {
-          if (!scene) { scene = new Scene3D(stage.value); ov = new Overlay(overlay.value); bindLabels(overlay.value); }
+          if (!scene) { scene = new Scene3D(stage.value); ov = new Overlay(overlay.value); bindLabels(overlay.value); globalThis.__dw.scene = scene; }
           stage.value.focus();
           last = performance.now(); acc = 0;
           cancelAnimationFrame(raf); raf = requestAnimationFrame(frame);

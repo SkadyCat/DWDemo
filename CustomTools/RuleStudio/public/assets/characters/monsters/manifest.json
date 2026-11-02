@@ -1,0 +1,94 @@
+{
+ "generator": "Tools/LowPoly/lowpoly_monster_gen.py",
+ "command": "python3 Tools/LowPoly/lowpoly_monster_gen.py --all --seed 1 --glb-dir Art/LowPolyMonsters",
+ "monsters": [
+  {
+   "kind": "goblin",
+   "seed": 1,
+   "bones": 26,
+   "tris": 696,
+   "weapon": "club",
+   "height": 0.98
+  },
+  {
+   "kind": "skeleton",
+   "seed": 2,
+   "bones": 26,
+   "tris": 1204,
+   "shield": true,
+   "height": 1.31
+  },
+  {
+   "kind": "cultist",
+   "seed": 3,
+   "bones": 26,
+   "tris": 814,
+   "height": 1.24
+  },
+  {
+   "kind": "slime",
+   "seed": 4,
+   "bones": 3,
+   "tris": 176,
+   "face": false,
+   "size": 0.71
+  },
+  {
+   "kind": "bat",
+   "seed": 5,
+   "bones": 11,
+   "tris": 324,
+   "span": 0.96
+  },
+  {
+   "kind": "spider",
+   "seed": 6,
+   "bones": 28,
+   "tris": 576,
+   "size": 1.06
+  },
+  {
+   "kind": "mushroom",
+   "seed": 7,
+   "bones": 26,
+   "tris": 756,
+   "spots": 5,
+   "height": 0.82
+  },
+  {
+   "kind": "golem",
+   "seed": 8,
+   "bones": 26,
+   "tris": 680,
+   "height": 1.74
+  },
+  {
+   "kind": "knight",
+   "seed": 9,
+   "bones": 26,
+   "tris": 848,
+   "height": 1.34
+  },
+  {
+   "kind": "wolf",
+   "seed": 10,
+   "bones": 22,
+   "tris": 678,
+   "size": 0.96
+  },
+  {
+   "kind": "imp",
+   "seed": 11,
+   "bones": 29,
+   "tris": 762,
+   "height": 0.89
+  },
+  {
+   "kind": "ogre",
+   "seed": 12,
+   "bones": 26,
+   "tris": 882,
+   "height": 1.77
+  }
+ ]
+}
