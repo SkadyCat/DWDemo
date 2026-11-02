@@ -53,6 +53,11 @@ const SKILL_DESC = {
   falling_thunder: '向前砸地，扇形范围伤害；每消耗 1 个暴击球，额外伤害提高并射出两道雷电。', flicker_strike: '闪到附近的敌人身边并攻击它。',
   viper_knives: '扔出三把带毒的飞刃。',
 };
+/** Currencies that act on one chosen line: 'trait' = base traits only, 'any' = a trait or a random line. */
+const CURRENCY_TARGET = { seal: 'any', temper: 'trait', essence_form: 'trait', essence_link: 'trait', essence_core: 'trait' };
+export const STACK = 20;
+/** Currency as bag stacks of up to 20, in the currency list's order. */
+const currencyStacks = save => Object.keys(CURRENCIES).flatMap(id => { const n = save.currencies[id] || 0, out = []; for (let left = n; left > 0; left -= STACK) out.push({ id, n: Math.min(STACK, left) }); return out; });
 const EL_NAME = { physical: '物理', fire: '火焰', cold: '冰霜', lightning: '闪电', chaos: '混沌' };
 /** What the skill tooltip shows: base numbers straight from the skill definition. */
 function skillInfo(id) {
@@ -78,9 +83,15 @@ const Gi = {
 
 const ItemTip = {
   components: { Gi },
-  props: { item: Object, compare: Object, selected: { type: Object, default: null }, selectable: Boolean, inline: Boolean },
-  emits: ['line'],
-  setup() { return { baseLinesOf, rarityOf, itemName, lineText, family, LAYERS, SLOT_NAMES, SLOT_GLYPH, baseOf, baseDefence, skillName, skillTags, legendary, itemIcon, LAYER_ICON, SKILL_ICON }; },
+  props: { item: Object, compare: Object, selected: { type: Object, default: null }, selectable: Boolean, inline: Boolean,
+    stacks: { type: Array, default: null }, pinned: Boolean, active: { type: String, default: null }, msg: { type: String, default: '' } },
+  emits: ['line', 'activate', 'apply', 'unpin'],
+  setup(props, { emit }) {
+    // Pinned with an active currency: lines it can act on light up; a click on one applies it.
+    const need = computed(() => CURRENCY_TARGET[props.active] ?? null);
+    const canPick = kind => props.pinned && need.value && (need.value === 'any' || need.value === kind);
+    const lineClick = (kind, index) => { if (canPick(kind)) emit('apply', { kind, index }); else if (props.selectable) emit('line', { kind, index }); };
+    return { need, canPick, lineClick, CURRENCIES, CURRENCY_ICON, CURRENCY_TARGET, baseLinesOf, rarityOf, itemName, lineText, family, LAYERS, SLOT_NAMES, SLOT_GLYPH, baseOf, baseDefence, skillName, skillTags, legendary, itemIcon, LAYER_ICON, SKILL_ICON }; },
   template: /* html */ `
   <article class="itip" :class="['r-' + rarityOf(item).id, { inline }]">
     <header class="itip-head">
@@ -94,14 +105,28 @@ const ItemTip = {
     <p v-if="item.legend" class="itip-legend"><b>传奇特性</b>{{ legendary(item.legend).legend.text }}</p>
     <ul class="itip-traits">
       <li v-if="item.skill" class="itip-skill"><Gi :n="SKILL_ICON[item.skill] ?? 'magic-swirl'" c="el-gold"/><span>主动技能 · {{ skillName(item.skill) }}</span><em>{{ skillTags(item.skill).join(' · ') }}</em></li>
-      <li v-for="(l, i) in item.traits" :key="'t' + i" :class="['l-' + family(l.id).layer, { on: selected?.kind === 'trait' && selected.index === i, sealed: l.sealed, pick: selectable }]" @click="selectable && $emit('line', { kind: 'trait', index: i })">
+      <li v-for="(l, i) in item.traits" :key="'t' + i" :class="['l-' + family(l.id).layer, { on: selected?.kind === 'trait' && selected.index === i, sealed: l.sealed, pick: selectable || canPick('trait'), target: canPick('trait') }]" @click="lineClick('trait', i)">
         <Gi :n="LAYER_ICON[family(l.id).layer]" :c="'ly-' + family(l.id).layer"/><span>{{ lineText(l) }}</span><em>{{ LAYERS[family(l.id).layer].name }} T{{ l.tier }}<b v-if="l.sealed"> · 封</b></em></li>
     </ul>
     <ul class="itip-lines" v-if="item.lines.length">
-      <li v-for="(l, i) in item.lines" :key="i" :class="{ on: selected?.kind === 'line' && selected.index === i, sealed: l.sealed, pick: selectable }" @click="selectable && $emit('line', { kind: 'line', index: i })">
+      <li v-for="(l, i) in item.lines" :key="i" :class="{ on: selected?.kind === 'line' && selected.index === i, sealed: l.sealed, pick: selectable || canPick('line'), target: canPick('line') }" @click="lineClick('line', i)">
         <span>{{ lineText(l) }}</span><em>T{{ l.tier }}<b v-if="l.sealed"> · 封</b></em></li>
     </ul>
     <p v-if="item.legend" class="itip-flavor">{{ legendary(item.legend).flavor }}</p>
+    <section v-if="stacks" class="itip-cur" :class="{ pinned }">
+      <header><b>通货</b><small v-if="!pinned">按 Ctrl 钉住这个提示，在这里洗炼</small><small v-else-if="!active">左键点一种通货激活</small>
+        <small v-else-if="need">{{ CURRENCIES[active].name }}：点一条{{ need === 'trait' ? '特性' : '特性或词条' }}使用 · 右键取消</small>
+        <small v-else>{{ CURRENCIES[active].name }}：点「使用」作用在这件装备上</small>
+        <button v-if="pinned" class="x" @click="$emit('unpin')" aria-label="取消钉住">×</button></header>
+      <div class="cur-grid">
+        <button v-for="(st, i) in stacks" :key="st.id + i" class="cur-cell" :class="{ on: active === st.id }" :title="CURRENCIES[st.id].name + ' · ' + CURRENCIES[st.id].desc"
+          @click="pinned && $emit('activate', active === st.id ? null : st.id)" @contextmenu.prevent="pinned && $emit('activate', null)">
+          <Gi :n="CURRENCY_ICON[st.id]" c="r-currency"/><b>{{ st.n }}</b></button>
+        <p v-if="!stacks.length" class="hint">背包里没有通货。</p>
+      </div>
+      <div class="cur-act" v-if="pinned && active && !need"><button class="orn-btn primary sm" @click="$emit('apply', null)">使用 {{ CURRENCIES[active].name }}</button></div>
+      <p class="cur-msg" v-if="pinned && msg">{{ msg }}</p>
+    </section>
     <footer v-if="compare && compare !== item" class="itip-cmp">
       <h4>身上 · {{ itemName(compare) }}</h4>
       <p v-for="(l, i) in [...compare.traits, ...compare.lines].slice(0, 6)" :key="i">{{ lineText(l) }}</p>
@@ -431,6 +456,10 @@ const TEMPLATE = /* html */ `
   <section class="win panel win-right" v-if="open.bag" aria-label="背包">
     <header class="win-head"><h2>行 囊</h2><span class="count">{{ save.inventory.length }} 件</span><button class="x" @click="open.bag = false" aria-label="关闭">×</button></header>
     <div class="win-body">
+      <div class="grid cur-stacks" v-if="curStacks.length">
+        <button v-for="(st, i) in curStacks" :key="'c' + st.id + i" class="cell cur" @mouseenter="hoverThing($event, 'currency', { id: st.id, count: st.n, note: '每格最多 20 个 · 悬停装备按 Ctrl 钉住提示即可在提示里使用' })" @mouseleave="hoverOff">
+          <Gi :n="curIcon(st.id)" c="r-currency"/><em>{{ st.n }}</em></button>
+      </div>
       <div class="grid">
         <button v-for="(it, i) in bagCells" :key="it ? it.uid : 'e' + i" class="cell" :class="it ? ['r-' + rarity(it).id, { on: picked === it }] : 'empty'" :draggable="!!it"
           @dragstart="it && dragStart(it)" @dragend="dragItem = null; dropSlot = null" @click="it && pick(it)" @dblclick="it && doEquip(it.uid)" @contextmenu.prevent="it && doEquip(it.uid)"
@@ -442,8 +471,7 @@ const TEMPLATE = /* html */ `
         <span class="sel">{{ itemNameOf(picked) }}</span>
         <button class="orn-btn primary sm" @click="doEquip(picked.uid)">装备</button><button class="orn-btn sm" @click="openCenter('craft')">洗炼</button><button class="orn-btn danger sm" @click="doSalvage(picked.uid)">分解</button>
       </div>
-      <p v-else class="hint center">双击或右键装备 · 拖到角色装备位 · 点选后可洗炼或分解</p>
-      <div class="wallet"><span v-for="(c, id) in currencies" :key="id" @mouseenter="hoverThing($event, 'currency', { id })" @mouseleave="hoverOff"><Gi :n="curIcon(id)" c="r-currency"/><b>{{ save.currencies[id] || 0 }}</b></span></div>
+      <p v-else class="hint center">双击或右键装备 · 拖到角色装备位 · 悬停装备按 Ctrl 钉住提示，直接用通货洗炼</p>
       <p class="hint center" v-if="craftMsg">{{ craftMsg }}</p>
     </div>
   </section>
@@ -513,7 +541,8 @@ const TEMPLATE = /* html */ `
     </div>
   </section>
 
-  <div class="tipwrap" ref="tipEl" v-show="hover"><item-tip v-if="hover?.item" :item="hover.item" :compare="hover.compare"></item-tip><thing-tip v-else-if="hover" :kind="hover.kind" :data="hover.data"></thing-tip></div>
+  <div class="tipwrap" ref="tipEl" v-show="hover" :class="{ pinned: tipPinned }"><item-tip v-if="hover?.item" :item="hover.item" :compare="hover.compare"
+    :stacks="hover.owned ? curStacks : null" :pinned="tipPinned" :active="activeCur" :msg="craftMsg" @activate="id => activeCur = id" @apply="sel => tipCraft(sel)" @unpin="unpinTip"></item-tip><thing-tip v-else-if="hover" :kind="hover.kind" :data="hover.data"></thing-tip></div>
   <p class="credit">图标 game-icons.net（CC BY 3.0）</p>
 </div>`;
 
@@ -679,7 +708,8 @@ export function mountGame(el) {
       function equippedFor(it) { if (!it) return null; if (it.slot.startsWith('ring')) return save.equipped.ring1 ?? save.equipped.ring2; return save.equipped[it.slot]; }
       async function hoverOn(e, it, ground = false) {
         if (!it) { hover.value = null; return; }
-        return placeTip(e.currentTarget, { item: it, compare: ground || save.inventory.includes(it) ? equippedFor(it) : null });
+        const owned = !ground && (save.inventory.includes(it) || Object.values(save.equipped).includes(it));
+        return placeTip(e.currentTarget, { item: it, owned, compare: ground || save.inventory.includes(it) ? equippedFor(it) : null });
       }
       /** Non-equipment tooltips: kind 'waystone' { stone, note } · 'currency' { id, have, count } · 'skill' { id }. */
       function hoverThing(e, kind, data) {
@@ -689,6 +719,7 @@ export function mountGame(el) {
         return placeTip(e.currentTarget, { kind, data });
       }
       async function placeTip(anchor, value) {
+        if (tipPinned.value) return;          // a pinned tooltip stays until it is closed
         hover.value = value;
         await nextTick();
         const tip = tipEl.value; if (!tip || !anchor) return;
@@ -701,7 +732,22 @@ export function mountGame(el) {
         }
         gsap?.fromTo(tip, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: .16, ease: 'power2.out' });
       }
-      const hoverOff = () => { hover.value = null; };
+      const hoverOff = () => { if (!tipPinned.value) hover.value = null; };
+      // ---- pinned item tooltip: Ctrl pins it, then currency is used right there ----
+      const tipPinned = ref(false), activeCur = ref(null);
+      const curStacks = computed(() => currencyStacks(save));
+      function pinTip() { if (hover.value?.item && hover.value.owned) { tipPinned.value = true; activeCur.value = null; craftMsg.value = ''; } }
+      function unpinTip() { tipPinned.value = false; activeCur.value = null; hover.value = null; }
+      function tipCraft(sel) {
+        const it = hover.value?.item, id = activeCur.value; if (!it || !id) return;
+        const r = craft(save, it, id, rng, sel);
+        craftMsg.value = r.message;
+        if (r.ok) {
+          if (Object.values(save.equipped).includes(it)) gearChanged(); else persist();
+          if (!(save.currencies[id] > 0)) activeCur.value = null;
+          nextTick(() => gsap?.fromTo('.tipwrap .itip', { filter: 'brightness(1.7)' }, { filter: 'brightness(1)', duration: .45, ease: 'power2.out' }));
+        }
+      }
       function doEquip(uid, slot = null) { if (equip(save, uid, slot)) { picked.value = null; hover.value = null; gearChanged(); } }
       function doUnequip(s) { if (!save.equipped[s]) return; unequip(save, s); picked.value = null; hover.value = null; gearChanged(); }
       function dragStart(it) { dragItem.value = it; hover.value = null; }
@@ -882,6 +928,8 @@ export function mountGame(el) {
         if (e.target.closest?.('select, input')) return;
         const k = e.key.toLowerCase();
         if (k === 'alt') { if (ov) ov.showAll = down; e.preventDefault(); return; }
+        if (k === 'control' && down && !e.repeat) { if (tipPinned.value) unpinTip(); else pinTip(); return; }
+        if (k === 'escape' && down && tipPinned.value) { unpinTip(); return; }
         if (['w', 'a', 's', 'd'].includes(k)) { if (down) keys.add(k); else keys.delete(k); e.preventDefault(); return; }
         if (!down) return;
         if (/^[1-4]$/.test(k)) selectSkill(+k - 1);
@@ -902,6 +950,10 @@ export function mountGame(el) {
       };
       const mu = e => { if (e.button === 0) mouse.down = false; };
       const rs = () => { scene?.resize(); viewSize.w = innerWidth; viewSize.h = innerHeight; };
+      // A click anywhere outside a pinned tooltip closes it.
+      const outside = e => { if (tipPinned.value && !e.target.closest?.('.tipwrap')) unpinTip(); };
+      onMounted(() => { addEventListener('mousedown', outside, true); });
+      onBeforeUnmount(() => removeEventListener('mousedown', outside, true));
       onMounted(() => { probeIcons(document.documentElement); addEventListener('keydown', kd); addEventListener('keyup', ku); addEventListener('mousemove', mm); addEventListener('mousedown', md); addEventListener('mouseup', mu); addEventListener('resize', rs); });
       onBeforeUnmount(() => { cancelAnimationFrame(raf); removeEventListener('keydown', kd); removeEventListener('keyup', ku); removeEventListener('mousemove', mm); removeEventListener('mousedown', md); removeEventListener('mouseup', mu); removeEventListener('resize', rs); scene?.dispose(); });
 
@@ -914,7 +966,7 @@ export function mountGame(el) {
         kindIconUrl: (kind, color) => `https://api.iconify.design/game-icons/${NODE_KINDS[kind].icon}.svg?color=${encodeURIComponent(color)}`,
         regionName: id => REGION_NAME[id], statusName: st => ({ done: '已打通', open: '可进入', seen: '尚未连通', hidden: '未知' })[st], nodeModText: id => NODE_MODS[id].text,
         save, stage, overlay, tipEl, comboEl, flashEl, open, center, mapTier, mapFamily, picked, pickedLine, craftMsg, roles, evaluating, updateText, hover, bdSel, toasts, legendBanner,
-        dragItem, dropSlot, dropBar, skillCards, skillGrid, hoverThing, setBar, skillDragStart, skillDragEnd, skillDrop, quickBar, run, resultLoot, clearedBanner, hud,
+        dragItem, dropSlot, dropBar, skillCards, skillGrid, hoverThing, tipPinned, activeCur, curStacks, unpinTip, tipCraft, setBar, skillDragStart, skillDragEnd, skillDrop, quickBar, run, resultLoot, clearedBanner, hud,
         profile, requirements, statRows, bdArch, bdStages, currentBd, centerName, centerTitle, traits, granted, ladder, ladderFocus, primarySkill, bagCells,
         pick, equippedFor, hoverOn, hoverOff, doEquip, doUnequip, dragStart, dropOn, doSalvage, doCraft, applyBd, clearBd, accountName, leaveAccount, grantLegendary, evaluate, update, toggle, isOpen, openCenter, startRun, leaveRun, selectSkill, gearChanged,
         panels: PANELS, tierList: Array.from({ length: MAP_TIERS }, (_, i) => i + 1), families: MAP_FAMILIES, slots: SLOTS, slotNames: SLOT_NAMES, currencies: CURRENCIES,

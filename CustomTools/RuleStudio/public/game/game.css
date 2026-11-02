@@ -651,3 +651,25 @@ select { font: inherit; color: var(--txt); background: var(--deep); border: 1px 
 .thing-rows div { display: flex; justify-content: space-between; padding: 2px 0; font-size: 12.5px; } .thing-rows dt { color: var(--mute); } .thing-rows dd { font-family: var(--num); color: var(--txt); }
 .thing-note { margin: 10px 16px 0; padding-top: 8px; border-top: 1px solid var(--line); font-size: 12px; color: var(--jade); }
 .itip.thing .itip-lines li span { color: var(--r-magic); }
+
+/* ---------- currency: bag stacks and the strip inside the item tooltip (Ctrl pins it) ---------- */
+.cur-stacks { margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid var(--line); }
+.cell.cur { box-shadow: inset 0 0 0 1px rgba(230, 216, 172, .35); }
+.cell.cur em, .cur-cell b { position: absolute; right: 3px; bottom: 1px; font: 11px var(--num); font-style: normal; color: #f2e8c8; text-shadow: 0 1px 2px #000, 0 0 3px #000; }
+.tipwrap.pinned { pointer-events: auto; }
+.tipwrap.pinned .itip { box-shadow: 0 0 0 1px var(--gold-hi), 0 0 24px rgba(251, 231, 176, .25), 0 18px 50px rgba(0, 0, 0, .75); }
+.itip-cur { margin: 12px 14px 0; padding-top: 10px; border-top: 1px solid var(--line); }
+.itip-cur header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.itip-cur header b { font: 400 14px var(--title); letter-spacing: .2em; color: var(--gold-hi); }
+.itip-cur header small { flex: 1; font-size: 11.5px; color: var(--mute); }
+.itip-cur.pinned header small { color: var(--jade); }
+.itip-cur header .x { position: static; width: 22px; height: 22px; font-size: 14px; }
+.cur-grid { display: grid; grid-template-columns: repeat(8, 1fr); gap: 4px; }
+.cur-cell { position: relative; aspect-ratio: 1; padding: 5px; border-radius: 3px; background: radial-gradient(circle at 50% 35%, rgba(30, 42, 78, .85), rgba(6, 10, 24, .92)); box-shadow: inset 0 0 0 1px rgba(230, 216, 172, .25); }
+.cur-cell .gi { width: 100%; height: 100%; }
+.itip-cur.pinned .cur-cell { cursor: pointer; } .itip-cur.pinned .cur-cell:hover { box-shadow: inset 0 0 0 1px var(--gold-hi); }
+.cur-cell.on { box-shadow: inset 0 0 0 2px var(--gold-hi), 0 0 12px rgba(251, 231, 176, .55); background: radial-gradient(circle at 50% 35%, #4a3a14, #120c04); }
+.cur-act { margin-top: 8px; text-align: center; }
+.cur-msg { margin-top: 6px; font-size: 12.5px; color: var(--jade); text-align: center; }
+.itip li.target { cursor: pointer; box-shadow: inset 0 0 0 1px rgba(251, 231, 176, .35); background: rgba(251, 231, 176, .06); }
+.itip li.target:hover { box-shadow: inset 0 0 0 1px var(--gold-hi); background: rgba(251, 231, 176, .14); }
