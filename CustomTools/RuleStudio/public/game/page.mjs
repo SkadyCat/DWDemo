@@ -84,14 +84,17 @@ const Gi = {
 const ItemTip = {
   components: { Gi },
   props: { item: Object, compare: Object, selected: { type: Object, default: null }, selectable: Boolean, inline: Boolean,
-    stacks: { type: Array, default: null }, pinned: Boolean, active: { type: String, default: null }, msg: { type: String, default: '' } },
+    stacks: { type: Array, default: null }, pinned: Boolean, active: { type: String, default: null }, activeIdx: { type: Number, default: -1 }, msg: { type: String, default: '' }, have: { type: Object, default: null } },
   emits: ['line', 'activate', 'apply', 'unpin'],
   setup(props, { emit }) {
     // Pinned with an active currency: lines it can act on light up; a click on one applies it.
     const need = computed(() => CURRENCY_TARGET[props.active] ?? null);
     const canPick = kind => props.pinned && need.value && (need.value === 'any' || need.value === kind);
     const lineClick = (kind, index) => { if (canPick(kind)) emit('apply', { kind, index }); else if (props.selectable) emit('line', { kind, index }); };
-    return { need, canPick, lineClick, CURRENCIES, CURRENCY_ICON, CURRENCY_TARGET, baseLinesOf, rarityOf, itemName, lineText, family, LAYERS, SLOT_NAMES, SLOT_GLYPH, baseOf, baseDefence, skillName, skillTags, legendary, itemIcon, LAYER_ICON, SKILL_ICON }; },
+    // Hovering a currency cell shows what it does in a small panel above the grid.
+    const peek = ref(null);
+    const peekOn = (e, st) => { const el = e.currentTarget, w = el.parentElement.offsetWidth; peek.value = { id: st.id, x: Math.max(110, Math.min(w - 110, el.offsetLeft + el.offsetWidth / 2)), y: el.offsetTop }; };
+    return { peek, peekOn, need, canPick, lineClick, CURRENCIES, CURRENCY_ICON, CURRENCY_TARGET, baseLinesOf, rarityOf, itemName, lineText, family, LAYERS, SLOT_NAMES, SLOT_GLYPH, baseOf, baseDefence, skillName, skillTags, legendary, itemIcon, LAYER_ICON, SKILL_ICON }; },
   template: /* html */ `
   <article class="itip" :class="['r-' + rarityOf(item).id, { inline }]">
     <header class="itip-head">
@@ -119,10 +122,16 @@ const ItemTip = {
         <small v-else>{{ CURRENCIES[active].name }}：点「使用」作用在这件装备上</small>
         <button v-if="pinned" class="x" @click="$emit('unpin')" aria-label="取消钉住">×</button></header>
       <div class="cur-grid">
-        <button v-for="(st, i) in stacks" :key="st.id + i" class="cur-cell" :class="{ on: active === st.id }" :title="CURRENCIES[st.id].name + ' · ' + CURRENCIES[st.id].desc"
-          @click="pinned && $emit('activate', active === st.id ? null : st.id)" @contextmenu.prevent="pinned && $emit('activate', null)">
+        <button v-for="(st, i) in stacks" :key="st.id + i" class="cur-cell" :class="{ on: active === st.id && activeIdx === i }"
+          @mouseenter="peekOn($event, st)" @mouseleave="peek = null"
+          @click="pinned && $emit('activate', active === st.id && activeIdx === i ? null : { id: st.id, i })" @contextmenu.prevent="pinned && $emit('activate', null)">
           <Gi :n="CURRENCY_ICON[st.id]" c="r-currency"/><b>{{ st.n }}</b></button>
         <p v-if="!stacks.length" class="hint">背包里没有通货。</p>
+        <div class="cur-peek" v-if="peek" :style="{ left: peek.x + 'px', top: peek.y + 'px' }">
+          <b>{{ CURRENCIES[peek.id].name }}</b><small v-if="have">共 {{ have[peek.id] || 0 }} 个</small>
+          <p>{{ CURRENCIES[peek.id].desc }}</p>
+          <em>{{ CURRENCY_TARGET[peek.id] ? (CURRENCY_TARGET[peek.id] === 'trait' ? '激活后点一条特性使用' : '激活后点一条特性或词条使用') : '激活后点「使用」作用在整件装备上' }}</em>
+        </div>
       </div>
       <div class="cur-act" v-if="pinned && active && !need"><button class="orn-btn primary sm" @click="$emit('apply', null)">使用 {{ CURRENCIES[active].name }}</button></div>
       <p class="cur-msg" v-if="pinned && msg">{{ msg }}</p>
@@ -542,7 +551,7 @@ const TEMPLATE = /* html */ `
   </section>
 
   <div class="tipwrap" ref="tipEl" v-show="hover" :class="{ pinned: tipPinned }"><item-tip v-if="hover?.item" :item="hover.item" :compare="hover.compare"
-    :stacks="hover.owned ? curStacks : null" :pinned="tipPinned" :active="activeCur" :msg="craftMsg" @activate="id => activeCur = id" @apply="sel => tipCraft(sel)" @unpin="unpinTip"></item-tip><thing-tip v-else-if="hover" :kind="hover.kind" :data="hover.data"></thing-tip></div>
+    :stacks="hover.owned ? curStacks : null" :have="save.currencies" :pinned="tipPinned" :active="activeCur" :active-idx="activeIdx" :msg="craftMsg" @activate="pickCur" @apply="sel => tipCraft(sel)" @unpin="unpinTip"></item-tip><thing-tip v-else-if="hover" :kind="hover.kind" :data="hover.data"></thing-tip></div>
   <p class="credit">图标 game-icons.net（CC BY 3.0）</p>
 </div>`;
 
@@ -734,17 +743,20 @@ export function mountGame(el) {
       }
       const hoverOff = () => { if (!tipPinned.value) hover.value = null; };
       // ---- pinned item tooltip: Ctrl pins it, then currency is used right there ----
-      const tipPinned = ref(false), activeCur = ref(null);
+      const tipPinned = ref(false), activeCur = ref(null), activeIdx = ref(-1);
+      function pickCur(a) { activeCur.value = a?.id ?? null; activeIdx.value = a?.i ?? -1; }
       const curStacks = computed(() => currencyStacks(save));
-      function pinTip() { if (hover.value?.item && hover.value.owned) { tipPinned.value = true; activeCur.value = null; craftMsg.value = ''; } }
-      function unpinTip() { tipPinned.value = false; activeCur.value = null; hover.value = null; }
+      function pinTip() { if (hover.value?.item && hover.value.owned) { tipPinned.value = true; pickCur(null); craftMsg.value = ''; } }
+      function unpinTip() { tipPinned.value = false; pickCur(null); hover.value = null; }
       function tipCraft(sel) {
         const it = hover.value?.item, id = activeCur.value; if (!it || !id) return;
         const r = craft(save, it, id, rng, sel);
         craftMsg.value = r.message;
         if (r.ok) {
           if (Object.values(save.equipped).includes(it)) gearChanged(); else persist();
-          if (!(save.currencies[id] > 0)) activeCur.value = null;
+          // keep the highlight on one cell: the same slot if it is still this currency, else its last stack
+          if (!(save.currencies[id] > 0)) pickCur(null);
+          else if (curStacks.value[activeIdx.value]?.id !== id) activeIdx.value = curStacks.value.map(st => st.id).lastIndexOf(id);
           nextTick(() => gsap?.fromTo('.tipwrap .itip', { filter: 'brightness(1.7)' }, { filter: 'brightness(1)', duration: .45, ease: 'power2.out' }));
         }
       }
@@ -966,7 +978,7 @@ export function mountGame(el) {
         kindIconUrl: (kind, color) => `https://api.iconify.design/game-icons/${NODE_KINDS[kind].icon}.svg?color=${encodeURIComponent(color)}`,
         regionName: id => REGION_NAME[id], statusName: st => ({ done: '已打通', open: '可进入', seen: '尚未连通', hidden: '未知' })[st], nodeModText: id => NODE_MODS[id].text,
         save, stage, overlay, tipEl, comboEl, flashEl, open, center, mapTier, mapFamily, picked, pickedLine, craftMsg, roles, evaluating, updateText, hover, bdSel, toasts, legendBanner,
-        dragItem, dropSlot, dropBar, skillCards, skillGrid, hoverThing, tipPinned, activeCur, curStacks, unpinTip, tipCraft, setBar, skillDragStart, skillDragEnd, skillDrop, quickBar, run, resultLoot, clearedBanner, hud,
+        dragItem, dropSlot, dropBar, skillCards, skillGrid, hoverThing, tipPinned, activeCur, activeIdx, pickCur, curStacks, unpinTip, tipCraft, setBar, skillDragStart, skillDragEnd, skillDrop, quickBar, run, resultLoot, clearedBanner, hud,
         profile, requirements, statRows, bdArch, bdStages, currentBd, centerName, centerTitle, traits, granted, ladder, ladderFocus, primarySkill, bagCells,
         pick, equippedFor, hoverOn, hoverOff, doEquip, doUnequip, dragStart, dropOn, doSalvage, doCraft, applyBd, clearBd, accountName, leaveAccount, grantLegendary, evaluate, update, toggle, isOpen, openCenter, startRun, leaveRun, selectSkill, gearChanged,
         panels: PANELS, tierList: Array.from({ length: MAP_TIERS }, (_, i) => i + 1), families: MAP_FAMILIES, slots: SLOTS, slotNames: SLOT_NAMES, currencies: CURRENCIES,

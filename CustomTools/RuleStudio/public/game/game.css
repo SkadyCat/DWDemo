@@ -673,3 +673,9 @@ select { font: inherit; color: var(--txt); background: var(--deep); border: 1px 
 .cur-msg { margin-top: 6px; font-size: 12.5px; color: var(--jade); text-align: center; }
 .itip li.target { cursor: pointer; box-shadow: inset 0 0 0 1px rgba(251, 231, 176, .35); background: rgba(251, 231, 176, .06); }
 .itip li.target:hover { box-shadow: inset 0 0 0 1px var(--gold-hi); background: rgba(251, 231, 176, .14); }
+.cur-grid { position: relative; }
+.cur-peek { position: absolute; z-index: 3; width: 220px; transform: translate(-50%, calc(-100% - 8px)); padding: 8px 10px; border-radius: 3px; pointer-events: none;
+  background: linear-gradient(180deg, rgba(20, 28, 54, .99), rgba(8, 12, 26, .99)); box-shadow: 0 0 0 1px var(--gold-lo), 0 8px 22px rgba(0, 0, 0, .6); }
+.cur-peek b { font: 400 15px var(--title); letter-spacing: .1em; color: var(--r-currency); } .cur-peek small { float: right; font: 11px var(--num); color: var(--mute); margin-top: 3px; }
+.cur-peek p { margin-top: 4px; font-size: 12.5px; line-height: 1.5; color: #dcdde3; }
+.cur-peek em { display: block; margin-top: 4px; font-style: normal; font-size: 11.5px; color: var(--jade); }
