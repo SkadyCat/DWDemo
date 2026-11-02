@@ -225,7 +225,13 @@ defineAction('set', (a, inv) => { inv.vars[a.var] = num(a.value, inv); });
 defineAction('more', (a, inv) => { inv.mult *= Math.max(0, 1 + num(a.value, inv) / 100); });
 defineAction('tag', (a, inv) => { inv.tags = new Set([...inv.tags, ...a.tags]); });
 defineAction('if', (a, inv) => { run(inv.world.testCond(a.cond, inv.ctx()) ? a.then : a.else, inv); });
-defineAction('die', (a, inv) => { const t = a.on === 'target' ? inv.target : inv.caster; if (t?.alive) kill(inv.world, t, inv.caster, { depth: inv.depth }); });
+defineAction('die', (a, inv) => {
+  const t = a.on === 'target' ? inv.target : inv.caster;
+  if (!t?.alive) return;
+  // Dying by your own action (a wisp bursting) is a death, not a kill: kill rules never see it.
+  if (t === inv.caster) { t.alive = false; t.life = 0; inv.world.emit({ type: 'death', source: t, key: t.template, x: t.x, y: t.y, depth: inv.depth, selfDestruct: true }); return; }
+  kill(inv.world, t, inv.caster, { depth: inv.depth });
+});
 defineAction('heal', (a, inv) => { const t = a.on === 'target' ? inv.target : inv.caster; if (!t?.alive) return; const pool = a.pool ?? 'life'; t[pool] = Math.min(t.max[pool], t[pool] + num(a.amount, inv) + t.max[pool] * num(a.pct, inv) / 100); });
 defineAction('emit', (a, inv) => { inv.world.emit({ type: a.event, source: inv.caster, target: inv.target, skill: inv.skill, amount: num(a.amount, inv), x: inv.aim.x, y: inv.aim.y, depth: inv.depth }); });
 

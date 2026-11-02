@@ -8,11 +8,14 @@ export const GAME_SKILLS = Object.freeze({
     { key: 'instruction.max', base: 9, min: 0 },
     { key: 'burst.max', base: 0, min: 0 },
     { key: 'thunder.max', base: 3, min: 0 },
+    { key: 'howl.max', base: 20, min: 0 },
   ],
   resources: [
     { id: 'stage', maxStat: 'stage.max' },
     { id: 'instruction', maxStat: 'instruction.max' },
     { id: 'burst', maxStat: 'burst.max' },
+    // 狼嚎：召唤物击杀时叠加，一会儿不杀就慢慢散掉（狼群）。
+    { id: 'howl', maxStat: 'howl.max', decay: 4, decayDelay: 2.5, decayAfter: 'trigger' },
   ],
   statuses: patchList('statuses', [
     { id: 'thunder_ready', name: '雷霆蓄势', stacking: 'stack', max: 3, duration: 8, tags: ['buff'] },
@@ -27,6 +30,15 @@ export const GAME_SKILLS = Object.freeze({
     { id: 'storm_totem', name: '风暴图腾', life: 300, radius: 35, brain: 'turret', skills: ['totem_bolt'] },
     // A decoy left where you blinked from: stands still, draws hits, and bursts when it fades (残影步).
     { id: 'phantom', name: '残影', life: 60, radius: 26, brain: 'none', skills: [], duration: 1.4 },
+    // ---- 召唤体系：十种召唤物 ----
+    { id: 'skeleton', name: '骷髅战士', life: 110, radius: 22, skills: ['bone_slash'] },
+    { id: 'flame_golem', name: '熔火魔像', life: 1400, radius: 44, skills: ['golem_slam'], mods: [{ stat: 'armour', value: 400 }, { stat: 'moveSpeed', op: 'inc', value: 40 }] },
+    { id: 'spectral_archer', name: '幽魂射手', life: 70, radius: 20, keepDistance: 380, skills: ['spectral_arrow'] },
+    { id: 'spider', name: '毒蛛', life: 45, radius: 16, skills: ['spider_bite'], mods: [{ stat: 'moveSpeed', op: 'inc', value: 30 }] },
+    { id: 'frost_wisp', name: '霜灵', life: 40, radius: 16, skills: ['wisp_burst'], mods: [{ stat: 'moveSpeed', op: 'inc', value: 80 }] },
+    { id: 'wolf', name: '影狼', life: 180, radius: 24, skills: ['wolf_bite'], mods: [{ stat: 'moveSpeed', op: 'inc', value: 50 }] },
+    { id: 'blood_fiend', name: '血魔', life: 260, radius: 26, skills: ['fiend_claw'] },
+    { id: 'wraith', name: '怨灵', life: 60, radius: 20, keepDistance: 300, skills: ['wraith_bolt'] },
   ]),
   skills: patchList('skills', [
     // ---- spells ----
@@ -90,6 +102,42 @@ export const GAME_SKILLS = Object.freeze({
       actions: [{ do: 'strike', range: 150, damage: { physical: { pool: 'es', mul: 0.06, add: 40 } } }] },
     { id: 'aegis_shards', name: '盾刃弹幕', tags: ['spell', 'projectile', 'cold', 'shield'], time: 0.5, cost: 3, crit: 7, damage: { cold: 10 }, range: 750,
       actions: [{ do: 'spendPool', pool: 'es', pct: 10, as: 'spent' }, { do: 'projectile', count: 3, spread: 30, speed: 1400, radius: 18, lifetime: 0.8, pierce: 1, kind: 'frost_bolt', damage: { cold: { var: 'spent', mul: 0.06, add: 10 } } }] },
+    // ---- 召唤体系：玩家用的召唤技能 ----
+    { id: 'raise_skeletons', name: '骸骨召唤', tags: ['spell', 'minion'], time: 0.55, cost: 10, range: 900,
+      actions: [{ do: 'summon', minion: 'skeleton', at: 'aim', count: 3, limit: 9, duration: 9 }] },
+    // One golem; casting again while it stands replaces it (the old one falls apart — traits can make that a bomb).
+    { id: 'summon_golem', name: '熔火魔像', tags: ['spell', 'minion', 'fire'], time: 0.7, cost: 20, cooldown: 4, range: 900,
+      actions: [{ do: 'summon', minion: 'flame_golem', at: 'aim', count: 1, limit: 1 }] },
+    { id: 'summon_archers', name: '幽魂射手', tags: ['spell', 'minion'], time: 0.6, cost: 12, range: 900,
+      actions: [{ do: 'summon', minion: 'spectral_archer', at: 'self', count: 2, limit: 6, duration: 14 }] },
+    { id: 'summon_spiders', name: '蛛巢', tags: ['spell', 'minion', 'chaos'], time: 0.5, cost: 9, range: 900,
+      actions: [{ do: 'summon', minion: 'spider', at: 'aim', count: 4, limit: 12, duration: 8 }] },
+    { id: 'summon_wisps', name: '霜灵', tags: ['spell', 'minion', 'cold'], time: 0.45, cost: 8, range: 900,
+      actions: [{ do: 'summon', minion: 'frost_wisp', at: 'self', count: 3, limit: 9, duration: 6 }] },
+    { id: 'summon_wolves', name: '狼群', tags: ['spell', 'minion'], time: 0.6, cost: 12, range: 900,
+      actions: [{ do: 'summon', minion: 'wolf', at: 'self', count: 2, limit: 6, duration: 16 }] },
+    // Pays in life: a share of maximum life (never the last point) for a blood fiend.
+    { id: 'blood_pact', name: '血契', tags: ['spell', 'minion', 'physical', 'blood'], time: 0.55, cost: 0, range: 900,
+      actions: [{ do: 'spendPool', pool: 'life', pctMax: 6, keep: 1 }, { do: 'summon', minion: 'blood_fiend', at: 'self', count: 1, limit: 5, duration: 15 }] },
+    { id: 'soul_reap', name: '收魂', tags: ['attack', 'melee', 'area', 'chaos', 'physical'], time: 0.7, crit: 6, damage: { physical: 22, chaos: 16 }, range: 210,
+      actions: [{ do: 'area', shape: 'cone', angle: 140, radius: 230, fx: 'cleave' }] },
+    // ---- 召唤物自己的技能 ----
+    { id: 'bone_slash', name: '骨刃', tags: ['attack', 'melee', 'minion', 'physical'], time: 0.6, crit: 5, damage: { physical: 18 }, range: 90, actions: [{ do: 'strike', range: 90 }] },
+    { id: 'golem_slam', name: '熔岩重击', tags: ['attack', 'melee', 'area', 'minion', 'fire', 'golem'], time: 0.7, crit: 5, damage: { physical: 20, fire: 30 }, range: 160,
+      actions: [{ do: 'area', at: 'self', radius: 220, fx: 'slam' }] },
+    { id: 'spectral_arrow', name: '幽魂箭', tags: ['attack', 'projectile', 'minion', 'physical'], time: 0.7, crit: 6, damage: { physical: 12, cold: 4 }, range: 700,
+      actions: [{ do: 'projectile', speed: 1500, radius: 16, lifetime: 0.8, pierce: 1, kind: 'frost_bolt' }] },
+    { id: 'spider_bite', name: '毒咬', tags: ['attack', 'melee', 'minion', 'chaos'], time: 0.5, crit: 5, damage: { physical: 3, chaos: 4 }, range: 70,
+      mods: [{ stat: 'chance.poison', value: 30 }], actions: [{ do: 'strike', range: 70 }] },
+    // Kamikaze: reaches an enemy, bursts in frost and is gone.
+    { id: 'wisp_burst', name: '霜灵自爆', tags: ['spell', 'area', 'minion', 'cold'], time: 0.2, crit: 6, damage: { cold: 20 }, range: 50,
+      actions: [{ do: 'area', at: 'self', radius: 170, fx: 'ice_nova' }, { do: 'die' }] },
+    { id: 'wolf_bite', name: '撕咬', tags: ['attack', 'melee', 'minion', 'physical'], time: 0.45, crit: 7, damage: { physical: 13 }, range: 90, actions: [{ do: 'strike', range: 90 }] },
+    { id: 'fiend_claw', name: '血爪', tags: ['attack', 'melee', 'minion', 'physical'], time: 0.55, crit: 6, damage: { physical: 20 }, range: 100, actions: [{ do: 'strike', range: 100 }] },
+    { id: 'wraith_bolt', name: '怨念', tags: ['spell', 'projectile', 'minion', 'chaos'], time: 0.7, crit: 5, damage: { chaos: 12 }, range: 650,
+      actions: [{ do: 'projectile', speed: 1100, radius: 18, lifetime: 0.9, kind: 'bolt' }] },
+    { id: 'bone_burst', name: '骨爆', tags: ['spell', 'area', 'physical', 'bone', 'triggered_only'], time: 0.5, crit: 5, damage: { physical: 55 }, range: 900,
+      actions: [{ do: 'area', at: 'target', radius: 190, fx: 'explode' }] },
     // ---- skills only used by minions / triggers ----
     { id: 'frost_trail', name: '冰痕', tags: ['attack', 'area', 'cold', 'triggered_only'], time: 0.5, crit: 6, damage: { cold: 26 }, range: 900,
       actions: [{ do: 'area', shape: 'line', at: 'eventFrom', radius: { event: 'amount', add: 60 }, width: 120, fx: 'ice_burst' }] },

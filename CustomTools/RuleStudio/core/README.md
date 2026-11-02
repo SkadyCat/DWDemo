@@ -49,6 +49,7 @@ world.step(1 / 60);
 - `spendPool {pool:'es'|'mana'|'life', pct, pctMax, keep, as}`：把一部分资源当燃料，消耗量写进变量并发 `poolSpent`；不打断护盾充能。
 - 事件 `shieldBreak`（能量护盾被打空，`target` 是打破它的人）、`shieldFull`（充能充满，只在有规则监听时发）。
 - 召唤物的 `death` 事件带 `key` = 召唤物模板 id（到时消散的还带 `expired`），规则可以 `filter:{ key:'phantom' }`。属性 `summon.count` 给召唤动作加数量。
+- 召唤物自己的 `die`（自爆）只发 `death`（带 `selfDestruct`），不算击杀，击杀类规则不会被它触发。召唤流派靠主人身上 `scope:'minion'` 的修正和 `role:'minion'/'owned'` 的规则把增益与连锁交给召唤物；主人的资源可以用 `per:{ res, of:'owner' }` 让召唤物按它变强（狼群的「嚎」）。
 
 **技能** `{ id, tags, time, cost, cooldown, crit, damage:{type:n}, channel, reserve, status, mods, rules, actions }`
 
@@ -65,7 +66,7 @@ world.step(1 / 60);
 | `skills.mjs` | 朴素技能、状态、资源、召唤物模板（词条规则要引用的「名词」） |
 | `families.mjs` | 词条族：四层稀有度（数值 / 形态 / 联动 / 核心），`affixLine(族, T)` 生成具体词条 |
 | `maps.mjs` | 地图压力：T 阶 → 怪物生命与伤害、元素构成、全抗惩罚、致命一击、精英词缀、首领狂暴 |
-| `archetypes.mjs` | 十九个示范流派：技能 + 关键词条时间线 + 数值优先级 + 防守优先级 |
+| `archetypes.mjs` | 二十九个示范流派：技能 + 关键词条时间线 + 数值优先级 + 防守优先级 |
 | `builds.mjs` | 把收集清单铺到 10 件 × 9 条：五个阶段（起步/成型/卡关/突破/毕业） |
 | `game.mjs` | 完整内容包 |
 

@@ -1,4 +1,4 @@
-// 十九个示范流派：纯元素 ×3、元素反应 ×2、近战 ×3、触发 ×1、投射物持续伤害 ×1、持续区域 ×1、闪现 ×5、炸盾 ×3。
+// 二十九个示范流派：纯元素 ×3、元素反应 ×2、近战 ×3、触发 ×1、投射物持续伤害 ×1、持续区域 ×1、闪现 ×5、炸盾 ×3、召唤 ×10。
 // 每个流派 = 一个朴素技能 + 五级「质变」阶梯（每阶段拿到的关键词条和它带来的玩法变化）+ 数值放大优先级 + 防守优先级。
 // 阶段 0–4 = 起步 / 成型 / 卡关 / 突破 / 毕业。
 const RES = ['res_fire', 'res_cold', 'res_lightning'];
@@ -8,6 +8,8 @@ const EVASION = ['evasion', 'evasion_inc', 'evasion'];
 const ES = ['es', 'es_inc', 'es', 'es_inc'];
 // Shield-as-fuel builds want a big shield that comes back fast.
 const SHIELD = ['es', 'es_inc', 'es_recharge', 'es', 'es_inc', 'es', 'es_recharge', 'es_inc'];
+// Summoners: the hero only has to live; offence lines are the ones that reach minions.
+const MINION_AMP = ['dmg_minion', 'minion_speed', 'minion_crit', 'minion_life', 'cast_speed', 'minion_crit_bonus', 'dmg_minion', 'minion_speed', 'mana_regen', 'minion_dot', 'minion_crit'];
 const interleave = (a, b) => { const out = []; for (let i = 0; i < Math.max(a.length, b.length); ++i) { if (a[i]) out.push(a[i]); if (b[i]) out.push(b[i]); } return out; };
 
 // ladder：五个阶段各自的「质变」——这一阶段新拿到的关键词条，以及它让玩法变成什么样。
@@ -282,6 +284,141 @@ export const ARCHETYPES = Object.freeze([
     traits: ['proj_fork', 'spell_echo', 'shatter_nova', 'vs_ailing', 'frozen_bonus', 'kill_recast', 'proliferate', 'kill_onslaught', 'shatter_burst'],
     amp: ['dmg_cold', 'dmg_projectile', 'cast_speed', 'dmg_spell', 'added_cold_spell', 'crit_chance', 'pen_cold', 'dmg_elemental', 'cast_speed', 'crit_bonus', 'mana_regen'],
     defence: interleave(SHIELD, DEF_LIFE),
+  }),
+  // ================================================================ 召唤 ×10：召唤物各有各的打法
+  A({
+    id: 'bladelord', name: '灵刃军势', style: '召唤·刃群·流血', skills: ['summon_blades'], keepDistance: 380,
+    summary: '一次召唤一群灵刃 → 灵刃砍出流血 → 灵刃击杀时分裂出新灵刃 → 流血的怪死时炸开 → 剑阵：灵刃越来越多、溅射成片。',
+    ladder: [
+      { title: '灵刃', text: '一次多召几把灵刃，砍出流血。', keys: [['summon_more', 'helmet'], ['minion_bleed']] },
+      { title: '分刃', text: '灵刃击杀时分裂出新的灵刃——越杀刃越多。', keys: [['blade_split', 'weapon']] },
+      { title: '血爆', text: '流血的怪死时炸开，灵刃上限更高。', keys: [['bleed_explode'], ['minion_count']] },
+      { title: '狂刃', text: '灵刃每一下都溅射周围，暴击更多。', keys: [['minion_splash'], ['minion_crit']] },
+      { title: '剑阵', text: '灵刃上限 +6、全部溅射、伤害更高：一片刀光压过整个房间。', keys: [['core_blade_storm', 'amulet']] },
+    ],
+    traits: ['minion_count', 'kill_minion', 'kill_onslaught', 'proliferate', 'struck_nova', 'kill_recast', 'minion_explode'],
+    amp: [...MINION_AMP], defence: interleave(DEF_LIFE, ES),
+  }),
+  A({
+    id: 'totemist', name: '风暴图腾阵', style: '召唤·图腾·雷', skills: ['storm_totem_place'], keepDistance: 360,
+    summary: '立下图腾放雷 → 图腾的雷击从目标再放出迹电 → 感电的怪死时落雷、感电扩散 → 雷阵：更多图腾，雷击连锁更远。',
+    ladder: [
+      { title: '图腾', text: '多立一座图腾，图腾的雷击会感电。', keys: [['minion_count', 'helmet'], ['minion_shock']] },
+      { title: '雷网', text: '图腾的雷击命中时从目标再放出一道迹电，一座图腾就是一张网。', keys: [['totem_relay', 'weapon']] },
+      { title: '雷葬', text: '感电的怪死时落雷，感电随之扩散。', keys: [['kill_thunder'], ['shock_spread']] },
+      { title: '链雷', text: '图腾一次放几道雷，感电尸体放出电弧。', keys: [['minion_volley'], ['kill_arc']] },
+      { title: '雷阵', text: '再多两座图腾，雷击多跳两次，触发的闪电更痛：站定就是一座雷暴阵地。', keys: [['core_storm_grid', 'amulet']] },
+    ],
+    traits: ['proj_chain', 'chain_any', 'kill_onslaught', 'vs_ailing', 'struck_nova', 'proliferate', 'kill_recast', 'cast_on_shock'],
+    amp: ['dmg_minion', 'minion_crit', 'minion_speed', 'dmg_lightning', 'minion_shock', 'minion_crit_bonus', 'dmg_minion', 'cast_speed', 'minion_life', 'mana_regen', 'effect_shock'],
+    defence: interleave(DEF_LIFE, ES),
+  }),
+  A({
+    id: 'bonelord', name: '骸骨君王', style: '召唤·海量短命·骨爆', skills: ['raise_skeletons'], keepDistance: 360,
+    summary: '在怪群里一次拉起一批骷髅 → 骷髅倒下或消散时炸出骨片 → 骨片和尸爆连环 → 骨潮：被骨片炸死的怪站起来变成新骷髅。',
+    ladder: [
+      { title: '骸骨', text: '直接在怪群里拉起一批骷髅，砍得更快。', keys: [['summon_more', 'helmet'], ['minion_speed']] },
+      { title: '骨爆', text: '骷髅倒下或消散时炸出骨片——它们本来就活不长，每一只都是炸弹。', keys: [['bone_nova', 'weapon']] },
+      { title: '碎骨', text: '骷髅砍出流血、溅射周围。', keys: [['minion_splash'], ['minion_bleed']] },
+      { title: '尸爆', text: '击杀的怪爆炸，流血的怪再炸一次。', keys: [['kill_explode'], ['bleed_explode']] },
+      { title: '骨潮', text: '被骨片炸死的怪站起来变成你的骷髅，再倒下再炸：骨潮自己往外涌。', keys: [['core_bone_tide', 'amulet']] },
+    ],
+    traits: ['minion_count', 'kill_onslaught', 'proliferate', 'struck_nova', 'kill_recast', 'explode_ignite'],
+    amp: [...MINION_AMP], defence: interleave(DEF_LIFE, ARMOUR),
+  }),
+  A({
+    id: 'golemancer', name: '熔火魔像师', style: '召唤·单体巨像·火', skills: ['summon_golem'], keepDistance: 300,
+    summary: '一只巨大的熔火魔像冲进怪堆重击 → 重召时旧魔像整只炸开 → 重击带余震、点燃扩散 → 熔心：魔像打死的怪全部爆炸。',
+    ladder: [
+      { title: '魔像', text: '一只又肉又痛的魔像，重击范围更大、会点燃。', keys: [['minion_area', 'helmet'], ['minion_ignite']] },
+      { title: '熔核', text: '魔像倒下或被重新召唤替换时整只炸开：每隔几秒一次大爆炸。', keys: [['golem_core', 'chest']] },
+      { title: '震地', text: '重击带余震，点燃的怪死时火往外传。', keys: [['minion_quake', 'gloves'], ['ignite_spread']] },
+      { title: '燎原', text: '爆炸会点燃，击杀的怪爆炸。', keys: [['explode_ignite'], ['kill_explode']] },
+      { title: '熔心', text: '重击必定点燃，魔像打死的怪全部爆炸：一只魔像走到哪儿炸到哪儿。', keys: [['core_molten_heart', 'amulet']] },
+    ],
+    traits: ['kill_onslaught', 'proliferate', 'struck_nova', 'kill_recast', 'vs_ailing', 'struck_endurance', 'per_endurance'],
+    amp: ['dmg_minion', 'minion_speed', 'minion_crit', 'minion_life', 'minion_dot', 'minion_crit_bonus', 'dmg_minion', 'ailment_ignite', 'mana_regen', 'cast_speed', 'minion_ignite'],
+    defence: interleave(DEF_LIFE, ARMOUR),
+  }),
+  A({
+    id: 'phantomarcher', name: '幽魂射团', style: '召唤·远程弹幕·冰', skills: ['summon_archers'], keepDistance: 400,
+    summary: '一排幽魂射手站在后面放箭 → 一次射几支、支支穿透 → 冻住、击碎 → 幽魂弹幕：箭命中就爆炸、再连锁。',
+    ladder: [
+      { title: '射手', text: '射手一次射出几支箭，暴击更多。', keys: [['minion_volley', 'helmet'], ['minion_crit']] },
+      { title: '穿心', text: '箭穿透一整排，暴击击杀的怪爆炸。', keys: [['minion_pierce', 'gloves'], ['crit_explode']] },
+      { title: '寒箭', text: '箭会冻住怪，击碎时爆出寒霜冻住周围。', keys: [['minion_freeze'], ['shatter_nova']] },
+      { title: '连珠', text: '一次多召射手，击碎冰冻的怪时炸出闪电。', keys: [['summon_more'], ['shatter_burst']] },
+      { title: '幽魂弹幕', text: '箭命中就爆炸、再连锁一次：射手站着不动，前面一片一片倒。', keys: [['core_phantom_barrage', 'amulet']] },
+    ],
+    traits: ['minion_count', 'kill_onslaught', 'proliferate', 'struck_nova', 'kill_recast', 'frozen_bonus'],
+    amp: [...MINION_AMP], defence: interleave(DEF_LIFE, EVASION),
+  }),
+  A({
+    id: 'broodmother', name: '毒蛛巢母', style: '召唤·繁殖·毒', skills: ['summon_spiders'], keepDistance: 360,
+    summary: '把一窝毒蛛撒进怪群 → 毒蛛咬出层层剧毒 → 中毒的怪死时孵出新毒蛛 → 蛛后：毒蛛成群、毒层在尸体之间传递。',
+    ladder: [
+      { title: '蛛群', text: '一次多撒几只毒蛛，咬出剧毒。', keys: [['summon_more', 'helmet'], ['minion_poison']] },
+      { title: '孵化', text: '中毒的怪死时孵出新毒蛛：怪越多，你的蛛群越大。', keys: [['spider_brood', 'weapon']] },
+      { title: '毒爆', text: '中毒的怪死时爆出毒雾，毒蛛更快。', keys: [['poison_burst'], ['minion_speed']] },
+      { title: '蔓延', text: '中毒的怪死时毒层扩散给附近的怪，毒蛛上限更高。', keys: [['poison_spread'], ['minion_count']] },
+      { title: '蛛后', text: '毒蛛上限大增、毒伤更高，死掉的怪把毒传给下一群：整片地图被蛛群淹没。', keys: [['core_brood_queen', 'amulet']] },
+    ],
+    traits: ['minion_count', 'kill_onslaught', 'struck_nova', 'kill_recast', 'vs_ailing'],
+    amp: ['dmg_minion', 'minion_dot', 'minion_speed', 'minion_poison', 'minion_life', 'cast_speed', 'dmg_minion', 'minion_dot', 'mana_regen', 'ailment_poison', 'minion_crit'],
+    defence: interleave(DEF_LIFE, ES),
+  }),
+  A({
+    id: 'frostmancer', name: '霜灵使', style: '召唤·自爆·冰', skills: ['summon_wisps'], keepDistance: 380,
+    summary: '放出一群霜灵冲向怪群 → 撞上就自爆冻住一圈 → 击碎冰冻的怪爆出寒霜 → 永冬：碎冰里又飞出新的霜灵，冻结、击碎、自爆、再冻结。',
+    ladder: [
+      { title: '霜灵', text: '一次多放几只霜灵，撞上怪就自爆，会冻住怪。', keys: [['summon_more', 'helmet'], ['minion_freeze']] },
+      { title: '碎冰', text: '击碎冰冻的怪爆出寒霜，冻住下一圈。', keys: [['shatter_nova', 'weapon']] },
+      { title: '寒域', text: '霜灵爆炸范围更大，冻住的怪受到更多伤害。', keys: [['minion_area'], ['frozen_bonus']] },
+      { title: '冰爆', text: '击碎时再炸出闪电，霜灵暴击更多。', keys: [['shatter_burst'], ['minion_crit']] },
+      { title: '永冬', text: '每次击碎都从碎冰里飞出一只新霜灵：冻结 → 击碎 → 自爆 → 冻结，永不停歇。', keys: [['core_endless_frost', 'amulet']] },
+    ],
+    traits: ['minion_count', 'kill_onslaught', 'proliferate', 'struck_nova', 'kill_recast', 'vs_ailing'],
+    amp: [...MINION_AMP], defence: interleave(DEF_LIFE, ES),
+  }),
+  A({
+    id: 'packleader', name: '狼群之主', style: '召唤·叠层·速攻', skills: ['summon_wolves'], keepDistance: 360,
+    summary: '放出一群影狼扑向怪群 → 每次击杀叠一层狼嚎，整群越打越快越痛 → 流血的怪死时炸开 → 头狼：狼嚎上限翻倍，每次击杀撕开一片伤口。',
+    ladder: [
+      { title: '狼群', text: '一次多放几只影狼，咬出流血。', keys: [['summon_more', 'helmet'], ['minion_bleed']] },
+      { title: '狼嚎', text: '召唤物每次击杀叠一层狼嚎，整群越打越快、越痛——停手就慢慢散掉。', keys: [['pack_howl', 'weapon']] },
+      { title: '撕裂', text: '流血的怪死时炸开，狼的撕咬溅射周围。', keys: [['bleed_explode'], ['minion_splash']] },
+      { title: '围猎', text: '狼更快；击杀时从尸体再召唤一批狼。', keys: [['minion_speed'], ['kill_recast']] },
+      { title: '头狼', text: '狼嚎上限翻倍，每次击杀撕开周围一圈伤口、让流血扩散：狼群越杀越疯。', keys: [['core_alpha', 'amulet']] },
+    ],
+    traits: ['minion_count', 'kill_onslaught', 'proliferate', 'struck_nova', 'minion_explode'],
+    amp: [...MINION_AMP], defence: interleave(DEF_LIFE, EVASION),
+  }),
+  A({
+    id: 'bloodpact', name: '血契术士', style: '召唤·以命换仆', skills: ['blood_pact'], keepDistance: 360,
+    summary: '用自己的血召唤血魔 → 血魔击杀让你回血 → 血魔倒下时炸开 → 血祭：血魔从尸体里一只接一只爬出来。',
+    ladder: [
+      { title: '血契', text: '每次召唤付出一截生命，一次召出更多血魔，血魔更肉。', keys: [['minion_life'], ['summon_more']] },
+      { title: '血宴', text: '血魔每次击杀都给你回血：越杀越能继续召唤。', keys: [['blood_feast', 'weapon']] },
+      { title: '血爆', text: '血魔死时炸开，血魔会让怪流血。', keys: [['minion_explode'], ['minion_bleed']] },
+      { title: '嗜血', text: '流血的怪死时炸开，血魔暴击更多。', keys: [['bleed_explode'], ['minion_crit']] },
+      { title: '血祭', text: '血魔更凶，杀一只还能从尸体再召出一只，死时炸开：血债用血还。', keys: [['core_blood_rite', 'amulet']] },
+    ],
+    traits: ['minion_count', 'kill_onslaught', 'proliferate', 'kill_recast', 'struck_endurance', 'per_endurance'],
+    amp: [...MINION_AMP], defence: interleave(DEF_LIFE, ARMOUR),
+  }),
+  A({
+    id: 'soulreaper', name: '收魂者', style: '召唤·亲手收割', skills: ['soul_reap'], keepDistance: 0,
+    summary: '亲手挥镰收割 → 被你杀死的怪升起怨灵 → 怨灵放出怨念、毒雾 → 灵魂收割：怨灵消散时在原地替你再挥一镰。',
+    ladder: [
+      { title: '收割', text: '大范围挥镰，混沌会让怪中毒。', keys: [['area_more'], ['chance_poison']] },
+      { title: '收魂', text: '被你亲手杀死的怪从尸体升起怨灵，替你继续战斗。', keys: [['reap_wraith', 'weapon']] },
+      { title: '怨潮', text: '怨灵一次放几道怨念，中毒的怪死时爆出毒雾。', keys: [['minion_volley'], ['poison_burst']] },
+      { title: '群魂', text: '怨灵上限更高；击杀时从尸体再挥一镰。', keys: [['minion_count'], ['kill_recast']] },
+      { title: '灵魂收割', text: '怨灵消散或被打死时在原地重放你的收割：镰刀从一只只怨灵身上挥出去。', keys: [['core_soul_harvest', 'amulet']] },
+    ],
+    traits: ['strike_splash', 'area_cascade', 'kill_onslaught', 'proliferate', 'poison_spread', 'vs_ailing', 'hit_fortify'],
+    amp: ['added_chaos_attack', 'attack_speed', 'dmg_chaos', 'dmg_area', 'dmg_minion', 'added_physical_attack', 'ailment_poison', 'dmg_melee', 'minion_speed', 'crit_chance', 'attack_speed', 'leech'],
+    defence: interleave(DEF_LIFE, ARMOUR),
   }),
 ]);
 

@@ -1,4 +1,4 @@
-// 十九个示范流派：分阶段配装、地图压力、进度与词条有效率。
+// 二十九个示范流派：分阶段配装、地图压力、进度与词条有效率。
 // 全部数字来自模拟器（同一种子可复现）。判定刻意留了余量：验证的是「形状」——
 // 本阶段的地图能稳定通过，往上三阶就明显吃力，下一阶段的配装在同一张图上更快，毕业配装约九成词条在起作用。
 import test from 'node:test';
@@ -23,13 +23,14 @@ test('词条族：四层稀有度齐全，全部能编译成可装备词条', ()
   assert.ok(lineCount() >= 1000);
 });
 
-test('十九个流派覆盖纯元素、元素反应、近战、触发、持续区域、闪现 ×5、炸盾 ×3，且技能各不相同', () => {
-  assert.equal(ARCHETYPES.length, 19);
+test('二十九个流派覆盖纯元素、元素反应、近战、触发、持续区域、闪现 ×5、炸盾 ×3、召唤 ×10，且技能各不相同', () => {
+  assert.equal(ARCHETYPES.length, 29);
+  assert.equal(ARCHETYPES.filter(a => a.style.startsWith('召唤')).length, 10);
   const styles = ARCHETYPES.map(a => a.style).join(' ');
   for (const k of ['纯元素·火', '纯元素·冰', '纯元素·电', '元素反应', '近战', '触发', '持续区域']) assert.ok(styles.includes(k), k);
   assert.equal(ARCHETYPES.filter(a => a.style.startsWith('闪现')).length, 5);
   assert.equal(ARCHETYPES.filter(a => a.style.startsWith('炸盾')).length, 3);
-  assert.equal(new Set(ARCHETYPES.map(a => a.skills[0])).size, 19);
+  assert.equal(new Set(ARCHETYPES.map(a => a.skills[0])).size, 29);
 });
 
 for (const a of ARCHETYPES) {

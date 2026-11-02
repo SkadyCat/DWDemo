@@ -429,6 +429,11 @@ export function createFx(T, scene) {
   /** Minions: [{ x, z, template, id }] */
   function minions(list) {
     for (const m of list) {
+      if (m.template === 'flame_golem') { const c = PAL.fire; P.sprite('add', [m.x, 1.2, m.z], 3.2, mul(c.mid, .6), .3, CELL.glow); if (Math.random() < .6) P.emit('add', 1, { pos: [m.x, 1.4, m.z], spread: .5, life: [.3, .6], size: [.4, .7], grow: .3, color: c.hot, color1: c.mid, alpha: .7, cell: CELL.flame2, dir: 'up', speed: [.6, 1.4], fadeIn: .1 }); continue; }
+      if (m.template === 'frost_wisp') { const c = PAL.cold; P.sprite('add', [m.x, 1, m.z], 1.4, c.hot, .45, CELL.glow); P.sprite('add', [m.x, 1, m.z], .55, c.core, .9, CELL.star, time * 7 + m.id); continue; }
+      if (m.template === 'wraith') { const c = PAL.void; P.sprite('add', [m.x, 1.1, m.z], 1.6, mul(c.mid, .8), .35, CELL.glow); if (Math.random() < .3) P.emit('add', 1, { pos: [m.x, .9, m.z], spread: .2, life: [.4, .7], size: [.3, .5], color: c.hot, alpha: .4, cell: CELL.wisp, dir: 'up', speed: [.3, .8], fadeIn: .1 }); continue; }
+      if (m.template === 'spectral_archer') { P.sprite('add', [m.x, 1.1, m.z], 1.4, [.4, .7, 1.2], .25, CELL.glow); continue; }
+      if (m.template === 'blood_fiend') { P.sprite('add', [m.x, .9, m.z], 1.6, [1.2, .08, .06], .25, CELL.glow); continue; }
       if (m.template === 'phantom') {
         // A flickering fire silhouette where the caster blinked from (残影).
         const c = PAL.fire, pos = [m.x, .9, m.z], fl = .75 + Math.sin(time * 17 + m.id) * .15;

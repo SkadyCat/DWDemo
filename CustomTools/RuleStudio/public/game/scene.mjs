@@ -11,6 +11,13 @@ import { waystoneName } from './waystones.mjs';
 const M = 0.01;
 const toV = (x, y, h = 0) => new THREE.Vector3(x * M, h, -y * M);
 const sizeOf = m => m.boss ? 2.2 : m.kind === 'elite' ? 1.25 : 0.95;
+// How each summoned minion looks (the glow and trails come from the effects layer).
+const MINION_LOOK = {
+  skeleton: { color: 0xe8e2cf, size: 0.85, wide: 0.8 }, flame_golem: { color: 0x7a2a10, size: 2.0, wide: 1.25 },
+  spectral_archer: { color: 0x9fd8ff, size: 0.85, wide: 0.75, float: 0.15 }, spider: { color: 0x3f6b2a, size: 0.55, wide: 1.5, tall: 0.5 },
+  frost_wisp: { color: 0xbff4ff, size: 0.5, wide: 0.9, tall: 0.7, float: 0.5, spin: 6 }, wolf: { color: 0x5a5470, size: 0.9, wide: 1.2, tall: 0.75 },
+  blood_fiend: { color: 0x9a1418, size: 1.05 }, wraith: { color: 0x7b4bb8, size: 0.85, wide: 0.7, float: 0.35 },
+};
 const RARITY_KEY = { normal: 'common', magic: 'magic', rare: 'rare', exalted: 'legendary', legendary: 'unique' };
 
 export class Scene3D {
@@ -61,6 +68,9 @@ export class Scene3D {
     this.monsterHorn = new THREE.InstancedMesh(hornGeo, new THREE.MeshStandardMaterial({ color: 0x2a1a1a, roughness: 0.6 }), CAP);
     for (const mesh of [this.monsterBody, this.monsterVisor, this.monsterHorn]) { mesh.count = 0; mesh.frustumCulled = false; scene.add(mesh); }
     this.monsterBody.setColorAt(0, new THREE.Color());
+    // Minions (skeletons, golems, wolves…): one instanced body, coloured and sized by template.
+    this.minionBody = new THREE.InstancedMesh(new THREE.CapsuleGeometry(0.3, 0.4, 4, 10), new THREE.MeshStandardMaterial({ roughness: 0.5, metalness: 0.15, emissive: 0x111111 }), 256);
+    this.minionBody.count = 0; this.minionBody.frustumCulled = false; this.minionBody.castShadow = true; this.minionBody.setColorAt(0, new THREE.Color()); scene.add(this.minionBody);
 
     this.effects = createEffects(THREE, scene);
     this.loot = createLootMarkers(THREE); scene.add(this.loot.group);
@@ -131,6 +141,15 @@ export class Scene3D {
       ++n;
     }
     for (const mesh of [this.monsterBody, this.monsterVisor, this.monsterHorn]) { mesh.count = n; mesh.instanceMatrix.needsUpdate = true; }
+    let k = 0;
+    for (const mn of run.minions) {
+      const look = MINION_LOOK[mn.template]; if (!look || k >= 256) continue;
+      const sz = look.size, bob = Math.abs(Math.sin(time * 8 + mn.id)) * 0.05 * sz;
+      p.set(mn.x * M, (0.5 + bob) * sz + (look.float ?? 0), -mn.y * M);
+      e.set(0, time * (look.spin ?? 0) + mn.id, 0); q.setFromEuler(e); s.set(sz * (look.wide ?? 1), sz * (look.tall ?? 1), sz * (look.wide ?? 1));
+      m.compose(p, q, s); this.minionBody.setMatrixAt(k, m); this.minionBody.setColorAt(k, c.set(look.color)); ++k;
+    }
+    this.minionBody.count = k; this.minionBody.instanceMatrix.needsUpdate = true; if (this.minionBody.instanceColor) this.minionBody.instanceColor.needsUpdate = true;
     if (this.monsterBody.instanceColor) this.monsterBody.instanceColor.needsUpdate = true;
 
     this.camera.updateMatrixWorld();

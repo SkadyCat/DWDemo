@@ -21,6 +21,8 @@ export const SKILL_ICON = {
   glacial_burst: 'frozen-orb', tornado: 'tornado', thunder_fall: 'lightning-branches', ice_spike_burst: 'ice-spear', flame_burst: 'fluffy-flame', blade_ring: 'spinning-blades', ground_slam: 'heavy-fall',
   storm_step: 'lightning-trio', frost_dash: 'ice-spear', phantom_step: 'shadow-follower', star_step: 'star-swirl', void_leap: 'portal',
   aegis_nova: 'shield-impact', shield_bash: 'shield-bash', aegis_shards: 'shield-reflect',
+  raise_skeletons: 'raise-skeleton', summon_golem: 'golem-head', summon_archers: 'bowman', summon_spiders: 'spider-alt', summon_wisps: 'ice-spell-cast',
+  summon_wolves: 'wolf-howl', blood_pact: 'bleeding-heart', soul_reap: 'scythe',
   frost_trail: 'ice-spell-cast', step_arc: 'lightning-arc', void_rift: 'vortex', shield_shatter: 'shield-disabled', shield_pulse: 'electric',
 };
 export const CURRENCY_ICON = {

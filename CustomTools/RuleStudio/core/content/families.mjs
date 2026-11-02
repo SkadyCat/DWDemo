@@ -328,6 +328,83 @@ fam({ id: 'core_shatterguard', name: '核心·碎盾不息：护盾打破后几�
 fam({ id: 'core_aegis_storm', name: '核心·盾刃风暴：消耗护盾的投射物 +{v} 个、连锁 +1 次', layer: 'core', values: [2, 3, 4], slots: ['amulet', 'chest', 'helmet'], tags: ['core', 'es', 'projectile'],
   make: v => ({ mods: [{ stat: 'proj.count', op: 'base', value: v, tags: ['shield'] }, { stat: 'proj.chain', op: 'base', value: 1, tags: ['shield'] }] }) });
 
+// ================================================================== 召唤体系：十种召唤物，十种走法
+// 召唤物只吃 scope:'minion' 的修正（主人身上的修正不会直接加到召唤物身上），所以这里有一组专门给召唤物的数值词条。
+const MSLOTS = ['offhand', 'helmet', 'chest', 'amulet', 'gloves', 'ring1', 'ring2', 'belt'];
+fam({ id: 'minion_crit', name: '召唤物暴击率提高 {v}%', from: 15, to: 90, slots: MSLOTS, tags: ['offence', 'minion', 'crit'], make: v => ({ mods: [{ stat: 'crit.chance', op: 'inc', value: v, scope: 'minion' }] }) });
+fam({ id: 'minion_crit_bonus', name: '召唤物 +{v}% 暴击伤害加成', from: 8, to: 45, slots: MSLOTS, tags: ['offence', 'minion', 'crit'], make: v => ({ mods: [{ stat: 'crit.bonus', op: 'base', value: v, scope: 'minion' }] }) });
+for (const [a, n, from] of [['bleed', '流血', 10], ['poison', '中毒', 10], ['ignite', '点燃', 10], ['shock', '感电', 10], ['freeze', '冰冻', 8]])
+  fam({ id: `minion_${a}`, name: `召唤物 {v}% ${n}几率`, from, to: from * 4, slots: MSLOTS, tags: ['offence', 'minion', 'ailment', a], make: v => ({ mods: [{ stat: `chance.${a}`, op: 'base', value: v, scope: 'minion' }] }) });
+fam({ id: 'minion_dot', name: '召唤物造成的异常伤害提高 {v}%', from: 10, to: 60, slots: MSLOTS, tags: ['offence', 'minion', 'ailment'], make: v => ({ mods: [{ stat: 'ailmentDamage', op: 'inc', value: v, scope: 'minion' }] }) });
+fam({ id: 'summon_more', name: '群召：召唤技能每次额外召唤 {v} 个', layer: 'form', values: [1, 1, 1, 2, 2, 3], tags: ['form', 'minion'],
+  make: v => ({ mods: [{ stat: 'summon.count', op: 'base', value: v, tags: ['minion', 'spell'] }, { stat: 'minion.limit', op: 'base', value: v * 2, tags: ['minion', 'spell'] }] }) });
+fam({ id: 'minion_volley', name: '齐射：召唤物的投射物 +{v}', layer: 'form', values: [1, 1, 2, 2, 3, 3], tags: ['form', 'minion', 'projectile'],
+  make: v => ({ mods: [{ stat: 'proj.count', op: 'base', value: v, scope: 'minion' }] }) });
+fam({ id: 'minion_pierce', name: '召唤物的投射物穿透 +{v} 个目标', layer: 'form', values: [1, 2, 2, 3, 4, 5], tags: ['form', 'minion', 'projectile'],
+  make: v => ({ mods: [{ stat: 'proj.pierce', op: 'base', value: v, scope: 'minion' }] }) });
+fam({ id: 'minion_quake', name: '震地：召唤物的范围技能余震 +{v} 次', layer: 'form', values: [1, 1, 1, 2, 2, 3], tags: ['form', 'minion', 'area'],
+  make: v => ({ mods: [{ stat: 'area.cascade', op: 'base', value: v, scope: 'minion' }] }) });
+fam({ id: 'minion_area', name: '召唤物的范围扩大 {v}%（更多）', layer: 'form', values: [15, 20, 25, 30, 40, 50], tags: ['form', 'minion', 'area'],
+  make: v => ({ mods: [{ stat: 'area', op: 'more', value: v, scope: 'minion' }] }) });
+fam({ id: 'minion_splash', name: '召唤物打击时溅射周围 {v} 范围', layer: 'form', values: [80, 100, 120, 140, 160, 190], step: 10, tags: ['form', 'minion', 'melee'],
+  make: v => ({ mods: [{ stat: 'strike.splash', op: 'base', value: v, scope: 'minion' }] }) });
+
+// 1 灵刃军势：灵刃击杀时分裂出新的灵刃
+fam({ id: 'blade_split', name: '分刃：灵刃击杀时 {v}% 几率分裂出一把新灵刃（每秒最多 6 把）', layer: 'link', values: [30, 40, 50, 60, 75], tags: ['link', 'minion', 'kill', 'trigger'],
+  make: v => ({ rules: [trig('kill', { skill: 'spirit_slash' }, [{ do: 'summon', minion: 'spirit_blade', at: 'event', count: 1, limit: 14, duration: 8 }], { role: 'minion', chain: true, at: 'event', accumulate: { kind: 'chance', pct: v }, limit: { perSecond: 6 } })] }) });
+// 2 风暴图腾阵：图腾的雷击再从目标放出电弧
+fam({ id: 'totem_relay', name: '雷网：图腾的雷击命中时 {v}% 几率从目标再放出一道迹电（每秒最多 10 次）', layer: 'link', values: [25, 35, 45, 55, 70], tags: ['link', 'minion', 'lightning', 'trigger'],
+  make: v => ({ rules: [trig('hit', { skill: 'totem_bolt' }, [{ do: 'cast', skill: 'step_arc', from: 'event', range: 600 }], { role: 'minion', chain: true, at: 'event', accumulate: { kind: 'chance', pct: v }, limit: { perSecond: 10 } })] }) });
+// 3 骸骨大军：骷髅倒下时炸出骨片，被骨片炸死的怪站起来变成骷髅
+fam({ id: 'bone_nova', name: '骨爆：骷髅死亡或消散时炸出骨片（{v}% 伤害，每秒最多 10 次）', layer: 'link', values: [70, 90, 110, 135, 160], tags: ['link', 'minion', 'physical', 'trigger'],
+  make: v => ({ rules: [trig('death', { key: 'skeleton' }, [{ do: 'cast', skill: 'bone_burst', from: 'event', range: 260, mult: v }], { role: 'minion', chain: true, at: 'event', limit: { perSecond: 60 } })] }) });
+// 4 熔火魔像：魔像倒下 / 被换掉时引爆
+fam({ id: 'golem_core', name: '熔核：魔像倒下或被重新召唤替换时爆炸，造成其最大生命 {v}% 的火焰伤害', layer: 'link', values: [40, 55, 70, 80, 90], tags: ['link', 'minion', 'fire', 'explosion'],
+  make: v => ({ rules: [trig('death', { key: 'flame_golem' }, [{ do: 'area', at: 'event', radius: 380, damage: { fire: { pool: 'life', of: 'target', mul: v / 100 } }, crit: 0, fx: 'flame_burst', tags: ['explosion', 'fire', 'golem'] }], { role: 'minion', at: 'event', chain: true })] }) });
+// 6 毒蛛巢母：中毒的敌人死时孵出蜘蛛
+fam({ id: 'spider_brood', name: '孵化：中毒敌人死亡时 {v}% 几率孵出一只毒蛛（每秒最多 8 只）', layer: 'link', values: [30, 40, 50, 60, 75], tags: ['link', 'minion', 'poison', 'trigger'],
+  make: v => ({ rules: [trig('kill', { cond: { status: 'poisoned', of: 'target' } }, [{ do: 'summon', minion: 'spider', at: 'event', count: 1, limit: 20, duration: 6 }], { role: 'owned', chain: true, at: 'event', accumulate: { kind: 'chance', pct: v }, limit: { perSecond: 8 } })] }) });
+// 8 狼群：召唤物击杀叠狼嚎，狼嚎让整群更快更痛
+fam({ id: 'pack_howl', name: '狼嚎：召唤物击杀时叠 1 层狼嚎，每层使召唤物伤害与速度提高 {v}%（更多）', layer: 'link', values: [2, 2.5, 3, 3.5, 4], step: 0.5, tags: ['link', 'minion', 'kill', 'speed'],
+  make: v => ({ mods: [{ stat: 'damage', op: 'more', value: v, scope: 'minion', per: { res: 'howl', of: 'owner' } }, { stat: 'speed', op: 'more', value: v, scope: 'minion', per: { res: 'howl', of: 'owner' } }],
+    rules: [trig('kill', {}, [{ do: 'gain', res: 'howl', amount: 1 }], { role: 'minion', at: 'self', chain: true })] }) });
+// 9 血契：召唤物击杀让你回血；你掉的血越多召唤物越凶
+fam({ id: 'blood_feast', name: '血宴：召唤物击杀时你回复 {v}% 生命', layer: 'link', values: [1, 1.5, 2, 2.5, 3], step: 0.5, tags: ['link', 'minion', 'kill', 'defence'],
+  make: v => ({ rules: [trig('kill', {}, [{ do: 'heal', pct: v }], { role: 'minion', at: 'self', chain: true, limit: { perSecond: 20 } })] }) });
+// 10 收魂者：收割击杀从尸体升起怨灵
+fam({ id: 'reap_wraith', name: '收魂：你亲手击杀的敌人 {v}% 几率从尸体升起一只怨灵（每秒最多 6 只）', layer: 'link', values: [25, 35, 45, 55, 70], tags: ['link', 'minion', 'chaos', 'trigger'],
+  make: v => ({ rules: [trig('kill', {}, [{ do: 'summon', minion: 'wraith', at: 'event', count: 1, limit: 12, duration: 10 }], { role: 'source', chain: true, at: 'event', accumulate: { kind: 'chance', pct: v }, limit: { perSecond: 6 } })] }) });
+
+fam({ id: 'core_blade_storm', name: '核心·剑阵：灵刃上限 +6、更快，溅射周围、伤害提高 {v}%（更多），斩杀的敌人爆出剑气', layer: 'core', values: [60, 90, 120], slots: ['amulet', 'offhand', 'helmet'], tags: ['core', 'minion'],
+  make: v => ({ mods: [{ stat: 'speed', op: 'more', value: 40, scope: 'minion' }, { stat: 'moveSpeed', op: 'inc', value: 50, scope: 'minion' }, { stat: 'minion.limit', op: 'base', value: 6 }, { stat: 'strike.splash', op: 'base', value: 170, scope: 'minion' }, { stat: 'damage', op: 'more', value: v, scope: 'minion' }],
+    rules: [trig('kill', { anyTags: ['minion', 'blade_wave'] }, [{ do: 'explode', pct: 90, type: 'physical', radius: 210, fx: 'cleave', tags: ['blade_wave'] }], { role: 'owned', chain: true, at: 'event', limit: { perSecond: 80 } })] }) });
+fam({ id: 'core_storm_grid', name: '核心·雷阵：+2 图腾上限，图腾雷击连锁 +2，被触发的闪电伤害提高 {v}%（更多），图腾自己的雷击减弱、每一击都引来落雷', layer: 'core', values: [80, 100, 120], slots: ['amulet', 'offhand', 'chest'], tags: ['core', 'minion', 'lightning'],
+  make: v => ({ mods: [{ stat: 'minion.limit', op: 'base', value: 2 }, { stat: 'proj.chain', op: 'base', value: 2, scope: 'minion' }, { stat: 'damage', op: 'more', value: v, tags: ['lightning', 'triggered'] }, { stat: 'damage', op: 'more', value: -40, scope: 'minion' }],
+    rules: [trig('hit', { skill: 'totem_bolt' }, [{ do: 'cast', skill: 'thunder_fall', from: 'event', range: 300 }], { role: 'minion', chain: true, at: 'event', limit: { perSecond: 16 } })] }) });
+fam({ id: 'core_bone_tide', name: '核心·骨潮：被骨爆炸死的敌人站起来成为你的骷髅；骷髅更快，骨爆伤害提高 {v}%（更多）', layer: 'core', values: [70, 100, 130], slots: ['amulet', 'chest', 'helmet'], tags: ['core', 'minion', 'physical'],
+  make: v => ({ mods: [{ stat: 'speed', op: 'more', value: 40, scope: 'minion' }, { stat: 'moveSpeed', op: 'inc', value: 50, scope: 'minion' }, { stat: 'damage', op: 'more', value: v, tags: ['bone'] }],
+    rules: [trig('kill', { tags: ['bone'] }, [{ do: 'summon', minion: 'skeleton', at: 'event', count: 1, limit: 30, duration: 6 }], { role: 'owned', chain: true, at: 'event', limit: { perSecond: 30 } })] }) });
+fam({ id: 'core_molten_heart', name: '核心·熔心：魔像更快，重击必定点燃，魔像击杀的敌人爆炸（其最大生命 70% 火焰）且连环；魔像伤害提高 {v}%（更多）', layer: 'core', values: [60, 80, 100], slots: ['amulet', 'chest', 'offhand'], tags: ['core', 'minion', 'fire'],
+  make: v => ({ mods: [{ stat: 'speed', op: 'more', value: 40, scope: 'minion' }, { stat: 'moveSpeed', op: 'inc', value: 50, scope: 'minion' }, { stat: 'chance.ignite', op: 'base', value: 100, scope: 'minion' }, { stat: 'damage', op: 'more', value: v, scope: 'minion' }],
+    // Golem kills explode, and the explosions' kills explode again (they carry the 'golem' tag).
+    rules: [trig('kill', { tags: ['golem'] }, [{ do: 'explode', pct: 70, type: 'fire', radius: 340, tags: ['explosion', 'golem'] }], { role: 'owned', chain: true, at: 'event', limit: { perSecond: 80 } })] }) });
+fam({ id: 'core_phantom_barrage', name: '核心·幽魂弹幕：召唤物的投射物命中时爆炸并连锁 +1，召唤物伤害提高 {v}%（更多）', layer: 'core', values: [25, 35, 45], slots: ['amulet', 'offhand', 'helmet'], tags: ['core', 'minion', 'projectile'],
+  make: v => ({ mods: [{ stat: 'proj.explode', op: 'base', value: 130, scope: 'minion' }, { stat: 'proj.chain', op: 'base', value: 1, scope: 'minion' }, { stat: 'damage', op: 'more', value: v, scope: 'minion' }] }) });
+fam({ id: 'core_brood_queen', name: '核心·蛛后：毒蛛上限 +10，召唤物必定中毒、中毒伤害提高 {v}%（更多），中毒敌人死时毒层转给附近 5 个敌人', layer: 'core', values: [150, 200, 250], slots: ['amulet', 'chest', 'helmet'], tags: ['core', 'minion', 'poison'],
+  make: v => ({ mods: [{ stat: 'minion.limit', op: 'base', value: 10 }, { stat: 'ailmentDamage', op: 'more', value: v, scope: 'minion', tags: ['poison'] }, { stat: 'chance.poison', op: 'base', value: 100, scope: 'minion' }],
+    rules: [trig('kill', { cond: { status: 'poisoned', of: 'target' } }, [{ do: 'spread', status: 'poisoned', radius: 280, max: 5 }], { role: 'owned', chain: true, at: 'event' })] }) });
+fam({ id: 'core_endless_frost', name: '核心·永冬：击碎冰冻敌人时从碎冰里飞出一只霜灵（每秒最多 14 只）；霜灵伤害提高 {v}%（更多）', layer: 'core', values: [100, 130, 160], slots: ['amulet', 'chest', 'offhand'], tags: ['core', 'minion', 'cold'],
+  make: v => ({ mods: [{ stat: 'damage', op: 'more', value: v, scope: 'minion' }],
+    rules: [trig('shatter', {}, [{ do: 'summon', minion: 'frost_wisp', at: 'event', count: 1, limit: 24, duration: 4 }], { role: 'owned', chain: true, at: 'event', limit: { perSecond: 14 } })] }) });
+fam({ id: 'core_alpha', name: '核心·头狼：狼嚎上限 +20，狼群更快；召唤物击杀时撕开伤口（伤口伤害提高 {v}%，更多），周围敌人流血', layer: 'core', values: [45, 60, 75], slots: ['amulet', 'helmet', 'gloves'], tags: ['core', 'minion', 'bleed'],
+  make: v => ({ mods: [{ stat: 'speed', op: 'more', value: 40, scope: 'minion' }, { stat: 'moveSpeed', op: 'inc', value: 50, scope: 'minion' }, { stat: 'howl.max', op: 'base', value: 20 }, { stat: 'damage', op: 'more', value: v, tags: ['bleed_howl'] }],
+    rules: [trig('kill', { anyTags: ['minion', 'bleed_howl'] }, [{ do: 'area', at: 'event', radius: 280, damage: { physical: 150 }, crit: 0, fx: 'cleave', tags: ['bleed_howl'] }, { do: 'spread', status: 'bleeding', radius: 200, max: 2 }], { role: 'owned', chain: true, at: 'event', limit: { perSecond: 60 } })] }) });
+fam({ id: 'core_blood_rite', name: '核心·血祭：血魔更快、伤害提高 {v}%（更多），血魔击杀时 55% 几率从尸体再召出一只血魔，血魔死亡时爆炸', layer: 'core', values: [60, 85, 110], slots: ['amulet', 'chest', 'helmet'], tags: ['core', 'minion', 'blood'],
+  make: v => ({ mods: [{ stat: 'speed', op: 'more', value: 40, scope: 'minion' }, { stat: 'moveSpeed', op: 'inc', value: 50, scope: 'minion' }, { stat: 'damage', op: 'more', value: v, scope: 'minion' }],
+    rules: [trig('kill', { skill: 'fiend_claw' }, [{ do: 'summon', minion: 'blood_fiend', at: 'event', count: 1, limit: 12, duration: 8 }], { role: 'minion', chain: true, at: 'event', accumulate: { kind: 'chance', pct: 55 }, limit: { perSecond: 10 } }),trig('death', { key: 'blood_fiend' }, [{ do: 'area', at: 'event', radius: 260, damage: { physical: { pool: 'life', of: 'target', mul: 1.5 } }, crit: 0, fx: 'explode', tags: ['explosion', 'blood'] }], { role: 'minion', at: 'event', chain: true })] }) });
+fam({ id: 'core_soul_harvest', name: '核心·灵魂收割：怨灵消散或被打死时，从那里重放你的主技能（每秒最多 {v} 次）', layer: 'core', values: [4, 6, 8], slots: ['amulet', 'chest', 'helmet'], tags: ['core', 'minion', 'chaos', 'trigger'],
+  make: v => ({ rules: [trig('death', { key: 'wraith' }, [{ do: 'cast', skill: '$primary', from: 'event', range: 400 }], { role: 'minion', at: 'event', chain: true, limit: { perSecond: v } })] }) });
+
 // ================================================================== API
 export const families = () => [...FAMILIES.values()];
 export const family = id => { const f = FAMILIES.get(id); if (!f) throw new Error(`未知词条族 ${id}`); return f; };

@@ -57,7 +57,11 @@ const SKILL_DESC = {
   storm_step: '闪到瞄准的地方，落地炸开一圈雷。', frost_dash: '突进到附近的敌人身边斩下一刀（冰霜）。',
   phantom_step: '在原地留下一个残影再闪走；残影消散或被打死时炸开火焰。怪会先去打残影。', star_step: '瞬移到附近的敌人身边斩下一刀。',
   void_leap: '跃到附近的敌人身边，炸开一圈混沌。', aegis_nova: '引爆当前一半的能量护盾，炸开一圈：消耗的护盾越多伤害越高。护盾会照常重新充能。',
-  shield_bash: '用盾猛击面前的敌人，最大能量护盾越高打得越痛。', aegis_shards: '削下当前 10% 的能量护盾化成三把冰刃射出，伤害随消耗量提高。',
+  shield_bash: '用盾猛击面前的敌人，最大能量护盾越高打得越痛。',
+  raise_skeletons: '在瞄准处拉起一批骷髅战士，9 秒后消散。', summon_golem: '召唤一只又肉又痛的熔火魔像，重击周围（冷却 4 秒，再召唤会替换旧的）。',
+  summon_archers: '召唤两名幽魂射手，站在后面放箭。', summon_spiders: '在瞄准处撒下一窝毒蛛，咬出剧毒。',
+  summon_wisps: '放出三只霜灵，撞上敌人就自爆冻住周围。', summon_wolves: '召唤两只影狼扑向敌人。',
+  blood_pact: '付出 6% 最大生命，召唤一只血魔。', soul_reap: '向前方挥出一大片镰刀（物理 + 混沌）。', aegis_shards: '削下当前 10% 的能量护盾化成三把冰刃射出，伤害随消耗量提高。',
 };
 /** Currencies that act on one chosen line: 'trait' = base traits only, 'any' = a trait or a random line. */
 const CURRENCY_TARGET = { seal: 'any', temper: 'trait', essence_form: 'trait', essence_link: 'trait', essence_core: 'trait' };
