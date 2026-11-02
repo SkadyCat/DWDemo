@@ -22,6 +22,7 @@ import { WAYSTONE_RARITY, FREE_TIER } from '../public/game/waystones.mjs';
 import { ATLAS_RADIUS, FAMILY_ORDER, FAMILY_HUE, REGION_NAME, NODE_KINDS, NODE_MODS, KIND_MODS, PREFIX, SUFFIX } from '../public/game/atlas.mjs';
 import { BASE_ICON, SLOT_ICON, SKILL_ICON, CURRENCY_ICON, PANEL_ICON, FAMILY_ICON, LAYER_ICON, BUFF_ICON } from '../public/game/icons.mjs';
 import { SKILL_BAR } from '../public/game/save.mjs';
+import { CHAPTERS } from '../public/game/quests.mjs';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(here, '..');
@@ -80,7 +81,19 @@ export function buildGameExport() {
       collections: STAGES.map((_, i) => { const c = collectionList(a, i); return { total: c.total, traitCount: c.traitCount, newKeys: c.newKeys }; }) })),
     icons: { base: plain(BASE_ICON), slot: plain(SLOT_ICON), skill: plain(SKILL_ICON), currency: plain(CURRENCY_ICON), panel: plain(PANEL_ICON),
       family: plain(FAMILY_ICON), layer: plain(LAYER_ICON), buff: plain(BUFF_ICON) },
+    // quests.mjs: the main story (星烬纪) and its goals.
+    quests: plain(CHAPTERS),
+    // page.mjs tables the game screens use (skill tooltip text, which currencies act on one line, bag stack size).
+    ...pageTables(),
   };
+}
+
+/** SKILL_DESC / CURRENCY_TARGET / STACK live in page.mjs (a browser module): read them from its source. */
+function pageTables() {
+  const src = fs.readFileSync(path.join(here, '../public/game/page.mjs'), 'utf8');
+  const obj = name => { const m = new RegExp(`const ${name} = (\\{[^\\n]*\\});`).exec(src) ?? new RegExp(`const ${name} = (\\{[\\s\\S]*?\\n\\});`).exec(src); return m ? Function(`return (${m[1]})`)() : {}; };
+  const stack = /export const STACK = (\d+);/.exec(src);
+  return { skillDesc: obj('SKILL_DESC'), currencyTarget: obj('CURRENCY_TARGET'), currencyStack: stack ? +stack[1] : 20 };
 }
 
 if (process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.argv[1])) {

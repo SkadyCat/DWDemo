@@ -15,6 +15,7 @@ import { TALENT_TREE, canAllocate, canRefund, talentPoints } from '../core/conte
 import { newSave, buildOf, equip, applyArchetype, salvage, craft } from '../public/game/save.mjs';
 import { ARCHETYPES } from '../core/content/archetypes.mjs';
 import { MapRun } from '../public/game/run.mjs';
+import { newQuestState, questView, questEvent, questTick, claimChapter } from '../public/game/quests.mjs';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const outDir = path.resolve(process.argv[2] ?? path.join(here, '..', 'export/game-golden'));
@@ -126,6 +127,41 @@ files.runs = [
   { name: 'storm_t12', archetype: 'storm', stage: 3, tier: 12, family: 'storm', seed: 31, mods: { elite: 1.6, legend: 2 }, seconds: 40 },
   { name: 'tempest_t16', archetype: 'tempest', stage: 4, tier: 16, family: 'frost', seed: 47, mods: { life: 1.35, damage: 1.3 }, seconds: 40 },
 ].map(scriptedRun);
+
+// ---- quests (星烬纪) and equip swaps -----------------------------------------------------------------
+{
+  const rng = dungeonRandom(19), save = newSave(), log = [];
+  save.quests = newQuestState(); save.waystones = [];
+  const view = () => { const v = questView(save); return v && { index: v.index, complete: v.complete, claimed: v.claimed, steps: v.steps.map(st => ({ have: st.have, need: st.need, done: st.done })) }; };
+  const item = bl => ({ ...rollItem(1, rng, 'chest'), baseLines: bl });
+  const events = [
+    { type: 'clear', tier: 1, family: 'ruin', kind: 'normal' }, { type: 'pickup', bl: 1 }, { type: 'equip' },
+    { type: 'clear', tier: 2, family: 'ember', kind: 'normal' }, { type: 'clear', tier: 2, family: 'ember', kind: 'normal' }, { type: 'clear', tier: 2, family: 'frost', kind: 'trial' },
+    { state: { unlocked: 3 } }, { claim: true },
+    { type: 'clear', tier: 3, family: 'ruin', kind: 'normal' }, { type: 'clear', tier: 3, family: 'ruin', kind: 'trial' }, { type: 'craft' }, { type: 'craft' }, { type: 'craft' },
+    { type: 'clear', tier: 4, family: 'ruin', kind: 'normal' }, { state: { talents: [1, 2], unlocked: 5 } }, { claim: true },
+    { type: 'kills', n: 900 }, { type: 'kills', n: 900 }, { type: 'pickup', bl: 2 }, { type: 'pickup', bl: 3 }, { type: 'clear', tier: 5, family: 'ember', kind: 'boss' }, { state: { skills: 2 } },
+  ];
+  for (const e of events) {
+    let notes;
+    if (e.state) {
+      if (e.state.unlocked) save.unlocked = e.state.unlocked;
+      if (e.state.talents) save.talents.allocated.push(...e.state.talents);
+      if (e.state.skills) save.skills = ['fireball', 'arc', null, null];
+      notes = questTick(save);
+    } else if (e.claim) {
+      const got = claimChapter(save, rng);
+      notes = got ? [{ type: 'claim', currencies: got.currencies, waystones: got.waystones.map(stone) }] : [];
+    } else notes = questEvent(save, e.type === 'pickup' ? { type: 'pickup', item: item(e.bl) } : e);
+    log.push({ event: e, notes, view: view(), currencies: { ...save.currencies } });
+  }
+  // equip swaps: the old piece lands where the new one was
+  const sv = newSave(), r2 = dungeonRandom(5);
+  for (let k = 0; k < 4; ++k) sv.inventory.push(rollItem(3, r2, 'chest'));
+  const swaps = [];
+  for (const k of [1, 2, 0]) { const uid = sv.inventory[k].uid; equip(sv, uid); swaps.push({ inventory: sv.inventory.map(strip), chest: strip(sv.equipped.chest) }); }
+  files.quests = { log, swaps };
+}
 
 fs.mkdirSync(outDir, { recursive: true });
 for (const [k, v] of Object.entries(files)) fs.writeFileSync(path.join(outDir, `${k}.json`), JSON.stringify(v) + '\n');
