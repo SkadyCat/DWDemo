@@ -727,3 +727,6 @@ select { font: inherit; color: var(--txt); background: var(--deep); border: 1px 
 .atlas .node .qmark circle { fill: #e9b84a; stroke: #fff3cf; stroke-width: 1.2; }
 .atlas .node .qmark text { font: 700 11px var(--num); fill: #2a1a06; text-anchor: middle; }
 .atlas .node.quest .halo { stroke: #e9b84a; stroke-opacity: .7; }
+/* atlas nodes no longer print a tier: a small core marks the node instead (the waystone sets the tier) */
+.atlas .node .core { fill: var(--gold-hi); opacity: .85; pointer-events: none; }
+.atlas .node.st-done .core { fill: #2a1a06; } .atlas .node.st-open .core { fill: #fbe7b0; }

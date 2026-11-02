@@ -375,8 +375,8 @@ const TEMPLATE = /* html */ `
           <g v-if="n.quest" class="qmark" :transform="'translate(' + (n.kind === 'boss' ? 20 : 15) + ' ' + (n.kind === 'boss' ? -22 : -17) + ')'"><circle r="8"/><text dy=".36em">!</text></g>
           <circle class="ring" :r="n.kind === 'boss' ? 19 : n.kind === 'normal' ? 12 : 15"/>
           <image v-if="n.kind !== 'normal'" :href="kindIconUrl(n.kind, n.st === 'done' ? '#2a1a06' : '#fbe7b0')" :x="n.kind === 'boss' ? -12 : -9" :y="n.kind === 'boss' ? -12 : -9" :width="n.kind === 'boss' ? 24 : 18" :height="n.kind === 'boss' ? 24 : 18"/>
-          <text v-else class="tier" dy=".35em">{{ n.st === 'seen' ? '?' : n.tier }}</text>
-          <text v-if="n.kind !== 'normal'" class="tier-sm" :y="n.kind === 'boss' ? 33 : 28">T{{ n.tier }}</text>
+          <text v-else-if="n.st === 'seen'" class="tier" dy=".35em">?</text>
+          <circle v-else class="core" r="3.2"/>
           <text v-if="n.label" class="name" :y="n.kind === 'boss' ? -30 : -22">{{ n.name }}</text>
           <path v-if="n.id === save.atlas.at" class="here-mark" d="M0 -9 L6 0 L0 9 L-6 0Z" :transform="'translate(0 ' + (n.kind === 'boss' ? 44 : 36) + ')'"/>
         </g>
