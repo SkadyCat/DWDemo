@@ -133,8 +133,8 @@
    "kind": "ghost",
    "seed": 18,
    "bones": 8,
-   "tris": 716,
-   "length": 1.22
+   "tris": 760,
+   "height": 1.07
   },
   {
    "kind": "sporeball",
@@ -146,9 +146,95 @@
   {
    "kind": "stump",
    "seed": 20,
+   "bones": 23,
+   "tris": 552,
+   "height": 0.94
+  },
+  {
+   "kind": "salamander",
+   "seed": 21,
+   "bones": 22,
+   "tris": 870,
+   "length": 1.36
+  },
+  {
+   "kind": "toad",
+   "seed": 22,
+   "bones": 12,
+   "tris": 672,
+   "size": 0.93
+  },
+  {
+   "kind": "jellyfish",
+   "seed": 23,
+   "bones": 42,
+   "tris": 546,
+   "hover": 1.12
+  },
+  {
+   "kind": "boar",
+   "seed": 24,
    "bones": 19,
-   "tris": 456,
-   "height": 0.81
+   "tris": 586,
+   "size": 0.97
+  },
+  {
+   "kind": "scorpion",
+   "seed": 25,
+   "bones": 36,
+   "tris": 806,
+   "size": 1.03
+  },
+  {
+   "kind": "worm",
+   "seed": 26,
+   "bones": 6,
+   "tris": 693,
+   "height": 1.02
+  },
+  {
+   "kind": "shroomtree",
+   "seed": 27,
+   "bones": 17,
+   "tris": 726,
+   "height": 0.97
+  },
+  {
+   "kind": "mimic",
+   "seed": 28,
+   "bones": 6,
+   "tris": 350,
+   "size": 0.98
+  },
+  {
+   "kind": "hydra",
+   "seed": 29,
+   "bones": 32,
+   "tris": 1128,
+   "heads": 3,
+   "height": 1.27
+  },
+  {
+   "kind": "snail",
+   "seed": 30,
+   "bones": 8,
+   "tris": 524,
+   "size": 1.03
+  },
+  {
+   "kind": "stickbug",
+   "seed": 31,
+   "bones": 16,
+   "tris": 226,
+   "size": 1.0
+  },
+  {
+   "kind": "crab",
+   "seed": 32,
+   "bones": 30,
+   "tris": 646,
+   "size": 1.04
   }
- ]
+ ],
+ "references": "DWCore Design/monster_turnarounds_132 (creatures/01-05: the last 20 kinds)"
 }

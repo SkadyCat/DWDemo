@@ -14,16 +14,19 @@ const M = 0.01, TAU = Math.PI * 2;
 const MODEL_CAP = 64, MODEL_RANGE = 24, CORPSE_TIME = 1.7, SINK_TIME = 0.7;
 const HERO_SKINS = ['Wizard', 'Pyromancer', 'Frost', 'Druid', 'Warlock', 'Alchemist'];
 export const MONSTERS = ['goblin', 'skeleton', 'cultist', 'mushroom', 'golem', 'knight', 'imp', 'ogre', 'wolf', 'spider', 'bat', 'slime',
-  'centipede', 'manta', 'hand', 'stonering', 'rockcluster', 'ghost', 'sporeball', 'stump'];
+  'centipede', 'manta', 'hand', 'stonering', 'rockcluster', 'ghost', 'sporeball', 'stump',
+  'salamander', 'toad', 'jellyfish', 'boar', 'scorpion', 'worm', 'shroomtree', 'mimic', 'hydra', 'snail', 'stickbug', 'crab'];
 const HUMANOID = new Set(['goblin', 'skeleton', 'cultist', 'mushroom', 'golem', 'knight', 'imp', 'ogre']);
 const ELEMENT_TINT = { fire: 0xff9a6a, cold: 0x9ad8ff, lightning: 0xfff08a, chaos: 0xb6ff8a, physical: 0xffffff };
 // Which model a monster gets: by role (boss / elite / ranged / melee) and its damage element.
 const PICK = {
-  boss: { fire: ['golem'], cold: ['knight'], lightning: ['knight'], chaos: ['ogre'], physical: ['ogre'] },
-  elite: { fire: ['imp', 'golem'], cold: ['skeleton', 'knight', 'stonering'], lightning: ['knight', 'stonering'], chaos: ['mushroom', 'ogre', 'stump'], physical: ['ogre', 'knight', 'stump'] },
-  ranged: { fire: ['imp', 'cultist', 'manta'], cold: ['cultist', 'rockcluster'], lightning: ['bat', 'cultist', 'stonering', 'manta'], chaos: ['cultist', 'mushroom', 'ghost'], physical: ['cultist', 'rockcluster'] },
-  melee: { fire: ['goblin', 'imp', 'centipede'], cold: ['skeleton', 'wolf', 'hand'], lightning: ['knight', 'goblin', 'hand'], chaos: ['spider', 'slime', 'mushroom', 'centipede', 'sporeball'],
-    physical: ['goblin', 'wolf', 'skeleton', 'hand', 'centipede'] },
+  boss: { fire: ['golem'], cold: ['knight', 'hydra'], lightning: ['knight', 'hydra'], chaos: ['ogre', 'shroomtree'], physical: ['ogre', 'hydra'] },
+  elite: { fire: ['imp', 'golem', 'salamander'], cold: ['skeleton', 'knight', 'stonering', 'crab'], lightning: ['knight', 'stonering', 'scorpion'], chaos: ['mushroom', 'ogre', 'stump', 'shroomtree'],
+    physical: ['ogre', 'knight', 'stump', 'mimic', 'boar'] },
+  ranged: { fire: ['imp', 'cultist', 'manta'], cold: ['cultist', 'rockcluster', 'jellyfish'], lightning: ['bat', 'cultist', 'stonering', 'manta', 'jellyfish'], chaos: ['cultist', 'mushroom', 'ghost', 'toad'],
+    physical: ['cultist', 'rockcluster'] },
+  melee: { fire: ['goblin', 'imp', 'centipede', 'salamander'], cold: ['skeleton', 'wolf', 'hand', 'crab'], lightning: ['knight', 'goblin', 'hand', 'scorpion'],
+    chaos: ['spider', 'slime', 'mushroom', 'centipede', 'sporeball', 'worm', 'stickbug'], physical: ['goblin', 'wolf', 'skeleton', 'hand', 'centipede', 'boar', 'snail'] },
 };
 // On-screen height in metres for a normal-sized monster of each kind (elites and bosses scale from here).
 const HEIGHT = { goblin: 1.1, skeleton: 1.25, cultist: 1.25, mushroom: 1.05, golem: 1.4, knight: 1.3, imp: 1.0, ogre: 1.5, wolf: 0.8, spider: 0.6, bat: 1.15, slime: 0.55,
@@ -189,15 +192,36 @@ export class Characters {
     v.t += dt; v.phase += dt * (2 + speed * 3.2);
     const ph = v.phase, k = Math.min(1, speed / 1.2), rot = (n, x, y, z) => { const b = B[n]; if (b) b.quaternion.setFromEuler(e.set(x, y, z, 'YXZ')); };
     for (const b of v.inst.list) b.quaternion.identity();
-    if (v.kind === 'wolf') {
+    const bite = cast >= 0 && cast < 0.4 ? Math.sin(cast / 0.4 * Math.PI) : 0;
+    const legs8 = (sw = 0.35) => { for (let leg = 1; leg <= 4; ++leg) for (const [side, sg] of [['l', 1], ['r', -1]]) {
+      const p = ph + leg * Math.PI / 2 + (sg > 0 ? 0 : Math.PI), lift = Math.max(0, Math.sin(p));
+      rot(`leg_${leg}_01_${side}`, 0, sw * (k + 0.15) * Math.cos(p), -sg * 0.35 * lift * (k + 0.2));
+    } };
+    const rootWalk = n => { for (let i = 1; i <= n; ++i) {
+      const a = B[`root_${i}_01`], d = v.inst.rest[`root_${i}_02`]; if (!a || !d) continue;
+      const lift = Math.max(0, Math.sin(ph * 1.2 + (i % 2) * Math.PI)) * (0.12 + 0.35 * k), ax = this.axis.set(d.z, 0, -d.x).normalize();
+      a.quaternion.setFromAxisAngle(ax, -lift); const b = B[`root_${i}_02`]; if (b) b.quaternion.setFromAxisAngle(ax, lift * 0.6);
+    } };
+    if (v.kind === 'wolf' || v.kind === 'boar' || v.kind === 'salamander' || v.kind === 'hydra') {
       const s = Math.sin(ph), c = Math.cos(ph);
       for (const [side, sg] of [['l', 1], ['r', -1]]) {
         rot('thigh_' + side, -0.55 * k * s * sg, 0, 0); rot('calf_' + side, 0.25 * k * Math.max(0, c * sg), 0, 0);
         rot('upperarm_' + side, 0.55 * k * s * sg, 0, 0); rot('lowerarm_' + side, -0.3 * k * Math.max(0, -c * sg), 0, 0);
       }
       rot('spine_01', 0.05 * k * Math.sin(ph * 2), 0, 0); rot('neck_01', cast >= 0 && cast < 0.4 ? -0.35 : 0.04 * Math.sin(v.t * 2), 0, 0);
-      rot('jaw', cast >= 0 && cast < 0.4 ? 0.5 : 0.05, 0, 0); rot('tail_01', 0.2, 0.35 * Math.sin(v.t * 6), 0); rot('tail_02', 0, 0.3 * Math.sin(v.t * 6 - 1), 0);
+      rot('jaw', cast >= 0 && cast < 0.4 ? 0.5 : 0.05, 0, 0); rot('tail_01', v.kind === 'wolf' ? 0.2 : 0, 0.35 * Math.sin(v.t * 6), 0); rot('tail_02', 0, 0.3 * Math.sin(v.t * 6 - 1), 0);
       B.pelvis.position.y = v.inst.rest.pelvis.y + 0.02 * k * Math.abs(Math.sin(ph));
+      if (v.kind === 'boar') rot('spine_02', -0.25 * bite, 0, 0);   // head down for the charge
+      if (v.kind === 'salamander') {   // the body swings side to side with the stride
+        rot('spine_01', 0, 0.22 * (0.4 + k) * Math.sin(ph), 0); rot('spine_02', 0, -0.2 * (0.4 + k) * Math.sin(ph), 0);
+        for (let i = 1; i <= 4; ++i) rot('tail_0' + i, 0, 0.25 * Math.sin(ph - i * 0.7), 0);
+        rot('head', -0.3 * bite, 0.1 * Math.sin(ph + 1), 0);
+      }
+      if (v.kind === 'hydra') for (const [n, o] of [['a', 0], ['b', 2.1], ['c', 4.2]]) {
+        for (let i = 1; i <= 3; ++i) rot(`neck_${n}_0${i}`, 0.06 * Math.sin(v.t * 1.6 + o + i), 0.1 * Math.sin(v.t * 1.1 + o - i * 0.5), 0);
+        const strike = cast >= 0 && cast < 0.5 ? Math.sin(Math.min(1, Math.max(0, (cast - o * 0.05) / 0.4)) * Math.PI) : 0;
+        rot(`neck_${n}_03`, 0.5 * strike, 0, 0); rot('head_' + n, 0.35 * strike + 0.05 * Math.sin(v.t * 2 + o), 0, 0);
+      }
     } else if (v.kind === 'spider') {
       for (let leg = 1; leg <= 4; ++leg) for (const [side, sg] of [['l', 1], ['r', -1]]) {
         const p = ph + leg * Math.PI / 2 + (sg > 0 ? 0 : Math.PI), lift = Math.max(0, Math.sin(p));
@@ -205,6 +229,51 @@ export class Characters {
       }
       rot('abdomen', 0.08 * Math.sin(v.t * 3), 0, 0); rot('head', cast >= 0 && cast < 0.4 ? -0.3 : 0, 0, 0);
       B.body.position.y = v.inst.rest.body.y + 0.015 * Math.sin(ph * 2);
+    } else if (v.kind === 'scorpion' || v.kind === 'crab') {
+      legs8(v.kind === 'crab' ? 0.25 : 0.35);
+      for (const [side, sg] of [['l', 1], ['r', -1]]) { rot('claw_01_' + side, 0, sg * (0.15 * Math.sin(v.t * 1.5 + sg) + 0.35 * bite), 0); rot('claw_02_' + side, -0.3 * bite, 0, 0); }
+      if (v.kind === 'scorpion') for (let i = 1; i <= 6; ++i) rot('tail_0' + i, (i > 2 ? 0.25 : 0.1) * bite + 0.04 * Math.sin(v.t * 2 - i), 0.05 * Math.sin(v.t * 1.3 - i * 0.4), 0);
+      B.body.position.y = v.inst.rest.body.y + 0.01 * Math.sin(ph * 2);
+    } else if (v.kind === 'toad') {
+      // hops when it moves (one hop per cycle), puffs its throat when it doesn't
+      const hop = k > 0.1 ? Math.max(0, Math.sin(ph * 0.9)) : 0, puff = 1 + 0.12 * Math.max(0, Math.sin(v.t * 2.2)) * (1 - k) + 0.3 * bite;
+      B.body.position.y = v.inst.rest.body.y + 0.22 * hop * v.inst.rest.body.y;
+      for (const sd of ['l', 'r']) { rot('thigh_' + sd, 0.5 * hop, 0, 0); rot('foot_' + sd, -0.7 * hop, 0, 0); rot('upperarm_' + sd, -0.3 * hop, 0, 0); }
+      rot('body', -0.15 * hop, 0, 0); B.throat.scale.setScalar(puff); rot('head', -0.25 * bite, 0, 0);
+    } else if (v.kind === 'jellyfish') {
+      // the bell squeezes, the tentacles trail the pulse
+      const pulse = Math.sin(v.t * 2.6 + v.phase);
+      B.bell.scale.set(1 + 0.08 * pulse, 1 - 0.1 * pulse, 1 + 0.08 * pulse);
+      B.bell.position.y = v.inst.rest.bell.y + 0.06 * Math.sin(v.t * 2.6 + v.phase - 1);
+      for (let i = 1; i <= 8; ++i) for (let j = 1; j <= 4; ++j) rot(`tentacle_${i}_0${j}`, 0.12 * Math.sin(v.t * 2.6 + v.phase - j * 0.9 + i), 0, 0.1 * Math.sin(v.t * 1.9 - j * 0.7 + i * 1.3) + (j === 1 ? -0.15 * pulse : 0));
+      for (let i = 1; i <= 4; ++i) for (let j = 1; j <= 2; ++j) rot(`arm_${i}_0${j}`, 0.1 * Math.sin(v.t * 1.7 - j + i), 0, 0.08 * Math.sin(v.t * 2.1 - j + i));
+      rot('bell', -0.2 * k - 0.3 * bite, 0, 0);
+    } else if (v.kind === 'worm') {
+      for (let i = 1; i <= 5; ++i) rot('body_0' + i, (i > 2 ? 0.35 : 0.05) * bite + 0.05 * Math.sin(v.t * 2 - i * 0.6), 0, (0.05 + 0.05 * k) * Math.sin(v.t * 2.4 + v.phase - i * 0.8));
+    } else if (v.kind === 'shroomtree') {
+      rootWalk(6);
+      rot('trunk', -0.25 * bite + 0.05 * k * Math.sin(ph * 2.4), 0, 0.07 * Math.sin(ph * 1.2)); rot('top', 0.06 * Math.sin(v.t * 1.5), 0, 0.05 * Math.sin(v.t * 1.1));
+      rot('branch_l', 0, 0, 0.12 * Math.sin(v.t * 1.8)); rot('branch_r', 0, 0, -0.12 * Math.sin(v.t * 1.8 + 1));
+      B.trunk.position.y = v.inst.rest.trunk.y + 0.02 * Math.abs(Math.sin(ph * 1.2));
+    } else if (v.kind === 'mimic') {
+      // hops along; the lid snaps shut and open, the tongue lolls
+      const hop = k > 0.1 ? Math.max(0, Math.sin(ph)) : 0, chomp = Math.max(bite, k > 0.1 ? 0.25 * Math.max(0, Math.sin(ph + 1.5)) : 0.08 * Math.max(0, Math.sin(v.t * 1.3)));
+      B.base.position.y = v.inst.rest.base.y + 0.12 * hop; rot('base', 0.08 * hop, 0, 0.05 * Math.sin(ph * 0.5) * k);
+      rot('lid', 1.05 * chomp, 0, 0);
+      for (let i = 1; i <= 3; ++i) rot('tongue_0' + i, 0.12 * Math.sin(v.t * 3 - i), 0.25 * Math.sin(v.t * 2.2 - i * 0.7), 0);
+    } else if (v.kind === 'snail') {
+      // the foot ripples forward, eye stalks wave
+      for (let i = 1; i <= 3; ++i) { const b = B['foot_0' + i]; if (b) b.scale.set(1, 1, 1 + (0.06 + 0.08 * k) * Math.sin(ph * 1.2 - i * 1.2)); }
+      for (const [sd, o] of [['l', 0], ['r', 1.3]]) rot('eye_' + sd, 0.2 * Math.sin(v.t * 1.7 + o), 0, 0.15 * Math.sin(v.t * 1.3 + o));
+      rot('shell', 0.04 * Math.sin(ph * 1.2), 0, 0.05 * Math.sin(v.t * 0.9)); rot('head', -0.3 * bite, 0, 0);
+    } else if (v.kind === 'stickbug') {
+      // tripod gait: front and back legs of one side with the middle of the other
+      for (let i = 1; i <= 3; ++i) for (const [sd, sg] of [['l', 1], ['r', -1]]) {
+        const grp = (i % 2 === 1) === (sg > 0) ? 0 : Math.PI, p = ph * 1.3 + grp, lift = Math.max(0, Math.sin(p));
+        rot(`leg_${i}_01_${sd}`, 0, 0.3 * (k + 0.1) * Math.cos(p), -sg * 0.3 * lift * (k + 0.2));
+      }
+      rot('abdomen', 0.08 * Math.sin(v.t * 1.4), 0, 0.12 * Math.sin(v.t * 1.1)); rot('head', -0.3 * bite, 0.1 * Math.sin(v.t * 2), 0);
+      B.body.position.y = v.inst.rest.body.y + 0.01 * Math.sin(ph * 2.6);
     } else if (v.kind === 'bat') {
       const f = Math.sin(v.t * 14 + v.phase);
       for (const [side, sg] of [['l', 1], ['r', -1]]) { rot('wing_01_' + side, 0, 0, sg * 0.75 * f); rot('wing_02_' + side, 0, 0, sg * 0.35 * f); rot('wing_03_' + side, 0, 0, sg * 0.25 * f); }
@@ -250,7 +319,7 @@ export class Characters {
         for (let i = 1; i <= 5; ++i) { const b = B['rock_' + i]; if (!b) continue; b.position.copy(v.inst.rest['rock_' + i]).multiplyScalar(1 + 0.25 * flare); b.position.y += 0.035 * Math.sin(v.t * 2.6 + i * 1.7); rot('rock_' + i, v.t * 0.7 + i, v.t * 0.5, 0); }
       }
     } else if (v.kind === 'ghost') {
-      for (let i = 1; i <= 7; ++i) rot('body_0' + i, 0.06 * Math.sin(v.t * 3 - i * 0.9), (0.16 + 0.1 * k) * Math.sin(ph * 1.5 - i * 0.85), 0);
+      for (let i = 1; i <= 7; ++i) rot('body_0' + i, 0.08 * Math.sin(v.t * 2.2 - i * 0.7) - 0.12 * bite * (i > 3 ? 1 : 0), 0, (0.1 + 0.06 * k) * Math.sin(ph * 1.2 - i * 0.8));
       B.body_01.position.y = v.inst.rest.body_01.y + 0.03 * Math.sin(v.t * 2.5) + (cast >= 0 && cast < 0.4 ? 0.12 * Math.sin(cast / 0.4 * Math.PI) : 0);
     } else if (v.kind === 'sporeball') {
       // breathes, rolls a little, tendrils grope the floor; casting puffs it up
@@ -259,13 +328,7 @@ export class Characters {
       for (let i = 1; i <= 6; ++i) { rot(`tendril_${i}_01`, 0.25 * Math.sin(ph * 1.5 + i * 1.1), 0, 0.15 * Math.sin(v.t * 2 + i)); rot(`tendril_${i}_02`, 0.3 * Math.sin(ph * 1.5 + i * 1.1 - 0.8), 0, 0); }
     } else if (v.kind === 'stump') {
       // walks on its roots: opposite roots lift in turn, the trunk rocks over the planted ones
-      for (let i = 1; i <= 8; ++i) {
-        const a = B[`root_${i}_01`], d = v.inst.rest[`root_${i}_02`]; if (!a || !d) continue;
-        const lift = Math.max(0, Math.sin(ph * 1.2 + (i % 2) * Math.PI)) * (0.12 + 0.35 * k);
-        const ax = this.axis.set(d.z, 0, -d.x).normalize();
-        a.quaternion.setFromAxisAngle(ax, -lift);
-        const b = B[`root_${i}_02`]; if (b) b.quaternion.setFromAxisAngle(ax, lift * 0.6);
-      }
+      rootWalk(10);
       const slam = cast >= 0 && cast < 0.45 ? Math.sin(cast / 0.45 * Math.PI) : 0;
       rot('trunk', -0.3 * slam + 0.06 * k * Math.sin(ph * 2.4), 0, 0.08 * Math.sin(ph * 1.2)); rot('top', 0.04 * Math.sin(v.t * 1.7), 0, 0);
       B.trunk.position.y = v.inst.rest.trunk.y + 0.02 * Math.abs(Math.sin(ph * 1.2)) + 0.05 * slam;

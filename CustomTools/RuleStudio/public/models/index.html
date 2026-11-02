@@ -18,7 +18,8 @@
 import * as THREE from '/vendor/three.module.js';
 import { Characters, MONSTERS } from '/game/characters.mjs';
 const NAMES = { goblin: '哥布林', skeleton: '骷髅', cultist: '邪教徒', mushroom: '蘑菇人', golem: '魔像', knight: '骑士', imp: '小恶魔', ogre: '食人魔', wolf: '狼', spider: '蜘蛛', bat: '蝙蝠', slime: '史莱姆',
-  centipede: '蜈蚣', manta: '蝠鲼', hand: '爬行之手', stonering: '石环', rockcluster: '浮岩', ghost: '幽魂蛇', sporeball: '孢子球', stump: '树桩' };
+  centipede: '蜈蚣', manta: '蝠鲼', hand: '爬行之手', stonering: '石环', rockcluster: '浮岩', ghost: '幽魂蛇', sporeball: '孢子球', stump: '树桩',
+  salamander: '蝾螈', toad: '蟾蜍', jellyfish: '水母', boar: '野猪', scorpion: '蝎子', worm: '沙虫', shroomtree: '蘑菇树人', mimic: '宝箱怪', hydra: '三头蛇', snail: '蜗牛', stickbug: '竹节虫', crab: '螃蟹' };
 const renderer = new THREE.WebGLRenderer({ antialias: true }); renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
 renderer.shadowMap.enabled = true; renderer.toneMapping = THREE.ACESFilmicToneMapping; document.body.prepend(renderer.domElement);
 const scene = new THREE.Scene(); scene.background = new THREE.Color(0x2a2119);
@@ -28,7 +29,7 @@ Object.assign(sun.shadow.camera, { left: -9, right: 9, top: 9, bottom: -9 }); sc
 const floor = new THREE.Mesh(new THREE.PlaneGeometry(40, 40), new THREE.MeshStandardMaterial({ color: 0x4a3a2c, roughness: 0.95 }));
 floor.rotation.x = -Math.PI / 2; floor.receiveShadow = true; scene.add(floor);
 const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100);
-let yaw = 0.5, pitch = 0.75, dist = 13;
+let yaw = 0.5, pitch = 0.75, dist = 17;
 const resize = () => { renderer.setSize(innerWidth, innerHeight); camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); }; addEventListener('resize', resize); resize();
 let drag = null; addEventListener('pointerdown', e => drag = [e.clientX, e.clientY]); addEventListener('pointerup', () => drag = null);
 addEventListener('pointermove', e => { if (!drag) return; yaw -= (e.clientX - drag[0]) * 0.005; pitch = Math.max(0.1, Math.min(1.45, pitch + (e.clientY - drag[1]) * 0.005)); drag = [e.clientX, e.clientY]; });
@@ -36,7 +37,7 @@ addEventListener('wheel', e => { dist = Math.max(3, Math.min(30, dist * (1 + Mat
 
 const chars = new Characters(scene); await chars.loading;
 const only = new URLSearchParams(location.search).get('only')?.split(','), list = only ? MONSTERS.filter(k => only.includes(k)) : MONSTERS;
-const cols = only ? 4 : 5, gap = 2.2, items = [];
+const cols = only ? 4 : 8, gap = 2.2, items = [];
 if (only) dist = 8;
 list.forEach((k, i) => {
   const v = chars.take(k); v.yaw = 0;
