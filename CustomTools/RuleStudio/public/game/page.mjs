@@ -253,7 +253,7 @@ const TEMPLATE = /* html */ `
 
     <section class="atlas-card panel" v-if="selNode">
       <header class="ac-head">
-        <div class="ac-icon" :style="{ '--hue': selNode.hue }"><Gi v-if="selNode.kind !== 'normal'" :n="kinds[selNode.kind].icon" c="el-gold"/><b v-else>{{ selNode.tier }}</b></div>
+        <div class="ac-icon" :style="{ '--hue': selNode.hue }"><Gi v-if="selNode.kind !== 'normal'" :n="kinds[selNode.kind].icon" c="el-gold"/><b v-else>{{ runTier }}</b></div>
         <div><h2>{{ selNode.name }}</h2><p>T{{ runTier }} · {{ regionName(selNode.family) }} · <span :class="'st-' + selNode.st">{{ statusName(selNode.st) }}</span></p></div>
       </header>
       <div class="ac-body">
@@ -279,15 +279,21 @@ const TEMPLATE = /* html */ `
             <div class="role"><span>速刷</span><div class="meter"><i :style="{ width: Math.min(100, roles.clearing * 50) + '%' }"></i></div><b>{{ roles.clearing.toFixed(2) }}</b><small>每秒击杀 {{ roles.kps.toFixed(1) }}</small></div>
           </template>
         </div>
+        <!-- every waystone in the bag: pick one to run this node at the stone's tier -->
+        <h4 class="sub">地图 <small>背包里的路石 {{ save.waystones.length }} 块 · 选一块按它的阶打</small></h4>
+        <div class="ws-grid">
+          <button v-for="(w, i) in stoneCells" :key="w ? w.uid : 'e' + i" class="ws" :disabled="!w || w.tier < selNode.tier"
+            :class="w ? ['w-' + w.rarity, { on: w.uid === wsSel, low: w.tier < selNode.tier }] : 'empty'"
+            :title="w ? waystoneTip(w) + (w.tier < selNode.tier ? '\\n低于节点 T' + selNode.tier + '，不能用' : '') : ''" @click="w && pickStone(w)">
+            <template v-if="w"><Gi n="stone-tablet" :c="'w-' + w.rarity"/><b>{{ w.tier }}</b></template></button>
+        </div>
+        <p v-if="!save.waystones.length" class="ws-none">背包里还没有路石：打倒首领必掉。</p>
+        <ul class="ac-mods ws-mods" v-if="stone && stone.mods.length"><li v-for="m in stone.mods" :key="m">{{ nodeModText(m) }}</li></ul>
       </div>
       <div class="ac-stone">
-        <h4 class="sub">路石 <small>{{ freeNode ? 'T1 节点不需要路石' : '需要 T' + selNode.tier + ' 及以上，开图时消耗' }}</small></h4>
-        <div class="ws-row" v-if="!freeNode">
-          <button v-for="w in usable" :key="w.uid" class="ws" :class="['w-' + w.rarity, { on: w.uid === wsSel }]" :title="waystoneTip(w)" @click="wsSel = w.uid"><Gi n="stone-tablet" :c="'w-' + w.rarity"/><b>{{ w.tier }}</b></button>
-          <p v-if="!usable.length" class="ws-none">没有 T{{ selNode.tier }}+ 路石</p>
-        </div>
-        <ul class="ac-mods ws-mods" v-if="stone && stone.mods.length"><li v-for="m in stone.mods" :key="m">{{ nodeModText(m) }}</li></ul>
-        <p class="ws-tier" v-if="stone && stone.tier > selNode.tier">路石 T{{ stone.tier }} 高于节点：本次按 T{{ stone.tier }} 打</p>
+        <p class="ws-sum" v-if="stone">消耗 <b :class="'w-' + stone.rarity">{{ waystoneName(stone) }}</b> · 本次按 <b>T{{ runTier }}</b> 打<template v-if="stone.tier > selNode.tier">（节点 T{{ selNode.tier }}）</template></p>
+        <p class="ws-sum" v-else-if="freeNode">T{{ selNode.tier }} 节点不需要路石；选一块路石可以提高本次的阶。</p>
+        <p class="ws-sum bad" v-else>需要一块 T{{ selNode.tier }} 及以上的路石</p>
       </div>
       <footer class="ac-foot">
         <button class="orn-btn primary big" :disabled="!canStart" @click="startRun">{{ startText }}</button>
@@ -488,8 +494,11 @@ export function mountGame(el) {
       const stash = computed(() => [...save.waystones].sort((a, b) => a.tier - b.tier || RANK[a.rarity] - RANK[b.rarity]));
       const freeNode = computed(() => atlas.nodes[atlasSel.value].tier <= FREE_TIER);
       const usable = computed(() => stash.value.filter(w => w.tier >= atlas.nodes[atlasSel.value].tier));
-      const stone = computed(() => freeNode.value ? null : usable.value.find(w => w.uid === wsSel.value) ?? null);
-      watch([atlasSel, () => save.waystones.length], () => { if (!usable.value.some(w => w.uid === wsSel.value)) wsSel.value = usable.value[0]?.uid ?? null; }, { immediate: true });
+      const stone = computed(() => usable.value.find(w => w.uid === wsSel.value) ?? null);
+      // Nodes that need a stone pick the lowest fitting one; free nodes start without one (a stone only raises the tier).
+      watch([atlasSel, () => save.waystones.length], () => { if (!usable.value.some(w => w.uid === wsSel.value)) wsSel.value = freeNode.value ? null : usable.value[0]?.uid ?? null; }, { immediate: true });
+      const stoneCells = computed(() => { const n = Math.max(12, Math.ceil(stash.value.length / 6) * 6); return Array.from({ length: n }, (_, i) => stash.value[i] ?? null); });
+      function pickStone(w) { if (w.tier < atlas.nodes[atlasSel.value].tier) return; wsSel.value = wsSel.value === w.uid && freeNode.value ? null : w.uid; }
       const runTier = computed(() => Math.max(atlas.nodes[atlasSel.value].tier, stone.value?.tier ?? 0));
       const reachable = computed(() => ['done', 'open'].includes(view.value.status(atlasSel.value)));
       const canStart = computed(() => (!run.value || run.value.phase === 'cleared') && reachable.value && (freeNode.value || !!stone.value));
@@ -799,7 +808,7 @@ export function mountGame(el) {
       const pct = (a, b) => `${Math.max(0, Math.min(100, 100 * a / Math.max(1, b)))}%`;
       const bandIndex = t => STAGES.findIndex(s => t >= s.maps[0] && t <= s.maps[1]);
       return {
-        talentOpen, talentPts, atlasOpen, wsSel, stash, freeNode, usable, stone, runTier, canStart, startText, waystoneTip, openAtlasFor,
+        talentOpen, talentPts, atlasOpen, wsSel, stash, stoneCells, pickStone, freeNode, usable, stone, runTier, canStart, startText, waystoneTip, waystoneName, openAtlasFor,
         atlas, atlasEl, atlasSel, atlasDrag, selNode, selMods, atlasShown, atlasLit, atlasLandmarks, atlasStars, atlasRoads, atlasRegions, atlasRings, atlasBox, atlasOpenCount, atlasFar,
         centerAtlas, selectNode, atlasDown, atlasMove, atlasUp, atlasWheel, kinds: NODE_KINDS,
         kindIconUrl: (kind, color) => `https://api.iconify.design/game-icons/${NODE_KINDS[kind].icon}.svg?color=${encodeURIComponent(color)}`,
