@@ -281,7 +281,7 @@ const TEMPLATE = /* html */ `
     <section class="cleared-banner" v-if="run.phase === 'cleared' && clearedBanner" :key="'cb' + run.clearedAt">
       <h2>地 图 完 成</h2>
       <p>{{ hud.time }} · 击杀 {{ hud.kills }}<template v-if="resultLoot.opened"> · 新开放 {{ resultLoot.opened }} 个节点</template></p>
-      <small>首领留下了传送阵：走进去打开图集，选下一张图。掉落可以慢慢捡，装备也可以先换。</small>
+      <small>首领留下了传送阵：捡完东西后点它打开图集，选下一张图。装备也可以先换。</small>
     </section>
     <section class="result panel" v-if="run.phase === 'failed'" :class="run.phase">
       <h2>你 倒 下 了</h2>
@@ -630,7 +630,7 @@ export function mountGame(el) {
         showPendingStory();
       }
       function showPendingStory() {
-        if (story.value || (run.value && run.value.phase === 'running')) return;
+        if (story.value || run.value) return;   // never in a map: chapter endings wait until you are back in camp
         const q = save.quests;
         if (pendingOutro.value && questView(save)?.complete) { story.value = { mode: 'outro', index: q.chapter }; pendingOutro.value = false; }
         else if (q.chapter < CHAPTERS.length && q.introSeen < q.chapter) story.value = { mode: 'intro', index: q.chapter };

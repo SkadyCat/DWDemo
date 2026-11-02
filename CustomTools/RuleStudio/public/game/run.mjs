@@ -184,9 +184,9 @@ export class MapRun {
     }
     for (const sk of this.skills) if (sk.def.reserve && !sk.active) w.cast(h, sk);
     if (this.portal) {
-      // Stepping onto the portal (or arriving after a click) opens the atlas once per visit.
+      // Only a click opens the atlas: walking over the portal while picking up loot does nothing.
       const d = Math.hypot(this.portal.x - h.x, this.portal.y - h.y), inside = d < PORTAL_REACH;
-      if (inside && !this.portal.inside) { this.portalReached++; if (this.walkTo === 'portal') { this.walkTo = null; h.vx = h.vy = 0; } }
+      if (inside && this.walkTo === 'portal') { this.portalReached++; this.walkTo = null; h.vx = h.vy = 0; }
       this.portal.inside = inside;
       if (this.walkTo === 'portal' && !inside) { h.vx = this.portal.x - h.x; h.vy = this.portal.y - h.y; }
     }

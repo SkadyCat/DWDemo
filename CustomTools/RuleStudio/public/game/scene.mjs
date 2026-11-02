@@ -274,7 +274,7 @@ export class Overlay {
     if (!at) { if (this.portalEl) this.portalEl.style.display = 'none'; return null; }
     if (!this.portalEl) {
       const el = this.portalEl = document.createElement('div');
-      el.className = 'lt lt-portal'; el.innerHTML = '<span>传送阵</span><small>走进去或点我 · 打开图集</small>';
+      el.className = 'lt lt-portal'; el.innerHTML = '<span>传送阵</span><small>点我走过去 · 打开图集</small>';
       this.labelLayer.appendChild(el);
     }
     const el = this.portalEl;
