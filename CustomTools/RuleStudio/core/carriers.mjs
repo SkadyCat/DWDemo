@@ -1,13 +1,33 @@
-// 载体系统：投射物与地面区域。投射物命中顺序沿用流放规则：穿透 → 分叉 → 连锁 → 分裂；
+// 载体系统：投射物、地面区域与陷阱。陷阱放下后要一点时间布设，之后敌人一踩就触发
+// （执行 onTrigger），用完次数就消失；也可以被别的效果远程引爆（springTraps）。投射物命中顺序沿用流放规则：穿透 → 分叉 → 连锁 → 分裂；
 // 全部用完后，有回旋次数就折返（返程可以再次命中），否则在终点执行 onEnd。
 import { hitAndFollow, run } from './actions.mjs';
 
 const FORK_ANGLE = Math.PI / 6;
 const MAX_PROJECTILES = 450;
 const MAX_ZONES = 400;
+const MAX_TRAPS = 300;
 
 export class Carriers {
-  constructor() { this.projectiles = []; this.zones = []; this.spawned = 0; }
+  constructor() { this.projectiles = []; this.zones = []; this.traps = []; this.spawned = 0; }
+
+  /** Lay a trap. Past `limit` live traps of this caster the oldest one is removed. */
+  spawnTrap(t, limit) {
+    const mine = this.traps.filter(o => o.alive && o.inv.caster === t.inv.caster);
+    for (let i = 0; i <= mine.length - Math.max(1, limit); ++i) mine[i].alive = false;
+    if (this.traps.length >= MAX_TRAPS) return null;
+    t.alive = true; t.id = ++this.spawned; this.traps.push(t);
+    t.inv.world.emit({ type: 'trapPlace', source: t.inv.caster, skill: t.inv.skill, x: t.x, y: t.y, kind: t.kind, key: t.kind, carrier: t.id, depth: t.inv.depth });
+    return t;
+  }
+  /** Set a trap off (stepped on, or sprung by another effect at `depth`, for `mult` of its damage). It re-arms while it has uses left. */
+  spring(world, t, target = null, depth = t.inv.depth, mult = 1) {
+    if (!t.alive || !t.inv.caster.alive) return;
+    if (--t.uses <= 0) t.alive = false; else t.arm = t.rearm;
+    const at = { x: t.x, y: t.y }, inv = t.inv.fork({ target, origin: at, aim: target ? { x: target.x, y: target.y } : at, depth, mult: t.inv.mult * mult });
+    world.emit({ type: 'trapTrigger', source: inv.caster, target, skill: inv.skill, x: t.x, y: t.y, kind: t.kind, key: t.kind, carrier: t.id, tags: [...inv.tags], depth, last: !t.alive });
+    run(t.action.onTrigger, inv);
+  }
 
   spawnProjectile(p) {
     // Screen-wide cap: past this many live projectiles new ones fizzle (keeps cascades smooth).
@@ -27,6 +47,8 @@ export class Carriers {
   step(world, dt) {
     for (const p of this.projectiles) if (p.alive) this.moveProjectile(world, p, dt);
     for (const z of this.zones) if (z.alive) this.tickZone(world, z, dt);
+    for (const t of this.traps) if (t.alive) this.tickTrap(world, t, dt);
+    if (this.traps.some(t => !t.alive)) this.traps = this.traps.filter(t => t.alive);
     if (this.projectiles.some(p => !p.alive)) this.projectiles = this.projectiles.filter(p => p.alive);
     if (this.zones.some(z => !z.alive)) this.zones = this.zones.filter(z => z.alive);
   }
@@ -129,11 +151,23 @@ export class Carriers {
     }
     if (z.remaining <= 0) {
       z.alive = false;
-      world.emit({ type: 'zoneEnd', source: z.inv.caster, x: z.x, y: z.y, carrier: z.id, kind: z.kind, radius: z.radius });
+      world.emit({ type: 'zoneEnd', source: z.inv.caster, x: z.x, y: z.y, carrier: z.id, kind: z.kind, key: z.kind ?? undefined, radius: z.radius, tags: [...z.inv.tags], depth: z.inv.depth });
       // Bursting zones go off when they end, for a share of their hit.
       if (z.burst > 0 && z.inv.caster.alive) run([{ do: 'area', at: 'aim', radius: z.radius * 1.3, mult: z.burst, fx: 'vortex_burst', noCascade: true, tags: ['zone', 'burst'] }],
         z.inv.fork({ origin: { x: z.x, y: z.y }, aim: { x: z.x, y: z.y }, target: null }));
     }
+  }
+
+  tickTrap(world, t, dt) {
+    t.remaining -= dt; t.arm -= dt;
+    if (t.remaining <= 0) { t.alive = false; world.emit({ type: 'trapEnd', source: t.inv.caster, x: t.x, y: t.y, kind: t.kind, key: t.kind, carrier: t.id, depth: t.inv.depth }); return; }
+    if (t.arm > 0) return;
+    let best = null, bd = Infinity;
+    world.grid.query(t.x, t.y, t.trigger + 80, o => {
+      const d = Math.hypot(o.x - t.x, o.y - t.y) - o.radius;
+      if (d <= t.trigger && (d < bd || (d === bd && o.id < best.id))) { bd = d; best = o; }
+    }, { notTeam: t.inv.caster.team });
+    if (best) this.spring(world, t, best);
   }
 
   /** A travelling zone: drifts (wander), turns toward the nearest enemy (seek), bounces off walls. */

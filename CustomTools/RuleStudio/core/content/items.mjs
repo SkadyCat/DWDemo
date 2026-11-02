@@ -18,8 +18,8 @@ export const BASE_LINES = 3;
 export const TRAIT_LAYERS = Object.freeze(['form', 'link', 'core']);
 export const isTrait = fid => TRAIT_LAYERS.includes(family(fid).layer);
 
-const SPELLS = ['fireball', 'ice_nova', 'arc', 'spark', 'frost_bolt', 'flame_wall', 'summon_blades', 'storm_totem_place', 'tornado', 'storm_step', 'phantom_step', 'void_leap', 'aegis_nova', 'aegis_shards', 'raise_skeletons', 'summon_golem', 'summon_archers', 'summon_spiders', 'summon_wisps', 'summon_wolves', 'blood_pact'];
-const ATTACKS = ['heavy_strike', 'cleave', 'cyclone', 'falling_thunder', 'flicker_strike', 'viper_knives', 'frost_dash', 'star_step', 'shield_bash', 'soul_reap'];
+const SPELLS = ['fireball', 'ice_nova', 'arc', 'spark', 'frost_bolt', 'flame_wall', 'summon_blades', 'storm_totem_place', 'tornado', 'storm_step', 'phantom_step', 'void_leap', 'aegis_nova', 'aegis_shards', 'raise_skeletons', 'summon_golem', 'summon_archers', 'summon_spiders', 'summon_wisps', 'summon_wolves', 'blood_pact', 'fire_trap', 'frost_trap', 'turret_trap', 'shock_trap'];
+const ATTACKS = ['heavy_strike', 'cleave', 'cyclone', 'falling_thunder', 'flicker_strike', 'viper_knives', 'frost_dash', 'star_step', 'shield_bash', 'soul_reap', 'blade_trap', 'snare_shot'];
 /** Skills that can appear as an item's first base line. */
 export const ITEM_SKILLS = Object.freeze([...SPELLS, ...ATTACKS]);
 /** Chance that a non-weapon item of this slot carries an active skill. */
@@ -29,12 +29,12 @@ export const SKILL_CHANCE = { weapon: 1, offhand: 0.45, helmet: 0.3, gloves: 0.3
 const RAW_BASES = {
   weapon: [
     { id: 'war_staff', name: '战杖', skills: ['ice_nova', 'arc', 'flame_wall', 'storm_totem_place', 'fireball', 'tornado', 'aegis_nova', 'void_leap', 'summon_golem', 'blood_pact'] },
-    { id: 'wand', name: '法杖', skills: ['fireball', 'spark', 'frost_bolt', 'arc', 'storm_step', 'phantom_step', 'aegis_shards', 'summon_blades', 'raise_skeletons', 'summon_archers', 'summon_spiders', 'summon_wisps', 'summon_wolves'] },
+    { id: 'wand', name: '法杖', skills: ['fireball', 'spark', 'frost_bolt', 'arc', 'storm_step', 'phantom_step', 'aegis_shards', 'summon_blades', 'raise_skeletons', 'summon_archers', 'summon_spiders', 'summon_wisps', 'summon_wolves', 'fire_trap', 'frost_trap', 'turret_trap', 'shock_trap'] },
     { id: 'maul', name: '重锤', skills: ['heavy_strike', 'falling_thunder', 'cleave', 'cyclone', 'shield_bash', 'soul_reap'] },
-    { id: 'dagger', name: '匕首', skills: ['flicker_strike', 'viper_knives', 'cyclone', 'heavy_strike', 'frost_dash', 'star_step'] },
+    { id: 'dagger', name: '匕首', skills: ['flicker_strike', 'viper_knives', 'cyclone', 'heavy_strike', 'frost_dash', 'star_step', 'blade_trap', 'snare_shot'] },
   ],
   offhand: [
-    { id: 'tower_shield', name: '塔盾', def: 'armour', skills: ATTACKS }, { id: 'focus', name: '法器', def: 'es', skills: SPELLS }, { id: 'quiver', name: '箭袋', def: 'evasion', skills: ['viper_knives', 'spark', 'fireball'] },
+    { id: 'tower_shield', name: '塔盾', def: 'armour', skills: ATTACKS }, { id: 'focus', name: '法器', def: 'es', skills: SPELLS }, { id: 'quiver', name: '箭袋', def: 'evasion', skills: ['viper_knives', 'spark', 'fireball', 'snare_shot'] },
   ],
   helmet: [{ id: 'iron_helm', name: '铁盔', def: 'armour', skills: ITEM_SKILLS }, { id: 'silk_hood', name: '丝帽', def: 'es', skills: SPELLS }, { id: 'leather_cap', name: '皮帽', def: 'evasion', skills: ATTACKS }],
   chest: [{ id: 'plate', name: '板甲', def: 'armour', skills: [] }, { id: 'robe', name: '法袍', def: 'es', skills: [] }, { id: 'leather', name: '皮衣', def: 'evasion', skills: [] }],

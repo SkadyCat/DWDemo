@@ -46,6 +46,9 @@ const STATIC = {
   // Ground zones (fields, walls, vortices): extra copies per cast, travel speed (percent), pulling enemies
   // in (units per second), growing (percent radius per second) and bursting when they end (percent of a hit).
   'zone.count': N(0, 0, 8), 'zone.speed': N(100, 0), 'zone.pull': N(0, 0, 2000), 'zone.growth': N(0, 0, 400), 'zone.burst': N(0, 0, 5000),
+  // Traps: extra traps per throw, how many may lie at once, extra triggers per trap, arming speed and
+  // trigger radius (both percentages).
+  'trap.count': N(0, 0, 20), 'trap.limit': N(0, 0, 200), 'trap.uses': N(0, 0, 20), 'trap.armSpeed': N(100, 10), 'trap.trigger': N(100, 10),
   'minion.limit': N(0, 0, 200), 'totem.limit': N(1, 0, 32), 'summon.count': N(0, 0, 20),
   'hitsCanTrigger': F(), 'overkillSpread': N(0, 0, 100), 'consumeKeep': N(0, 0, 100),
   // Ailment damage scales only with these (tag them: ['ignite'], ['poison'], ['dot']...), so generic hit

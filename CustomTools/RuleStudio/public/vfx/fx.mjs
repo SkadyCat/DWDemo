@@ -385,6 +385,14 @@ export function createFx(T, scene) {
     });
     for (const z of list) {
       if (z.kind === 'tornado') continue;
+      if (z.kind === 'blade_whirl') {
+        // 刃轮: a ring of blades spinning low over the floor, sparks thrown off its rim.
+        const r = z.radius, s = (z.seed ?? 0) + time * 9;
+        P.sprite('add', [z.x, .07, z.z], r * 2.1, [.55, .6, .7], .35, CELL.ring, s);
+        for (let j = 0; j < 4; ++j) { const th = s + j * 1.57; P.sprite('add', [z.x + Math.cos(th) * r * .7, .3, z.z + Math.sin(th) * r * .7], .5, [1.6, 1.7, 1.9], .5, CELL.streak, 0, 1, [-Math.sin(th), 0, Math.cos(th)]); }
+        if (Math.random() < .6) { const th = Math.random() * 6.28; P.emit('add', 1, { pos: [z.x + Math.cos(th) * r, .25, z.z + Math.sin(th) * r], vel: [-Math.sin(th) * 6, 1.5, Math.cos(th) * 6], life: [.15, .3], size: [.05, .09], color: [2.6, 2, 1.2], cell: CELL.ember, drag: 3, fadeIn: 0 }); }
+        continue;
+      }
       if (z.kind === 'rift') {
         // A tear in space (虚空裂隙): a dark violet swirl with motes falling into the middle.
         const c = PAL.void, r = z.radius;
@@ -526,5 +534,16 @@ export function createFx(T, scene) {
   function clear() { P.clear(); G.clear(); bolts.length = 0; ripples.length = 0; lightReq.length = 0; trails.clear(); trauma = 0; flash = 0; aberr = 0; }
   function dispose() { P.dispose(); G.dispose(); V.dispose(); for (const l of lightPool) l.dispose?.(); group.clear(); scene.remove(group); }
 
-  return { group, recipes, torches, get heat() { return heat; }, get bolts() { return bolts.length; }, projectiles, zones, statuses, minions, lightning, light, shake, ripple, pulse, update, clear, dispose, particles: P, ground: G };
+  /** Traps on the floor: a small rune that brightens once armed, its trigger reach as a faint ring. */
+  const TRAP_COL = { fire_trap: PAL.fire, frost_trap: PAL.cold, shock_trap: PAL.lightning, turret_trap: { hot: [2.4, 1.7, .6], mid: [.9, .6, .2], core: [3, 2.4, 1.2] } };
+  function traps(list) {
+    for (const t of list) {
+      const c = TRAP_COL[t.kind] ?? pal(t.element ?? 'physical'), blink = t.left < 1.2 ? (Math.sin(time * 20) > 0 ? 1 : .3) : 1;
+      const on = t.armed ? .75 + .25 * Math.sin(time * 5 + t.id) : .25;
+      P.sprite('add', [t.x, .05, t.z], t.r * 2.2, mul(c.mid, .5), .22 * on * blink, CELL.ring, time * (t.armed ? 1.5 : 6) + t.id);
+      P.sprite('add', [t.x, .06, t.z], .55, c.hot, .7 * on * blink, CELL.star, t.id);
+      P.sprite('add', [t.x, .12, t.z], .9, mul(c.mid, .8), .3 * on * blink, CELL.glow);
+    }
+  }
+  return { traps, group, recipes, torches, get heat() { return heat; }, get bolts() { return bolts.length; }, projectiles, zones, statuses, minions, lightning, light, shake, ripple, pulse, update, clear, dispose, particles: P, ground: G };
 }

@@ -68,6 +68,11 @@ export function createEffects(T, scene) {
         const ang = e.source ? Math.atan2(e.y - e.source.y, e.x - e.source.x) : 0;
         const dir = Math.hypot(e.x - (e.source?.x ?? e.x), e.y - (e.source?.y ?? e.y)) > 5 ? ang : Math.atan2(e.source?.aim?.y ?? 0, e.source?.aim?.x ?? 1);
         if (e.tags?.includes('cascade')) { el === 'cold' ? R.nova(at, r, el) : R.explosion(at, r * .8, el, { ground: false }); break; }
+        if (e.fx === 'lightning_line' && e.dx !== undefined) {
+          // An arc strung between two traps (电网).
+          fx.lightning(V(e.x, e.y, .35), V(e.x + e.dx * e.radius, e.y + e.dy * e.radius, .35), { life: .2, width: .7, branches: 1, rough: .16 });
+          break;
+        }
         if (e.shape === 'line' && e.dx !== undefined) {
           // A path (冰痕 and other trails): bursts every ~0.8 m along it.
           const n = Math.max(2, Math.min(10, Math.round(e.radius / 80)));
@@ -161,6 +166,7 @@ export function createEffects(T, scene) {
       for (const s of a.statuses) if (!seen.has(s.def.id)) { seen.add(s.def.id); st.push({ x: a.x * M, z: -a.y * M, size: sizeOf(a), status: s.def.id, stacks: s.stacks }); }
     }
     fx.statuses(st);
+    fx.traps(run.traps().filter(t => Math.hypot(t.x - hero.x, t.y - hero.y) < 1700).map(t => ({ x: t.x * M, z: -t.y * M, r: t.trigger * M, kind: t.kind, element: t.element, armed: t.armed, left: t.left, id: t.id })));
     fx.minions(run.minions.map(m => ({ x: m.x * M, z: -m.y * M, template: m.template, id: m.id })));
     // Wall torches at every room's corners (the dungeon only knows rooms; the flames are ours).
     if (torches.dungeon !== run.dungeon) {

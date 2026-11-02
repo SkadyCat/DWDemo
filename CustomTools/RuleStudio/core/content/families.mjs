@@ -64,7 +64,7 @@ fam({ id: 'mana_regen', name: '每秒回复 {v} 魔力', maxPerBuild: 2, from: 2
 fam({ id: 'move_speed', name: '移动速度提高 {v}%', maxPerBuild: 1, from: 6, to: 30, slots: ['boots'], tags: ['utility'], make: M('moveSpeed', 'inc') });
 
 // ================================================================== 攻击：数值层
-const DMG_TAGS = { fire: '火焰', cold: '冰霜', lightning: '闪电', physical: '物理', chaos: '混沌', elemental: '元素', spell: '法术', attack: '攻击', melee: '近战', projectile: '投射物', area: '范围', minion: '召唤物' };
+const DMG_TAGS = { fire: '火焰', cold: '冰霜', lightning: '闪电', physical: '物理', chaos: '混沌', elemental: '元素', spell: '法术', attack: '攻击', melee: '近战', projectile: '投射物', area: '范围', minion: '召唤物', trap: '陷阱' };
 for (const [tag, n] of Object.entries(DMG_TAGS))
   fam({ id: `dmg_${tag}`, name: `${n}伤害提高 {v}%`, from: 8, to: 45, slots: ['weapon', 'offhand', 'amulet', 'ring1', 'ring2', 'gloves', 'helmet', 'belt'], tags: ['offence', tag],
     make: tag === 'minion' ? v => ({ mods: [{ stat: 'damage', op: 'inc', value: v, scope: 'minion' }] }) : M('damage', 'inc', { tags: [tag] }) });
@@ -404,6 +404,59 @@ fam({ id: 'core_blood_rite', name: '核心·血祭：血魔更快、伤害提高
     rules: [trig('kill', { skill: 'fiend_claw' }, [{ do: 'summon', minion: 'blood_fiend', at: 'event', count: 1, limit: 12, duration: 8 }], { role: 'minion', chain: true, at: 'event', accumulate: { kind: 'chance', pct: 55 }, limit: { perSecond: 10 } }),trig('death', { key: 'blood_fiend' }, [{ do: 'area', at: 'event', radius: 260, damage: { physical: { pool: 'life', of: 'target', mul: 1.5 } }, crit: 0, fx: 'explode', tags: ['explosion', 'blood'] }], { role: 'minion', at: 'event', chain: true })] }) });
 fam({ id: 'core_soul_harvest', name: '核心·灵魂收割：怨灵消散或被打死时，从那里重放你的主技能（每秒最多 {v} 次）', layer: 'core', values: [4, 6, 8], slots: ['amulet', 'chest', 'helmet'], tags: ['core', 'minion', 'chaos', 'trigger'],
   make: v => ({ rules: [trig('death', { key: 'wraith' }, [{ do: 'cast', skill: '$primary', from: 'event', range: 400 }], { role: 'minion', at: 'event', chain: true, limit: { perSecond: v } })] }) });
+
+// ================================================================== 陷阱体系：扔出去、等敌人踩
+// 陷阱的伤害都带 'trap' 标签；陷阱触发是 trapTrigger 事件（key = 陷阱种类），远程引爆用 springTraps。
+const TSLOTS = ['weapon', 'gloves', 'helmet', 'amulet', 'belt', 'ring1', 'ring2'];
+fam({ id: 'trap_speed', name: '陷阱投掷与布设速度提高 {v}%', from: 6, to: 30, slots: TSLOTS, tags: ['offence', 'trap', 'speed'],
+  make: v => ({ mods: [{ stat: 'speed', op: 'inc', value: v, tags: ['trap'] }, { stat: 'trap.armSpeed', op: 'inc', value: v * 2 }] }) });
+fam({ id: 'trap_reach', name: '陷阱触发范围扩大 {v}%', from: 10, to: 50, slots: TSLOTS, tags: ['offence', 'trap'], make: M('trap.trigger', 'inc') });
+fam({ id: 'trap_more', name: '布雷：每次额外扔出 {v} 个陷阱', layer: 'form', values: [1, 1, 2, 2, 3, 3], tags: ['form', 'trap'],
+  make: v => ({ mods: [{ stat: 'trap.count', op: 'base', value: v }, { stat: 'trap.limit', op: 'base', value: v * 4 }] }) });
+fam({ id: 'trap_rearm', name: '机括：每个陷阱可多触发 {v} 次', layer: 'form', values: [1, 1, 1, 2, 2, 3], tags: ['form', 'trap'], make: M('trap.uses', 'base') });
+fam({ id: 'trap_field', name: '雷区：+{v} 陷阱上限，陷阱持续更久', layer: 'form', values: [4, 5, 6, 8, 10, 12], tags: ['form', 'trap', 'duration'],
+  make: v => ({ mods: [{ stat: 'trap.limit', op: 'base', value: v }, { stat: 'duration', op: 'inc', value: v * 5, tags: ['trap'] }] }) });
+
+// 1 连爆工兵：一个陷阱炸开，引爆周围的陷阱
+fam({ id: 'trap_chain', name: '殉爆：陷阱触发时引爆 {v} 范围内你已布好的其他陷阱（殉爆的威力为 60%）', layer: 'link', values: [200, 240, 280, 320, 380], step: 10, tags: ['link', 'trap', 'trigger'],
+  make: v => ({ rules: [trig('trapTrigger', {}, [{ do: 'springTraps', at: 'event', radius: v, mult: 60 }], { role: 'source', at: 'event', chain: true, limit: { perSecond: 40 } })] }) });
+// 2 霜冻雷区：击碎的冰块变成新的陷阱
+fam({ id: 'shatter_trap', name: '冰雷：击碎冰冻敌人时 {v}% 几率在原地布下一个你的主陷阱（每秒最多 10 个）', layer: 'link', values: [30, 40, 50, 60, 75], tags: ['link', 'trap', 'cold', 'shatter'],
+  make: v => ({ rules: [trig('shatter', {}, [{ do: 'cast', skill: '$primary', at: 'event' }], { role: 'source', at: 'event', chain: true, accumulate: { kind: 'chance', pct: v }, limit: { perSecond: 10 } })] }) });
+// 3 刃轮绞场：刃轮停转时甩出刀片
+fam({ id: 'whirl_shrapnel', name: '崩刃：刃轮停转时向四周甩出刀片（{v}% 伤害）', layer: 'link', values: [45, 55, 70, 85, 100], tags: ['link', 'trap', 'physical', 'projectile'],
+  make: v => ({ rules: [trig('zoneEnd', { key: 'blade_whirl' }, [{ do: 'cast', skill: 'blade_shrapnel', from: 'event', range: 500, needTarget: false, mult: v }], { role: 'source', at: 'event', chain: true, limit: { perSecond: 12 } })] }) });
+// 4 陷阱猎手：捕兽夹合上时射出一圈弩箭
+fam({ id: 'trap_volley', name: '机括连弩：陷阱触发时向四周射出一圈弩箭（{v}% 伤害，每秒最多 12 次）', layer: 'link', values: [80, 100, 120, 140, 170], tags: ['link', 'trap', 'projectile'],
+  make: v => ({ rules: [trig('trapTrigger', {}, [{ do: 'cast', skill: 'snare_volley', from: 'event', range: 500, needTarget: false, mult: v }], { role: 'source', at: 'event', chain: true, limit: { perSecond: 12 } })] }) });
+// 5 机关师：弩塔散架时就地重新布下机关
+fam({ id: 'turret_rebuild', name: '回收：弩塔散架或被毁时 {v}% 几率在原地重新布下一个机关陷阱', layer: 'link', values: [25, 35, 45, 55, 70], tags: ['link', 'trap', 'minion'],
+  make: v => ({ rules: [trig('death', { key: 'ballista' }, [{ do: 'cast', skill: '$primary', at: 'event' }], { role: 'minion', at: 'event', chain: true, accumulate: { kind: 'chance', pct: v }, limit: { perSecond: 8 } })] }) });
+// 6 雷网织者：陷阱之间拉电弧
+fam({ id: 'trap_web', name: '电网：陷阱触发时与 {v} 范围内你的每个陷阱之间拉出一道电弧', layer: 'link', values: [320, 360, 400, 450, 500], step: 10, tags: ['link', 'trap', 'lightning'],
+  make: v => ({ rules: [trig('trapTrigger', {}, [{ do: 'eachTrap', at: 'event', radius: v, max: 8, onEach: [{ do: 'area', shape: 'line', at: 'origin', radius: { var: 'dist' }, width: 80, mult: 80, fx: 'lightning_line', tags: ['web'] }] }],
+    { role: 'source', at: 'event', chain: true, limit: { perSecond: 30 } })] }) });
+
+fam({ id: 'core_powder_keg', name: '核心·火药桶：每次多扔 2 个陷阱、上限 +12；陷阱伤害提高 {v}%（更多），每次爆炸再向四周抛出 2 个子雷', layer: 'core', values: [50, 70, 90], slots: ['amulet', 'gloves', 'helmet'], tags: ['core', 'trap', 'fire'],
+  make: v => ({ mods: [{ stat: 'trap.count', op: 'base', value: 2 }, { stat: 'trap.limit', op: 'base', value: 12 }, { stat: 'damage', op: 'more', value: v, tags: ['trap'] }],
+    rules: [trig('trapTrigger', { key: 'fire_trap' }, [{ do: 'cast', skill: '$primary', at: 'event' }, { do: 'cast', skill: '$primary', at: 'event' }], { role: 'source', at: 'event', chain: true, limit: { perSecond: 14 } })] }) });
+fam({ id: 'core_permafrost', name: '核心·永冻雷区：陷阱必定冰冻；击碎冰冻敌人时必定再布一颗陷阱；冰霜伤害提高 {v}%（更多）', layer: 'core', values: [50, 70, 90], slots: ['amulet', 'helmet', 'chest'], tags: ['core', 'trap', 'cold'],
+  make: v => ({ mods: [{ stat: 'chance.freeze', op: 'base', value: 100, tags: ['trap'] }, { stat: 'damage', op: 'more', value: v, tags: ['cold'] }],
+    rules: [trig('shatter', {}, [{ do: 'cast', skill: '$primary', at: 'event' }], { role: 'source', at: 'event', chain: true, limit: { perSecond: 20 } })] }) });
+fam({ id: 'core_meat_grinder', name: '核心·绞肉场：刃轮把周围的怪拽进来，绞死的怪崩出一圈刀片，停转时在原地重新布下刃轮陷阱；陷阱伤害提高 {v}%（更多），刀片再翻倍', layer: 'core', values: [40, 60, 80], slots: ['amulet', 'gloves', 'chest'], tags: ['core', 'trap', 'physical'],
+  make: v => ({ mods: [{ stat: 'zone.pull', op: 'base', value: 180, tags: ['trap'] }, { stat: 'damage', op: 'more', value: v, tags: ['trap'] }, { stat: 'damage', op: 'more', value: 100, tags: ['trap', 'projectile'] }],
+    rules: [trig('zoneEnd', { key: 'blade_whirl' }, [{ do: 'cast', skill: '$primary', at: 'event' }], { role: 'source', at: 'event', chain: true, limit: { perSecond: 10 } }),
+      trig('kill', { tags: ['trap', 'physical'] }, [{ do: 'cast', skill: 'blade_shrapnel', from: 'event', range: 400, mult: 150 }], { role: 'source', at: 'event', chain: true, limit: { perSecond: 60 } })] }) });
+fam({ id: 'core_hunting_ground', name: '核心·猎场：陷阱触发时朝最近的敌人重放你的主技能（每秒最多 {v} 次），陷阱更快布好', layer: 'core', values: [10, 13, 16], slots: ['amulet', 'gloves', 'helmet'], tags: ['core', 'trap', 'trigger'],
+  make: v => ({ mods: [{ stat: 'trap.armSpeed', op: 'more', value: 100 }],
+    rules: [trig('trapTrigger', {}, [{ do: 'cast', skill: '$primary', from: 'event', range: 700 }], { role: 'source', at: 'event', chain: true, limit: { perSecond: v } })] }) });
+fam({ id: 'core_siege_works', name: '核心·攻城机关：弩塔上限 +6，弩塔射死的怪炸开（其最大生命 60% 物理）并原地变成机关陷阱；弩塔伤害提高 {v}%（更多）', layer: 'core', values: [60, 80, 100], slots: ['amulet', 'chest', 'helmet'], tags: ['core', 'trap', 'minion'],
+  make: v => ({ mods: [{ stat: 'minion.limit', op: 'base', value: 6 }, { stat: 'damage', op: 'more', value: v, scope: 'minion' }],
+    rules: [trig('kill', { skill: 'ballista_bolt' }, [{ do: 'cast', skill: '$primary', at: 'event' }], { role: 'minion', at: 'event', chain: true, limit: { perSecond: 8 } }),
+      trig('kill', { anyTags: ['minion', 'siege'] }, [{ do: 'explode', pct: 60, type: 'physical', radius: 230, tags: ['siege'] }], { role: 'owned', at: 'event', chain: true, limit: { perSecond: 60 } })] }) });
+fam({ id: 'core_tesla_grid', name: '核心·特斯拉阵：每次多扔 2 个陷阱、上限 +10、范围扩大 30%，陷阱不再被踩坏（+4 次触发、重新布设更快），感电的敌人死时引爆最近的一颗陷阱；电网电弧必定感电，陷阱伤害提高 {v}%（更多）', layer: 'core', values: [180, 220, 260], slots: ['amulet', 'chest', 'gloves'], tags: ['core', 'trap', 'lightning'],
+  make: v => ({ mods: [{ stat: 'trap.count', op: 'base', value: 2 }, { stat: 'trap.limit', op: 'base', value: 10 }, { stat: 'area', op: 'more', value: 30, tags: ['trap'] }, { stat: 'trap.uses', op: 'base', value: 4 }, { stat: 'trap.armSpeed', op: 'more', value: 60 }, { stat: 'chance.shock', op: 'base', value: 100, tags: ['web'] }, { stat: 'damage', op: 'more', value: v, tags: ['trap'] }],
+    rules: [trig('kill', { cond: { status: 'shocked', of: 'target' } }, [{ do: 'springTraps', at: 'event', radius: 400, max: 2, delay: 0.05 }], { role: 'source', at: 'event', chain: true, limit: { perSecond: 20 } })] }) });
 
 // ================================================================== API
 export const families = () => [...FAMILIES.values()];

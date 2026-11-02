@@ -38,6 +38,8 @@ export const GAME_SKILLS = Object.freeze({
     { id: 'frost_wisp', name: '霜灵', life: 40, radius: 16, skills: ['wisp_burst'], mods: [{ stat: 'moveSpeed', op: 'inc', value: 80 }] },
     { id: 'wolf', name: '影狼', life: 180, radius: 24, skills: ['wolf_bite'], mods: [{ stat: 'moveSpeed', op: 'inc', value: 50 }] },
     { id: 'blood_fiend', name: '血魔', life: 260, radius: 26, skills: ['fiend_claw'] },
+    // 机关师的弩塔：陷阱被踩响时立起来，射几轮就散架。
+    { id: 'ballista', name: '弩塔', life: 220, radius: 30, brain: 'turret', skills: ['ballista_bolt'], duration: 5 },
     { id: 'wraith', name: '怨灵', life: 60, radius: 20, keepDistance: 300, skills: ['wraith_bolt'] },
   ]),
   skills: patchList('skills', [
@@ -121,7 +123,29 @@ export const GAME_SKILLS = Object.freeze({
       actions: [{ do: 'spendPool', pool: 'life', pctMax: 6, keep: 1 }, { do: 'summon', minion: 'blood_fiend', at: 'self', count: 1, limit: 5, duration: 15 }] },
     { id: 'soul_reap', name: '收魂', tags: ['attack', 'melee', 'area', 'chaos', 'physical'], time: 0.7, crit: 6, damage: { physical: 22, chaos: 16 }, range: 210,
       actions: [{ do: 'area', shape: 'cone', angle: 140, radius: 230, fx: 'cleave' }] },
+    // ---- 陷阱体系：扔出去的是陷阱，伤害在敌人踩上去时才发生 ----
+    { id: 'fire_trap', name: '爆燃陷阱', tags: ['spell', 'trap', 'fire', 'area'], time: 0.55, cost: 7, crit: 6, damage: { fire: 18 }, range: 650,
+      actions: [{ do: 'trap', kind: 'fire_trap', at: 'aim', count: 1, limit: 12, trigger: 70, onTrigger: [{ do: 'area', at: 'aim', radius: 190, fx: 'flame_burst' }] }] },
+    { id: 'frost_trap', name: '霜冻陷阱', tags: ['spell', 'trap', 'cold', 'area'], time: 0.55, cost: 7, crit: 6, damage: { cold: 16 }, range: 650,
+      actions: [{ do: 'trap', kind: 'frost_trap', at: 'aim', count: 1, limit: 12, trigger: 80, onTrigger: [{ do: 'area', at: 'aim', radius: 220, fx: 'ice_nova' }] }] },
+    // A spinning blade field that grinds whatever stands in it.
+    { id: 'blade_trap', name: '刃轮陷阱', tags: ['attack', 'trap', 'physical', 'area', 'duration'], time: 0.5, crit: 6, damage: { physical: 6 }, range: 600,
+      actions: [{ do: 'trap', kind: 'blade_trap', at: 'aim', count: 1, limit: 8, trigger: 80, onTrigger: [{ do: 'zone', kind: 'blade_whirl', at: 'aim', radius: 150, duration: 1.6, interval: 0.2, hit: true }] }] },
+    // Every arrow leaves a snare where it stops.
+    { id: 'snare_shot', name: '捕兽箭', tags: ['attack', 'projectile', 'trap', 'physical'], time: 0.55, crit: 7, damage: { physical: 18 }, range: 750,
+      actions: [{ do: 'projectile', speed: 1500, radius: 18, lifetime: 0.7, kind: 'viper_knife',
+        onEnd: [{ do: 'trap', kind: 'snare', at: 'aim', count: 1, limit: 16, trigger: 60, arm: 0.2, onTrigger: [{ do: 'area', at: 'aim', radius: 120, fx: 'cleave', mult: 140 }] }] }] },
+    { id: 'turret_trap', name: '机关陷阱', tags: ['spell', 'trap', 'minion', 'physical'], time: 0.55, cost: 9, crit: 5, damage: { physical: 12 }, range: 650,
+      actions: [{ do: 'trap', kind: 'turret_trap', at: 'aim', count: 1, limit: 10, trigger: 90, onTrigger: [{ do: 'area', at: 'aim', radius: 140, fx: 'slam' }, { do: 'summon', minion: 'ballista', at: 'origin', count: 1, limit: 6 }] }] },
+    { id: 'shock_trap', name: '电击陷阱', tags: ['spell', 'trap', 'lightning', 'area'], time: 0.5, cost: 6, crit: 8, damage: { lightning: 16 }, range: 650,
+      actions: [{ do: 'trap', kind: 'shock_trap', at: 'aim', count: 1, limit: 14, trigger: 80, onTrigger: [{ do: 'area', at: 'aim', radius: 190, fx: 'thunder' }] }] },
     // ---- 召唤物自己的技能 ----
+    { id: 'ballista_bolt', name: '弩箭', tags: ['attack', 'projectile', 'minion', 'physical'], time: 0.55, crit: 6, damage: { physical: 11 }, range: 750,
+      actions: [{ do: 'projectile', speed: 1800, radius: 18, lifetime: 0.6, pierce: 2, kind: 'viper_knife' }] },
+    { id: 'snare_volley', name: '机括连弩', tags: ['attack', 'projectile', 'physical', 'trap', 'triggered_only'], time: 0.5, crit: 7, damage: { physical: 14 }, range: 600,
+      actions: [{ do: 'projectile', count: 6, ring: true, speed: 1400, radius: 16, lifetime: 0.45, pierce: 1, kind: 'viper_knife', from: 'origin' }] },
+    { id: 'blade_shrapnel', name: '刃片', tags: ['attack', 'projectile', 'physical', 'trap', 'triggered_only'], time: 0.5, crit: 6, damage: { physical: 16 }, range: 600,
+      actions: [{ do: 'projectile', count: 8, ring: true, speed: 1200, radius: 18, lifetime: 0.5, pierce: 2, kind: 'viper_knife', from: 'origin' }] },
     { id: 'bone_slash', name: '骨刃', tags: ['attack', 'melee', 'minion', 'physical'], time: 0.6, crit: 5, damage: { physical: 18 }, range: 90, actions: [{ do: 'strike', range: 90 }] },
     { id: 'golem_slam', name: '熔岩重击', tags: ['attack', 'melee', 'area', 'minion', 'fire', 'golem'], time: 0.7, crit: 5, damage: { physical: 20, fire: 30 }, range: 160,
       actions: [{ do: 'area', at: 'self', radius: 220, fx: 'slam' }] },

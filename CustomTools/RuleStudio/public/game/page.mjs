@@ -61,7 +61,10 @@ const SKILL_DESC = {
   raise_skeletons: '在瞄准处拉起一批骷髅战士，9 秒后消散。', summon_golem: '召唤一只又肉又痛的熔火魔像，重击周围（冷却 4 秒，再召唤会替换旧的）。',
   summon_archers: '召唤两名幽魂射手，站在后面放箭。', summon_spiders: '在瞄准处撒下一窝毒蛛，咬出剧毒。',
   summon_wisps: '放出三只霜灵，撞上敌人就自爆冻住周围。', summon_wolves: '召唤两只影狼扑向敌人。',
-  blood_pact: '付出 6% 最大生命，召唤一只血魔。', soul_reap: '向前方挥出一大片镰刀（物理 + 混沌）。', aegis_shards: '削下当前 10% 的能量护盾化成三把冰刃射出，伤害随消耗量提高。',
+  blood_pact: '付出 6% 最大生命，召唤一只血魔。',
+  fire_trap: '扔出一颗爆燃陷阱，布好后怪一踩就炸开火焰。', frost_trap: '扔出一颗霜冻陷阱，踩中时冻伤一大圈。',
+  blade_trap: '扔出一颗刃轮陷阱，踩响后原地转起刀轮持续切割。', snare_shot: '射出一支箭，箭停下的地方埋下捕兽夹。',
+  turret_trap: '扔出一颗机关陷阱，踩响时弹起一座会自己射箭的弩塔。', shock_trap: '扔出一颗电击陷阱，踩中时放出一圈闪电。', soul_reap: '向前方挥出一大片镰刀（物理 + 混沌）。', aegis_shards: '削下当前 10% 的能量护盾化成三把冰刃射出，伤害随消耗量提高。',
 };
 /** Currencies that act on one chosen line: 'trait' = base traits only, 'any' = a trait or a random line. */
 const CURRENCY_TARGET = { seal: 'any', temper: 'trait', essence_form: 'trait', essence_link: 'trait', essence_core: 'trait' };

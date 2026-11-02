@@ -1,4 +1,4 @@
-// 二十九个示范流派：纯元素 ×3、元素反应 ×2、近战 ×3、触发 ×1、投射物持续伤害 ×1、持续区域 ×1、闪现 ×5、炸盾 ×3、召唤 ×10。
+// 三十五个示范流派：纯元素 ×3、元素反应 ×2、近战 ×3、触发 ×1、投射物持续伤害 ×1、持续区域 ×1、闪现 ×5、炸盾 ×3、召唤 ×10、陷阱 ×6。
 // 每个流派 = 一个朴素技能 + 五级「质变」阶梯（每阶段拿到的关键词条和它带来的玩法变化）+ 数值放大优先级 + 防守优先级。
 // 阶段 0–4 = 起步 / 成型 / 卡关 / 突破 / 毕业。
 const RES = ['res_fire', 'res_cold', 'res_lightning'];
@@ -419,6 +419,91 @@ export const ARCHETYPES = Object.freeze([
     traits: ['strike_splash', 'area_cascade', 'kill_onslaught', 'proliferate', 'poison_spread', 'vs_ailing', 'hit_fortify'],
     amp: ['added_chaos_attack', 'attack_speed', 'dmg_chaos', 'dmg_area', 'dmg_minion', 'added_physical_attack', 'ailment_poison', 'dmg_melee', 'minion_speed', 'crit_chance', 'attack_speed', 'leech'],
     defence: interleave(DEF_LIFE, ARMOUR),
+  }),
+  // ================================================================ 陷阱 ×6：扔出去，等敌人踩
+  A({
+    id: 'blastmaster', name: '爆破工兵', style: '陷阱·殉爆·火', skills: ['fire_trap'], keepDistance: 320,
+    summary: '一次扔一把爆燃陷阱 → 一颗炸开引爆周围的陷阱 → 爆炸点燃、尸爆 → 火药桶：每次爆炸再抛出子雷，整片雷区一颗接一颗炸穿。',
+    ladder: [
+      { title: '布雷', text: '一次扔出好几颗爆燃陷阱，怪一踩就炸，火焰会点燃。', keys: [['trap_more', 'helmet'], ['chance_ignite']] },
+      { title: '殉爆', text: '一颗陷阱炸开时引爆附近你的其他陷阱——踩中一颗，整片一起响。', keys: [['trap_chain', 'weapon']] },
+      { title: '尸爆', text: '炸死的怪再爆炸，被点燃的怪死时把火传给身边的怪。', keys: [['kill_explode'], ['ignite_spread']] },
+      { title: '燎原', text: '爆炸会点燃，雷区更大、能埋更多陷阱。', keys: [['explode_ignite'], ['trap_field']] },
+      { title: '火药桶', text: '每次多扔两颗，陷阱更痛；每颗炸开时再向四周抛出两颗子雷：雷区自己往前铺。', keys: [['core_powder_keg', 'amulet']] },
+    ],
+    traits: ['area_more', 'area_cascade', 'trap_rearm', 'proliferate', 'kill_recast', 'vs_ailing', 'kill_onslaught'],
+    amp: ['dmg_trap', 'dmg_fire', 'added_fire_spell', 'trap_speed', 'cast_speed', 'dmg_area', 'ailment_ignite', 'pen_fire', 'dmg_spell', 'mana_regen', 'crit_chance'],
+    defence: interleave(DEF_LIFE, ES),
+  }),
+  A({
+    id: 'frostwarden', name: '冰封猎区', style: '陷阱·冰冻·自繁殖', skills: ['frost_trap'], keepDistance: 320,
+    summary: '霜冻陷阱冻住一圈 → 击碎爆出寒霜冻住下一圈 → 碎冰里长出新的陷阱 → 永冻雷区：冻住的怪碎成陷阱，陷阱又冻住来的怪，雷区自己长大。',
+    ladder: [
+      { title: '寒夹', text: '一次扔几颗霜冻陷阱，踩中的一圈被冻住。', keys: [['chance_freeze'], ['trap_more', 'helmet']] },
+      { title: '碎冰', text: '击碎冰冻的敌人爆出寒霜，冻住周围的怪。', keys: [['shatter_nova']] },
+      { title: '冰雷', text: '击碎冰冻的怪时在原地布下一颗新陷阱——碎冰变成了雷区。', keys: [['shatter_trap', 'weapon'], ['frozen_bonus']] },
+      { title: '易碎', text: '陷阱范围更大，冻住的怪更脆。', keys: [['area_more'], ['chance_brittle']] },
+      { title: '永冻雷区', text: '陷阱必定冰冻，每次击碎都会再布一颗：冻结 → 碎裂 → 新陷阱 → 再冻结。', keys: [['core_permafrost', 'amulet']] },
+    ],
+    traits: ['trap_field', 'area_cascade', 'shatter_burst', 'trap_rearm', 'kill_recast', 'vs_ailing', 'proliferate'],
+    amp: ['dmg_trap', 'dmg_cold', 'added_cold_spell', 'trap_speed', 'cast_speed', 'dmg_area', 'crit_chance', 'pen_cold', 'effect_chill', 'mana_regen', 'crit_bonus'],
+    defence: interleave(DEF_LIFE, ARMOUR),
+  }),
+  A({
+    id: 'bladegrinder', name: '刃轮绞场', style: '陷阱·持续绞杀·流血', skills: ['blade_trap'], keepDistance: 260,
+    summary: '刃轮陷阱被踩响后原地转起一圈刀刃 → 一颗陷阱转好几轮 → 刃轮停转时甩出刀片 → 绞肉场：刃轮把怪拽进来，停转后原地重新布下，永不停歇。',
+    ladder: [
+      { title: '刃轮', text: '刃轮陷阱踩响后原地转刀，割出流血；一颗陷阱能转好几轮。', keys: [['chance_bleed'], ['trap_rearm', 'helmet']] },
+      { title: '崩刃', text: '刃轮停转时向四周甩出一圈刀片。', keys: [['whirl_shrapnel', 'weapon']] },
+      { title: '血爆', text: '流血的怪死时爆炸；刃轮把附近的怪往里吸。', keys: [['bleed_explode'], ['zone_pull']] },
+      { title: '刀阵', text: '一次扔几颗，刃轮转着转着越来越大。', keys: [['trap_more'], ['zone_growth']] },
+      { title: '绞肉场', text: '刃轮停转时在原地重新布下陷阱、把周围的怪拽进来，伤害更高：一片刀阵自己转个不停。', keys: [['core_meat_grinder', 'gloves']] },
+    ],
+    traits: ['area_more', 'trap_field', 'kill_recast', 'vs_ailing', 'proliferate', 'kill_onslaught', 'hit_fortify'],
+    amp: ['dmg_trap', 'added_physical_attack', 'attack_speed', 'dmg_physical', 'ailment_bleed', 'dmg_area', 'dot_inc', 'crit_chance', 'dmg_attack', 'trap_speed', 'leech'],
+    defence: interleave(DEF_LIFE, ARMOUR),
+  }),
+  A({
+    id: 'snarehunter', name: '陷阱猎手', style: '陷阱·箭雨布夹', skills: ['snare_shot'], keepDistance: 380,
+    summary: '每一箭的落点埋下捕兽夹 → 夹子合上时射出一圈弩箭 → 击杀攒狂怒越射越快 → 猎场：夹子合上时替你再射一箭，箭又埋下新夹子。',
+    ladder: [
+      { title: '布夹', text: '一次射几支穿透的箭，每支箭停下的地方都埋下一个捕兽夹。', keys: [['proj_count', 'weapon'], ['proj_pierce']] },
+      { title: '连弩', text: '捕兽夹合上时向四周射出一圈弩箭。', keys: [['trap_volley', 'gloves']] },
+      { title: '狂怒', text: '击杀攒狂怒球，每个狂怒球都让伤害更高。', keys: [['kill_frenzy'], ['per_frenzy']] },
+      { title: '猎区', text: '夹子能埋更多、留更久，暴击更多。', keys: [['trap_field'], ['crit_chance']] },
+      { title: '猎场', text: '夹子合上时朝最近的怪替你再射一箭，箭落下又是新夹子：箭和夹子互相生出来。', keys: [['core_hunting_ground', 'helmet']] },
+    ],
+    traits: ['proj_fork', 'trap_more', 'kill_recast', 'kill_onslaught', 'vs_ailing', 'proj_explode', 'charge_max'],
+    amp: ['dmg_trap', 'added_physical_attack', 'attack_speed', 'dmg_projectile', 'crit_bonus', 'dmg_physical', 'trap_speed', 'dmg_attack', 'crit_chance', 'attack_speed', 'leech'],
+    defence: interleave(DEF_LIFE, EVASION),
+  }),
+  A({
+    id: 'engineer', name: '机关师', style: '陷阱·机关弩塔', skills: ['turret_trap'], keepDistance: 360,
+    summary: '机关陷阱被踩响时弹起一座弩塔 → 弩塔散架时原地重新布下机关 → 弩箭穿透、暴击 → 攻城机关：弩箭爆炸，弩塔射死的怪原地变成新的机关。',
+    ladder: [
+      { title: '机关', text: '一次扔几颗机关陷阱，踩响时弹起一座弩塔，一次射好几支。', keys: [['trap_more', 'helmet'], ['minion_volley']] },
+      { title: '回收', text: '弩塔散架或被毁时，在原地重新布下一颗机关陷阱。', keys: [['turret_rebuild', 'weapon']] },
+      { title: '穿甲', text: '弩箭穿透一串怪，暴击更多。', keys: [['minion_pierce'], ['minion_crit']] },
+      { title: '工事', text: '每次踩响弹起更多弩塔，雷区更大。', keys: [['summon_more'], ['trap_field']] },
+      { title: '攻城机关', text: '弩塔上限 +6、弩箭命中爆炸，弩塔射死的怪原地变成机关：塔越修越多。', keys: [['core_siege_works', 'amulet']] },
+    ],
+    traits: ['minion_count', 'minion_explode', 'trap_rearm', 'kill_recast', 'kill_onslaught', 'proliferate'],
+    amp: ['dmg_minion', 'minion_speed', 'minion_crit', 'dmg_trap', 'cast_speed', 'minion_crit_bonus', 'dmg_minion', 'trap_speed', 'minion_speed', 'mana_regen', 'minion_life'],
+    defence: interleave(DEF_LIFE, ES),
+  }),
+  A({
+    id: 'stormweaver', name: '雷网织者', style: '陷阱·电网', skills: ['shock_trap'], keepDistance: 320,
+    summary: '撒下一片电击陷阱 → 一颗被踩响就和附近每颗陷阱之间拉出电弧 → 感电扩散、落雷 → 特斯拉阵：陷阱不再被踩坏，电网一遍遍闪。',
+    ladder: [
+      { title: '电夹', text: '一次扔几颗电击陷阱，踩中感电。', keys: [['trap_more', 'helmet'], ['chance_shock']] },
+      { title: '电网', text: '一颗陷阱被踩响时，和附近你的每颗陷阱之间都拉出一道电弧：陷阱越密，网越密。', keys: [['trap_web', 'weapon']] },
+      { title: '导电', text: '击杀感电敌人时感电扩散，感电更强。', keys: [['shock_spread'], ['effect_shock']] },
+      { title: '雷区', text: '能埋更多陷阱、留更久；每施加几次感电落下一道雷。', keys: [['trap_field'], ['cast_on_shock']] },
+      { title: '特斯拉阵', text: '陷阱能反复触发、很快重新布好，电弧必定感电、更痛：电网整片闪个不停。', keys: [['core_tesla_grid', 'amulet']] },
+    ],
+    traits: ['trap_rearm', 'area_more', 'kill_arc', 'vs_ailing', 'proliferate', 'kill_recast', 'shock_bonus'],
+    amp: ['dmg_trap', 'dmg_lightning', 'added_lightning_spell', 'trap_speed', 'cast_speed', 'crit_chance', 'dmg_spell', 'pen_lightning', 'crit_bonus', 'mana_regen', 'dmg_elemental'],
+    defence: interleave(DEF_LIFE, ES),
   }),
 ]);
 

@@ -260,6 +260,7 @@ export class MapRun {
     return this.world.carriers.projectiles.filter(p => p.alive).map(p => ({ id: p.id, x: p.x, y: p.y, z: 70, vx: p.dx * p.speed, vy: p.dy * p.speed, vz: 0, radius: p.radius,
       hostile: p.inv.caster.team !== 0, kind: p.action.kind ?? (p.inv.skill?.def.id ?? 'bolt'), element: elementOf(p.inv), age: p.age }));
   }
+  traps() { return this.world.carriers.traps.filter(t => t.alive).map(t => ({ id: t.id, x: t.x, y: t.y, trigger: t.trigger, kind: t.kind, armed: t.arm <= 0, left: t.remaining, element: elementOf(t.inv) })); }
   zones() { return this.world.carriers.zones.filter(z => z.alive).map(z => ({ id: z.id, x: z.x, y: z.y, radius: z.radius, kind: z.kind ?? z.action.kind, remaining: z.remaining, element: elementOf(z.inv) })); }
 }
 

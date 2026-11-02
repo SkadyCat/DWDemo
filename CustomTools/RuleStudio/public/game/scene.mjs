@@ -16,7 +16,7 @@ const MINION_LOOK = {
   skeleton: { color: 0xe8e2cf, size: 0.85, wide: 0.8 }, flame_golem: { color: 0x7a2a10, size: 2.0, wide: 1.25 },
   spectral_archer: { color: 0x9fd8ff, size: 0.85, wide: 0.75, float: 0.15 }, spider: { color: 0x3f6b2a, size: 0.55, wide: 1.5, tall: 0.5 },
   frost_wisp: { color: 0xbff4ff, size: 0.5, wide: 0.9, tall: 0.7, float: 0.5, spin: 6 }, wolf: { color: 0x5a5470, size: 0.9, wide: 1.2, tall: 0.75 },
-  blood_fiend: { color: 0x9a1418, size: 1.05 }, wraith: { color: 0x7b4bb8, size: 0.85, wide: 0.7, float: 0.35 },
+  blood_fiend: { color: 0x9a1418, size: 1.05 }, ballista: { color: 0x8a6a3a, size: 0.9, wide: 1.3, tall: 0.6 }, wraith: { color: 0x7b4bb8, size: 0.85, wide: 0.7, float: 0.35 },
 };
 const RARITY_KEY = { normal: 'common', magic: 'magic', rare: 'rare', exalted: 'legendary', legendary: 'unique' };
 

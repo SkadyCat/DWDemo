@@ -22,6 +22,7 @@ export const SKILL_ICON = {
   storm_step: 'lightning-trio', frost_dash: 'ice-spear', phantom_step: 'shadow-follower', star_step: 'star-swirl', void_leap: 'portal',
   aegis_nova: 'shield-impact', shield_bash: 'shield-bash', aegis_shards: 'shield-reflect',
   raise_skeletons: 'raise-skeleton', summon_golem: 'golem-head', summon_archers: 'bowman', summon_spiders: 'spider-alt', summon_wisps: 'ice-spell-cast',
+  fire_trap: 'land-mine', frost_trap: 'frozen-orb', blade_trap: 'circular-saw', snare_shot: 'wolf-trap', turret_trap: 'ballista', shock_trap: 'electrical-crescent',
   summon_wolves: 'wolf-howl', blood_pact: 'bleeding-heart', soul_reap: 'scythe',
   frost_trail: 'ice-spell-cast', step_arc: 'lightning-arc', void_rift: 'vortex', shield_shatter: 'shield-disabled', shield_pulse: 'electric',
 };

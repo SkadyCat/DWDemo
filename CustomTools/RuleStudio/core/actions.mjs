@@ -354,6 +354,51 @@ defineAction('zone', (a, inv) => {
   }
 });
 
+// ---- traps -------------------------------------------------------------------------------------------
+/**
+ * Lay traps at a point: `count` (+trap.count) of them, the extras in a ring `spread` around it. Each arms
+ * after `arm` seconds (faster with trap.armSpeed), then the first enemy inside `trigger` sets it off and it
+ * runs `onTrigger` at its spot (the stepper is the target). trap.uses lets one trap go off several times.
+ */
+defineAction('trap', (a, inv) => {
+  const w = inv.world, c = point(a.at, inv);
+  const n = Math.max(1, Math.round(num(a.count, inv, 1) + inv.stat('trap.count')));
+  const speed = inv.stat('trap.armSpeed') / 100, spread = num(a.spread, inv, 160);
+  const limit = Math.round(inv.stat('trap.limit', num(a.limit, inv, 12)));
+  const shared = { action: a, kind: a.kind ?? 'trap', arm: num(a.arm, inv, 0.35) / speed, rearm: num(a.rearm, inv, 1.2) / speed,
+    trigger: num(a.trigger, inv, 70) * inv.stat('trap.trigger') / 100, uses: 1 + Math.round(inv.stat('trap.uses', num(a.uses, inv, 0))),
+    remaining: num(a.duration, inv, 8) * inv.stat('duration') / 100 };
+  const tags = new Set([...inv.tags, 'trap']), turn = w.roll('trap') * Math.PI * 2;
+  for (let i = 0; i < n; ++i) {
+    const ang = turn + (i - 1) / Math.max(1, n - 1) * Math.PI * 2;
+    let p = i === 0 ? c : { x: c.x + Math.cos(ang) * spread, y: c.y + Math.sin(ang) * spread };
+    if (i > 0 && !w.clearLine(c.x, c.y, p.x, p.y, 0)) p = c;
+    w.carriers.spawnTrap({ ...shared, inv: inv.fork({ origin: p, aim: p, tags }), x: p.x, y: p.y }, limit);
+  }
+});
+
+/** Your traps near a point, nearest first (not the one whose trigger this is). */
+function trapsNear(a, inv, c) {
+  const r = num(a.radius, inv, 250), self = inv.event?.carrier;
+  return inv.world.carriers.traps
+    .filter(t => t.alive && t.inv.caster === inv.caster && t.id !== self && (!a.kind || t.kind === a.kind) && Math.hypot(t.x - c.x, t.y - c.y) <= r)
+    .sort((p, q) => Math.hypot(p.x - c.x, p.y - c.y) - Math.hypot(q.x - c.x, q.y - c.y) || p.id - q.id)
+    .slice(0, Math.round(num(a.max, inv, 99)));
+}
+/** Set off your armed traps near a point, one after another, for `mult`% of their damage (chain reactions: a blast springs its neighbours). */
+defineAction('springTraps', (a, inv) => {
+  const c = point(a.at ?? 'event', inv), list = trapsNear(a, inv, c).filter(t => t.arm <= 0), step = num(a.delay, inv, 0.1), mult = num(a.mult, inv, 100) / 100;
+  // Claimed now (arm > 0) so a second blast in the same instant cannot set the same trap off again.
+  list.forEach((t, i) => { t.arm = Infinity; inv.world.schedule(step * (1 + i * 0.25), () => inv.world.carriers.spring(inv.world, t, null, inv.depth, mult)); });
+  inv.vars[a.as ?? 'sprung'] = list.length;
+});
+/** Run actions once per trap of yours near a point, from that point toward the trap (var `dist`): webs between traps. */
+defineAction('eachTrap', (a, inv) => {
+  const c = point(a.at ?? 'event', inv), list = trapsNear(a, inv, c);
+  for (const t of list) run(a.onEach, inv.fork({ origin: c, aim: { x: t.x, y: t.y }, target: null, vars: { ...inv.vars, dist: Math.hypot(t.x - c.x, t.y - c.y) } }));
+  inv.vars[a.as ?? 'traps'] = list.length;
+});
+
 /** Trigger the caster's existing zones of a kind near a point (Blade Blast on Blade Fall blades). */
 defineAction('detonate', (a, inv) => {
   const c = point(a.at, inv), r = areaRadius(a, inv);
