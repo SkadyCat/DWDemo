@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>怪物模型预览</title>
+<style>
+  :root { color-scheme: dark; }
+  html, body { margin: 0; height: 100%; background: #2a2119; color: #e6e2d6; font: 14px/1.6 "Noto Serif SC", serif; overflow: hidden; }
+  #bar { position: fixed; left: 16px; top: 12px; z-index: 2; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  h1 { font-weight: 400; letter-spacing: .3em; color: #f3dfa5; margin: 0 12px 0 0; font-size: 18px; }
+  button { padding: 6px 14px; border-radius: 16px; border: 1px solid #6b5630; background: #1d1710; color: #f0e6c8; font: inherit; cursor: pointer; }
+  button.on { border-color: #f3dfa5; background: #3a2c18; }
+  #names { position: fixed; inset: 0; pointer-events: none; z-index: 1; }
+  #names span { position: absolute; transform: translate(-50%, 0); font-size: 12px; color: #d8ccb0; text-shadow: 0 1px 2px #000; white-space: nowrap; }
+</style></head>
+<body>
+<div id="bar"><h1>怪 物 模 型</h1></div>
+<div id="names"></div>
+<script type="module">
+// 二十种低多边形怪物 + 主角，各自播游戏里的动作（人形怪用动画包，其余是程序化动作）。拖动转视角，滚轮缩放。
+import * as THREE from '/vendor/three.module.js';
+import { Characters, MONSTERS } from '/game/characters.mjs';
+const NAMES = { goblin: '哥布林', skeleton: '骷髅', cultist: '邪教徒', mushroom: '蘑菇人', golem: '魔像', knight: '骑士', imp: '小恶魔', ogre: '食人魔', wolf: '狼', spider: '蜘蛛', bat: '蝙蝠', slime: '史莱姆',
+  centipede: '蜈蚣', manta: '蝠鲼', hand: '爬行之手', stonering: '石环', rockcluster: '浮岩', ghost: '幽魂蛇', sporeball: '孢子球', stump: '树桩' };
+const renderer = new THREE.WebGLRenderer({ antialias: true }); renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.shadowMap.enabled = true; renderer.toneMapping = THREE.ACESFilmicToneMapping; document.body.prepend(renderer.domElement);
+const scene = new THREE.Scene(); scene.background = new THREE.Color(0x2a2119);
+scene.add(new THREE.HemisphereLight(0xfff4e0, 0x3a2a1c, 1.6));
+const sun = new THREE.DirectionalLight(0xfff1dc, 2.4); sun.position.set(-4, 9, 6); sun.castShadow = true; sun.shadow.mapSize.set(2048, 2048);
+Object.assign(sun.shadow.camera, { left: -9, right: 9, top: 9, bottom: -9 }); scene.add(sun);
+const floor = new THREE.Mesh(new THREE.PlaneGeometry(40, 40), new THREE.MeshStandardMaterial({ color: 0x4a3a2c, roughness: 0.95 }));
+floor.rotation.x = -Math.PI / 2; floor.receiveShadow = true; scene.add(floor);
+const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100);
+let yaw = 0.5, pitch = 0.75, dist = 13;
+const resize = () => { renderer.setSize(innerWidth, innerHeight); camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); }; addEventListener('resize', resize); resize();
+let drag = null; addEventListener('pointerdown', e => drag = [e.clientX, e.clientY]); addEventListener('pointerup', () => drag = null);
+addEventListener('pointermove', e => { if (!drag) return; yaw -= (e.clientX - drag[0]) * 0.005; pitch = Math.max(0.1, Math.min(1.45, pitch + (e.clientY - drag[1]) * 0.005)); drag = [e.clientX, e.clientY]; });
+addEventListener('wheel', e => { dist = Math.max(3, Math.min(30, dist * (1 + Math.sign(e.deltaY) * 0.1))); });
+
+const chars = new Characters(scene); await chars.loading;
+const only = new URLSearchParams(location.search).get('only')?.split(','), list = only ? MONSTERS.filter(k => only.includes(k)) : MONSTERS;
+const cols = only ? 4 : 5, gap = 2.2, items = [];
+if (only) dist = 8;
+list.forEach((k, i) => {
+  const v = chars.take(k); v.yaw = 0;
+  const x = (i % cols - (cols - 1) / 2) * gap, z = (Math.floor(i / cols) - (Math.ceil(list.length / cols) - 1) / 2) * gap;
+  v.inst.root.position.set(x, 0, z); items.push({ k, v, x, z });
+  const tag = document.createElement('span'); tag.textContent = NAMES[k] ?? k; document.getElementById('names').append(tag); items.at(-1).tag = tag;
+});
+const MODES = [['idle', '待机'], ['walk', '走动'], ['attack', '出手'], ['death', '死亡']];
+let mode = 'walk';
+for (const [m, n] of MODES) { const b = document.createElement('button'); b.textContent = n; b.onclick = () => { mode = m; t0 = clock.elapsedTime; document.querySelectorAll('#bar button').forEach(x => x.classList.toggle('on', x === b)); }; if (m === mode) b.classList.add('on'); document.getElementById('bar').append(b); }
+const clock = new THREE.Clock(); let t0 = 0;
+renderer.setAnimationLoop(() => {
+  const dt = Math.min(0.05, clock.getDelta()), t = clock.elapsedTime - t0;
+  for (const { v } of items) {
+    v.inst.root.rotation.set(0, 0, 0);
+    const opts = mode === 'death' ? { speed: 0, cast: -1, death: t % 3 } : { speed: mode === 'walk' ? 1.5 : 0, cast: mode === 'attack' ? t % 1.4 : -1 };
+    (v.anim ? chars.poseHumanoid : chars.poseCreature).call(chars, v, dt, opts);
+  }
+  const c = new THREE.Vector3(Math.sin(yaw) * Math.cos(pitch), Math.sin(pitch), Math.cos(yaw) * Math.cos(pitch)).multiplyScalar(dist);
+  camera.position.copy(c); camera.lookAt(0, 0.4, 0);
+  renderer.render(scene, camera);
+  for (const it of items) { const p = new THREE.Vector3(it.x, -0.05, it.z + 0.75).project(camera); it.tag.style.left = `${(p.x + 1) / 2 * innerWidth}px`; it.tag.style.top = `${(1 - p.y) / 2 * innerHeight}px`; }
+});
+</script>
+</body></html>

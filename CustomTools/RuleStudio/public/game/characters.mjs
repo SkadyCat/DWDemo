@@ -13,7 +13,7 @@ import { loadPack, CleanMotion } from './anim/mm3c.mjs';
 const M = 0.01, TAU = Math.PI * 2;
 const MODEL_CAP = 64, MODEL_RANGE = 24, CORPSE_TIME = 1.7, SINK_TIME = 0.7;
 const HERO_SKINS = ['Wizard', 'Pyromancer', 'Frost', 'Druid', 'Warlock', 'Alchemist'];
-const MONSTERS = ['goblin', 'skeleton', 'cultist', 'mushroom', 'golem', 'knight', 'imp', 'ogre', 'wolf', 'spider', 'bat', 'slime',
+export const MONSTERS = ['goblin', 'skeleton', 'cultist', 'mushroom', 'golem', 'knight', 'imp', 'ogre', 'wolf', 'spider', 'bat', 'slime',
   'centipede', 'manta', 'hand', 'stonering', 'rockcluster', 'ghost', 'sporeball', 'stump'];
 const HUMANOID = new Set(['goblin', 'skeleton', 'cultist', 'mushroom', 'golem', 'knight', 'imp', 'ogre']);
 const ELEMENT_TINT = { fire: 0xff9a6a, cold: 0x9ad8ff, lightning: 0xfff08a, chaos: 0xb6ff8a, physical: 0xffffff };
@@ -27,7 +27,7 @@ const PICK = {
 };
 // On-screen height in metres for a normal-sized monster of each kind (elites and bosses scale from here).
 const HEIGHT = { goblin: 1.1, skeleton: 1.25, cultist: 1.25, mushroom: 1.05, golem: 1.4, knight: 1.3, imp: 1.0, ogre: 1.5, wolf: 0.8, spider: 0.6, bat: 1.15, slime: 0.55,
-  centipede: 0.22, manta: 1.0, hand: 0.5, stonering: 1.4, rockcluster: 1.3, ghost: 0.32, sporeball: 0.85, stump: 1.1 };
+  centipede: 0.22, manta: 1.0, hand: 0.75, stonering: 1.4, rockcluster: 1.3, ghost: 0.32, sporeball: 0.85, stump: 1.1 };
 // Summons that have a proper model (the rest stay glowing capsules).
 const MINION_MODEL = { skeleton: ['skeleton', 1.05], wolf: ['wolf', 0.85], spider: ['spider', 0.45], flame_golem: ['golem', 2.2], blood_fiend: ['imp', 1.2], wraith: ['cultist', 1.1], spectral_archer: ['skeleton', 1.1] };
 const MINION_TINT = { wraith: 0xc9a0ff, spectral_archer: 0x9fe4ff, flame_golem: 0xffb080 };
