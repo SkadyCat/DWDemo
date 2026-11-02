@@ -611,3 +611,31 @@ select { font: inherit; color: var(--txt); background: var(--deep); border: 1px 
 .sc-body small { display: block; font-size: 11px; color: var(--mute); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .sc-key { position: absolute; top: 6px; right: 8px; }
 @media (max-width: 1100px) { .win-skills { left: auto; right: 20px; } }
+
+/* ---------- skill cells (bar + skills panel) and the skill tooltip ---------- */
+.barpick { display: grid; grid-template-columns: repeat(4, minmax(0, 74px)); justify-content: space-around; gap: 10px; }
+.bar-cell, .skill-cell { position: relative; aspect-ratio: 1; padding: 14%; border-radius: 6px; background: radial-gradient(circle at 50% 35%, #1a2444, #060a18);
+  box-shadow: inset 0 0 0 1px var(--gold-lo); transition: box-shadow .15s, transform .15s; user-select: none; }
+.bar-cell .gi, .skill-cell .gi { width: 100%; height: 100%; }
+.bar-cell.filled, .skill-cell:not(.empty) { cursor: grab; }
+.bar-cell:hover.filled, .skill-cell:not(.empty):hover { box-shadow: inset 0 0 0 1px var(--gold-hi), 0 0 12px rgba(251, 231, 176, .3); transform: translateY(-1px); }
+.bar-cell kbd { position: absolute; left: 4px; top: 3px; }
+.bar-cell small { position: absolute; left: 0; right: 0; bottom: -18px; text-align: center; font-size: 11.5px; color: var(--txt); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bar-cell:not(.filled) small { color: var(--mute); }
+.barpick { margin-bottom: 18px; }
+.bar-cell.drop { box-shadow: inset 0 0 0 2px var(--gold-hi), 0 0 14px rgba(251, 231, 176, .45); background: radial-gradient(circle at 50% 35%, #3a2c10, #0a0a12); }
+.skill-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+.skill-cell.empty { background: rgba(4, 6, 13, .55); box-shadow: inset 0 0 0 1px rgba(201, 168, 106, .12); }
+.skill-cell.on { box-shadow: inset 0 0 0 1px var(--gold); }
+.skill-cell kbd { position: absolute; right: 3px; bottom: 2px; }
+.win-skills { width: 330px; }
+.stip { position: fixed; z-index: 80; width: 280px; pointer-events: none; padding: 12px 14px 10px; border-radius: 4px; background: linear-gradient(180deg, rgba(14, 20, 42, .98), rgba(6, 9, 20, .98));
+  box-shadow: 0 0 0 1px var(--gold-lo), 0 12px 30px rgba(0, 0, 0, .55); animation: toast .15s ease-out; }
+.stip header { display: flex; gap: 10px; align-items: center; padding-bottom: 8px; border-bottom: 1px solid var(--line); }
+.stip-ico { width: 44px; height: 44px; padding: 7px; flex: none; border-radius: 6px; background: radial-gradient(circle at 50% 35%, #1a2444, #060a18); box-shadow: inset 0 0 0 1px var(--gold-lo); }
+.stip-ico .gi { width: 100%; height: 100%; }
+.stip h3 { font: 400 18px var(--title); letter-spacing: .1em; color: var(--gold-hi); }
+.stip header p { font-size: 12px; color: var(--mute); }
+.stip-desc { margin: 8px 0 6px; font-size: 13px; line-height: 1.55; color: #dcdde3; }
+.stip dl div { display: flex; justify-content: space-between; padding: 2px 0; font-size: 12.5px; } .stip dt { color: var(--mute); } .stip dd { font-family: var(--num); color: var(--txt); }
+.stip-from { margin-top: 6px; padding-top: 6px; border-top: 1px solid var(--line); font-size: 11.5px; color: var(--mute); }

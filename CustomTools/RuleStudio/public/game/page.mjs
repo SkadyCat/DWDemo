@@ -43,6 +43,30 @@ function skillElement(id) {
 const skillTags = id => (content.skills.get(id)?.tags ?? []).filter(t => ['spell', 'attack', 'melee', 'projectile', 'area', 'channel', 'minion', 'totem', 'movement'].includes(t))
   .map(t => ({ spell: '法术', attack: '攻击', melee: '近战', projectile: '投射物', area: '范围', channel: '引导', minion: '召唤', totem: '图腾', movement: '位移' })[t]);
 const skillName = id => content.skills.get(id)?.name ?? id;
+const SKILL_DESC = {
+  fireball: '射出一颗火球，命中第一个敌人时爆开。', ice_nova: '以自身为中心爆发一圈寒冰，冻伤周围所有敌人。',
+  arc: '一道电弧打中目标后跳向附近的敌人。', frost_bolt: '射出一枚缓慢的寒冰弹，能穿透一个敌人。',
+  spark: '一次放出三道电花，扇形飞出。', tornado: '召出一股龙卷风，朝瞄准方向移动、自己追敌，每秒对卷入的敌人打 4 次。',
+  flame_wall: '在瞄准处点起一片火墙，持续灼烧站在里面的敌人。', summon_blades: '召唤两把灵刃替你作战，最多 6 把。',
+  storm_totem_place: '在脚下立起一座风暴图腾，自动向附近敌人放电。', heavy_strike: '对面前的敌人重重一击。',
+  cleave: '向前方挥出 120° 的弧形斩击。', cyclone: '按住持续旋转，不停斩击身边的敌人。',
+  falling_thunder: '向前砸地，扇形范围伤害；每消耗 1 个暴击球，额外伤害提高并射出两道雷电。', flicker_strike: '闪到附近的敌人身边并攻击它。',
+  viper_knives: '扔出三把带毒的飞刃。',
+};
+const EL_NAME = { physical: '物理', fire: '火焰', cold: '冰霜', lightning: '闪电', chaos: '混沌' };
+/** What the skill tooltip shows: base numbers straight from the skill definition. */
+function skillInfo(id) {
+  const d = content.skills.get(id); if (!d) return null;
+  const dmg = Object.entries(d.damage ?? {}).map(([k, v]) => `${v} ${EL_NAME[k] ?? k}`).join(' + ');
+  const rows = [];
+  if (dmg) rows.push(['基础伤害', dmg]);
+  if (d.channel) rows.push(['引导', `每 ${d.channel} 秒一次`]); else if (d.time) rows.push(['施放时间', `${d.time} 秒`]);
+  if (d.cooldown) rows.push(['冷却', `${d.cooldown} 秒`]);
+  if (d.cost) rows.push(['魔力消耗', `${d.cost}`]);
+  if (d.crit) rows.push(['暴击率', `${d.crit}%`]);
+  if (d.range) rows.push(['距离', `${d.range}`]);
+  return { name: d.name, tags: skillTags(id), desc: SKILL_DESC[id] ?? '', rows };
+}
 const itemIcon = it => BASE_ICON[it.base] ?? SLOT_ICON[it.slot];
 
 // ------------------------------------------------------------------ small components
@@ -317,18 +341,24 @@ const TEMPLATE = /* html */ `
   <section class="win panel win-skills" v-if="open.char" aria-label="可用技能">
     <header class="win-head"><h2>技 能</h2><span class="count">{{ skillCards.length }} 个可用</span></header>
     <div class="win-body">
-      <p class="hint">装备基底的主动技能都在这里。拖到左边的技能栏，或双击放进第一个空位。</p>
-      <div class="skill-cards">
-        <article v-for="c in skillCards" :key="c.id" class="skill-card" :class="['el-' + c.el, { on: c.key }]" draggable="true"
-          @dragstart="skillDragStart($event, c.id, null)" @dragend="skillDragEnd" @dblclick="quickBar(c.id)">
-          <div class="sc-ico"><Gi :n="skillIcon(c.id)" :c="'el-' + c.el" :g="c.name.slice(0, 1)"/></div>
-          <div class="sc-body"><h4>{{ c.name }}</h4><p>{{ c.tags.join(' · ') }}</p><small>来自{{ c.from }}</small></div>
-          <kbd v-if="c.key" class="sc-key">{{ c.key }}</kbd>
-        </article>
-        <p v-if="!skillCards.length" class="hint">还没有技能：装备一件带主动技能的装备（武器都带）。</p>
+      <p class="hint">装备基底带的主动技能。拖到技能栏，或双击放进第一个空位；悬停看详情。</p>
+      <div class="skill-grid">
+        <div v-for="(c, i) in skillGrid" :key="c ? c.id : 'e' + i" class="skill-cell" :class="c ? ['el-' + c.el, { on: c.key }] : 'empty'" :draggable="!!c"
+          @dragstart="c && skillDragStart($event, c.id, null)" @dragend="skillDragEnd" @dblclick="c && quickBar(c.id)" @mouseenter="c && tipOn($event, c.id)" @mouseleave="tipOff">
+          <template v-if="c"><Gi :n="skillIcon(c.id)" :c="'el-' + c.el" :g="c.name.slice(0, 1)"/><kbd v-if="c.key">{{ c.key }}</kbd></template>
+        </div>
       </div>
+      <p v-if="!skillCards.length" class="hint">还没有技能：装备一件带主动技能的装备（武器都带）。</p>
     </div>
   </section>
+
+  <article class="stip" v-if="skillTip" :style="{ left: skillTip.x + 'px', top: skillTip.y + 'px' }" :class="'el-' + skillTip.el">
+    <header><div class="stip-ico"><Gi :n="skillIcon(skillTip.id)" :c="'el-' + skillTip.el" :g="skillTip.info.name.slice(0, 1)"/></div>
+      <div><h3>{{ skillTip.info.name }}</h3><p>{{ skillTip.info.tags.join(' · ') }}<template v-if="skillTip.key"> · 技能栏 {{ skillTip.key }}</template></p></div></header>
+    <p class="stip-desc" v-if="skillTip.info.desc">{{ skillTip.info.desc }}</p>
+    <dl><div v-for="r in skillTip.info.rows" :key="r[0]"><dt>{{ r[0] }}</dt><dd>{{ r[1] }}</dd></div></dl>
+    <p class="stip-from" v-if="skillTip.from">来自{{ skillTip.from }}</p>
+  </article>
 
   <!-- =================== CHARACTER =================== -->
   <section class="win panel win-left" v-if="open.char" aria-label="角色">
@@ -350,12 +380,12 @@ const TEMPLATE = /* html */ `
       <dl class="stats"><div v-for="r in statRows" :key="r[0]"><dt>{{ r[0] }}</dt><dd>{{ r[1] }}</dd></div></dl>
       <h4 class="sub">技能栏 <small>从右边拖技能进来 · 格子之间拖动换位 · 右键清空</small></h4>
       <div class="barpick">
-        <div v-for="i in skillBar" :key="i" class="barslot" :class="{ drop: dropBar === i - 1, filled: save.skills[i - 1] }"
+        <div v-for="i in skillBar" :key="i" class="bar-cell" :class="[{ drop: dropBar === i - 1, filled: save.skills[i - 1] }, save.skills[i - 1] ? 'el-' + skillEl(save.skills[i - 1]) : '']"
           :draggable="!!save.skills[i - 1]" @dragstart="skillDragStart($event, save.skills[i - 1], i - 1)" @dragend="skillDragEnd"
           @dragover.prevent="dropBar = i - 1" @dragleave="dropBar = null" @drop.prevent="skillDrop(i - 1)" @contextmenu.prevent="setBar(i - 1, null)"
-          :title="save.skills[i - 1] ? skillName(save.skills[i - 1]) + '（右键清空）' : '空：把技能拖到这里'"><kbd>{{ i }}</kbd>
-          <span class="barico"><Gi v-if="save.skills[i - 1]" :n="skillIcon(save.skills[i - 1])" :c="'el-' + skillEl(save.skills[i - 1])"/></span>
-          <b>{{ save.skills[i - 1] ? skillName(save.skills[i - 1]) : '（空）' }}</b></div>
+          @mouseenter="tipOn($event, save.skills[i - 1], i)" @mouseleave="tipOff">
+          <Gi v-if="save.skills[i - 1]" :n="skillIcon(save.skills[i - 1])" :c="'el-' + skillEl(save.skills[i - 1])" :g="skillName(save.skills[i - 1]).slice(0, 1)"/>
+          <kbd>{{ i }}</kbd><small>{{ save.skills[i - 1] ? skillName(save.skills[i - 1]) : '空' }}</small></div>
       </div>
     </div>
   </section>
@@ -596,13 +626,22 @@ export function mountGame(el) {
         const slot = SLOTS.find(sl => save.equipped[sl]?.skill === id), k = save.skills.indexOf(id);
         return { id, name: skillName(id), el: EL_CLASS[skillElement(id)], tags: skillTags(id), from: slot ? ' ' + SLOT_NAMES[slot] + ' · ' + itemName(save.equipped[slot]) : '', key: k >= 0 ? k + 1 : null };
       }); });
+      const skillGrid = computed(() => { const n = Math.max(10, Math.ceil(skillCards.value.length / 5) * 5); return Array.from({ length: n }, (_, i) => skillCards.value[i] ?? null); });
+      const skillTip = ref(null);
+      function tipOn(e, id, barKey = null) {
+        if (!id || dragSkill.value) return;
+        const r = e.currentTarget.getBoundingClientRect(), card = skillCards.value.find(c => c.id === id);
+        const x = Math.min(innerWidth - 300, r.right + 10), y = Math.max(10, Math.min(innerHeight - 280, r.top));
+        skillTip.value = { id, x, y, el: EL_CLASS[skillElement(id)], info: skillInfo(id), key: card?.key ?? barKey, from: card?.from ?? '' };
+      }
+      function tipOff() { skillTip.value = null; }
       function setBar(i, id) {
         const from = id ? save.skills.indexOf(id) : -1;
         if (from >= 0 && from !== i) save.skills[from] = save.skills[i];   // already on the bar: swap places
         save.skills[i] = id;
         gearKey.value++; persist(); if (run.value) run.value.rebuildHero(build());
       }
-      function skillDragStart(e, id, fromBar) { if (!id) return; dragSkill.value = { id, fromBar }; try { e.dataTransfer.setData('text/plain', id); e.dataTransfer.effectAllowed = 'move'; } catch {} }
+      function skillDragStart(e, id, fromBar) { if (!id) return; skillTip.value = null; dragSkill.value = { id, fromBar }; try { e.dataTransfer.setData('text/plain', id); e.dataTransfer.effectAllowed = 'move'; } catch {} }
       function skillDragEnd() { dragSkill.value = null; dropBar.value = null; }
       function skillDrop(i) { const d = dragSkill.value; dropBar.value = null; if (d) setBar(i, d.id); }
       function quickBar(id) { if (save.skills.includes(id)) return; const i = save.skills.indexOf(null); setBar(i >= 0 ? i : SKILL_BAR - 1, id); }
@@ -834,7 +873,7 @@ export function mountGame(el) {
         kindIconUrl: (kind, color) => `https://api.iconify.design/game-icons/${NODE_KINDS[kind].icon}.svg?color=${encodeURIComponent(color)}`,
         regionName: id => REGION_NAME[id], statusName: st => ({ done: '已打通', open: '可进入', seen: '尚未连通', hidden: '未知' })[st], nodeModText: id => NODE_MODS[id].text,
         save, stage, overlay, tipEl, comboEl, flashEl, open, center, mapTier, mapFamily, picked, pickedLine, craftMsg, roles, evaluating, updateText, hover, bdSel, toasts, legendBanner,
-        dragItem, dropSlot, dropBar, skillCards, setBar, skillDragStart, skillDragEnd, skillDrop, quickBar, run, resultLoot, clearedBanner, hud,
+        dragItem, dropSlot, dropBar, skillCards, skillGrid, skillTip, tipOn, tipOff, setBar, skillDragStart, skillDragEnd, skillDrop, quickBar, run, resultLoot, clearedBanner, hud,
         profile, requirements, statRows, bdArch, bdStages, currentBd, centerName, centerTitle, traits, granted, ladder, ladderFocus, primarySkill, bagCells,
         pick, equippedFor, hoverOn, hoverOff, doEquip, doUnequip, dragStart, dropOn, doSalvage, doCraft, applyBd, clearBd, accountName, leaveAccount, grantLegendary, evaluate, update, toggle, isOpen, openCenter, startRun, leaveRun, selectSkill, gearChanged,
         panels: PANELS, tierList: Array.from({ length: MAP_TIERS }, (_, i) => i + 1), families: MAP_FAMILIES, slots: SLOTS, slotNames: SLOT_NAMES, currencies: CURRENCIES,
