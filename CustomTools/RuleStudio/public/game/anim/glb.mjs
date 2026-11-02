@@ -91,12 +91,12 @@ export function instantiate(tpl, material) {
 /** The look of the low-poly set: flat-shaded, colour from the baked vertex colours. */
 export function characterMaterial(tpl, extra = {}) {
   const m = new THREE.MeshStandardMaterial({ vertexColors: true, flatShading: true, roughness: 0.72, metalness: 0.05,
-    transparent: tpl.transparent, opacity: tpl.transparent ? 0.82 : 1, depthWrite: !tpl.transparent, ...extra });
+    transparent: tpl.transparent, opacity: tpl.transparent ? 0.9 : 1, depthWrite: !tpl.transparent, ...extra });
   // Glowing parts (crystals, orbs, eyes): the material's emissive colour comes per vertex from the 'glow' attribute.
   if (tpl.glows) {
     m.onBeforeCompile = sh => {
       sh.vertexShader = 'attribute vec3 glow;\nvarying vec3 vGlow;\n' + sh.vertexShader.replace('#include <begin_vertex>', '#include <begin_vertex>\nvGlow = glow;');
-      sh.fragmentShader = 'varying vec3 vGlow;\n' + sh.fragmentShader.replace('#include <emissivemap_fragment>', '#include <emissivemap_fragment>\ntotalEmissiveRadiance += vGlow * 2.4;');
+      sh.fragmentShader = 'varying vec3 vGlow;\n' + sh.fragmentShader.replace('#include <emissivemap_fragment>', '#include <emissivemap_fragment>\ntotalEmissiveRadiance += vGlow * 0.9;');
     };
     m.customProgramCacheKey = () => 'lp-glow';
   }

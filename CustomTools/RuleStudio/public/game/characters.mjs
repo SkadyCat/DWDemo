@@ -316,7 +316,10 @@ export class Characters {
       const kind = mm ? mm[0] : monsterKind(m);
       if (!v) { v = this.take(kind); this.live.set(m.id, v); }
       const size = mm ? mm[1] : m.boss ? 2.2 / 0.95 : m.kind === 'elite' ? 1.25 / 0.95 : 1;
-      const tint = mm ? (MINION_TINT[m.template] ?? 0xd8fff4) : m.kind === 'elite' && !m.boss ? new THREE.Color(ELEMENT_TINT[m.element] ?? 0xffffff).lerp(new THREE.Color(0xffd75e), 0.35).getHex() : (ELEMENT_TINT[m.element] ?? 0xffffff);
+      // a light wash of the damage element (elites a touch of gold); see-through bodies keep their own colour
+      const wash = new THREE.Color(0xffffff).lerp(new THREE.Color(ELEMENT_TINT[m.element] ?? 0xffffff), v.tpl.transparent ? 0 : 0.45);
+      if (m.kind === 'elite' && !m.boss) wash.lerp(new THREE.Color(0xffd75e), 0.3);
+      const tint = mm ? (MINION_TINT[m.template] ?? 0xd8fff4) : wash.getHex();
       this.place(v, m, dt, { scale: (HEIGHT[kind] ?? v.tpl.height * 1.15) * size / v.tpl.height, tint, frozen: m.hasStatus?.('frozen'), flash: (m.hitFlash ?? 0) > 0.6, elapsed });
       shown.add(m.id);
     }
