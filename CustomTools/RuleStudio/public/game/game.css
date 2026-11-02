@@ -590,3 +590,24 @@ select { font: inherit; color: var(--txt); background: var(--deep); border: 1px 
 .ws-grid .ws:disabled { opacity: 1; } .ws-grid .ws.low:disabled { opacity: .32; }
 .ws-sum { padding: 10px 0 2px; font-size: 13px; color: var(--mute); } .ws-sum b { color: var(--gold-hi); font-weight: 600; }
 .ws-sum b.w-magic { color: var(--r-magic); } .ws-sum b.w-rare { color: var(--r-rare); } .ws-sum.bad { color: var(--bad); }
+
+/* ---------- skill bar slots (drop targets) and the skills panel beside the character ---------- */
+.barslot { cursor: default; transition: box-shadow .15s, background .15s; }
+.barslot.filled { cursor: grab; }
+.barslot b { flex: 1; min-width: 0; font-weight: 500; font-size: 13.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.barslot:not(.filled) b { color: var(--mute); font-weight: 400; }
+.barslot.drop, .er-cross .skill.drop { box-shadow: inset 0 0 0 2px var(--gold-hi), 0 0 14px rgba(251, 231, 176, .45); background: rgba(60, 46, 18, .6); }
+.win-skills { left: 474px; top: 20px; width: 300px; max-height: calc(100vh - 40px); }
+.win-skills .hint { margin-bottom: 10px; }
+.skill-cards { display: flex; flex-direction: column; gap: 6px; }
+.skill-card { position: relative; display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 4px; background: var(--inset); box-shadow: inset 0 0 0 1px var(--line); cursor: grab; user-select: none; transition: box-shadow .15s, transform .15s; }
+.skill-card:hover { box-shadow: inset 0 0 0 1px var(--gold), 0 0 10px rgba(251, 231, 176, .18); transform: translateX(2px); }
+.skill-card:active { cursor: grabbing; }
+.skill-card.on { box-shadow: inset 0 0 0 1px var(--gold-lo); }
+.sc-ico { width: 42px; height: 42px; padding: 7px; flex: none; border-radius: 50%; background: radial-gradient(circle at 50% 35%, #1a2444, #060a18); box-shadow: 0 0 0 1px var(--gold-lo); }
+.sc-body { flex: 1; min-width: 0; }
+.sc-body h4 { font: 400 15px var(--title); letter-spacing: .08em; color: var(--gold-hi); }
+.sc-body p { font-size: 12px; color: #c9cbd3; }
+.sc-body small { display: block; font-size: 11px; color: var(--mute); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sc-key { position: absolute; top: 6px; right: 8px; }
+@media (max-width: 1100px) { .win-skills { left: auto; right: 20px; } }
