@@ -13,25 +13,32 @@ import { loadPack, CleanMotion } from './anim/mm3c.mjs';
 const M = 0.01, TAU = Math.PI * 2;
 const MODEL_CAP = 64, MODEL_RANGE = 24, CORPSE_TIME = 1.7, SINK_TIME = 0.7;
 const HERO_SKINS = ['Wizard', 'Pyromancer', 'Frost', 'Druid', 'Warlock', 'Alchemist'];
-const MONSTERS = ['goblin', 'skeleton', 'cultist', 'mushroom', 'golem', 'knight', 'imp', 'ogre', 'wolf', 'spider', 'bat', 'slime'];
+const MONSTERS = ['goblin', 'skeleton', 'cultist', 'mushroom', 'golem', 'knight', 'imp', 'ogre', 'wolf', 'spider', 'bat', 'slime',
+  'centipede', 'manta', 'hand', 'stonering', 'rockcluster', 'ghost', 'sporeball', 'stump'];
 const HUMANOID = new Set(['goblin', 'skeleton', 'cultist', 'mushroom', 'golem', 'knight', 'imp', 'ogre']);
 const ELEMENT_TINT = { fire: 0xff9a6a, cold: 0x9ad8ff, lightning: 0xfff08a, chaos: 0xb6ff8a, physical: 0xffffff };
 // Which model a monster gets: by role (boss / elite / ranged / melee) and its damage element.
 const PICK = {
   boss: { fire: ['golem'], cold: ['knight'], lightning: ['knight'], chaos: ['ogre'], physical: ['ogre'] },
-  elite: { fire: ['imp', 'golem'], cold: ['skeleton', 'knight'], lightning: ['knight'], chaos: ['mushroom', 'ogre'], physical: ['ogre', 'knight'] },
-  ranged: { fire: ['imp', 'cultist'], cold: ['cultist'], lightning: ['bat', 'cultist'], chaos: ['cultist', 'mushroom'], physical: ['cultist'] },
-  melee: { fire: ['goblin', 'imp'], cold: ['skeleton', 'wolf'], lightning: ['knight', 'goblin'], chaos: ['spider', 'slime', 'mushroom'], physical: ['goblin', 'wolf', 'skeleton'] },
+  elite: { fire: ['imp', 'golem'], cold: ['skeleton', 'knight', 'stonering'], lightning: ['knight', 'stonering'], chaos: ['mushroom', 'ogre', 'stump'], physical: ['ogre', 'knight', 'stump'] },
+  ranged: { fire: ['imp', 'cultist', 'manta'], cold: ['cultist', 'rockcluster'], lightning: ['bat', 'cultist', 'stonering', 'manta'], chaos: ['cultist', 'mushroom', 'ghost'], physical: ['cultist', 'rockcluster'] },
+  melee: { fire: ['goblin', 'imp', 'centipede'], cold: ['skeleton', 'wolf', 'hand'], lightning: ['knight', 'goblin', 'hand'], chaos: ['spider', 'slime', 'mushroom', 'centipede', 'sporeball'],
+    physical: ['goblin', 'wolf', 'skeleton', 'hand', 'centipede'] },
 };
 // On-screen height in metres for a normal-sized monster of each kind (elites and bosses scale from here).
-const HEIGHT = { goblin: 1.1, skeleton: 1.25, cultist: 1.25, mushroom: 1.05, golem: 1.4, knight: 1.3, imp: 1.0, ogre: 1.5, wolf: 0.8, spider: 0.6, bat: 1.15, slime: 0.55 };
+const HEIGHT = { goblin: 1.1, skeleton: 1.25, cultist: 1.25, mushroom: 1.05, golem: 1.4, knight: 1.3, imp: 1.0, ogre: 1.5, wolf: 0.8, spider: 0.6, bat: 1.15, slime: 0.55,
+  centipede: 0.22, manta: 1.0, hand: 0.5, stonering: 1.4, rockcluster: 1.3, ghost: 0.32, sporeball: 0.85, stump: 1.1 };
 // Summons that have a proper model (the rest stay glowing capsules).
 const MINION_MODEL = { skeleton: ['skeleton', 1.05], wolf: ['wolf', 0.85], spider: ['spider', 0.45], flame_golem: ['golem', 2.2], blood_fiend: ['imp', 1.2], wraith: ['cultist', 1.1], spectral_archer: ['skeleton', 1.1] };
 const MINION_TINT = { wraith: 0xc9a0ff, spectral_archer: 0x9fe4ff, flame_golem: 0xffb080 };
 
 const hash = n => { n = (n ^ 61) ^ (n >>> 16); n = (n + (n << 3)) | 0; n ^= n >>> 4; n = Math.imul(n, 0x27d4eb2d); return (n ^ (n >>> 15)) >>> 0; };
 const role = m => m.boss ? 'boss' : m.kind === 'elite' ? 'elite' : (m.keepDistance ?? 0) > 0 ? 'ranged' : 'melee';
-export function monsterKind(m) { const list = PICK[role(m)][m.element] ?? PICK[role(m)].physical; return list[hash(m.id) % list.length]; }
+export function monsterKind(m) {
+  const force = globalThis.__dwMonsterKind?.(m);   // debug: preview a model from the console
+  if (force && MONSTERS.includes(force)) return force;
+  const list = PICK[role(m)][m.element] ?? PICK[role(m)].physical; return list[hash(m.id) % list.length];
+}
 /** The hero's look follows the main skill: fire → pyromancer, cold → frost mage, summons → druid, traps → alchemist… */
 export function heroSkinFor(hero) {
   const sk = hero.skills?.find(s => s.manual && !s.def.reserve) ?? hero.skills?.[0], t = sk?.def.tags ?? [];
@@ -50,7 +57,7 @@ const UPPER_W = { spine_01: 0.5, spine_02: 0.8 };
 export class Characters {
   constructor(scene) {
     this.scene = scene; this.ready = false; this.tpl = {}; this.pool = new Map(); this.live = new Map(); this.corpses = [];
-    this.q = new THREE.Quaternion(); this.q2 = new THREE.Quaternion(); this.e = new THREE.Euler();
+    this.q = new THREE.Quaternion(); this.q2 = new THREE.Quaternion(); this.e = new THREE.Euler(); this.axis = new THREE.Vector3();
     this.qa = new Float32Array(25 * 4); this.pa = new Float32Array(3); this.qb = new Float32Array(25 * 4); this.pb = new Float32Array(3);
     this.dead = new Set(); this.events = [];
     this.loading = this.load().catch(err => { console.warn('[角色模型] 没加载成功，继续用胶囊体：', err); });
@@ -176,7 +183,7 @@ export class Characters {
     if (!only) for (let c = 0; c < 3; ++c) pa[c] += (pb[c] - pa[c]) * w;
   }
 
-  /** Wolves, spiders, bats and slimes: hand-made cycles (they don't share the humanoid skeleton). */
+  /** Non-humanoids (wolves, spiders, bats, slimes and the second batch): hand-made cycles. */
   poseCreature(v, dt, { speed, cast, death }) {
     const B = v.inst.bones, e = this.e, q = this.q;
     v.t += dt; v.phase += dt * (2 + speed * 3.2);
@@ -206,6 +213,62 @@ export class Characters {
     } else if (v.kind === 'slime') {
       const sq = 0.12 * Math.sin(v.t * (4 + speed * 3)) + (cast >= 0 && cast < 0.4 ? 0.2 * Math.sin(cast / 0.4 * Math.PI) : 0);
       B.top.position.y = v.inst.rest.top.y * (1 + sq); B.body.scale.set(1 - sq * 0.4, 1 + sq, 1 - sq * 0.4);
+    } else if (v.kind === 'centipede') {
+      // a travelling wave down the body; the head swings against it
+      const wave = 0.22 + 0.12 * k, bite = cast >= 0 && cast < 0.35;
+      rot('head', bite ? -0.25 : 0, -wave * 0.6 * Math.sin(ph * 1.6), 0);
+      for (let i = 1; i <= 10; ++i) rot('seg_' + String(i).padStart(2, '0'), 0, wave * Math.sin(ph * 1.6 - i * 0.75), 0);
+    } else if (v.kind === 'manta') {
+      const f = Math.sin(v.t * (3.2 + speed) + v.phase);
+      for (const [side, sg] of [['l', 1], ['r', -1]]) { rot('wing_01_' + side, 0, 0, sg * 0.42 * f); rot('wing_02_' + side, 0, 0, sg * 0.4 * Math.sin(v.t * (3.2 + speed) + v.phase - 0.7)); }
+      for (let i = 1; i <= 3; ++i) rot('tail_0' + i, 0.05 * Math.sin(v.t * 2 - i), 0.2 * Math.sin(v.t * 2.4 - i * 0.8), 0);
+      rot('body', cast >= 0 && cast < 0.4 ? -0.35 : -0.08 * k, 0, 0);
+      B.body.position.y = v.inst.rest.body.y + 0.06 * Math.sin(v.t * 3.2 + v.phase - 1.2);
+    } else if (v.kind === 'hand') {
+      // creeps on its fingertips: one finger lifts and reaches forward at a time
+      const order = [1, 3, 2, 4];
+      order.forEach((n, j) => {
+        const lift = Math.max(0, Math.sin(ph * 1.4 - j * Math.PI / 2)) * (0.25 + 0.5 * k);
+        rot(`finger_${n}_01`, -0.55 * lift, 0, 0); rot(`finger_${n}_02`, 0.35 * lift, 0, 0);
+      });
+      const tl = Math.max(0, Math.sin(ph * 1.4 + Math.PI)) * (0.2 + 0.4 * k);
+      rot('thumb_01', 0, 0, 0.4 * tl); rot('thumb_02', 0.3 * tl, 0, 0);
+      const slap = cast >= 0 && cast < 0.4 ? Math.sin(cast / 0.4 * Math.PI) : 0;
+      rot('palm', -0.35 * slap + 0.04 * Math.sin(ph * 2.8), 0, 0.05 * Math.sin(ph * 1.4)); rot('wrist', 0.1 * Math.sin(v.t * 2), 0, 0);
+      B.palm.position.y = v.inst.rest.palm.y + 0.012 * Math.abs(Math.sin(ph * 2.8)) + 0.05 * slap;
+    } else if (v.kind === 'stonering' || v.kind === 'rockcluster') {
+      // floating stones turn round a crystal that spins and bobs; casting flares the ring outward
+      const flare = cast >= 0 && cast < 0.5 ? Math.sin(cast / 0.5 * Math.PI) : 0;
+      B.core.position.y = v.inst.rest.core.y + 0.05 * Math.sin(v.t * 2.2 + v.phase);
+      rot('core', 0, v.t * 2.4, 0);
+      if (v.kind === 'stonering') {
+        rot('ring', 0, 0.25 * Math.sin(v.t * 0.7), v.t * (0.9 + flare * 6));
+        rot('shards', 0, -v.t * 0.8, 0);
+        B.ring.scale.setScalar(1 + 0.15 * flare); B.shards.scale.setScalar(1 + 0.25 * flare);
+      } else {
+        rot('orbit', 0, 0.3 * Math.sin(v.t * 0.5), v.t * (0.6 + flare * 4));
+        for (let i = 1; i <= 5; ++i) { const b = B['rock_' + i]; if (!b) continue; b.position.copy(v.inst.rest['rock_' + i]).multiplyScalar(1 + 0.25 * flare); b.position.y += 0.035 * Math.sin(v.t * 2.6 + i * 1.7); rot('rock_' + i, v.t * 0.7 + i, v.t * 0.5, 0); }
+      }
+    } else if (v.kind === 'ghost') {
+      for (let i = 1; i <= 7; ++i) rot('body_0' + i, 0.06 * Math.sin(v.t * 3 - i * 0.9), (0.16 + 0.1 * k) * Math.sin(ph * 1.5 - i * 0.85), 0);
+      B.body_01.position.y = v.inst.rest.body_01.y + 0.03 * Math.sin(v.t * 2.5) + (cast >= 0 && cast < 0.4 ? 0.12 * Math.sin(cast / 0.4 * Math.PI) : 0);
+    } else if (v.kind === 'sporeball') {
+      // breathes, rolls a little, tendrils grope the floor; casting puffs it up
+      const puff = cast >= 0 && cast < 0.45 ? Math.sin(cast / 0.45 * Math.PI) : 0, br = 1 + 0.05 * Math.sin(v.t * 2.6) + 0.18 * puff;
+      B.body.scale.set(br, 1 + (br - 1) * 0.7, br); rot('body', 0.25 * k * Math.sin(ph), v.t * 0.4, 0.1 * Math.sin(v.t * 1.3));
+      for (let i = 1; i <= 6; ++i) { rot(`tendril_${i}_01`, 0.25 * Math.sin(ph * 1.5 + i * 1.1), 0, 0.15 * Math.sin(v.t * 2 + i)); rot(`tendril_${i}_02`, 0.3 * Math.sin(ph * 1.5 + i * 1.1 - 0.8), 0, 0); }
+    } else if (v.kind === 'stump') {
+      // walks on its roots: opposite roots lift in turn, the trunk rocks over the planted ones
+      for (let i = 1; i <= 8; ++i) {
+        const a = B[`root_${i}_01`], d = v.inst.rest[`root_${i}_02`]; if (!a || !d) continue;
+        const lift = Math.max(0, Math.sin(ph * 1.2 + (i % 2) * Math.PI)) * (0.12 + 0.35 * k);
+        const ax = this.axis.set(d.z, 0, -d.x).normalize();
+        a.quaternion.setFromAxisAngle(ax, -lift);
+        const b = B[`root_${i}_02`]; if (b) b.quaternion.setFromAxisAngle(ax, lift * 0.6);
+      }
+      const slam = cast >= 0 && cast < 0.45 ? Math.sin(cast / 0.45 * Math.PI) : 0;
+      rot('trunk', -0.3 * slam + 0.06 * k * Math.sin(ph * 2.4), 0, 0.08 * Math.sin(ph * 1.2)); rot('top', 0.04 * Math.sin(v.t * 1.7), 0, 0);
+      B.trunk.position.y = v.inst.rest.trunk.y + 0.02 * Math.abs(Math.sin(ph * 1.2)) + 0.05 * slam;
     }
     if (death !== undefined) {
       // fall over sideways
@@ -254,7 +317,7 @@ export class Characters {
       if (!v) { v = this.take(kind); this.live.set(m.id, v); }
       const size = mm ? mm[1] : m.boss ? 2.2 / 0.95 : m.kind === 'elite' ? 1.25 / 0.95 : 1;
       const tint = mm ? (MINION_TINT[m.template] ?? 0xd8fff4) : m.kind === 'elite' && !m.boss ? new THREE.Color(ELEMENT_TINT[m.element] ?? 0xffffff).lerp(new THREE.Color(0xffd75e), 0.35).getHex() : (ELEMENT_TINT[m.element] ?? 0xffffff);
-      this.place(v, m, dt, { scale: HEIGHT[kind] * size / v.tpl.height, tint, frozen: m.hasStatus?.('frozen'), flash: (m.hitFlash ?? 0) > 0.6, elapsed });
+      this.place(v, m, dt, { scale: (HEIGHT[kind] ?? v.tpl.height * 1.15) * size / v.tpl.height, tint, frozen: m.hasStatus?.('frozen'), flash: (m.hitFlash ?? 0) > 0.6, elapsed });
       shown.add(m.id);
     }
     // the rest: dead ones fall and sink, the others go back to the pool

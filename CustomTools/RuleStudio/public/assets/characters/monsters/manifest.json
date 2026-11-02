@@ -89,6 +89,66 @@
    "bones": 26,
    "tris": 882,
    "height": 1.77
+  },
+  {
+   "kind": "centipede",
+   "seed": 13,
+   "bones": 12,
+   "tris": 1780,
+   "segments": 20,
+   "length": 1.47
+  },
+  {
+   "kind": "manta",
+   "seed": 14,
+   "bones": 9,
+   "tris": 240,
+   "span": 1.35,
+   "hover": 0.73
+  },
+  {
+   "kind": "hand",
+   "seed": 15,
+   "bones": 13,
+   "tris": 288,
+   "size": 1.05
+  },
+  {
+   "kind": "stonering",
+   "seed": 16,
+   "bones": 4,
+   "tris": 328,
+   "radius": 0.42,
+   "hover": 0.82
+  },
+  {
+   "kind": "rockcluster",
+   "seed": 17,
+   "bones": 8,
+   "tris": 108,
+   "rocks": 5,
+   "hover": 0.74
+  },
+  {
+   "kind": "ghost",
+   "seed": 18,
+   "bones": 8,
+   "tris": 716,
+   "length": 1.22
+  },
+  {
+   "kind": "sporeball",
+   "seed": 19,
+   "bones": 14,
+   "tris": 408,
+   "radius": 0.29
+  },
+  {
+   "kind": "stump",
+   "seed": 20,
+   "bones": 19,
+   "tris": 456,
+   "height": 0.81
   }
  ]
 }

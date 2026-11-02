@@ -36,19 +36,20 @@ export async function loadCharacter(url) {
   const { json, read } = parse(await r.arrayBuffer());
   const meshNode = json.nodes.find(n => n.mesh !== undefined && n.skin !== undefined);
   const skin = json.skins[meshNode.skin], prims = json.meshes[meshNode.mesh].primitives;
-  const pos = [], nor = [], col = [], jnt = [], wgt = [];
-  let transparent = false;
+  const pos = [], nor = [], col = [], emi = [], jnt = [], wgt = [];
+  let transparent = false, glows = false;
   for (const p of prims) {
     const P = read(p.attributes.POSITION), N = read(p.attributes.NORMAL), J = read(p.attributes.JOINTS_0), W = read(p.attributes.WEIGHTS_0);
     const mat = json.materials?.[p.material], base = mat?.pbrMetallicRoughness?.baseColorFactor ?? [0.6, 0.6, 0.6, 1];
     if (mat?.alphaMode === 'BLEND') transparent = true;
+    const glow = mat?.emissiveFactor ?? [0, 0, 0]; if (glow.some(x => x > 0)) glows = true;
     const idx = p.indices !== undefined ? read(p.indices).data : null, count = idx ? idx.length : P.count;
     const wScale = W.normalized ? (W.data instanceof Uint8Array ? 1 / 255 : 1 / 65535) : 1;
     for (let k = 0; k < count; ++k) {
       const v = idx ? idx[k] : k;
       pos.push(P.data[v * 3], P.data[v * 3 + 1], P.data[v * 3 + 2]);
       nor.push(N.data[v * 3], N.data[v * 3 + 1], N.data[v * 3 + 2]);
-      col.push(base[0], base[1], base[2]);
+      col.push(base[0], base[1], base[2]); emi.push(glow[0], glow[1], glow[2]);
       for (let c = 0; c < 4; ++c) { jnt.push(J.data[v * 4 + c]); wgt.push(W.data[v * 4 + c] * wScale); }
     }
   }
@@ -56,6 +57,7 @@ export async function loadCharacter(url) {
   geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
   geo.setAttribute('normal', new THREE.Float32BufferAttribute(nor, 3));
   geo.setAttribute('color', new THREE.Float32BufferAttribute(col, 3));
+  if (glows) geo.setAttribute('glow', new THREE.Float32BufferAttribute(emi, 3));
   geo.setAttribute('skinIndex', new THREE.Uint16BufferAttribute(jnt, 4));
   geo.setAttribute('skinWeight', new THREE.Float32BufferAttribute(wgt, 4));
   geo.computeBoundingBox();
@@ -69,7 +71,7 @@ export async function loadCharacter(url) {
     return { name: node.name, parent: parent[i], t: node.translation ?? [0, 0, 0], r: node.rotation ?? [0, 0, 0, 1], inverse: new THREE.Matrix4().fromArray(ibm, i * 16) };
   });
   const height = geo.boundingBox.max.y - geo.boundingBox.min.y;
-  return { url, geometry: geo, joints, transparent, height };
+  return { url, geometry: geo, joints, transparent, glows, height };
 }
 
 /** One posable copy of a template. material: shared or per-instance (tints). */
@@ -88,6 +90,15 @@ export function instantiate(tpl, material) {
 
 /** The look of the low-poly set: flat-shaded, colour from the baked vertex colours. */
 export function characterMaterial(tpl, extra = {}) {
-  return new THREE.MeshStandardMaterial({ vertexColors: true, flatShading: true, roughness: 0.72, metalness: 0.05,
+  const m = new THREE.MeshStandardMaterial({ vertexColors: true, flatShading: true, roughness: 0.72, metalness: 0.05,
     transparent: tpl.transparent, opacity: tpl.transparent ? 0.82 : 1, depthWrite: !tpl.transparent, ...extra });
+  // Glowing parts (crystals, orbs, eyes): the material's emissive colour comes per vertex from the 'glow' attribute.
+  if (tpl.glows) {
+    m.onBeforeCompile = sh => {
+      sh.vertexShader = 'attribute vec3 glow;\nvarying vec3 vGlow;\n' + sh.vertexShader.replace('#include <begin_vertex>', '#include <begin_vertex>\nvGlow = glow;');
+      sh.fragmentShader = 'varying vec3 vGlow;\n' + sh.fragmentShader.replace('#include <emissivemap_fragment>', '#include <emissivemap_fragment>\ntotalEmissiveRadiance += vGlow * 2.4;');
+    };
+    m.customProgramCacheKey = () => 'lp-glow';
+  }
+  return m;
 }
