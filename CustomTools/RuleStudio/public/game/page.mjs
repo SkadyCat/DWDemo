@@ -19,7 +19,7 @@ import { talentPoints } from '../../core/content/talents.mjs';
 import { Scene3D, Overlay } from './scene.mjs';
 import { dungeonRandom } from './dungeon.mjs';
 import { runSelfUpdate } from '../self-update.mjs';
-import { waystoneName, starterWaystones, FREE_TIER } from './waystones.mjs';
+import { waystoneName, starterWaystones, FREE_TIER, WAYSTONE_RARITY } from './waystones.mjs';
 import { generateAtlas, newAtlasState, atlasView, completeNode, nodeMods, NODE_KINDS, NODE_MODS, FAMILY_HUE, REGION_NAME } from './atlas.mjs';
 import { GI, BASE_ICON, SLOT_ICON, SKILL_ICON, CURRENCY_ICON, PANEL_ICON, FAMILY_ICON, LAYER_ICON, BUFF_ICON, probeIcons } from './icons.mjs';
 
@@ -109,6 +109,51 @@ const ItemTip = {
   </article>`,
 };
 
+/** The same tooltip frame for everything that is not equipment: waystones, currency, skills. */
+const ThingTip = {
+  components: { Gi },
+  props: { kind: String, data: Object },
+  setup(props) {
+    const pctText = v => `${v >= 0 ? '+' : ''}${Math.round(v * 100)}%`;
+    const stoneLoot = w => { const m = nodeMods({ kind: 'normal', mods: w.mods }); return [['物品数量', pctText(m.quantity - 1)], ['怪群规模', '×' + +m.pack.toFixed(2)], ['传奇几率', '×' + +m.legend.toFixed(1)], ['怪物生命', '×' + +m.life.toFixed(2)], ['怪物伤害', '×' + +m.damage.toFixed(2)]].filter(r => !['+0%', '×1'].includes(r[1])); };
+    return { props, waystoneName, WAYSTONE_RARITY, NODE_MODS, stoneLoot, CURRENCIES, CURRENCY_ICON, SKILL_ICON };
+  },
+  template: /* html */ `
+  <article class="itip thing" :class="kind === 'waystone' ? 'w-' + data.stone.rarity : kind === 'currency' ? 'r-currency' : 'el-' + data.el">
+    <template v-if="kind === 'waystone'">
+      <header class="itip-head">
+        <div class="itip-icon"><Gi n="stone-tablet" :c="'w-' + data.stone.rarity"/></div>
+        <h3>{{ waystoneName(data.stone) }}</h3>
+        <p>{{ WAYSTONE_RARITY[data.stone.rarity].name }}路石 · T{{ data.stone.tier }} · 地图词缀 {{ data.stone.mods.length }} 条</p>
+      </header>
+      <ul class="itip-lines" v-if="data.stone.mods.length"><li v-for="m in data.stone.mods" :key="m"><span>{{ NODE_MODS[m].text }}</span></li></ul>
+      <p v-else class="thing-desc">没有地图词缀。</p>
+      <dl class="thing-rows" v-if="stoneLoot(data.stone).length"><div v-for="r in stoneLoot(data.stone)" :key="r[0]"><dt>{{ r[0] }}</dt><dd>{{ r[1] }}</dd></div></dl>
+      <p class="thing-desc">开启 T{{ data.stone.tier }} 及以下的节点，开图时消耗；节点阶更低时按 T{{ data.stone.tier }} 打。</p>
+      <p v-if="data.note" class="thing-note">{{ data.note }}</p>
+    </template>
+    <template v-else-if="kind === 'currency'">
+      <header class="itip-head">
+        <div class="itip-icon"><Gi :n="CURRENCY_ICON[data.id]" c="r-currency"/></div>
+        <h3>{{ CURRENCIES[data.id].name }}</h3>
+        <p>通货<template v-if="data.have != null"> · 持有 {{ data.have }}</template><template v-if="data.count > 1"> · 这一堆 {{ data.count }} 个</template></p>
+      </header>
+      <p class="thing-desc">{{ CURRENCIES[data.id].desc }}</p>
+      <p class="thing-note" v-if="data.note">{{ data.note }}</p>
+    </template>
+    <template v-else-if="kind === 'skill'">
+      <header class="itip-head">
+        <div class="itip-icon"><Gi :n="SKILL_ICON[data.id] ?? 'magic-swirl'" :c="'el-' + data.el" :g="data.info.name.slice(0, 1)"/></div>
+        <h3>{{ data.info.name }}</h3>
+        <p>主动技能 · {{ data.info.tags.join(' · ') }}<template v-if="data.key"> · 技能栏 {{ data.key }}</template></p>
+      </header>
+      <p class="thing-desc" v-if="data.info.desc">{{ data.info.desc }}</p>
+      <dl class="thing-rows"><div v-for="r in data.info.rows" :key="r[0]"><dt>{{ r[0] }}</dt><dd>{{ r[1] }}</dd></div></dl>
+      <p class="thing-note" v-if="data.from">来自{{ data.from }}</p>
+    </template>
+  </article>`,
+};
+
 const Minimap = {
   props: { run: Object, tick: Number },
   setup(props) {
@@ -184,7 +229,7 @@ const TEMPLATE = /* html */ `
         <span class="er-num">{{ hud.mana }}</span>
       </div>
       <div class="er-cross">
-        <button v-for="i in 4" :key="i" class="skill" @dragover.prevent="dropBar = i - 1" @dragleave="dropBar = null" @drop.prevent="skillDrop(i - 1)" :class="[{ drop: dropBar === i - 1 }, 'pos-' + i, hud.skills[i - 1] ? ['el-' + hud.skills[i - 1].el, { on: i - 1 === hud.selected, channel: hud.skills[i - 1].channel }] : 'empty']" @click="selectSkill(i - 1)" :title="hud.skills[i - 1] ? hud.skills[i - 1].name + '（按 ' + i + ' 选择，按住左键施放）' : '空技能位'">
+        <button v-for="i in 4" :key="i" class="skill" @dragover.prevent="dropBar = i - 1" @dragleave="dropBar = null" @drop.prevent="skillDrop(i - 1)" :class="[{ drop: dropBar === i - 1 }, 'pos-' + i, hud.skills[i - 1] ? ['el-' + hud.skills[i - 1].el, { on: i - 1 === hud.selected, channel: hud.skills[i - 1].channel }] : 'empty']" @click="selectSkill(i - 1)" @mouseenter="save.skills[i - 1] && hoverThing($event, 'skill', { id: save.skills[i - 1], key: i })" @mouseleave="hoverOff">
           <template v-if="hud.skills[i - 1]">
             <Gi :n="hud.skills[i - 1].icon" :c="'el-' + hud.skills[i - 1].el" :g="hud.skills[i - 1].name.slice(0, 1)"/>
             <i class="cd" v-if="hud.skills[i - 1].cd > 0" :style="{ '--p': hud.skills[i - 1].cdPct }"></i>
@@ -231,7 +276,7 @@ const TEMPLATE = /* html */ `
       <h2 class="ttl">地图装置</h2>
       <p class="hub-lead">每张地图要放入一块路石才能开启：路石 T 阶不低于节点，开图时消耗。打倒首领必掉路石，精英偶尔掉落。营地旁的 T1 节点不需要路石。</p>
       <div class="ws-grid">
-        <button v-for="w in stash" :key="w.uid" class="ws" :class="'w-' + w.rarity" :title="waystoneTip(w)" @click="openAtlasFor(w)"><Gi n="stone-tablet" :c="'w-' + w.rarity"/><b>{{ w.tier }}</b></button>
+        <button v-for="w in stash" :key="w.uid" class="ws" :class="'w-' + w.rarity" @mouseenter="hoverThing($event, 'waystone', { stone: w, note: '点一下：在图集里选一个能用它的节点' })" @mouseleave="hoverOff" @click="openAtlasFor(w)"><Gi n="stone-tablet" :c="'w-' + w.rarity"/><b>{{ w.tier }}</b></button>
         <p v-if="!stash.length" class="hint">还没有路石。去 T1 节点打首领拿第一块。</p>
       </div>
       <p class="hub-count"><b>{{ save.waystones.length }}</b> 块路石 · 已打通 <b>{{ save.atlas.done.length }}</b> / {{ atlas.nodes.length }} 节点 · 可进入 <b>{{ atlasOpenCount }}</b></p>
@@ -308,7 +353,7 @@ const TEMPLATE = /* html */ `
         <div class="ws-grid">
           <button v-for="(w, i) in stoneCells" :key="w ? w.uid : 'e' + i" class="ws" :disabled="!w || w.tier < selNode.tier"
             :class="w ? ['w-' + w.rarity, { on: w.uid === wsSel, low: w.tier < selNode.tier }] : 'empty'"
-            :title="w ? waystoneTip(w) + (w.tier < selNode.tier ? '\\n低于节点 T' + selNode.tier + '，不能用' : '') : ''" @click="w && pickStone(w)">
+             @mouseenter="w && hoverThing($event, 'waystone', { stone: w, note: w.tier < selNode.tier ? '低于这个节点（T' + selNode.tier + '），不能用' : w.uid === wsSel ? '已选中' + (freeNode ? '：再点一下取消' : '') : '点一下选中，本次按 T' + Math.max(w.tier, selNode.tier) + ' 打' })" @mouseleave="hoverOff" @click="w && pickStone(w)">
             <template v-if="w"><Gi n="stone-tablet" :c="'w-' + w.rarity"/><b>{{ w.tier }}</b></template></button>
         </div>
         <p v-if="!save.waystones.length" class="ws-none">背包里还没有路石：打倒首领必掉。</p>
@@ -344,21 +389,13 @@ const TEMPLATE = /* html */ `
       <p class="hint">装备基底带的主动技能。拖到技能栏，或双击放进第一个空位；悬停看详情。</p>
       <div class="skill-grid">
         <div v-for="(c, i) in skillGrid" :key="c ? c.id : 'e' + i" class="skill-cell" :class="c ? ['el-' + c.el, { on: c.key }] : 'empty'" :draggable="!!c"
-          @dragstart="c && skillDragStart($event, c.id, null)" @dragend="skillDragEnd" @dblclick="c && quickBar(c.id)" @mouseenter="c && tipOn($event, c.id)" @mouseleave="tipOff">
+          @dragstart="c && skillDragStart($event, c.id, null)" @dragend="skillDragEnd" @dblclick="c && quickBar(c.id)" @mouseenter="c && hoverThing($event, 'skill', { id: c.id })" @mouseleave="hoverOff">
           <template v-if="c"><Gi :n="skillIcon(c.id)" :c="'el-' + c.el" :g="c.name.slice(0, 1)"/><kbd v-if="c.key">{{ c.key }}</kbd></template>
         </div>
       </div>
       <p v-if="!skillCards.length" class="hint">还没有技能：装备一件带主动技能的装备（武器都带）。</p>
     </div>
   </section>
-
-  <article class="stip" v-if="skillTip" :style="{ left: skillTip.x + 'px', top: skillTip.y + 'px' }" :class="'el-' + skillTip.el">
-    <header><div class="stip-ico"><Gi :n="skillIcon(skillTip.id)" :c="'el-' + skillTip.el" :g="skillTip.info.name.slice(0, 1)"/></div>
-      <div><h3>{{ skillTip.info.name }}</h3><p>{{ skillTip.info.tags.join(' · ') }}<template v-if="skillTip.key"> · 技能栏 {{ skillTip.key }}</template></p></div></header>
-    <p class="stip-desc" v-if="skillTip.info.desc">{{ skillTip.info.desc }}</p>
-    <dl><div v-for="r in skillTip.info.rows" :key="r[0]"><dt>{{ r[0] }}</dt><dd>{{ r[1] }}</dd></div></dl>
-    <p class="stip-from" v-if="skillTip.from">来自{{ skillTip.from }}</p>
-  </article>
 
   <!-- =================== CHARACTER =================== -->
   <section class="win panel win-left" v-if="open.char" aria-label="角色">
@@ -383,7 +420,7 @@ const TEMPLATE = /* html */ `
         <div v-for="i in skillBar" :key="i" class="bar-cell" :class="[{ drop: dropBar === i - 1, filled: save.skills[i - 1] }, save.skills[i - 1] ? 'el-' + skillEl(save.skills[i - 1]) : '']"
           :draggable="!!save.skills[i - 1]" @dragstart="skillDragStart($event, save.skills[i - 1], i - 1)" @dragend="skillDragEnd"
           @dragover.prevent="dropBar = i - 1" @dragleave="dropBar = null" @drop.prevent="skillDrop(i - 1)" @contextmenu.prevent="setBar(i - 1, null)"
-          @mouseenter="tipOn($event, save.skills[i - 1], i)" @mouseleave="tipOff">
+          @mouseenter="save.skills[i - 1] && hoverThing($event, 'skill', { id: save.skills[i - 1], key: i })" @mouseleave="hoverOff">
           <Gi v-if="save.skills[i - 1]" :n="skillIcon(save.skills[i - 1])" :c="'el-' + skillEl(save.skills[i - 1])" :g="skillName(save.skills[i - 1]).slice(0, 1)"/>
           <kbd>{{ i }}</kbd><small>{{ save.skills[i - 1] ? skillName(save.skills[i - 1]) : '空' }}</small></div>
       </div>
@@ -406,7 +443,7 @@ const TEMPLATE = /* html */ `
         <button class="orn-btn primary sm" @click="doEquip(picked.uid)">装备</button><button class="orn-btn sm" @click="openCenter('craft')">洗炼</button><button class="orn-btn danger sm" @click="doSalvage(picked.uid)">分解</button>
       </div>
       <p v-else class="hint center">双击或右键装备 · 拖到角色装备位 · 点选后可洗炼或分解</p>
-      <div class="wallet"><span v-for="(c, id) in currencies" :key="id" :title="c.name + '：' + c.desc"><Gi :n="curIcon(id)" c="r-currency"/><b>{{ save.currencies[id] || 0 }}</b></span></div>
+      <div class="wallet"><span v-for="(c, id) in currencies" :key="id" @mouseenter="hoverThing($event, 'currency', { id })" @mouseleave="hoverOff"><Gi :n="curIcon(id)" c="r-currency"/><b>{{ save.currencies[id] || 0 }}</b></span></div>
       <p class="hint center" v-if="craftMsg">{{ craftMsg }}</p>
     </div>
   </section>
@@ -424,7 +461,7 @@ const TEMPLATE = /* html */ `
           <div class="anvil"><Gi n="anvil" c="el-gold"/></div>
           <p class="craft-sel" v-if="picked">{{ pickedLine ? '已选：' + (pickedLine.kind === 'trait' ? '基底特性' : '随机词条') + ' 第 ' + (pickedLine.index + 1) + ' 条' : '点选一条特性或词条（封印、淬火、精华作用于选中的那条）' }}</p>
           <div class="orbs">
-            <button v-for="(c, id) in currencies" :key="id" class="orb-cur" :disabled="!picked || !(save.currencies[id] > 0)" @click="doCraft(id)" :title="c.desc">
+            <button v-for="(c, id) in currencies" :key="id" class="orb-cur" :disabled="!picked || !(save.currencies[id] > 0)" @click="doCraft(id)" @mouseenter="hoverThing($event, 'currency', { id, note: picked ? '点一下用在选中的装备上' : '先在左边选一件装备' })" @mouseleave="hoverOff">
               <Gi :n="curIcon(id)" c="r-currency"/><b>{{ c.name }}</b><em>{{ save.currencies[id] || 0 }}</em><small>{{ c.desc }}</small></button>
           </div>
           <p class="craftlog" v-if="craftMsg" :key="craftMsg">{{ craftMsg }}</p>
@@ -476,13 +513,13 @@ const TEMPLATE = /* html */ `
     </div>
   </section>
 
-  <div class="tipwrap" ref="tipEl" v-show="hover"><item-tip v-if="hover" :item="hover.item" :compare="hover.compare"></item-tip></div>
+  <div class="tipwrap" ref="tipEl" v-show="hover"><item-tip v-if="hover?.item" :item="hover.item" :compare="hover.compare"></item-tip><thing-tip v-else-if="hover" :kind="hover.kind" :data="hover.data"></thing-tip></div>
   <p class="credit">图标 game-icons.net（CC BY 3.0）</p>
 </div>`;
 
 export function mountGame(el) {
   const app = createApp({
-    components: { ItemTip, Minimap, Gi, TalentBoard },
+    components: { ItemTip, ThingTip, Minimap, Gi, TalentBoard },
     template: TEMPLATE,
     setup() {
       const save = reactive(loadSave());
@@ -627,21 +664,13 @@ export function mountGame(el) {
         return { id, name: skillName(id), el: EL_CLASS[skillElement(id)], tags: skillTags(id), from: slot ? ' ' + SLOT_NAMES[slot] + ' · ' + itemName(save.equipped[slot]) : '', key: k >= 0 ? k + 1 : null };
       }); });
       const skillGrid = computed(() => { const n = Math.max(10, Math.ceil(skillCards.value.length / 5) * 5); return Array.from({ length: n }, (_, i) => skillCards.value[i] ?? null); });
-      const skillTip = ref(null);
-      function tipOn(e, id, barKey = null) {
-        if (!id || dragSkill.value) return;
-        const r = e.currentTarget.getBoundingClientRect(), card = skillCards.value.find(c => c.id === id);
-        const x = Math.min(innerWidth - 300, r.right + 10), y = Math.max(10, Math.min(innerHeight - 280, r.top));
-        skillTip.value = { id, x, y, el: EL_CLASS[skillElement(id)], info: skillInfo(id), key: card?.key ?? barKey, from: card?.from ?? '' };
-      }
-      function tipOff() { skillTip.value = null; }
       function setBar(i, id) {
         const from = id ? save.skills.indexOf(id) : -1;
         if (from >= 0 && from !== i) save.skills[from] = save.skills[i];   // already on the bar: swap places
         save.skills[i] = id;
         gearKey.value++; persist(); if (run.value) run.value.rebuildHero(build());
       }
-      function skillDragStart(e, id, fromBar) { if (!id) return; skillTip.value = null; dragSkill.value = { id, fromBar }; try { e.dataTransfer.setData('text/plain', id); e.dataTransfer.effectAllowed = 'move'; } catch {} }
+      function skillDragStart(e, id, fromBar) { if (!id) return; hover.value = null; dragSkill.value = { id, fromBar }; try { e.dataTransfer.setData('text/plain', id); e.dataTransfer.effectAllowed = 'move'; } catch {} }
       function skillDragEnd() { dragSkill.value = null; dropBar.value = null; }
       function skillDrop(i) { const d = dragSkill.value; dropBar.value = null; if (d) setBar(i, d.id); }
       function quickBar(id) { if (save.skills.includes(id)) return; const i = save.skills.indexOf(null); setBar(i >= 0 ? i : SKILL_BAR - 1, id); }
@@ -650,8 +679,17 @@ export function mountGame(el) {
       function equippedFor(it) { if (!it) return null; if (it.slot.startsWith('ring')) return save.equipped.ring1 ?? save.equipped.ring2; return save.equipped[it.slot]; }
       async function hoverOn(e, it, ground = false) {
         if (!it) { hover.value = null; return; }
-        const anchor = e.currentTarget;
-        hover.value = { item: it, compare: ground || save.inventory.includes(it) ? equippedFor(it) : null };
+        return placeTip(e.currentTarget, { item: it, compare: ground || save.inventory.includes(it) ? equippedFor(it) : null });
+      }
+      /** Non-equipment tooltips: kind 'waystone' { stone, note } · 'currency' { id, have, count } · 'skill' { id }. */
+      function hoverThing(e, kind, data) {
+        if (!data || dragSkill.value) return;
+        if (kind === 'skill') { const card = skillCards.value.find(c => c.id === data.id); data = { ...data, el: EL_CLASS[skillElement(data.id)], info: skillInfo(data.id), key: card?.key ?? data.key ?? null, from: card?.from ?? '' }; }
+        if (kind === 'currency' && data.have === undefined) data = { ...data, have: save.currencies[data.id] || 0 };
+        return placeTip(e.currentTarget, { kind, data });
+      }
+      async function placeTip(anchor, value) {
+        hover.value = value;
         await nextTick();
         const tip = tipEl.value; if (!tip || !anchor) return;
         if (floating) {
@@ -832,7 +870,10 @@ export function mountGame(el) {
         });
         root.addEventListener('mouseover', e => {
           const el = e.target.closest('.lt'); if (!el) return;
-          const d = dropOf(el); if (d?.type === 'item') hoverOn({ currentTarget: el }, d.item, true);
+          const d = dropOf(el); if (!d) return;
+          if (d.type === 'item') hoverOn({ currentTarget: el }, d.item, true);
+          else if (d.type === 'waystone') hoverThing({ currentTarget: el }, 'waystone', { stone: d.stone, note: '点名牌拾取' });
+          else hoverThing({ currentTarget: el }, 'currency', { id: d.id, count: d.count, note: '走过去自动拾取' });
         });
         root.addEventListener('mouseout', e => { if (e.target.closest('.lt') && !e.relatedTarget?.closest?.('.lt')) hoverOff(); });
       }
@@ -873,7 +914,7 @@ export function mountGame(el) {
         kindIconUrl: (kind, color) => `https://api.iconify.design/game-icons/${NODE_KINDS[kind].icon}.svg?color=${encodeURIComponent(color)}`,
         regionName: id => REGION_NAME[id], statusName: st => ({ done: '已打通', open: '可进入', seen: '尚未连通', hidden: '未知' })[st], nodeModText: id => NODE_MODS[id].text,
         save, stage, overlay, tipEl, comboEl, flashEl, open, center, mapTier, mapFamily, picked, pickedLine, craftMsg, roles, evaluating, updateText, hover, bdSel, toasts, legendBanner,
-        dragItem, dropSlot, dropBar, skillCards, skillGrid, skillTip, tipOn, tipOff, setBar, skillDragStart, skillDragEnd, skillDrop, quickBar, run, resultLoot, clearedBanner, hud,
+        dragItem, dropSlot, dropBar, skillCards, skillGrid, hoverThing, setBar, skillDragStart, skillDragEnd, skillDrop, quickBar, run, resultLoot, clearedBanner, hud,
         profile, requirements, statRows, bdArch, bdStages, currentBd, centerName, centerTitle, traits, granted, ladder, ladderFocus, primarySkill, bagCells,
         pick, equippedFor, hoverOn, hoverOff, doEquip, doUnequip, dragStart, dropOn, doSalvage, doCraft, applyBd, clearBd, accountName, leaveAccount, grantLegendary, evaluate, update, toggle, isOpen, openCenter, startRun, leaveRun, selectSkill, gearChanged,
         panels: PANELS, tierList: Array.from({ length: MAP_TIERS }, (_, i) => i + 1), families: MAP_FAMILIES, slots: SLOTS, slotNames: SLOT_NAMES, currencies: CURRENCIES,

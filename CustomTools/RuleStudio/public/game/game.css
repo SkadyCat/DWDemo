@@ -639,3 +639,15 @@ select { font: inherit; color: var(--txt); background: var(--deep); border: 1px 
 .stip-desc { margin: 8px 0 6px; font-size: 13px; line-height: 1.55; color: #dcdde3; }
 .stip dl div { display: flex; justify-content: space-between; padding: 2px 0; font-size: 12.5px; } .stip dt { color: var(--mute); } .stip dd { font-family: var(--num); color: var(--txt); }
 .stip-from { margin-top: 6px; padding-top: 6px; border-top: 1px solid var(--line); font-size: 11.5px; color: var(--mute); }
+
+/* ---------- shared tooltip for waystones / currency / skills (same frame as equipment) ---------- */
+.itip.thing { width: 320px; }
+.itip.thing .itip-icon .gi { width: 100%; height: 100%; }
+.itip.thing.w-normal h3 { color: var(--txt); } .itip.thing.w-magic h3 { color: var(--r-magic); } .itip.thing.w-rare h3 { color: var(--r-rare); }
+.itip.thing.r-currency h3 { color: var(--r-currency); }
+.itip.thing[class*="el-"] h3 { color: var(--gold-hi); }
+.thing-desc { margin: 10px 16px 0; font-size: 13px; line-height: 1.6; color: #d8dae2; }
+.thing-rows { margin: 10px 16px 0; padding: 6px 10px; background: var(--inset); border-radius: 2px; box-shadow: inset 0 0 0 1px var(--line); }
+.thing-rows div { display: flex; justify-content: space-between; padding: 2px 0; font-size: 12.5px; } .thing-rows dt { color: var(--mute); } .thing-rows dd { font-family: var(--num); color: var(--txt); }
+.thing-note { margin: 10px 16px 0; padding-top: 8px; border-top: 1px solid var(--line); font-size: 12px; color: var(--jade); }
+.itip.thing .itip-lines li span { color: var(--r-magic); }
