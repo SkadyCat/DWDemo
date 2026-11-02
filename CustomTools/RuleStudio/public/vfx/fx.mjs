@@ -3,6 +3,7 @@
 import { createParticles } from './particles.mjs';
 import { createMeshFx } from './meshfx.mjs';
 import { CELL } from './textures.mjs';
+import { createVortexPool } from './vortex.mjs';
 
 /** Element palettes: HDR colours (bloom picks up anything above ~1). */
 export const PAL = {
@@ -22,6 +23,7 @@ export function createFx(T, scene) {
   const group = new T.Group(); group.name = 'Fx'; scene.add(group);
   const P = createParticles(T), G = createMeshFx(T);
   group.add(G.group, P.group);
+  const V = createVortexPool(T, group);
 
   // ---- dynamic lights: a small pool shared by the brightest requests ----------------------------
   const LIGHTS = 8, lightPool = [];
@@ -341,22 +343,27 @@ export function createFx(T, scene) {
 
   /** Ground zones: [{ x, z, radius, kind, element, left }] */
   /** A vortex: a rotating funnel of wind streaks, a dust skirt at its foot, debris flung around it. */
-  function tornado(z, dens) {
+  const VORTEX = {
+    physical: { body: [.5, .58, .72], core: [1.5, 1.6, 1.8], dust: [.5, .46, .4] },
+    lightning: { body: [.35, .42, 1.35], core: [1.5, 1.7, 3.2], dust: [.4, .42, .6] },
+    fire: { body: [1.3, .45, .1], core: [2.8, 1.5, .5], dust: [.6, .32, .14] },
+    cold: { body: [.35, .8, 1.4], core: [1.5, 2.3, 3.2], dust: [.45, .6, .75] },
+    chaos: { body: [.45, 1.1, .3], core: [1.6, 2.8, .9], dust: [.3, .45, .2] },
+  };
+  function tornado(z, dens, crowd = 1) {
     const c = z.element === 'lightning' ? PAL.lightning : z.element === 'fire' ? PAL.fire : z.element === 'cold' ? PAL.cold : { hot: [1.1, 1.15, 1.2], core: [2, 2.1, 2.2], mid: [.5, .55, .6] }, c0 = c;
     // Very large vortices keep a readable funnel; their full reach shows as a ring on the floor.
-    const R = Math.min(2.2, z.radius), H = 2.2 + R * .6, spin = 7, lv = 8, per = 5;
+    const R = Math.min(2.2, z.radius), H = 2.4 + R * .9, spin = 7;
     if (z.radius > R * 1.15) P.sprite('add', [z.x, .06, z.z], z.radius * 2, mul(c0.hot, .25), .12 * dens, CELL.ring);
-    const a0 = time * spin + z.seed;
-    for (let l = 0; l < lv; ++l) {
-      const u = l / (lv - 1), h = .1 + u * H, rad = R * (.22 + .9 * Math.pow(u, 1.25)), sway = Math.sin(time * 2.3 + z.seed + u * 2) * R * .18 * u;
-      for (let j = 0; j < per; ++j) {
-        const th = a0 * (1.3 - u * .5) + j / per * 6.2832 + u * 1.7;
-        const px = z.x + Math.cos(th) * rad + sway, pz = z.z + Math.sin(th) * rad;
-        const tx = -Math.sin(th), tz = Math.cos(th), len = rad * .9;
-        P.sprite('add', [px, h, pz], .16 + u * .34, c.hot, (.1 + .1 * (1 - u)) * dens, CELL.beam, 0, 1, [tx * len, .1, tz * len]);
-      }
+    const vc = VORTEX[z.element] ?? VORTEX.physical, born = Math.min(1, (z.age ?? 1) * 3), dying = Math.min(1, (z.left ?? 1) * 2.5);
+    V.add({ x: z.x, z: z.z, R: R * .95, H, seed: z.seed ?? 0, time, fade: crowd * born * dying, body: vc.body, core: vc.core, dust: vc.dust });
+    // a soft glow inside the column and a few bright streaks whipping round its waist
+    P.sprite('add', [z.x, H * .4, z.z], R * 2.2, mul(c.mid, .8), .1 * dens, CELL.glow);
+    const a0 = time * spin + (z.seed ?? 0);
+    for (let j = 0; j < 3; ++j) {
+      const u = .2 + j * .25, h = .1 + u * H, rad = R * (.16 + .95 * Math.pow(u, 1.45)), th = a0 * (1.25 - u * .4) + j * 2.1;
+      P.sprite('add', [z.x + Math.cos(th) * rad, h, z.z + Math.sin(th) * rad], .2 + u * .3, c.core, .1 * dens, CELL.beam, 0, 1, [-Math.sin(th) * rad, .15, Math.cos(th) * rad]);
     }
-    P.sprite('add', [z.x, H * .45, z.z], R * 2.6, c.mid, .12 * dens, CELL.glow);
     // wind wisps riding the funnel
     for (let i = 0; i < 2; ++i) if (Math.random() < dens) {
       const u = Math.random(), th = Math.random() * 6.28, rad = R * (.25 + .9 * Math.pow(u, 1.25)), sp = rad * spin * .9;
@@ -372,8 +379,9 @@ export function createFx(T, scene) {
     // Only the vortices nearest the camera get a full funnel; the rest are drawn as a light spinning ring.
     const twisters = list.filter(z => z.kind === 'tornado').sort((a, b) => (a.d ?? 0) - (b.d ?? 0)), dens = Math.min(1, 3 / Math.sqrt(Math.max(1, Math.min(10, twisters.length))));
     twisters.forEach((z, i) => {
-      if (i < 10) tornado(z, dens);
-      else P.sprite('add', [z.x, .3, z.z], Math.min(4.4, z.radius * 2), [.5, .52, .56], .18, CELL.ring, time * 6 + i);
+      if (i < 8) tornado(z, dens, 1 / (1 + .3 * (Math.min(8, twisters.length) - 1)));
+      // the rest: a faint spinning ring each, fewer and fainter the bigger the swarm
+      else if (i < 40) P.sprite('add', [z.x, .3, z.z], Math.min(3.4, z.radius * 2), [.5, .52, .56], .18 * Math.min(1, 6 / twisters.length), CELL.ring, time * 6 + i);
     });
     for (const z of list) {
       if (z.kind === 'tornado') continue;
@@ -439,6 +447,7 @@ export function createFx(T, scene) {
   const tmpV = new T.Vector3();
   function update(dt, camera) {
     time += dt;
+    V.end(); V.begin();   // vortices drawn this frame stay; the rest hide
     heat *= Math.exp(-dt * 1.4);
     // lightning: re-jitter and draw
     for (let i = bolts.length - 1; i >= 0; --i) {
@@ -491,7 +500,7 @@ export function createFx(T, scene) {
   }
 
   function clear() { P.clear(); G.clear(); bolts.length = 0; ripples.length = 0; lightReq.length = 0; trails.clear(); trauma = 0; flash = 0; aberr = 0; }
-  function dispose() { P.dispose(); G.dispose(); for (const l of lightPool) l.dispose?.(); group.clear(); scene.remove(group); }
+  function dispose() { P.dispose(); G.dispose(); V.dispose(); for (const l of lightPool) l.dispose?.(); group.clear(); scene.remove(group); }
 
   return { group, recipes, torches, get heat() { return heat; }, get bolts() { return bolts.length; }, projectiles, zones, statuses, minions, lightning, light, shake, ripple, pulse, update, clear, dispose, particles: P, ground: G };
 }
