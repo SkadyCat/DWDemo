@@ -523,6 +523,19 @@ fam({ id: 'core_echo_hall', name: '核心·回声长廊：每次施法在 6 秒�
     rules: [trig('cast', { notTags: ['triggered'], tags: ['spell'] }, [{ do: 'delay', time: 6, then: [{ do: 'cast', skill: '$event', from: 'recorded' }] }], { role: 'source', chain: true, limit: { perSecond: 6 } }),
       trig('remoteCast', { skill: 'rime_lance' }, [{ do: 'cast', skill: 'echo_nova', at: 'event' }], { role: 'source', chain: true, at: 'event', limit: { perSecond: 8 } })] }) });
 
+// ================================================================== 宝库：身后的门射出无数兵器
+fam({ id: 'gate_more', name: '开库：宝库之门 +{v} 扇', layer: 'form', values: [1, 1, 2, 2, 3, 3], tags: ['form', 'projectile', 'gate'], make: M('gate.count', 'base') });
+fam({ id: 'gate_rate', name: '连射：门里射出兵器的速度提高 {v}%', layer: 'form', values: [15, 20, 25, 30, 40, 50], tags: ['form', 'projectile', 'gate', 'speed'], make: M('gate.rate', 'inc') });
+fam({ id: 'treasure_recall', name: '回收：宝具击杀时 {v}% 几率从尸体上空打开一扇门，射向最近的敌人（每秒最多 14 次）', layer: 'link', values: [30, 40, 50, 60, 75], tags: ['link', 'projectile', 'kill', 'trigger'],
+  make: v => ({ rules: [trig('kill', { anyTags: ['gate', 'treasure'] }, [{ do: 'cast', skill: 'treasure_shot', from: 'event', range: 600 }], { role: 'source', chain: true, at: 'event', accumulate: { kind: 'chance', pct: v }, limit: { perSecond: 14 } })] }) });
+fam({ id: 'heaven_chain', name: '天之锁：宝具命中时 {v}% 几率用锁链锁住敌人 2 秒（不能移动，受到的伤害提高 25%）', layer: 'link', values: [10, 14, 18, 22, 28], tags: ['link', 'projectile', 'gate'],
+  make: v => ({ rules: [trig('hit', { anyTags: ['gate', 'treasure'] }, [{ do: 'status', status: 'chained' }], { role: 'source', chain: true, accumulate: { kind: 'chance', pct: v }, limit: { perSecond: 30 } })] }) });
+fam({ id: 'treasure_rain', name: '倾泻：宝具每命中 {v} 次，就在被命中的敌人头顶落下一把（每秒最多 20 次）', layer: 'link', values: [6, 5, 4, 4, 3], tags: ['link', 'area', 'gate', 'trigger'],
+  make: v => ({ rules: [trig('hit', { anyTags: ['gate', 'treasure'], notTags: ['area'] }, [{ do: 'cast', skill: 'treasure_fall', at: 'target' }], { role: 'source', chain: true, accumulate: { kind: 'count', n: v }, limit: { perSecond: 20 } })] }) });
+fam({ id: 'core_sundering', name: '核心·开天：+2 扇门；每施放 4 次宝库之门，从正中打开乖离之门，放出一道贯穿整屏的开天之光；宝具伤害提高 {v}%（更多）', layer: 'core', values: [40, 55, 70], slots: ['amulet', 'gloves', 'helmet'], tags: ['core', 'physical', 'gate'],
+  make: v => ({ mods: [{ stat: 'gate.count', op: 'base', value: 2 }, { stat: 'damage', op: 'more', value: v, tags: ['physical'] }],
+    rules: [trig('cast', { skill: 'gate_of_treasures', notTags: ['triggered'] }, [{ do: 'cast', skill: 'sundering_star', at: 'event' }], { role: 'source', at: 'event', accumulate: { kind: 'count', n: 4 } })] }) });
+
 // ================================================================== API
 export const families = () => [...FAMILIES.values()];
 export const family = id => { const f = FAMILIES.get(id); if (!f) throw new Error(`未知词条族 ${id}`); return f; };

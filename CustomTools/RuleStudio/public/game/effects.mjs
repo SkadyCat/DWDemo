@@ -68,6 +68,21 @@ export function createEffects(T, scene) {
         const ang = e.source ? Math.atan2(e.y - e.source.y, e.x - e.source.x) : 0;
         const dir = Math.hypot(e.x - (e.source?.x ?? e.x), e.y - (e.source?.y ?? e.y)) > 5 ? ang : Math.atan2(e.source?.aim?.y ?? 0, e.source?.aim?.x ?? 1);
         if (e.tags?.includes('cascade')) { el === 'cold' ? R.nova(at, r, el) : R.explosion(at, r * .8, el, { ground: false }); break; }
+        if (e.fx === 'king_beam' && e.dx !== undefined) {
+          // 开天之光: a golden-red beam across the screen, bursting along its length.
+          const L = e.radius;
+          fx.lightning(V(e.x, e.y, 1), V(e.x + e.dx * L, e.y + e.dy * L, 1), { el: 'fire', life: .45, width: 4, branches: 4, rough: .05 });
+          fx.lightning(V(e.x, e.y, 1), V(e.x + e.dx * L, e.y + e.dy * L, 1), { el: 'physical', life: .35, width: 2.2, branches: 0, rough: .02 });
+          for (let k = 1; k <= 8; ++k) R.explosion(V(e.x + e.dx * L * k / 8, e.y + e.dy * L * k / 8), (e.width ?? 240) * M * .45, k % 2 ? 'fire' : 'physical', { ground: k % 3 === 0 });
+          fx.shake?.(.5);
+          break;
+        }
+        if (e.fx === 'treasure_fall') {
+          // a weapon drops straight out of a gate in the sky
+          fx.lightning(V(e.x, e.y, 5), V(e.x, e.y, 0), { el: 'physical', life: .18, width: 1.4, branches: 0, rough: .02 });
+          R.explosion(at, r * .8, 'physical', { ground: true });
+          break;
+        }
         if (e.fx === 'lightning_line' && e.dx !== undefined) {
           // An arc strung between two traps (电网).
           fx.lightning(V(e.x, e.y, .35), V(e.x + e.dx * e.radius, e.y + e.dy * e.radius, .35), { life: .2, width: .7, branches: 1, rough: .16 });

@@ -588,6 +588,20 @@ export const ARCHETYPES = Object.freeze([
     amp: ['dmg_cold', 'added_cold_spell', 'cast_speed', 'dmg_projectile', 'dmg_spell', 'crit_chance', 'pen_cold', 'effect_chill', 'mana_regen', 'crit_bonus', 'dmg_elemental'],
     defence: interleave(DEF_LIFE, ES),
   }),
+  A({
+    id: 'goldvault', name: '万兵之王', style: '宝库·万兵齐射·物理', skills: ['gate_of_treasures'], keepDistance: 380,
+    summary: '身后打开一排金色的门，兵器一件接一件射向点的位置 → 宝具杀死的怪上空再开一扇门 → 锁链锁住、宝具从天而降 → 开天：每四次开库，从正中放出一道贯穿整屏的开天之光。',
+    ladder: [
+      { title: '开库', text: '身后的门更多，兵器穿透一列。按住施法，门一排接一排地开。', keys: [['gate_more', 'weapon'], ['proj_pierce']] },
+      { title: '回收', text: '宝具打死的怪上空打开一扇新门，射向最近的敌人：一路杀过去，门开到哪里。', keys: [['treasure_recall', 'gloves']] },
+      { title: '天之锁', text: '宝具有几率甩出锁链，锁住的怪动不了、更脆；门射得更快。', keys: [['heaven_chain'], ['gate_rate']] },
+      { title: '倾泻', text: '宝具每命中几次，就有一把从被命中的怪头顶落下砸开一圈。', keys: [['treasure_rain'], ['area_more']] },
+      { title: '开天', text: '再多两扇门；每开四次库，正中打开乖离之门，一道开天之光贯穿整屏。', keys: [['core_sundering', 'amulet']] },
+    ],
+    traits: ['proj_count', 'kill_explode', 'proliferate', 'kill_recast', 'crit_power', 'kill_onslaught', 'area_cascade'],
+    amp: ['dmg_physical', 'added_physical_spell', 'cast_speed', 'dmg_projectile', 'dmg_spell', 'crit_chance', 'crit_bonus', 'duration', 'mana_regen', 'dmg_area', 'cost_less'],
+    defence: interleave(DEF_LIFE, ES),
+  }),
 ]);
 
 export const archetype = id => { const a = ARCHETYPES.find(x => x.id === id); if (!a) throw new Error(`未知流派 ${id}`); return a; };

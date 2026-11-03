@@ -18,7 +18,7 @@ export const BASE_LINES = 3;
 export const TRAIT_LAYERS = Object.freeze(['form', 'link', 'core']);
 export const isTrait = fid => TRAIT_LAYERS.includes(family(fid).layer);
 
-const SPELLS = ['fireball', 'ice_nova', 'arc', 'spark', 'frost_bolt', 'flame_wall', 'summon_blades', 'storm_totem_place', 'tornado', 'storm_step', 'phantom_step', 'void_leap', 'aegis_nova', 'aegis_shards', 'raise_skeletons', 'summon_golem', 'summon_archers', 'summon_spiders', 'summon_wisps', 'summon_wolves', 'blood_pact', 'fire_trap', 'frost_trap', 'turret_trap', 'shock_trap', 'fuse_bolt', 'sow_seed', 'singularity', 'call_storm', 'rime_lance'];
+const SPELLS = ['fireball', 'ice_nova', 'arc', 'spark', 'frost_bolt', 'flame_wall', 'summon_blades', 'storm_totem_place', 'tornado', 'storm_step', 'phantom_step', 'void_leap', 'aegis_nova', 'aegis_shards', 'raise_skeletons', 'summon_golem', 'summon_archers', 'summon_spiders', 'summon_wisps', 'summon_wolves', 'blood_pact', 'fire_trap', 'frost_trap', 'turret_trap', 'shock_trap', 'fuse_bolt', 'sow_seed', 'singularity', 'call_storm', 'rime_lance', 'gate_of_treasures'];
 const ATTACKS = ['heavy_strike', 'cleave', 'cyclone', 'falling_thunder', 'flicker_strike', 'viper_knives', 'frost_dash', 'star_step', 'shield_bash', 'soul_reap', 'blade_trap', 'snare_shot', 'dominion_lash'];
 /** Skills that can appear as an item's first base line. */
 export const ITEM_SKILLS = Object.freeze([...SPELLS, ...ATTACKS]);
@@ -28,8 +28,8 @@ export const SKILL_CHANCE = { weapon: 1, offhand: 0.45, helmet: 0.3, gloves: 0.3
 /** Bases per slot: a name and the skills its first base line can roll. */
 const RAW_BASES = {
   weapon: [
-    { id: 'war_staff', name: '战杖', skills: ['ice_nova', 'arc', 'flame_wall', 'storm_totem_place', 'fireball', 'tornado', 'aegis_nova', 'void_leap', 'summon_golem', 'blood_pact', 'singularity', 'sow_seed', 'call_storm'] },
-    { id: 'wand', name: '法杖', skills: ['fireball', 'spark', 'frost_bolt', 'arc', 'storm_step', 'phantom_step', 'aegis_shards', 'summon_blades', 'raise_skeletons', 'summon_archers', 'summon_spiders', 'summon_wisps', 'summon_wolves', 'fire_trap', 'frost_trap', 'turret_trap', 'shock_trap', 'fuse_bolt', 'rime_lance'] },
+    { id: 'war_staff', name: '战杖', skills: ['ice_nova', 'arc', 'flame_wall', 'storm_totem_place', 'fireball', 'tornado', 'aegis_nova', 'void_leap', 'summon_golem', 'blood_pact', 'singularity', 'sow_seed', 'call_storm', 'gate_of_treasures'] },
+    { id: 'wand', name: '法杖', skills: ['fireball', 'spark', 'frost_bolt', 'arc', 'storm_step', 'phantom_step', 'aegis_shards', 'summon_blades', 'raise_skeletons', 'summon_archers', 'summon_spiders', 'summon_wisps', 'summon_wolves', 'fire_trap', 'frost_trap', 'turret_trap', 'shock_trap', 'fuse_bolt', 'rime_lance', 'gate_of_treasures'] },
     { id: 'maul', name: '重锤', skills: ['heavy_strike', 'falling_thunder', 'cleave', 'cyclone', 'shield_bash', 'soul_reap', 'dominion_lash'] },
     { id: 'dagger', name: '匕首', skills: ['flicker_strike', 'viper_knives', 'cyclone', 'heavy_strike', 'frost_dash', 'star_step', 'blade_trap', 'snare_shot'] },
   ],

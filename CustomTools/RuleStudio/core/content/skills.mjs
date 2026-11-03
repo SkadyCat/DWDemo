@@ -24,6 +24,7 @@ export const GAME_SKILLS = Object.freeze({
     { id: 'frostbite', name: '冻伤', stacking: 'strongest', max: 8, duration: 2, tags: ['dot', 'cold', 'elemental'], dot: { type: 'cold' } },
     { id: 'superconduct', name: '超导', duration: 4, debuff: true, tags: ['reaction'], mods: [{ stat: 'exposure.cold', value: 25 }, { stat: 'exposure.lightning', value: 25 }, { stat: 'exposure.fire', value: 25 }] },
     // ---- 新机制：多米诺引信、林木疯长 ----
+    { id: 'chained', name: '天锁', duration: 2, debuff: true, tags: ['debuff', 'chained'], mods: [{ stat: 'cannotMove', op: 'flag' }, { stat: 'damageTaken', op: 'more', value: 25 }] },
     { id: 'primed', name: '引信', duration: 1, debuff: true, tags: ['debuff', 'primed'] },
     { id: 'overgrown', name: '疯长', stacking: 'stack', max: 12, duration: 30, tags: ['buff'], mods: [{ stat: 'damage', op: 'more', value: 10 }, { stat: 'area', op: 'inc', value: 6 }, { stat: 'speed', op: 'inc', value: 4 }] },
     { id: 'blade_ward', name: '刃壁', stacking: 'stack', max: 10, duration: 5, tags: ['buff'], mods: [{ stat: 'damageTaken.hit', op: 'inc', value: -3 }] },
@@ -178,6 +179,16 @@ export const GAME_SKILLS = Object.freeze({
       actions: [{ do: 'projectile', speed: 1600, radius: 22, lifetime: 0.7, pierce: 2, kind: 'frost_bolt' }] },
     { id: 'echo_nova', name: '回声寒环', tags: ['spell', 'area', 'cold', 'echo', 'triggered_only'], time: 0.5, crit: 7, damage: { cold: 18 }, range: 300,
       actions: [{ do: 'area', at: 'aim', radius: 230, fx: 'ice_nova' }] },
+    // 宝库：身后打开一排金色的门，门里一件接一件射出兵器，射向点的位置附近的敌人。
+    { id: 'gate_of_treasures', name: '宝库之门', tags: ['spell', 'projectile', 'physical', 'duration'], time: 0.65, cost: 10, crit: 8, damage: { physical: 3 }, range: 800,
+      actions: [{ do: 'gates', count: 3, duration: 1.6, interval: 0.4, seek: 380,
+        onPulse: [{ do: 'projectile', speed: 2300, radius: 22, lifetime: 0.6, pierce: 1, kind: 'treasure', from: 'origin' }] }] },
+    { id: 'treasure_shot', name: '宝具', tags: ['spell', 'projectile', 'physical', 'treasure', 'triggered_only'], time: 0.5, crit: 8, damage: { physical: 14 }, range: 600,
+      actions: [{ do: 'projectile', speed: 2300, radius: 22, lifetime: 0.5, pierce: 1, kind: 'treasure', from: 'origin' }] },
+    { id: 'treasure_fall', name: '天降宝具', tags: ['spell', 'area', 'physical', 'treasure', 'triggered_only'], time: 0.5, crit: 8, damage: { physical: 9 }, range: 600,
+      actions: [{ do: 'area', at: 'target', radius: 95, fx: 'treasure_fall' }] },
+    { id: 'sundering_star', name: '开天之光', tags: ['spell', 'area', 'physical', 'fire', 'treasure', 'triggered_only'], time: 0.5, crit: 8, damage: { physical: 30, fire: 20 }, range: 1700,
+      actions: [{ do: 'area', shape: 'line', at: 'origin', radius: 1600, width: 240, fx: 'king_beam' }] },
     // ---- 召唤物自己的技能 ----
     { id: 'ballista_bolt', name: '弩箭', tags: ['attack', 'projectile', 'minion', 'physical'], time: 0.55, crit: 6, damage: { physical: 11 }, range: 750,
       actions: [{ do: 'projectile', speed: 1800, radius: 18, lifetime: 0.6, pierce: 2, kind: 'viper_knife' }] },

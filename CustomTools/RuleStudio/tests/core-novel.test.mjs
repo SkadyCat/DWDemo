@@ -74,3 +74,17 @@ test('统御：鞭子抽死的怪站起来变成你的仆从（带着它的技�
   assert.ok(thralls.every(m => m.team === 0 && m.owner === t.hero));
   assert.ok(thralls.some(m => m.eliteMods.includes('hasted')), '保留精英词缀');
 });
+
+test('宝库之门：身后打开一排门，跟着人走，门里一件接一件射向点的位置附近的敌人', () => {
+  const t = setup([['gate_more', 6]], 'gate_of_treasures', [[600, 0], [640, 60]]);
+  t.cast(600, 0); t.run(0.05);
+  const gates = t.w.carriers.zones.filter(z => z.kind === 'gate' && z.alive);
+  assert.equal(gates.length, 6);
+  assert.ok(gates.every(z => z.x < 0), '都在身后（背对点的方向）');
+  t.hero.y = 200; t.run(0.1);
+  assert.ok(gates.every(z => Math.abs(z.y - z.dy - 200) < 1), '跟着人走');
+  t.run(1.8);
+  const shots = t.log.filter(e => e.type === 'projectileHit' && e.skill?.def.id === 'gate_of_treasures');
+  assert.ok(shots.length >= 18, `只射中 ${shots.length} 次`);
+  assert.ok(t.list.every(m => shots.some(e => e.target === m)), '分着打附近的几只');
+});

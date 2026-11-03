@@ -316,6 +316,13 @@ export function createFx(T, scene) {
         if (Math.random() < (big ? .5 : .25)) { const a = Math.random() * 6.28, L = r * R(2, 4); lightning(pos, [pos[0] + Math.cos(a) * L, pos[1] + R(-.3, .2), pos[2] + Math.sin(a) * L], { life: .07, branches: 0, rough: .35 }); }
         P.emit('add', 1, { pos, life: [.15, .3], size: [.04, .07], color: c.core, cell: CELL.streak, stretch: .03, dir: 'sphere', speed: [1, 3], drag: 4, fadeIn: 0 });
         if (lit++ < 6) frameLight(pos, c.light, big ? 3.5 : 1.8, 2.6);
+      } else if (kind === 'treasure') {
+        // 宝具: a long golden blade with a bright edge
+        const gold = [3.2, 2.3, .8];
+        P.sprite('add', pos, r * 3.2, gold, 1, CELL.streak, 0, .12, vel);
+        P.sprite('add', pos, r * 1.4, [4, 3.6, 2.6], 1, CELL.streak, 0, .06, vel);
+        P.sprite('add', pos, r * 4, mul(gold, .5), .35 * dens, CELL.glow);
+        if (Math.random() < .3 * dens) P.emit('add', 1, { pos, life: [.2, .4], size: [.04, .07], color: gold, cell: CELL.ember, dir: 'sphere', speed: [.2, .8], fadeIn: 0 });
       } else if (kind === 'viper_knife') {
         const cc = PAL.chaos;
         P.sprite('add', pos, r * 1.6, PAL.physical.core, 1, CELL.streak, 0, .07, vel);
@@ -391,6 +398,15 @@ export function createFx(T, scene) {
         P.sprite('add', [z.x, .07, z.z], r * 2.1, [.55, .6, .7], .35, CELL.ring, s);
         for (let j = 0; j < 4; ++j) { const th = s + j * 1.57; P.sprite('add', [z.x + Math.cos(th) * r * .7, .3, z.z + Math.sin(th) * r * .7], .5, [1.6, 1.7, 1.9], .5, CELL.streak, 0, 1, [-Math.sin(th), 0, Math.cos(th)]); }
         if (Math.random() < .6) { const th = Math.random() * 6.28; P.emit('add', 1, { pos: [z.x + Math.cos(th) * r, .25, z.z + Math.sin(th) * r], vel: [-Math.sin(th) * 6, 1.5, Math.cos(th) * 6], life: [.15, .3], size: [.05, .09], color: [2.6, 2, 1.2], cell: CELL.ember, drag: 3, fadeIn: 0 }); }
+        continue;
+      }
+      if (z.kind === 'gate') {
+        // 宝库之门: a golden ripple hanging in the air behind the caster
+        const s = (z.seed ?? 0) + time * 3, gold = [2.6, 1.9, .6];
+        P.sprite('add', [z.x, 1.5, z.z], 1.5, gold, .55, CELL.ring, s);
+        P.sprite('add', [z.x, 1.5, z.z], 1.0, [3.2, 2.6, 1.2], .5, CELL.ring, -s * 1.4);
+        P.sprite('add', [z.x, 1.5, z.z], 1.8, mul(gold, .4), .3, CELL.glow);
+        if (Math.random() < .4) P.emit('add', 1, { pos: [z.x, 1.5, z.z], spread: .5, life: [.3, .6], size: [.04, .07], color: gold, cell: CELL.ember, dir: 'sphere', speed: [.2, .6], fadeIn: 0 });
         continue;
       }
       if (z.kind === 'rift' || z.kind === 'singularity') {

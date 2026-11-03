@@ -454,6 +454,25 @@ defineAction('eachTrap', (a, inv) => {
   inv.vars[a.as ?? 'traps'] = list.length;
 });
 
+/**
+ * Open gates in an arc behind the caster (opposite the aim): each is a zone that rides along with the
+ * caster and every `interval` runs `onPulse` from itself toward the clicked point (a random enemy near it).
+ * count + gate.count gates, `dist` behind, fanned over `arc` degrees.
+ */
+defineAction('gates', (a, inv) => {
+  const w = inv.world, me = inv.caster, aim = { ...inv.aim };
+  const n = Math.max(1, Math.round(num(a.count, inv, 3) + inv.stat('gate.count')));
+  const face = Math.atan2(aim.y - me.y, aim.x - me.x) || 0, arc = num(a.arc, inv, 150) * Math.PI / 180, dist = num(a.dist, inv, 110);
+  const duration = num(a.duration, inv, 1.6) * inv.stat('duration') / 100, interval = num(a.interval, inv, 0.3) * 100 / inv.stat('gate.rate', 100);
+  for (let i = 0; i < n; ++i) {
+    const ang = face + Math.PI + (n === 1 ? 0 : -arc / 2 + arc * i / (n - 1)), r = dist * (1 + 0.35 * (i % 2));
+    const dx = Math.cos(ang) * r, dy = Math.sin(ang) * r, p = { x: me.x + dx, y: me.y + dy };
+    w.carriers.spawnZone({ inv: inv.fork({ origin: p, aim, tags: new Set([...inv.tags, 'gate']) }), action: { kind: a.kind ?? 'gate', hit: false, onPulse: a.onPulse }, x: p.x, y: p.y,
+      radius: 40, remaining: duration, interval, timer: 0.08 + 0.05 * i, pull: 0, growth: 0, burst: 0, speed: 0, wander: 0, seek: num(a.seek, inv, 380), angle: 0,
+      follow: me, dx, dy, aimAt: aim, kind: a.kind ?? 'gate' });
+  }
+});
+
 /** Trigger the caster's existing zones of a kind near a point (Blade Blast on Blade Fall blades). */
 defineAction('detonate', (a, inv) => {
   const c = point(a.at, inv), r = areaRadius(a, inv);

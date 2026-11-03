@@ -128,7 +128,7 @@ export class Carriers {
   }
 
   tickZone(world, z, dt) {
-    if (z.follow) { z.x = z.follow.x; z.y = z.follow.y; if (!z.follow.alive) z.remaining = 0; }
+    if (z.follow) { z.x = z.follow.x + (z.dx ?? 0); z.y = z.follow.y + (z.dy ?? 0); if (!z.follow.alive) z.remaining = 0; }
     else if (z.speed > 0) this.steerZone(world, z, dt);
     // Growth is linear in the starting size and stops at three times it.
     if (z.growth > 0) { z.base ??= z.radius; z.radius = Math.min(z.base * 3, z.radius + z.base * z.growth / 100 * dt); }
@@ -140,6 +140,15 @@ export class Carriers {
       const inv = z.inv.fork({ origin: { x: z.x, y: z.y }, aim: { x: z.x, y: z.y }, tags: new Set([...z.inv.tags, 'zone']) });
       inv.vars = z.inv.vars; // zone variables persist across pulses (brand energy, stacking fields)
       if (z.follow && z.follow !== inv.caster) inv.target = z.follow;
+      // Gates: every pulse aims at the clicked point, at a random one of the enemies nearest to it.
+      if (z.aimAt) {
+        inv.aim = { ...z.aimAt }; inv.target = null;
+        if (z.seek > 0 && !z.speed) {
+          const near = [];
+          world.around(z.aimAt.x, z.aimAt.y, z.seek, o => near.push(o), { notTeam: inv.caster.team });
+          if (near.length) { near.sort((p, q) => Math.hypot(p.x - z.aimAt.x, p.y - z.aimAt.y) - Math.hypot(q.x - z.aimAt.x, q.y - z.aimAt.y) || p.id - q.id); inv.target = near[Math.floor(world.roll('gate') * Math.min(4, near.length))]; inv.aim = { x: inv.target.x, y: inv.target.y }; }
+        }
+      }
       const a = z.action, hits = a.hit === true || !!a.damage, follow = hits ? a : { ...a, hit: false };
       if (hits || a.onHit) {
         const inside = [];
