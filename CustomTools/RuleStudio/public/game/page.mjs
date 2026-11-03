@@ -75,8 +75,8 @@ export { STACK };
 const CURRENCY_PAGE = [
   { name: '基础', ids: ['augment', 'chaos', 'upgrade', 'annul'] },
   { name: '定向', ids: ['seal', 'temper'] },
-  { name: '精华', ids: ['essence_form', 'essence_link', 'essence_core'] },
   { name: '技能', ids: ['skill_gem'] },
+  { name: '精华', ids: ['essence_form', 'essence_link', 'essence_core'] },
 ];
 const EL_NAME = { physical: '物理', fire: '火焰', cold: '冰霜', lightning: '闪电', chaos: '混沌' };
 /** What the skill tooltip shows: base numbers straight from the skill definition. */
@@ -253,7 +253,7 @@ const TEMPLATE = /* html */ `
         <div class="plate-bar"><i :style="{ width: pct(hud.kills, hud.total) }"></i></div>
         <p><span>{{ hud.time }}</span><span>击杀 {{ hud.kills }} / {{ hud.total }}</span><span v-if="run.profile.resistPenalty" class="warn">全抗 −{{ run.profile.resistPenalty }}%</span></p>
       </div>
-      <button class="plate-leave" @click="leaveRun">{{ run.phase === 'running' ? '撤离' : '回营地' }}</button>
+      <button class="plate-leave" @click="leaveRun">{{ run.phase === 'running' ? '撤离' : '回家' }}</button>
     </section>
     <minimap :run="run" :tick="hud.tick"></minimap>
 
@@ -310,7 +310,7 @@ const TEMPLATE = /* html */ `
         <div><dt>最高连杀</dt><dd>{{ run.bestCombo }}</dd></div><div><dt>连锁击杀</dt><dd>{{ pctNum(run.cascadeKills, hud.kills) }}%</dd></div>
       </dl>
       <p>只带回已经拾取的东西。回营地看看「本图要求」哪一项没达标。</p>
-      <button class="orn-btn primary" @click="leaveRun">回到营地</button>
+      <button class="orn-btn primary" @click="leaveRun">回到家</button>
     </section>
   </template>
 

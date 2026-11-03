@@ -803,3 +803,11 @@ select { font: inherit; color: var(--txt); background: var(--deep); border: 1px 
 .vleg-slot.none { opacity: .35; filter: grayscale(.9); }
 .vleg-slot.on, .vleg-slot:hover { box-shadow: inset 0 0 0 1px #ffc58a, 0 0 14px rgba(255, 173, 90, .35); }
 .vleg-open { margin-top: 12px; } .vleg-open h4 { font: 15px var(--title); color: #ffc58a; letter-spacing: .1em; margin-bottom: 6px; } .vleg-open h4 small { font: 11px var(--body, inherit); color: var(--mute); letter-spacing: 0; margin-left: 6px; }
+.credit { left: auto; right: 110px; }
+.vcur { flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 12px 18px; }
+.vcur-group:first-child { flex-basis: 100%; }
+.vcur-slot { width: 72px; padding: 6px 3px 5px; } .vcur-slot .gi { width: 34px; height: 34px; } .vcur-slot em { font-size: 13px; }
+.vcur-row { gap: 8px; }
+.vleg { grid-template-columns: repeat(5, 1fr); width: calc(var(--cs) * 12 + 33px); } .vleg-slot { height: 74px; }
+.er-left, .home-left { bottom: 52px; }
+.tp-btn.big small { left: 100%; top: 50%; margin: 0 0 0 14px; transform: translateY(-50%); font-size: 13px; }
