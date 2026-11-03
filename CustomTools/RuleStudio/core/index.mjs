@@ -164,6 +164,7 @@ export function createWorld(content, opts = {}) {
   world.spawnActor = (o) => {
     const mods = [...content.baseMods, ...(o.mods ?? []).map((m, i) => m.op !== undefined && Object.isFrozen(m) ? m : compileMod(m, `${o.name ?? o.kind}.mods[${i}]`))];
     const a = world.spawn({ ...o, mods });
+    a.spawnMods = o.mods ?? [];   // kept so a slain enemy can be raised as a copy (dominate)
     a.brain = o.brain ?? (o.kind === 'hero' ? 'none' : 'chase');
     if (o.aggro) a.aggro = o.aggro;
     for (const id of o.skills ?? []) world.addSkill(a, id);

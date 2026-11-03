@@ -32,8 +32,8 @@ const PICK = {
 const HEIGHT = { goblin: 1.1, skeleton: 1.25, cultist: 1.25, mushroom: 1.05, golem: 1.4, knight: 1.3, imp: 1.0, ogre: 1.5, wolf: 0.8, spider: 0.6, bat: 1.15, slime: 0.55,
   centipede: 0.22, manta: 1.0, hand: 0.75, stonering: 1.4, rockcluster: 1.3, ghost: 0.32, sporeball: 0.85, stump: 1.1 };
 // Summons that have a proper model (the rest stay glowing capsules).
-const MINION_MODEL = { skeleton: ['skeleton', 1.05], wolf: ['wolf', 0.85], spider: ['spider', 0.45], flame_golem: ['golem', 2.2], blood_fiend: ['imp', 1.2], wraith: ['cultist', 1.1], spectral_archer: ['skeleton', 1.1] };
-const MINION_TINT = { wraith: 0xc9a0ff, spectral_archer: 0x9fe4ff, flame_golem: 0xffb080 };
+const MINION_MODEL = { treant: ['shroomtree', 1.15], thundercloud: ['jellyfish', 1.1], skeleton: ['skeleton', 1.05], wolf: ['wolf', 0.85], spider: ['spider', 0.45], flame_golem: ['golem', 2.2], blood_fiend: ['imp', 1.2], wraith: ['cultist', 1.1], spectral_archer: ['skeleton', 1.1] };
+const MINION_TINT = { thrall: 0xd0a8ff, treant: 0xc8f0a0, thundercloud: 0xd8e8ff, wraith: 0xc9a0ff, spectral_archer: 0x9fe4ff, flame_golem: 0xffb080 };
 
 const hash = n => { n = (n ^ 61) ^ (n >>> 16); n = (n + (n << 3)) | 0; n ^= n >>> 4; n = Math.imul(n, 0x27d4eb2d); return (n ^ (n >>> 15)) >>> 0; };
 const role = m => m.boss ? 'boss' : m.kind === 'elite' ? 'elite' : (m.keepDistance ?? 0) > 0 ? 'ranged' : 'melee';
@@ -370,7 +370,7 @@ export class Characters {
     // nearest monsters and modelled summons get models
     const wanted = [];
     for (const m of run.monsters) { const d = Math.hypot(m.x - hero.x, m.y - hero.y) * M; if (d < MODEL_RANGE) wanted.push([d, m, null]); }
-    for (const m of run.minions) { const mm = MINION_MODEL[m.template]; if (mm) wanted.push([Math.hypot(m.x - hero.x, m.y - hero.y) * M * 0.5, m, mm]); }
+    for (const m of run.minions) { const mm = m.template === 'thrall' ? [monsterKind({ ...m, team: 1 }), m.kind === 'elite' ? 1.25 : 1] : MINION_MODEL[m.template]; if (mm) wanted.push([Math.hypot(m.x - hero.x, m.y - hero.y) * M * 0.5, m, mm]); }
     wanted.sort((a, b) => a[0] - b[0]);
     const keep = new Set();
     for (const [, m, mm] of wanted.slice(0, MODEL_CAP)) {

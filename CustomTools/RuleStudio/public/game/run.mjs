@@ -17,6 +17,7 @@ export const STATUS_LOOK = {
   scorched: { color: '#ff9d5c', glyph: '灼', fx: null }, superconduct: { color: '#9fd7ff', glyph: '导', fx: null }, enraged: { color: '#ff4040', glyph: '狂', fx: null }, alerted: { color: '#ffd24a', glyph: '警', fx: null },
   frostbite: { color: '#a6e6ff', glyph: '冻', fx: 'chill' }, onslaught: { color: '#ffd166', glyph: '猛', fx: null }, fortify: { color: '#c0c8d8', glyph: '护', fx: null },
   thunder_ready: { color: '#ffe680', glyph: '雷', fx: null },
+  primed: { color: '#ffb040', glyph: '引', fx: 'ignite' }, overgrown: { color: '#8fdc6a', glyph: '长', fx: null },
 };
 const PORTAL_REACH = 85;
 const ELEMENT_COLOR = { physical: 0x8a3a2a, fire: 0xa8401c, cold: 0x2c6c9a, lightning: 0x9a8a24, chaos: 0x5a2a7a };

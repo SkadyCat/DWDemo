@@ -151,7 +151,7 @@ export class Carriers {
     }
     if (z.remaining <= 0) {
       z.alive = false;
-      world.emit({ type: 'zoneEnd', source: z.inv.caster, x: z.x, y: z.y, carrier: z.id, kind: z.kind, key: z.kind ?? undefined, radius: z.radius, tags: [...z.inv.tags], depth: z.inv.depth });
+      world.emit({ type: 'zoneEnd', source: z.inv.caster, x: z.x, y: z.y, carrier: z.id, kind: z.kind, key: z.kind ?? undefined, radius: z.radius, fed: z.fed ?? 0, tags: [...z.inv.tags], depth: z.inv.depth });
       // Bursting zones go off when they end, for a share of their hit.
       if (z.burst > 0 && z.inv.caster.alive) run([{ do: 'area', at: 'aim', radius: z.radius * 1.3, mult: z.burst, fx: 'vortex_burst', noCascade: true, tags: ['zone', 'burst'] }],
         z.inv.fork({ origin: { x: z.x, y: z.y }, aim: { x: z.x, y: z.y }, target: null }));

@@ -51,6 +51,7 @@ const STATIC = {
   'trap.count': N(0, 0, 20), 'trap.limit': N(0, 0, 200), 'trap.uses': N(0, 0, 20), 'trap.armSpeed': N(100, 10), 'trap.trigger': N(100, 10),
   // Aggro range as a percentage of the actor's own base distance (actor.aggro): alerts, map mods and enrage raise it.
   'aggro': N(100, 0, 2000),
+  'fuse.speed': N(100, 10, 1000),
   'minion.limit': N(0, 0, 200), 'totem.limit': N(1, 0, 32), 'summon.count': N(0, 0, 20),
   'hitsCanTrigger': F(), 'overkillSpread': N(0, 0, 100), 'consumeKeep': N(0, 0, 100),
   // Ailment damage scales only with these (tag them: ['ignite'], ['poison'], ['dot']...), so generic hit

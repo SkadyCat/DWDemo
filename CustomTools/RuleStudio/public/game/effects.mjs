@@ -103,7 +103,7 @@ export function createEffects(T, scene) {
         R.slash(V(s.x, s.y), ang, (heavy ? 1.9 : 1.5) * (hostile ? .75 : 1), hostile ? 'physical' : mainElement(e), { hostile, span: hostile ? 1.4 : heavy ? 1.6 : 2, heavy });
         break;
       }
-      case 'remoteCast': R.cast(V(e.x, e.y, .7), mainElement(e), [0, 1, 0]); break;
+      case 'remoteCast': R.cast(V(e.x, e.y, .7), mainElement(e), [0, 1, 0]); if (e.skill?.def.id === 'rime_lance') R.summon(V(e.x, e.y), 'cold'); break;
       case 'cast': {
         if (hostile || e.depth > 0 || !e.source || e.source.kind !== 'hero' || !e.tags?.includes('spell')) break;
         const s = e.source, dx = (e.x ?? s.x + 1) - s.x, dy = (e.y ?? s.y) - s.y, l = Math.hypot(dx, dy) || 1;

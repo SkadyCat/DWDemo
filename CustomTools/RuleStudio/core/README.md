@@ -51,6 +51,8 @@ world.step(1 / 60);
 - 召唤物的 `death` 事件带 `key` = 召唤物模板 id（到时消散的还带 `expired`），规则可以 `filter:{ key:'phantom' }`。属性 `summon.count` 给召唤动作加数量。
 - 索敌：追击型（chase）单位注意范围内最近、看得见的敌人（墙挡视线；贴近到范围的 30% 以内隔墙也能「听到」），发现时发 `aggro` 事件；追上以后对方跑出范围的 1.6 倍才放弃。范围 = `actor.aggro` × 属性 `aggro`（百分比，默认 100），所以词条、状态、地图节点都能扩大它。动作 `provoke` 让单位立刻盯上某个目标（被打、嘲讽）。地图怪物都带「怪物本能」（`mob_instinct`）：被击中时盯上攻击者，并让自己和 450 内的同伴「警觉」（索敌 ×2.5，6 秒）；首领狂暴时索敌 ×4。
 - 陷阱是第三种载体（`carriers.mjs`）：动作 `trap` 在一点布下陷阱（`count` + 属性 `trap.count` 个，多出的围成一圈），布设 `arm` 秒后第一个踩进 `trigger` 范围的敌人让它触发、执行 `onTrigger`（踩的人是目标），发 `trapTrigger` 事件（`key` = 陷阱种类）。`trap.uses` 让一颗陷阱响好几次（每次之后重新布设），`trap.limit` 是同时存在的上限（顶掉最老的），`trap.armSpeed` / `trap.trigger` 是布设速度和触发范围。`springTraps` 远程引爆附近已布好的陷阱（链式殉爆，深度 +1），`eachTrap` 对附近每颗陷阱各执行一遍动作（从事件点指向陷阱，变量 `dist` 是距离，用来在陷阱之间拉线）。区域结束的 `zoneEnd` 事件带 `key` = 区域种类。
+- 延时与引信：`delay { time, then }` 过一会儿从当时的位置执行（起点和瞄准点冻结）；`fuse { status, time, then }` 给目标点上引信状态，`time` 秒后（`fuse.speed` 加快）在它所在的地方执行 `then`，已带引信的目标跳过，引信在引爆后还会多挂 2 秒，刚炸过的不会立刻被重新点上（多米诺）。`cast { from: 'recorded' }` 从事件记录的施法位置（`cast` 事件带 `ox/oy`）朝当时的瞄准点重放——配合 `delay` 就是「2 秒前的你再放一次」的回声。
+- `feedZones { kind, grow, extend, burst }` 喂大附近自己的区域（变大、多撑、坍缩更狠，`zoneEnd` 带 `fed` = 喂了几次），`dominate { limit, life }` 把被打死的敌人原地拉起来成为召唤物 `thrall`（同样的技能和出生词条，精英词缀保留）。`status { on: 'eventSource' }` 把状态挂到事件的来源上（召唤物击杀后给它自己叠层）。
 - 召唤物自己的 `die`（自爆）只发 `death`（带 `selfDestruct`），不算击杀，击杀类规则不会被它触发。召唤流派靠主人身上 `scope:'minion'` 的修正和 `role:'minion'/'owned'` 的规则把增益与连锁交给召唤物；主人的资源可以用 `per:{ res, of:'owner' }` 让召唤物按它变强（狼群的「嚎」）。
 
 **技能** `{ id, tags, time, cost, cooldown, crit, damage:{type:n}, channel, reserve, status, mods, rules, actions }`

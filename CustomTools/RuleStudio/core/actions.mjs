@@ -156,7 +156,7 @@ defineAction('strike', (a, inv) => {
 defineAction('damage', (a, inv) => { const t = a.on === 'self' ? inv.caster : inv.target; if (t?.alive) hitAndFollow(a, inv, t); });
 
 defineAction('status', (a, inv) => {
-  const targets = a.on === 'self' ? [inv.caster] : a.on === 'allies' ? [...inv.world.each(o => o.team === inv.caster.team && Math.hypot(o.x - inv.caster.x, o.y - inv.caster.y) <= num(a.radius, inv, 600))] : [inv.target];
+  const targets = a.on === 'self' ? [inv.caster] : a.on === 'eventSource' ? [inv.event?.source] : a.on === 'allies' ? [...inv.world.each(o => o.team === inv.caster.team && Math.hypot(o.x - inv.caster.x, o.y - inv.caster.y) <= num(a.radius, inv, 600))] : [inv.target];
   for (const t of targets) if (t?.alive) inv.world.applyStatus(t, a.status, {
     source: inv.caster, magnitude: num(a.magnitude, inv, 1) * inv.world.scaled(inv.caster, 'buffEffect', 100, new Set([...inv.tags, a.status])) / 100,
     stacks: Math.max(1, Math.round(num(a.stacks, inv, 1))), duration: a.duration !== undefined ? num(a.duration, inv) * inv.stat('duration') / 100 : undefined,
@@ -274,7 +274,55 @@ defineAction('cast', (a, inv) => {
     const ang = w.roll('castFrom') * Math.PI * 2;
     aim = best ? { x: best.x, y: best.y } : { x: origin.x + Math.cos(ang) * 300, y: origin.y + Math.sin(ang) * 300 };
   }
+  if (a.from === 'recorded' && inv.event?.ox !== undefined) {
+    // Replay a cast from where the caster stood when it happened, toward where it aimed (echoes).
+    origin = { x: inv.event.ox, y: inv.event.oy }; aim = { x: inv.event.x, y: inv.event.y }; target = null;
+  }
   w.cast(inv.caster, sk, { origin, remote: !!origin, aim, target, triggered: true, depth: inv.depth + 1, event: inv.event, mult: num(a.mult, inv, 100) / 100, vars: a.passVars ? inv.vars : {} });
+});
+
+/** Run actions later, from where things are now (origin/aim frozen): fuses, echoes. */
+defineAction('delay', (a, inv) => {
+  const f = inv.fork({ origin: { ...inv.origin }, aim: { ...inv.aim } });
+  inv.world.schedule(num(a.time, inv, 1) * (a.scaled ? 100 / inv.stat('speed') : 1), () => { if (inv.caster.alive) run(a.then, f); });
+});
+/**
+ * Prime the target: it carries `status` for `time` seconds, then `then` runs where it is (or where it fell).
+ * An already primed target is skipped, so a blast does not keep re-arming the same fuse (dominoes).
+ */
+defineAction('fuse', (a, inv) => {
+  const t = inv.target, w = inv.world; if (!t || t.team === inv.caster.team || t.hasStatus?.(a.status)) return;
+  const time = num(a.time, inv, 1) * 100 / inv.stat('fuse.speed', 100);
+  w.applyStatus(t, a.status, { source: inv.caster, duration: time + num(a.linger, inv, 2), depth: inv.depth });   // lingers a little: a blast does not re-prime what just went off
+  const f = inv.fork();
+  w.schedule(time, () => { if (!inv.caster.alive) return; const at = { x: t.x, y: t.y }; run(a.then, f.fork({ target: t.alive ? t : null, origin: at, aim: at })); });
+});
+/** Feed your zones of a kind near a point: bigger (+grow px, up to 3×), longer (+extend s), a stronger collapse (+burst %). */
+defineAction('feedZones', (a, inv) => {
+  const c = point(a.at ?? 'event', inv), r = num(a.radius, inv, 400);
+  for (const z of inv.world.carriers.zones) {
+    if (!z.alive || z.inv.caster !== inv.caster || (a.kind && z.kind !== a.kind) || Math.hypot(z.x - c.x, z.y - c.y) > Math.max(r, z.radius)) continue;
+    z.base ??= z.radius; z.fed = (z.fed ?? 0) + 1;
+    z.radius = Math.min(z.base * 3, z.radius + num(a.grow, inv, 0));
+    z.remaining = Math.min(num(a.maxTime, inv, 12), z.remaining + num(a.extend, inv, 0));
+    z.burst = (z.burst ?? 0) + num(a.burst, inv, 0);
+  }
+});
+/**
+ * Turn the slain enemy into your minion (it rises where it fell): same skills and spawn mods (elite
+ * affixes included), `life`% of its life, up to `limit` of them; the oldest crumbles when over.
+ */
+defineAction('dominate', (a, inv) => {
+  const t = inv.target, w = inv.world, me = inv.caster; if (!t || t.team === me.team || !t.spawnMods || t.kind === 'boss') return;
+  const limit = Math.round(inv.stat('minion.limit', num(a.limit, inv, 6)));
+  const mine = [...me.minions].filter(m => m.alive && m.template === 'thrall');
+  if (mine.length >= limit) { const old = mine[0]; old.alive = false; w.emit({ type: 'death', source: old, key: 'thrall', x: old.x, y: old.y, unsummoned: true }); }
+  const mods = t.spawnMods.filter(m => m.stat !== 'immortal');
+  const m = w.spawnActor({ kind: 'minion', name: t.name ?? '仆从', team: me.team, owner: me, brain: 'chase', radius: t.radius, x: t.x, y: t.y,
+    mods: [...mods, { stat: 'life', op: 'more', value: num(a.life, inv, 100) - 100 }, ...(a.mods ?? [])], skills: t.skills.filter(s => !s.def.reserve).map(s => s.def.id) });
+  m.template = 'thrall'; m.thrallOf = t.kind; m.eliteMods = t.eliteMods ?? []; m.keepDistance = t.keepDistance ?? 0;
+  if (a.duration !== undefined) m.expireAt = w.time + num(a.duration, inv) * inv.stat('duration') / 100;
+  w.emit({ type: 'summon', source: me, target: m, skill: inv.skill, x: m.x, y: m.y, depth: inv.depth, key: 'thrall' });
 });
 
 /** Re-cast every trigger-bound skill in a named group (e.g. all skills socketed into a "Cast on Crit"). */

@@ -23,6 +23,9 @@ export const GAME_SKILLS = Object.freeze({
     { id: 'fortify', name: '护体', duration: 4, tags: ['buff'], mods: [{ stat: 'damageTaken.hit', op: 'more', value: -20 }] },
     { id: 'frostbite', name: '冻伤', stacking: 'strongest', max: 8, duration: 2, tags: ['dot', 'cold', 'elemental'], dot: { type: 'cold' } },
     { id: 'superconduct', name: '超导', duration: 4, debuff: true, tags: ['reaction'], mods: [{ stat: 'exposure.cold', value: 25 }, { stat: 'exposure.lightning', value: 25 }, { stat: 'exposure.fire', value: 25 }] },
+    // ---- 新机制：多米诺引信、林木疯长 ----
+    { id: 'primed', name: '引信', duration: 1, debuff: true, tags: ['debuff', 'primed'] },
+    { id: 'overgrown', name: '疯长', stacking: 'stack', max: 12, duration: 30, tags: ['buff'], mods: [{ stat: 'damage', op: 'more', value: 10 }, { stat: 'area', op: 'inc', value: 6 }, { stat: 'speed', op: 'inc', value: 4 }] },
     { id: 'blade_ward', name: '刃壁', stacking: 'stack', max: 10, duration: 5, tags: ['buff'], mods: [{ stat: 'damageTaken.hit', op: 'inc', value: -3 }] },
   ]),
   minions: patchList('minions', [
@@ -40,6 +43,9 @@ export const GAME_SKILLS = Object.freeze({
     { id: 'blood_fiend', name: '血魔', life: 260, radius: 26, skills: ['fiend_claw'] },
     // 机关师的弩塔：陷阱被踩响时立起来，射几轮就散架。
     { id: 'ballista', name: '弩塔', life: 220, radius: 30, brain: 'turret', skills: ['ballista_bolt'], duration: 5 },
+    // ---- 新机制：会自己扩张的树、会分裂的雷云 ----
+    { id: 'treant', name: '荆棘树', life: 320, radius: 30, brain: 'turret', skills: ['thorn_volley'], duration: 12, mods: [{ stat: 'armour', value: 200 }] },
+    { id: 'thundercloud', name: '雷云', life: 140, radius: 30, skills: ['cloud_bolt'], duration: 9, mods: [{ stat: 'moveSpeed', op: 'inc', value: 110 }] },
     { id: 'wraith', name: '怨灵', life: 60, radius: 20, keepDistance: 300, skills: ['wraith_bolt'] },
   ]),
   skills: patchList('skills', [
@@ -139,6 +145,39 @@ export const GAME_SKILLS = Object.freeze({
       actions: [{ do: 'trap', kind: 'turret_trap', at: 'aim', count: 1, limit: 10, trigger: 90, onTrigger: [{ do: 'area', at: 'aim', radius: 140, fx: 'slam' }, { do: 'summon', minion: 'ballista', at: 'origin', count: 1, limit: 6 }] }] },
     { id: 'shock_trap', name: '电击陷阱', tags: ['spell', 'trap', 'lightning', 'area'], time: 0.5, cost: 6, crit: 8, damage: { lightning: 16 }, range: 650,
       actions: [{ do: 'trap', kind: 'shock_trap', at: 'aim', count: 1, limit: 14, trigger: 80, onTrigger: [{ do: 'area', at: 'aim', radius: 190, fx: 'thunder' }] }] },
+    // ---- 新机制：点一下，后面的事自己发生 ----
+    // 多米诺：命中的怪被点上引信，1 秒后炸开；炸到的怪也可能被点上（流派词条决定）。
+    { id: 'fuse_bolt', name: '引信弹', tags: ['spell', 'projectile', 'fire'], time: 0.55, cost: 7, crit: 6, damage: { fire: 14 }, range: 700,
+      actions: [{ do: 'projectile', speed: 1400, radius: 20, lifetime: 0.8, kind: 'fireball', onHit: [{ do: 'fuse', status: 'primed', time: 0.9, then: [{ do: 'cast', skill: 'fuse_blast', at: 'aim' }] }] }] },
+    { id: 'fuse_blast', name: '引爆', tags: ['spell', 'area', 'fire', 'domino', 'triggered_only'], time: 0.5, crit: 6, damage: { fire: 16, physical: 6 }, range: 300,
+      actions: [{ do: 'area', at: 'aim', radius: 170, fx: 'flame_burst' }] },
+    // 林地：种下的种子长成会自己射荆棘的树。
+    { id: 'sow_seed', name: '播种', tags: ['spell', 'minion', 'physical'], time: 0.6, cost: 9, range: 700,
+      actions: [{ do: 'summon', minion: 'treant', at: 'aim', count: 1, limit: 3 }] },
+    { id: 'thorn_volley', name: '荆棘', tags: ['attack', 'projectile', 'minion', 'physical', 'chaos', 'thorn'], time: 0.6, crit: 6, damage: { physical: 5, chaos: 2 }, range: 650,
+      actions: [{ do: 'projectile', count: 3, spread: 20, speed: 1500, radius: 16, lifetime: 0.55, pierce: 1, kind: 'viper_knife' }] },
+    { id: 'thorn_ring', name: '荆刺', tags: ['attack', 'projectile', 'physical', 'thorn', 'triggered_only'], time: 0.5, crit: 6, damage: { physical: 12, chaos: 5 }, range: 500,
+      actions: [{ do: 'projectile', count: 8, ring: true, speed: 1300, radius: 16, lifetime: 0.45, pierce: 1, kind: 'viper_knife', from: 'origin' }] },
+    // 引力奇点：在点的位置撕开一个把怪往里吸的奇点，结束时坍缩。
+    { id: 'singularity', name: '引力奇点', tags: ['spell', 'area', 'chaos', 'duration'], time: 0.6, cost: 10, crit: 5, damage: { chaos: 2.5, physical: 1 }, range: 700,
+      actions: [{ do: 'zone', kind: 'singularity', at: 'aim', radius: 170, duration: 2.4, interval: 0.25, hit: true }] },
+    { id: 'collapse', name: '坍缩', tags: ['spell', 'area', 'chaos', 'triggered_only'], time: 0.5, crit: 5, damage: { chaos: 18, physical: 7 }, range: 300,
+      actions: [{ do: 'area', at: 'aim', radius: { event: 'radius', mul: 1.25 }, mult: { event: 'fed', mul: 12, add: 100 }, fx: 'vortex_burst' }] },
+    // 统御：鞭子抽死的怪站起来为你作战。
+    { id: 'dominion_lash', name: '统御之鞭', tags: ['attack', 'melee', 'area', 'physical', 'chaos'], time: 0.55, crit: 6, damage: { physical: 22, chaos: 14 }, range: 230,
+      actions: [{ do: 'area', shape: 'cone', angle: 120, radius: 250, fx: 'cleave' }] },
+    // 雷云：召出的雷云自己去找怪劈。
+    { id: 'call_storm', name: '唤云', tags: ['spell', 'minion', 'lightning'], time: 0.6, cost: 9, range: 700,
+      actions: [{ do: 'summon', minion: 'thundercloud', at: 'aim', count: 1, limit: 3 }] },
+    { id: 'cloud_bolt', name: '云雷', tags: ['spell', 'area', 'minion', 'lightning'], time: 0.5, crit: 7, damage: { lightning: 10 }, range: 240,
+      actions: [{ do: 'area', at: 'target', radius: 120, fx: 'thunder' }] },
+    { id: 'cloud_arc', name: '云间电弧', tags: ['spell', 'projectile', 'lightning', 'triggered_only'], time: 0.5, crit: 7, damage: { lightning: 12 }, range: 600,
+      actions: [{ do: 'projectile', speed: 2200, radius: 16, lifetime: 0.4, chain: 3, kind: 'spark', from: 'origin' }] },
+    // 回声：你 2 秒前站的地方，幽影把你的施法再来一遍。
+    { id: 'rime_lance', name: '霜矛', tags: ['spell', 'projectile', 'cold'], time: 0.5, cost: 6, crit: 7, damage: { cold: 17 }, range: 750,
+      actions: [{ do: 'projectile', speed: 1600, radius: 22, lifetime: 0.7, pierce: 2, kind: 'frost_bolt' }] },
+    { id: 'echo_nova', name: '回声寒环', tags: ['spell', 'area', 'cold', 'echo', 'triggered_only'], time: 0.5, crit: 7, damage: { cold: 18 }, range: 300,
+      actions: [{ do: 'area', at: 'aim', radius: 230, fx: 'ice_nova' }] },
     // ---- 召唤物自己的技能 ----
     { id: 'ballista_bolt', name: '弩箭', tags: ['attack', 'projectile', 'minion', 'physical'], time: 0.55, crit: 6, damage: { physical: 11 }, range: 750,
       actions: [{ do: 'projectile', speed: 1800, radius: 18, lifetime: 0.6, pierce: 2, kind: 'viper_knife' }] },

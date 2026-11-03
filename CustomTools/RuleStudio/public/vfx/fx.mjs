@@ -393,7 +393,7 @@ export function createFx(T, scene) {
         if (Math.random() < .6) { const th = Math.random() * 6.28; P.emit('add', 1, { pos: [z.x + Math.cos(th) * r, .25, z.z + Math.sin(th) * r], vel: [-Math.sin(th) * 6, 1.5, Math.cos(th) * 6], life: [.15, .3], size: [.05, .09], color: [2.6, 2, 1.2], cell: CELL.ember, drag: 3, fadeIn: 0 }); }
         continue;
       }
-      if (z.kind === 'rift') {
+      if (z.kind === 'rift' || z.kind === 'singularity') {
         // A tear in space (虚空裂隙): a dark violet swirl with motes falling into the middle.
         const c = PAL.void, r = z.radius;
         P.sprite('add', [z.x, .06, z.z], r * 2.3, mul(c.mid, .7), .4, CELL.ring, time * 4 + (z.seed ?? 0));

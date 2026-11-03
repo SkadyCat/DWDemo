@@ -91,7 +91,7 @@ export function cast(world, actor, sk, opts = {}) {
   const inv = new Invocation(world, { caster: actor, skill: sk, origin: opts.origin, aim: opts.aim, target: opts.target ?? null, event: opts.event ?? null, depth: opts.depth ?? 0, mult: opts.mult ?? 1, vars: opts.vars ?? {}, triggered: !!opts.triggered,
     tags: opts.triggered ? new Set([...sk.tags, 'triggered']) : sk.tags });
   inv.remote = !!opts.remote;
-  world.emit({ type: 'cast', source: actor, target: opts.target ?? null, skill: sk, tags: [...sk.tags, ...(opts.triggered ? ['triggered'] : [])], x: inv.aim.x, y: inv.aim.y, depth: opts.depth ?? 0 });
+  world.emit({ type: 'cast', source: actor, target: opts.target ?? null, skill: sk, tags: [...sk.tags, ...(opts.triggered ? ['triggered'] : [])], x: inv.aim.x, y: inv.aim.y, ox: inv.origin.x, oy: inv.origin.y, depth: opts.depth ?? 0 });
   run(sk.def.actions, inv);
   // Repeats (multistrike, spell echo): the same invocation again with fresh carriers.
   const rr = world.stat(actor, 'repeat', sk.tags, ctx), repeats = Math.floor(rr) + (world.roll('repeat') < rr - Math.floor(rr) ? 1 : 0);

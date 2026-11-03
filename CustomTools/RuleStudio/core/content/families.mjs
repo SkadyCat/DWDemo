@@ -458,6 +458,71 @@ fam({ id: 'core_tesla_grid', name: '核心·特斯拉阵：每次多扔 2 个陷
   make: v => ({ mods: [{ stat: 'trap.count', op: 'base', value: 2 }, { stat: 'trap.limit', op: 'base', value: 10 }, { stat: 'area', op: 'more', value: 30, tags: ['trap'] }, { stat: 'trap.uses', op: 'base', value: 4 }, { stat: 'trap.armSpeed', op: 'more', value: 60 }, { stat: 'chance.shock', op: 'base', value: 100, tags: ['web'] }, { stat: 'damage', op: 'more', value: v, tags: ['trap'] }],
     rules: [trig('kill', { cond: { status: 'shocked', of: 'target' } }, [{ do: 'springTraps', at: 'event', radius: 400, max: 2, delay: 0.05 }], { role: 'source', at: 'event', chain: true, limit: { perSecond: 20 } })] }) });
 
+// ================================================================== 新机制：点一下，后面的事自己发生
+// 1 多米诺：引信 → 引爆 → 炸到的怪再被点上引信
+fam({ id: 'fuse_quick', name: '短引信：引信燃烧速度提高 {v}%', layer: 'form', values: [15, 20, 25, 30, 40, 50], tags: ['form', 'fire', 'domino'], make: M('fuse.speed', 'inc') });
+fam({ id: 'domino_chain', name: '多米诺：引爆命中的敌人 {v}% 几率被点上引信，接着炸开（每秒最多 50 次）', layer: 'link', values: [35, 45, 55, 65, 80], tags: ['link', 'fire', 'trigger', 'domino'],
+  make: v => ({ rules: [trig('hit', { skill: 'fuse_blast', cond: { not: { status: 'primed', of: 'target' } } }, [{ do: 'fuse', status: 'primed', time: 0.8, then: [{ do: 'cast', skill: 'fuse_blast', at: 'aim' }] }], { role: 'source', chain: true, accumulate: { kind: 'chance', pct: v }, limit: { perSecond: 50 } })] }) });
+fam({ id: 'primed_death', name: '殉爆：带引信的敌人被打死时立刻炸开（{v}% 伤害，每秒最多 30 次）', layer: 'link', values: [70, 85, 100, 120, 140], tags: ['link', 'fire', 'kill', 'domino'],
+  make: v => ({ rules: [trig('kill', { cond: { status: 'primed', of: 'target' } }, [{ do: 'cast', skill: 'fuse_blast', at: 'event', mult: v }], { role: 'owned', chain: true, at: 'event', limit: { perSecond: 30 } })] }) });
+fam({ id: 'core_domino', name: '核心·连环爆破：引爆必定点上引信，引信快 50%，引爆伤害提高 {v}%（更多）；每次引爆向最近的两个敌人射出引信弹', layer: 'core', values: [60, 80, 100], slots: ['amulet', 'gloves', 'helmet'], tags: ['core', 'fire', 'domino'],
+  make: v => ({ mods: [{ stat: 'fuse.speed', op: 'more', value: 50 }, { stat: 'damage', op: 'more', value: v, tags: ['domino'] }],
+    rules: [trig('hit', { skill: 'fuse_blast', cond: { not: { status: 'primed', of: 'target' } } }, [{ do: 'fuse', status: 'primed', time: 0.8, then: [{ do: 'cast', skill: 'fuse_blast', at: 'aim' }] }], { role: 'source', chain: true, limit: { perSecond: 80 } }),
+      trig('cast', { skill: 'fuse_blast' }, [{ do: 'cast', skill: 'fuse_bolt', from: 'event', range: 600 }, { do: 'cast', skill: 'fuse_bolt', from: 'event', range: 600 }], { role: 'source', chain: true, at: 'event', limit: { perSecond: 8 } })] }) });
+
+// 2 林地：种子长成树，树打死的怪原地发芽，树越打越大
+fam({ id: 'seed_spread', name: '播撒：荆棘树击杀时 {v}% 几率在尸体处长出一棵新树（每秒最多 6 棵）', layer: 'link', values: [20, 28, 36, 45, 55], tags: ['link', 'minion', 'kill', 'trigger'],
+  make: v => ({ rules: [trig('kill', { skill: 'thorn_volley' }, [{ do: 'summon', minion: 'treant', at: 'event', count: 1, limit: 3, duration: 8 }], { role: 'minion', chain: true, at: 'event', accumulate: { kind: 'chance', pct: v }, limit: { perSecond: 6 } })] }) });
+fam({ id: 'overgrowth', name: '疯长：荆棘树每击杀一个敌人叠一层疯长（每层伤害提高 10%（更多）、范围与速度提高；最多 12 层），召唤物伤害提高 {v}%', layer: 'link', values: [10, 15, 20, 25, 30], tags: ['link', 'minion', 'kill'],
+  make: v => ({ mods: [{ stat: 'damage', op: 'inc', value: v, scope: 'minion' }], rules: [trig('kill', { skill: 'thorn_volley' }, [{ do: 'status', status: 'overgrown', on: 'eventSource' }], { role: 'minion', chain: true })] }) });
+fam({ id: 'thorn_burst', name: '荆爆：荆棘打死的敌人爆出一圈荆刺（{v}% 伤害，每秒最多 30 次）', layer: 'link', values: [80, 100, 120, 145, 170], tags: ['link', 'minion', 'physical', 'kill'],
+  make: v => ({ rules: [trig('kill', { anyTags: ['thorn'] }, [{ do: 'cast', skill: 'thorn_ring', from: 'event', range: 500, needTarget: false, mult: v }], { role: 'owned', chain: true, at: 'event', limit: { perSecond: 30 } })] }) });
+fam({ id: 'core_world_tree', name: '核心·万木林：荆棘树上限 +5，树倒下或枯萎时向四周撒下 2 颗种子；荆棘必定中毒、毒伤与荆爆伤害提高 {v}%（更多），树自己的荆棘减弱', layer: 'core', values: [100, 130, 160], slots: ['amulet', 'chest', 'helmet'], tags: ['core', 'minion', 'physical'],
+  make: v => ({ mods: [{ stat: 'minion.limit', op: 'base', value: 5 }, { stat: 'damage', op: 'more', value: -35, scope: 'minion' }, { stat: 'chance.poison', op: 'base', value: 100, scope: 'minion' }, { stat: 'ailmentDamage', op: 'more', value: v, scope: 'minion' }, { stat: 'damage', op: 'more', value: v, tags: ['thorn', 'triggered'] }],
+    rules: [trig('death', { key: 'treant' }, [{ do: 'summon', minion: 'treant', at: 'event', count: 2, limit: 3, duration: 6 }], { role: 'minion', chain: true, at: 'event', limit: { perSecond: 3 } })] }) });
+
+// 3 引力奇点：吞下的怪越多，奇点越大越久，坍缩越狠
+fam({ id: 'singularity_feed', name: '吞噬：在奇点里死掉的敌人让奇点变大、多撑 0.25 秒、坍缩伤害提高 {v}%', layer: 'link', values: [4, 5, 6, 7, 8], tags: ['link', 'chaos', 'area', 'kill'],
+  make: v => ({ rules: [trig('kill', { skill: 'singularity' }, [{ do: 'feedZones', kind: 'singularity', at: 'event', grow: 10, extend: 0.25, maxTime: 6, burst: v }], { role: 'source', chain: true, at: 'event' })] }) });
+fam({ id: 'collapse_link', name: '坍缩：奇点消失时向内坍缩爆开（{v}% 伤害，吞下的每个敌人再 +12%）', layer: 'link', values: [50, 60, 70, 80, 95], tags: ['link', 'chaos', 'area', 'trigger'],
+  make: v => ({ rules: [trig('zoneEnd', { key: 'singularity' }, [{ do: 'cast', skill: 'collapse', at: 'event', mult: v }], { role: 'source', chain: true, at: 'event', limit: { perSecond: 10 } })] }) });
+fam({ id: 'core_black_hole', name: '核心·黑洞：奇点吸力翻倍；坍缩伤害提高 {v}%（更多），坍缩的地方再撕开一个小奇点（每秒最多 2 次）', layer: 'core', values: [60, 80, 100], slots: ['amulet', 'gloves', 'helmet'], tags: ['core', 'chaos', 'area'],
+  make: v => ({ mods: [{ stat: 'zone.pull', op: 'more', value: 100 }, { stat: 'damage', op: 'more', value: v, tags: ['triggered', 'chaos'] }],
+    rules: [trig('zoneEnd', { key: 'singularity' }, [{ do: 'cast', skill: 'singularity', at: 'event' }], { role: 'source', chain: true, at: 'event', limit: { perSecond: 2 } })] }) });
+
+// 4 统御：抽死的怪站起来为你作战，带着它原本的精英词缀
+fam({ id: 'dominate_kill', name: '统御：统御之鞭打死的敌人 {v}% 几率站起来成为你的仆从（带着它原本的精英词缀；最多 4 个）', layer: 'link', values: [25, 35, 45, 55, 70], tags: ['link', 'minion', 'kill', 'chaos'],
+  make: v => ({ rules: [trig('kill', { skill: 'dominion_lash' }, [{ do: 'dominate', limit: 4, life: 150 }], { role: 'source', chain: true, accumulate: { kind: 'chance', pct: v }, limit: { perSecond: 8 } })] }) });
+fam({ id: 'thrall_rally', name: '号令：仆从打死的敌人 {v}% 几率也站起来成为仆从（每秒最多 4 个）', layer: 'link', values: [20, 28, 36, 45, 55], tags: ['link', 'minion', 'kill'],
+  make: v => ({ rules: [trig('kill', {}, [{ do: 'dominate', limit: 4, life: 120 }], { role: 'minion', chain: true, accumulate: { kind: 'chance', pct: v }, limit: { perSecond: 4 } })] }) });
+fam({ id: 'core_legion', name: '核心·万军之主：仆从上限 +8，统御之鞭打死的必定站起来；仆从更快，伤害提高 {v}%（更多），仆从打死的怪爆炸（其最大生命 40%）且连环', layer: 'core', values: [80, 110, 140], slots: ['amulet', 'chest', 'helmet'], tags: ['core', 'minion', 'chaos'],
+  make: v => ({ mods: [{ stat: 'minion.limit', op: 'base', value: 8 }, { stat: 'speed', op: 'more', value: 30, scope: 'minion' }, { stat: 'moveSpeed', op: 'inc', value: 40, scope: 'minion' }, { stat: 'damage', op: 'more', value: v, scope: 'minion' }],
+    rules: [trig('kill', { skill: 'dominion_lash' }, [{ do: 'dominate', limit: 4, life: 150 }], { role: 'source', chain: true, limit: { perSecond: 10 } }),
+      trig('kill', {}, [{ do: 'explode', pct: 55, type: 'chaos', radius: 320, tags: ['explosion', 'legion'] }], { role: 'minion', chain: true, at: 'event', limit: { perSecond: 80 } }),
+      trig('kill', { tags: ['legion'] }, [{ do: 'explode', pct: 55, type: 'chaos', radius: 320, tags: ['explosion', 'legion'] }], { role: 'source', chain: true, at: 'event', limit: { perSecond: 80 } })] }) });
+
+// 5 雷云：雷云打死的怪分裂出小雷云
+fam({ id: 'cloud_split', name: '分云：雷云击杀时 {v}% 几率分裂出一朵新雷云（每秒最多 5 朵）', layer: 'link', values: [25, 35, 45, 55, 70], tags: ['link', 'minion', 'lightning', 'kill'],
+  make: v => ({ rules: [trig('kill', { skill: 'cloud_bolt' }, [{ do: 'summon', minion: 'thundercloud', at: 'event', count: 1, limit: 3, duration: 5 }], { role: 'minion', chain: true, at: 'event', accumulate: { kind: 'chance', pct: v }, limit: { perSecond: 5 } })] }) });
+fam({ id: 'cloud_chain', name: '云间电弧：雷云的落雷命中感电敌人时从那里弹出电弧（{v}% 伤害，每秒最多 14 次）', layer: 'link', values: [70, 85, 100, 120, 140], tags: ['link', 'minion', 'lightning', 'trigger'],
+  make: v => ({ rules: [trig('hit', { skill: 'cloud_bolt', cond: { status: 'shocked', of: 'target' } }, [{ do: 'cast', skill: 'cloud_arc', from: 'event', range: 600, mult: v }], { role: 'minion', chain: true, at: 'event', limit: { perSecond: 14 } })] }) });
+fam({ id: 'core_storm_court', name: '核心·雷霆天庭：雷云上限 +5，击杀必定分裂，落雷必定感电，感电的怪死时引来两道落雷；引来的落雷伤害提高 {v}%（更多），雷云自己的落雷减弱，散去时落下一道巨雷', layer: 'core', values: [150, 190, 230], slots: ['amulet', 'chest', 'helmet'], tags: ['core', 'minion', 'lightning'],
+  make: v => ({ mods: [{ stat: 'minion.limit', op: 'base', value: 5 }, { stat: 'damage', op: 'more', value: -25, scope: 'minion' }, { stat: 'chance.shock', op: 'base', value: 100, scope: 'minion' }, { stat: 'chance.shock', op: 'base', value: 100, tags: ['lightning', 'triggered'] }, { stat: 'speed', op: 'more', value: 40, scope: 'minion' }, { stat: 'moveSpeed', op: 'inc', value: 40, scope: 'minion' }, { stat: 'damage', op: 'more', value: v, tags: ['lightning', 'triggered'] }, { stat: 'area', op: 'more', value: 50, tags: ['lightning', 'triggered'] }],
+    rules: [trig('kill', { skill: 'cloud_bolt' }, [{ do: 'summon', minion: 'thundercloud', at: 'event', count: 1, limit: 3, duration: 5 }], { role: 'minion', chain: true, at: 'event', limit: { perSecond: 8 } }),
+      trig('kill', { skill: 'cloud_bolt' }, [{ do: 'cast', skill: 'thunder_fall', from: 'event', range: 300 }], { role: 'minion', chain: true, at: 'event', limit: { perSecond: 60 } }),
+      trig('kill', { cond: { status: 'shocked', of: 'target' } }, [{ do: 'cast', skill: 'thunder_fall', from: 'event', range: 300 }, { do: 'cast', skill: 'thunder_fall', from: 'event', range: 450 }], { role: 'owned', chain: true, at: 'event', limit: { perSecond: 80 } }),
+      trig('death', { key: 'thundercloud' }, [{ do: 'cast', skill: 'thunder_fall', from: 'event', range: 300, needTarget: false }], { role: 'minion', chain: true, at: 'event', limit: { perSecond: 6 } })] }) });
+
+// 6 回声：你 2 秒前站的地方，幽影把你的施法再来一遍
+fam({ id: 'echo_ghost', name: '回声：你的每次施法在 2 秒后从你当时的位置重放一次（{v}% 伤害）', layer: 'link', values: [60, 70, 80, 90, 100], tags: ['link', 'spell', 'echo', 'trigger'],
+  make: v => ({ rules: [trig('cast', { notTags: ['triggered'], tags: ['spell'] }, [{ do: 'delay', time: 2, then: [{ do: 'cast', skill: '$event', from: 'recorded', mult: v }] }], { role: 'source', chain: true, limit: { perSecond: 6 } })] }) });
+fam({ id: 'echo_second', name: '二重回声：每次施法在 4 秒后再从当时的位置重放一次（{v}% 伤害）', layer: 'link', values: [50, 60, 70, 80, 90], tags: ['link', 'spell', 'echo', 'trigger'],
+  make: v => ({ rules: [trig('cast', { notTags: ['triggered'], tags: ['spell'] }, [{ do: 'delay', time: 4, then: [{ do: 'cast', skill: '$event', from: 'recorded', mult: v }] }], { role: 'source', chain: true, limit: { perSecond: 6 } })] }) });
+fam({ id: 'core_echo_hall', name: '核心·回声长廊：每次施法在 6 秒后再重放一次；回声伤害提高 {v}%（更多），每个回声出现时在幽影脚下炸开一圈寒环', layer: 'core', values: [50, 70, 90], slots: ['amulet', 'gloves', 'helmet'], tags: ['core', 'spell', 'echo', 'cold'],
+  make: v => ({ mods: [{ stat: 'damage', op: 'more', value: v, tags: ['triggered', 'cold'] }],
+    rules: [trig('cast', { notTags: ['triggered'], tags: ['spell'] }, [{ do: 'delay', time: 6, then: [{ do: 'cast', skill: '$event', from: 'recorded' }] }], { role: 'source', chain: true, limit: { perSecond: 6 } }),
+      trig('remoteCast', { skill: 'rime_lance' }, [{ do: 'cast', skill: 'echo_nova', at: 'event' }], { role: 'source', chain: true, at: 'event', limit: { perSecond: 8 } })] }) });
+
 // ================================================================== API
 export const families = () => [...FAMILIES.values()];
 export const family = id => { const f = FAMILIES.get(id); if (!f) throw new Error(`未知词条族 ${id}`); return f; };
