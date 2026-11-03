@@ -403,9 +403,9 @@ export function createFx(T, scene) {
       if (z.kind === 'gate') {
         // 宝库之门: a golden ripple hanging in the air behind the caster
         const s = (z.seed ?? 0) + time * 3, gold = [2.6, 1.9, .6];
-        P.sprite('add', [z.x, 1.5, z.z], 1.5, gold, .55, CELL.ring, s);
-        P.sprite('add', [z.x, 1.5, z.z], 1.0, [3.2, 2.6, 1.2], .5, CELL.ring, -s * 1.4);
-        P.sprite('add', [z.x, 1.5, z.z], 1.8, mul(gold, .4), .3, CELL.glow);
+        P.sprite('add', [z.x, 1.5, z.z], .85, gold, .4, CELL.ring, s);
+        P.sprite('add', [z.x, 1.5, z.z], .55, [3.2, 2.6, 1.2], .35, CELL.ring, -s * 1.4);
+        P.sprite('add', [z.x, 1.5, z.z], 1.0, mul(gold, .3), .2, CELL.glow);
         if (Math.random() < .4) P.emit('add', 1, { pos: [z.x, 1.5, z.z], spread: .5, life: [.3, .6], size: [.04, .07], color: gold, cell: CELL.ember, dir: 'sphere', speed: [.2, .6], fadeIn: 0 });
         continue;
       }
