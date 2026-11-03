@@ -1202,21 +1202,12 @@ export function mountGame(el) {
       }
       /** Ground labels live outside Vue (the overlay), so their mouse events are delegated here. */
       function bindLabels(root) {
-        const dropOf = el => run.value?.loot.find(l => l.key === el.dataset.key)?.drop;
         root.addEventListener('mousedown', e => {
           const el = e.target.closest('.lt'); if (!el || e.button !== 0) return;
           e.stopPropagation(); e.preventDefault();
           if (el.classList.contains('lt-portal')) run.value?.walkToPortal(); else run.value?.walkToLoot(el.dataset.key);
           hover.value = null;
         });
-        root.addEventListener('mouseover', e => {
-          const el = e.target.closest('.lt'); if (!el) return;
-          const d = dropOf(el); if (!d) return;
-          if (d.type === 'item') hoverOn({ currentTarget: el }, d.item, true);
-          else if (d.type === 'waystone') hoverThing({ currentTarget: el }, 'waystone', { stone: d.stone, note: '点名牌拾取' });
-          else hoverThing({ currentTarget: el }, 'currency', { id: d.id, count: d.count, note: '走过去自动拾取' });
-        });
-        root.addEventListener('mouseout', e => { if (e.target.closest('.lt') && !e.relatedTarget?.closest?.('.lt')) hoverOff(); });
       }
 
       const onKey = (e, down) => {
