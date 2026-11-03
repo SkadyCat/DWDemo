@@ -551,9 +551,9 @@ export const ARCHETYPES = Object.freeze([
     id: 'overlord', name: '统御者', style: '统御·抢怪当随从·混沌', skills: ['dominion_lash'], keepDistance: 0,
     summary: '统御之鞭抽死的怪站起来为你作战（精英带着它的词缀）→ 仆从打死的怪也站起来 → 万军之主：一路抽过去，怪群变成你的军团，倒下时炸开。',
     ladder: [
-      { title: '统御', text: '鞭子抽死的怪有几率原地站起来，变成你的仆从——精英带着它原本的词缀。', keys: [['dominate_kill', 'weapon'], ['area_more']] },
-      { title: '号令', text: '仆从打死的怪也会站起来：你的部队越打越多。', keys: [['thrall_rally', 'gloves']] },
-      { title: '扩军', text: '能带的仆从更多，鞭子抽得更快、一鞭连抽几下。', keys: [['minion_count'], ['attack_speed'], ['multistrike']] },
+      { title: '鞭笞', text: '统御之鞭向前抽出一大片，一鞭连抽几下。', keys: [['area_more', 'weapon'], ['multistrike']] },
+      { title: '统御', text: '鞭子抽死的怪有几率原地站起来，变成你的仆从——精英带着它原本的词缀。', keys: [['dominate_kill', 'gloves']] },
+      { title: '号令', text: '仆从打死的怪也会站起来，能带的仆从更多：你的部队越打越多。', keys: [['thrall_rally'], ['minion_count']] },
       { title: '献祭', text: '仆从倒下时炸开，被炸死的怪爆炸。', keys: [['minion_explode'], ['kill_explode']] },
       { title: '万军之主', text: '鞭子抽死的必定站起来，仆从更快更痛，倒下时炸开：怪群在你手里变成军团。', keys: [['core_legion', 'amulet']] },
     ],
