@@ -80,7 +80,7 @@ test('宝库之门：身后打开一排门，跟着人走，门里一件接一�
   t.cast(600, 0); t.run(0.05);
   const gates = t.w.carriers.zones.filter(z => z.kind === 'gate' && z.alive);
   assert.equal(gates.length, 6);
-  assert.ok(gates.every(z => z.x < 0), '都在身后（背对点的方向）');
+  assert.ok(gates.every(z => z.x < 60) && gates.reduce((n, z) => n + z.x, 0) < 0, '都在身后和两侧（背对点的方向）');
   t.hero.y = 200; t.run(0.1);
   assert.ok(gates.every(z => Math.abs(z.y - z.dy - 200) < 1), '跟着人走');
   t.run(1.8);

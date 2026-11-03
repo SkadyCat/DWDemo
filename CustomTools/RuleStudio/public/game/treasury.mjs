@@ -2,7 +2,7 @@
 // 每扇门里探出一件兵器，尖端指着点的位置；射出去的宝具是同一种兵器，从门的高度斜着扎向目标。
 import * as THREE from '../vendor/three.module.js';
 
-const M = 0.01, CAP = 240;
+const M = 0.01, CAP = 240, SCALE = 0.62;
 const GOLD = [0.95, 0.7, 0.22], DARK = [0.25, 0.12, 0.08], STEEL = [0.86, 0.88, 0.92], GEM = [0.85, 0.05, 0.08], RED = [0.6, 0.04, 0.06];
 
 /** Merge simple parts (geometry, colour, matrix) into one non-indexed geometry with vertex colours. Weapons point along +Z, butt at 0. */
@@ -70,11 +70,11 @@ const LENGTH = [1.45, 2.1, 1.35, 1.8, 2.1];
 
 const hash = n => { const x = Math.sin(n * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
 /** Height (m) of a gate in the air, and its size: higher and bigger the further back it sits. */
-export const gateLook = id => ({ h: 1.7 + hash(id) * 2.6, size: 0.75 + hash(id + 7) * 0.7, kind: Math.floor(hash(id + 3) * KINDS.length) });
+export const gateLook = id => ({ h: 1.7 + hash(id) * 2.6, size: 0.75 + hash(id + 7) * 0.7, weapon: Math.floor(hash(id * 3.7 + 11) * KINDS.length) % KINDS.length });
 
 export class Treasury {
   constructor(scene) {
-    const mat = new THREE.MeshStandardMaterial({ vertexColors: true, metalness: 0.75, roughness: 0.28, flatShading: true, emissive: 0x3a2608 });
+    const mat = new THREE.MeshStandardMaterial({ vertexColors: true, metalness: 0.6, roughness: 0.38, flatShading: true, emissive: 0x120b02 });
     this.meshes = KINDS.map(make => { const m = new THREE.InstancedMesh(make(), mat, CAP); m.count = 0; m.frustumCulled = false; scene.add(m); return m; });
     this.heights = new Map();   // projectile id -> [start height, kind]
     this.tmp = { m: new THREE.Matrix4(), q: new THREE.Quaternion(), p: new THREE.Vector3(), d: new THREE.Vector3(), s: new THREE.Vector3(), z: new THREE.Vector3(0, 0, 1) };
@@ -82,7 +82,7 @@ export class Treasury {
   place(kind, x, h, z, dir, scale = 1) {
     const mesh = this.meshes[kind]; if (mesh.count >= CAP) return;
     const { m, q, p, s, z: Z } = this.tmp;
-    q.setFromUnitVectors(Z, dir); p.set(x, h, z); s.set(scale, scale, scale);
+    q.setFromUnitVectors(Z, dir); p.set(x, h, z); s.setScalar(scale * SCALE);
     mesh.setMatrixAt(mesh.count++, m.compose(p, q, s));
   }
   update(run, time) {
@@ -93,9 +93,8 @@ export class Treasury {
     for (const g of gates) {
       const look = gateLook(g.id), gx = g.x * M, gz = -g.y * M, ax = (g.aimX ?? g.x) * M, az = -(g.aimY ?? g.y) * M;
       d.set(ax - gx, 0.8 - look.h, az - gz).normalize();
-      const out = Math.min(1, (g.age ?? 1) * 4) * 0.55 * LENGTH[look.kind] * look.size;
-      const back = LENGTH[look.kind] * look.size - out;
-      this.place(look.kind, gx - d.x * back, look.h - d.y * back, gz - d.z * back, d, look.size);
+      const L = LENGTH[look.weapon] * look.size * SCALE, out = Math.min(1, (g.age ?? 1) * 4) * 0.55 * L, back = L - out;
+      this.place(look.weapon, gx - d.x * back, look.h - d.y * back, gz - d.z * back, d, look.size);
     }
     // flying treasures: start at the height of the gate they came from, dive onto the target
     const live = new Set();
@@ -106,12 +105,13 @@ export class Treasury {
       if (!st) {
         let best = null, bd = 90;
         for (const g of gates) { const dd = Math.hypot(g.x - p.x, g.y - p.y); if (dd < bd) { bd = dd; best = g; } }
-        const look = best ? gateLook(best.id) : { h: 3.2, kind: Math.floor(hash(p.id) * KINDS.length), size: 0.9 };
-        st = [look.h, look.kind, look.size]; this.heights.set(p.id, st);
+        const look = best ? gateLook(best.id) : { h: 3.2, weapon: Math.floor(hash(p.id) * KINDS.length) % KINDS.length, size: 0.9 };
+        st = [look.h, look.weapon, look.size]; this.heights.set(p.id, st);
       }
       const k = Math.max(0, 1 - (p.age ?? 0) / 0.26), h = 0.75 + (st[0] - 0.75) * k;
       d.set(p.vx * M, k > 0 ? -(st[0] - 0.75) / 0.26 : 0, -p.vy * M).normalize();
-      this.place(st[1], p.x * M - d.x * 1.2 * st[2], h - d.y * 1.2 * st[2], -p.y * M - d.z * 1.2 * st[2], d, st[2]);
+      const L = LENGTH[st[1]] * st[2] * SCALE;
+      this.place(st[1], p.x * M - d.x * L, h - d.y * L, -p.y * M - d.z * L, d, st[2]);
     }
     for (const id of this.heights.keys()) if (!live.has(id)) this.heights.delete(id);
     for (const mesh of this.meshes) mesh.instanceMatrix.needsUpdate = true;
