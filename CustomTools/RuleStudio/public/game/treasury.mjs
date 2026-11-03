@@ -108,7 +108,9 @@ export class Treasury {
   disc(x, h, z, dir, size, spin, open) {
     if (this.discs.count >= 96) return;
     const { m, q, p, s, z: Z } = this.tmp, r = this.tmp.r ??= new THREE.Quaternion();
-    q.setFromUnitVectors(Z, dir).multiply(r.setFromAxisAngle(Z, spin));
+    // Half toward the target, half toward the camera (which looks down from the front): it reads as an open vortex, not a sliver.
+    const n = this.tmp.n ??= new THREE.Vector3(); n.set(dir.x * 0.55, dir.y * 0.55 + 0.68, dir.z * 0.55 + 0.46).normalize();
+    q.setFromUnitVectors(Z, n).multiply(r.setFromAxisAngle(Z, spin));
     p.set(x, h, z); s.setScalar(size * open);
     this.discs.setMatrixAt(this.discs.count++, m.compose(p, q, s));
   }
