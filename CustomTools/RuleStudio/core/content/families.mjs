@@ -300,7 +300,7 @@ fam({ id: 'core_glacial_rush', name: '核心·冰川疾驰：突进与冰痕必�
 fam({ id: 'core_phantom_legion', name: '核心·残影军团：残影爆炸伤害提高 {v}%（更多）并必定点燃，0.4 秒后原地再爆一次', layer: 'core', values: [30, 45, 60], slots: ['amulet', 'chest', 'helmet'], tags: ['core', 'minion', 'fire'],
   make: v => ({ mods: [{ stat: 'damage', op: 'more', value: v, tags: ['phantom'] }, { stat: 'chance.ignite', op: 'base', value: 100, tags: ['phantom'] }],
     rules: [trig('death', { key: 'phantom' }, [{ do: 'area', at: 'event', delay: 0.4, radius: 180, damage: { fire: 30 }, fx: 'flame_burst', tags: ['phantom', 'explosion', 'area', 'fire'] }], { role: 'minion', at: 'event', chain: true, limit: { perSecond: 8 } })] }) });
-fam({ id: 'core_shadow_dance', name: '核心·影舞：每个狂怒球使刀锋环 +1 投射物；刀锋环伤害提高 {v}%（更多）并必定中毒', layer: 'core', values: [40, 60, 90], slots: ['amulet', 'helmet', 'gloves'], tags: ['core', 'charge', 'projectile'],
+fam({ id: 'core_shadow_dance', name: '核心·影舞：每个狂怒球使刀锋环 +1 投射物；刀锋环伤害提高 {v}%（更多）并必定中毒', layer: 'core', values: [50, 80, 120], slots: ['amulet', 'helmet', 'gloves'], tags: ['core', 'charge', 'projectile'],
   make: v => ({ mods: [{ stat: 'proj.count', op: 'base', value: 1, tags: ['triggered', 'projectile'], per: { res: 'frenzy' } }, { stat: 'damage', op: 'more', value: v, tags: ['triggered', 'projectile'] },
     { stat: 'chance.poison', op: 'base', value: 100, tags: ['triggered', 'projectile'] }] }) });
 fam({ id: 'core_event_horizon', name: '核心·事件视界：裂隙把敌人吸向中心，结束时坍缩造成 300% 伤害；混沌伤害提高 {v}%（更多）', layer: 'core', values: [25, 35, 45], slots: ['amulet', 'chest', 'helmet'], tags: ['core', 'chaos', 'area', 'duration'],
