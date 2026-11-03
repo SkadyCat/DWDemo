@@ -25,6 +25,7 @@ export const NODE_MODS = Object.freeze(patchMap('nodeMods', {
   hardy: { text: '怪物生命 +30%', life: 1.3, quantity: 0.12 },
   brutal: { text: '怪物伤害 +25%', damage: 1.25, quantity: 0.12 },
   rich: { text: '物品数量 +30%', quantity: 0.3 },
+  alert: { text: '怪物警觉：索敌范围 +60%', aggro: 1.6, quantity: 0.12 },
   relic: { text: '传奇几率 ×2', legend: 2 },
 }));
 export const KIND_MODS = {
@@ -131,7 +132,7 @@ export function generateAtlas(seed, { count = 130, radius = ATLAS_RADIUS } = {})
 
 /** Everything a run on this node changes: monster counts, toughness and loot. */
 export function nodeMods(node) {
-  const out = { quantity: 1, pack: 1, elite: 1, legend: 1, life: 1, damage: 1, bossLife: 1 };
+  const out = { quantity: 1, pack: 1, elite: 1, legend: 1, life: 1, damage: 1, bossLife: 1, aggro: 1 };
   const add = m => {
     if (!m) return;
     for (const [k, v] of Object.entries(m)) { if (k === 'text') continue; if (k === 'quantity') out.quantity += v; else out[k] *= v; }

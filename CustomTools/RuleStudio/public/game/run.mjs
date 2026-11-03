@@ -14,7 +14,7 @@ export const STATUS_LOOK = {
   ignited: { color: '#ff7a2e', glyph: '燃', fx: 'ignite' }, poisoned: { color: '#7ee36b', glyph: '毒', fx: 'poison' }, bleeding: { color: '#e0334a', glyph: '血', fx: 'bleed' },
   shocked: { color: '#ffe14d', glyph: '电', fx: 'shock' }, chilled: { color: '#5ab8f0', glyph: '缓', fx: 'chill' }, frozen: { color: '#d8f6ff', glyph: '冻', fx: 'freeze' },
   electrocuted: { color: '#fff27a', glyph: '击', fx: 'stun' }, brittle: { color: '#bfe8ff', glyph: '脆', fx: null }, sapped: { color: '#e8d36b', glyph: '疲', fx: null },
-  scorched: { color: '#ff9d5c', glyph: '灼', fx: null }, superconduct: { color: '#9fd7ff', glyph: '导', fx: null }, enraged: { color: '#ff4040', glyph: '狂', fx: null },
+  scorched: { color: '#ff9d5c', glyph: '灼', fx: null }, superconduct: { color: '#9fd7ff', glyph: '导', fx: null }, enraged: { color: '#ff4040', glyph: '狂', fx: null }, alerted: { color: '#ffd24a', glyph: '警', fx: null },
   frostbite: { color: '#a6e6ff', glyph: '冻', fx: 'chill' }, onslaught: { color: '#ffd166', glyph: '猛', fx: null }, fortify: { color: '#c0c8d8', glyph: '护', fx: null },
   thunder_ready: { color: '#ffe680', glyph: '雷', fx: null },
 };
@@ -35,7 +35,7 @@ export class MapRun {
     this.profile = mapProfile(tier, family);
     this.tier = this.profile.tier;
     this.seed = seed;
-    this.mods = { pack: 1, elite: 1, legend: 1, life: 1, damage: 1, bossLife: 1, ...mods };
+    this.mods = { pack: 1, elite: 1, legend: 1, life: 1, damage: 1, bossLife: 1, aggro: 1, ...mods };
     this.quantity = quantity * (mods.quantity ?? 1);
     this.walkTo = null;
     this.dungeon = generateDungeon(seed, this.tier);
@@ -134,7 +134,7 @@ export class MapRun {
     }
     const m = this.world.spawnActor({ team: 1, kind: boss ? 'boss' : elite ? 'elite' : 'monster', x, y, radius: kindRow.radius ?? 28,
       name: boss ? `${p.name} ${T.boss.name}` : elite ? `${T.elite.name}·${names.map(n => ELITE_MODS[n].name).join('·')}` : bodyRow.name,
-      mods, skills: [...(boss ? T.boss.skills : kindRow.skills ?? bodyRow.skills)], aggro: kindRow.aggro ?? 750 });
+      mods, skills: [...(boss ? T.boss.skills : kindRow.skills ?? bodyRow.skills)], aggro: (kindRow.aggro ?? 600) * this.mods.aggro, affixes: ['mob_instinct'] });
     if (names.includes('shielded')) { m.max.es = m.max.life * ELITE_MODS.shielded.esFromLife; m.es = m.max.es; }
     if (ranged && bodyRow.keepDistance) m.keepDistance = bodyRow.keepDistance;
     m.element = type; m.eliteMods = names; m.boss = boss; m.facing = { x: 0, y: 1 }; m.hitFlash = 0; m.lastSkill = ''; m.lastCastAt = -9;
@@ -216,6 +216,7 @@ export class MapRun {
       if (this.flashes.length < 240) this.flashes.push({ x: e.target.x, y: e.target.y, amount: e.amount, critical: e.crit, hero: e.target === this.hero, age: 0 });
     }
     if (e.type === 'cast' && e.source.team === 1) { e.source.lastSkill = e.skill.def.name; e.source.lastCastAt = this.elapsed; }
+    if (e.type === 'aggro' && e.source.team === 1 && e.target === this.hero) e.source.spottedAt = this.elapsed;
     if (e.type === 'kill' && e.target.team === 1) {
       this.kills++;
       // Kill streaks: how many died in the last second, and how many of them died to a chain reaction.

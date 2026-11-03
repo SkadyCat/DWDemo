@@ -276,7 +276,8 @@ export class Overlay {
       const bar = this.bars[used++];
       bar.el.classList.toggle('hb-elite', mon.kind === 'elite'); bar.el.classList.toggle('hb-boss', !!mon.boss);
       const casting = run.elapsed - mon.lastCastAt < 0.65;
-      this.setBar(bar, at, mon, run.statuses(mon), casting ? mon.lastSkill : mon.kind === 'monster' ? '' : mon.name);
+      const spotted = run.elapsed - (mon.spottedAt ?? -9) < 0.8;   // just noticed you
+      this.setBar(bar, at, mon, run.statuses(mon), casting ? mon.lastSkill : spotted ? '!' : mon.kind === 'monster' ? '' : mon.name);
     }
     for (let i = used; i < this.bars.length; ++i) this.bars[i].el.style.display = 'none';
     let f = 0;
