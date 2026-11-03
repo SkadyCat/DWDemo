@@ -1,7 +1,7 @@
 // 游戏页 · 鎏金夜阙：营地（地图装置）+ 地图战斗（3D、血魔、技能、小地图、首领、连杀与清屏），
 // 角色 / 背包 并排打开，洗炼 / 流派 / 传奇图鉴 居中打开；地图里也能随时打开。
 // 交互：悬停看物品说明（Floating UI 定位）、拖到装备位或右键装备、右键装备位卸下；动效 GSAP；图标 game-icons.net。
-import { createApp, reactive, computed, ref, watch, onMounted, onBeforeUnmount, markRaw, nextTick } from '../vendor/vue.esm-browser.prod.js';
+import { createApp, reactive, computed, ref, shallowRef, watch, onMounted, onBeforeUnmount, markRaw, nextTick } from '../vendor/vue.esm-browser.prod.js';
 import { SLOTS, LAYERS, family, lineTierFor } from '../../core/content/families.mjs';
 import { CURRENCIES, SLOT_NAMES, rarityOf, itemName, lineText, baseOf, baseDefence, rollLegendary, baseLinesOf } from '../../core/content/items.mjs';
 import { LEGENDARIES, legendary } from '../../core/content/legendaries.mjs';
@@ -10,7 +10,8 @@ import { STAGES, collectionList } from '../../core/content/builds.mjs';
 import { mapProfile, mapRequirements, MAP_FAMILIES, MAP_TIERS, ELITE_MODS } from '../../core/content/maps.mjs';
 import { gameContent } from '../../core/content/game.mjs';
 import { defenceReport, roleReport } from '../../core/analysis.mjs';
-import { loadSave, writeSave, buildOf, equip, unequip, salvage, craft, applyArchetype, clearArchetype, grantedSkills, syncSkillBar, SKILL_BAR } from './save.mjs';
+import { loadSave, writeSave, buildOf, equip, unequip, salvage, craft, applyArchetype, clearArchetype, grantedSkills, syncSkillBar, SKILL_BAR,
+  STACK, BAG_SIZE, PAGE_SIZE, PAGES, LEGEND_CAP, currencyStacks, bagUsed, bagFree, bagFits, deposit, withdraw, depositCurrency, withdrawCurrency, curHave, toBag, xpToNext, killXp, gainXp, MAX_LEVEL } from './save.mjs';
 import { equippedTraits, ladderStatus, detectArchetype } from './traits.mjs';
 import { MapRun } from './run.mjs';
 import { TalentBoard } from './talents-panel.mjs';
@@ -33,6 +34,7 @@ const SLOT_GLYPH = { weapon: '兵', offhand: '副', helmet: '盔', chest: '甲',
 const PANELS = [
   { id: 'atlas', name: '地图', key: 'M' }, { id: 'talents', name: '天赋', key: 'P' }, { id: 'char', name: '角色', key: 'C' }, { id: 'bag', name: '背包', key: 'I' },
   { id: 'quest', name: '任务', key: 'J' }, { id: 'craft', name: '洗炼', key: 'K' }, { id: 'bd', name: '流派', key: 'B' }, { id: 'codex', name: '传奇', key: 'L' },
+  { id: 'vault', name: '仓库', key: 'H' },
 ];
 const TIER_ROMAN = ['', 'Ⅰ', 'Ⅱ', 'Ⅲ', 'Ⅳ', 'Ⅴ', 'Ⅵ', 'Ⅶ', 'Ⅷ', 'Ⅸ', 'Ⅹ', 'Ⅺ', 'Ⅻ', 'XIII', 'XIV', 'XV', 'XVI'];
 
@@ -68,9 +70,14 @@ const SKILL_DESC = {
 };
 /** Currencies that act on one chosen line: 'trait' = base traits only, 'any' = a trait or a random line. */
 const CURRENCY_TARGET = { seal: 'any', temper: 'trait', essence_form: 'trait', essence_link: 'trait', essence_core: 'trait' };
-export const STACK = 20;
-/** Currency as bag stacks of up to 20, in the currency list's order. */
-const currencyStacks = save => Object.keys(CURRENCIES).flatMap(id => { const n = save.currencies[id] || 0, out = []; for (let left = n; left > 0; left -= STACK) out.push({ id, n: Math.min(STACK, left) }); return out; });
+export { STACK };
+/** The currency page, laid out like PoE's: fixed slots in groups. */
+const CURRENCY_PAGE = [
+  { name: '基础', ids: ['augment', 'chaos', 'upgrade', 'annul'] },
+  { name: '定向', ids: ['seal', 'temper'] },
+  { name: '精华', ids: ['essence_form', 'essence_link', 'essence_core'] },
+  { name: '技能', ids: ['skill_gem'] },
+];
 const EL_NAME = { physical: '物理', fire: '火焰', cold: '冰霜', lightning: '闪电', chaos: '混沌' };
 /** What the skill tooltip shows: base numbers straight from the skill definition. */
 function skillInfo(id) {
@@ -284,6 +291,7 @@ const TEMPLATE = /* html */ `
           <kbd>{{ i }}</kbd>
         </button>
         <p class="er-skill-name">{{ hud.skills[hud.selected]?.name }}</p>
+        <button class="tp-btn" @click="portalHome" :disabled="run.phase === 'failed'" title="传送回家（T）：地图保持开启，从家里的传送门回来"><Gi n="magic-portal" c="el-gold" g="传"/><kbd>T</kbd><small>{{ run.phase === 'cleared' ? '回家' : '传送' }}</small></button>
       </div>
     </section>
     <section class="er-right"><b>{{ hud.kills }}</b><small>/ {{ hud.total }} 击杀</small><small class="er-hint">点掉落名拾取 · 按住 Alt 显示全部</small></section>
@@ -309,9 +317,6 @@ const TEMPLATE = /* html */ `
   <!-- =================== CAMP =================== -->
   <template v-else>
     <header class="topbar">
-      <div class="crest"><Gi :n="skillIcon(primarySkill)" :c="'el-' + skillEl(primarySkill)"/></div>
-      <div class="who"><h1>营 地</h1><p>{{ currentBd }}</p></div>
-      <div class="facts"><span><b>T{{ save.unlocked }}</b>最高</span><span><b>{{ save.atlas.done.length }}</b>已打通</span><span><b>{{ save.stats.maps }}</b>通关</span><span><b>{{ save.stats.kills }}</b>击杀</span></div>
       <button class="orn-btn ghost sm vol" @click="cycleVolume" :title="'音效音量（点一下切换）'">{{ volume === 0 ? '音效 关' : '音效 ' + Math.round(volume * 100) + '%' }}</button>
       <button class="orn-btn ghost sm" @click="leaveAccount" :title="'当前账号：' + accountName">账号 · {{ accountName }}</button>
       <a class="orn-btn ghost sm" href="/editor/index.html" target="_blank" rel="noopener">内容编辑器</a>
@@ -319,7 +324,8 @@ const TEMPLATE = /* html */ `
     </header>
 
     <!-- the map device: waystones in the stash; the atlas itself opens from the rail (M) -->
-    <main class="hub panel">
+    <main class="home">
+    <section class="hub panel">
       <h2 class="ttl">地图装置</h2>
       <p class="hub-lead">每张地图要放入一块路石才能开启：任意阶的路石都能放进任意节点，这张图按路石的阶打，开图时消耗。打倒首领必掉路石，精英偶尔掉落。营地旁的 T1 节点不需要路石。</p>
       <div class="ws-grid">
@@ -328,13 +334,30 @@ const TEMPLATE = /* html */ `
       </div>
       <p class="hub-count"><b>{{ save.waystones.length }}</b> 块路石 · 已打通 <b>{{ save.atlas.done.length }}</b> / {{ atlas.nodes.length }} 节点 · 可进入 <b>{{ atlasOpenCount }}</b></p>
       <button class="orn-btn primary big" @click="toggle('atlas')">打开图集 · M</button>
+    </section>
+    <section class="chest panel" :class="{ on: open.vault }" @click="toggle('vault')" title="打开仓库（H）">
+      <Gi n="locked-chest" c="el-gold" g="仓"/>
+      <h2 class="ttl">仓库</h2>
+      <p>通货 <b>{{ vaultCounts.currency }}</b> · 传奇 <b>{{ vaultCounts.legend }}</b> · 装备 <b>{{ vaultCounts.items }}</b></p>
+      <small>点开 · H</small>
+    </section>
     </main>
+    <!-- home: level, experience and the portal back into an open map, bottom-left -->
+    <section class="home-left">
+      <div class="facts"><span><b>T{{ save.unlocked }}</b>最高</span><span><b>{{ save.atlas.done.length }}</b>已打通</span><span><b>{{ save.stats.maps }}</b>通关</span><span><b>{{ save.stats.kills }}</b>击杀</span></div>
+      <button class="tp-btn big" v-if="portalRun" @click="portalBack" title="回到还开着的地图（T）"><Gi n="magic-portal" c="el-gold" g="传"/><kbd>T</kbd><small>回到 T{{ portalRun.tier }} {{ familyName(portalRun.profile.family) }}</small></button>
+    </section>
   </template>
 
+  <section class="xpbar" :title="save.level >= maxLevel ? '已满级' : '经验 ' + fmtN(save.xp) + ' / ' + fmtN(xpNext)">
+    <b>{{ save.level }}</b><small>级</small>
+    <div class="xp-track"><i :style="{ width: save.level >= maxLevel ? '100%' : pct(save.xp, xpNext) }"></i><span v-for="k in 9" :key="k" :style="{ left: k * 10 + '%' }"></span></div>
+    <em>{{ save.level >= maxLevel ? '满级' : pctNum(save.xp, xpNext) + '%' }}</em>
+  </section>
   <div class="toasts" :class="{ camp: !run }"><p v-for="t in toasts" :key="t.id" :class="t.cls"><Gi v-if="t.icon" :n="t.icon" :c="t.ic || ''"/>{{ t.text }}</p></div>
 
   <!-- =================== QUEST TRACKER + STORY =================== -->
-  <aside class="qtrack" v-if="quest && !atlasOpen && !talentOpen && !open.char && !center" :class="{ inrun: !!run }" @click="openCenter('quest')" title="打开任务（J）">
+  <aside class="qtrack" v-if="quest && !atlasOpen && !talentOpen && !open.char && !open.vault && !center" :class="{ inrun: !!run }" @click="openCenter('quest')" title="打开任务（J）">
     <header><small>第 {{ chapterNo(quest.index) }} 章 · {{ quest.chapter.sub }}</small><b>{{ quest.chapter.title }}</b></header>
     <ul><li v-for="(st, i) in quest.steps" :key="i" :class="{ done: st.done }"><i></i><span>{{ st.text }}</span><em v-if="st.need > 1 && !st.done && st.goal.type !== 'tier'">{{ fmtN(st.have) }}/{{ fmtN(st.need) }}</em></li></ul>
     <p v-if="quest.complete" class="qready">本章完成 · 点这里领取奖励</p>
@@ -501,25 +524,82 @@ const TEMPLATE = /* html */ `
     </div>
   </section>
 
+  <!-- =================== STASH (home only) =================== -->
+  <section class="win panel win-left win-vault" v-if="open.vault" aria-label="仓库">
+    <header class="win-head"><h2>仓 库</h2><button class="x" @click="open.vault = false" aria-label="关闭">×</button></header>
+    <nav class="vtabs">
+      <button :class="{ on: vaultTab === 'currency' }" @click="vaultTab = 'currency'">通货</button>
+      <button :class="{ on: vaultTab === 'legend' }" @click="vaultTab = 'legend'">传奇</button>
+      <button v-for="k in pages" :key="k" :class="{ on: vaultTab === k - 1, drop: dropTab === k - 1 }" @click="vaultTab = k - 1"
+        @dragover.prevent="dropTab = k - 1" @dragleave="dropTab = null" @drop.prevent="dropTab = null; dropToPage(k - 1)">{{ k }}<small>{{ save.stash.pages[k - 1].length }}</small></button>
+    </nav>
+    <div class="win-body">
+      <!-- currency page: every currency has its own fixed slot -->
+      <template v-if="vaultTab === 'currency'">
+        <div class="vcur" @dragover.prevent @drop.prevent="dropToPage(0)">
+          <section v-for="g in currencyPage" :key="g.name" class="vcur-group">
+            <h4>{{ g.name }}</h4>
+            <div class="vcur-row">
+              <button v-for="id in g.ids" :key="id" class="vcur-slot" :class="{ none: !save.stash.currency[id] }" @click="takeCurrency(id, $event.shiftKey ? 1e9 : 20)" @contextmenu.prevent="takeCurrency(id, 1e9)"
+                @mouseenter="hoverThing($event, 'currency', { id, have: save.stash.currency[id] || 0, note: '点一下取出一堆（20 个）· 右键或 Shift 取出能放下的全部' })" @mouseleave="hoverOff">
+                <Gi :n="curIcon(id)" c="r-currency"/><em>{{ fmtN(save.stash.currency[id] || 0) }}</em><small>{{ currencies[id].name }}</small></button>
+            </div>
+          </section>
+        </div>
+        <footer class="vfoot"><button class="orn-btn primary sm" @click="moveCurrency(null)" :disabled="!curStacks.length">存入背包里全部通货</button><span class="hint">在家洗炼时，背包不够会直接从这页扣。</span></footer>
+      </template>
+      <!-- legendary page: one slot per legendary, up to 10 copies each -->
+      <template v-else-if="vaultTab === 'legend'">
+        <div class="vleg">
+          <button v-for="L in legendaries" :key="L.id" class="vleg-slot" :class="['th-' + L.theme, { none: !legendCount(L.id), on: legendSel === L.id }]" @click="legendSel = legendSel === L.id ? null : L.id"
+            @mouseenter="legendCount(L.id) && hoverOn($event, save.stash.legend[L.id][0])" @mouseleave="hoverOff">
+            <Gi :n="baseIcon(L.base)" c="r-legendary"/><small>{{ L.name }}</small><em>{{ legendCount(L.id) }}/{{ legendCap }}</em></button>
+        </div>
+        <section class="vleg-open" v-if="legendSel">
+          <h4>{{ legendary(legendSel).name }} <small>{{ legendCount(legendSel) }} / {{ legendCap }} · 右键取回背包</small></h4>
+          <div class="grid g10">
+            <button v-for="i in legendCap" :key="i" class="cell" :class="save.stash.legend[legendSel]?.[i - 1] ? 'r-legendary' : 'empty'"
+              @contextmenu.prevent="save.stash.legend[legendSel]?.[i - 1] && fromVault(save.stash.legend[legendSel][i - 1], { legend: legendSel })"
+              @dblclick="save.stash.legend[legendSel]?.[i - 1] && fromVault(save.stash.legend[legendSel][i - 1], { legend: legendSel })"
+              @mouseenter="save.stash.legend[legendSel]?.[i - 1] && hoverOn($event, save.stash.legend[legendSel][i - 1])" @mouseleave="hoverOff">
+              <template v-if="save.stash.legend[legendSel]?.[i - 1]"><Gi :n="itemIcon(save.stash.legend[legendSel][i - 1])" c="r-legendary"/><b>{{ save.stash.legend[legendSel][i - 1].tier }}</b></template>
+            </button>
+          </div>
+        </section>
+        <p v-else class="hint center">右键背包里的传奇就会放进它自己的格子（每种最多 {{ legendCap }} 件）。点格子看里面的。</p>
+      </template>
+      <!-- regular pages: 12 x 12 -->
+      <template v-else>
+        <div class="grid g12" @dragover.prevent @drop.prevent="dropToPage(vaultTab)">
+          <button v-for="(it, i) in pageCells" :key="it ? it.uid : 'e' + i" class="cell" :class="it ? ['r-' + rarity(it).id, { on: picked === it }] : 'empty'" :draggable="!!it"
+            @dragstart="it && vaultDragStart(it)" @dragend="dragFrom = null" @click="it && pick(it)" @contextmenu.prevent="it && fromVault(it, { page: vaultTab })" @dblclick="it && fromVault(it, { page: vaultTab })"
+            @mouseenter="it && hoverOn($event, it)" @mouseleave="hoverOff">
+            <template v-if="it"><Gi :n="itemIcon(it)" :c="'r-' + rarity(it).id" :g="glyph[it.slot]"/><b>{{ it.tier }}</b><i v-if="it.skill" class="cell-skill"></i></template>
+          </button>
+        </div>
+        <p class="hint center">常规 {{ vaultTab + 1 }} · {{ save.stash.pages[vaultTab].length }} / {{ pageSize }} · 右键或双击取回背包 · 拖到上面的页签换页</p>
+      </template>
+    </div>
+  </section>
+
   <!-- =================== BAG =================== -->
   <section class="win panel win-right" v-if="open.bag" aria-label="背包">
-    <header class="win-head"><h2>行 囊</h2><span class="count">{{ save.inventory.length }} 件</span><button class="x" @click="open.bag = false" aria-label="关闭">×</button></header>
+    <header class="win-head"><h2>行 囊</h2><span class="count" :class="{ full: bagLeft <= 0 }">{{ bagSize - bagLeft }} / {{ bagSize }} 格</span><button class="x" @click="open.bag = false" aria-label="关闭">×</button></header>
     <div class="win-body">
-      <div class="grid cur-stacks" v-if="curStacks.length">
-        <button v-for="(st, i) in curStacks" :key="'c' + st.id + i" class="cell cur" @mouseenter="hoverThing($event, 'currency', { id: st.id, count: st.n, note: '每格最多 20 个 · 悬停装备按 Ctrl 钉住提示即可在提示里使用' })" @mouseleave="hoverOff">
-          <Gi :n="curIcon(st.id)" c="r-currency"/><em>{{ st.n }}</em></button>
-      </div>
-      <div class="grid">
-        <button v-for="(it, i) in bagCells" :key="it ? it.uid : 'e' + i" class="cell" :class="it ? ['r-' + rarity(it).id, { on: picked === it }] : 'empty'" :draggable="!!it"
-          @dragstart="it && dragStart(it)" @dragend="dragItem = null; dropSlot = null" @click="it && pick(it)" @dblclick="it && doEquip(it.uid)" @contextmenu.prevent="it && doEquip(it.uid)"
-          @mouseenter="it && hoverOn($event, it)" @mouseleave="hoverOff">
-          <template v-if="it"><Gi :n="itemIcon(it)" :c="'r-' + rarity(it).id" :g="glyph[it.slot]"/><b>{{ it.tier }}</b><i v-if="it.skill" class="cell-skill" title="带主动技能"></i></template>
+      <div class="grid g12" :class="{ dropzone: dragFrom }" @dragover.prevent @drop.prevent="dropToBag">
+        <button v-for="(c, i) in bagCells" :key="c ? (c.cur ? 'c' + c.id + i : c.uid) : 'e' + i" class="cell" :class="!c ? 'empty' : c.cur ? 'cur' : ['r-' + rarity(c).id, { on: picked === c }]" :draggable="!!c && !c.cur"
+          @dragstart="c && !c.cur && dragStart(c)" @dragend="dragItem = null; dropSlot = null; dragFrom = null"
+          @click="c && (c.cur ? (open.vault && moveCurrency(c.id)) : pick(c))" @dblclick="c && !c.cur && doEquip(c.uid)" @contextmenu.prevent="c && (c.cur ? open.vault && moveCurrency(c.id) : open.vault ? toVault(c) : doEquip(c.uid))"
+          @mouseenter="c && (c.cur ? hoverThing($event, 'currency', { id: c.id, count: c.n, note: open.vault ? '点一下：这种通货全部存进仓库' : '每格最多 20 个 · 悬停装备按 Ctrl 钉住提示即可在提示里使用' }) : hoverOn($event, c))" @mouseleave="hoverOff">
+          <template v-if="c && c.cur"><Gi :n="curIcon(c.id)" c="r-currency"/><em>{{ c.n }}</em></template>
+          <template v-else-if="c"><Gi :n="itemIcon(c)" :c="'r-' + rarity(c).id" :g="glyph[c.slot]"/><b>{{ c.tier }}</b><i v-if="c.skill" class="cell-skill" title="带主动技能"></i></template>
         </button>
       </div>
       <div class="bag-actions" v-if="picked && save.inventory.includes(picked)">
         <span class="sel">{{ itemNameOf(picked) }}</span>
         <button class="orn-btn primary sm" @click="doEquip(picked.uid)">装备</button><button class="orn-btn sm" @click="openCenter('craft')">洗炼</button><button class="orn-btn danger sm" @click="doSalvage(picked.uid)">分解</button>
       </div>
+      <p v-else-if="open.vault" class="hint center">右键：存进仓库（传奇自动进传奇页）· 点通货：整种存入 · 也可以拖过去</p>
       <p v-else class="hint center">双击或右键装备 · 拖到角色装备位 · 悬停装备按 Ctrl 钉住提示，直接用通货洗炼</p>
       <p class="hint center" v-if="craftMsg">{{ craftMsg }}</p>
     </div>
@@ -612,7 +692,7 @@ const TEMPLATE = /* html */ `
   </section>
 
   <div class="tipwrap" ref="tipEl" v-show="hover" :class="{ pinned: tipPinned }"><item-tip v-if="hover?.item" :item="hover.item" :compare="hover.compare"
-    :stacks="hover.owned ? curStacks : null" :have="save.currencies" :pinned="tipPinned" :active="activeCur" :active-idx="activeIdx" :msg="craftMsg" @activate="pickCur" @apply="sel => tipCraft(sel)" @unpin="unpinTip"></item-tip><thing-tip v-else-if="hover" :kind="hover.kind" :data="hover.data"></thing-tip></div>
+    :stacks="hover.owned ? tipStacks : null" :have="wallet" :pinned="tipPinned" :active="activeCur" :active-idx="activeIdx" :msg="craftMsg" @activate="pickCur" @apply="sel => tipCraft(sel)" @unpin="unpinTip"></item-tip><thing-tip v-else-if="hover" :kind="hover.kind" :data="hover.data"></thing-tip></div>
   <p class="credit">图标 game-icons.net（CC BY 3.0）</p>
 </div>`;
 
@@ -660,7 +740,8 @@ export function mountGame(el) {
       const questFire = ev => { questNotes(questEvent(save, ev)); writeSave(save); };
       onMounted(() => setTimeout(showPendingStory, 400));
       const stage = ref(null), overlay = ref(null), tipEl = ref(null), comboEl = ref(null), flashEl = ref(null);
-      const open = reactive({ char: false, bag: false }), center = ref(null);
+      const open = reactive({ char: false, bag: false, vault: false }), center = ref(null);
+      const vaultTab = ref('currency'), legendSel = ref(null), dropTab = ref(null), dragFrom = ref(null), portalRun = shallowRef(null);
       const mapTier = ref(Math.min(save.unlocked, MAP_TIERS)), mapFamily = ref('ruin');
       const picked = ref(null), pickedLine = ref(null), craftMsg = ref(''), roles = ref(null), evaluating = ref(false), updateText = ref('');
       const hover = ref(null), bdSel = ref(save.archetype ?? ARCHETYPES[0].id), toasts = ref([]), legendBanner = ref(null);
@@ -670,7 +751,7 @@ export function mountGame(el) {
       const hud = reactive({ combo: 0, cascadePct: 0, flashN: 0, tick: 0, time: '0:00', kills: 0, total: 0, life: 0, lifeMax: 1, es: 0, esMax: 0, mana: 0, manaMax: 1, skills: [], selected: 0, resources: [], buffs: [],
         bossShow: false, bossName: '', bossMods: [], bossLife: '100%', bossEs: '0%', bossEnraged: false });
       const rng = dungeonRandom(Date.now() >>> 0);
-      let scene = null, ov = null, raf = 0, last = 0, acc = 0, toastId = 0, seenPicked = 0, seenPortal = 0, seenClear = -1, gsap = null, floating = null, seenLoot = new Set();
+      let scene = null, ov = null, raf = 0, last = 0, acc = 0, toastId = 0, seenPicked = 0, seenKills = 0, seenFull = -9, bossXp = false, overflow = 0, seenPortal = 0, seenClear = -1, gsap = null, floating = null, seenLoot = new Set();
       const keys = new Set(), mouse = { x: 0, y: 0, down: false };
 
       // Proven libraries from the CDN; the UI still works (plainer) without them.
@@ -797,7 +878,15 @@ export function mountGame(el) {
       const ladderFocus = computed(() => { const l = ladder.value; if (!l) return null; return l.stages[Math.max(0, l.reached)]; });
       const currentBd = computed(() => { const a = ARCHETYPES.find(x => x.id === save.archetype); return a ? `${a.name} · ${STAGES[save.bdStage ?? 0]?.name ?? ''}` : '自由搭配'; });
       const primarySkill = computed(() => { void gearKey.value; return save.skills.find(Boolean) ?? 'fireball'; });
-      const bagCells = computed(() => { const n = Math.max(48, Math.ceil((save.inventory.length + 1) / 8) * 8); return Array.from({ length: n }, (_, i) => save.inventory[i] ?? null); });
+      // The bag: currency stacks first, then the items, 5 × 12 cells in all.
+      const bagCells = computed(() => { const cells = [...currencyStacks(save).map(st => ({ cur: true, ...st })), ...save.inventory]; return Array.from({ length: Math.max(BAG_SIZE, cells.length) }, (_, i) => cells[i] ?? null); });
+      const bagLeft = computed(() => bagFree(save));
+      const pageCells = computed(() => { const pg = save.stash.pages[vaultTab.value] ?? []; return Array.from({ length: PAGE_SIZE }, (_, i) => pg[i] ?? null); });
+      const legendCount = id => save.stash.legend[id]?.length ?? 0;
+      const vaultCounts = computed(() => ({ currency: fmtN(Object.values(save.stash.currency).reduce((a, b) => a + b, 0)), legend: Object.values(save.stash.legend).reduce((a, l) => a + l.length, 0), items: save.stash.pages.reduce((a, p) => a + p.length, 0) }));
+      /** Currency on hand for crafting: the bag, plus the currency page while at home. */
+      const wallet = computed(() => Object.fromEntries(Object.keys(CURRENCIES).map(id => [id, curHave(save, id, !run.value)])));
+      const xpNext = computed(() => xpToNext(save.level));
       const centerName = computed(() => PANELS.find(p => p.id === center.value)?.name ?? '');
       const centerTitle = computed(() => ({ quest: '星 烬 纪', craft: '洗 炼', bd: '流 派', codex: '传 奇 图 鉴' })[center.value] ?? '');
 
@@ -824,14 +913,14 @@ export function mountGame(el) {
       function equippedFor(it) { if (!it) return null; if (it.slot.startsWith('ring')) return save.equipped.ring1 ?? save.equipped.ring2; return save.equipped[it.slot]; }
       async function hoverOn(e, it, ground = false) {
         if (!it) { hover.value = null; return; }
-        const owned = !ground && (save.inventory.includes(it) || Object.values(save.equipped).includes(it));
+        const owned = !ground && (save.inventory.includes(it) || Object.values(save.equipped).includes(it) || (!run.value && inVault(it)));
         return placeTip(e.currentTarget, { item: it, owned, compare: ground || save.inventory.includes(it) ? equippedFor(it) : null });
       }
       /** Non-equipment tooltips: kind 'waystone' { stone, note } · 'currency' { id, have, count } · 'skill' { id }. */
       function hoverThing(e, kind, data) {
         if (!data || dragSkill.value) return;
         if (kind === 'skill') { const card = skillCards.value.find(c => c.id === data.id); data = { ...data, el: EL_CLASS[skillElement(data.id)], info: skillInfo(data.id), key: card?.key ?? data.key ?? null, from: card?.from ?? '' }; }
-        if (kind === 'currency' && data.have === undefined) data = { ...data, have: save.currencies[data.id] || 0 };
+        if (kind === 'currency' && data.have === undefined) data = { ...data, have: wallet.value[data.id] || 0 };
         return placeTip(e.currentTarget, { kind, data });
       }
       let lastAnchor = null;
@@ -855,19 +944,20 @@ export function mountGame(el) {
       const tipPinned = ref(false), activeCur = ref(null), activeIdx = ref(-1);
       function pickCur(a) { activeCur.value = a?.id ?? null; activeIdx.value = a?.i ?? -1; }
       const curStacks = computed(() => currencyStacks(save));
+      const tipStacks = computed(() => run.value ? curStacks.value : currencyStacks({ currencies: wallet.value }));
       function pinTip() { if (hover.value?.item && hover.value.owned) { tipPinned.value = true; pickCur(null); craftMsg.value = ''; } }
       function unpinTip() { tipPinned.value = false; pickCur(null); hover.value = null; }
       function tipCraft(sel) {
         const it = hover.value?.item, id = activeCur.value; if (!it || !id) return;
-        const r = craft(save, it, id, rng, sel);
+        const r = craft(save, it, id, rng, sel, !run.value);
         craftMsg.value = r.message;
         sfx(r.ok ? 'craft' : 'craftFail', { kind: id });
         if (r.ok) {
           questFire({ type: 'craft' });
           if (Object.values(save.equipped).includes(it)) gearChanged(); else persist();
           // keep the highlight on one cell: the same slot if it is still this currency, else its last stack
-          if (!(save.currencies[id] > 0)) pickCur(null);
-          else if (curStacks.value[activeIdx.value]?.id !== id) activeIdx.value = curStacks.value.map(st => st.id).lastIndexOf(id);
+          if (!(wallet.value[id] > 0)) pickCur(null);
+          else if (tipStacks.value[activeIdx.value]?.id !== id) activeIdx.value = tipStacks.value.map(st => st.id).lastIndexOf(id);
           nextTick(() => gsap?.fromTo('.tipwrap .itip', { filter: 'brightness(1.7)' }, { filter: 'brightness(1)', duration: .45, ease: 'power2.out' }));
         }
       }
@@ -881,12 +971,55 @@ export function mountGame(el) {
         picked.value = swapped && at >= 0 ? back : null;
         if (picked.value && anchor?.isConnected) nextTick(() => hoverOn({ currentTarget: anchor }, picked.value));
       }
-      function doUnequip(s) { if (!save.equipped[s]) return; sfx('unequip'); unequip(save, s); picked.value = null; hover.value = null; gearChanged(); }
+      function doUnequip(s) { if (!save.equipped[s]) return; if (!unequip(save, s)) { toast('背包满了：先腾出一格', 'bad'); return; } sfx('unequip'); picked.value = null; hover.value = null; gearChanged(); }
+      // ---- stash ----
+      const inVault = it => save.stash.pages.some(p => p.includes(it)) || Object.values(save.stash.legend).some(l => l.includes(it));
+      function toVault(it, page = typeof vaultTab.value === 'number' ? vaultTab.value : 0) {
+        if (picked.value === it) picked.value = null;
+        let got = deposit(save, it.uid, page);
+        // the chosen page is full: try the others
+        for (let k = 0; !got && k < PAGES; ++k) got = deposit(save, it.uid, k);
+        if (!got) { toast('仓库的常规页都满了', 'bad'); return; }
+        hover.value = null; sfx('unequip'); persist();
+        if (got === 'legend' && vaultTab.value === 'legend') legendSel.value = it.legend;
+      }
+      function fromVault(it, where) {
+        if (!withdraw(save, it.uid, where)) { toast('背包满了：先腾出一格', 'bad'); return; }
+        if (picked.value === it) picked.value = null;
+        hover.value = null; sfx('pickup', { rarity: rarityOf(it).id }); persist();
+      }
+      function moveCurrency(id) { const n = depositCurrency(save, id); if (n) { hover.value = null; sfx('coin'); persist(); toast(`存入 ${n} 个通货`, 'cur', 'locked-chest', 'r-currency'); } }
+      function takeCurrency(id, n) { const got = withdrawCurrency(save, id, n); if (!got) { toast(save.stash.currency[id] ? '背包满了：先腾出一格' : `仓库里没有${CURRENCIES[id].name}`, 'bad'); return; } sfx('coin'); persist(); }
+      function vaultDragStart(it) { dragFrom.value = { it, page: vaultTab.value }; hover.value = null; }
+      function dropToBag() { const d = dragFrom.value; dragFrom.value = null; if (d) fromVault(d.it, { page: d.page }); }
+      function dropToPage(k) {
+        const it = dragItem.value, d = dragFrom.value; dragItem.value = null; dragFrom.value = null;
+        if (it && save.inventory.includes(it)) toVault(it, k);
+        else if (d && d.page !== k && save.stash.pages[k].length < PAGE_SIZE) { const pg = save.stash.pages[d.page]; pg.splice(pg.indexOf(d.it), 1); save.stash.pages[k].push(d.it); persist(); }
+      }
+      // ---- town portal: the map stays open while you are home ----
+      function portalHome() {
+        const r = run.value; if (!r || r.phase === 'failed') return;
+        if (r.phase === 'cleared') { leaveRun(); return; }
+        for (; seenPicked < r.pickedUp.length; ++seenPicked) bank(r.pickedUp[seenPicked]);
+        persist(); sfx('portal');
+        cancelAnimationFrame(raf); hover.value = null; mouse.down = false; keys.clear(); setLoop('drone', 0); setLoop('wind', 0);
+        portalRun.value = r; run.value = null; gearKey.value++;
+        toast('回到家了：地图还开着，左下角的传送门（T）带你回去', 'good', 'magic-portal', 'el-gold');
+        nextTick(showPendingStory);
+      }
+      function portalBack() {
+        const r = portalRun.value; if (!r) return;
+        portalRun.value = null; open.vault = false; atlasOpen.value = talentOpen.value = false; center.value = null; hover.value = null;
+        r.rebuildHero(build()); sfx('portal');
+        run.value = r;
+        nextTick(() => { stage.value.focus(); last = performance.now(); acc = 0; cancelAnimationFrame(raf); raf = requestAnimationFrame(frame); });
+      }
       function dragStart(it) { dragItem.value = it; hover.value = null; }
       function dropOn(s) { const it = dragItem.value; dropSlot.value = null; dragItem.value = null; if (it) doEquip(it.uid, s); }
       function doSalvage(uid) { const g = salvage(save, uid, rng); if (picked.value?.uid === uid) picked.value = null; hover.value = null; craftMsg.value = g ? `分解得到 ${CURRENCIES[g].name}` : '已分解'; persist(); }
       function doCraft(id) {
-        const r = craft(save, picked.value, id, rng, pickedLine.value);
+        const r = craft(save, picked.value, id, rng, pickedLine.value, !run.value);
         craftMsg.value = r.message; sfx(r.ok ? 'craft' : 'craftFail', { kind: id }); if (!r.ok) return;
         questFire({ type: 'craft' });
         if (Object.values(save.equipped).includes(picked.value)) gearChanged(); else persist();
@@ -915,19 +1048,23 @@ export function mountGame(el) {
         try { roles.value = roleReport(content, build(), mapTier.value); } finally { evaluating.value = false; }
       }
       async function update() { await runSelfUpdate(t => { updateText.value = t; }); }
-      const isOpen = id => id === 'talents' ? talentOpen.value : id === 'atlas' ? atlasOpen.value : id === 'char' || id === 'bag' ? open[id] : center.value === id;
+      const isOpen = id => id === 'talents' ? talentOpen.value : id === 'atlas' ? atlasOpen.value : id === 'char' || id === 'bag' || id === 'vault' ? open[id] : center.value === id;
       function toggle(id) {
         sfx(isOpen(id) ? 'close' : 'open');
         hover.value = null;
         if (id === 'talents') { talentOpen.value = !talentOpen.value; if (talentOpen.value) { atlasOpen.value = false; center.value = null; open.char = open.bag = false; } return; }
         if (id === 'atlas') { atlasOpen.value = !atlasOpen.value; if (atlasOpen.value) { talentOpen.value = false; center.value = null; open.char = open.bag = false; nextTick(() => { centerAtlas(); gsap?.fromTo('.atlas-win', { opacity: 0 }, { opacity: 1, duration: .35, ease: 'power2.out' }); }); } return; }
-        if (id === 'char' || id === 'bag') { open[id] = !open[id]; if (open[id]) atlasOpen.value = talentOpen.value = false; } else { center.value = center.value === id ? null : id; if (center.value) atlasOpen.value = talentOpen.value = false; }
-        nextTick(() => { const sel = id === 'char' ? '.win-left' : id === 'bag' ? '.win-right' : '.win-center'; if (isOpen(id)) gsap?.fromTo(sel, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: .28, ease: 'power3.out', clearProps: 'transform' }); });
+        if (id === 'vault') {
+          if (run.value && !open.vault) { toast('仓库在家里：按 T 传送回家', 'bad'); return; }
+          open.vault = !open.vault; if (open.vault) { open.char = false; open.bag = true; atlasOpen.value = talentOpen.value = false; center.value = null; }
+        } else if (id === 'char' || id === 'bag') { open[id] = !open[id]; if (open[id]) atlasOpen.value = talentOpen.value = false; if (id === 'char' && open.char) open.vault = false; } else { center.value = center.value === id ? null : id; if (center.value) atlasOpen.value = talentOpen.value = false; }
+        nextTick(() => { const sel = id === 'char' || id === 'vault' ? '.win-left' : id === 'bag' ? '.win-right' : '.win-center'; if (isOpen(id)) gsap?.fromTo(sel, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: .28, ease: 'power3.out', clearProps: 'transform' }); });
       }
       function openCenter(id) { if (center.value !== id) toggle(id); }
 
       // ---- run lifecycle ----------------------------------------------------------------------
       function startRun() {
+        if (portalRun.value) { run.value = portalRun.value; portalRun.value = null; leaveRun(); }
         if (!buildOf(save).skills.length) { open.char = true; toast('技能栏是空的：装备一件带主动技能的装备（武器都带）', 'bad'); return; }
         if (run.value) {
           // Leaving through the boss portal: bank the finished map, keep the node the player just picked.
@@ -941,8 +1078,8 @@ export function mountGame(el) {
         if (used) save.waystones.splice(save.waystones.findIndex(w => w.uid === used.uid), 1);
         persist(); atlasOpen.value = false; talentOpen.value = false;
         const r = new MapRun(build(), { tier, family: node.family, mods, seed: (Date.now() ^ (Math.random() * 1e9)) >>> 0 });
-        r.node = node.id;
-        run.value = markRaw(r); open.char = open.bag = false; center.value = null; seenPicked = 0; seenClear = -1; seenLoot = new Set(); seenPortal = 0; clearedBanner.value = false;
+        r.node = node.id; r.canTake = d => bagFits(save, d);
+        run.value = markRaw(r); open.char = open.bag = open.vault = false; seenKills = 0; seenFull = -9; bossXp = false; center.value = null; seenPicked = 0; seenClear = -1; seenLoot = new Set(); seenPortal = 0; clearedBanner.value = false;
         Object.assign(resultLoot, { items: 0, currencies: 0, stones: 0, legend: 0, opened: 0, done: false });
         nextTick(() => {
           if (!scene) { scene = new Scene3D(stage.value); ov = new Overlay(overlay.value); bindLabels(overlay.value); globalThis.__dw.scene = scene; }
@@ -956,7 +1093,9 @@ export function mountGame(el) {
         const r = run.value; if (!r) return;
         // Picked-up loot is already in the bag (see frame()); a cleared map also hands over what is still on the floor.
         if (r.phase !== 'failed') r.collectAll();
+        overflow = 0;
         for (; seenPicked < r.pickedUp.length; ++seenPicked) bank(r.pickedUp[seenPicked]);
+        if (overflow) toast(`背包满了：${overflow} 件战利品直接送进了仓库`, 'good', 'locked-chest', 'el-gold');
         save.stats.kills += r.kills;
         questFire({ type: 'kills', n: r.kills });
         persist();
@@ -967,7 +1106,12 @@ export function mountGame(el) {
       // Everything picked up goes straight into the save, so the bag shows it during the run too.
       function bank(d) {
         sfx(d.type === 'item' ? 'pickup' : d.type === 'waystone' ? 'stoneDrop' : 'coin', d.type === 'item' ? { rarity: rarityOf(d.item).id } : {});
-        if (d.type === 'item') questFire({ type: 'pickup', item: d.item }); if (d.type === 'item') save.inventory.unshift(d.item); else if (d.type === 'waystone') save.waystones.push(d.stone); else save.currencies[d.id] = (save.currencies[d.id] || 0) + d.count; }
+        if (d.type === 'item') questFire({ type: 'pickup', item: d.item });
+        // Loot handed over at the end of a map can overflow a full bag: it goes to the stash instead.
+        if (d.type === 'item') { if (bagFree(save) > 0) save.inventory.unshift(d.item); else { toBag(save, d.item); overflow++; } }
+        else if (d.type === 'waystone') save.waystones.push(d.stone);
+        else if (bagFits(save, d)) save.currencies[d.id] = (save.currencies[d.id] || 0) + d.count;
+        else { save.stash.currency[d.id] = (save.stash.currency[d.id] || 0) + d.count; overflow++; } }
       function frame(now) {
         const r = run.value; if (!r) return;
         // A frame queued before the run started can carry an older timestamp: never step backwards.
@@ -990,6 +1134,13 @@ export function mountGame(el) {
             else if (d.id === 'chaos' || d.id === 'seal' || d.id.startsWith('essence') || d.id === 'skill_gem') sfx('drop', { ...at, tier: 2 }); }
           if (l.drop.item?.legend) { legendBanner.value = { id: l.key, name: itemName(l.drop.item) }; setTimeout(() => { if (legendBanner.value?.id === l.key) legendBanner.value = null; }, 2600); }
         }
+        if (r.kills > seenKills || (!bossXp && r.boss && !r.boss.alive)) {
+          let xp = killXp(r.tier) * (r.kills - seenKills); seenKills = r.kills;
+          if (!bossXp && r.boss && !r.boss.alive) { bossXp = true; xp += killXp(r.tier, 'boss'); }
+          const up = gainXp(save, xp);
+          if (up) { sfx('chapter'); toast(`升到 ${save.level} 级`, 'quest big', 'laurel-crown', 'el-gold'); persist(); }
+        }
+        if (r.fullAt > seenFull) { seenFull = r.fullAt; toast('背包满了：回家（T）把东西存进仓库', 'bad'); sfx('craftFail'); }
         if (seenPicked < r.pickedUp.length) queueMicrotask(persist);
         for (; seenPicked < r.pickedUp.length; ++seenPicked) {
           const d = r.pickedUp[seenPicked]; bank(d);
@@ -1077,9 +1228,10 @@ export function mountGame(el) {
         if (['w', 'a', 's', 'd'].includes(k)) { if (down) keys.add(k); else keys.delete(k); e.preventDefault(); return; }
         if (!down) return;
         if (/^[1-4]$/.test(k)) selectSkill(+k - 1);
+        if (k === 't') { if (run.value) portalHome(); else portalBack(); }
         const p = PANELS.find(p => p.key.toLowerCase() === k); if (p) toggle(p.id);
         if (k === 'escape') {
-          if (talentOpen.value || atlasOpen.value || open.char || open.bag || center.value) { talentOpen.value = false; atlasOpen.value = false; open.char = open.bag = false; center.value = null; hover.value = null; }
+          if (talentOpen.value || atlasOpen.value || open.char || open.bag || open.vault || center.value) { talentOpen.value = false; atlasOpen.value = false; open.char = open.bag = open.vault = false; center.value = null; hover.value = null; }
           else if (run.value && run.value.phase === 'failed') leaveRun();
         }
       };
@@ -1114,6 +1266,8 @@ export function mountGame(el) {
         save, stage, overlay, tipEl, comboEl, flashEl, open, center, mapTier, mapFamily, picked, pickedLine, craftMsg, roles, evaluating, updateText, hover, bdSel, toasts, legendBanner,
         volume, cycleVolume, quest, questIndex, questSel, story, chapters: CHAPTERS, chapterNo, fmtN, rewardText, closeStory, claimStory, dragItem, dropSlot, dropBar, skillCards, skillGrid, hoverThing, tipPinned, activeCur, activeIdx, pickCur, curStacks, unpinTip, tipCraft, setBar, skillDragStart, skillDragEnd, skillDrop, quickBar, run, resultLoot, clearedBanner, hud,
         profile, requirements, statRows, bdArch, bdStages, currentBd, centerName, centerTitle, traits, granted, ladder, ladderFocus, primarySkill, bagCells,
+        bagLeft, bagSize: BAG_SIZE, pageCells, pageSize: PAGE_SIZE, pages: PAGES, legendCap: LEGEND_CAP, currencyPage: CURRENCY_PAGE, vaultTab, legendSel, dropTab, dragFrom, legendCount, vaultCounts, wallet, tipStacks,
+        legendary, toVault, fromVault, moveCurrency, takeCurrency, vaultDragStart, dropToBag, dropToPage, portalRun, portalHome, portalBack, xpNext, maxLevel: MAX_LEVEL,
         pick, equippedFor, hoverOn, hoverOff, doEquip, doUnequip, dragStart, dropOn, doSalvage, doCraft, applyBd, clearBd, accountName, leaveAccount, grantLegendary, evaluate, update, toggle, isOpen, openCenter, startRun, leaveRun, selectSkill, gearChanged,
         panels: PANELS, tierList: Array.from({ length: MAP_TIERS }, (_, i) => i + 1), families: MAP_FAMILIES, slots: SLOTS, slotNames: SLOT_NAMES, currencies: CURRENCIES,
         archetypes: ARCHETYPES, legendaries: LEGENDARIES, skillBar: SKILL_BAR, glyph: SLOT_GLYPH,
