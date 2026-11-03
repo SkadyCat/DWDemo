@@ -1,7 +1,7 @@
 // 背包 5 × 12、家里的仓库（通货页 / 传奇页每种 10 件 / 5 个常规页）、经验和等级。
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { newSave, migrate, bagFree, bagFits, deposit, withdraw, depositCurrency, withdrawCurrency, craft, toBag, gainXp, xpToNext,
+import { newSave, migrate, placeBag, moveInBag, equip, bagFree, bagFits, deposit, withdraw, depositCurrency, withdrawCurrency, craft, toBag, gainXp, xpToNext,
   BAG_SIZE, PAGE_SIZE, PAGES, LEGEND_CAP } from '../public/game/save.mjs';
 
 const item = (i, extra = {}) => ({ uid: 'it' + i, slot: 'ring1', base: 'ring', tier: 1, traits: [], lines: [], ...extra });
@@ -30,7 +30,7 @@ test('仓库：5 个常规页，每页 144 格；传奇进传奇页，每种最�
   assert.equal(s.stash.pages[2].length, 2, '第 11、12 件放进选中的常规页');
   assert.equal(deposit(s, 'it50', 4), 'page'); assert.equal(s.stash.pages[4].length, 1);
   assert.ok(withdraw(s, 'it3', { legend: 'pyre_staff' })); assert.equal(s.stash.legend.pyre_staff.length, 9);
-  assert.equal(s.inventory[0].uid, 'it3');
+  assert.ok(s.inventory.some(it => it.uid === 'it3'));
 });
 
 test('通货页：存入全部、按堆取出（受背包空格限制）；在家洗炼背包不够就从仓库扣', () => {
@@ -69,4 +69,28 @@ test('经验：升级所需递增，一次给很多能连升', () => {
   assert.ok(xpToNext(10) > xpToNext(2));
   const up = gainXp(s, xpToNext(1) + xpToNext(2) + 5);
   assert.equal(up, 2); assert.equal(s.level, 3); assert.equal(s.xp, 5);
+});
+
+test('背包不自动整理：拿走一件，后面的不前移；新东西进第一个空格；可以拖到指定格子', () => {
+  const s = newSave();
+  for (let i = 0; i < 5; ++i) s.inventory.push(item(i));
+  s.currencies.chaos = 5;
+  let g = placeBag(s);
+  assert.deepEqual(g.slice(0, 5).map(x => x.uid), ['it0', 'it1', 'it2', 'it3', 'it4']);
+  assert.ok(g[5].cur, '通货进下一个空格');
+  s.inventory.splice(1, 1);                       // it1 taken out
+  g = placeBag(s);
+  assert.equal(g[1], null, '空出来的格子保持空着');
+  assert.equal(g[4].uid, 'it4', '后面的没动');
+  s.inventory.push(item(9)); g = placeBag(s);
+  assert.equal(g[1].uid, 'it9', '新东西进第一个空格');
+  assert.ok(moveInBag(s, s.inventory.find(x => x.uid === 'it9'), 30)); g = placeBag(s);
+  assert.equal(g[30].uid, 'it9'); assert.equal(g[1], null);
+  s.currencies.chaos = 0; g = placeBag(s);
+  assert.equal(g[5], null, '通货用完，格子空出来，装备不前移');
+  assert.equal(g[2].uid, 'it2');
+  // equipping from the bag: the piece taken off lands in the same cell
+  const w = { ...item(50), slot: 'weapon', base: 'wand', skill: 'fireball' }; s.inventory.push(w); g = placeBag(s);
+  const at = w.cell; equip(s, w.uid); g = placeBag(s);
+  assert.equal(g[at]?.slot, 'weapon', '换下的武器放回原格');
 });

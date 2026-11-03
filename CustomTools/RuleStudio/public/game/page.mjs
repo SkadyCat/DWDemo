@@ -11,7 +11,7 @@ import { mapProfile, mapRequirements, MAP_FAMILIES, MAP_TIERS, ELITE_MODS } from
 import { gameContent } from '../../core/content/game.mjs';
 import { defenceReport, roleReport } from '../../core/analysis.mjs';
 import { loadSave, writeSave, buildOf, equip, unequip, salvage, craft, applyArchetype, clearArchetype, grantedSkills, syncSkillBar, SKILL_BAR,
-  STACK, BAG_SIZE, PAGE_SIZE, PAGES, LEGEND_CAP, currencyStacks, bagUsed, bagFree, bagFits, deposit, withdraw, depositCurrency, withdrawCurrency, curHave, toBag, xpToNext, killXp, gainXp, MAX_LEVEL } from './save.mjs';
+  STACK, BAG_SIZE, PAGE_SIZE, PAGES, LEGEND_CAP, currencyStacks, placeBag, placeGrid, moveInBag, bagUsed, bagFree, bagFits, deposit, withdraw, depositCurrency, withdrawCurrency, curHave, toBag, xpToNext, killXp, gainXp, MAX_LEVEL } from './save.mjs';
 import { equippedTraits, ladderStatus, detectArchetype } from './traits.mjs';
 import { MapRun } from './run.mjs';
 import { TalentBoard } from './talents-panel.mjs';
@@ -572,7 +572,7 @@ const TEMPLATE = /* html */ `
       <template v-else>
         <div class="grid g12" @dragover.prevent @drop.prevent="dropToPage(vaultTab)">
           <button v-for="(it, i) in pageCells" :key="it ? it.uid : 'e' + i" class="cell" :class="it ? ['r-' + rarity(it).id, { on: picked === it }] : 'empty'" :draggable="!!it"
-            @dragstart="it && vaultDragStart(it)" @dragend="dragFrom = null" @click="it && pick(it)" @contextmenu.prevent="it && fromVault(it, { page: vaultTab })" @dblclick="it && fromVault(it, { page: vaultTab })"
+            @dragstart="it && vaultDragStart(it)" @dragend="dragFrom = null" @dragover.prevent @drop.prevent.stop="dropPageCell(i)" @click="it && pick(it)" @contextmenu.prevent="it && fromVault(it, { page: vaultTab })" @dblclick="it && fromVault(it, { page: vaultTab })"
             @mouseenter="it && hoverOn($event, it)" @mouseleave="hoverOff">
             <template v-if="it"><Gi :n="itemIcon(it)" :c="'r-' + rarity(it).id" :g="glyph[it.slot]"/><b>{{ it.tier }}</b><i v-if="it.skill" class="cell-skill"></i></template>
           </button>
@@ -588,7 +588,7 @@ const TEMPLATE = /* html */ `
     <div class="win-body">
       <div class="grid g12" :class="{ dropzone: dragFrom }" @dragover.prevent @drop.prevent="dropToBag">
         <button v-for="(c, i) in bagCells" :key="c ? (c.cur ? 'c' + c.id + i : c.uid) : 'e' + i" class="cell" :class="!c ? 'empty' : c.cur ? 'cur' : ['r-' + rarity(c).id, { on: picked === c }]" :draggable="!!c && !c.cur"
-          @dragstart="c && !c.cur && dragStart(c)" @dragend="dragItem = null; dropSlot = null; dragFrom = null"
+          @dragstart="c && !c.cur && dragStart(c)" @dragend="dragItem = null; dropSlot = null; dragFrom = null" @dragover.prevent @drop.prevent.stop="dropBagCell(i)"
           @click="c && (c.cur ? (open.vault && moveCurrency(c.id)) : pick(c))" @dblclick="c && !c.cur && doEquip(c.uid)" @contextmenu.prevent="c && (c.cur ? open.vault && moveCurrency(c.id) : open.vault ? toVault(c) : doEquip(c.uid))"
           @mouseenter="c && (c.cur ? hoverThing($event, 'currency', { id: c.id, count: c.n, note: open.vault ? '点一下：这种通货全部存进仓库' : '每格最多 20 个 · 悬停装备按 Ctrl 钉住提示即可在提示里使用' }) : hoverOn($event, c))" @mouseleave="hoverOff">
           <template v-if="c && c.cur"><Gi :n="curIcon(c.id)" c="r-currency"/><em>{{ c.n }}</em></template>
@@ -879,9 +879,10 @@ export function mountGame(el) {
       const currentBd = computed(() => { const a = ARCHETYPES.find(x => x.id === save.archetype); return a ? `${a.name} · ${STAGES[save.bdStage ?? 0]?.name ?? ''}` : '自由搭配'; });
       const primarySkill = computed(() => { void gearKey.value; return save.skills.find(Boolean) ?? 'fireball'; });
       // The bag: currency stacks first, then the items, 5 × 12 cells in all.
-      const bagCells = computed(() => { const cells = [...currencyStacks(save).map(st => ({ cur: true, ...st })), ...save.inventory]; return Array.from({ length: Math.max(BAG_SIZE, cells.length) }, (_, i) => cells[i] ?? null); });
+      // The bag keeps every thing where it was put (no auto-sort): see placeBag.
+      const bagCells = computed(() => placeBag(save));
       const bagLeft = computed(() => bagFree(save));
-      const pageCells = computed(() => { const pg = save.stash.pages[vaultTab.value] ?? []; return Array.from({ length: PAGE_SIZE }, (_, i) => pg[i] ?? null); });
+      const pageCells = computed(() => placeGrid(save.stash.pages[vaultTab.value] ?? [], PAGE_SIZE));
       const legendCount = id => save.stash.legend[id]?.length ?? 0;
       const vaultCounts = computed(() => ({ currency: fmtN(Object.values(save.stash.currency).reduce((a, b) => a + b, 0)), legend: Object.values(save.stash.legend).reduce((a, l) => a + l.length, 0), items: save.stash.pages.reduce((a, p) => a + p.length, 0) }));
       /** Currency on hand for crafting: the bag, plus the currency page while at home. */
@@ -991,6 +992,18 @@ export function mountGame(el) {
       function moveCurrency(id) { const n = depositCurrency(save, id); if (n) { hover.value = null; sfx('coin'); persist(); toast(`存入 ${n} 个通货`, 'cur', 'locked-chest', 'r-currency'); } }
       function takeCurrency(id, n) { const got = withdrawCurrency(save, id, n); if (!got) { toast(save.stash.currency[id] ? '背包满了：先腾出一格' : `仓库里没有${CURRENCIES[id].name}`, 'bad'); return; } sfx('coin'); persist(); }
       function vaultDragStart(it) { dragFrom.value = { it, page: vaultTab.value }; hover.value = null; }
+      function dropBagCell(i) {
+        const it = dragItem.value, d = dragFrom.value; dragItem.value = null; dragFrom.value = null;
+        if (it && moveInBag(save, it, i)) { persist(); return; }
+        if (d && !bagCells.value[i]) { fromVault(d.it, { page: d.page }); d.it.cell = i; persist(); }
+        else if (d) fromVault(d.it, { page: d.page });
+      }
+      function dropPageCell(i) {
+        const d = dragFrom.value; if (!d || d.page !== vaultTab.value || dragItem.value) return dropToPage(vaultTab.value);
+        dragFrom.value = null; const there = pageCells.value[i];
+        if (there === d.it) return;
+        if (there) there.cell = d.it.cell; d.it.cell = i; persist();
+      }
       function dropToBag() { const d = dragFrom.value; dragFrom.value = null; if (d) fromVault(d.it, { page: d.page }); }
       function dropToPage(k) {
         const it = dragItem.value, d = dragFrom.value; dragItem.value = null; dragFrom.value = null;
@@ -1039,7 +1052,7 @@ export function mountGame(el) {
       }
       function grantLegendary(id) {
         const tier = Math.max(3, Math.min(10, Math.round(save.unlocked * 10 / 16) + 1));
-        const it = rollLegendary(id, tier, rng); save.inventory.unshift(it); persist();
+        const it = rollLegendary(id, tier, rng); save.inventory.push(it); persist();
         toast(`传奇 · ${legendary(id).name} 已放入背包`, 'r-legendary', BASE_ICON[legendary(id).base], 'r-legendary');
         open.bag = true; pick(it);
       }
@@ -1108,7 +1121,7 @@ export function mountGame(el) {
         sfx(d.type === 'item' ? 'pickup' : d.type === 'waystone' ? 'stoneDrop' : 'coin', d.type === 'item' ? { rarity: rarityOf(d.item).id } : {});
         if (d.type === 'item') questFire({ type: 'pickup', item: d.item });
         // Loot handed over at the end of a map can overflow a full bag: it goes to the stash instead.
-        if (d.type === 'item') { if (bagFree(save) > 0) save.inventory.unshift(d.item); else { toBag(save, d.item); overflow++; } }
+        if (d.type === 'item') { if (bagFree(save) > 0) save.inventory.push(d.item); else { toBag(save, d.item); overflow++; } }
         else if (d.type === 'waystone') save.waystones.push(d.stone);
         else if (bagFits(save, d)) save.currencies[d.id] = (save.currencies[d.id] || 0) + d.count;
         else { save.stash.currency[d.id] = (save.stash.currency[d.id] || 0) + d.count; overflow++; } }
@@ -1258,7 +1271,7 @@ export function mountGame(el) {
         volume, cycleVolume, quest, questIndex, questSel, story, chapters: CHAPTERS, chapterNo, fmtN, rewardText, closeStory, claimStory, dragItem, dropSlot, dropBar, skillCards, skillGrid, hoverThing, tipPinned, activeCur, activeIdx, pickCur, curStacks, unpinTip, tipCraft, setBar, skillDragStart, skillDragEnd, skillDrop, quickBar, run, resultLoot, clearedBanner, hud,
         profile, requirements, statRows, bdArch, bdStages, currentBd, centerName, centerTitle, traits, granted, ladder, ladderFocus, primarySkill, bagCells,
         bagLeft, bagSize: BAG_SIZE, pageCells, pageSize: PAGE_SIZE, pages: PAGES, legendCap: LEGEND_CAP, currencyPage: CURRENCY_PAGE, vaultTab, legendSel, dropTab, dragFrom, legendCount, vaultCounts, wallet, tipStacks,
-        legendary, toVault, fromVault, moveCurrency, takeCurrency, vaultDragStart, dropToBag, dropToPage, portalRun, portalHome, portalBack, xpNext, maxLevel: MAX_LEVEL,
+        legendary, dropBagCell, dropPageCell, toVault, fromVault, moveCurrency, takeCurrency, vaultDragStart, dropToBag, dropToPage, portalRun, portalHome, portalBack, xpNext, maxLevel: MAX_LEVEL,
         pick, equippedFor, hoverOn, hoverOff, doEquip, doUnequip, dragStart, dropOn, doSalvage, doCraft, applyBd, clearBd, accountName, leaveAccount, grantLegendary, evaluate, update, toggle, isOpen, openCenter, startRun, leaveRun, selectSkill, gearChanged,
         panels: PANELS, tierList: Array.from({ length: MAP_TIERS }, (_, i) => i + 1), families: MAP_FAMILIES, slots: SLOTS, slotNames: SLOT_NAMES, currencies: CURRENCIES,
         archetypes: ARCHETYPES, legendaries: LEGENDARIES, skillBar: SKILL_BAR, glyph: SLOT_GLYPH,

@@ -27,24 +27,63 @@ export function bagFits(save, drop) {
   return drop.count <= room || bagFree(save) >= Math.ceil((drop.count - room) / STACK);
 }
 
+/**
+ * Fixed cells (no auto-sort): every item keeps `cell` where it was put, currency stacks keep theirs in
+ * save.curCells. Things without a cell yet (new pickups) take the first free one. Returns the grid as an array.
+ */
+export function placeGrid(items, size, taken = new Set()) {
+  const grid = new Array(size).fill(null);
+  for (const c of taken) grid[c] = 'taken';
+  const ok = c => Number.isInteger(c) && c >= 0 && c < size && grid[c] === null;
+  const loose = [];
+  for (const it of items) { if (ok(it.cell)) grid[it.cell] = it; else loose.push(it); }
+  for (const it of loose) { const c = grid.indexOf(null); if (c < 0) { grid.push(it); it.cell = grid.length - 1; } else { it.cell = c; grid[c] = it; } }
+  return grid;
+}
+export function placeBag(save) {
+  const cc = (save.curCells ??= {}), used = new Set(), stacks = [];
+  const want = Object.fromEntries(Object.keys(CURRENCIES).map(id => [id, Math.ceil((save.currencies[id] || 0) / STACK)]));
+  // currency keeps its cells first; extra stacks take free cells after the items are placed
+  for (const id of Object.keys(CURRENCIES)) {
+    cc[id] = (cc[id] ?? []).filter(c => Number.isInteger(c) && c >= 0 && c < BAG_SIZE && !used.has(c)).slice(0, want[id]);
+    cc[id].forEach(c => used.add(c));
+  }
+  const grid = placeGrid(save.inventory, BAG_SIZE, used);
+  for (const id of Object.keys(CURRENCIES)) while (cc[id].length < want[id]) { let c = grid.indexOf(null); if (c < 0) { c = grid.length; grid.push(null); } cc[id].push(c); grid[c] = 'taken'; }
+  for (const id of Object.keys(CURRENCIES)) {
+    const n = save.currencies[id] || 0;
+    cc[id].forEach((c, k) => { grid[c] = { cur: true, id, n: Math.min(STACK, n - k * STACK) }; });
+  }
+  return grid.map(x => (x === 'taken' ? null : x));
+}
+/** Move a bag item to cell `to` (swapping with whatever is there). */
+export function moveInBag(save, it, to) {
+  if (!save.inventory.includes(it) || to < 0 || to >= BAG_SIZE) return false;
+  const grid = placeBag(save), there = grid[to], from = it.cell;
+  if (there === it) return false;
+  if (there?.cur) { const cc = save.curCells[there.id]; cc[cc.indexOf(to)] = from; }
+  else if (there) there.cell = from;
+  it.cell = to; return true;
+}
+
 /** Bag → stash. Legendaries go to the legendary page while their slot has room, everything else to `page`. */
 export function deposit(save, uid, page = 0) {
   const i = save.inventory.findIndex(it => it.uid === uid); if (i < 0) return null;
   const it = save.inventory[i];
   if (it.legend) {
     const list = (save.stash.legend[it.legend] ??= []);
-    if (list.length < LEGEND_CAP) { save.inventory.splice(i, 1); list.push(it); return 'legend'; }
+    if (list.length < LEGEND_CAP) { save.inventory.splice(i, 1); delete it.cell; list.push(it); return 'legend'; }
   }
   const pg = save.stash.pages[page];
   if (!pg || pg.length >= PAGE_SIZE) return null;
-  save.inventory.splice(i, 1); pg.push(it); return 'page';
+  save.inventory.splice(i, 1); delete it.cell; pg.push(it); return 'page';
 }
 /** Stash → bag. where: { page } or { legend }. */
 export function withdraw(save, uid, where) {
   if (bagFree(save) <= 0) return false;
   const list = where.legend ? save.stash.legend[where.legend] : save.stash.pages[where.page];
   const i = list?.findIndex(it => it.uid === uid) ?? -1; if (i < 0) return false;
-  save.inventory.unshift(list.splice(i, 1)[0]); return true;
+  const it = list.splice(i, 1)[0]; delete it.cell; save.inventory.push(it); return true;
 }
 /** Bag currency → the currency page (all of one kind, or every kind when id is null). */
 export function depositCurrency(save, id = null) {
@@ -142,12 +181,12 @@ export function equip(save, uid, slot = null) {
   if (slot && !(slot === item.slot || (ring(slot) && ring(item.slot)))) return false;
   if (!slot) slot = ring(item.slot) ? (!save.equipped.ring1 ? 'ring1' : !save.equipped.ring2 ? 'ring2' : 'ring1') : item.slot;
   // The piece taken off lands in the bag cell the new one came from (a swap, not a reshuffle).
-  if (save.equipped[slot]) save.inventory.splice(i, 1, save.equipped[slot]); else save.inventory.splice(i, 1);
+  if (save.equipped[slot]) { save.equipped[slot].cell = item.cell; save.inventory.splice(i, 1, save.equipped[slot]); } else save.inventory.splice(i, 1);
   save.equipped[slot] = { ...item, slot };
   syncSkillBar(save);
   return true;
 }
-export function unequip(save, slot) { if (!save.equipped[slot] || bagFree(save) <= 0) return false; save.inventory.push(save.equipped[slot]); save.equipped[slot] = null; syncSkillBar(save); return true; }
+export function unequip(save, slot) { if (!save.equipped[slot] || bagFree(save) <= 0) return false; const it = save.equipped[slot]; delete it.cell; save.inventory.push(it); save.equipped[slot] = null; syncSkillBar(save); return true; }
 /** Into the bag, or the first stash page with room when the bag is full. Returns where it went. */
 export function toBag(save, it) {
   if (bagFree(save) > 0) { save.inventory.push(it); return 'bag'; }
