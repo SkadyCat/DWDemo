@@ -232,6 +232,13 @@ defineAction('die', (a, inv) => {
   if (t === inv.caster) { t.alive = false; t.life = 0; inv.world.emit({ type: 'death', source: t, key: t.template, x: t.x, y: t.y, depth: inv.depth, selfDestruct: true }); return; }
   kill(inv.world, t, inv.caster, { depth: inv.depth });
 });
+/** Make the caster hunt the invocation's target right now (being hit, taunts): it is chased until the leash breaks. */
+defineAction('provoke', (a, inv) => {
+  const who = a.on === 'target' ? inv.target : inv.caster, at = a.on === 'target' ? inv.caster : inv.target;
+  if (!who?.alive || !at?.alive || who.team === at.team) return;
+  if (who.brainTarget !== at) inv.world.emit({ type: 'aggro', source: who, target: at, x: who.x, y: who.y, provoked: true, depth: inv.depth });
+  who.brainTarget = at; who.retargetAt = inv.world.time + 0.25;
+});
 defineAction('heal', (a, inv) => { const t = a.on === 'target' ? inv.target : inv.caster; if (!t?.alive) return; const pool = a.pool ?? 'life'; t[pool] = Math.min(t.max[pool], t[pool] + num(a.amount, inv) + t.max[pool] * num(a.pct, inv) / 100); });
 defineAction('emit', (a, inv) => { inv.world.emit({ type: a.event, source: inv.caster, target: inv.target, skill: inv.skill, amount: num(a.amount, inv), x: inv.aim.x, y: inv.aim.y, depth: inv.depth }); });
 

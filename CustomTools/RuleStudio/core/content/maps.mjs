@@ -41,9 +41,9 @@ export const ELITE_MODS = Object.freeze(patchMap('elites', {
  * `share` is how often a trash monster is this type; elites and the boss pick their own row.
  */
 export const MONSTER_TYPES = Object.freeze(patchMap('monsters', {
-  melee: { name: '掠食者', role: '近战杂兵：贴身扑咬', share: 0.7, radius: 28, life: 1, damage: 1, skills: ['mob_strike'], aggro: 750 },
-  ranged: { name: '投弹手', role: '远程杂兵：保持距离投掷', share: 0.3, radius: 28, life: 1, damage: 1, skills: ['mob_bolt'], aggro: 750, keepDistance: 420 },
-  elite: { name: '精英', role: '带 1–3 条精英词缀，生命为杂兵的 7.5 倍', radius: 40, life: 1, damage: 1.5, aggro: 750 },
+  melee: { name: '掠食者', role: '近战杂兵：贴身扑咬', share: 0.7, radius: 28, life: 1, damage: 1, skills: ['mob_strike'], aggro: 600 },
+  ranged: { name: '投弹手', role: '远程杂兵：保持距离投掷', share: 0.3, radius: 28, life: 1, damage: 1, skills: ['mob_bolt'], aggro: 600, keepDistance: 420 },
+  elite: { name: '精英', role: '带 1–3 条精英词缀，生命为杂兵的 7.5 倍', radius: 40, life: 1, damage: 1.5, aggro: 700 },
   boss: { name: '首领', role: '地图终点；60 秒后狂暴', radius: 70, life: 1, damage: 2, skills: ['mob_strike', 'boss_slam', 'boss_nova'], aggro: 900 },
 }));
 
@@ -57,7 +57,15 @@ export const MAP_PACK = Object.freeze({
       actions: [{ do: 'area', at: 'target', radius: 160, delay: 1.2, mult: 900, fx: 'telegraph' }] },
     { id: 'boss_nova', tags: ['spell', 'area', 'monster'], time: 2, cooldown: 6, crit: 0, range: 500, actions: [{ do: 'area', at: 'self', radius: 420, mult: 300 }] },
   ]),
-  statuses: [{ id: 'enraged', name: '狂暴', duration: 1e9, mods: [{ stat: 'damage', op: 'more', value: 200 }, { stat: 'speed', op: 'more', value: 50 }] }],
+  statuses: [
+    { id: 'enraged', name: '狂暴', duration: 1e9, mods: [{ stat: 'damage', op: 'more', value: 200 }, { stat: 'speed', op: 'more', value: 50 }, { stat: 'aggro', op: 'more', value: 300 }] },
+    // 警觉：被打的怪和它身边的同伴索敌范围扩大（追得更远），几秒后平静下来。
+    { id: 'alerted', name: '警觉', duration: 6, tags: ['buff'], mods: [{ stat: 'aggro', op: 'more', value: 150 }] },
+  ],
+  // Every map monster carries this: hit it and it turns on the attacker, and its pack wakes up.
+  affixes: [{ id: 'mob_instinct', name: '怪物本能', rules: [
+    { id: 'mob_provoked', on: 'struck', at: 'target', limit: { cooldown: 0.5 }, do: [{ do: 'provoke' }, { do: 'status', status: 'alerted', on: 'allies', radius: 450 }] },
+  ] }],
 });
 
 /**

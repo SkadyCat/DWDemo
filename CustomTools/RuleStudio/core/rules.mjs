@@ -38,11 +38,21 @@ export function compileRule(raw, where = `规则 ${raw?.id}`) {
 
 /** Attach a rule to an actor. `skill` is an optional skill instance used for tags/mods of the actions. */
 export function attachRule(world, actor, rule, skill = null) {
-  const inst = { rule, actor, skill, counter: 0, meter: 0, readyAt: 0, fires: [], timer: 0 };
+  const inst = { rule, actor, skill, counter: 0, meter: 0, readyAt: 0, fires: [], timer: 0, seq: ++world.ruleSeq };
   actor.rules.push(inst);
-  let list = world.ruleIndex.get(rule.on);
-  if (!list) world.ruleIndex.set(rule.on, list = []);
-  list.push(inst);
+  // 'source' rules only ever answer their holder's own events: index them by holder, so a map full of
+  // monsters with on-hit rules costs nothing for the events of everyone else.
+  if (rule.role === 'source') {
+    let byActor = world.ruleBySource.get(rule.on);
+    if (!byActor) world.ruleBySource.set(rule.on, byActor = new Map());
+    let list = byActor.get(actor);
+    if (!list) byActor.set(actor, list = []);
+    list.push(inst);
+  } else {
+    let list = world.ruleIndex.get(rule.on);
+    if (!list) world.ruleIndex.set(rule.on, list = []);
+    list.push(inst);
+  }
   return inst;
 }
 
@@ -50,6 +60,20 @@ export function detachRules(world, actor, pred = () => true) {
   const gone = new Set(actor.rules.filter(pred));
   actor.rules = actor.rules.filter(r => !gone.has(r));
   for (const [k, list] of world.ruleIndex) world.ruleIndex.set(k, list.filter(r => !gone.has(r)));
+  for (const byActor of world.ruleBySource.values()) {
+    const list = byActor.get(actor);
+    if (list) { const keep = list.filter(r => !gone.has(r)); if (keep.length) byActor.set(actor, keep); else byActor.delete(actor); }
+  }
+}
+
+/** Rule instances listening to this event, in the order they were attached. */
+function listeners(w, e) {
+  const all = w.ruleIndex.get(e.type), own = e.source ? w.ruleBySource.get(e.type)?.get(e.source) : null;
+  if (!own?.length) return all ?? null;
+  if (!all?.length) return own;
+  const out = [];
+  for (let i = 0, j = 0; i < all.length || j < own.length;) out.push(j >= own.length || (i < all.length && all[i].seq < own[j].seq) ? all[i++] : own[j++]);
+  return out;
 }
 
 function roleMatches(role, holder, e) {
@@ -128,9 +152,9 @@ function fire(inst, e, world) {
 
 /** Install the rule dispatcher on a world. */
 export function installRules(world) {
-  world.ruleIndex = new Map();
+  world.ruleIndex = new Map(); world.ruleBySource = new Map(); world.ruleSeq = 0;
   world.on('*', (w, e) => {
-    const list = w.ruleIndex.get(e.type);
+    const list = listeners(w, e);
     if (!list || e.capped) return;
     for (const inst of list.slice()) {
       if (!inst.actor.alive && inst.rule.on !== 'death') continue;
@@ -143,8 +167,8 @@ export function installRules(world) {
   });
   // A tick event per actor that has periodic rules, so "every 2 seconds" rules need no special casing.
   world.systems.push({ step(w, dt) {
-    const list = w.ruleIndex.get('tick');
-    if (!list?.length) return;
+    const list = [...(w.ruleIndex.get('tick') ?? []), ...[...(w.ruleBySource.get('tick')?.values() ?? [])].flat()].sort((p, q) => p.seq - q.seq);
+    if (!list.length) return;
     const seen = new Set();
     for (const inst of list) if (inst.actor.alive && !seen.has(inst.actor)) { seen.add(inst.actor); w.emit({ type: 'tick', source: inst.actor, dt }); }
   } });

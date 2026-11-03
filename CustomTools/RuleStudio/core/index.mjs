@@ -23,7 +23,7 @@ export * as registry from './registry.mjs';
 /** Movement and auto-casting for actors with a brain ('chase' | 'turret'). Heroes driven by the host have none. */
 const brains = {
   step(world, dt) {
-    const moveRules = world.ruleIndex.get('move');
+    const moveRules = world.ruleIndex.get('move'), moveOwn = world.ruleBySource.get('move');
     for (const a of world.actors.values()) {
       if (!a.alive) continue;
       if (a.expireAt !== undefined && world.time >= a.expireAt) { a.alive = false; world.emit({ type: 'death', source: a, key: a.template, x: a.x, y: a.y, expired: true }); continue; }
@@ -33,7 +33,7 @@ const brains = {
       else if (a.vx || a.vy) { const sp = world.quick(a, 'moveBase') * world.quick(a, 'moveSpeed') / 100; const l = Math.hypot(a.vx, a.vy) || 1; if (!world.quick(a, 'cannotMove')) world.moveActor(a, a.x + a.vx / l * sp * dt, a.y + a.vy / l * sp * dt); }
       const moved = Math.hypot(a.x - ox, a.y - oy);
       a.moving = moved > 1e-6;
-      if (a.moving && moveRules?.some(r => r.actor === a)) world.emit({ type: 'move', source: a, amount: moved, x: a.x, y: a.y });
+      if (a.moving && (moveOwn?.has(a) || moveRules?.some(r => r.actor === a))) world.emit({ type: 'move', source: a, amount: moved, x: a.x, y: a.y });
     }
   },
 };
@@ -64,10 +64,24 @@ export function stopChannel(world, a) {
   a.channeling = null; a.channelTicks = 0; a.channelTimer = 0;
 }
 
+// Aggro: an actor notices the nearest enemy inside its range that it can see (walls block sight), or one
+// close enough to hear (HEAR of the range) even behind a wall. Once hunting, it keeps chasing until the
+// target gets beyond LEASH times the range. The range is actor.aggro scaled by the 'aggro' stat.
+const HEAR = 0.3, LEASH = 1.6;
+export const aggroRange = (world, a) => (a.aggro ?? 2000) * world.quick(a, 'aggro') / 100;
+function acquire(world, a, R) {
+  if (!world.terrain) return world.nearest(a, 'enemy', R);
+  const list = [];
+  world.grid.query(a.x, a.y, R, o => { const d = Math.hypot(o.x - a.x, o.y - a.y); if (d <= R) list.push([d, o]); }, { notTeam: a.team });
+  list.sort((p, q) => p[0] - q[0] || p[1].id - q[1].id);
+  for (let i = 0; i < Math.min(6, list.length); ++i) { const [d, o] = list[i]; if (d <= R * HEAR || world.clearLine(a.x, a.y, o.x, o.y, 4)) return o; }
+  return null;
+}
+
 function think(world, a, dt) {
   if (a.channeling) {
     // Channelled skills keep moving toward the nearest enemy (cyclone walks while it spins).
-    const t = world.nearest(a, 'enemy', a.aggro ?? 2000);
+    const t = world.nearest(a, 'enemy', aggroRange(world, a));
     if (!t) { stopChannel(world, a); return; }
     const d = Math.hypot(t.x - a.x, t.y - a.y) - t.radius - a.radius;
     if (a.brain === 'chase' && d > 20 && !world.quick(a, 'cannotMove')) {
@@ -80,7 +94,11 @@ function think(world, a, dt) {
   // Re-acquire the nearest enemy a few times per second, not every frame (staggered by id).
   let target = a.brainTarget;
   if (!target?.alive || world.time >= (a.retargetAt ?? 0)) {
-    target = a.brainTarget = world.nearest(a, 'enemy', a.aggro ?? 2000);
+    const R = aggroRange(world, a), seen = acquire(world, a, R);
+    const held = target?.alive && Math.hypot(target.x - a.x, target.y - a.y) <= R * LEASH ? target : null;
+    const next = seen ?? held;
+    if (next && !held && next !== target) world.emit({ type: 'aggro', source: a, target: next, x: a.x, y: a.y });
+    target = a.brainTarget = next;
     a.retargetAt = world.time + 0.25 + (a.id % 7) * 0.02;
   }
   if (!target) return;
