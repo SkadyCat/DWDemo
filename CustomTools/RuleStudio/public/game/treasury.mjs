@@ -68,6 +68,22 @@ const KINDS = [() => sword(1), () => spear(), () => axe(false), () => axe(true),
 // Length of each weapon, for how far it pokes out of its gate.
 const LENGTH = [1.45, 2.1, 1.35, 1.8, 2.1];
 
+/** A gold vortex: bright rim, rings spiralling into a hot centre (drawn once on a canvas). */
+function swirlTexture() {
+  const S = 256, c = document.createElement('canvas'); c.width = c.height = S;
+  const g = c.getContext('2d'), mid = S / 2;
+  const glow = g.createRadialGradient(mid, mid, 0, mid, mid, mid);
+  glow.addColorStop(0, 'rgba(255,250,220,1)'); glow.addColorStop(0.18, 'rgba(255,214,120,.9)'); glow.addColorStop(0.55, 'rgba(230,150,40,.35)'); glow.addColorStop(0.9, 'rgba(255,190,70,.55)'); glow.addColorStop(1, 'rgba(255,190,70,0)');
+  g.fillStyle = glow; g.fillRect(0, 0, S, S);
+  g.lineCap = 'round';
+  for (let k = 0; k < 7; ++k) {       // spiral arms
+    g.beginPath();
+    for (let t = 0; t <= 1; t += 0.02) { const a = k / 7 * Math.PI * 2 + t * 4.2, r = mid * (0.12 + 0.82 * t); const x = mid + Math.cos(a) * r, y = mid + Math.sin(a) * r; t ? g.lineTo(x, y) : g.moveTo(x, y); }
+    g.strokeStyle = 'rgba(255,236,170,.75)'; g.lineWidth = 3.2; g.stroke();
+  }
+  for (const [r, w, a] of [[0.94, 5, .9], [0.78, 2.5, .6], [0.6, 2, .5], [0.4, 1.5, .5]]) { g.beginPath(); g.arc(mid, mid, mid * r, 0, Math.PI * 2); g.strokeStyle = `rgba(255,224,140,${a})`; g.lineWidth = w; g.stroke(); }
+  const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace; return tex;
+}
 const hash = n => { const x = Math.sin(n * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
 /** Height (m) of a gate in the air, and its size: higher and bigger the further back it sits. */
 export const gateLook = id => ({ h: 1.7 + hash(id) * 2.6, size: 0.75 + hash(id + 7) * 0.7, weapon: Math.floor(hash(id * 3.7 + 11) * KINDS.length) % KINDS.length });
@@ -76,6 +92,10 @@ export class Treasury {
   constructor(scene) {
     const mat = new THREE.MeshStandardMaterial({ vertexColors: true, metalness: 0.6, roughness: 0.38, flatShading: true, emissive: 0x120b02 });
     this.meshes = KINDS.map(make => { const m = new THREE.InstancedMesh(make(), mat, CAP); m.count = 0; m.frustumCulled = false; scene.add(m); return m; });
+    // The gate itself: a swirling gold disc facing the target (not the camera), the weapon coming out of its middle.
+    const disc = new THREE.MeshBasicMaterial({ map: swirlTexture(), color: 0xffffff, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, side: THREE.DoubleSide, toneMapped: false });
+    this.discs = new THREE.InstancedMesh(new THREE.CircleGeometry(0.62, 40), disc, 96); this.discs.count = 0; this.discs.frustumCulled = false; this.discs.renderOrder = 5;
+    scene.add(this.discs);
     this.heights = new Map();   // projectile id -> [start height, kind]
     this.tmp = { m: new THREE.Matrix4(), q: new THREE.Quaternion(), p: new THREE.Vector3(), d: new THREE.Vector3(), s: new THREE.Vector3(), z: new THREE.Vector3(0, 0, 1) };
   }
@@ -85,16 +105,27 @@ export class Treasury {
     q.setFromUnitVectors(Z, dir); p.set(x, h, z); s.setScalar(scale * SCALE);
     mesh.setMatrixAt(mesh.count++, m.compose(p, q, s));
   }
+  disc(x, h, z, dir, size, spin, open) {
+    if (this.discs.count >= 96) return;
+    const { m, q, p, s, z: Z } = this.tmp, r = this.tmp.r ??= new THREE.Quaternion();
+    q.setFromUnitVectors(Z, dir).multiply(r.setFromAxisAngle(Z, spin));
+    p.set(x, h, z); s.setScalar(size * open);
+    this.discs.setMatrixAt(this.discs.count++, m.compose(p, q, s));
+  }
   update(run, time) {
     for (const mesh of this.meshes) mesh.count = 0;
+    this.discs.count = 0;
     const gates = run.zones().filter(z => z.kind === 'gate');
     const { d } = this.tmp;
     // a weapon poking out of every gate, its tip on the clicked point; it slides out as the gate opens
     for (const g of gates) {
       const look = gateLook(g.id), gx = g.x * M, gz = -g.y * M, ax = (g.aimX ?? g.x) * M, az = -(g.aimY ?? g.y) * M;
       d.set(ax - gx, 0.8 - look.h, az - gz).normalize();
-      const L = LENGTH[look.weapon] * look.size * SCALE, out = Math.min(1, (g.age ?? 1) * 4) * 0.55 * L, back = L - out;
-      this.place(look.weapon, gx - d.x * back, look.h - d.y * back, gz - d.z * back, d, look.size);
+      // hilt in the gate, the blade sliding out toward the target as the gate opens
+      const open = Math.min(1, (g.age ?? 1) * 5) * Math.min(1, (g.remaining ?? 1) * 4);
+      const L = LENGTH[look.weapon] * look.size * SCALE, back = L * (0.12 + 0.5 * (1 - Math.min(1, (g.age ?? 1) * 3)));
+      this.disc(gx, look.h, gz, d, look.size, -time * 2.2 + g.id, open);
+      if (open > 0.05) this.place(look.weapon, gx - d.x * back, look.h - d.y * back, gz - d.z * back, d, look.size * (0.6 + 0.4 * open));
     }
     // flying treasures: start at the height of the gate they came from, dive onto the target
     const live = new Set();
@@ -115,6 +146,7 @@ export class Treasury {
     }
     for (const id of this.heights.keys()) if (!live.has(id)) this.heights.delete(id);
     for (const mesh of this.meshes) mesh.instanceMatrix.needsUpdate = true;
+    this.discs.instanceMatrix.needsUpdate = true;
   }
   dispose() { for (const m of this.meshes) { m.geometry.dispose(); m.removeFromParent(); } }
 }

@@ -404,11 +404,9 @@ export function createFx(T, scene) {
         // a swirl of gold rings opening in the air; it grows in as the gate opens and fades as it closes
         const s = (z.seed ?? 0) + time * 2.4, gold = [2.6, 1.8, .55], h = z.h ?? 2.4;
         const open = Math.min(1, (z.age ?? 1) * 5) * Math.min(1, (z.left ?? 1) * 4), sz = (z.size ?? 1) * open, pos = [z.x, h, z.z];
-        P.sprite('add', pos, 1.5 * sz, mul(gold, .55), .35, CELL.ring, s);
-        P.sprite('add', pos, 1.1 * sz, gold, .45, CELL.ring, -s * 1.3);
-        P.sprite('add', pos, .7 * sz, [3.4, 2.8, 1.4], .5, CELL.ring, s * 1.9);
-        P.sprite('add', pos, .32 * sz, [4, 3.4, 2], .7, CELL.core);
-        P.sprite('add', pos, 2.1 * sz, mul(gold, .25), .2, CELL.glow);
+        // (the disc and its weapon are meshes in game/treasury.mjs; this is the light around them)
+        P.sprite('add', pos, 2 * sz, mul(gold, .3), .22, CELL.glow);
+        P.sprite('add', pos, .35 * sz, [4, 3.4, 2], .45, CELL.core);
         if (Math.random() < .5) { const a = Math.random() * 6.28, rr = .55 * sz; P.emit('add', 1, { pos: [z.x + Math.cos(a) * rr, h + Math.sin(a) * rr, z.z], life: [.3, .6], size: [.04, .07], color: gold, cell: CELL.ember, dir: 'sphere', speed: [.1, .4], fadeIn: 0 }); }
         continue;
       }
