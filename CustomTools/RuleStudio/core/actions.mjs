@@ -469,7 +469,7 @@ defineAction('gates', (a, inv) => {
     const dx = Math.cos(ang) * r, dy = Math.sin(ang) * r, p = { x: me.x + dx, y: me.y + dy };
     w.carriers.spawnZone({ inv: inv.fork({ origin: p, aim, tags: new Set([...inv.tags, 'gate']) }), action: { kind: a.kind ?? 'gate', hit: false, onPulse: a.onPulse }, x: p.x, y: p.y,
       radius: 40, remaining: duration, interval, timer: 0.08 + 0.05 * i, pull: 0, growth: 0, burst: 0, speed: 0, wander: 0, seek: num(a.seek, inv, 380), angle: 0,
-      follow: me, dx, dy, aimAt: aim, kind: a.kind ?? 'gate' });
+      follow: me, dx, dy, aimAt: aim, born: w.time, kind: a.kind ?? 'gate' });
   }
 });
 

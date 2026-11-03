@@ -265,7 +265,8 @@ export class MapRun {
       hostile: p.inv.caster.team !== 0, kind: p.action.kind ?? (p.inv.skill?.def.id ?? 'bolt'), element: elementOf(p.inv), age: p.age }));
   }
   traps() { return this.world.carriers.traps.filter(t => t.alive).map(t => ({ id: t.id, x: t.x, y: t.y, trigger: t.trigger, kind: t.kind, armed: t.arm <= 0, left: t.remaining, element: elementOf(t.inv) })); }
-  zones() { return this.world.carriers.zones.filter(z => z.alive).map(z => ({ id: z.id, x: z.x, y: z.y, radius: z.radius, kind: z.kind ?? z.action.kind, remaining: z.remaining, element: elementOf(z.inv) })); }
+  zones() { return this.world.carriers.zones.filter(z => z.alive).map(z => ({ id: z.id, x: z.x, y: z.y, radius: z.radius, kind: z.kind ?? z.action.kind, remaining: z.remaining, element: elementOf(z.inv),
+    aimX: z.aimAt?.x, aimY: z.aimAt?.y, age: z.born !== undefined ? this.world.time - z.born : undefined })); }
 }
 
 const ELEMENTS = ['fire', 'cold', 'lightning', 'physical', 'chaos'];

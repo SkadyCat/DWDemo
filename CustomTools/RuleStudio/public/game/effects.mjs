@@ -1,6 +1,7 @@
 // 特效桥：新引擎的事件 → 特效配方（public/vfx/fx.mjs）。只观察、不改玩法。
 // 一次性特效来自世界事件（区域、打击、闪现、命中、碎冰、预警、击杀……）；
 // 持续特效（投射物、地面区域、状态、召唤物）每帧从 run 的视图读取。
+import { gateLook } from './treasury.mjs';
 import { createFx } from '../vfx/fx.mjs';
 import { sfx, setLoop } from './audio.mjs';
 
@@ -172,8 +173,9 @@ export function createEffects(T, scene) {
     const live = ['cleared', 'failed'].includes(run.phase) ? [] : run.projectiles();
     // wind for the tornadoes near the hero
     { let n = 0; for (const z of run.zones()) if (z.kind === 'tornado' && Math.hypot(z.x - run.hero.x, z.y - run.hero.y) < 1200) n++; setLoop('wind', Math.min(1, n / 5)); }
-    fx.projectiles(live.filter(p => p.kind !== 'arc').map(p => ({ id: p.id, x: p.x * M, y: p.z * M, z: -p.y * M, vx: p.vx * M, vy: 0, vz: -p.vy * M, radius: p.radius * M, kind: p.kind, element: p.element, hostile: p.hostile, age: p.age })), dt);
-    fx.zones(run.zones().filter(z => z.kind !== 'brand').map(z => ({ x: z.x * M, z: -z.y * M, radius: z.radius * M, kind: z.kind, element: z.element, left: z.remaining, seed: z.id * 1.37, d: Math.hypot(z.x - run.hero.x, z.y - run.hero.y) })));
+    fx.projectiles(live.filter(p => p.kind !== 'arc' && p.kind !== 'treasure').map(p => ({ id: p.id, x: p.x * M, y: p.z * M, z: -p.y * M, vx: p.vx * M, vy: 0, vz: -p.vy * M, radius: p.radius * M, kind: p.kind, element: p.element, hostile: p.hostile, age: p.age })), dt);
+    fx.zones(run.zones().filter(z => z.kind !== 'brand').map(z => ({ x: z.x * M, z: -z.y * M, radius: z.radius * M, kind: z.kind, element: z.element, left: z.remaining, seed: z.id * 1.37, d: Math.hypot(z.x - run.hero.x, z.y - run.hero.y),
+      ...(z.kind === 'gate' ? gateLook(z.id) : {}), age: z.age })));
     const hero = run.hero, st = [];
     for (const a of [hero, ...run.monsters]) {
       if (!a.alive || Math.hypot(a.x - hero.x, a.y - hero.y) > 1700) continue;

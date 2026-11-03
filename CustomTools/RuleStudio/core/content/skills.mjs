@@ -181,7 +181,7 @@ export const GAME_SKILLS = Object.freeze({
       actions: [{ do: 'area', at: 'aim', radius: 230, fx: 'ice_nova' }] },
     // 宝库：身后打开一排金色的门，门里一件接一件射出兵器，射向点的位置附近的敌人。
     { id: 'gate_of_treasures', name: '宝库之门', tags: ['spell', 'projectile', 'physical', 'duration'], time: 0.65, cost: 10, crit: 8, damage: { physical: 3 }, range: 800,
-      actions: [{ do: 'gates', count: 3, duration: 1.6, interval: 0.4, seek: 380,
+      actions: [{ do: 'gates', count: 3, duration: 1.6, interval: 0.4, seek: 380, dist: 170, arc: 210,
         onPulse: [{ do: 'projectile', speed: 2300, radius: 22, lifetime: 0.6, pierce: 1, kind: 'treasure', from: 'origin' }] }] },
     { id: 'treasure_shot', name: '宝具', tags: ['spell', 'projectile', 'physical', 'treasure', 'triggered_only'], time: 0.5, crit: 8, damage: { physical: 14 }, range: 600,
       actions: [{ do: 'projectile', speed: 2300, radius: 22, lifetime: 0.5, pierce: 1, kind: 'treasure', from: 'origin' }] },

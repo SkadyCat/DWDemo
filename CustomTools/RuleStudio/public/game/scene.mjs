@@ -6,6 +6,7 @@ import { createLootMarkers } from '../prefabs/loot-markers.mjs';
 import { createPost } from '../vfx/post.mjs';
 import { createEffects } from './effects.mjs';
 import { Characters } from './characters.mjs';
+import { Treasury } from './treasury.mjs';
 import { rarityOf, itemName, CURRENCIES, baseLinesOf } from '../../core/content/items.mjs';
 import { waystoneName } from './waystones.mjs';
 
@@ -60,6 +61,7 @@ export class Scene3D {
     this.heroParts = [body, head, staff, focus];
     // The real low-poly models and animation; until they load (or if they fail) the capsules stand in.
     this.chars = new Characters(scene);
+    this.treasury = new Treasury(scene);
     this.aimArrow = new THREE.Mesh(new THREE.ConeGeometry(0.16, 0.5, 12), new THREE.MeshBasicMaterial({ color: 0x33e6ff, transparent: true, opacity: 0.85 }));
     scene.add(this.aimArrow);
 
@@ -123,6 +125,7 @@ export class Scene3D {
     const dt = this.lastRun === run ? run.elapsed - this.lastElapsed : 0;
     this.lastRun = run; this.lastElapsed = run.elapsed;
     const ch = this.chars.update(run, dt);
+    this.treasury.update(run, time);
     for (const part of this.heroParts) part.visible = !ch.hero;
     this.hero.visible = hero.alive;
     this.hero.position.copy(hp);

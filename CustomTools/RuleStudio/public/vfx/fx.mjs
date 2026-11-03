@@ -318,10 +318,9 @@ export function createFx(T, scene) {
         if (lit++ < 6) frameLight(pos, c.light, big ? 3.5 : 1.8, 2.6);
       } else if (kind === 'treasure') {
         // 宝具: a long golden blade with a bright edge
+        // the weapon itself is a mesh (game/treasury.mjs); here only its golden glow
         const gold = [3.2, 2.3, .8];
-        P.sprite('add', pos, r * 3.2, gold, 1, CELL.streak, 0, .12, vel);
-        P.sprite('add', pos, r * 1.4, [4, 3.6, 2.6], 1, CELL.streak, 0, .06, vel);
-        P.sprite('add', pos, r * 4, mul(gold, .5), .35 * dens, CELL.glow);
+        P.sprite('add', pos, r * 4, mul(gold, .5), .3 * dens, CELL.glow);
         if (Math.random() < .3 * dens) P.emit('add', 1, { pos, life: [.2, .4], size: [.04, .07], color: gold, cell: CELL.ember, dir: 'sphere', speed: [.2, .8], fadeIn: 0 });
       } else if (kind === 'viper_knife') {
         const cc = PAL.chaos;
@@ -402,11 +401,15 @@ export function createFx(T, scene) {
       }
       if (z.kind === 'gate') {
         // 宝库之门: a golden ripple hanging in the air behind the caster
-        const s = (z.seed ?? 0) + time * 3, gold = [2.6, 1.9, .6];
-        P.sprite('add', [z.x, 1.5, z.z], .85, gold, .4, CELL.ring, s);
-        P.sprite('add', [z.x, 1.5, z.z], .55, [3.2, 2.6, 1.2], .35, CELL.ring, -s * 1.4);
-        P.sprite('add', [z.x, 1.5, z.z], 1.0, mul(gold, .3), .2, CELL.glow);
-        if (Math.random() < .4) P.emit('add', 1, { pos: [z.x, 1.5, z.z], spread: .5, life: [.3, .6], size: [.04, .07], color: gold, cell: CELL.ember, dir: 'sphere', speed: [.2, .6], fadeIn: 0 });
+        // a swirl of gold rings opening in the air; it grows in as the gate opens and fades as it closes
+        const s = (z.seed ?? 0) + time * 2.4, gold = [2.6, 1.8, .55], h = z.h ?? 2.4;
+        const open = Math.min(1, (z.age ?? 1) * 5) * Math.min(1, (z.left ?? 1) * 4), sz = (z.size ?? 1) * open, pos = [z.x, h, z.z];
+        P.sprite('add', pos, 1.5 * sz, mul(gold, .55), .35, CELL.ring, s);
+        P.sprite('add', pos, 1.1 * sz, gold, .45, CELL.ring, -s * 1.3);
+        P.sprite('add', pos, .7 * sz, [3.4, 2.8, 1.4], .5, CELL.ring, s * 1.9);
+        P.sprite('add', pos, .32 * sz, [4, 3.4, 2], .7, CELL.core);
+        P.sprite('add', pos, 2.1 * sz, mul(gold, .25), .2, CELL.glow);
+        if (Math.random() < .5) { const a = Math.random() * 6.28, rr = .55 * sz; P.emit('add', 1, { pos: [z.x + Math.cos(a) * rr, h + Math.sin(a) * rr, z.z], life: [.3, .6], size: [.04, .07], color: gold, cell: CELL.ember, dir: 'sphere', speed: [.1, .4], fadeIn: 0 }); }
         continue;
       }
       if (z.kind === 'rift' || z.kind === 'singularity') {
