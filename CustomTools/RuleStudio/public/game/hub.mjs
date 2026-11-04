@@ -14,13 +14,13 @@ export const HUB_LAYOUT = {
 
 /** room: which room; at: tile offset from the room centre. panel: what opens when you talk to them. */
 export const NPCS = [
-  { id: 'smith', name: '赛琳', title: '铁匠', skin: 'Pyromancer', panel: 'craft', room: 0, at: [-4, 3],
+  { id: 'smith', name: '赛琳', title: '铁匠', skin: 'Pyromancer', panel: 'craft', room: 0, at: [-3, 2],
     lines: ['炉子一直热着。拿来吧，看看能把它洗成什么样。', '好兵器靠的不是运气——好吧，大半是运气。', '封印符省着用，洗坏了别来哭。'] },
-  { id: 'mentor', name: '卡罗', title: '流派导师', skin: 'Warlock', panel: 'bd', room: 0, at: [4, 3],
+  { id: 'mentor', name: '卡罗', title: '流派导师', skin: 'Warlock', panel: 'bd', room: 0, at: [3, 2],
     lines: ['每一种打法都是一条路。想换条路走走？', '先把一样东西练到极致，再谈别的。', '核心那件装备，才是一套流派的心脏。'] },
-  { id: 'chronicler', name: '诺娅', title: '史官', skin: 'Wizard', panel: 'quest', room: 0, at: [-4, -3],
+  { id: 'chronicler', name: '诺娅', title: '史官', skin: 'Wizard', panel: 'quest', room: 0, at: [-3, -2],
     lines: ['星烬纪还没写完，下一页该你了。', '外面的地图一张比一张深，记得活着回来。', '打通的每一个节点，我都记在这里。'] },
-  { id: 'collector', name: '维克', title: '传奇收藏家', skin: 'Druid', panel: 'codex', room: 0, at: [4, -3],
+  { id: 'collector', name: '维克', title: '传奇收藏家', skin: 'Druid', panel: 'codex', room: 0, at: [3, -2],
     lines: ['传奇不会自己找上门，可它们总会出现在首领身边。', '每一件传奇都改写一种打法。你见过几件了？', '仓库里专门留了放传奇的格子，每种十件。'] },
   { id: 'astrologer', name: '伊芙', title: '星象师', skin: 'Frost', panel: 'talents', room: 3, at: [0, 1],
     lines: ['星图上亮起的每一颗，都是你打通的地图。', '天赋点不够？去外面多打通几个节点。', '星象不会骗人，只是有点难懂。'] },

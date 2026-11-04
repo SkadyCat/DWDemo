@@ -37,9 +37,11 @@ export function createHubProps(run) {
   // the rug in the middle of the hall: deep red with a gold border
   const rug = new THREE.Mesh(new THREE.PlaneGeometry(6.2, 3.8), mat(0x5a1418, { roughness: .95, metalness: 0 }));
   rug.rotation.x = -Math.PI / 2; rug.position.copy(at(c.x, c.y, .012)); rug.receiveShadow = true;
-  const border = new THREE.Mesh(new THREE.RingGeometry(1, 1.06, 4, 1), mat(0xd8b46a, { metalness: .6 }));
-  border.rotation.set(-Math.PI / 2, 0, Math.PI / 4); border.scale.set(3.1 * 1.41, 1.9 * 1.41, 1); border.position.copy(at(c.x, c.y, .016));
-  group.add(rug, border);
+  group.add(rug);
+  const gold = mat(0xd8b46a, { metalness: .6, roughness: .4 }), p0 = at(c.x, c.y, .018);
+  for (const [w, h, dx, dz] of [[6, .08, 0, 1.75], [6, .08, 0, -1.75], [.08, 3.5, 2.95, 0], [.08, 3.5, -2.95, 0]]) {
+    const b = new THREE.Mesh(new THREE.BoxGeometry(w, .01, h), gold); b.position.set(p0.x + dx, p0.y, p0.z + dz); group.add(b);
+  }
   for (const st of run.stations) {
     if (st.id === 'stash') { const ch = chest(); ch.position.copy(at(st.x, st.y)); ch.rotation.y = Math.PI; group.add(ch); }
     if (st.kind === 'npc') {
