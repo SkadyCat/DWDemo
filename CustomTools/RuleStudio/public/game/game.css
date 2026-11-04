@@ -873,3 +873,7 @@ select { font: inherit; color: var(--txt); background: var(--deep); border: 1px 
 .ac-body .ws-mods { margin-top: 2px; }
 .ac-stone { padding-top: 12px; }
 .ac-stone .ws-grid { max-height: 260px; overflow-y: auto; margin-top: 0; scrollbar-width: thin; scrollbar-color: var(--gold-lo) transparent; }
+/* the node's base numbers: one per line, label left, value right */
+.ac-loot { display: flex; flex-direction: column; gap: 4px; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line); }
+.ac-loot span { display: flex; justify-content: space-between; align-items: baseline; font-size: 13px; color: var(--mute); }
+.ac-loot b { font: 15px var(--num); color: var(--gold-hi); }
