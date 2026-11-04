@@ -93,3 +93,14 @@ test('旧的八章存档换到对应的新章节；全部通关后没有当前�
   assert.equal(questView(save), null);
   assert.ok(!questEvent(save, { type: 'equip' }).some(n => n.type === 'step' || n.type === 'chapter'));
 });
+
+test('追踪：默认跟主线当前一步；选了支线就跟支线；步骤指向要找的人或地方', async () => {
+  const { trackHint } = await import('../public/game/quests.mjs');
+  const save = fresh();
+  assert.equal(trackHint(save).who, 'chronicler', '先去找诺娅');
+  questEvent(save, { type: 'talk', who: 'chronicler' });
+  assert.equal(trackHint(save).who, 'device', '然后出城：地图仪');
+  questEvent(save, { type: 'talk', who: 'torg' });
+  assert.equal(trackHint(save, 'g_stash').who, 'stash', '存仓库：库房的宝箱');
+  assert.equal(trackHint(save, 'nope').id, null, '没有这条支线就回到主线');
+});

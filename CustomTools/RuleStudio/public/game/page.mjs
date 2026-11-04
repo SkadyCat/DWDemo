@@ -18,7 +18,7 @@ import { TalentBoard } from './talents-panel.mjs';
 import { switchAccount } from './accounts.mjs';
 import { sfx, setLoop, audio } from './audio.mjs';
 import { LEGEND_LORE } from './legend-lore.mjs';
-import { CHAPTERS, newQuestState, questView, questEvent, questTick, claimChapter, migrateQuests, sideView, questGivers } from './quests.mjs';
+import { CHAPTERS, newQuestState, questView, questEvent, questTick, claimChapter, migrateQuests, sideView, questGivers, trackHint } from './quests.mjs';
 import { talentPoints } from '../../core/content/talents.mjs';
 import { Scene3D, Overlay } from './scene.mjs';
 import { loadSettings, saveSettings, DEFAULTS as SETTING_DEFAULTS, QUALITY, KEYBINDS } from './settings.mjs';
@@ -250,6 +250,20 @@ const Minimap = {
       for (const m of r.monsters) { const [x, y] = toMap(m.x, m.y); ctx.fillStyle = m.boss ? '#ff6a4a' : m.kind === 'elite' ? '#ffd27a' : '#c8504a'; const s = m.boss ? 7 : m.kind === 'elite' ? 4 : 2.5; ctx.fillRect(x - s / 2, y - s / 2, s, s); }
       for (const l of r.loot) { const [x, y] = toMap(l.x, l.y); ctx.fillStyle = l.drop.item?.legend ? '#ffad5a' : '#fbe7b0'; ctx.fillRect(x - 1.5, y - 1.5, 3, 3); }
       ctx.restore();
+      // the tracked quest target: a gold diamond when it is on the minimap, an arrow on the rim pointing at it when it is not
+      if (r.track) {
+        const [tx, ty] = toMap(r.track.x, r.track.y), dx = tx - hx, dy = ty - hy, R = c.width / 2, dist = Math.hypot(dx, dy), cx = c.width / 2, cy = c.height / 2;
+        const pulse = 1 + 0.15 * Math.sin(performance.now() / 220);
+        ctx.fillStyle = '#ffd75e'; ctx.strokeStyle = '#2a1a04'; ctx.lineWidth = 1.5;
+        if (dist < R - 10) {
+          const x = cx + dx, y = cy + dy, s = 6 * pulse;
+          ctx.beginPath(); ctx.moveTo(x, y + s); ctx.lineTo(x + s * .7, y); ctx.lineTo(x, y - s); ctx.lineTo(x - s * .7, y); ctx.closePath(); ctx.fill(); ctx.stroke();
+          ctx.strokeStyle = 'rgba(255,215,94,.5)'; ctx.beginPath(); ctx.arc(x, y, 10 * pulse, 0, 7); ctx.stroke();
+        } else {
+          const a = Math.atan2(dy, dx), ex = cx + Math.cos(a) * (R - 9), ey = cy + Math.sin(a) * (R - 9), s = 8 * pulse;
+          ctx.beginPath(); ctx.moveTo(ex + Math.cos(a) * s, ey + Math.sin(a) * s); ctx.lineTo(ex + Math.cos(a + 2.4) * s * .8, ey + Math.sin(a + 2.4) * s * .8); ctx.lineTo(ex + Math.cos(a - 2.4) * s * .8, ey + Math.sin(a - 2.4) * s * .8); ctx.closePath(); ctx.fill(); ctx.stroke();
+        }
+      }
       ctx.fillStyle = '#7fe0c8'; ctx.beginPath(); ctx.arc(c.width / 2, c.height / 2, 4, 0, 7); ctx.fill();
       ctx.strokeStyle = '#7fe0c8'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(c.width / 2, c.height / 2); ctx.lineTo(c.width / 2 + r.hero.aim.x * 12, c.height / 2 + r.hero.aim.y * 12); ctx.stroke();
     }
@@ -290,6 +304,7 @@ const BigMap = {
       for (const l of r.loot) { const [x, y] = toMap(l.x, l.y); ctx.fillStyle = l.drop.item?.legend ? '#ffad5a' : l.drop.type === 'waystone' ? '#9fd8ff' : '#fbe7b0'; ctx.beginPath(); ctx.arc(x, y, 2.6, 0, 7); ctx.fill(); }
       for (const m of r.minions ?? []) { const [x, y] = toMap(m.x, m.y); ctx.fillStyle = '#7fe0c8'; ctx.fillRect(x - 1.5, y - 1.5, 3, 3); }
       if (r.portal) { const [x, y] = toMap(r.portal.x, r.portal.y); ctx.strokeStyle = '#8fb8ff'; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.arc(x, y, 8, 0, 7); ctx.stroke(); }
+      if (r.track) { const [x, y] = toMap(r.track.x, r.track.y), s = 9; ctx.fillStyle = '#ffd75e'; ctx.strokeStyle = '#2a1a04'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(x, y + s); ctx.lineTo(x + s * .7, y); ctx.lineTo(x, y - s); ctx.lineTo(x - s * .7, y); ctx.closePath(); ctx.fill(); ctx.stroke(); }
       const [hx, hy] = toMap(r.hero.x, r.hero.y), a = Math.atan2(r.hero.aim.y, r.hero.aim.x);
       ctx.fillStyle = '#7fe0c8'; ctx.strokeStyle = '#04110e'; ctx.lineWidth = 1.5; ctx.beginPath();
       ctx.moveTo(hx + Math.cos(a) * 11, hy + Math.sin(a) * 11); ctx.lineTo(hx + Math.cos(a + 2.5) * 7, hy + Math.sin(a + 2.5) * 7); ctx.lineTo(hx + Math.cos(a - 2.5) * 7, hy + Math.sin(a - 2.5) * 7); ctx.closePath(); ctx.fill(); ctx.stroke();
@@ -321,6 +336,7 @@ const TEMPLATE = /* html */ `
       <button class="plate-leave" @click="leaveRun">{{ run.phase === 'running' ? '撤离' : '回家' }}</button>
     </section>
     <minimap v-if="opts.minimap" :run="run" :tick="hud.tick" :zoom="opts.minimapZoom" @open="mapOpen = !mapOpen"></minimap>
+    <p class="track-tip" v-if="opts.minimap && run?.track" :data-t="hud.tick" @click="trackNext" :title="(run || hub)?.track?.text + '（点这里换追踪的任务）'">◆ {{ run.track.label }}<em>{{ trackDist(run) }} m</em></p>
     <big-map v-if="mapOpen" :run="run" :tick="hud.tick" @close="mapOpen = false"></big-map>
 
     <section class="bossbar" v-if="hud.bossShow" :class="{ enraged: hud.bossEnraged }">
@@ -391,6 +407,7 @@ const TEMPLATE = /* html */ `
 
     <!-- the map device: waystones in the stash; the atlas itself opens from the rail (M) -->
     <minimap v-if="opts.minimap && hub" :run="hub" :tick="hubTick" :zoom="opts.minimapZoom" @open="mapOpen = !mapOpen"></minimap>
+    <p class="track-tip" v-if="opts.minimap && hub?.track" :data-t="hubTick" @click="trackNext" :title="(run || hub)?.track?.text + '（点这里换追踪的任务）'">◆ {{ hub.track.label }}<em>{{ trackDist(hub) }} m</em></p>
     <big-map v-if="mapOpen && hub" :run="hub" :tick="hubTick" @close="mapOpen = false"></big-map>
     <p class="hub-hint" v-if="hub && !atlasOpen && !center && !open.vault && !open.char">家 · 安全区　点 NPC、仓库或北面的地图仪走过去 · WASD 或点地面移动</p>
     <!-- home: level, experience and the portal back into an open map, bottom-left -->
@@ -409,11 +426,11 @@ const TEMPLATE = /* html */ `
 
   <!-- =================== QUEST TRACKER + STORY =================== -->
   <aside class="qtrack" v-if="opts.showQuest && quest && !atlasOpen && !talentOpen && !open.char && !open.vault && !center" :class="{ inrun: !!run }" @click="openCenter('quest')" title="打开任务（J）">
-    <header><small>第 {{ chapterNo(quest.index) }} 章 · {{ quest.chapter.sub }}</small><b>{{ quest.chapter.title }}</b></header>
+    <header :class="{ tracked: !trackSide }" @click.stop="trackSet(null)" title="追踪主线"><small>第 {{ chapterNo(quest.index) }} 章 · {{ quest.chapter.sub }}</small><b>{{ quest.chapter.title }}</b></header>
     <ul><li v-for="(st, i) in quest.steps" :key="i" :class="{ done: st.done }"><i></i><span>{{ st.text }}</span><em v-if="st.need > 1 && !st.done && st.goal.type !== 'tier'">{{ fmtN(st.have) }}/{{ fmtN(st.need) }}</em></li></ul>
     <p v-if="quest.complete" class="qready">本章完成 · 点这里领取奖励</p>
     <template v-for="x in sideActive" :key="x.quest.id">
-      <header class="qside"><small>支线 · {{ x.quest.giverName }}</small><b>{{ x.quest.title }}</b></header>
+      <header class="qside" :class="{ tracked: trackSide === x.quest.id }" @click.stop="trackSet(trackSide === x.quest.id ? null : x.quest.id)" title="点这里追踪这条支线"><small>支线 · {{ x.quest.giverName }}</small><b>{{ x.quest.title }}</b></header>
       <ul><li v-for="(st, i) in x.steps.slice(1)" :key="i" :class="{ done: st.done }"><i></i><span>{{ st.text }}</span><em v-if="st.need > 1 && !st.done && st.goal.type !== 'tier' && st.goal.type !== 'talent'">{{ fmtN(st.have) }}/{{ fmtN(st.need) }}</em></li></ul>
     </template>
   </aside>
@@ -865,6 +882,24 @@ export function mountGame(el) {
       const sideActive = computed(() => sides.value.filter(x => x.state === 'active').slice(0, 3));
       const givers = computed(() => { void questKey.value; void gearKey.value; return questGivers(save); });
       const sideAsk = who => sides.value.find(x => x.state === 'offer' && x.quest.giver === who)?.quest ?? null;
+      // ---- quest tracking: the chapter by default, or a side quest picked in the tracker ----
+      const trackSide = computed(() => { void questKey.value; const id = save.track; return id && sides.value.some(x => x.quest.id === id && x.state !== 'done') ? id : null; });
+      function trackSet(id) { save.track = id; questKey.value++; persist(); }
+      function trackNext() { const ids = [null, ...sideActive.value.map(x => x.quest.id)], i = ids.indexOf(trackSide.value); trackSet(ids[(i + 1) % ids.length]); }
+      const trackDist = r => r?.track ? Math.round(Math.hypot(r.track.x - r.hero.x, r.track.y - r.hero.y) / 100) : 0;
+      /** Where the tracked step points in this run: a person or station at home; the boss, then the exit, in a map. */
+      function resolveTrack(r) {
+        const h = trackHint(save, trackSide.value);
+        if (!h) return null;
+        if (!r.hub) {
+          if (r.boss?.alive) return { x: r.boss.x, y: r.boss.y, label: '首领', text: h.text };
+          return r.portal ? { x: r.portal.x, y: r.portal.y, label: '出口', text: h.text } : null;
+        }
+        if (!h.who) return null;
+        const a = r.town?.agents.find(x => x.id === h.who); if (a) return { x: a.x, y: a.y, label: a.name ?? '镇民', text: h.text };
+        const st = r.stations?.find(x => x.id === h.who); if (st) return { x: st.x, y: st.y, label: st.name, text: h.text };
+        return null;
+      }
       let getHub = () => null;   // the home run (set once it exists, further down)
       // Quest notices: a toast per finished step; a finished chapter opens its ending (once the fight is over).
       function questNotes(list) {
@@ -1351,7 +1386,7 @@ export function mountGame(el) {
         while (acc >= 1 / 60) { r.step(1 / 60); acc -= 1 / 60; }
         if (r.portalReached > seenHubPortal) { seenHubPortal = r.portalReached; if (!atlasOpen.value) toggle('atlas'); }
         if (r.arrivals > seenArrivals) { seenArrivals = r.arrivals; openStation(r.arrived); }
-        r.questMarks = givers.value;
+        r.questMarks = givers.value; r.track = resolveTrack(r);
         scene.update(r, now / 1000); ov.update(scene, r);
         if (Math.round(now / 100) % 2 === 0) hubTick.value++;
         raf = requestAnimationFrame(frame);
@@ -1498,6 +1533,7 @@ export function mountGame(el) {
         const at = scene.pick(mouse.x, mouse.y); if (at) r.setAim(at.x, at.y);
         r.setCasting(mouse.down && r.phase === 'running');
         while (acc >= 1 / 60) { r.step(1 / 60); acc -= 1 / 60; }
+        r.track = resolveTrack(r);
         if (r.portalReached > seenPortal) {
           seenPortal = r.portalReached;
           if (!atlasOpen.value) { atlasSel.value = firstNear(r.node); toggle('atlas'); }
@@ -1650,7 +1686,7 @@ export function mountGame(el) {
         kindIconUrl: (kind, color) => `https://api.iconify.design/game-icons/${NODE_KINDS[kind].icon}.svg?color=${encodeURIComponent(color)}`,
         regionName: id => REGION_NAME[id], statusName: st => ({ done: '已打通', open: '可进入', seen: '尚未连通', hidden: '未知' })[st], nodeModText: id => NODE_MODS[id].text,
         save, stage, overlay, tipEl, comboEl, flashEl, open, center, mapTier, mapFamily, picked, pickedLine, craftMsg, roles, evaluating, updateText, hover, bdSel, toasts, legendBanner,
-        volume, cycleVolume, quest, questIndex, questSel, story, chapters: CHAPTERS, sides, sideActive, chapterNo, fmtN, rewardText, closeStory, claimStory, dragItem, dropSlot, dropBar, skillCards, skillGrid, hoverThing, tipPinned, activeCur, activeIdx, pickCur, curStacks, unpinTip, tipCraft, setBar, skillDragStart, skillDragEnd, skillDrop, quickBar, run, resultLoot, clearedBanner, hud,
+        volume, cycleVolume, quest, questIndex, questSel, story, chapters: CHAPTERS, sides, sideActive, trackSide, trackSet, trackNext, trackDist, chapterNo, fmtN, rewardText, closeStory, claimStory, dragItem, dropSlot, dropBar, skillCards, skillGrid, hoverThing, tipPinned, activeCur, activeIdx, pickCur, curStacks, unpinTip, tipCraft, setBar, skillDragStart, skillDragEnd, skillDrop, quickBar, run, resultLoot, clearedBanner, hud,
         profile, requirements, statRows, bdArch, bdStages, currentBd, centerName, centerTitle, traits, granted, ladder, ladderFocus, primarySkill, bagCells,
         legendCells, bagLeft, bagSize: BAG_SIZE, pageCells, pageSize: PAGE_SIZE, pages: PAGES, legendCap: LEGEND_CAP, currencyPage: CURRENCY_PAGE, vaultTab, legendSel, dropTab, dragFrom, legendCount, vaultCounts, wallet, tipStacks,
         hub, hubTick, opts, settingTab, settingTabs, keybinds: KEYBINDS, setQuality, resetSettings, mapOpen,

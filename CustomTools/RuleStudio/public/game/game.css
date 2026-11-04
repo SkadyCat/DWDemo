@@ -869,7 +869,7 @@ select { font: inherit; color: var(--txt); background: var(--deep); border: 1px 
 .hub-hint { bottom: 46px; }
 @media (max-width: 1180px) { .hub-hint { display: none; } }
 /* at home the minimap sits top-right: the account / editor / update buttons line up under it */
-.g:not(.in-run) .topbar { top: 236px; right: 104px; left: auto; flex-direction: column; align-items: flex-end; gap: 6px; }
+.g:not(.in-run) .topbar { top: 262px; right: 104px; left: auto; flex-direction: column; align-items: flex-end; gap: 6px; }
 .ac-body .ws-mods { margin-top: 2px; }
 .ac-stone { padding-top: 12px; }
 .ac-stone .ws-grid { max-height: 260px; overflow-y: auto; margin-top: 0; scrollbar-width: thin; scrollbar-color: var(--gold-lo) transparent; }
@@ -1017,3 +1017,10 @@ select { font: inherit; color: var(--txt); background: var(--deep); border: 1px 
 .ql-side .ql-ask { margin: 6px 0; font-size: 12.5px; line-height: 1.6; color: #d8d0bc; }
 .ql-side ol { margin: 4px 0 6px 18px; padding: 0; font-size: 12.5px; color: var(--mute); }
 .ql-side ol li.done { text-decoration: line-through; opacity: .7; }
+
+/* 追踪：小地图下面一行目标和距离；任务栏里正在追踪的那条标金 */
+.track-tip { position: absolute; right: 104px; top: 228px; z-index: 10; box-sizing: border-box; width: 200px; margin: 0; text-align: center; padding: 3px 10px; font-size: 12px; line-height: 1.4; color: #ffd75e; background: rgba(8, 10, 20, .78); border: 1px solid rgba(216, 180, 106, .4); border-radius: 2px;
+  cursor: pointer; pointer-events: auto; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.track-tip em { font-style: normal; margin-left: 6px; color: var(--mute); }
+.qtrack header { cursor: pointer; }
+.qtrack header.tracked b::before { content: '◆ '; color: #ffd75e; font-size: .8em; }

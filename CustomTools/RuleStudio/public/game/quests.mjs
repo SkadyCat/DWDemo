@@ -341,3 +341,23 @@ export function claimChapter(save, rng = Math.random) {
   q.claimed.push(q.chapter); q.chapter++; q.ready = false;
   return { currencies: r.currencies ?? {}, waystones: stones };
 }
+
+// Where a step sends you at home: a person, a station, or out through the map device.
+const STEP_PLACE = { deposit: 'stash', bd: 'mentor', lore: 'collector', talent: 'astrologer', craft: 'smith', sigil: 'device' };
+/**
+ * What the tracker follows: the chapter by default, or the side quest `trackId` while it is open.
+ * Returns { title, text, who? } — who: a townsperson / station id to walk to at home ('device' = go out into a map);
+ * no who: nothing to walk to (claim the chapter reward from the tracker).
+ */
+export function trackHint(save, trackId = null) {
+  const side = trackId ? sideView(save).find(x => x.quest.id === trackId && x.state !== 'done') : null;
+  if (side) {
+    const st = side.steps.find(s => !s.done) ?? side.steps[0];
+    return { id: side.quest.id, title: side.quest.title, text: st.text, who: st.goal.type === 'talk' ? st.goal.who : STEP_PLACE[st.goal.type] ?? 'device' };
+  }
+  const v = questView(save);
+  if (!v) return null;
+  const st = v.steps.find(s => !s.done);
+  if (!st) return { id: null, title: v.chapter.title, text: '本章完成 · 点任务栏领取奖励' };
+  return { id: null, title: v.chapter.title, text: st.text, who: st.goal.type === 'talk' ? st.goal.who : STEP_PLACE[st.goal.type] ?? 'device' };
+}
