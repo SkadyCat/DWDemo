@@ -18,7 +18,7 @@ import { TalentBoard } from './talents-panel.mjs';
 import { switchAccount } from './accounts.mjs';
 import { sfx, setLoop, audio } from './audio.mjs';
 import { LEGEND_LORE } from './legend-lore.mjs';
-import { CHAPTERS, newQuestState, questView, questEvent, questTick, claimChapter } from './quests.mjs';
+import { CHAPTERS, newQuestState, questView, questEvent, questTick, claimChapter, migrateQuests, sideView, questGivers } from './quests.mjs';
 import { talentPoints } from '../../core/content/talents.mjs';
 import { Scene3D, Overlay } from './scene.mjs';
 import { loadSettings, saveSettings, DEFAULTS as SETTING_DEFAULTS, QUALITY, KEYBINDS } from './settings.mjs';
@@ -412,6 +412,10 @@ const TEMPLATE = /* html */ `
     <header><small>第 {{ chapterNo(quest.index) }} 章 · {{ quest.chapter.sub }}</small><b>{{ quest.chapter.title }}</b></header>
     <ul><li v-for="(st, i) in quest.steps" :key="i" :class="{ done: st.done }"><i></i><span>{{ st.text }}</span><em v-if="st.need > 1 && !st.done && st.goal.type !== 'tier'">{{ fmtN(st.have) }}/{{ fmtN(st.need) }}</em></li></ul>
     <p v-if="quest.complete" class="qready">本章完成 · 点这里领取奖励</p>
+    <template v-for="x in sideActive" :key="x.quest.id">
+      <header class="qside"><small>支线 · {{ x.quest.giverName }}</small><b>{{ x.quest.title }}</b></header>
+      <ul><li v-for="(st, i) in x.steps.slice(1)" :key="i" :class="{ done: st.done }"><i></i><span>{{ st.text }}</span><em v-if="st.need > 1 && !st.done && st.goal.type !== 'tier' && st.goal.type !== 'talent'">{{ fmtN(st.have) }}/{{ fmtN(st.need) }}</em></li></ul>
+    </template>
   </aside>
   <div class="story" v-if="story" @click.self="null">
     <section class="story-card panel">
@@ -764,6 +768,18 @@ const TEMPLATE = /* html */ `
           <button v-if="questSel === questIndex && quest?.complete" class="orn-btn primary" @click="story = { mode: 'outro', index: questIndex }">领取本章奖励</button>
         </article>
         <p v-if="!quest" class="ql-end">星烬纪已经完结。图集还在，继续往外走吧。</p>
+        <section class="ql-side">
+          <h4 class="sub">支线</h4>
+          <p class="hint">跟着主线一章章解锁。头上有「！」的人有事找你，点他说话就接下了；做完自动发奖励。</p>
+          <ul>
+            <li v-for="x in sides" :key="x.quest.id" :class="x.state">
+              <header><em>{{ x.quest.kind === 'guide' ? '引导' : '镇上的事' }}</em><b>{{ x.quest.title }}</b><small>{{ x.state === 'offer' ? '去找' + x.quest.giverName : x.state === 'done' ? '已完成' : '进行中' }}</small></header>
+              <p class="ql-ask">{{ x.quest.giverName }}：{{ x.state === 'done' ? x.quest.done : x.quest.ask }}</p>
+              <ol><li v-for="(st, i) in x.steps" :key="i" :class="{ done: st.done }">{{ st.text }}<em v-if="x.state === 'active' && st.need > 1 && !st.done && st.goal.type !== 'tier'"> {{ fmtN(st.have) }}/{{ fmtN(st.need) }}</em></li></ol>
+              <p class="story-reward">{{ rewardText(x.quest.reward) }}</p>
+            </li>
+          </ul>
+        </section>
       </div>
 
       <div v-if="center === 'settings'" class="settings">
@@ -812,7 +828,7 @@ const TEMPLATE = /* html */ `
             <p class="lcard-flavor">{{ L.flavor }}</p>
             <p v-if="LEGEND_LORE[L.id]" class="lcard-owner">{{ LEGEND_LORE[L.id].owner }} · {{ LEGEND_LORE[L.id].city }}</p>
             <div v-if="loreSel === L.id" class="lcard-lore"><p v-for="(para, i) in loreParas(L.id)" :key="i">{{ para }}</p></div>
-            <div class="lcard-btns"><button v-if="LEGEND_LORE[L.id]" class="orn-btn ghost sm" @click="loreSel = loreSel === L.id ? null : L.id">{{ loreSel === L.id ? '收起' : '来历' }}</button>
+            <div class="lcard-btns"><button v-if="LEGEND_LORE[L.id]" class="orn-btn ghost sm" @click="loreSel = loreSel === L.id ? null : L.id; if (loreSel) questFire({ type: 'lore' })">{{ loreSel === L.id ? '收起' : '来历' }}</button>
               <button class="orn-btn sm" @click="grantLegendary(L.id)">试玩</button></div>
           </article>
         </div>
@@ -831,7 +847,7 @@ export function mountGame(el) {
     template: TEMPLATE,
     setup() {
       const save = reactive(loadSave());
-      if (!save.quests) save.quests = newQuestState();
+      migrateQuests(save);   // old eight-chapter saves move to the six-chapter story
       const questKey = ref(0);
       const quest = computed(() => { void questKey.value; void gearKey.value; return questView(save); });
       const questIndex = computed(() => { void questKey.value; return save.quests.chapter; });
@@ -840,13 +856,24 @@ export function mountGame(el) {
       const CN = ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十'];
       const chapterNo = i => CN[i] ?? i + 1;
       const fmtN = n => n >= 1000 ? (n / 1000).toFixed(n % 1000 ? 1 : 0) + 'k' : n;
-      const rewardText = r => [...Object.entries(r.currencies ?? {}).map(([id, n]) => `${CURRENCIES[id].name} ×${n}`), ...(r.waystones ?? []).map(([t, rar]) => `${{ normal: '普通', magic: '魔法', rare: '稀有' }[rar]}路石 T${t}`)].join('　');
+      const rewardText = r => [...Object.entries(r.currencies ?? {}).map(([id, n]) => `${CURRENCIES[id].name} ×${n}`), ...Object.entries(r.scarabs ?? {}).map(([id, n]) => `${scarabName(id)} ×${n}`), ...(r.waystones ?? []).map(([t, rar]) => `${{ normal: '普通', magic: '魔法', rare: '稀有' }[rar]}路石 T${t}`)].join('　');
+      const sides = computed(() => { void questKey.value; void gearKey.value; return sideView(save); });
+      const sideActive = computed(() => sides.value.filter(x => x.state === 'active').slice(0, 3));
+      const givers = computed(() => { void questKey.value; void gearKey.value; return questGivers(save); });
+      const sideAsk = who => sides.value.find(x => x.state === 'offer' && x.quest.giver === who)?.quest ?? null;
+      let getHub = () => null;   // the home run (set once it exists, further down)
       // Quest notices: a toast per finished step; a finished chapter opens its ending (once the fight is over).
       function questNotes(list) {
         if (!list?.length) return;
         questKey.value++;
         for (const n of list) {
           if (n.type === 'step') { sfx('quest'); toast(`任务完成 · ${n.text}`, 'quest', 'scroll-unfurled', 'el-gold'); }
+          else if (n.type === 'take') { sfx('quest'); toast(`接下支线「${n.quest.title}」· ${n.quest.steps[1].text}`, 'quest', 'quill-ink', 'el-gold'); }
+          else if (n.type === 'side') {
+            sfx('chapter'); toast(`支线「${n.quest.title}」完成 · ${n.quest.giverName}：${n.quest.done}`, 'quest big', 'laurel-crown', 'el-gold');
+            const rw = rewardText(n.reward); if (rw) toast(`得到 ${rw}`, 'quest', 'locked-chest', 'el-gold');
+            const town = getHub()?.town, a = town?.agents.find(x => x.id === n.quest.giver); if (a) town.say(a, n.quest.done, 6);
+          }
           else { sfx('chapter'); toast(`第 ${chapterNo(n.index)} 章「${CHAPTERS[n.index].title}」完成`, 'quest big', 'laurel-crown', 'el-gold'); pendingOutro.value = true; }
         }
         showPendingStory();
@@ -1198,7 +1225,7 @@ export function mountGame(el) {
         // the chosen page is full: try the others
         for (let k = 0; !got && k < PAGES; ++k) got = deposit(save, it.uid, k);
         if (!got) { toast('仓库的常规页都满了', 'bad'); return; }
-        hover.value = null; sfx('unequip'); persist();
+        hover.value = null; sfx('unequip'); persist(); questFire({ type: 'deposit' });
         if (got === 'legend' && vaultTab.value === 'legend') legendSel.value = it.legend;
       }
       function fromVault(it, where) {
@@ -1292,6 +1319,7 @@ export function mountGame(el) {
       }
       // ---- home: a safe little dungeon with NPCs, the stash and the map device ----
       const hub = shallowRef(null), hubTick = ref(0);
+      getHub = () => hub.value;
       let seenArrivals = 0, seenHubPortal = 0, hubLoop = false;
       function ensureScene() { if (!scene) { scene = new Scene3D(stage.value); ov = new Overlay(overlay.value); bindLabels(overlay.value); globalThis.__dw.scene = scene; } applySettings(); }
       function enterHub(fresh = false) {
@@ -1302,7 +1330,8 @@ export function mountGame(el) {
       onMounted(() => { if (!run.value) enterHub(true); });
       /** Arrived at an NPC / the stash: say something, open their panel. */
       function openStation(st) {
-        if (st.kind === 'npc') { const line = st.lines[Math.floor(Math.random() * st.lines.length)]; toast(`${st.title}·${st.name}：${line}`, 'quest', null); sfx('open'); }
+        if (st.kind === 'npc') { const ask = sideAsk(st.id), line = ask ? ask.ask : st.lines[Math.floor(Math.random() * st.lines.length)]; toast(`${st.title}·${st.name}：${line}`, 'quest', null); sfx('open'); }
+        questFire({ type: 'talk', who: st.id });
         const p = st.panel;
         if (p === 'vault') { if (!open.vault) toggle('vault'); }
         else if (p === 'talents' || p === 'atlas') { if (!isOpen(p)) toggle(p); }
@@ -1318,6 +1347,7 @@ export function mountGame(el) {
         while (acc >= 1 / 60) { r.step(1 / 60); acc -= 1 / 60; }
         if (r.portalReached > seenHubPortal) { seenHubPortal = r.portalReached; if (!atlasOpen.value) toggle('atlas'); }
         if (r.arrivals > seenArrivals) { seenArrivals = r.arrivals; openStation(r.arrived); }
+        r.questMarks = givers.value;
         scene.update(r, now / 1000); ov.update(scene, r);
         if (Math.round(now / 100) % 2 === 0) hubTick.value++;
         raf = requestAnimationFrame(frame);
@@ -1329,7 +1359,7 @@ export function mountGame(el) {
         for (; seenPicked < r.pickedUp.length; ++seenPicked) bank(r.pickedUp[seenPicked]);
         persist(); sfx('portal');
         cancelAnimationFrame(raf); hover.value = null; mouse.down = false; keys.clear(); setLoop('drone', 0); setLoop('wind', 0);
-        portalRun.value = r; run.value = null; gearKey.value++; enterHub();
+        portalRun.value = r; run.value = null; gearKey.value++; enterHub(); questFire({ type: 'portal' });
         toast('回到家了：地图还开着，左下角的传送门（T）带你回去', 'good', 'magic-portal', 'el-gold');
         nextTick(showPendingStory);
       }
@@ -1363,7 +1393,7 @@ export function mountGame(el) {
         applyArchetype(save, id, i); save.bdStage = i;
         picked.value = null; hover.value = null;
         gearChanged();
-        toast(`已换上 ${ARCHETYPES.find(x => x.id === id).name} · ${STAGES[i].name}`, 'good');
+        toast(`已换上 ${ARCHETYPES.find(x => x.id === id).name} · ${STAGES[i].name}`, 'good'); questFire({ type: 'bd' });
       }
       const accountName = globalThis.__account?.name ?? '本机';
       function leaveAccount() { persist(); switchAccount(); }
@@ -1412,7 +1442,9 @@ export function mountGame(el) {
         const used = stone.value, tier = runTier.value, mods = selMods.value;
         if (used) save.waystones.splice(save.waystones.findIndex(w => w.uid === used.uid), 1);
         // the slotted scarabs are used up with the map
+        const withSigil = deviceSlots.some(Boolean);
         for (let i = 0; i < deviceSlots.length; ++i) deviceSlots[i] = null;
+        if (withSigil) questFire({ type: 'sigil' });
         persist(); atlasOpen.value = false; talentOpen.value = false;
         const r = new MapRun(build(), { tier, family: node.family, mods, seed: (Date.now() ^ (Math.random() * 1e9)) >>> 0 });
         r.node = node.id; r.canTake = d => bagFits(save, d); r.autoCurrency = opts.autoCurrency; mapOpen.value = false;
@@ -1584,7 +1616,7 @@ export function mountGame(el) {
           const st = h.stations.find(s => Math.hypot(at.x - s.x, at.y - s.y) < (s.id === 'device' ? 160 : 110));
           // a townsperson: they stop and answer (walk up to them if they are far)
           const folk = !st && h.town?.at(at.x, at.y);
-          if (folk) { h.town.talk(folk); if (Math.hypot(folk.x - h.hero.x, folk.y - h.hero.y) > 260) h.walkToPoint(folk.x + (h.hero.x > folk.x ? 80 : -80), folk.y - 60); sfx('open'); return; }
+          if (folk) { h.town.talk(folk); const ask = sideAsk(folk.id); if (ask) h.town.say(folk, ask.ask, 7); questFire({ type: 'talk', who: folk.id }); if (Math.hypot(folk.x - h.hero.x, folk.y - h.hero.y) > 260) h.walkToPoint(folk.x + (h.hero.x > folk.x ? 80 : -80), folk.y - 60); sfx('open'); return; }
           if (st) h.walkToStation(st.id); else h.walkToPoint(at.x, at.y);
           return;
         }
@@ -1614,7 +1646,7 @@ export function mountGame(el) {
         kindIconUrl: (kind, color) => `https://api.iconify.design/game-icons/${NODE_KINDS[kind].icon}.svg?color=${encodeURIComponent(color)}`,
         regionName: id => REGION_NAME[id], statusName: st => ({ done: '已打通', open: '可进入', seen: '尚未连通', hidden: '未知' })[st], nodeModText: id => NODE_MODS[id].text,
         save, stage, overlay, tipEl, comboEl, flashEl, open, center, mapTier, mapFamily, picked, pickedLine, craftMsg, roles, evaluating, updateText, hover, bdSel, toasts, legendBanner,
-        volume, cycleVolume, quest, questIndex, questSel, story, chapters: CHAPTERS, chapterNo, fmtN, rewardText, closeStory, claimStory, dragItem, dropSlot, dropBar, skillCards, skillGrid, hoverThing, tipPinned, activeCur, activeIdx, pickCur, curStacks, unpinTip, tipCraft, setBar, skillDragStart, skillDragEnd, skillDrop, quickBar, run, resultLoot, clearedBanner, hud,
+        volume, cycleVolume, quest, questIndex, questSel, story, chapters: CHAPTERS, sides, sideActive, chapterNo, fmtN, rewardText, closeStory, claimStory, dragItem, dropSlot, dropBar, skillCards, skillGrid, hoverThing, tipPinned, activeCur, activeIdx, pickCur, curStacks, unpinTip, tipCraft, setBar, skillDragStart, skillDragEnd, skillDrop, quickBar, run, resultLoot, clearedBanner, hud,
         profile, requirements, statRows, bdArch, bdStages, currentBd, centerName, centerTitle, traits, granted, ladder, ladderFocus, primarySkill, bagCells,
         legendCells, bagLeft, bagSize: BAG_SIZE, pageCells, pageSize: PAGE_SIZE, pages: PAGES, legendCap: LEGEND_CAP, currencyPage: CURRENCY_PAGE, vaultTab, legendSel, dropTab, dragFrom, legendCount, vaultCounts, wallet, tipStacks,
         hub, hubTick, opts, settingTab, settingTabs, keybinds: KEYBINDS, setQuality, resetSettings, mapOpen,

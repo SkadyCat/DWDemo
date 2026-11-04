@@ -338,6 +338,7 @@ export class Overlay {
       if (!at) { el.style.display = 'none'; continue; }
       el.style.display = '';
       el.classList.toggle('target', run.walkTo?.station === st);
+      el.classList.toggle('has-quest', !!run.questMarks?.has(st.id));
       const w = el.offsetWidth, h = el.offsetHeight;
       el.style.transform = `translate3d(${(at.x - w / 2).toFixed(1)}px,${(at.y - h).toFixed(1)}px,0)`;
     }
@@ -363,6 +364,18 @@ export class Overlay {
       el.style.transform = `translate3d(${(at.x - el.offsetWidth / 2).toFixed(1)}px,${(at.y - el.offsetHeight).toFixed(1)}px,0)`;
     }
     for (const [id, el] of this.sayEls) if (!live.has(id)) { el.remove(); this.sayEls.delete(id); }
+    // 「！」 over the people who have a quest for you
+    this.markEls ??= new Map();
+    const marked = new Set();
+    if (town && run.questMarks) for (const a of town.agents) {
+      if (!run.questMarks.has(a.id) || a.say) continue;
+      const at = scene.project(toV(a.x, a.y, (a.kid ? 1.25 : 1.85) + 0.2)); if (!at) continue;
+      marked.add(a.id);
+      let el = this.markEls.get(a.id);
+      if (!el) { el = document.createElement('div'); el.className = 'lt lt-mark'; el.textContent = '！'; this.labelLayer.appendChild(el); this.markEls.set(a.id, el); }
+      el.style.transform = `translate3d(${(at.x - el.offsetWidth / 2).toFixed(1)}px,${(at.y - el.offsetHeight).toFixed(1)}px,0)`;
+    }
+    for (const [id, el] of this.markEls) if (!marked.has(id)) { el.remove(); this.markEls.delete(id); }
   }
   /** A clickable name plate over the boss portal. */
   updatePortal(scene, run) {

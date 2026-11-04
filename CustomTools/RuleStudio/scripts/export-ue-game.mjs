@@ -22,7 +22,7 @@ import { WAYSTONE_RARITY, FREE_TIER } from '../public/game/waystones.mjs';
 import { ATLAS_RADIUS, FAMILY_ORDER, FAMILY_HUE, REGION_NAME, NODE_KINDS, NODE_MODS, KIND_MODS, PREFIX, SUFFIX } from '../public/game/atlas.mjs';
 import { BASE_ICON, SLOT_ICON, SKILL_ICON, CURRENCY_ICON, PANEL_ICON, FAMILY_ICON, LAYER_ICON, BUFF_ICON } from '../public/game/icons.mjs';
 import { SKILL_BAR } from '../public/game/save.mjs';
-import { CHAPTERS } from '../public/game/quests.mjs';
+import { CHAPTERS, SIDE_QUESTS } from '../public/game/quests.mjs';
 import { HUB_LAYOUT, NPCS, STATIONS } from '../public/game/hub.mjs';
 import { SCARAB_TIERS, SCARAB_SLOTS, SCARAB_KINDS, SCARAB_IDS } from '../public/game/scarabs.mjs';
 import { SIGIL_STACK } from '../public/game/save.mjs';
@@ -86,6 +86,7 @@ export function buildGameExport() {
       family: plain(FAMILY_ICON), layer: plain(LAYER_ICON), buff: plain(BUFF_ICON) },
     // quests.mjs: the main story (星烬纪) and its goals.
     quests: plain(CHAPTERS),
+    sideQuests: plain(SIDE_QUESTS),   // 支线：引导 + 镇上的事（quests.mjs）
     // hub.mjs: the home (初始地牢) — its fixed rooms, the NPCs standing in it and the stations (stash, map device).
     // scarabs.mjs: 星契 for the map device's five slots — per kind the three tiers' text and map mods (nodeMods keys).
     scarabs: { tiers: [...SCARAB_TIERS], slots: SCARAB_SLOTS, stack: SIGIL_STACK, ids: [...SCARAB_IDS],

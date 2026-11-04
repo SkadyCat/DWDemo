@@ -995,3 +995,25 @@ select { font: inherit; color: var(--txt); background: var(--deep); border: 1px 
 .lcard .lcard-lore { margin: 4px 0 10px; padding: 10px 14px; max-width: 46em; background: rgba(0, 0, 0, .25); border-left: 2px solid var(--gold-lo, #b89a62); }
 .lcard .lcard-lore p { margin: 0 0 .7em; font-size: 13.5px; line-height: 1.85; color: #d8d0bc; }
 .lcard .lcard-btns { display: flex; gap: 8px; }
+
+/* 有任务的人：头顶「！」，NPC 名牌上也有 */
+.lt.lt-mark { z-index: 4; padding: 0 7px 1px; font: 700 18px/1.2 var(--title); color: #ffd75e; background: rgba(20, 14, 4, .85); border-color: #d8b46a; border-radius: 50%; pointer-events: none; cursor: default;
+  animation: mark-bob 1.6s ease-in-out infinite; text-shadow: 0 0 6px rgba(255, 200, 80, .8); }
+.lt.lt-mark::after { display: none; }
+@keyframes mark-bob { 50% { margin-top: -5px; } }
+.lt.lt-station.has-quest::before { content: '！'; position: absolute; left: 50%; top: -24px; transform: translateX(-50%); font: 700 18px/1 var(--title); color: #ffd75e; text-shadow: 0 0 6px rgba(255, 200, 80, .8); animation: mark-bob 1.6s ease-in-out infinite; }
+/* 任务栏里的支线、任务面板的支线列表 */
+.qtrack .qside { margin-top: 10px; padding-top: 8px; border-top: 1px solid rgba(216, 180, 106, .25); }
+.qtrack .qside b { font-size: 14px; }
+.ql-side { grid-column: 1 / -1; margin-top: 18px; }
+.ql-side > ul { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 10px; }
+.ql-side > ul > li { padding: 10px 12px; background: rgba(0, 0, 0, .22); border: 1px solid rgba(216, 180, 106, .22); border-radius: 3px; }
+.ql-side > ul > li.done { opacity: .6; }
+.ql-side > ul > li.offer { border-color: rgba(255, 215, 94, .6); }
+.ql-side header { display: flex; align-items: baseline; gap: 8px; }
+.ql-side header em { font-style: normal; font-size: 11px; color: var(--mute); }
+.ql-side header b { flex: 1; color: var(--gold-hi); }
+.ql-side header small { font-size: 11px; color: #ffd75e; }
+.ql-side .ql-ask { margin: 6px 0; font-size: 12.5px; line-height: 1.6; color: #d8d0bc; }
+.ql-side ol { margin: 4px 0 6px 18px; padding: 0; font-size: 12.5px; color: var(--mute); }
+.ql-side ol li.done { text-decoration: line-through; opacity: .7; }

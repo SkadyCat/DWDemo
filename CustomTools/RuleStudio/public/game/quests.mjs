@@ -1,6 +1,7 @@
-// 主线任务「星烬纪」：魔法文明阿斯特拉的最后岁月。虚空之外的「无名之潮」正在吞没世界，
-// 主角从最后的据点「星环营地」出发，穿过五个地区，寻找能封住虚空之门的五枚源印。
-// 八章，约 5 小时（大约 110 张地图）：每章跟着图集往外推两阶，章内的目标可以按任意顺序完成。
+// 主线「星烬纪」六章（正文在 design/novel/）：你从夜阙醒来，替灯井去外面捡路石，一章一个人的故事，
+// 拿回五枚印，最后在旧王的王座前把门关上。每章跟着图集往外推两三阶，章内目标可以按任意顺序完成。
+// 支线：「引导」带你把仓库、洗炼、流派、星象、星契、传送门、传奇来历都用一遍；「镇上的事」是夜阙的人托你的小事。
+// 支线跟着主线章节解锁，第一步总是去找给任务的人说话（他头上有「！」），做完自动发奖励。
 //
 // 只管数据和判定：任务状态存在 save.quests；页面在游戏事件发生时调用 questEvent()，
 // 在存档变化后调用 questTick()，两者都返回需要提示给玩家的通知。
@@ -14,6 +15,9 @@ import { rollWaystone } from './waystones.mjs';
  *   pickup  { count, baseLines?, legend? }       — equipment picked up (event)
  *   equip   { count }                            — pieces equipped (event)
  *   craft   { count }                            — currency used on equipment (event)
+ *   talk    { who }                              — talked to a townsperson / NPC (event: who = folk id or station id)
+ *   deposit · bd · sigil · portal · lore {}      — put something in the stash · applied a build · opened a map with a 星契 slotted ·
+ *                                                  went home through the town portal · read a legendary's story (events)
  *   tier    { value }                            — the highest open map tier is at least value (state)
  *   talent  { value }                            — talent points allocated (state)
  *   skills  { value }                            — skills on the bar (state)
@@ -21,170 +25,207 @@ import { rollWaystone } from './waystones.mjs';
  */
 export const CHAPTERS = Object.freeze([
   {
-    id: 'c1', title: '余火', sub: '星环营地', tiers: 'T1–T2',
+    id: 'c1', title: '余火', sub: '星冠城城门', tiers: 'T1–T3', who: 'chronicler',
     intro: [
-      '阿斯特拉的天空已经碎了七年。',
-      '起初只是星图上的一个空洞：观星塔的学者说，那里本该有一颗星。后来空洞开始扩大，从里面涌出的东西没有名字、没有形状——人们只好叫它「无名之潮」。潮水所过之处，法术熄灭，城市失声，连记忆都会被抹去。',
-      '九座法师城邦如今只剩下这一处营地。守灯人维斯塔把你从冰冷的传送阵里拖出来时，你只记得一件事：你是最后一批被派出去的寻径者。',
-      '「先站起来，」她说，「营地外面的废墟里还有东西在动。我们得知道，这座营地还能撑多久。」',
+      '你醒来时，背底下是凉的金砖。旁边有人在数路石：「四十二，四十三。」',
+      '她叫诺娅，以前在王都管档案。这里是夜阙，王都底下的地下城，住着八百来号人。城中间那口井里烧的是星光，靠路石续着，潮水进不来。',
+      '「一天烧一块，省着点，够一个月。」她把账本合上，「你是寻径者，上面的路石得你去捡。先去城门看看。看见穿铠甲的，别跟它讲道理。」',
     ],
     outro: [
-      '你带回了废墟里拾来的残破法器和一块刻着古老纹路的路石。维斯塔把路石放在地图装置上，星图亮起了一角——那是通往旧王时代档案馆的路。',
-      '「还有人留下了路，」她轻声说，「那就还有希望。」',
+      '城门底下那副空铠甲跪下了，戟还横着，里面只有灰在往外漏。布鲁说那是守卫长老霍。',
+      '你带回来几块路石，有一块边上烧过。诺娅接过去看了一眼，冲铁匠巷那边喊了一声：「赛琳。」',
+      '打了七年的锤子停了。',
     ],
     steps: [
-      { text: '走出营地，打通第一张地图', goal: { type: 'clear', count: 1 } },
-      { text: '捡起一件掉落的装备', goal: { type: 'pickup', count: 1 } },
-      { text: '换上一件更好的装备', goal: { type: 'equip', count: 1 } },
-      { text: '清理营地周围：打通 4 张地图', goal: { type: 'clear', count: 4 } },
+      { text: '去金殿找诺娅（地图仪旁边）', goal: { type: 'talk', who: 'chronicler' } },
+      { text: '走出营地之门，打通第一张地图', goal: { type: 'clear', count: 1 } },
+      { text: '换上一件捡到的装备', goal: { type: 'equip', count: 1 } },
+      { text: '清理城门一带：打通 4 张地图', goal: { type: 'clear', count: 4 } },
       { text: '打开 T3 的地图（打通一张 T2 地图）', goal: { type: 'tier', value: 3 } },
     ],
     reward: { currencies: { augment: 6, upgrade: 3, chaos: 1 }, waystones: [[3, 'normal'], [3, 'magic']] },
   },
   {
-    id: 'c2', title: '残碑与回声', sub: '废墟之域', tiers: 'T2–T4',
+    id: 'c2', title: '炉心', sub: '赤铁城 · 余烬之域', tiers: 'T3–T6', who: 'smith',
     intro: [
-      '旧王的档案馆埋在废墟之域的断碑之下。维斯塔说，那里记录着阿斯特拉建国之初的一次「封门」——在比王朝更古老的年代，虚空曾经被关上过一次。',
-      '「如果那是真的，就一定有方法。」',
-      '废墟里游荡着被潮水改写过的守卫，它们仍然穿着王国的铠甲，只是不再记得为谁而战。去试炼场磨一磨你的法术，再学会用通货改造手里的装备——寻径者的路从来都靠自己铺。',
+      '赛琳盯着那块烧过的路石，炉子里的火暗下去一截。「赤铁城，」她说，「我家在那儿。」',
+      '后来你从诺娅那儿听说，城破那天晚上，赛琳的父亲把自己关进了最大的那座炉子，说手里的活还没干完。锤子声一直响到天亮。',
+      '「去看看。要是他还在锻，就让他停下来。」她把一块混沌石拍在你手里，「洗之前先想清楚你要什么，不然洗到天亮也是白洗。」',
     ],
     outro: [
-      '档案馆最深处的石碑只剩半截。你拼出了残文：「五地各藏一印，五印合鸣，门可再闭。」',
-      '维斯塔沉默了很久，然后指向星图的东南方：「余烬之域。熔炉城的最后一位炉主，曾经说过他守着一样不能熄灭的东西。」',
+      '要塞最里面，魔像还在打铁，每一锤都砸在同一个地方。它转过身来，你看清了它的脸。回去以后你没跟赛琳说那张脸长什么样，她也没问。',
+      '魔像手里那块铁裂了，里面有一枚印，还是烫的。赛琳把它翻过来：「我爸的字。写的是：信标还亮着。」',
+      '「意思是他早知道会这样。」她把印塞回你手里，「去问卡罗吧，信标是他们那边的。」',
     ],
     steps: [
-      { text: '在废墟之域打通 3 张地图', goal: { type: 'clear', count: 3, family: 'ruin' } },
-      { text: '完成一次试炼', goal: { type: 'clear', count: 1, kind: 'trial' } },
-      { text: '用通货改造装备 3 次（悬停装备按 Ctrl 钉住提示）', goal: { type: 'craft', count: 3 } },
-      { text: '在天赋盘点 2 个天赋', goal: { type: 'talent', value: 2 } },
-      { text: '打开 T5 的地图', goal: { type: 'tier', value: 5 } },
-    ],
-    reward: { currencies: { chaos: 3, seal: 1, upgrade: 4 }, waystones: [[5, 'normal'], [5, 'magic']] },
-  },
-  {
-    id: 'c3', title: '余烬熔炉', sub: '余烬之域', tiers: 'T4–T6',
-    intro: [
-      '余烬之域曾是阿斯特拉的工坊。熔炉城的火焰烧了三百年，连星辰都曾在这里被锻成法杖的芯。',
-      '如今熔炉被潮水浸透，火焰变成了暗红色，像是在流血。炉主的要塞孤零零地立在熔岩河中央，大门紧闭——但门后传来锤击声，一下，又一下，从未停止。',
-      '在这里找一件真正称手的装备：那种基底被完整锻造过的东西，三条基底词条，一条不缺。',
-    ],
-    outro: [
-      '炉主早已死去。锤击声来自他留下的傀儡，它一遍遍锻打着同一块铁——铁里封着第一枚源印，「炉心之印」。',
-      '当你取下源印，傀儡停了下来，像是终于可以休息了。印的背面刻着一行小字：「雷鸣信标仍在呼唤，别让它孤单。」',
-    ],
-    steps: [
-      { text: '在余烬之域打通 4 张 T4 及以上的地图', goal: { type: 'clear', count: 4, family: 'ember', minTier: 4 } },
-      { text: '清除 1500 只怪物', goal: { type: 'kills', count: 1500 } },
+      { text: '去铁匠巷找赛琳', goal: { type: 'talk', who: 'smith' } },
+      { text: '用通货洗炼装备 3 次（悬停装备按 Ctrl 钉住提示）', goal: { type: 'craft', count: 3 } },
+      { text: '在余烬之域打通 4 张地图', goal: { type: 'clear', count: 4, family: 'ember' } },
+      { text: '打完一次试炼：赤铁城的锻造场', goal: { type: 'clear', count: 1, kind: 'trial' } },
       { text: '找到一件基底词条 ◆◆◆ 的装备', goal: { type: 'pickup', count: 1, baseLines: 3 } },
-      { text: '技能栏放上 2 个技能', goal: { type: 'skills', value: 2 } },
-      { text: '攻下余烬之域的首领要塞，取得炉心之印', goal: { type: 'clear', count: 1, family: 'ember', kind: 'boss' } },
+      { text: '攻下余烬之域的首领要塞，取回炉心之印', goal: { type: 'clear', count: 1, family: 'ember', kind: 'boss' } },
+      { text: '打开 T6 的地图', goal: { type: 'tier', value: 6 } },
     ],
-    reward: { currencies: { essence_form: 2, temper: 2, chaos: 3 }, waystones: [[7, 'normal'], [7, 'rare']] },
+    reward: { currencies: { essence_form: 2, temper: 2, chaos: 3, seal: 1 }, waystones: [[6, 'normal'], [6, 'rare']] },
   },
   {
-    id: 'c4', title: '雷鸣信标', sub: '雷暴之域', tiers: 'T6–T8',
+    id: 'c3', title: '信标', sub: '鸣金城 · 雷暴之域', tiers: 'T6–T8', who: 'mentor',
     intro: [
-      '雷暴之域的尖塔群曾经把阿斯特拉的声音送到群星之间。最高的那座叫「信标」，它会在灾难来临时自动点亮，向所有幸存者报出方位。',
-      '七年来，信标一直亮着。没有人回应。',
-      '维斯塔想知道，是没有人听见，还是——已经没有人能回答。去信标所在的首领要塞，顺路看看那些被封存的宝库：城邦覆灭前，学者们把能带走的都藏了起来。',
+      '卡罗听到「信标」两个字，把杯子里剩下的酒一口喝了。「不去。」过了一会儿又说：「你去。我教你点东西，省得你死在那儿。」',
+      '他教的是流派。九座城打架的路子都不一样：熔炉城的人不躲，尖塔的人从来不站在原地，书库那帮人最阴，等你自己冻死。',
+      '「挑一个，练到别人一看就知道你是哪儿来的。」',
     ],
     outro: [
-      '信标的守护者是一团被雷电拴住的风暴，它守了七年，不让任何东西靠近。你打散它的时候，信标里落下第二枚源印，「回响之印」。',
-      '借着源印，你第一次听见了信标收到的回应——很微弱，来自北方的冰原：「……书库……还有人……」',
+      '信标顶上缠着的东西有九个头，每个头叫的都是同一句话。离近了你才听清，是在报方位。你把它打散了。',
+      '回到酒馆，卡罗没看你：「七年前信标收到过回音，北边的书库，说还有人活着。我把它关了。那东西会顺着声音找过去。」',
+      '你把回响之印嵌进他当年拆下来的听筒里。杂音很大，有个女人在念书号，一个接一个，念得很慢。一直坐在最里面那张桌子的伊芙站了起来。',
     ],
     steps: [
+      { text: '去半盏灯酒馆找卡罗', goal: { type: 'talk', who: 'mentor' } },
+      { text: '技能栏放上 2 个技能', goal: { type: 'skills', value: 2 } },
       { text: '在雷暴之域打通 4 张 T6 及以上的地图', goal: { type: 'clear', count: 4, family: 'storm', minTier: 6 } },
-      { text: '打开一座宝库', goal: { type: 'clear', count: 1, kind: 'vault' } },
-      { text: '用通货改造装备 10 次', goal: { type: 'craft', count: 10 } },
-      { text: '攻下雷暴之域的首领要塞，取得回响之印', goal: { type: 'clear', count: 1, family: 'storm', kind: 'boss' } },
+      { text: '打开一座宝库：尖塔的学者连午饭都要上锁', goal: { type: 'clear', count: 1, kind: 'vault' } },
+      { text: '攻下雷暴之域的首领要塞，取回回响之印', goal: { type: 'clear', count: 1, family: 'storm', kind: 'boss' } },
       { text: '打开 T9 的地图', goal: { type: 'tier', value: 9 } },
     ],
     reward: { currencies: { skill_gem: 1, essence_link: 1, augment: 8, seal: 2 }, waystones: [[9, 'normal'], [9, 'magic']] },
   },
   {
-    id: 'c5', title: '冰封书库', sub: '霜原之域', tiers: 'T8–T10',
+    id: 'c4', title: '冰封书库', sub: '白卷城 · 霜原之域', tiers: 'T8–T11', who: 'astrologer',
     intro: [
-      '霜原之域的书库被冻在一整块冰川里。冰层下面有灯光，还有人影在书架间缓慢移动。',
-      '那是最后的书记官们。他们把自己和书一起冻住，用极慢的时间等待救援——在冰里的一天，外面已经是一年。',
-      '书库里藏着关于「第一次接触」的记录：七年前那个空洞出现的那一夜，观星塔究竟看见了什么。只是通往书库的路已经被潮水腐化，你得先穿过那些扭曲的土地。',
+      '「是我老师，」伊芙说，「她念书号就这个调子。」',
+      '七年前那天晚上是伊芙值夜。星图上一颗星不见了，她跑去叫醒老师，老师看了一眼，让她马上离开书库。她走了，书库就冻上了。',
+      '「冰里面时间走得慢，外面七年，里面也就几天。她可能还以为我刚出门。」她在星图上给你点了几颗星，「这样路上好走一点。」',
     ],
     outro: [
-      '老书记官隔着冰对你说话，声音像从很远的地方传来：「潮水不是从外面来的。是我们打开的门。」',
-      '阿斯特拉最伟大的一次法术，原本想要触碰群星之外的知识。门开了，外面的东西也看见了我们。',
-      '他把第三枚源印，「霜誓之印」，推出冰面：「去腐沼。潮水在那里扎了根，它的心在那里跳。」',
+      '老师在冰里，离冰面很近，嘴唇在动，声音要过好一会儿才传出来。她先问伊芙有没有好好吃饭，然后才说正事。',
+      '「门是我们开的，旧王开的。他想看看外面有什么，外面的东西也想看看我们。它吃记忆，吃完了照着做。做得不像，它自己也知道。」她把霜誓之印从冰里推出来，推了差不多一顿饭的工夫。「去南边沼泽，它在那儿待得最久。」',
+      '你回去转述，伊芙只问了一句：「她瘦了没有？」',
     ],
     steps: [
+      { text: '去观星阁找伊芙', goal: { type: 'talk', who: 'astrologer' } },
+      { text: '在星图上点满 8 个天赋', goal: { type: 'talent', value: 8 } },
       { text: '在霜原之域打通 4 张 T8 及以上的地图', goal: { type: 'clear', count: 4, family: 'frost', minTier: 8 } },
-      { text: '穿过一张腐化的地图', goal: { type: 'clear', count: 1, kind: 'corrupt' } },
-      { text: '点满 8 个天赋', goal: { type: 'talent', value: 8 } },
-      { text: '攻下霜原之域的首领要塞，取得霜誓之印', goal: { type: 'clear', count: 1, family: 'frost', kind: 'boss' } },
+      { text: '穿过一张腐化的地图：通往书库的路烂掉了', goal: { type: 'clear', count: 1, kind: 'corrupt' } },
+      { text: '攻下霜原之域的首领要塞，取回霜誓之印', goal: { type: 'clear', count: 1, family: 'frost', kind: 'boss' } },
       { text: '打开 T11 的地图', goal: { type: 'tier', value: 11 } },
     ],
     reward: { currencies: { essence_form: 2, essence_link: 1, temper: 3, chaos: 5 }, waystones: [[11, 'magic'], [11, 'rare']] },
   },
   {
-    id: 'c6', title: '腐沼之心', sub: '腐沼之域', tiers: 'T10–T12',
+    id: 'c5', title: '腐沼之心', sub: '青苔园 · 腐沼之域', tiers: 'T11–T13', who: 'collector',
     intro: [
-      '腐沼之域原本是阿斯特拉的药园。现在整片沼泽都在呼吸——慢、深、规律，像一颗巨大的心脏。',
-      '潮水在这里扎了根。越往深处，地图越扭曲，怪物越不像怪物，更像是某种东西在模仿生命的样子。',
-      '维斯塔第一次跟你一起走出了营地。她说她想亲眼看看：「我们亲手打开的门，到底让什么进来了。」',
+      '沼泽是维克的地方，他在那儿种了四十年药。',
+      '他打开库房最里面那一格给你看：几十件传奇擦得锃亮，一件挨一件，每件底下压一张纸条。「人被吃了，东西吃不掉。东西上还留着一点人。等门关了，我挨个给他们送回去。」',
+      '「送到哪儿？」「还没想好。」他从兜里掏出几枚小符片：「星契。药园的人埋在药草底下，长得好。你搁在地图仪边上，那张图也长得好。」',
     ],
     outro: [
-      '沼泽的心脏里没有怪物，只有一面镜子。镜子里是阿斯特拉七年前的样子：灯火通明，星辰低垂。',
-      '你打碎了镜子，第四枚源印「根须之印」从碎片里浮起。维斯塔捂住了眼睛——她在镜子里看见了自己的城邦。',
-      '「还差最后一枚，」她说，「在王座那里。在一切开始的地方。」',
+      '沼泽最深处有一棵蘑菇古树，树心里嵌着一面镜子。镜子里是七年前的王都，灯全亮着，街上有人。你把镜子砸了，根须之印从碎片里浮出来。',
+      '回到夜阙，诺娅把笔放下了。这是你第一次看见她手里没在写东西。',
+      '「最后一枚在王座，」她说，「那天晚上咒是我念的。我站在他左边。」',
     ],
     steps: [
-      { text: '在腐沼之域打通 4 张 T10 及以上的地图', goal: { type: 'clear', count: 4, family: 'blight', minTier: 10 } },
-      { text: '穿过 2 张 T10 及以上的腐化地图', goal: { type: 'clear', count: 2, kind: 'corrupt', minTier: 10 } },
-      { text: '清除 6000 只怪物', goal: { type: 'kills', count: 6000 } },
-      { text: '攻下腐沼之域 T10 以上的首领要塞，取得根须之印', goal: { type: 'clear', count: 1, family: 'blight', kind: 'boss', minTier: 10 } },
+      { text: '去库房找维克', goal: { type: 'talk', who: 'collector' } },
+      { text: '在地图仪的法阵槽里放一枚星契，再开图', goal: { type: 'sigil' } },
+      { text: '在腐沼之域打通 4 张 T11 及以上的地图', goal: { type: 'clear', count: 4, family: 'blight', minTier: 11 } },
+      { text: '穿过 2 张 T11 及以上的腐化地图', goal: { type: 'clear', count: 2, kind: 'corrupt', minTier: 11 } },
+      { text: '得到一件传奇装备', goal: { type: 'legendary' } },
+      { text: '攻下腐沼之域的首领要塞，取回根须之印', goal: { type: 'clear', count: 1, family: 'blight', kind: 'boss', minTier: 11 } },
       { text: '打开 T13 的地图', goal: { type: 'tier', value: 13 } },
     ],
-    reward: { currencies: { essence_core: 1, skill_gem: 2, chaos: 6, upgrade: 8 }, waystones: [[13, 'magic'], [13, 'rare']] },
+    reward: { currencies: { essence_core: 2, skill_gem: 2, chaos: 8, upgrade: 8 }, waystones: [[13, 'magic'], [13, 'rare']] },
   },
   {
-    id: 'c7', title: '五印合鸣', sub: '星图边缘', tiers: 'T11–T14',
+    id: 'c6', title: '旧王的宝库', sub: '五域最远的要塞 · 王座', tiers: 'T13–T16', who: 'chronicler',
     intro: [
-      '四枚源印在营地的地图装置上转动，彼此之间牵出细细的光线，像在寻找缺失的那一枚。',
-      '星图的边缘，五个地区的第二座要塞同时亮了起来——那是潮水最浓的地方，也是源印共鸣最强的地方。最后一枚印不在某一处，它散落在所有地方。',
-      '寻径者，现在你得带着整个阿斯特拉剩下的东西往外走：最好的装备、传说中的器物、你学会的一切。',
+      '诺娅说旧王没什么坏心，就是收东西收上了瘾。九座城最好的兵器、盔甲、法器，他全搬进了自己的库房，夜阙就是库房的门厅。',
+      '「门一开，它先吃的就是他。现在王座上坐着的，是照着他做的。他的库房它也记得。」最后一枚印碎成了五块，散在五个地区最远的要塞里。',
+      '去王座之前，诺娅把灯递给你，想了想又拿了回去：「算了，我在这儿点着，你回来好找路。」',
     ],
     outro: [
-      '当第三座要塞倒下，散落的光点终于汇聚成第五枚源印，「星烬之印」。五印合鸣的那一刻，营地上空的空洞第一次停止了扩大。',
-      '维斯塔望着星图最外圈：「门就在那里。旧王的王座。我们打开它的地方，也是我们关上它的地方。」',
-    ],
-    steps: [
-      { text: '攻下 3 座 T11 及以上的首领要塞', goal: { type: 'clear', count: 3, kind: 'boss', minTier: 11 } },
-      { text: '得到一件传奇装备', goal: { type: 'legendary' } },
-      { text: '打通 6 张 T12 及以上的地图', goal: { type: 'clear', count: 6, minTier: 12 } },
-      { text: '打开 T15 的地图', goal: { type: 'tier', value: 15 } },
-    ],
-    reward: { currencies: { essence_core: 2, seal: 3, chaos: 8, temper: 4 }, waystones: [[15, 'rare'], [15, 'rare']] },
-  },
-  {
-    id: 'c8', title: '虚空之门', sub: '旧王王座', tiers: 'T15–T16',
-    intro: [
-      '星图的最外圈没有星星。',
-      '那里是阿斯特拉七年前施法的地方，旧王站在王座上，向群星之外伸出了手。门就在王座后面，像一道竖着的伤口。',
-      '五枚源印在你身边环绕。维斯塔留在营地，守着最后的灯。「去吧，」她说，「如果你回不来，我会一直点着它。」',
-    ],
-    outro: [
-      '你把五枚源印按进门框。门的另一边，无名之潮第一次退缩了——不是被击败，而是被关在了外面。',
-      '阿斯特拉回不到从前了。九座城邦只剩一座营地，群星也不会再低垂。但空洞不再扩大，冰里的书记官可以醒来，信标终于收到了第二个回应。',
-      '维斯塔的灯还亮着。你回来的时候，她什么也没说，只是把灯往你这边推了推。',
+      '王座上那个人很客气。他请你看他的收藏，身后一扇接一扇金色的门打开，每扇门里伸出一件兵器，对准你。打到一半，他问你为什么要关门。你没回答，他也没再问。',
+      '你把五枚印按进门框。门那边的东西往后退了一点，又退了一点，然后就不动了。',
+      '第二天，灯井第一次不用续路石。诺娅在账本上写：今天没续。灯旁边放着一把钥匙，不知道是谁搁的。',
       '——星烬纪 · 完——',
     ],
     steps: [
-      { text: '打通 4 张 T15 及以上的地图', goal: { type: 'clear', count: 4, minTier: 15 } },
-      { text: '攻下 2 座 T15 及以上的首领要塞', goal: { type: 'clear', count: 2, kind: 'boss', minTier: 15 } },
-      { text: '登上旧王王座：攻下废墟之域最外圈的首领要塞', goal: { type: 'clear', count: 1, kind: 'boss', family: 'ruin', minTier: 15 } },
+      { text: '去金殿找诺娅', goal: { type: 'talk', who: 'chronicler' } },
+      { text: '攻下 5 座 T13 及以上的首领要塞，拿回五块碎印', goal: { type: 'clear', count: 5, kind: 'boss', minTier: 13 } },
+      { text: '打通 6 张 T15 及以上的地图', goal: { type: 'clear', count: 6, minTier: 15 } },
+      { text: '登上旧王的王座：攻下废墟之域最外圈的首领要塞', goal: { type: 'clear', count: 1, kind: 'boss', family: 'ruin', minTier: 15 } },
     ],
-    reward: { currencies: { essence_core: 3, chaos: 10, skill_gem: 3 }, waystones: [[16, 'rare'], [16, 'rare'], [16, 'rare']] },
+    reward: { currencies: { essence_core: 3, chaos: 10, skill_gem: 3, seal: 3 }, waystones: [[16, 'rare'], [16, 'rare'], [16, 'rare']] },
   },
 ]);
 
-export const newQuestState = () => ({ chapter: 0, progress: {}, done: {}, introSeen: -1, claimed: [] });
+/**
+ * Side quests. after: the main chapter (index) from which it is offered. giver: who gives it (the first step talks to them).
+ * kind: 'guide' (learn a system) or 'town' (somebody in 夜阙 asks you something). ask: what they say when you take it; done: when you finish.
+ */
+export const SIDE_QUESTS = Object.freeze([
+  // ---- 引导 ----
+  { id: 'g_stash', kind: 'guide', after: 0, giver: 'torg', giverName: '托格', title: '库房的规矩', ask: '东西别都揣身上。库房里有你一个箱子，用不着的放进去。',
+    steps: [{ text: '去库房找托格', goal: { type: 'talk', who: 'torg' } }, { text: '把一件装备存进仓库（库房门前的宝箱，或背包里 Ctrl + 左键）', goal: { type: 'deposit' } }],
+    done: '存进去的东西丢不了。封门那边的就别想了。', reward: { currencies: { augment: 3, upgrade: 2 } } },
+  { id: 'g_portal', kind: 'guide', after: 0, giver: 'grey', giverName: '格雷', title: '回家的路', ask: '出去别一口气走到底。打不动了就开个门回来，地图给你留着。',
+    steps: [{ text: '在酒馆后院找格雷', goal: { type: 'talk', who: 'grey' } }, { text: '在地图里用传送门回家一趟（T），地图不会关', goal: { type: 'portal' } }],
+    done: '拾荒队没这本事。我们出去一趟，回来就得重新走。', reward: { currencies: { upgrade: 3, chaos: 1 } } },
+  { id: 'g_bd', kind: 'guide', after: 1, giver: 'mentor', giverName: '卡罗', title: '换条路走', ask: '你那打法谁教的？没人教？那我教你几套。',
+    steps: [{ text: '去半盏灯酒馆门口找卡罗', goal: { type: 'talk', who: 'mentor' } }, { text: '在流派面板（B）换上一套流派', goal: { type: 'bd' } }],
+    done: '先把一样东西练到极致，再谈别的。', reward: { currencies: { chaos: 2, augment: 4 } } },
+  { id: 'g_talent', kind: 'guide', after: 1, giver: 'astrologer', giverName: '伊芙', title: '星图上的第一颗', ask: '你打通的那些地方，星图上会亮回来。来，我给你点一颗。',
+    steps: [{ text: '去观星阁找伊芙', goal: { type: 'talk', who: 'astrologer' } }, { text: '在星图（P）上点 2 个天赋', goal: { type: 'talent', value: 2 } }],
+    done: '亮起来了。看见没有，就那一颗。', reward: { currencies: { upgrade: 3, augment: 3 } } },
+  { id: 'g_lore', kind: 'guide', after: 2, giver: 'collector', giverName: '维克', title: '纸条', ask: '每件东西底下我都压了一张纸条。你去图鉴里看看，看一件就行。',
+    steps: [{ text: '去库房找维克', goal: { type: 'talk', who: 'collector' } }, { text: '在传奇图鉴（L）里读一件传奇的来历', goal: { type: 'lore' } }],
+    done: '每张纸条我都写了名字。有几张写不出来，就写了城。', reward: { currencies: { chaos: 2, temper: 1 } } },
+  { id: 'g_sigil', kind: 'guide', after: 2, giver: 'collector', giverName: '维克', title: '埋在药草底下的', ask: '拿着。放在地图仪边上那几个槽里，再开图试试。',
+    steps: [{ text: '再去找维克', goal: { type: 'talk', who: 'collector' } }, { text: '从背包把一枚星契拖进地图仪的法阵槽，开一张图', goal: { type: 'sigil' } }],
+    done: '长得好吧？药园的人就是这么种东西的。', reward: { currencies: { chaos: 2 }, scarabs: { bounty_1: 2, swarm_1: 1 } } },
+  // ---- 镇上的事 ----
+  { id: 't_bread', kind: 'town', after: 0, giver: 'rosa', giverName: '罗莎', title: '绿面包', ask: '苔藓粉快没了。城门边上长了一片，拾荒队不敢去，怪太多。',
+    steps: [{ text: '去集市街的面包摊找罗莎', goal: { type: 'talk', who: 'rosa' } }, { text: '出去清掉 300 只怪，拾荒队才敢去城门边上摘苔藓', goal: { type: 'kills', count: 300 } }],
+    done: '苔藓摘回来了。明天的面包还是绿的，不过是新鲜的绿。', reward: { currencies: { augment: 4, upgrade: 2 } } },
+  { id: 't_xiaodou', kind: 'town', after: 0, giver: 'xiaodou', giverName: '小豆', title: '会走的蘑菇', ask: '你下回出去，回来给我讲讲上面什么样。要讲三张图的！',
+    steps: [{ text: '在灯井边找小豆', goal: { type: 'talk', who: 'xiaodou' } }, { text: '打通 3 张地图，回来讲给他听', goal: { type: 'clear', count: 3 } }],
+    done: '蘑菇真的有脚？几只脚？你数了没有？', reward: { currencies: { upgrade: 3, chaos: 1 } } },
+  { id: 't_chestnut', kind: 'town', after: 1, giver: 'helen', giverName: '海伦', title: '栗子', ask: '你去赤铁城的时候帮我看看。看见一个爱偷栗子的小子，回来告诉我一声。算了，看看就行。',
+    steps: [{ text: '去棚户区的公共灶台找海伦', goal: { type: 'talk', who: 'helen' } }, { text: '在余烬之域打通 3 张地图', goal: { type: 'clear', count: 3, family: 'ember' } }],
+    done: '没看见他就好。没看见，就还能想着他在哪儿偷栗子。', reward: { currencies: { chaos: 2, temper: 1 } } },
+  { id: 't_board', kind: 'town', after: 2, giver: 'mati', giverName: '玛蒂', title: '留言墙', ask: '留言墙上那些纸条，都是找人的。宝库里要是有谁的东西，给我带回来。',
+    steps: [{ text: '去半盏灯酒馆门口找玛蒂', goal: { type: 'talk', who: 'mati' } }, { text: '打通 2 座宝库，看看有没有谁的东西', goal: { type: 'clear', count: 2, kind: 'vault' } }],
+    done: '这枚戒指我认得，是墙上第三张纸条那家的。我去给他们送过去。', reward: { currencies: { chaos: 3, essence_link: 1 } } },
+  { id: 't_crow', kind: 'town', after: 3, giver: 'lia', giverName: '莉亚', title: '老九', ask: '老九想出去，我们不放心。你先去北边替它看看路。',
+    steps: [{ text: '去观星阁楼下找莉亚和莉娜', goal: { type: 'talk', who: 'lia' } }, { text: '在霜原之域打通 3 张地图，替老九探探路', goal: { type: 'clear', count: 3, family: 'frost' } }],
+    done: '老九今天飞到穹顶缝那儿又回来了。它说上面冷。', reward: { currencies: { temper: 2, augment: 4 } } },
+  { id: 't_shoe', kind: 'town', after: 3, giver: 'owen', giverName: '欧文', title: '红鞋', ask: '渡鸦湾那边，你去的时候留神。穿红衣服的小姑娘，别打她。',
+    steps: [{ text: '去集市街的修鞋摊找欧文', goal: { type: 'talk', who: 'owen' } }, { text: '在废墟之域打通 4 张 T8 及以上的地图：渡鸦湾在那边', goal: { type: 'clear', count: 4, family: 'ruin', minTier: 8 } }],
+    done: '鞋我补好了，放在这儿。她来了就穿得上。', reward: { currencies: { chaos: 3, essence_form: 1 } } },
+  { id: 't_boat', kind: 'town', after: 4, giver: 'xu', giverName: '老许', title: '漂下来的鞋', ask: '水道那头以前通渡鸦湾。你往外走远一点，看看水那头有没有光。',
+    steps: [{ text: '去暗河码头找老许', goal: { type: 'talk', who: 'xu' } }, { text: '打通 5 张 T11 及以上的地图', goal: { type: 'clear', count: 5, minTier: 11 } }],
+    done: '水道那头有光了。我不去，我就看看。', reward: { currencies: { chaos: 4, essence_link: 1 } } },
+  { id: 't_guard', kind: 'town', after: 5, giver: 'bru', giverName: '布鲁', title: '王座边上的岗', ask: '王座那边的要塞，你先去敲两座。我当年就站在那儿。',
+    steps: [{ text: '在灯井广场找布鲁', goal: { type: 'talk', who: 'bru' } }, { text: '攻下 2 座 T14 及以上的首领要塞', goal: { type: 'clear', count: 2, kind: 'boss', minTier: 14 } }],
+    done: '他要是问你吃了没有，别答。', reward: { currencies: { essence_core: 1, chaos: 5 } } },
+  { id: 't_key', kind: 'town', after: 6, giver: 'torg', giverName: '托格', title: '托格的钥匙', ask: '门关上了？那封门的钥匙，我也该交了。你再去最远的地方转一圈。',
+    steps: [{ text: '去库房找托格', goal: { type: 'talk', who: 'torg' } }, { text: '打通 3 张 T16 的地图', goal: { type: 'clear', count: 3, minTier: 16 } }],
+    done: '封门可以开了。开了也没什么，里面都是灰。', reward: { currencies: { essence_core: 2, seal: 2 } } },
+]);
+
+// saves from the eight-chapter story: where each old chapter lands in the six-chapter one
+const OLD_EIGHT = [0, 1, 1, 2, 3, 4, 5, 5, 6];
+export const newQuestState = () => ({ v: 2, chapter: 0, progress: {}, done: {}, introSeen: -1, claimed: [], side: { progress: {}, done: {}, claimed: [] } });
+/** Bring a save's quest state up to date (old eight-chapter saves move to the matching new chapter). */
+export function migrateQuests(save) {
+  const q = save.quests;
+  if (!q) { save.quests = newQuestState(); return save.quests; }
+  if (q.v !== 2) {
+    const ch = OLD_EIGHT[Math.min(8, q.chapter ?? 0)];
+    save.quests = { ...newQuestState(), chapter: ch, introSeen: ch - 1, claimed: [...Array(ch).keys()] };
+  }
+  save.quests.side ??= { progress: {}, done: {}, claimed: [] };
+  return save.quests;
+}
 
 const ownedItems = save => [...save.inventory, ...Object.values(save.equipped).filter(Boolean)];
 /** Current value of a state goal. */
@@ -199,18 +240,37 @@ function stateValue(save, g) {
 }
 const need = g => g.count ?? g.value ?? 1;
 const key = (c, i) => `${c}.${i}`;
+/** Steps with progress; store = { progress, done } of the main story or the side quests. */
+function stepsOf(save, steps, prefix, store) {
+  return steps.map((s, i) => {
+    const k = key(prefix, i), sv = stateValue(save, s.goal), n = need(s.goal);
+    const have = store.done[k] ? n : sv ?? (store.progress[k] ?? 0);
+    return { ...s, have: Math.min(have, n), need: n, done: !!store.done[k] || have >= n };
+  });
+}
 
 /** The chapter the player is on, with every step's progress. null when the story is finished. */
 export function questView(save) {
-  const q = save.quests ?? newQuestState();
-  const ch = CHAPTERS[q.chapter];
+  const q = migrateQuests(save), ch = CHAPTERS[q.chapter];
   if (!ch) return null;
-  const steps = ch.steps.map((s, i) => {
-    const k = key(q.chapter, i), sv = stateValue(save, s.goal), n = need(s.goal);
-    const have = q.done[k] ? n : sv ?? (q.progress[k] ?? 0);
-    return { ...s, have: Math.min(have, n), need: n, done: !!q.done[k] || have >= n };
-  });
+  const steps = stepsOf(save, ch.steps, q.chapter, q);
   return { index: q.chapter, chapter: ch, steps, complete: steps.every(s => s.done), claimed: q.claimed.includes(q.chapter) };
+}
+
+/** Side quests offered so far: { quest, steps, state: 'offer' (talk to the giver) | 'active' | 'done' }. */
+export function sideView(save) {
+  const q = migrateQuests(save), s = q.side;
+  return SIDE_QUESTS.filter(x => q.chapter >= x.after).map(x => {
+    const steps = stepsOf(save, x.steps, x.id, s), claimed = s.claimed.includes(x.id);
+    return { quest: x, steps, state: claimed ? 'done' : steps[0].done ? 'active' : 'offer' };
+  });
+}
+/** Who has something for you right now (a 「！」 over their head): ids of townsfolk / stations. */
+export function questGivers(save) {
+  const out = new Set(), v = questView(save);
+  if (v) { const st = v.steps[0]; if (st.goal.type === 'talk' && !st.done) out.add(st.goal.who); }
+  for (const x of sideView(save)) if (x.state === 'offer') out.add(x.quest.giver);
+  return out;
 }
 
 function matches(g, ev) {
@@ -218,42 +278,62 @@ function matches(g, ev) {
     case 'clear': return ev.type === 'clear' && (!g.family || ev.family === g.family) && (!g.kind || ev.kind === g.kind) && (!g.minTier || ev.tier >= g.minTier) ? 1 : 0;
     case 'kills': return ev.type === 'kills' ? ev.n : 0;
     case 'pickup': return ev.type === 'pickup' && (!g.baseLines || baseLinesOf(ev.item) >= g.baseLines) && (!g.legend || ev.item.legend) ? 1 : 0;
-    case 'equip': return ev.type === 'equip' ? 1 : 0;
-    case 'craft': return ev.type === 'craft' ? 1 : 0;
+    case 'talk': return ev.type === 'talk' && ev.who === g.who ? 1 : 0;
+    case 'equip': case 'craft': case 'deposit': case 'bd': case 'sigil': case 'portal': case 'lore': return ev.type === g.type ? 1 : 0;
     default: return 0;
   }
 }
+function advance(save, steps, prefix, store, ev, gate = true) {
+  steps.forEach((s, i) => {
+    const k = key(prefix, i);
+    if (store.done[k] || stateValue(save, s.goal) !== null) return;
+    // the first step of a side quest is taking it: nothing else counts before you have talked to the giver
+    if (!gate && i > 0) return;
+    const add = matches(s.goal, ev);
+    if (add) store.progress[k] = Math.min(need(s.goal), (store.progress[k] ?? 0) + add);
+  });
+}
 
-/** Mark finished steps (state goals included). Returns [{ type:'step', text } | { type:'chapter', index }]. */
+/** Mark finished steps (state goals included), pay out finished side quests.
+ *  Returns [{ type:'step', text } | { type:'chapter', index } | { type:'side', quest, reward }]. */
 export function questTick(save) {
-  save.quests ??= newQuestState();
-  const q = save.quests, out = [], v = questView(save);
-  if (!v) return out;
-  for (const [i, s] of v.steps.entries()) {
-    const k = key(q.chapter, i);
-    if (s.done && !q.done[k]) { q.done[k] = true; out.push({ type: 'step', text: s.text }); }
+  const q = migrateQuests(save), out = [], v = questView(save);
+  if (v) {
+    for (const [i, s] of v.steps.entries()) {
+      const k = key(q.chapter, i);
+      if (s.done && !q.done[k]) { q.done[k] = true; out.push({ type: 'step', text: s.text }); }
+    }
+    if (v.complete && !v.claimed && !q.ready) { q.ready = true; out.push({ type: 'chapter', index: q.chapter }); }
   }
-  if (v.complete && !v.claimed && !q.ready) { q.ready = true; out.push({ type: 'chapter', index: q.chapter }); }
+  for (const x of sideView(save)) {
+    if (x.state === 'done') continue;
+    for (const [i, s] of x.steps.entries()) {
+      const k = key(x.quest.id, i);
+      if (s.done && !q.side.done[k]) { q.side.done[k] = true; if (i === 0) out.push({ type: 'take', quest: x.quest }); else if (i < x.steps.length - 1) out.push({ type: 'step', text: s.text }); }
+    }
+    if (x.steps.every(s => s.done)) {
+      const r = x.quest.reward ?? {};
+      for (const [id, n] of Object.entries(r.currencies ?? {})) save.currencies[id] = (save.currencies[id] || 0) + n;
+      if (r.scarabs) { save.scarabs ??= {}; for (const [id, n] of Object.entries(r.scarabs)) save.scarabs[id] = (save.scarabs[id] || 0) + n; }
+      q.side.claimed.push(x.quest.id);
+      out.push({ type: 'side', quest: x.quest, reward: r });
+    }
+  }
   return out;
 }
 
-/** A game event for the active chapter: { type:'clear', tier, family, kind } · { type:'kills', n } · { type:'pickup', item } · { type:'equip' } · { type:'craft' }. */
+/** A game event: { type:'clear', tier, family, kind } · { type:'kills', n } · { type:'pickup', item } · { type:'equip' } · { type:'craft' } ·
+ *  { type:'talk', who } · { type:'deposit' | 'bd' | 'sigil' | 'portal' | 'lore' }. Counts for the chapter and every side quest on offer. */
 export function questEvent(save, ev) {
-  save.quests ??= newQuestState();
-  const q = save.quests, ch = CHAPTERS[q.chapter];
-  if (!ch) return [];
-  ch.steps.forEach((s, i) => {
-    const k = key(q.chapter, i);
-    if (q.done[k] || stateValue(save, s.goal) !== null) return;
-    const add = matches(s.goal, ev);
-    if (add) q.progress[k] = Math.min(need(s.goal), (q.progress[k] ?? 0) + add);
-  });
+  const q = migrateQuests(save), ch = CHAPTERS[q.chapter];
+  if (ch) advance(save, ch.steps, q.chapter, q, ev);
+  for (const x of sideView(save)) if (x.state !== 'done') advance(save, x.quest.steps, x.quest.id, q.side, ev, x.state === 'active');
   return questTick(save);
 }
 
 /** Hand out the finished chapter's reward and move to the next chapter. Returns the reward given. */
 export function claimChapter(save, rng = Math.random) {
-  const q = save.quests, v = questView(save);
+  const q = migrateQuests(save), v = questView(save);
   if (!v || !v.complete || v.claimed) return null;
   const r = v.chapter.reward, stones = (r.waystones ?? []).map(([t, rarity]) => rollWaystone(t, rng, rarity));
   for (const [id, n] of Object.entries(r.currencies ?? {})) save.currencies[id] = (save.currencies[id] || 0) + n;
