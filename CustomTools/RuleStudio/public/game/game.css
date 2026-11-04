@@ -979,3 +979,6 @@ select { font: inherit; color: var(--txt); background: var(--deep); border: 1px 
 .gi.gi-img.sg-t0 { filter: saturate(.7) brightness(.85); }
 .gi.gi-img.sg-t1 { filter: drop-shadow(0 0 3px var(--sc, #f2d27a)); }
 .gi.gi-img.sg-t2 { filter: drop-shadow(0 0 4px var(--sc, #f2d27a)) drop-shadow(0 0 8px var(--sc, #f2d27a)) brightness(1.12); }
+
+/* 钉住的提示：关闭按钮在整个面板的右上角 */
+.itip .itip-x { position: absolute; top: 8px; right: 8px; z-index: 2; width: 24px; height: 24px; font-size: 14px; }

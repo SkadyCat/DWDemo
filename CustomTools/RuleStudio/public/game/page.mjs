@@ -123,6 +123,7 @@ const ItemTip = {
     return { peek, peekOn, need, canPick, lineClick, CURRENCIES, CURRENCY_ICON, CURRENCY_TARGET, baseLinesOf, rarityOf, itemName, lineText, family, LAYERS, SLOT_NAMES, SLOT_GLYPH, baseOf, baseDefence, skillName, skillTags, legendary, itemIcon, LAYER_ICON, SKILL_ICON }; },
   template: /* html */ `
   <article class="itip" :class="['r-' + rarityOf(item).id, { inline }]">
+    <button v-if="stacks && pinned" class="x itip-x" @click="$emit('unpin')" aria-label="取消钉住">×</button>
     <header class="itip-head">
       <div class="itip-icon"><Gi :n="itemIcon(item)" :c="'r-' + rarityOf(item).id" :g="SLOT_GLYPH[item.slot]"/></div>
       <h3>{{ itemName(item) }}</h3>
@@ -146,7 +147,7 @@ const ItemTip = {
       <header><b>通货</b><small v-if="!pinned">按 Ctrl 钉住这个提示，在这里洗炼</small><small v-else-if="!active">左键点一种通货激活</small>
         <small v-else-if="need">{{ CURRENCIES[active].name }}：点一条{{ need === 'trait' ? '特性' : '特性或词条' }}使用 · 右键取消</small>
         <small v-else>{{ CURRENCIES[active].name }}：点「使用」作用在这件装备上</small>
-        <button v-if="pinned" class="x" @click="$emit('unpin')" aria-label="取消钉住">×</button></header>
+        </header>
       <div class="cur-grid">
         <button v-for="(st, i) in stacks" :key="st.id + i" class="cur-cell" :class="{ on: active === st.id && activeIdx === i }"
           @mouseenter="peekOn($event, st)" @mouseleave="peek = null"
