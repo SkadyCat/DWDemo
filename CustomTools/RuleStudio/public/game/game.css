@@ -866,5 +866,7 @@ select { font: inherit; color: var(--txt); background: var(--deep); border: 1px 
 .lt.lt-stash { --c: #ffd27a; }
 .hub-hint { position: absolute; left: 50%; bottom: 16px; transform: translateX(-50%); z-index: 9; font-size: 12px; color: var(--mute); text-shadow: 0 1px 4px #000; pointer-events: none; white-space: nowrap; }
 
-.hub-hint { bottom: auto; top: 74px; }
-.g:not(.in-run) .topbar { right: 330px; }
+.hub-hint { bottom: 46px; }
+@media (max-width: 1180px) { .hub-hint { display: none; } }
+/* at home the minimap sits top-right: the account / editor / update buttons line up under it */
+.g:not(.in-run) .topbar { top: 236px; right: 104px; left: auto; flex-direction: column; align-items: flex-end; gap: 6px; }
