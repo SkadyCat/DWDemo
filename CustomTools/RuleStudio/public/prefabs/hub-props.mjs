@@ -1,4 +1,4 @@
-// 家（初始地牢）的摆设：东厢的仓库宝箱、大厅中央的地毯、几只火盆、NPC 脚下的小台子。只是画面。
+// 家（初始地牢）的摆设：大厅南边的仓库宝箱、大厅中央的地毯、几只火盆、NPC 脚下的小台子。只是画面。
 import * as THREE from '/vendor/three.module.js';
 
 const M = 0.01;
@@ -43,7 +43,7 @@ export function createHubProps(run) {
     const b = new THREE.Mesh(new THREE.BoxGeometry(w, .01, h), gold); b.position.set(p0.x + dx, p0.y, p0.z + dz); group.add(b);
   }
   for (const st of run.stations) {
-    if (st.id === 'stash') { const ch = chest(); ch.position.copy(at(st.x, st.y)); ch.rotation.y = Math.PI; group.add(ch); }
+    if (st.id === 'stash') { const ch = chest(); ch.position.copy(at(st.x, st.y)); group.add(ch); }   // 锁扣朝南，正对镜头
     if (st.kind === 'npc') {
       // a low round dais under each NPC, and a brazier beside them
       const dais = new THREE.Mesh(new THREE.CylinderGeometry(.62, .7, .12, 20), mat(0x3a3024, { roughness: .8 }));

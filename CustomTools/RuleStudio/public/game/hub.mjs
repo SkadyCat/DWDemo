@@ -1,4 +1,4 @@
-// 家：初始地牢。一座安全的小地牢——大厅里站着几位 NPC，东厢是仓库，北面圣所里是地图仪，西厢是星象台。
+// 家：初始地牢。一座安全的小地牢——大厅里站着几位 NPC，仓库宝箱就在大厅南边，北面圣所里是地图仪，西厢是星象台。
 // 没有怪物；点 NPC / 仓库 / 地图仪，英雄走过去，到了就打开对应的界面。
 
 // Rooms in tiles (MAP_SIZE 45; +y is up on screen). The first room is where you arrive.
@@ -6,10 +6,9 @@ export const HUB_LAYOUT = {
   rooms: [
     { x: 16, y: 15, w: 13, h: 11, kind: 'home' },      // 0 大厅
     { x: 19, y: 28, w: 7, h: 6, kind: 'sanctum' },     // 1 北：地图仪
-    { x: 31, y: 17, w: 6, h: 7, kind: 'vault' },       // 2 东：仓库
-    { x: 8, y: 17, w: 6, h: 7, kind: 'home' },         // 3 西：星象台
+    { x: 8, y: 17, w: 6, h: 7, kind: 'home' },         // 2 西：星象台
   ],
-  links: [[0, 1], [0, 2], [0, 3]],
+  links: [[0, 1], [0, 2]],
 };
 
 /** room: which room; at: tile offset from the room centre. panel: what opens when you talk to them. */
@@ -22,12 +21,12 @@ export const NPCS = [
     lines: ['星烬纪还没写完，下一页该你了。', '外面的地图一张比一张深，记得活着回来。', '打通的每一个节点，我都记在这里。'] },
   { id: 'collector', name: '维克', title: '传奇收藏家', skin: 'Druid', panel: 'codex', room: 0, at: [3, -2],
     lines: ['传奇不会自己找上门，可它们总会出现在首领身边。', '每一件传奇都改写一种打法。你见过几件了？', '仓库里专门留了放传奇的格子，每种十件。'] },
-  { id: 'astrologer', name: '伊芙', title: '星象师', skin: 'Frost', panel: 'talents', room: 3, at: [0, 1],
+  { id: 'astrologer', name: '伊芙', title: '星象师', skin: 'Frost', panel: 'talents', room: 2, at: [0, 1],
     lines: ['星图上亮起的每一颗，都是你打通的地图。', '天赋点不够？去外面多打通几个节点。', '星象不会骗人，只是有点难懂。'] },
 ];
 
 /** Stations that are not people: the stash chest and the map device. */
 export const STATIONS = [
-  { id: 'stash', name: '仓库', title: '存放物品', panel: 'vault', room: 2, at: [0, 0] },
+  { id: 'stash', name: '仓库', title: '存放物品', panel: 'vault', room: 0, at: [0, -4] },   // 大厅南边，一进门就看得见
   { id: 'device', name: '地图仪', title: '放入路石 · 打开图集', panel: 'atlas', room: 1, at: [0, 0] },
 ];
