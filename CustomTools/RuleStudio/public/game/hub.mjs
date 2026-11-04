@@ -1,4 +1,4 @@
-// 家：初始地牢。一座安全的小地牢——大厅里站着几位 NPC，仓库宝箱就在大厅南边，北面圣所里是地图仪，西厢是星象台。
+// 家：初始地牢。一座安全的小地牢——大厅里站着几位 NPC，仓库宝箱就在大厅西侧，北面圣所里是地图仪，西厢是星象台。
 // 没有怪物；点 NPC / 仓库 / 地图仪，英雄走过去，到了就打开对应的界面。
 
 // Rooms in tiles (MAP_SIZE 45; +y is up on screen). The first room is where you arrive.
@@ -27,6 +27,6 @@ export const NPCS = [
 
 /** Stations that are not people: the stash chest and the map device. */
 export const STATIONS = [
-  { id: 'stash', name: '仓库', title: '存放物品', panel: 'vault', room: 0, at: [0, -4] },   // 大厅南边，一进门就看得见
+  { id: 'stash', name: '仓库', title: '存放物品', panel: 'vault', room: 0, at: [-4, 0] },   // 大厅西侧，和英雄同一高度，一进门就看得见
   { id: 'device', name: '地图仪', title: '放入路石 · 打开图集', panel: 'atlas', room: 1, at: [0, 0] },
 ];
