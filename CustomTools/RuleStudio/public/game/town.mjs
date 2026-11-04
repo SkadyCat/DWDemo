@@ -21,7 +21,8 @@ export const TOWN_LAYOUT = {
     { x: 30, y: 27, w: 12, h: 14, kind: 'vault' },      // 8 库房
     { x: 19, y: 27, w: 7, h: 6, kind: 'avenue' },       // 9 金殿大道
   ],
-  links: [],
+  // corridors between districts: unused on the web (open covers them), but a reader that ignores open / blocks (the UE home) still gets a connected town
+  links: [[0, 1], [0, 2], [0, 3], [0, 4], [4, 5], [4, 6], [3, 7], [2, 8], [0, 9]],
   // everything inside the cavern walls is walkable ground …
   open: [{ x: 2, y: 2, w: 41, h: 40 }],
   // … except the buildings (and the well, the river)
