@@ -24,6 +24,9 @@ import { BASE_ICON, SLOT_ICON, SKILL_ICON, CURRENCY_ICON, PANEL_ICON, FAMILY_ICO
 import { SKILL_BAR } from '../public/game/save.mjs';
 import { CHAPTERS, SIDE_QUESTS } from '../public/game/quests.mjs';
 import { HUB_LAYOUT, NPCS, STATIONS } from '../public/game/hub.mjs';
+import { POIS, HABITS, CAST, SAY, DAY, NIGHT_FROM } from '../public/game/town.mjs';
+import { FOLK } from '../public/game/townsfolk.mjs';
+import { LEGEND_LORE } from '../public/game/legend-lore.mjs';
 import { SCARAB_TIERS, SCARAB_SLOTS, SCARAB_KINDS, SCARAB_IDS } from '../public/game/scarabs.mjs';
 import { SIGIL_STACK } from '../public/game/save.mjs';
 
@@ -92,6 +95,10 @@ export function buildGameExport() {
     scarabs: { tiers: [...SCARAB_TIERS], slots: SCARAB_SLOTS, stack: SIGIL_STACK, ids: [...SCARAB_IDS],
       kinds: Object.entries(SCARAB_KINDS).map(([id, k]) => ({ id, name: k.name, color: k.color, vals: k.vals, text: k.vals.map(v => k.text(v)), mods: k.vals.map(v => k.mod(v)) })) },
     hub: { seed: 20261104, layout: plain(HUB_LAYOUT), npcs: plain(NPCS), stations: plain(STATIONS) },
+    // town.mjs: the people of 夜阙 walking about the home — who they are (townsfolk.mjs), the places they go, their habits and lines.
+    town: { folk: plain(FOLK), cast: plain(CAST), pois: plain(POIS), habits: plain(HABITS), say: plain(SAY), day: DAY, nightFrom: NIGHT_FROM },
+    // legend-lore.mjs: each legendary's owner, city and story (the codex's 来历).
+    legendLore: plain(LEGEND_LORE),
     // page.mjs tables the game screens use (skill tooltip text, which currencies act on one line, bag stack size).
     ...pageTables(),
   };

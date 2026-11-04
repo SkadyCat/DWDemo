@@ -93,7 +93,7 @@ export const POIS = [
 ];
 
 /** Where each kind of townsperson likes to go, by day and at night (weights over POI tags). */
-const HABITS = {
+export const HABITS = {
   villager: { day: { market: 4, water: 3, plaza: 2, shop: 2, sit: 1.5, shrine: 1, home: 1.5, dock: 0.6, tavern: 0.6 }, night: { home: 4, tavern: 2, shrine: 1, sit: 0.5 } },
   warrior: { day: { patrol: 5, plaza: 1, tavern: 0.5, hall: 1 }, night: { patrol: 4, tavern: 1.5 } },
   knight: { day: { hall: 3, patrol: 2, plaza: 1 }, night: { hall: 2, tavern: 2 } },
@@ -120,7 +120,7 @@ export const CAST = {
 };
 
 /** What the rest of the town says in passing (by role; kids and the night have their own). */
-const SAY = {
+export const SAY = {
   villager: ['绿面包吃多了，嘴里一股苔藓味。', '灯井今天又暗了一下，你看见没有？', '我家原来在渡鸦湾，门口有棵歪脖子树。', '打水的队排到集市口了。',
     '别踩那块砖，它松了七年了。', '我昨天梦见下雨了，真的雨。', '守灯会又少发了半块饼。', '这双鞋是欧文补的，补了三回了。', '穹顶那条缝是不是比上个月宽了？',
     '你是寻径者？那你上去帮我看看我家房子还在不在。算了，别看。', '罗莎今天的面包是咸的，难得。', '谁家的鸡跑了？哦，我们没有鸡。'],
@@ -149,7 +149,7 @@ export function steerOnFlow(d, f, x, y, tx, ty) {
   return best ? d.tileCenter(best[0], best[1]) : { x: tx, y: ty };
 }
 
-const DAY = 300, NIGHT_FROM = 215;                   // one town day: 5 minutes, the last 85 s with the lamp turned down
+export const DAY = 300, NIGHT_FROM = 215;                  // one town day: 5 minutes, the last 85 s with the lamp turned down
 const hash = s => { let h = 2166136261; for (let i = 0; i < s.length; ++i) h = Math.imul(h ^ s.charCodeAt(i), 16777619); return h >>> 0; };
 const rand = seed => () => ((seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0) / 4294967296);
 
