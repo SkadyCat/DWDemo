@@ -361,7 +361,7 @@ const TEMPLATE = /* html */ `
         <div><dt>用时</dt><dd>{{ hud.time }}</dd></div><div><dt>击杀</dt><dd>{{ hud.kills }}</dd></div>
         <div><dt>最高连杀</dt><dd>{{ run.bestCombo }}</dd></div><div><dt>连锁击杀</dt><dd>{{ pctNum(run.cascadeKills, hud.kills) }}%</dd></div>
       </dl>
-      <p>只带回已经拾取的东西。回营地看看「本图要求」哪一项没达标。</p>
+      <p>只带回已经拾取的东西。回家整理一下装备再来。</p>
       <button class="orn-btn primary" @click="leaveRun">回到家</button>
     </section>
   </template>
@@ -463,18 +463,6 @@ const TEMPLATE = /* html */ `
         <p class="ac-kind" v-if="selNode.kind !== 'normal'"><b>{{ kinds[selNode.kind].name }}</b>{{ kinds[selNode.kind].text }}</p>
         <ul class="ac-mods" v-if="selNode.mods.length"><li v-for="m in selNode.mods" :key="m">{{ nodeModText(m) }}</li></ul>
         <p class="ac-loot"><span>物品数量 <b>{{ Math.round(selMods.quantity * 100) }}%</b></span><span>传奇几率 <b>×{{ +selMods.legend.toFixed(1) }}</b></span><span>怪群 <b>×{{ +selMods.pack.toFixed(1) }}</b></span></p>
-        <dl class="pressure">
-          <div><dt>杂兵生命</dt><dd>{{ fmt(profile.monsterLife * selMods.life) }}</dd></div>
-          <div><dt>单次伤害</dt><dd>{{ fmt(profile.monsterDamage * selMods.damage) }}</dd></div>
-          <div><dt>每个房间</dt><dd>约 {{ Math.round(profile.packSize * selMods.pack) }} 只</dd></div>
-          <div><dt>精英</dt><dd>{{ Math.round(profile.eliteChance * selMods.elite * 100) }}% · {{ profile.eliteMods }} 词缀</dd></div>
-          <div><dt>首领</dt><dd>{{ fmt(profile.bossLife * selMods.bossLife * selMods.life) }}</dd></div>
-          <div><dt>全抗惩罚</dt><dd :class="{ warn: profile.resistPenalty }">−{{ profile.resistPenalty }}%</dd></div>
-        </dl>
-        <h4 class="sub">本图要求</h4>
-        <ul class="req">
-          <li v-for="r in requirements" :key="r.name" :class="r.ok ? 'ok' : 'bad'"><i></i><span>{{ r.name }}</span><b>{{ r.have }}</b><em>{{ r.need }}</em></li>
-        </ul>
         <div class="roles">
           <button class="orn-btn sm" @click="evaluate" :disabled="evaluating">{{ evaluating ? '评估中…' : '评估输出' }}</button>
           <template v-if="roles">
