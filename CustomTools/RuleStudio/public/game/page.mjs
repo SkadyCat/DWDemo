@@ -624,7 +624,7 @@ const TEMPLATE = /* html */ `
       <template v-else>
         <div class="grid g12" @dragover.prevent @drop.prevent="dropToPage(vaultTab)">
           <button v-for="(it, i) in pageCells" :key="it ? it.uid : 'e' + i" class="cell" :class="it ? ['r-' + rarity(it).id, { on: picked === it }] : 'empty'" :draggable="!!it"
-            @dragstart="it && vaultDragStart(it)" @dragend="dragFrom = null" @dragover.prevent @drop.prevent.stop="dropPageCell(i)" @click="it && pick(it)" @contextmenu.prevent="it && fromVault(it, { page: vaultTab })" @dblclick="it && fromVault(it, { page: vaultTab })"
+            @dragstart="it && vaultDragStart(it)" @dragend="dragFrom = null" @dragover.prevent @drop.prevent.stop="dropPageCell(i)" @click.exact="it && pick(it)" @click.ctrl.exact="it && fromVault(it, { page: vaultTab })" @click.meta.exact="it && fromVault(it, { page: vaultTab })" @contextmenu.prevent="it && fromVault(it, { page: vaultTab })" @dblclick="it && fromVault(it, { page: vaultTab })"
             @mouseenter="it && hoverOn($event, it)" @mouseleave="hoverOff">
             <template v-if="it"><Gi :n="itemIcon(it)" :c="'r-' + rarity(it).id" :g="glyph[it.slot]"/><b>{{ it.tier }}</b><i v-if="it.skill" class="cell-skill"></i></template>
           </button>
@@ -634,14 +634,25 @@ const TEMPLATE = /* html */ `
     </div>
   </section>
 
+  <!-- right-click menu on bag items -->
+  <div class="ctxmenu" v-if="menu" :style="{ left: menu.x + 'px', top: menu.y + 'px' }" @contextmenu.prevent>
+    <header>{{ menu.items.length > 1 ? '已选 ' + menu.items.length + ' 件' : itemNameOf(menu.items[0]) }}</header>
+    <button v-if="menu.items.length === 1" @click="menuDo('equip')">装备</button>
+    <button v-if="open.vault" @click="menuDo('stash')">存入仓库</button>
+    <button v-if="menu.items.length === 1" @click="menuDo('craft')">洗炼</button>
+    <button v-if="!menu.confirm" class="danger" @click="menuDo('drop')">丢弃{{ menu.items.length > 1 ? '（' + menu.items.length + ' 件）' : '' }}</button>
+    <button v-else class="danger sure" @click="menuDo('drop')">确定丢弃？里面有稀有或传奇</button>
+  </div>
+
   <!-- =================== BAG =================== -->
   <section class="win panel win-right" v-if="open.bag" aria-label="背包">
     <header class="win-head"><h2>行 囊</h2><span class="count" :class="{ full: bagLeft <= 0 }">{{ bagSize - bagLeft }} / {{ bagSize }} 格</span><button class="x" @click="open.bag = false" aria-label="关闭">×</button></header>
     <div class="win-body">
       <div class="grid g12" :class="{ dropzone: dragFrom }" @dragover.prevent @drop.prevent="dropToBag">
-        <button v-for="(c, i) in bagCells" :key="c ? (c.cur ? 'c' + c.id + i : c.uid) : 'e' + i" class="cell" :class="!c ? 'empty' : c.cur ? 'cur' : ['r-' + rarity(c).id, { on: picked === c }]" :draggable="!!c && !c.cur"
+        <button v-for="(c, i) in bagCells" :key="c ? (c.cur ? 'c' + c.id + i : c.uid) : 'e' + i" class="cell" :class="!c ? 'empty' : c.cur ? 'cur' : ['r-' + rarity(c).id, { on: picked === c, sel: selected.has(c.uid) }]" :draggable="!!c && !c.cur"
           @dragstart="c && !c.cur && dragStart(c)" @dragend="dragItem = null; dropSlot = null; dragFrom = null" @dragover.prevent @drop.prevent.stop="dropBagCell(i)"
-          @click="c && (c.cur ? (open.vault && moveCurrency(c.id)) : pick(c))" @dblclick="c && !c.cur && doEquip(c.uid)" @contextmenu.prevent="c && (c.cur ? open.vault && moveCurrency(c.id) : open.vault ? toVault(c) : doEquip(c.uid))"
+          @click.exact="c && (c.cur ? (open.vault && moveCurrency(c.id)) : (selected.clear(), pick(c)))" @click.ctrl.exact="c && ctrlClick(c)" @click.meta.exact="c && ctrlClick(c)"
+          @dblclick="c && !c.cur && doEquip(c.uid)" @contextmenu.prevent="c && ($event.ctrlKey && $event.button === 0 ? ctrlClick(c) : c.cur ? open.vault && moveCurrency(c.id) : openMenu($event, c))"
           @mouseenter="c && (c.cur ? hoverThing($event, 'currency', { id: c.id, count: c.n, note: open.vault ? '点一下：这种通货全部存进仓库' : '每格最多 20 个 · 悬停装备按 Ctrl 钉住提示即可在提示里使用' }) : hoverOn($event, c))" @mouseleave="hoverOff">
           <template v-if="c && c.cur"><Gi :n="curIcon(c.id)" c="r-currency"/><em>{{ c.n }}</em></template>
           <template v-else-if="c"><Gi :n="itemIcon(c)" :c="'r-' + rarity(c).id" :g="glyph[c.slot]"/><b>{{ c.tier }}</b><i v-if="c.skill" class="cell-skill" title="带主动技能"></i></template>
@@ -651,8 +662,9 @@ const TEMPLATE = /* html */ `
         <span class="sel">{{ itemNameOf(picked) }}</span>
         <button class="orn-btn primary sm" @click="doEquip(picked.uid)">装备</button><button class="orn-btn sm" @click="openCenter('craft')">洗炼</button><button class="orn-btn danger sm" @click="doSalvage(picked.uid)">分解</button>
       </div>
-      <p v-else-if="open.vault" class="hint center">右键：存进仓库（传奇自动进传奇页）· 点通货：整种存入 · 也可以拖过去</p>
-      <p v-else class="hint center">双击或右键装备 · 拖到角色装备位 · 悬停装备按 Ctrl 钉住提示，直接用通货洗炼</p>
+      <p v-else-if="selected.size" class="hint center">已选 {{ selected.size }} 件 · 右键：一起丢弃{{ open.vault ? ' / 存入仓库' : '' }} · Ctrl + 点击：加选 / 取消 · 点空白处取消</p>
+      <p v-else-if="open.vault" class="hint center">Ctrl + 点击：快速存进仓库（传奇自动进传奇页）· 右键：菜单 · 点通货：整种存入 · 也可以拖过去</p>
+      <p v-else class="hint center">双击装备 · 右键：装备 / 丢弃 · Ctrl + 点击：多选 · 拖到角色装备位 · 悬停按 Ctrl 钉住提示洗炼</p>
       <p class="hint center" v-if="craftMsg">{{ craftMsg }}</p>
     </div>
   </section>
@@ -857,7 +869,7 @@ export function mountGame(el) {
       const hud = reactive({ combo: 0, cascadePct: 0, flashN: 0, tick: 0, time: '0:00', kills: 0, total: 0, life: 0, lifeMax: 1, es: 0, esMax: 0, mana: 0, manaMax: 1, skills: [], selected: 0, resources: [], buffs: [],
         bossShow: false, bossName: '', bossMods: [], bossLife: '100%', bossEs: '0%', bossEnraged: false });
       const rng = dungeonRandom(Date.now() >>> 0);
-      let scene = null, ov = null, raf = 0, last = 0, acc = 0, toastId = 0, seenPicked = 0, seenKills = 0, seenFull = -9, bossXp = false, overflow = 0, seenPortal = 0, seenClear = -1, gsap = null, floating = null, seenLoot = new Set();
+      let ctrlUsed = false, scene = null, ov = null, raf = 0, last = 0, acc = 0, toastId = 0, seenPicked = 0, seenKills = 0, seenFull = -9, bossXp = false, overflow = 0, seenPortal = 0, seenClear = -1, gsap = null, floating = null, seenLoot = new Set();
       const keys = new Set(), mouse = { x: 0, y: 0, down: false };
 
       // Proven libraries from the CDN; the UI still works (plainer) without them.
@@ -1080,6 +1092,43 @@ export function mountGame(el) {
         if (picked.value && anchor?.isConnected) nextTick(() => hoverOn({ currentTarget: anchor }, picked.value));
       }
       function doUnequip(s) { if (!save.equipped[s]) return; if (!unequip(save, s)) { toast('背包满了：先腾出一格', 'bad'); return; } sfx('unequip'); picked.value = null; hover.value = null; gearChanged(); }
+      // ---- bag: multi-select (Ctrl + click), quick move to the stash, right-click menu ----
+      const selected = reactive(new Set()), menu = ref(null);
+      const bagItem = uid => save.inventory.find(it => it.uid === uid);
+      function ctrlClick(c) {
+        hover.value = null; if (tipPinned.value) unpinTip(); ctrlUsed = true;
+        if (c.cur) { if (open.vault) moveCurrency(c.id); return; }
+        if (open.vault) {
+          // with the stash open, Ctrl + click moves it (and everything selected with it) straight in
+          const list = selected.has(c.uid) ? [...selected].map(bagItem).filter(Boolean) : [c];
+          selected.clear(); for (const it of list) toVault(it);
+          return;
+        }
+        if (selected.has(c.uid)) selected.delete(c.uid); else selected.add(c.uid);
+        if (picked.value === c) picked.value = null;
+      }
+      function openMenu(e, c) {
+        hover.value = null; if (tipPinned.value) unpinTip();
+        const items = selected.has(c.uid) && selected.size > 1 ? [...selected].map(bagItem).filter(Boolean) : [c];
+        if (!selected.has(c.uid)) selected.clear();
+        menu.value = { x: Math.min(e.clientX, innerWidth - 190), y: Math.min(e.clientY, innerHeight - 200), items, confirm: false };
+      }
+      function menuDo(what) {
+        const m = menu.value; if (!m) return;
+        if (what === 'equip') { menu.value = null; doEquip(m.items[0].uid); return; }
+        if (what === 'craft') { menu.value = null; pick(m.items[0]); openCenter('craft'); return; }
+        if (what === 'stash') { menu.value = null; selected.clear(); for (const it of m.items) toVault(it); return; }
+        if (what === 'drop') {
+          const precious = m.items.some(it => it.legend || ['rare', 'exalted', 'legendary'].includes(rarityOf(it).id));
+          if (precious && !m.confirm) { m.confirm = true; return; }
+          for (const it of m.items) { const i = save.inventory.indexOf(it); if (i >= 0) save.inventory.splice(i, 1); if (picked.value === it) picked.value = null; }
+          selected.clear(); menu.value = null; hover.value = null; sfx('unequip'); persist();
+          toast(`丢弃了 ${m.items.length} 件`, '');
+        }
+      }
+      const closeMenu = e => { if (menu.value && !e.target.closest?.('.ctxmenu')) menu.value = null; if (selected.size && e.button === 0 && !e.ctrlKey && !e.metaKey && !e.target.closest?.('.cell, .ctxmenu')) selected.clear(); };
+      onMounted(() => addEventListener('mousedown', closeMenu, true)); onBeforeUnmount(() => removeEventListener('mousedown', closeMenu, true));
+      watch(() => open.bag, v => { if (!v) { selected.clear(); menu.value = null; } });
       // ---- stash ----
       const inVault = it => save.stash.pages.some(p => p.includes(it)) || Object.values(save.stash.legend).some(l => l.includes(it));
       function toVault(it, page = typeof vaultTab.value === 'number' ? vaultTab.value : 0) {
@@ -1335,8 +1384,10 @@ export function mountGame(el) {
         if (e.target.closest?.('select, input')) return;
         const k = e.key.toLowerCase();
         if (k === 'alt') { if (ov) ov.showAll = down; e.preventDefault(); return; }
-        if (k === 'control' && down && !e.repeat) { if (tipPinned.value) unpinTip(); else pinTip(); return; }
+        // Ctrl pins the item tooltip when it is let go without a click in between (Ctrl + click is quick move / multi-select)
+        if (k === 'control' || k === 'meta') { if (down && !e.repeat) ctrlUsed = false; else if (!down && !ctrlUsed) { if (tipPinned.value) unpinTip(); else pinTip(); } return; }
         if (k === 'escape' && down && tipPinned.value) { unpinTip(); return; }
+        if (k === 'escape' && down && (menu.value || selected.size)) { menu.value = null; selected.clear(); return; }
         if (['w', 'a', 's', 'd'].includes(k)) { if (down) keys.add(k); else keys.delete(k); e.preventDefault(); return; }
         if (!down) return;
         if (/^[1-4]$/.test(k)) selectSkill(+k - 1);
@@ -1383,7 +1434,7 @@ export function mountGame(el) {
         profile, requirements, statRows, bdArch, bdStages, currentBd, centerName, centerTitle, traits, granted, ladder, ladderFocus, primarySkill, bagCells,
         bagLeft, bagSize: BAG_SIZE, pageCells, pageSize: PAGE_SIZE, pages: PAGES, legendCap: LEGEND_CAP, currencyPage: CURRENCY_PAGE, vaultTab, legendSel, dropTab, dragFrom, legendCount, vaultCounts, wallet, tipStacks,
         opts, settingTab, settingTabs, keybinds: KEYBINDS, setQuality, resetSettings, mapOpen,
-        legendary, dropBagCell, dropPageCell, toVault, fromVault, moveCurrency, takeCurrency, vaultDragStart, dropToBag, dropToPage, portalRun, portalHome, portalBack, xpNext, maxLevel: MAX_LEVEL,
+        selected, menu, ctrlClick, openMenu, menuDo, legendary, dropBagCell, dropPageCell, toVault, fromVault, moveCurrency, takeCurrency, vaultDragStart, dropToBag, dropToPage, portalRun, portalHome, portalBack, xpNext, maxLevel: MAX_LEVEL,
         pick, equippedFor, hoverOn, hoverOff, doEquip, doUnequip, dragStart, dropOn, doSalvage, doCraft, applyBd, clearBd, accountName, leaveAccount, grantLegendary, evaluate, update, toggle, isOpen, openCenter, startRun, leaveRun, selectSkill, gearChanged,
         panels: PANELS, tierList: Array.from({ length: MAP_TIERS }, (_, i) => i + 1), families: MAP_FAMILIES, slots: SLOTS, slotNames: SLOT_NAMES, currencies: CURRENCIES,
         archetypes: ARCHETYPES, legendaries: LEGENDARIES, skillBar: SKILL_BAR, glyph: SLOT_GLYPH,

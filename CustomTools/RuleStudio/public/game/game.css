@@ -848,3 +848,12 @@ select { font: inherit; color: var(--txt); background: var(--deep); border: 1px 
 
 /* UI scale (settings · 界面缩放): every HUD layer except the 3D view */
 .g > :not(.stage):not(.camp-bg) { zoom: var(--ui, 1); }
+
+/* bag: multi-select + right-click menu */
+.cell.sel { box-shadow: inset 0 0 0 2px var(--jade), 0 0 10px rgba(127, 224, 200, .35); }
+.ctxmenu { position: fixed; z-index: 60; min-width: 170px; padding: 6px; display: flex; flex-direction: column; gap: 2px; border-radius: 4px;
+  background: linear-gradient(#141d3a, #080d1e); box-shadow: inset 0 0 0 1px var(--gold-lo), 0 10px 28px rgba(0, 0, 0, .7); }
+.ctxmenu header { padding: 4px 8px 6px; font-size: 12px; color: var(--gold-hi); border-bottom: 1px solid var(--line); margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 240px; }
+.ctxmenu button { text-align: left; padding: 6px 10px; font-size: 13px; color: var(--txt, #e6dcc4); border-radius: 3px; }
+.ctxmenu button:hover { background: rgba(216, 180, 106, .14); color: var(--gold-hi); }
+.ctxmenu button.danger { color: #ff9a8a; } .ctxmenu button.sure { background: rgba(200, 60, 50, .25); }
