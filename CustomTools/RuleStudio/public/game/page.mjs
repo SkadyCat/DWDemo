@@ -24,6 +24,7 @@ import { loadSettings, saveSettings, DEFAULTS as SETTING_DEFAULTS, QUALITY, KEYB
 import { dungeonRandom } from './dungeon.mjs';
 import { runSelfUpdate } from '../self-update.mjs';
 import { waystoneName, starterWaystones, FREE_TIER, WAYSTONE_RARITY } from './waystones.mjs';
+import { SCARAB_SLOTS, SCARAB_IDS, scarabName, scarabText, scarabColor, applyScarabs, parseScarab, SCARAB_TIERS } from './scarabs.mjs';
 import { generateAtlas, newAtlasState, atlasView, completeNode, nodeMods, NODE_KINDS, NODE_MODS, FAMILY_HUE, REGION_NAME } from './atlas.mjs';
 import { GI, BASE_ICON, SLOT_ICON, SKILL_ICON, CURRENCY_ICON, PANEL_ICON, FAMILY_ICON, LAYER_ICON, BUFF_ICON, probeIcons } from './icons.mjs';
 
@@ -174,11 +175,21 @@ const ThingTip = {
   setup(props) {
     const pctText = v => `${v >= 0 ? '+' : ''}${Math.round(v * 100)}%`;
     const stoneLoot = w => { const m = nodeMods({ kind: 'normal', mods: w.mods }); return [['物品数量', pctText(m.quantity - 1)], ['怪群规模', '×' + +m.pack.toFixed(2)], ['传奇几率', '×' + +m.legend.toFixed(1)], ['怪物生命', '×' + +m.life.toFixed(2)], ['怪物伤害', '×' + +m.damage.toFixed(2)]].filter(r => !['+0%', '×1'].includes(r[1])); };
-    return { props, waystoneName, WAYSTONE_RARITY, NODE_MODS, stoneLoot, CURRENCIES, CURRENCY_ICON, SKILL_ICON };
+    return { props, waystoneName, WAYSTONE_RARITY, NODE_MODS, stoneLoot, CURRENCIES, CURRENCY_ICON, SKILL_ICON, scarabName, scarabText, scarabColor, SCARAB_TIERS, parseScarab };
   },
   template: /* html */ `
-  <article class="itip thing" :class="kind === 'waystone' ? 'w-' + data.stone.rarity : kind === 'currency' ? 'r-currency' : 'el-' + data.el">
-    <template v-if="kind === 'waystone'">
+  <article class="itip thing" :class="kind === 'waystone' ? 'w-' + data.stone.rarity : kind === 'currency' || kind === 'scarab' ? 'r-currency' : 'el-' + data.el">
+    <template v-if="kind === 'scarab'">
+      <header class="itip-head">
+        <div class="itip-icon" :style="{ color: scarabColor(data.id) }"><Gi n="scarab-beetle" c="scarab" g="甲"/></div>
+        <h3>{{ scarabName(data.id) }}</h3>
+        <p>圣甲虫 · {{ SCARAB_TIERS[parseScarab(data.id).tier] }}<template v-if="data.have != null"> · 持有 {{ data.have }}</template></p>
+      </header>
+      <ul class="itip-lines"><li><span>{{ scarabText(data.id) }}</span></li></ul>
+      <p class="thing-desc">放进地图仪路石周围的槽里，开图时消耗，这一张图生效。</p>
+      <p class="thing-note" v-if="data.note">{{ data.note }}</p>
+    </template>
+    <template v-else-if="kind === 'waystone'">
       <header class="itip-head">
         <div class="itip-icon"><Gi n="stone-tablet" :c="'w-' + data.stone.rarity"/></div>
         <h3>{{ waystoneName(data.stone) }}</h3>
@@ -464,10 +475,28 @@ const TEMPLATE = /* html */ `
         <ul class="ac-mods" v-if="selNode.mods.length"><li v-for="m in selNode.mods" :key="m">{{ nodeModText(m) }}</li></ul>
         <!-- the chosen waystone's own mods, right under the node's -->
         <ul class="ac-mods ws-mods" v-if="stone && stone.mods.length"><li v-for="m in stone.mods" :key="m">{{ nodeModText(m) }}</li></ul>
-        <p class="ac-loot"><span>物品数量 <b>{{ Math.round(selMods.quantity * 100) }}%</b></span><span>传奇几率 <b>×{{ +selMods.legend.toFixed(1) }}</b></span><span>怪群 <b>×{{ +selMods.pack.toFixed(1) }}</b></span></p>
+        <ul class="ac-mods sc-mods" v-if="deviceSlots.some(Boolean)"><li v-for="(id, i) in deviceSlots.filter(Boolean)" :key="i" :style="{ '--sc': scarabColor(id) }">{{ scarabText(id) }}</li></ul>
+        <p class="ac-loot"><span>物品数量 <b>{{ Math.round(selMods.quantity * 100) }}%</b></span><span>传奇几率 <b>×{{ +selMods.legend.toFixed(1) }}</b></span><span>怪群 <b>×{{ +selMods.pack.toFixed(1) }}</b></span>
+          <span v-if="selMods.elite !== 1">精英 <b>×{{ +selMods.elite.toFixed(1) }}</b></span><span v-if="selMods.currency !== 1">通货掉落 <b>×{{ +selMods.currency.toFixed(1) }}</b></span>
+          <span v-if="selMods.stones !== 1">路石掉落 <b>×{{ +selMods.stones.toFixed(1) }}</b></span><span v-if="selMods.scarabs !== 1">圣甲虫掉落 <b>×{{ +selMods.scarabs.toFixed(1) }}</b></span></p>
       </div>
       <!-- every waystone in the bag: pick one to run this node at the stone's tier -->
       <div class="ac-stone">
+        <div class="device">
+          <div class="dev-ring">
+            <button class="dev-core" :class="stone ? 'w-' + stone.rarity : 'empty'" @click="stone && pickStone(stone)"
+              @mouseenter="stone && hoverThing($event, 'waystone', { stone, note: '点一下取下' })" @mouseleave="hoverOff">
+              <Gi v-if="stone" n="stone-tablet" :c="'w-' + stone.rarity"/><b v-if="stone">{{ stone.tier }}</b><small v-else>{{ freeNode ? '不需要路石' : '放入路石' }}</small></button>
+            <button v-for="(id, i) in deviceSlots" :key="i" class="dev-slot" :class="{ empty: !id }" :style="{ '--a': (i * 72) + 'deg', '--sc': id ? scarabColor(id) : 'transparent' }"
+              @click="id && unslotScarab(i)" @mouseenter="id && hoverThing($event, 'scarab', { id, note: '点一下取下' })" @mouseleave="hoverOff">
+              <Gi v-if="id" n="scarab-beetle" c="scarab" g="甲"/><i v-else>+</i></button>
+          </div>
+          <div class="sc-inv">
+            <button v-for="s in scarabsLeft" :key="s.id" class="sc-cell" :style="{ '--sc': scarabColor(s.id) }" @click="slotScarab(s.id)"
+              @mouseenter="hoverThing($event, 'scarab', { id: s.id, have: s.n, note: '点一下放进地图仪' })" @mouseleave="hoverOff"><Gi n="scarab-beetle" c="scarab" g="甲"/><b>{{ s.n }}</b><small>{{ ['Ⅰ', 'Ⅱ', 'Ⅲ'][parseScarab(s.id).tier] }}</small></button>
+            <p v-if="!scarabsLeft.length" class="ws-none">没有圣甲虫了：首领常掉，精英偶尔掉。</p>
+          </div>
+        </div>
         <div class="ws-grid">
           <button v-for="(w, i) in stoneCells" :key="w ? w.uid : 'e' + i" class="ws" :disabled="!w"
             :class="w ? ['w-' + w.rarity, { on: w.uid === wsSel }] : 'empty'"
@@ -879,7 +908,12 @@ export function mountGame(el) {
         if (near) { atlasSel.value = near.id; nextTick(() => { wsSel.value = w.uid; }); }
         if (!atlasOpen.value) toggle('atlas');
       }
-      const selMods = computed(() => { const n = atlas.nodes[atlasSel.value]; return nodeMods({ kind: n.kind, mods: [...n.mods, ...(stone.value?.mods ?? [])] }); });
+      // ---- map device: the waystone in the middle, five scarab slots around it ----
+      const deviceSlots = reactive(Array(SCARAB_SLOTS).fill(null));
+      const scarabsLeft = computed(() => SCARAB_IDS.map(id => ({ id, n: (save.scarabs?.[id] ?? 0) - deviceSlots.filter(x => x === id).length })).filter(x => x.n > 0));
+      function slotScarab(id) { const i = deviceSlots.indexOf(null); if (i < 0) { toast('5 个槽都满了：点一个槽取下', 'bad'); return; } deviceSlots[i] = id; sfx('click'); hover.value = null; }
+      function unslotScarab(i) { deviceSlots[i] = null; sfx('click'); hover.value = null; }
+      const selMods = computed(() => { const n = atlas.nodes[atlasSel.value]; return applyScarabs(nodeMods({ kind: n.kind, mods: [...n.mods, ...(stone.value?.mods ?? [])] }), deviceSlots); });
       // Atlas nodes that move an unfinished "clear" goal of the current chapter forward get a quest mark.
       const questNodes = computed(() => {
         const v = quest.value, out = new Set(); if (!v) return out;
@@ -1240,6 +1274,8 @@ export function mountGame(el) {
         if (!freeNode.value && !stone.value) { toast('需要一块路石（任意阶都行）', 'bad'); return; }
         const used = stone.value, tier = runTier.value, mods = selMods.value;
         if (used) save.waystones.splice(save.waystones.findIndex(w => w.uid === used.uid), 1);
+        // the slotted scarabs are used up with the map
+        for (let i = 0; i < deviceSlots.length; ++i) { const id = deviceSlots[i]; if (id && save.scarabs[id] > 0) save.scarabs[id]--; deviceSlots[i] = null; }
         persist(); atlasOpen.value = false; talentOpen.value = false;
         const r = new MapRun(build(), { tier, family: node.family, mods, seed: (Date.now() ^ (Math.random() * 1e9)) >>> 0 });
         r.node = node.id; r.canTake = d => bagFits(save, d); r.autoCurrency = opts.autoCurrency; mapOpen.value = false;
@@ -1271,11 +1307,12 @@ export function mountGame(el) {
       }
       // Everything picked up goes straight into the save, so the bag shows it during the run too.
       function bank(d) {
-        sfx(d.type === 'item' ? 'pickup' : d.type === 'waystone' ? 'stoneDrop' : 'coin', d.type === 'item' ? { rarity: rarityOf(d.item).id } : {});
+        sfx(d.type === 'item' ? 'pickup' : d.type === 'waystone' || d.type === 'scarab' ? 'stoneDrop' : 'coin', d.type === 'item' ? { rarity: rarityOf(d.item).id } : {});
         if (d.type === 'item') questFire({ type: 'pickup', item: d.item });
         // Loot handed over at the end of a map can overflow a full bag: it goes to the stash instead.
         if (d.type === 'item') { if (bagFree(save) > 0) save.inventory.push(d.item); else { toBag(save, d.item); overflow++; } }
         else if (d.type === 'waystone') save.waystones.push(d.stone);
+        else if (d.type === 'scarab') save.scarabs[d.id] = (save.scarabs[d.id] ?? 0) + 1;
         else if (bagFits(save, d)) save.currencies[d.id] = (save.currencies[d.id] || 0) + d.count;
         else { save.stash.currency[d.id] = (save.stash.currency[d.id] || 0) + d.count; overflow++; } }
       function frame(now) {
@@ -1316,6 +1353,7 @@ export function mountGame(el) {
             const bl = baseLinesOf(d.item);
             toast(`${bl > 1 ? '◆'.repeat(bl) + ' ' : ''}${rr.name} · ${itemName(d.item)}`, `r-${rr.id} b${bl}`, itemIcon(d.item), 'r-' + rr.id);
           } else if (d.type === 'waystone') toast(waystoneName(d.stone), 'w-' + d.stone.rarity, 'stone-tablet', 'w-' + d.stone.rarity);
+          else if (d.type === 'scarab') toast(scarabName(d.id), 'cur', 'scarab-beetle', 'r-currency');
           else toast(CURRENCIES[d.id].name, 'cur', CURRENCY_ICON[d.id], 'r-currency');
         }
         if (r.phase !== 'running' && !resultLoot.done) {
@@ -1440,7 +1478,7 @@ export function mountGame(el) {
         profile, requirements, statRows, bdArch, bdStages, currentBd, centerName, centerTitle, traits, granted, ladder, ladderFocus, primarySkill, bagCells,
         bagLeft, bagSize: BAG_SIZE, pageCells, pageSize: PAGE_SIZE, pages: PAGES, legendCap: LEGEND_CAP, currencyPage: CURRENCY_PAGE, vaultTab, legendSel, dropTab, dragFrom, legendCount, vaultCounts, wallet, tipStacks,
         hub, hubTick, opts, settingTab, settingTabs, keybinds: KEYBINDS, setQuality, resetSettings, mapOpen,
-        selected, menu, ctrlClick, openMenu, menuDo, legendary, dropBagCell, dropPageCell, toVault, fromVault, moveCurrency, takeCurrency, vaultDragStart, dropToBag, dropToPage, portalRun, portalHome, portalBack, xpNext, maxLevel: MAX_LEVEL,
+        selected, menu, ctrlClick, openMenu, menuDo, deviceSlots, scarabsLeft, slotScarab, unslotScarab, scarabName, scarabText, scarabColor, parseScarab, legendary, dropBagCell, dropPageCell, toVault, fromVault, moveCurrency, takeCurrency, vaultDragStart, dropToBag, dropToPage, portalRun, portalHome, portalBack, xpNext, maxLevel: MAX_LEVEL,
         pick, equippedFor, hoverOn, hoverOff, doEquip, doUnequip, dragStart, dropOn, doSalvage, doCraft, applyBd, clearBd, accountName, leaveAccount, grantLegendary, evaluate, update, toggle, isOpen, openCenter, startRun, leaveRun, selectSkill, gearChanged,
         panels: PANELS, tierList: Array.from({ length: MAP_TIERS }, (_, i) => i + 1), families: MAP_FAMILIES, slots: SLOTS, slotNames: SLOT_NAMES, currencies: CURRENCIES,
         archetypes: ARCHETYPES, legendaries: LEGENDARIES, skillBar: SKILL_BAR, glyph: SLOT_GLYPH,

@@ -877,3 +877,28 @@ select { font: inherit; color: var(--txt); background: var(--deep); border: 1px 
 .ac-loot { display: flex; flex-direction: column; gap: 4px; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line); }
 .ac-loot span { display: flex; justify-content: space-between; align-items: baseline; font-size: 13px; color: var(--mute); }
 .ac-loot b { font: 15px var(--num); color: var(--gold-hi); }
+
+/* ============ map device: waystone in the middle, five scarab slots around it ============ */
+.gi.scarab { --gg: linear-gradient(160deg, #fff, var(--sc, #f2d27a) 55%, #3a2a10); }
+.device { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
+.dev-ring { position: relative; width: 196px; height: 196px; flex: none; border-radius: 50%;
+  background: radial-gradient(circle, rgba(216, 180, 106, .14), rgba(6, 10, 24, .2) 62%, transparent 70%), repeating-conic-gradient(from 0deg, rgba(216, 180, 106, .18) 0 2deg, transparent 2deg 36deg);
+  box-shadow: inset 0 0 0 1px rgba(216, 180, 106, .3), inset 0 0 0 46px rgba(6, 10, 24, .35); }
+.dev-core { position: absolute; left: 50%; top: 50%; width: 70px; height: 70px; margin: -35px 0 0 -35px; padding: 14px; border-radius: 50%;
+  background: radial-gradient(circle at 50% 35%, #2a3a68, #070b1c); box-shadow: 0 0 0 1px var(--gold), 0 0 0 4px rgba(6, 10, 24, .9), 0 0 0 5px var(--gold-lo), 0 0 22px rgba(251, 231, 176, .25); }
+.dev-core b { position: absolute; right: 8px; bottom: 6px; font: 13px var(--num); color: var(--gold-hi); }
+.dev-core small { font-size: 11px; color: var(--mute); line-height: 1.2; }
+.dev-core.empty { opacity: .8; }
+.dev-slot { position: absolute; left: 50%; top: 50%; width: 46px; height: 46px; margin: -23px 0 0 -23px; padding: 9px; border-radius: 50%;
+  transform: rotate(var(--a)) translateY(-74px) rotate(calc(-1 * var(--a)));
+  background: radial-gradient(circle at 50% 35%, #1e2a4e, #060a18); box-shadow: 0 0 0 1px var(--gold-lo), 0 0 14px color-mix(in srgb, var(--sc) 45%, transparent); transition: box-shadow .15s; }
+.dev-slot:hover { box-shadow: 0 0 0 1px var(--gold-hi), 0 0 16px color-mix(in srgb, var(--sc) 60%, transparent); }
+.dev-slot.empty i { font-style: normal; font-size: 20px; line-height: 28px; color: var(--gold-lo); }
+.sc-inv { flex: 1; display: flex; flex-wrap: wrap; gap: 5px; align-content: flex-start; max-height: 196px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: var(--gold-lo) transparent; }
+.sc-cell { position: relative; width: 44px; height: 44px; padding: 7px; border-radius: 4px; background: radial-gradient(circle at 50% 35%, rgba(30, 42, 78, .85), rgba(6, 10, 24, .92)); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--sc) 55%, transparent); }
+.sc-cell:hover { box-shadow: inset 0 0 0 1px var(--sc), 0 0 10px color-mix(in srgb, var(--sc) 40%, transparent); }
+.sc-cell b { position: absolute; right: 3px; bottom: 1px; font: 11px var(--num); color: #f2e8c8; text-shadow: 0 1px 2px #000; }
+.sc-cell small { position: absolute; left: 3px; top: 1px; font-size: 9px; color: var(--mute); }
+.sc-inv .ws-none { width: 100%; }
+.sc-mods li { color: var(--sc) !important; }
+.lt.r-scarab { --c: #ffd27a; }

@@ -10,6 +10,7 @@ import { detachRules } from '../../core/rules.mjs';
 import { generateDungeon, dungeonRandom } from './dungeon.mjs';
 import { rollWaystoneDrops } from './waystones.mjs';
 import { HUB_LAYOUT, NPCS, STATIONS } from './hub.mjs';
+import { rollScarabDrops } from './scarabs.mjs';
 
 export const STATUS_LOOK = {
   ignited: { color: '#ff7a2e', glyph: '燃', fx: 'ignite' }, poisoned: { color: '#7ee36b', glyph: '毒', fx: 'poison' }, bleeding: { color: '#e0334a', glyph: '血', fx: 'bleed' },
@@ -38,7 +39,7 @@ export class MapRun {
     this.profile = mapProfile(tier, family);
     this.tier = this.profile.tier;
     this.seed = seed;
-    this.mods = { pack: 1, elite: 1, legend: 1, life: 1, damage: 1, bossLife: 1, aggro: 1, ...mods };
+    this.mods = { pack: 1, elite: 1, legend: 1, life: 1, damage: 1, bossLife: 1, aggro: 1, currency: 1, stones: 1, scarabs: 1, ...mods };
     this.quantity = quantity * (mods.quantity ?? 1);
     this.walkTo = null;
     this.dungeon = generateDungeon(seed, this.tier, hub ? HUB_LAYOUT : null);
@@ -271,11 +272,15 @@ export class MapRun {
       if ((e.depth ?? 0) > 0) this.cascadeKills++;
       if (this.recentKills.length >= 20 && t - this.lastScreenClear > 2.5) { this.lastScreenClear = t; this.screenClears.push({ t, n: this.recentKills.length }); }
       const kind = e.target.kind === 'boss' ? 'boss' : e.target.kind === 'elite' ? 'elite' : 'monster';
-      for (const drop of rollDrops(this.tier, kind, this.rng, { quantity: this.quantity, legend: this.mods.legend })) {
+      const drops = rollDrops(this.tier, kind, this.rng, { quantity: this.quantity, legend: this.mods.legend });
+      // 财富圣甲虫: more currency (each stack's count, rounded by chance)
+      for (const d of drops) if (d.type === 'currency' && this.mods.currency !== 1) { const c = d.count * this.mods.currency; d.count = Math.max(1, Math.floor(c) + (this.rng() < c - Math.floor(c) ? 1 : 0)); }
+      drops.push(...rollScarabDrops(this.tier, kind, this.rng, this.quantity * this.mods.scarabs));
+      for (const drop of drops) {
         const a = this.rng() * Math.PI * 2, r = 30 + this.rng() * (kind === 'boss' ? 160 : 60);
         this.loot.push({ key: `${this.elapsed.toFixed(3)}:${this.loot.length}:${this.rng()}`, x: e.target.x + Math.cos(a) * r, y: e.target.y + Math.sin(a) * r, sourceX: e.target.x, sourceY: e.target.y, drop, born: this.elapsed });
       }
-      for (const stone of rollWaystoneDrops(this.tier, kind, this.rng, this.quantity)) {
+      for (const stone of rollWaystoneDrops(this.tier, kind, this.rng, this.quantity * this.mods.stones)) {
         const a = this.rng() * Math.PI * 2, r = 40 + this.rng() * (kind === 'boss' ? 120 : 50);
         this.loot.push({ key: `w${this.elapsed.toFixed(3)}:${this.loot.length}:${this.rng()}`, x: e.target.x + Math.cos(a) * r, y: e.target.y + Math.sin(a) * r, sourceX: e.target.x, sourceY: e.target.y, drop: { type: 'waystone', stone }, born: this.elapsed });
       }

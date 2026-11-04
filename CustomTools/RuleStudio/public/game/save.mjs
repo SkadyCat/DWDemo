@@ -21,7 +21,7 @@ export const bagUsed = save => save.inventory.length + currencyStacks(save).leng
 export const bagFree = save => BAG_SIZE - bagUsed(save);
 /** Can this drop go into the bag? Currency fits when it tops up a stack or there is a free cell. */
 export function bagFits(save, drop) {
-  if (drop.type === 'waystone') return true;   // waystones go to the map device, not the bag
+  if (drop.type === 'waystone' || drop.type === 'scarab') return true;   // waystones and scarabs go to the map device, not the bag
   if (drop.type === 'item') return bagFree(save) > 0;
   const have = save.currencies[drop.id] || 0, room = (STACK - (have % STACK)) % STACK;
   return drop.count <= room || bagFree(save) >= Math.ceil((drop.count - room) / STACK);
@@ -118,7 +118,7 @@ export const grantedSkills = save => [...new Set(SLOTS.map(s => save.equipped[s]
 export function newSave() {
   const save = { version: 2, inventory: [], equipped: Object.fromEntries(SLOTS.map(s => [s, null])), currencies: Object.fromEntries(Object.keys(CURRENCIES).map(k => [k, 0])),
     skills: [null, null, null, null], talents: { allocated: [] }, unlocked: 1, best: {}, archetype: null, bdStage: null, stats: { maps: 0, kills: 0 },
-    stash: newStash(), level: 1, xp: 0 };
+    stash: newStash(), level: 1, xp: 0, scarabs: { bounty_0: 2, coin_0: 1 } };
   // A starter wand with Fireball so a fresh character can play.
   save.equipped.weapon = makeItem('weapon', 'wand', 1, { skill: 'fireball', traits: [{ id: 'proj_count', tier: 1 }, { id: 'proj_pierce', tier: 1 }], lines: [{ id: 'added_fire_spell', tier: 1 }] });
   syncSkillBar(save);
@@ -144,6 +144,7 @@ export function migrate(save) {
   const base = newStash(), st = save.stash ?? {};
   save.stash = { currency: { ...base.currency, ...st.currency }, legend: { ...st.legend }, pages: base.pages.map((p, i) => st.pages?.[i] ?? p) };
   save.level = Math.max(1, save.level | 0 || 1); save.xp = Math.max(0, save.xp || 0);
+  if (!save.scarabs || typeof save.scarabs !== 'object') save.scarabs = { bounty_0: 2, coin_0: 1 };
   // Currency first: anything past what the bag can hold waits in the currency page.
   for (const id of Object.keys(CURRENCIES)) {
     const cap = Math.max(0, BAG_SIZE - save.inventory.length) * STACK;   // rough: the bag cannot hold more than this
