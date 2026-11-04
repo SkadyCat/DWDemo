@@ -384,7 +384,7 @@ const TEMPLATE = /* html */ `
   <template v-else>
     <header class="topbar">
       <button class="orn-btn ghost sm" @click="openCenter('settings')" title="设置（O）">设置</button>
-      <button class="orn-btn ghost sm" @click="leaveAccount" :title="'当前账号：' + accountName">账号 · {{ accountName }}</button>
+      <button class="orn-btn ghost sm" @click="openCenter('settings'); settingTab = 'account'" :title="'当前账号：' + accountName + '（点这里登出 / 换账号）'">账号 · {{ accountName }}</button>
       <a class="orn-btn ghost sm" href="/editor/index.html" target="_blank" rel="noopener">内容编辑器</a>
       <button class="orn-btn ghost sm" @click="update">{{ updateText || '更新到最新' }}</button>
     </header>
@@ -815,6 +815,10 @@ const TEMPLATE = /* html */ `
         <div class="srows keys" v-if="settingTab === 'keys'">
           <div class="srow" v-for="k in keybinds" :key="k[0]"><span>{{ k[0] }}</span><kbd>{{ k[1] }}</kbd><b></b></div>
         </div>
+        <div class="srows" v-if="settingTab === 'account'">
+          <div class="srow"><span>当前账号<small>每个账号一份独立存档，进度随时自动保存</small></span><b class="acc-name">{{ accountName }}</b><b></b></div>
+          <div class="srow"><span>登出<small>保存进度，回到选择账号的界面；地图里登出，这张图的进度不保留</small></span><button class="orn-btn primary sm" style="justify-self: start; width: auto; min-width: 120px" @click="leaveAccount">登 出</button><b></b></div>
+        </div>
         <footer class="sfoot"><button class="orn-btn ghost sm" @click="resetSettings">恢复默认</button><span class="hint">设置只存在这台电脑的浏览器里，换账号也保留。</span></footer>
       </div>
 
@@ -892,7 +896,7 @@ export function mountGame(el) {
       }
       // ---- settings -------------------------------------------------------------------------------
       const opts = reactive(loadSettings()), settingTab = ref('audio'), mapOpen = ref(false);
-      const settingTabs = [['audio', '音频'], ['video', '画面'], ['game', '游戏'], ['ui', '界面'], ['keys', '按键']];
+      const settingTabs = [['audio', '音频'], ['video', '画面'], ['game', '游戏'], ['ui', '界面'], ['keys', '按键'], ['account', '账号']];
       let focused = true;
       function applySettings() {
         audio.setVolume(opts.muteUnfocused && !focused ? 0 : opts.master); audio.setSfx(opts.sfx); audio.setAmbience(opts.ambience);
