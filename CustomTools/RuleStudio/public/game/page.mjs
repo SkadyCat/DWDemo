@@ -26,7 +26,7 @@ import { runSelfUpdate } from '../self-update.mjs';
 import { waystoneName, starterWaystones, FREE_TIER, WAYSTONE_RARITY } from './waystones.mjs';
 import { SCARAB_SLOTS, SCARAB_IDS, scarabName, scarabText, scarabColor, applyScarabs, parseScarab, SCARAB_TIERS } from './scarabs.mjs';
 import { generateAtlas, newAtlasState, atlasView, completeNode, nodeMods, NODE_KINDS, NODE_MODS, FAMILY_HUE, REGION_NAME } from './atlas.mjs';
-import { GI, BASE_ICON, SLOT_ICON, SKILL_ICON, CURRENCY_ICON, PANEL_ICON, FAMILY_ICON, LAYER_ICON, BUFF_ICON, probeIcons } from './icons.mjs';
+import { GI, iconInfo, STATUS_ICON, BASE_ICON, SLOT_ICON, SKILL_ICON, CURRENCY_ICON, PANEL_ICON, FAMILY_ICON, LAYER_ICON, BUFF_ICON, probeIcons } from './icons.mjs';
 
 const content = gameContent();
 const ELEMENT_NAME = { physical: '物理', fire: '火焰', cold: '冰霜', lightning: '闪电', chaos: '混沌' };
@@ -97,13 +97,14 @@ function skillInfo(id) {
   if (d.range) rows.push(['距离', `${d.range}`]);
   return { name: d.name, tags: skillTags(id), desc: SKILL_DESC[id] ?? '', rows };
 }
-const itemIcon = it => BASE_ICON[it.base] ?? SLOT_ICON[it.slot];
+const itemIcon = it => (it.legend ? 'legendary/' + it.legend : null) ?? BASE_ICON[it.base] ?? SLOT_ICON[it.slot];
 
 // ------------------------------------------------------------------ small components
 const Gi = {
   props: { n: String, c: { type: String, default: '' }, g: { type: String, default: '' } },
-  setup(p) { return { url: computed(() => GI(p.n)) }; },
-  template: `<i class="gi" :class="c" :style="{ '--i': url }" :data-g="g"></i>`,
+  setup(p) { return { f: computed(() => iconInfo(p.n)) }; },
+  // own painted icons are pictures; everything else is a mask filled with the theme gradient
+  template: `<i class="gi" :class="[c, { 'gi-img': f.painted, 'gi-own': f.own }]" :style="f.painted ? { '--img': f.url } : { '--i': f.url }" :data-g="g"></i>`,
 };
 
 const ItemTip = {
@@ -507,7 +508,7 @@ const TEMPLATE = /* html */ `
           <h4 class="ac-h">路石背包 <small>{{ save.waystones.length }} 块 · 点一下或拖进法阵 · 双击退回背包</small></h4>
           <div class="ws-grid" @dragover.prevent @drop.prevent="dropOnStones">
             <button v-for="(w, i) in stoneCells" :key="w ? w.uid : 'e' + i" class="ws" :disabled="!w"
-              :draggable="!!w" @dragstart="w && dragAnyStart($event, { kind: 'stone', w })" @dragend="dragAnyEnd"
+              :draggable="!!w" @dragstart="w && dragAnyStart($event, { kind: 'stone', w })" @dragend="dragAnyEnd" @dragover.prevent @drop.prevent.stop="dropOnStoneCell(i)"
               :class="w ? ['w-' + w.rarity, { on: w.uid === wsSel }] : 'empty'"
                @mouseenter="w && hoverThing($event, 'waystone', { stone: w, note: (w.uid === wsSel ? '已放进法阵' + (freeNode ? '：再点一下取下' : '') : '点一下放进法阵，本次按 T' + w.tier + ' 打') + ' · 双击退回背包' })" @mouseleave="hoverOff" @click="w && pickStone(w)" @dblclick="w && stoneOut(w)">
               <template v-if="w"><Gi n="stone-tablet" :c="'w-' + w.rarity"/><b>{{ w.tier }}</b></template></button>
@@ -629,13 +630,13 @@ const TEMPLATE = /* html */ `
         <section class="vleg-open" v-if="legendSel">
           <h4>{{ legendary(legendSel).name }} <small>{{ legendCount(legendSel) }} / {{ legendCap }} · 右键取回背包</small></h4>
           <div class="grid g10">
-            <button v-for="i in legendCap" :key="i" class="cell" :class="save.stash.legend[legendSel]?.[i - 1] ? 'r-legendary' : 'empty'"
-              :draggable="!!save.stash.legend[legendSel]?.[i - 1]" @dragstart="dragAnyStart($event, { kind: 'legend', it: save.stash.legend[legendSel][i - 1], legend: legendSel })" @dragend="dragAnyEnd"
+            <button v-for="i in legendCap" :key="i" class="cell" :class="legendCells[i - 1] ? 'r-legendary' : 'empty'"
+              :draggable="!!legendCells[i - 1]" @dragstart="dragAnyStart($event, { kind: 'legend', it: legendCells[i - 1], legend: legendSel })" @dragend="dragAnyEnd"
               @dragover.prevent @drop.prevent.stop="dropOnLegendPage"
-              @contextmenu.prevent="save.stash.legend[legendSel]?.[i - 1] && fromVault(save.stash.legend[legendSel][i - 1], { legend: legendSel })"
-              @dblclick="save.stash.legend[legendSel]?.[i - 1] && fromVault(save.stash.legend[legendSel][i - 1], { legend: legendSel })"
-              @mouseenter="save.stash.legend[legendSel]?.[i - 1] && hoverOn($event, save.stash.legend[legendSel][i - 1])" @mouseleave="hoverOff">
-              <template v-if="save.stash.legend[legendSel]?.[i - 1]"><Gi :n="itemIcon(save.stash.legend[legendSel][i - 1])" c="r-legendary"/><b>{{ save.stash.legend[legendSel][i - 1].tier }}</b></template>
+              @contextmenu.prevent="legendCells[i - 1] && fromVault(legendCells[i - 1], { legend: legendSel })"
+              @dblclick="legendCells[i - 1] && fromVault(legendCells[i - 1], { legend: legendSel })"
+              @mouseenter="legendCells[i - 1] && hoverOn($event, legendCells[i - 1])" @mouseleave="hoverOff">
+              <template v-if="legendCells[i - 1]"><Gi :n="itemIcon(legendCells[i - 1])" c="r-legendary"/><b>{{ legendCells[i - 1].tier }}</b></template>
             </button>
           </div>
         </section>
@@ -919,7 +920,8 @@ export function mountGame(el) {
         save.waystones = starterWaystones(tiers, rng);
       }
       const RANK = { rare: 0, magic: 1, normal: 2 };
-      const stash = computed(() => [...save.waystones].sort((a, b) => a.tier - b.tier || RANK[a.rarity] - RANK[b.rarity]));
+      // the waystone bag keeps every stone where it was put (no auto-sort), like every other storage
+      const stash = computed(() => save.waystones);
       const freeNode = computed(() => atlas.nodes[atlasSel.value].tier <= FREE_TIER);
       // Any waystone fits any node: the stone's tier is the run's tier.
       const usable = computed(() => stash.value);
@@ -927,7 +929,7 @@ export function mountGame(el) {
       const stone = computed(() => usable.value.find(w => w.uid === wsSel.value) ?? null);
       // Nodes that need a stone pick the lowest fitting one; free nodes start without one (a stone only raises the tier).
       watch([atlasSel, () => save.waystones.length], () => { if (!usable.value.some(w => w.uid === wsSel.value)) wsSel.value = freeNode.value ? null : nearestStone(atlas.nodes[atlasSel.value].tier)?.uid ?? null; }, { immediate: true });
-      const stoneCells = computed(() => { const n = Math.max(12, Math.ceil(stash.value.length / 6) * 6); return Array.from({ length: n }, (_, i) => stash.value[i] ?? null); });
+      const stoneCells = computed(() => { const n = save.waystones.length; return placeGrid(save.waystones, Math.max(12, Math.ceil((n + 1) / 6) * 6)).map(x => x ?? null); });
       function pickStone(w) { wsSel.value = wsSel.value === w.uid && freeNode.value ? null : w.uid; }
       const runTier = computed(() => stone.value ? stone.value.tier : atlas.nodes[atlasSel.value].tier);
       const reachable = computed(() => ['done', 'open'].includes(view.value.status(atlasSel.value)));
@@ -1055,6 +1057,7 @@ export function mountGame(el) {
       const bagLeft = computed(() => bagFree(save));
       const pageCells = computed(() => placeGrid(save.stash.pages[vaultTab.value] ?? [], PAGE_SIZE));
       const legendCount = id => save.stash.legend[id]?.length ?? 0;
+      const legendCells = computed(() => legendSel.value ? placeGrid(save.stash.legend[legendSel.value] ?? [], LEGEND_CAP) : []);
       const vaultCounts = computed(() => ({ currency: fmtN(Object.values(save.stash.currency).reduce((a, b) => a + b, 0)), legend: Object.values(save.stash.legend).reduce((a, l) => a + l.length, 0), items: save.stash.pages.reduce((a, p) => a + p.length, 0) }));
       /** Currency on hand for crafting: the bag, plus the currency page while at home. */
       const wallet = computed(() => Object.fromEntries(Object.keys(CURRENCIES).map(id => [id, curHave(save, id, !run.value)])));
@@ -1245,6 +1248,12 @@ export function mountGame(el) {
         const d = takeAny(); if (!d) return;
         if (d.kind === 'bagStone') { backToDevice(d.w); if (d.w.uid !== wsSel.value) pickStone(d.w); }
         else if (d.kind === 'stone' && d.w.uid !== wsSel.value) pickStone(d.w);
+      }
+      function dropOnStoneCell(i) {
+        const d = takeAny(); if (!d) return;
+        if (d.kind === 'stone') { const there = stoneCells.value[i]; if (there === d.w) return; if (there) there.cell = d.w.cell; d.w.cell = i; persist(); }
+        else if (d.kind === 'bagStone') { backToDevice(d.w); if (!stoneCells.value[i]) { d.w.cell = i; persist(); } }
+        else if (d.kind === 'core' && stone.value) pickStone(stone.value);
       }
       function dropOnStones() { const d = takeAny(); if (d?.kind === 'core' && stone.value) pickStone(stone.value); else if (d?.kind === 'bagStone') backToDevice(d.w); }
       function dropOnSlot(i) {
@@ -1598,9 +1607,9 @@ export function mountGame(el) {
         save, stage, overlay, tipEl, comboEl, flashEl, open, center, mapTier, mapFamily, picked, pickedLine, craftMsg, roles, evaluating, updateText, hover, bdSel, toasts, legendBanner,
         volume, cycleVolume, quest, questIndex, questSel, story, chapters: CHAPTERS, chapterNo, fmtN, rewardText, closeStory, claimStory, dragItem, dropSlot, dropBar, skillCards, skillGrid, hoverThing, tipPinned, activeCur, activeIdx, pickCur, curStacks, unpinTip, tipCraft, setBar, skillDragStart, skillDragEnd, skillDrop, quickBar, run, resultLoot, clearedBanner, hud,
         profile, requirements, statRows, bdArch, bdStages, currentBd, centerName, centerTitle, traits, granted, ladder, ladderFocus, primarySkill, bagCells,
-        bagLeft, bagSize: BAG_SIZE, pageCells, pageSize: PAGE_SIZE, pages: PAGES, legendCap: LEGEND_CAP, currencyPage: CURRENCY_PAGE, vaultTab, legendSel, dropTab, dragFrom, legendCount, vaultCounts, wallet, tipStacks,
+        legendCells, bagLeft, bagSize: BAG_SIZE, pageCells, pageSize: PAGE_SIZE, pages: PAGES, legendCap: LEGEND_CAP, currencyPage: CURRENCY_PAGE, vaultTab, legendSel, dropTab, dragFrom, legendCount, vaultCounts, wallet, tipStacks,
         hub, hubTick, opts, settingTab, settingTabs, keybinds: KEYBINDS, setQuality, resetSettings, mapOpen,
-        stoneOut, backToDevice, selected, menu, ctrlClick, openMenu, menuDo, affixRows, totals, slotPos, pentaPoints, dragAnyStart, dragAnyEnd, dropOnCurrencyPage, dropOnLegendPage, dropOnCore, dropOnStones, dropOnSlot, dropOnScarabs, dropOnCraft, dropDev, deviceSlots, scarabsLeft, slotScarab, unslotScarab, scarabName, scarabText, scarabColor, parseScarab, legendary, dropBagCell, dropPageCell, toVault, fromVault, moveCurrency, takeCurrency, vaultDragStart, dropToBag, dropToPage, portalRun, portalHome, portalBack, xpNext, maxLevel: MAX_LEVEL,
+        stoneOut, backToDevice, dropOnStoneCell, selected, menu, ctrlClick, openMenu, menuDo, affixRows, totals, slotPos, pentaPoints, dragAnyStart, dragAnyEnd, dropOnCurrencyPage, dropOnLegendPage, dropOnCore, dropOnStones, dropOnSlot, dropOnScarabs, dropOnCraft, dropDev, deviceSlots, scarabsLeft, slotScarab, unslotScarab, scarabName, scarabText, scarabColor, parseScarab, legendary, dropBagCell, dropPageCell, toVault, fromVault, moveCurrency, takeCurrency, vaultDragStart, dropToBag, dropToPage, portalRun, portalHome, portalBack, xpNext, maxLevel: MAX_LEVEL,
         pick, equippedFor, hoverOn, hoverOff, doEquip, doUnequip, dragStart, dropOn, doSalvage, doCraft, applyBd, clearBd, accountName, leaveAccount, grantLegendary, evaluate, update, toggle, isOpen, openCenter, startRun, leaveRun, selectSkill, gearChanged,
         panels: PANELS, tierList: Array.from({ length: MAP_TIERS }, (_, i) => i + 1), families: MAP_FAMILIES, slots: SLOTS, slotNames: SLOT_NAMES, currencies: CURRENCIES,
         archetypes: ARCHETYPES, legendaries: LEGENDARIES, skillBar: SKILL_BAR, glyph: SLOT_GLYPH,

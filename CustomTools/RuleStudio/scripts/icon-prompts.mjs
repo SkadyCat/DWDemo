@@ -83,22 +83,22 @@ const add = (cat, id, name, use, now, subject, style, extra = '') => rows.push({
   prompt: `${STYLE[style]}. Subject: ${subject}${extra ? ', ' + extra : ''}.`, negative: NEGATIVE });
 
 const skillEl = id => { const d = content.skills.get(id)?.damage ?? {}; let best = null, v = -1; for (const [k, x] of Object.entries(d)) if (typeof x === 'number' && x > v) { v = x; best = k; } return best; };
-for (const [id, now] of Object.entries(I.SKILL_ICON)) {
+for (const [id, now] of Object.entries(I.GAME_ICONS.skill)) {
   const el = skillEl(id), active = ITEM_SKILLS.includes(id);
   add('skill', id, content.skills.get(id)?.name ?? id, active ? '技能栏、技能提示（主动技能）' : '触发技能（提示、图鉴里出现）', now, SKILL[id] ?? id, 'painted', el ? `colour accent ${EL[el]}` : '');
 }
-for (const [id, now] of Object.entries(I.BASE_ICON)) {
+for (const [id, now] of Object.entries(I.GAME_ICONS.base)) {
   const b = Object.values(BASES).flat().find(x => x.id === id);
   add('base', id, b?.name ?? id, '背包格、装备位、物品提示（同一基底的所有装备）', now, BASE[id] ?? id, 'painted');
 }
-for (const [id, now] of Object.entries(I.SLOT_ICON)) if (id !== 'ring2') add('slot', id, SLOT_NAMES[id] ?? id, '角色面板上空着的装备位（会画成半透明的灰色）', now, BASE[{ weapon: 'war_staff', offhand: 'tower_shield', helmet: 'iron_helm', chest: 'plate', gloves: 'gauntlets', boots: 'treads', belt: 'chain_belt', amulet: 'onyx_amulet', ring1: 'ruby_ring' }[id]], 'emblem');
-for (const [id, now] of Object.entries(I.CURRENCY_ICON)) add('currency', id, CURRENCIES[id].name, `背包、通货页、洗炼：${CURRENCIES[id].desc}`, now, CUR[id], 'painted');
-for (const L of LEGENDARIES) add('legendary', L.id, L.name, `传奇物品（现在用基底图标 ${I.BASE_ICON[L.base]}）：${L.legend.text}　「${L.flavor}」`, I.BASE_ICON[L.base], `${BASE[L.base]}, a unique legendary version named "${L.id.replace(/_/g, ' ')}", ornate and one of a kind`, 'painted', `glowing with ${EL[L.theme] ?? EL.physical}, amber legendary aura`);
-for (const [id, now] of Object.entries(I.PANEL_ICON)) add('panel', id, { atlas: '地图', talents: '天赋', char: '角色', bag: '背包', quest: '任务', craft: '洗炼', bd: '流派', codex: '传奇图鉴', vault: '仓库', settings: '设置' }[id], '右侧功能栏按钮', now, PANEL[id], 'emblem');
-for (const [id, now] of Object.entries(I.FAMILY_ICON)) add('family', id, { ember: '余烬', frost: '霜原', storm: '雷暴', blight: '腐沼', ruin: '遗迹' }[id] ?? id, '地图类型（图集节点、地图信息）', now, FAMILY[id], 'emblem');
+for (const [id, now] of Object.entries(I.GAME_ICONS.slot)) if (id !== 'ring2') add('slot', id, SLOT_NAMES[id] ?? id, '角色面板上空着的装备位（会画成半透明的灰色）', now, BASE[{ weapon: 'war_staff', offhand: 'tower_shield', helmet: 'iron_helm', chest: 'plate', gloves: 'gauntlets', boots: 'treads', belt: 'chain_belt', amulet: 'onyx_amulet', ring1: 'ruby_ring' }[id]], 'emblem');
+for (const [id, now] of Object.entries(I.GAME_ICONS.currency)) add('currency', id, CURRENCIES[id].name, `背包、通货页、洗炼：${CURRENCIES[id].desc}`, now, CUR[id], 'painted');
+for (const L of LEGENDARIES) add('legendary', L.id, L.name, `传奇物品（现在用基底图标 ${I.GAME_ICONS.base[L.base]}）：${L.legend.text}　「${L.flavor}」`, I.GAME_ICONS.base[L.base], `${BASE[L.base]}, a unique legendary version named "${L.id.replace(/_/g, ' ')}", ornate and one of a kind`, 'painted', `glowing with ${EL[L.theme] ?? EL.physical}, amber legendary aura`);
+for (const [id, now] of Object.entries(I.GAME_ICONS.panel)) add('panel', id, { atlas: '地图', talents: '天赋', char: '角色', bag: '背包', quest: '任务', craft: '洗炼', bd: '流派', codex: '传奇图鉴', vault: '仓库', settings: '设置' }[id], '右侧功能栏按钮', now, PANEL[id], 'emblem');
+for (const [id, now] of Object.entries(I.GAME_ICONS.family)) add('family', id, { ember: '余烬', frost: '霜原', storm: '雷暴', blight: '腐沼', ruin: '遗迹' }[id] ?? id, '地图类型（图集节点、地图信息）', now, FAMILY[id], 'emblem');
 for (const [id, k] of Object.entries(NODE_KINDS)) if (k.icon) add('node', id, k.name, `图集特殊节点：${k.text}`, k.icon, NODE[id] ?? k.icon, 'emblem');
-for (const [id, now] of Object.entries(I.LAYER_ICON)) add('layer', id, { form: '形态', link: '联动', core: '核心' }[id], '装备特性的三层（提示里的小标）', now, LAYER[id], 'emblem');
-for (const [id, now] of Object.entries(I.BUFF_ICON)) add('buff', id, { power: '能量球', frenzy: '狂怒球', endurance: '耐力球', burst: '迸发', rage: '杀意', onslaught: '猛攻', fortify: '护体', thunder_ready: '雷霆蓄势', superconduct: '超导' }[id] ?? id, '左下角资源 / 增益', now, BUFF[id], 'emblem');
+for (const [id, now] of Object.entries(I.GAME_ICONS.layer)) add('layer', id, { form: '形态', link: '联动', core: '核心' }[id], '装备特性的三层（提示里的小标）', now, LAYER[id], 'emblem');
+for (const [id, now] of Object.entries(I.GAME_ICONS.buff)) add('buff', id, { power: '能量球', frenzy: '狂怒球', endurance: '耐力球', burst: '迸发', rage: '杀意', onslaught: '猛攻', fortify: '护体', thunder_ready: '雷霆蓄势', superconduct: '超导' }[id] ?? id, '左下角资源 / 增益', now, BUFF[id], 'emblem');
 for (const [id, look] of Object.entries(STATUS_LOOK)) add('status', id, look.glyph, '怪物头顶的状态小标（现在是一个汉字）', '（文字）', STATUS[id] ?? id, 'emblem');
 for (const [id, name, use, now, subject, style] of MISC) add('misc', id, name, use, now, subject, style);
 

@@ -1,5 +1,6 @@
 // 3D 画面：地牢、英雄、怪物（实例化）、掉落、特效；以及头顶血条与伤害数字的 DOM 叠加层。
 import * as THREE from '../vendor/three.module.js';
+import { assetUrl } from '../asset-url.mjs';
 import { createDungeonFloor } from '../prefabs/dungeon-floor.mjs';
 import { createDungeonPortal } from '../prefabs/dungeon-portal.mjs';
 import { createHubProps } from '../prefabs/hub-props.mjs';
@@ -278,7 +279,7 @@ export class Overlay {
     const key = statuses.map(s => `${s.id}${s.stacks}${Math.ceil(s.remaining)}`).join('|');
     if (key !== bar.key) {
       bar.key = key;
-      bar.st.innerHTML = statuses.map(s => `<span style="--c:${s.color}" title="${s.name}">${s.glyph}${s.stacks > 1 ? `<sub>${s.stacks}</sub>` : ''}</span>`).join('');
+      bar.st.innerHTML = statuses.map(s => `<span style="--c:${s.color}" title="${s.name}"><i class="st-ic" style="--i:url(${assetUrl(`/assets/icons/status/${s.id}.png`)})"></i>${s.stacks > 1 ? `<sub>${s.stacks}</sub>` : ''}</span>`).join('');
     }
     if (label !== undefined && bar.name.textContent !== label) bar.name.textContent = label;
   }

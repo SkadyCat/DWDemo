@@ -1,6 +1,19 @@
-// 图标：game-icons.net（CC BY 3.0，作者 Lorc、Delapouite 等）经 Iconify 提供。
-// 每个图标是一张遮罩，由主题渐变上色（稀有度、元素各一套）。离线时退回文字字形。
-export const GI = name => `url(https://api.iconify.design/game-icons/${name}.svg)`;
+// 图标：自己的一套（design/icons 生成，scripts/build-icons.py 转到 public/assets/icons/<分类>/<id>.*）。
+//   painted（技能、装备、通货、传奇、杂项）直接贴图；emblem（功能栏、装备位、地图、增益、状态…）是白色剪影，当遮罩用主题渐变上色。
+// 名字里带 '/' 的是自己的图标（'skill/fireball'）；其余仍是 game-icons.net（CC BY 3.0）经 Iconify 提供的遮罩，没有自己的图时用。
+import { assetUrl } from '../asset-url.mjs';
+const PAINTED = new Set(['skill', 'base', 'currency', 'legendary', 'misc']);
+/** A few game-icons names used straight in templates / other modules, and the own icon that replaces each. */
+const LITERAL = { 'stone-tablet': 'misc/waystone', 'magic-portal': 'misc/town_portal', 'locked-chest': 'misc/stash_chest', 'crowned-skull': 'node/boss', 'evil-moon': 'node/corrupt', 'crossed-swords': 'node/trial',
+  'scroll-unfurled': 'panel/bd', 'laurel-crown': 'panel/codex', 'cog': 'panel/settings', 'quill-ink': 'panel/quest', 'anvil': 'panel/craft', 'treasure-map': 'panel/atlas' };
+export const ownIcon = name => { const n = LITERAL[name] ?? name; return n && n.includes('/') ? n : null; };
+/** { url, painted } for a name: own icons first. */
+export function iconInfo(name) {
+  const own = ownIcon(name);
+  if (own) { const cat = own.split('/')[0], painted = PAINTED.has(cat); return { url: `url(${assetUrl(`/assets/icons/${own}.${painted ? 'webp' : 'png'}`)})`, painted, own: true }; }
+  return { url: `url(https://api.iconify.design/game-icons/${name}.svg)`, painted: false, own: false };
+}
+export const GI = name => iconInfo(name).url;
 
 export const BASE_ICON = {
   war_staff: 'wizard-staff', wand: 'crystal-wand', maul: 'flat-hammer', dagger: 'plain-dagger',
@@ -39,8 +52,15 @@ export const LAYER_ICON = { form: 'magic-swirl', link: 'orbit', core: 'sun' };
 export const BUFF_ICON = { power: 'sparkles', frenzy: 'flaming-claw', endurance: 'checked-shield', burst: 'bolt-spell-cast', rage: 'skull-crossed-bones',
   onslaught: 'run', fortify: 'shield-reflect', thunder_ready: 'lightning-helix', superconduct: 'electric' };
 
-/** One icon as HTML: a gradient-filled mask, with a text glyph underneath for when icons cannot load. */
-export const icon = (name, cls = '', glyph = '') => `<i class="gi ${cls}" style="--i:${GI(name)}" data-g="${glyph}"></i>`;
+/** One icon as HTML: a painted image, or a gradient-filled mask with a text glyph for when icons cannot load. */
+export const icon = (name, cls = '', glyph = '') => { const f = iconInfo(name); return f.painted ? `<i class="gi gi-img gi-own ${cls}" style="--img:${f.url}"></i>` : `<i class="gi ${f.own ? 'gi-own' : ''} ${cls}" style="--i:${f.url}" data-g="${glyph}"></i>`; };
+/** Keep the game-icons names for the prompt document; the live maps point at own icons. */
+export const GAME_ICONS = {};
+for (const [cat, map] of [['skill', SKILL_ICON], ['base', BASE_ICON], ['currency', CURRENCY_ICON], ['panel', PANEL_ICON], ['family', FAMILY_ICON], ['layer', LAYER_ICON], ['buff', BUFF_ICON], ['slot', SLOT_ICON]]) {
+  GAME_ICONS[cat] = { ...map };
+  for (const id of Object.keys(map)) map[id] = `${cat}/${cat === 'slot' && id === 'ring2' ? 'ring1' : id}`;
+}
+export const STATUS_ICON = id => `status/${id}`;
 
 /** Check once whether the icon service answers; without it the UI shows glyphs. */
 export async function probeIcons(root) {
