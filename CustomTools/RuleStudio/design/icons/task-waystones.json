@@ -1,0 +1,242 @@
+{
+ "task": "路石按阶段 × 稀有度区分；星契按种类区分",
+ "style": {
+  "painted": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1",
+  "emblem": "flat game UI emblem, one bold silhouette symbol, solid white on a pure black background, no shading, no gradient, clean vector edges, thick shapes readable at 32 px, centered with generous padding, square 1:1"
+ },
+ "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject",
+ "size": [
+  512,
+  512
+ ],
+ "icons": [
+  {
+   "cat": "waystone",
+   "id": "t1_normal",
+   "name": "普通路石 T1–4",
+   "use": "T1–4 的普通路石（背包、路石背包、地图仪中心、掉落提示）",
+   "now": "misc/waystone",
+   "file": "design/icons/waystone/t1_normal.png",
+   "style": "painted",
+   "look": "一块粗糙的灰色板岩碎片，边缘崩口；暗淡灰白光，几乎不发光",
+   "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a magical map waystone — a crude chipped slab of grey slate, roughly rectangular, rough broken edges, a single scratched map rune; the runes are dull and unlit, faint pale grey light only, muted desaturated colours. The shape must read instantly at 48 px.",
+   "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
+  },
+  {
+   "cat": "waystone",
+   "id": "t1_magic",
+   "name": "魔法路石 T1–4",
+   "use": "T1–4 的魔法路石（背包、路石背包、地图仪中心、掉落提示）",
+   "now": "misc/waystone",
+   "file": "design/icons/waystone/t1_magic.png",
+   "style": "painted",
+   "look": "一块粗糙的灰色板岩碎片，边缘崩口；冷蓝色符文光",
+   "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a magical map waystone — a crude chipped slab of grey slate, roughly rectangular, rough broken edges, a single scratched map rune; the runes glow a vivid cold blue (#5aa8ff), blue light spilling onto the stone, blue sparks. The shape must read instantly at 48 px.",
+   "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
+  },
+  {
+   "cat": "waystone",
+   "id": "t1_rare",
+   "name": "稀有路石 T1–4",
+   "use": "T1–4 的稀有路石（背包、路石背包、地图仪中心、掉落提示）",
+   "now": "misc/waystone",
+   "file": "design/icons/waystone/t1_rare.png",
+   "style": "painted",
+   "look": "一块粗糙的灰色板岩碎片，边缘崩口；金色符文光 + 火星",
+   "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a magical map waystone — a crude chipped slab of grey slate, roughly rectangular, rough broken edges, a single scratched map rune; the runes blaze bright gold (#ffcf4a), warm golden light and drifting embers, gold inlay on the edges. The shape must read instantly at 48 px.",
+   "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
+  },
+  {
+   "cat": "waystone",
+   "id": "t5_normal",
+   "name": "普通路石 T5–8",
+   "use": "T5–8 的普通路石（背包、路石背包、地图仪中心、掉落提示）",
+   "now": "misc/waystone",
+   "file": "design/icons/waystone/t5_normal.png",
+   "style": "painted",
+   "look": "刻满纹路的深色方尖碑断块；暗淡灰白光，几乎不发光",
+   "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a magical map waystone — a broken shard of a dark basalt obelisk, tall and narrow with a pointed top, deeply carved runic bands running down its face; the runes are dull and unlit, faint pale grey light only, muted desaturated colours. The shape must read instantly at 48 px.",
+   "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
+  },
+  {
+   "cat": "waystone",
+   "id": "t5_magic",
+   "name": "魔法路石 T5–8",
+   "use": "T5–8 的魔法路石（背包、路石背包、地图仪中心、掉落提示）",
+   "now": "misc/waystone",
+   "file": "design/icons/waystone/t5_magic.png",
+   "style": "painted",
+   "look": "刻满纹路的深色方尖碑断块；冷蓝色符文光",
+   "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a magical map waystone — a broken shard of a dark basalt obelisk, tall and narrow with a pointed top, deeply carved runic bands running down its face; the runes glow a vivid cold blue (#5aa8ff), blue light spilling onto the stone, blue sparks. The shape must read instantly at 48 px.",
+   "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
+  },
+  {
+   "cat": "waystone",
+   "id": "t5_rare",
+   "name": "稀有路石 T5–8",
+   "use": "T5–8 的稀有路石（背包、路石背包、地图仪中心、掉落提示）",
+   "now": "misc/waystone",
+   "file": "design/icons/waystone/t5_rare.png",
+   "style": "painted",
+   "look": "刻满纹路的深色方尖碑断块；金色符文光 + 火星",
+   "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a magical map waystone — a broken shard of a dark basalt obelisk, tall and narrow with a pointed top, deeply carved runic bands running down its face; the runes blaze bright gold (#ffcf4a), warm golden light and drifting embers, gold inlay on the edges. The shape must read instantly at 48 px.",
+   "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
+  },
+  {
+   "cat": "waystone",
+   "id": "t9_normal",
+   "name": "普通路石 T9–12",
+   "use": "T9–12 的普通路石（背包、路石背包、地图仪中心、掉落提示）",
+   "now": "misc/waystone",
+   "file": "design/icons/waystone/t9_normal.png",
+   "style": "painted",
+   "look": "嵌着水晶的符文石板；暗淡灰白光，几乎不发光",
+   "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a magical map waystone — a dark stone tablet split open with a large faceted crystal growing out of its centre, runes etched in a ring around the crystal; the runes are dull and unlit, faint pale grey light only, muted desaturated colours. The shape must read instantly at 48 px.",
+   "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
+  },
+  {
+   "cat": "waystone",
+   "id": "t9_magic",
+   "name": "魔法路石 T9–12",
+   "use": "T9–12 的魔法路石（背包、路石背包、地图仪中心、掉落提示）",
+   "now": "misc/waystone",
+   "file": "design/icons/waystone/t9_magic.png",
+   "style": "painted",
+   "look": "嵌着水晶的符文石板；冷蓝色符文光",
+   "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a magical map waystone — a dark stone tablet split open with a large faceted crystal growing out of its centre, runes etched in a ring around the crystal; the runes glow a vivid cold blue (#5aa8ff), blue light spilling onto the stone, blue sparks. The shape must read instantly at 48 px.",
+   "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
+  },
+  {
+   "cat": "waystone",
+   "id": "t9_rare",
+   "name": "稀有路石 T9–12",
+   "use": "T9–12 的稀有路石（背包、路石背包、地图仪中心、掉落提示）",
+   "now": "misc/waystone",
+   "file": "design/icons/waystone/t9_rare.png",
+   "style": "painted",
+   "look": "嵌着水晶的符文石板；金色符文光 + 火星",
+   "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a magical map waystone — a dark stone tablet split open with a large faceted crystal growing out of its centre, runes etched in a ring around the crystal; the runes blaze bright gold (#ffcf4a), warm golden light and drifting embers, gold inlay on the edges. The shape must read instantly at 48 px.",
+   "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
+  },
+  {
+   "cat": "waystone",
+   "id": "t13_normal",
+   "name": "普通路石 T13–16",
+   "use": "T13–16 的普通路石（背包、路石背包、地图仪中心、掉落提示）",
+   "now": "misc/waystone",
+   "file": "design/icons/waystone/t13_normal.png",
+   "style": "painted",
+   "look": "悬浮的星金遗物，碎片环绕；暗淡灰白光，几乎不发光",
+   "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a magical map waystone — an ancient star-metal relic tablet with a hollow star-shaped core, floating, small broken fragments orbiting it, cracks leaking light, cosmic and ominous; the runes are dull and unlit, faint pale grey light only, muted desaturated colours. The shape must read instantly at 48 px.",
+   "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
+  },
+  {
+   "cat": "waystone",
+   "id": "t13_magic",
+   "name": "魔法路石 T13–16",
+   "use": "T13–16 的魔法路石（背包、路石背包、地图仪中心、掉落提示）",
+   "now": "misc/waystone",
+   "file": "design/icons/waystone/t13_magic.png",
+   "style": "painted",
+   "look": "悬浮的星金遗物，碎片环绕；冷蓝色符文光",
+   "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a magical map waystone — an ancient star-metal relic tablet with a hollow star-shaped core, floating, small broken fragments orbiting it, cracks leaking light, cosmic and ominous; the runes glow a vivid cold blue (#5aa8ff), blue light spilling onto the stone, blue sparks. The shape must read instantly at 48 px.",
+   "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
+  },
+  {
+   "cat": "waystone",
+   "id": "t13_rare",
+   "name": "稀有路石 T13–16",
+   "use": "T13–16 的稀有路石（背包、路石背包、地图仪中心、掉落提示）",
+   "now": "misc/waystone",
+   "file": "design/icons/waystone/t13_rare.png",
+   "style": "painted",
+   "look": "悬浮的星金遗物，碎片环绕；金色符文光 + 火星",
+   "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a magical map waystone — an ancient star-metal relic tablet with a hollow star-shaped core, floating, small broken fragments orbiting it, cracks leaking light, cosmic and ominous; the runes blaze bright gold (#ffcf4a), warm golden light and drifting embers, gold inlay on the edges. The shape must read instantly at 48 px.",
+   "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
+  },
+  {
+   "cat": "sigil",
+   "id": "bounty",
+   "name": "丰饶星契",
+   "use": "星契（物品数量 +%）：背包、地图仪 5 个槽、掉落提示；三个品阶共用一张图，游戏里用光晕区分",
+   "now": "star-formation",
+   "file": "design/icons/sigil/bounty.png",
+   "style": "painted",
+   "look": "一枚刻在星形符片上的契印：丰饶",
+   "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a small star-shaped engraved talisman plate (a \"star pact\" sigil) whose emblem is an overflowing horn of plenty spilling small glowing trinkets, warm gold (#f2d27a); the emblem colour dominates the icon.",
+   "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
+  },
+  {
+   "cat": "sigil",
+   "id": "legend",
+   "name": "传奇星契",
+   "use": "星契（传奇几率 ×）：背包、地图仪 5 个槽、掉落提示；三个品阶共用一张图，游戏里用光晕区分",
+   "now": "star-formation",
+   "file": "design/icons/sigil/legend.png",
+   "style": "painted",
+   "look": "一枚刻在星形符片上的契印：传奇",
+   "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a small star-shaped engraved talisman plate (a \"star pact\" sigil) whose emblem is a blazing orange (#ffad5a) star-shaped seal with a crown motif in its centre; the emblem colour dominates the icon.",
+   "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
+  },
+  {
+   "cat": "sigil",
+   "id": "swarm",
+   "name": "群聚星契",
+   "use": "星契（怪群规模 +%）：背包、地图仪 5 个槽、掉落提示；三个品阶共用一张图，游戏里用光晕区分",
+   "now": "star-formation",
+   "file": "design/icons/sigil/swarm.png",
+   "style": "painted",
+   "look": "一枚刻在星形符片上的契印：群聚",
+   "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a small star-shaped engraved talisman plate (a \"star pact\" sigil) whose emblem is a cluster of many small red (#d8584f) glowing eyes in darkness, packed tightly together; the emblem colour dominates the icon.",
+   "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
+  },
+  {
+   "cat": "sigil",
+   "id": "elite",
+   "name": "精英星契",
+   "use": "星契（精英数量 +%）：背包、地图仪 5 个槽、掉落提示；三个品阶共用一张图，游戏里用光晕区分",
+   "now": "star-formation",
+   "file": "design/icons/sigil/elite.png",
+   "style": "painted",
+   "look": "一枚刻在星形符片上的契印：精英",
+   "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a small star-shaped engraved talisman plate (a \"star pact\" sigil) whose emblem is a horned skull wearing a spiked crown, bright yellow (#ffd75e) glow from the eye sockets; the emblem colour dominates the icon.",
+   "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
+  },
+  {
+   "cat": "sigil",
+   "id": "coin",
+   "name": "财富星契",
+   "use": "星契（通货掉落 +%）：背包、地图仪 5 个槽、掉落提示；三个品阶共用一张图，游戏里用光晕区分",
+   "now": "star-formation",
+   "file": "design/icons/sigil/coin.png",
+   "style": "painted",
+   "look": "一枚刻在星形符片上的契印：财富",
+   "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a small star-shaped engraved talisman plate (a \"star pact\" sigil) whose emblem is a stack of ancient engraved coins with one coin standing on edge, pale gold (#e6d8ac); the emblem colour dominates the icon.",
+   "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
+  },
+  {
+   "cat": "sigil",
+   "id": "path",
+   "name": "寻路星契",
+   "use": "星契（路石掉落 +%）：背包、地图仪 5 个槽、掉落提示；三个品阶共用一张图，游戏里用光晕区分",
+   "now": "star-formation",
+   "file": "design/icons/sigil/path.png",
+   "style": "painted",
+   "look": "一枚刻在星形符片上的契印：寻路",
+   "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a small star-shaped engraved talisman plate (a \"star pact\" sigil) whose emblem is a glowing pale blue (#9fd8ff) compass rose star with four long points, a small stone tablet at its centre; the emblem colour dominates the icon.",
+   "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
+  },
+  {
+   "cat": "sigil",
+   "id": "brood",
+   "name": "繁衍星契",
+   "use": "星契（星契掉落 +%）：背包、地图仪 5 个槽、掉落提示；三个品阶共用一张图，游戏里用光晕区分",
+   "now": "star-formation",
+   "file": "design/icons/sigil/brood.png",
+   "style": "painted",
+   "look": "一枚刻在星形符片上的契印：繁衍",
+   "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a small star-shaped engraved talisman plate (a \"star pact\" sigil) whose emblem is a cracked violet (#b98cff) egg-shaped gem with three tiny star sigils hatching from it; the emblem colour dominates the icon.",
+   "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
+  }
+ ]
+}

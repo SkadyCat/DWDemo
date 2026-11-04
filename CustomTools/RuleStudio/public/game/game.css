@@ -974,3 +974,8 @@ select { font: inherit; color: var(--txt); background: var(--deep); border: 1px 
 .no-icons .gi.gi-img { background: var(--img) center / cover no-repeat; }
 .hb-st span { display: inline-flex; align-items: center; gap: 1px; padding: 1px 3px; }
 .st-ic { display: inline-block; width: 11px; height: 11px; -webkit-mask: var(--i) center / contain no-repeat; mask: var(--i) center / contain no-repeat; background: var(--c); }
+
+/* 星契三阶共用一张图：品阶用光晕区分 */
+.gi.gi-img.sg-t0 { filter: saturate(.7) brightness(.85); }
+.gi.gi-img.sg-t1 { filter: drop-shadow(0 0 3px var(--sc, #f2d27a)); }
+.gi.gi-img.sg-t2 { filter: drop-shadow(0 0 4px var(--sc, #f2d27a)) drop-shadow(0 0 8px var(--sc, #f2d27a)) brightness(1.12); }

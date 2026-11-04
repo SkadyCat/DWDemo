@@ -2,6 +2,7 @@
 //   painted（技能、装备、通货、传奇、杂项）直接贴图；emblem（功能栏、装备位、地图、增益、状态…）是白色剪影，当遮罩用主题渐变上色。
 // 名字里带 '/' 的是自己的图标（'skill/fireball'）；其余仍是 game-icons.net（CC BY 3.0）经 Iconify 提供的遮罩，没有自己的图时用。
 import { assetUrl } from '../asset-url.mjs';
+import { ICON_INDEX } from './icon-index.mjs';
 const PAINTED = new Set(['skill', 'base', 'currency', 'legendary', 'misc']);
 /** A few game-icons names used straight in templates / other modules, and the own icon that replaces each. */
 const LITERAL = { 'stone-tablet': 'misc/waystone', 'magic-portal': 'misc/town_portal', 'locked-chest': 'misc/stash_chest', 'crowned-skull': 'node/boss', 'evil-moon': 'node/corrupt', 'crossed-swords': 'node/trial',
@@ -13,6 +14,11 @@ export function iconInfo(name) {
   if (own) { const cat = own.split('/')[0], painted = PAINTED.has(cat); return { url: `url(${assetUrl(`/assets/icons/${own}.${painted ? 'webp' : 'png'}`)})`, painted, own: true }; }
   return { url: `url(https://api.iconify.design/game-icons/${name}.svg)`, painted: false, own: false };
 }
+const has = own => { const [cat, id] = own.split('/'); return !!ICON_INDEX[cat]?.[id]; };
+/** 路石：按阶段（T1–4 / 5–8 / 9–12 / 13–16）× 稀有度各一张；还没生成就用通用路石。 */
+export const waystoneIcon = w => { const own = `waystone/t${Math.min(3, Math.floor((Math.max(1, w?.tier ?? 1) - 1) / 4)) * 4 + 1}_${w?.rarity ?? 'normal'}`; return has(own) ? own : 'misc/waystone'; };
+/** 星契：每种一张（id 形如 bounty_2），三阶共用；还没生成就用星形。 */
+export const sigilIcon = id => { const kind = String(id ?? '').replace(/_\d+$/, ''), own = `sigil/${kind}`; return has(own) ? own : 'star-formation'; };
 export const GI = name => iconInfo(name).url;
 
 export const BASE_ICON = {
