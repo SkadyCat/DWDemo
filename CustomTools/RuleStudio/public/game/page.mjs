@@ -462,16 +462,12 @@ const TEMPLATE = /* html */ `
       <div class="ac-body">
         <p class="ac-kind" v-if="selNode.kind !== 'normal'"><b>{{ kinds[selNode.kind].name }}</b>{{ kinds[selNode.kind].text }}</p>
         <ul class="ac-mods" v-if="selNode.mods.length"><li v-for="m in selNode.mods" :key="m">{{ nodeModText(m) }}</li></ul>
+        <!-- the chosen waystone's own mods, right under the node's -->
+        <ul class="ac-mods ws-mods" v-if="stone && stone.mods.length"><li v-for="m in stone.mods" :key="m">{{ nodeModText(m) }}</li></ul>
         <p class="ac-loot"><span>物品数量 <b>{{ Math.round(selMods.quantity * 100) }}%</b></span><span>传奇几率 <b>×{{ +selMods.legend.toFixed(1) }}</b></span><span>怪群 <b>×{{ +selMods.pack.toFixed(1) }}</b></span></p>
-        <div class="roles">
-          <button class="orn-btn sm" @click="evaluate" :disabled="evaluating">{{ evaluating ? '评估中…' : '评估输出' }}</button>
-          <template v-if="roles">
-            <div class="role"><span>攻坚</span><div class="meter"><i :style="{ width: Math.min(100, roles.bossing * 50) + '%' }"></i></div><b>{{ roles.bossing.toFixed(2) }}</b><small>首领 {{ roles.ttk === Infinity ? '打不动' : '约 ' + roles.ttk.toFixed(0) + ' 秒' }}</small></div>
-            <div class="role"><span>速刷</span><div class="meter"><i :style="{ width: Math.min(100, roles.clearing * 50) + '%' }"></i></div><b>{{ roles.clearing.toFixed(2) }}</b><small>每秒击杀 {{ roles.kps.toFixed(1) }}</small></div>
-          </template>
-        </div>
-        <!-- every waystone in the bag: pick one to run this node at the stone's tier -->
-        <h4 class="sub">地图 <small>背包里的路石 {{ save.waystones.length }} 块 · 选一块按它的阶打</small></h4>
+      </div>
+      <!-- every waystone in the bag: pick one to run this node at the stone's tier -->
+      <div class="ac-stone">
         <div class="ws-grid">
           <button v-for="(w, i) in stoneCells" :key="w ? w.uid : 'e' + i" class="ws" :disabled="!w"
             :class="w ? ['w-' + w.rarity, { on: w.uid === wsSel }] : 'empty'"
@@ -479,12 +475,6 @@ const TEMPLATE = /* html */ `
             <template v-if="w"><Gi n="stone-tablet" :c="'w-' + w.rarity"/><b>{{ w.tier }}</b></template></button>
         </div>
         <p v-if="!save.waystones.length" class="ws-none">背包里还没有路石：打倒首领必掉。</p>
-        <ul class="ac-mods ws-mods" v-if="stone && stone.mods.length"><li v-for="m in stone.mods" :key="m">{{ nodeModText(m) }}</li></ul>
-      </div>
-      <div class="ac-stone">
-        <p class="ws-sum" v-if="stone">消耗 <b :class="'w-' + stone.rarity">{{ waystoneName(stone) }}</b> · 本次按 <b>T{{ runTier }}</b> 打<template v-if="stone.tier !== selNode.tier">（节点标注 T{{ selNode.tier }}）</template></p>
-        <p class="ws-sum" v-else-if="freeNode">T{{ selNode.tier }} 节点不需要路石；放一块路石就按路石的阶打。</p>
-        <p class="ws-sum bad" v-else>需要一块路石（任意阶都行）</p>
       </div>
       <footer class="ac-foot">
         <button class="orn-btn primary big" :disabled="!canStart" @click="startRun">{{ startText }}</button>

@@ -870,3 +870,6 @@ select { font: inherit; color: var(--txt); background: var(--deep); border: 1px 
 @media (max-width: 1180px) { .hub-hint { display: none; } }
 /* at home the minimap sits top-right: the account / editor / update buttons line up under it */
 .g:not(.in-run) .topbar { top: 236px; right: 104px; left: auto; flex-direction: column; align-items: flex-end; gap: 6px; }
+.ac-body .ws-mods { margin-top: 2px; }
+.ac-stone { padding-top: 12px; }
+.ac-stone .ws-grid { max-height: 260px; overflow-y: auto; margin-top: 0; scrollbar-width: thin; scrollbar-color: var(--gold-lo) transparent; }
