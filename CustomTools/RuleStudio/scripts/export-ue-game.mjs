@@ -23,6 +23,7 @@ import { ATLAS_RADIUS, FAMILY_ORDER, FAMILY_HUE, REGION_NAME, NODE_KINDS, NODE_M
 import { BASE_ICON, SLOT_ICON, SKILL_ICON, CURRENCY_ICON, PANEL_ICON, FAMILY_ICON, LAYER_ICON, BUFF_ICON } from '../public/game/icons.mjs';
 import { SKILL_BAR } from '../public/game/save.mjs';
 import { CHAPTERS } from '../public/game/quests.mjs';
+import { HUB_LAYOUT, NPCS, STATIONS } from '../public/game/hub.mjs';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(here, '..');
@@ -83,6 +84,8 @@ export function buildGameExport() {
       family: plain(FAMILY_ICON), layer: plain(LAYER_ICON), buff: plain(BUFF_ICON) },
     // quests.mjs: the main story (星烬纪) and its goals.
     quests: plain(CHAPTERS),
+    // hub.mjs: the home (初始地牢) — its fixed rooms, the NPCs standing in it and the stations (stash, map device).
+    hub: { seed: 20261104, layout: plain(HUB_LAYOUT), npcs: plain(NPCS), stations: plain(STATIONS) },
     // page.mjs tables the game screens use (skill tooltip text, which currencies act on one line, bag stack size).
     ...pageTables(),
   };
