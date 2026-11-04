@@ -23,7 +23,7 @@ const ROUND = v => Math.round(v * 1e6) / 1e6;
 const strip = item => item && { slot: item.slot, base: item.base, tier: item.tier, baseLines: item.baseLines ?? null, skill: item.skill ?? null, legend: item.legend ?? null,
   traits: item.traits.map(l => ({ id: l.id, tier: l.tier, sealed: !!l.sealed })), lines: item.lines.map(l => ({ id: l.id, tier: l.tier, sealed: !!l.sealed })),
   rarity: rarityOf(item).id, name: itemName(item), affixes: itemAffixes(item).map(a => a.id) };
-const drop = d => d.type === 'item' ? { type: 'item', item: strip(d.item) } : d.type === 'currency' ? { type: 'currency', id: d.id, count: d.count } : { type: 'waystone', stone: stone(d.stone) };
+const drop = d => d.type === 'item' ? { type: 'item', item: strip(d.item) } : d.type === 'currency' ? { type: 'currency', id: d.id, count: d.count } : d.type === 'scarab' ? { type: 'scarab', id: d.id } : { type: 'waystone', stone: stone(d.stone) };
 const stone = s => ({ tier: s.tier, rarity: s.rarity, mods: [...s.mods] });
 
 const files = {};

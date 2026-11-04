@@ -24,6 +24,8 @@ import { BASE_ICON, SLOT_ICON, SKILL_ICON, CURRENCY_ICON, PANEL_ICON, FAMILY_ICO
 import { SKILL_BAR } from '../public/game/save.mjs';
 import { CHAPTERS } from '../public/game/quests.mjs';
 import { HUB_LAYOUT, NPCS, STATIONS } from '../public/game/hub.mjs';
+import { SCARAB_TIERS, SCARAB_SLOTS, SCARAB_KINDS, SCARAB_IDS } from '../public/game/scarabs.mjs';
+import { SIGIL_STACK } from '../public/game/save.mjs';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(here, '..');
@@ -85,6 +87,9 @@ export function buildGameExport() {
     // quests.mjs: the main story (星烬纪) and its goals.
     quests: plain(CHAPTERS),
     // hub.mjs: the home (初始地牢) — its fixed rooms, the NPCs standing in it and the stations (stash, map device).
+    // scarabs.mjs: 星契 for the map device's five slots — per kind the three tiers' text and map mods (nodeMods keys).
+    scarabs: { tiers: [...SCARAB_TIERS], slots: SCARAB_SLOTS, stack: SIGIL_STACK, ids: [...SCARAB_IDS],
+      kinds: Object.entries(SCARAB_KINDS).map(([id, k]) => ({ id, name: k.name, color: k.color, vals: k.vals, text: k.vals.map(v => k.text(v)), mods: k.vals.map(v => k.mod(v)) })) },
     hub: { seed: 20261104, layout: plain(HUB_LAYOUT), npcs: plain(NPCS), stations: plain(STATIONS) },
     // page.mjs tables the game screens use (skill tooltip text, which currencies act on one line, bag stack size).
     ...pageTables(),
