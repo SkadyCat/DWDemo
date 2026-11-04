@@ -108,7 +108,7 @@ const HABITS = {
 export const CAST = {
   mati: { at: 'tavern_door', stay: 2.2, lines: ['喝酒先付钱，赊账去找卡罗。', '今天的汤里有肉，别问是什么肉。', '留言墙上又多了两张纸条。', '格雷，脚从桌上拿下去。'] },
   grey: { at: 'tavern_yard', stay: 2, roam: ['hall_steps', 'tavern_yard'], lines: ['营地之门往东别去，那边的石头会走。', '这两根手指是在城门那儿丢的，你小心点。', '上面的东西你要是拿不动，喊一声。'] },
-  owen: { at: 'stall_shoe', stay: 1, roam: ['stall_shoe', 'shrine'], lines: ['鞋放这儿，明天来拿。', '我在上面看见她了，她冲我招手。', '你上去要是看见一个穿黄裙子的小姑娘，别打她。'] },
+  owen: { at: 'stall_shoe', stay: 1, roam: ['stall_shoe', 'shrine'], lines: ['鞋放这儿，明天来拿。', '我在上面看见她了，她冲我招手。', '你上去要是看见一个穿红衣服的小姑娘，别打她。'] },
   xiaodou: { at: 'well_s', stay: 9, kid: true, follow: true, lines: ['寻径者！你见过会走的蘑菇吗？', '带我上去一次，就一次。', '我跑得比布鲁快。', '你打过空铠甲？它里面真的是灰吗？'] },
   rosa: { at: 'stall_bread', stay: 0.8, lines: ['今天的面包是绿的，明天也是。', '多拿一块，路上饿。', '苔藓粉掺多了，将就吃。'] },
   torg: { at: 'vault_door', stay: 0.6, lines: ['封门不开。问谁都不开。', '仓库在那边，封门在这边，别弄混了。', '维克又往里塞东西了。'] },
