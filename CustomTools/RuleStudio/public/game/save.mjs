@@ -4,6 +4,7 @@ import { talentAffixes } from '../../core/content/talents.mjs';
 import { SLOTS } from '../../core/content/families.mjs';
 import { makeItem, itemAffixes, applyCurrency, CURRENCIES } from '../../core/content/items.mjs';
 import { ARCHETYPES } from '../../core/content/archetypes.mjs';
+import { SCARAB_IDS } from './scarabs.mjs';
 import { stageBuild, STAGES } from '../../core/content/builds.mjs';
 
 const KEY = 'dw.core.save.v2';
@@ -17,12 +18,21 @@ export const STACK = 20, PAGE_COLS = 12, PAGE_SIZE = 144, PAGES = 5, LEGEND_CAP 
 export const newStash = () => ({ currency: Object.fromEntries(Object.keys(CURRENCIES).map(k => [k, 0])), legend: {}, pages: Array.from({ length: PAGES }, () => []) });
 /** Currency in the bag as stacks of 20, in CURRENCIES order. */
 export const currencyStacks = save => Object.keys(CURRENCIES).flatMap(id => { const n = save.currencies[id] || 0, out = []; for (let left = n; left > 0; left -= STACK) out.push({ id, n: Math.min(STACK, left) }); return out; });
-export const bagUsed = save => save.inventory.length + currencyStacks(save).length;
+/** 星契 (map-device sigils, save.scarabs) also sit in the bag, 10 to a cell. */
+export const SIGIL_STACK = 10;
+export const sigilStacks = save => SCARAB_IDS.flatMap(id => { const n = save.scarabs?.[id] || 0, out = []; for (let left = n; left > 0; left -= SIGIL_STACK) out.push({ id, n: Math.min(SIGIL_STACK, left) }); return out; });
+/** Every stackable in the bag: currency (20 a cell) then sigils (10 a cell); key = where its cells are kept in save.curCells. */
+const stackables = save => [
+  ...Object.keys(CURRENCIES).map(id => ({ key: id, id, n: save.currencies[id] || 0, size: STACK, sigil: false })),
+  ...SCARAB_IDS.map(id => ({ key: 'sg:' + id, id, n: save.scarabs?.[id] || 0, size: SIGIL_STACK, sigil: true })),
+];
+export const bagUsed = save => save.inventory.length + currencyStacks(save).length + sigilStacks(save).length;
 export const bagFree = save => BAG_SIZE - bagUsed(save);
 /** Can this drop go into the bag? Currency fits when it tops up a stack or there is a free cell. */
 export function bagFits(save, drop) {
-  if (drop.type === 'waystone' || drop.type === 'scarab') return true;   // waystones and scarabs go to the map device, not the bag
+  if (drop.type === 'waystone') return true;   // waystones go to the map device, not the bag
   if (drop.type === 'item') return bagFree(save) > 0;
+  if (drop.type === 'scarab') { const have = save.scarabs?.[drop.id] || 0; return have % SIGIL_STACK !== 0 || bagFree(save) > 0; }
   const have = save.currencies[drop.id] || 0, room = (STACK - (have % STACK)) % STACK;
   return drop.count <= room || bagFree(save) >= Math.ceil((drop.count - room) / STACK);
 }
@@ -41,19 +51,15 @@ export function placeGrid(items, size, taken = new Set()) {
   return grid;
 }
 export function placeBag(save) {
-  const cc = (save.curCells ??= {}), used = new Set(), stacks = [];
-  const want = Object.fromEntries(Object.keys(CURRENCIES).map(id => [id, Math.ceil((save.currencies[id] || 0) / STACK)]));
-  // currency keeps its cells first; extra stacks take free cells after the items are placed
-  for (const id of Object.keys(CURRENCIES)) {
-    cc[id] = (cc[id] ?? []).filter(c => Number.isInteger(c) && c >= 0 && c < BAG_SIZE && !used.has(c)).slice(0, want[id]);
-    cc[id].forEach(c => used.add(c));
+  const cc = (save.curCells ??= {}), used = new Set(), list = stackables(save);
+  // stacks keep their cells first; extra stacks take free cells after the items are placed
+  for (const st of list) {
+    cc[st.key] = (cc[st.key] ?? []).filter(c => Number.isInteger(c) && c >= 0 && c < BAG_SIZE && !used.has(c)).slice(0, Math.ceil(st.n / st.size));
+    cc[st.key].forEach(c => used.add(c));
   }
   const grid = placeGrid(save.inventory, BAG_SIZE, used);
-  for (const id of Object.keys(CURRENCIES)) while (cc[id].length < want[id]) { let c = grid.indexOf(null); if (c < 0) { c = grid.length; grid.push(null); } cc[id].push(c); grid[c] = 'taken'; }
-  for (const id of Object.keys(CURRENCIES)) {
-    const n = save.currencies[id] || 0;
-    cc[id].forEach((c, k) => { grid[c] = { cur: true, id, n: Math.min(STACK, n - k * STACK) }; });
-  }
+  for (const st of list) while (cc[st.key].length < Math.ceil(st.n / st.size)) { let c = grid.indexOf(null); if (c < 0) { c = grid.length; grid.push(null); } cc[st.key].push(c); grid[c] = 'taken'; }
+  for (const st of list) cc[st.key].forEach((c, k) => { grid[c] = { cur: true, sigil: st.sigil, key: st.key, id: st.id, n: Math.min(st.size, st.n - k * st.size) }; });
   return grid.map(x => (x === 'taken' ? null : x));
 }
 /** Move a bag item to cell `to` (swapping with whatever is there). */
@@ -61,7 +67,7 @@ export function moveInBag(save, it, to) {
   if (!save.inventory.includes(it) || to < 0 || to >= BAG_SIZE) return false;
   const grid = placeBag(save), there = grid[to], from = it.cell;
   if (there === it) return false;
-  if (there?.cur) { const cc = save.curCells[there.id]; cc[cc.indexOf(to)] = from; }
+  if (there?.cur) { const cc = save.curCells[there.key]; cc[cc.indexOf(to)] = from; }
   else if (there) there.cell = from;
   it.cell = to; return true;
 }
@@ -118,7 +124,7 @@ export const grantedSkills = save => [...new Set(SLOTS.map(s => save.equipped[s]
 export function newSave() {
   const save = { version: 2, inventory: [], equipped: Object.fromEntries(SLOTS.map(s => [s, null])), currencies: Object.fromEntries(Object.keys(CURRENCIES).map(k => [k, 0])),
     skills: [null, null, null, null], talents: { allocated: [] }, unlocked: 1, best: {}, archetype: null, bdStage: null, stats: { maps: 0, kills: 0 },
-    stash: newStash(), level: 1, xp: 0, scarabs: { bounty_0: 2, coin_0: 1 } };
+    stash: newStash(), level: 1, xp: 0, scarabs: { bounty_0: 2, coin_0: 1 }, deviceSlots: [null, null, null, null, null] };
   // A starter wand with Fireball so a fresh character can play.
   save.equipped.weapon = makeItem('weapon', 'wand', 1, { skill: 'fireball', traits: [{ id: 'proj_count', tier: 1 }, { id: 'proj_pierce', tier: 1 }], lines: [{ id: 'added_fire_spell', tier: 1 }] });
   syncSkillBar(save);
@@ -145,6 +151,7 @@ export function migrate(save) {
   save.stash = { currency: { ...base.currency, ...st.currency }, legend: { ...st.legend }, pages: base.pages.map((p, i) => st.pages?.[i] ?? p) };
   save.level = Math.max(1, save.level | 0 || 1); save.xp = Math.max(0, save.xp || 0);
   if (!save.scarabs || typeof save.scarabs !== 'object') save.scarabs = { bounty_0: 2, coin_0: 1 };
+  if (!Array.isArray(save.deviceSlots) || save.deviceSlots.length !== 5) save.deviceSlots = [null, null, null, null, null];
   // Currency first: anything past what the bag can hold waits in the currency page.
   for (const id of Object.keys(CURRENCIES)) {
     const cap = Math.max(0, BAG_SIZE - save.inventory.length) * STACK;   // rough: the bag cannot hold more than this

@@ -906,3 +906,53 @@ select { font: inherit; color: var(--txt); background: var(--deep); border: 1px 
 /* drop targets light up while something is dragged over them */
 .dev-core.drop, .dev-slot.drop { box-shadow: 0 0 0 2px var(--jade), 0 0 18px rgba(127, 224, 200, .5); }
 [draggable="true"] { cursor: grab; } [draggable="true"]:active { cursor: grabbing; }
+
+/* ============ map device panel (redesign): affixes up top, the rune circle, usable waystones ============ */
+.atlas-card { width: 440px; }
+.ac-body { display: flex; flex-direction: column; gap: 14px; }
+.ac-h { display: flex; align-items: baseline; gap: 8px; font: 400 15px var(--title); letter-spacing: .3em; color: var(--gold-hi); margin-bottom: 8px; }
+.ac-h small { font: 11px var(--body, inherit); letter-spacing: 0; color: var(--mute); }
+.ac-h::after { content: ''; flex: 1; height: 1px; align-self: center; background: linear-gradient(90deg, var(--gold-lo), transparent); }
+/* affixes: every line, tagged with where it comes from */
+.affix-list { display: flex; flex-direction: column; gap: 4px; }
+.affix-list li { display: flex; align-items: baseline; gap: 10px; padding: 6px 10px; border-radius: 3px; font-size: 13.5px; color: #dfe6ff;
+  background: linear-gradient(90deg, rgba(30, 44, 86, .7), rgba(10, 16, 34, .3)); box-shadow: inset 2px 0 0 var(--tagc, var(--gold)); }
+.affix-list em { flex: none; min-width: 38px; font: 11px var(--title); font-style: normal; letter-spacing: .12em; color: var(--tagc, var(--gold)); }
+.affix-list .src-kind { --tagc: #ffd27a; color: var(--gold-hi); } .affix-list .src-node { --tagc: #8fb8ff; } .affix-list .src-stone { --tagc: #9fd8ff; }
+.affix-list .src-sigil { --tagc: var(--sc); } .affix-list .src-none { --tagc: var(--mute); color: var(--mute); font-size: 12.5px; }
+.ac-totals { display: grid; grid-template-columns: 1fr 1fr; gap: 3px 14px; margin-top: 10px; padding: 8px 10px; border-radius: 3px; background: rgba(4, 7, 16, .55); box-shadow: inset 0 0 0 1px rgba(216, 180, 106, .14); }
+.ac-totals div { display: flex; justify-content: space-between; align-items: baseline; font-size: 12px; color: var(--mute); }
+.ac-totals dd { font: 13px var(--num); color: var(--txt, #cfd6e6); opacity: .65; }
+.ac-totals .up dt { color: var(--txt, #e6dcc4); } .ac-totals .up dd { color: var(--gold-hi); opacity: 1; text-shadow: 0 0 8px rgba(251, 231, 176, .35); }
+
+/* the rune circle */
+.sigil { --sg-c: #6a7aa8; position: relative; width: 300px; max-width: 100%; aspect-ratio: 1; margin: 0 auto; }
+.sigil.lit.w-normal { --sg-c: #e8e2cf; } .sigil.lit.w-magic { --sg-c: #7fa8ff; } .sigil.lit.w-rare { --sg-c: #ffd75e; } .sigil.lit.free { --sg-c: #7fe0c8; }
+.sigil-art { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.sigil-art .ln { fill: none; stroke: var(--sg-c); stroke-width: 1.4; opacity: .75; }
+.sigil-art .ln.thin { stroke-width: .7; opacity: .45; }
+.sigil-art .ln.star { stroke-width: 1.1; opacity: .55; }
+.sigil-art .ln.penta { stroke-width: 1; opacity: .4; stroke-dasharray: 4 5; }
+.sigil-art .tick { stroke: var(--sg-c); stroke-width: 1; opacity: .5; }
+.sigil-art .runes { fill: var(--sg-c); font-size: 13px; letter-spacing: 3px; opacity: .7; }
+.sigil-art .node { fill: var(--sg-c); opacity: .8; }
+.sigil-art .ring { transform-origin: 150px 150px; transform-box: view-box; }
+.sigil.lit .ring.r1 { animation: sg-spin 60s linear infinite; } .sigil.lit .ring.r2 { animation: sg-spin 40s linear infinite reverse; }
+.sigil.lit .ring.r3 { animation: sg-spin 90s linear infinite; }
+.sigil.lit .sigil-art { filter: drop-shadow(0 0 6px var(--sg-c)); }
+.sigil.dark .sigil-art { opacity: .55; }
+@keyframes sg-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .sigil .ring { animation: none !important; } }
+.sigil-core { position: absolute; left: 50%; top: 50%; width: 30%; aspect-ratio: 1; transform: translate(-50%, -50%); border-radius: 50%; padding: 6%;
+  display: grid; place-items: center; background: radial-gradient(circle at 50% 38%, rgba(40, 54, 100, .95), rgba(6, 10, 24, .96));
+  box-shadow: 0 0 0 1px var(--sg-c), 0 0 0 5px rgba(6, 10, 24, .85), 0 0 0 6px color-mix(in srgb, var(--sg-c) 40%, transparent), 0 0 30px color-mix(in srgb, var(--sg-c) 45%, transparent); }
+.sigil-core .gi { width: 70%; height: 70%; }
+.sigil-core b { position: absolute; bottom: 10%; font: 12px var(--num); color: var(--gold-hi); text-shadow: 0 1px 3px #000; }
+.sigil-core small { font-size: 11px; color: var(--mute); text-align: center; line-height: 1.3; }
+.sigil.drop .sigil-core { box-shadow: 0 0 0 2px var(--jade), 0 0 26px rgba(127, 224, 200, .6); }
+.sigil-slot { position: absolute; width: 15%; aspect-ratio: 1; transform: translate(-50%, -50%); border-radius: 50%; padding: 2.6%;
+  background: radial-gradient(circle at 50% 35%, #1e2a4e, #060a18); box-shadow: 0 0 0 1px var(--sg-c), 0 0 0 3px rgba(6, 10, 24, .85), 0 0 16px color-mix(in srgb, var(--sc) 70%, transparent); transition: box-shadow .15s, transform .15s; }
+.sigil-slot.empty i { font: 12px var(--num); font-style: normal; color: color-mix(in srgb, var(--sg-c) 70%, transparent); }
+.sigil-slot:hover { transform: translate(-50%, -50%) scale(1.08); }
+.sigil-slot.drop { box-shadow: 0 0 0 2px var(--jade), 0 0 18px rgba(127, 224, 200, .6); }
+.ac-stones .ws-grid { max-height: 150px; }
