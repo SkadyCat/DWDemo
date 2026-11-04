@@ -7,7 +7,7 @@ export function createDungeonFloor(layout) {
   layout.tiles.forEach((tile, i) => {
     const center = layout.tileCenter(tile.x, tile.y), kind = layout.rooms[tile.room]?.kind;
     matrix.makeTranslation(center.x * .01, -.09, -center.y * .01); floors.setMatrixAt(i, matrix);
-    color.setHex(kind === 'boss' ? 0x40303b : kind === 'entry' ? 0x343d47 : tile.room >= 0 ? 0x303a48 : 0x25303c);
+    color.setHex(kind === 'boss' ? 0x40303b : kind === 'entry' ? 0x343d47 : kind === 'home' ? 0x433a2e : kind === 'sanctum' ? 0x34304a : kind === 'vault' ? 0x463a26 : tile.room >= 0 ? 0x303a48 : 0x25303c);
     color.multiplyScalar(.9 + ((tile.x * 17 + tile.y * 7) % 13) * .012); floors.setColorAt(i, color);
   });
   const walls = new THREE.InstancedMesh(new THREE.BoxGeometry(unit - .02, 1.45, unit - .02), new THREE.MeshStandardMaterial({ color: 0x273342, roughness: .83 }), layout.walls.length);

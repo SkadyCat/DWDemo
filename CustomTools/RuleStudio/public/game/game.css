@@ -857,3 +857,11 @@ select { font: inherit; color: var(--txt); background: var(--deep); border: 1px 
 .ctxmenu button { text-align: left; padding: 6px 10px; font-size: 13px; color: var(--txt, #e6dcc4); border-radius: 3px; }
 .ctxmenu button:hover { background: rgba(216, 180, 106, .14); color: var(--gold-hi); }
 .ctxmenu button.danger { color: #ff9a8a; } .ctxmenu button.sure { background: rgba(200, 60, 50, .25); }
+
+/* home (初始地牢): name plates over NPCs and the stash, the hint along the bottom */
+.lt.lt-station { --c: var(--gold-hi); z-index: 3; display: flex; flex-direction: column; align-items: center; padding: 3px 12px 4px; background: rgba(14, 12, 6, .82); border-color: var(--gold-lo); }
+.lt.lt-station span { font: 600 14px var(--title); letter-spacing: .18em; color: var(--gold-hi); }
+.lt.lt-station small { font-size: 10.5px; color: var(--mute); }
+.lt.lt-station:hover, .lt.lt-station.target { border-color: var(--gold-hi); box-shadow: 0 0 12px rgba(251, 231, 176, .35); }
+.lt.lt-stash { --c: #ffd27a; }
+.hub-hint { position: absolute; left: 50%; bottom: 16px; transform: translateX(-50%); z-index: 9; font-size: 12px; color: var(--mute); text-shadow: 0 1px 4px #000; pointer-events: none; white-space: nowrap; }

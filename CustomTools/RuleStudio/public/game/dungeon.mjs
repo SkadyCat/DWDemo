@@ -7,10 +7,15 @@ export function dungeonRandom(seed) {
   return () => { state = (Math.imul(state, 1664525) + 1013904223) >>> 0; return state / 4294967296; };
 }
 
-export function generateDungeon(seed, floor = 1) {
+/**
+ * layout (optional): a fixed set of rooms { rooms: [{ x, y, w, h, kind? }], links: [[a, b]] } instead of a random
+ * dungeon — the home (初始地牢) uses it. The first room is the entry; there is no boss room.
+ */
+export function generateDungeon(seed, floor = 1, layout = null) {
   const rng = dungeonRandom((seed ^ Math.imul(floor, 0x9e3779b9)) >>> 0);
   const cells = new Uint8Array(MAP_SIZE * MAP_SIZE), edges = [], rooms = [];
-  const desired = 11 + Math.floor(rng() * 4);
+  const desired = layout ? 0 : 11 + Math.floor(rng() * 4);
+  if (layout) layout.rooms.forEach((r, i) => rooms.push({ id: i, ...r, centerX: r.x + r.w / 2, centerY: r.y + r.h / 2, kind: r.kind ?? 'room' }));
   for (let attempt = 0; attempt < 700 && rooms.length < desired; attempt++) {
     const w = 5 + 2 * Math.floor(rng() * 3), h = 5 + 2 * Math.floor(rng() * 3);
     const x = 2 + Math.floor(rng() * (MAP_SIZE - w - 4)), y = 2 + Math.floor(rng() * (MAP_SIZE - h - 4));
@@ -32,6 +37,7 @@ export function generateDungeon(seed, floor = 1) {
     edges.push({ source: a.id, target: b.id });
   };
   const joined = new Set([0]);
+  if (layout) { for (const [a, b] of layout.links) connect(rooms[a], rooms[b]); for (const r of rooms) joined.add(r.id); }
   while (joined.size < rooms.length) {
     let best = null, distance = Infinity;
     for (const a of rooms) if (joined.has(a.id)) for (const b of rooms) if (!joined.has(b.id)) {
@@ -40,7 +46,7 @@ export function generateDungeon(seed, floor = 1) {
     }
     connect(...best); joined.add(best[1].id);
   }
-  for (let i = 0; i < 2; i++) {
+  for (let i = 0; i < (layout ? 0 : 2); i++) {
     const a = rooms[Math.floor(rng() * rooms.length)], b = rooms[Math.floor(rng() * rooms.length)];
     if (a !== b && !edges.some(e => e.source === a.id && e.target === b.id || e.source === b.id && e.target === a.id)) connect(a, b);
   }
@@ -92,11 +98,11 @@ export function generateDungeon(seed, floor = 1) {
     }
     return result;
   };
-  const entryRoom = rooms.reduce((best, r) => r.centerX < best.centerX ? r : best);
+  const entryRoom = layout ? rooms[0] : rooms.reduce((best, r) => r.centerX < best.centerX ? r : best);
   const entry = { x: entryRoom.centerX * TILE - half, y: entryRoom.centerY * TILE - half };
   const distances = flow(entry.x, entry.y);
-  const bossRoom = rooms.reduce((best, r) => distances[Math.floor(r.centerY) * MAP_SIZE + Math.floor(r.centerX)] > distances[Math.floor(best.centerY) * MAP_SIZE + Math.floor(best.centerX)] ? r : best).id;
-  entryRoom.kind = 'entry'; rooms[bossRoom].kind = 'boss';
+  const bossRoom = layout ? -1 : rooms.reduce((best, r) => distances[Math.floor(r.centerY) * MAP_SIZE + Math.floor(r.centerX)] > distances[Math.floor(best.centerY) * MAP_SIZE + Math.floor(best.centerX)] ? r : best).id;
+  if (!layout) { entryRoom.kind = 'entry'; rooms[bossRoom].kind = 'boss'; }
   return { seed, floor, size: MAP_SIZE, tile: TILE, half, cells, rooms, edges, bossRoom, entryRoom: entryRoom.id, tiles, walls, tileCenter, tileOf, roomTile, walkable, sweep, move, flow,
     entry,
     mapPath: tiles.map(t => `M${t.x} ${t.y}h1v1h-1z`).join('') };

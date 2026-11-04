@@ -2,6 +2,7 @@
 import * as THREE from '../vendor/three.module.js';
 import { createDungeonFloor } from '../prefabs/dungeon-floor.mjs';
 import { createDungeonPortal } from '../prefabs/dungeon-portal.mjs';
+import { createHubProps } from '../prefabs/hub-props.mjs';
 import { createLootMarkers } from '../prefabs/loot-markers.mjs';
 import { createPost } from '../vfx/post.mjs';
 import { createEffects } from './effects.mjs';
@@ -112,6 +113,8 @@ export class Scene3D {
       this.floor?.dispose();
       this.layout = run.dungeon;
       this.floor = createDungeonFloor(run.dungeon); this.scene.add(this.floor.group);
+      this.hubProps?.dispose(); this.hubProps = run.hub ? createHubProps(run) : null;
+      if (this.hubProps) this.scene.add(this.hubProps.group);
       this.camBase.set(hp.x, 15.5 * this.zoom, hp.z + 10.5 * this.zoom);
       this.loot.reset();
     }
@@ -123,6 +126,7 @@ export class Scene3D {
     this.sun.position.set(hp.x + 10, 22, hp.z + 6); this.sun.target.position.set(hp.x, 0, hp.z);
 
     this.portal.update(run.portal ? { x: run.portal.x, y: run.portal.y, radius: 90, active: true } : null, time);
+    this.hubProps?.update(time);
     const dt = this.lastRun === run ? run.elapsed - this.lastElapsed : 0;
     this.lastRun = run; this.lastElapsed = run.elapsed;
     const ch = this.chars.update(run, dt);
@@ -251,7 +255,7 @@ export class Overlay {
       else if (!live.has(key)) lab.el.style.display = 'none';
     }
   }
-  clearLoot() { for (const lab of this.labels.values()) lab.el.remove(); this.labels.clear(); this.portalEl?.remove(); this.portalEl = null; }
+  clearLoot() { for (const lab of this.labels.values()) lab.el.remove(); this.labels.clear(); this.portalEl?.remove(); this.portalEl = null; for (const el of this.stationEls?.values() ?? []) el.remove(); this.stationEls?.clear(); }
   makeBar(kind = '') {
     const el = document.createElement('div');
     el.className = `hb${kind ? ' hb-' + kind : ''}`;
@@ -310,6 +314,27 @@ export class Overlay {
     }
     for (let i = f; i < this.floats.length; ++i) this.floats[i].el.style.display = 'none';
     this.updateLoot(scene, run, this.updatePortal(scene, run));
+    this.updateStations(scene, run);
+  }
+  /** Home: a name plate over every NPC and the stash (click it to walk there and talk). */
+  updateStations(scene, run) {
+    this.stationEls ??= new Map();
+    const list = run.hub ? run.stations.filter(st => st.id !== 'device') : [];
+    for (const [id, el] of this.stationEls) if (!list.some(st => st.id === id)) { el.remove(); this.stationEls.delete(id); }
+    for (const st of list) {
+      let el = this.stationEls.get(st.id);
+      if (!el) {
+        el = document.createElement('div'); el.className = 'lt lt-station lt-' + st.kind; el.dataset.station = st.id;
+        el.innerHTML = `<span>${st.name}</span><small>${st.title}</small>`;
+        this.labelLayer.appendChild(el); this.stationEls.set(st.id, el);
+      }
+      const at = scene.project(toV(st.x, st.y, st.kind === 'npc' ? 2.25 : 1.6));
+      if (!at) { el.style.display = 'none'; continue; }
+      el.style.display = '';
+      el.classList.toggle('target', run.walkTo?.station === st);
+      const w = el.offsetWidth, h = el.offsetHeight;
+      el.style.transform = `translate3d(${(at.x - w / 2).toFixed(1)}px,${(at.y - h).toFixed(1)}px,0)`;
+    }
   }
   /** A clickable name plate over the boss portal. */
   updatePortal(scene, run) {
@@ -317,10 +342,11 @@ export class Overlay {
     if (!at) { if (this.portalEl) this.portalEl.style.display = 'none'; return null; }
     if (!this.portalEl) {
       const el = this.portalEl = document.createElement('div');
-      el.className = 'lt lt-portal'; el.innerHTML = '<span>传送阵</span><small>点我走过去 · 打开图集</small>';
+      el.className = 'lt lt-portal';
       this.labelLayer.appendChild(el);
     }
-    const el = this.portalEl;
+    const el = this.portalEl, text = (run.portal.label ?? '传送阵') + (run.portal.sub ?? '点我走过去 · 打开图集');
+    if (el.dataset.text !== text) { el.dataset.text = text; el.innerHTML = `<span>${run.portal.label ?? '传送阵'}</span><small>${run.portal.sub ?? '点我走过去 · 打开图集'}</small>`; }
     el.style.display = '';
     el.classList.toggle('target', run.walkTo === 'portal');
     const w = el.offsetWidth, h = el.offsetHeight, x = at.x - w / 2, y = at.y - h;

@@ -293,7 +293,7 @@ const BigMap = {
 const TEMPLATE = /* html */ `
 <div class="g" :class="{ 'in-run': run }">
   <div class="stage" ref="stage" tabindex="0" @contextmenu.prevent><div class="overlay" ref="overlay"></div></div>
-  <div class="camp-bg" v-if="!run"><i class="mist m1"></i><i class="mist m2"></i><i class="glow"></i></div>
+  <div class="camp-bg" v-if="!run && !hub"><i class="mist m1"></i><i class="mist m2"></i><i class="glow"></i></div>
 
   <!-- =================== RUN HUD =================== -->
   <template v-if="run">
@@ -376,24 +376,9 @@ const TEMPLATE = /* html */ `
     </header>
 
     <!-- the map device: waystones in the stash; the atlas itself opens from the rail (M) -->
-    <main class="home">
-    <section class="hub panel">
-      <h2 class="ttl">地图装置</h2>
-      <p class="hub-lead">每张地图要放入一块路石才能开启：任意阶的路石都能放进任意节点，这张图按路石的阶打，开图时消耗。打倒首领必掉路石，精英偶尔掉落。营地旁的 T1 节点不需要路石。</p>
-      <div class="ws-grid">
-        <button v-for="w in stash" :key="w.uid" class="ws" :class="'w-' + w.rarity" @mouseenter="hoverThing($event, 'waystone', { stone: w, note: '点一下：打开图集，选一个节点用它' })" @mouseleave="hoverOff" @click="openAtlasFor(w)"><Gi n="stone-tablet" :c="'w-' + w.rarity"/><b>{{ w.tier }}</b></button>
-        <p v-if="!stash.length" class="hint">还没有路石。去 T1 节点打首领拿第一块。</p>
-      </div>
-      <p class="hub-count"><b>{{ save.waystones.length }}</b> 块路石 · 已打通 <b>{{ save.atlas.done.length }}</b> / {{ atlas.nodes.length }} 节点 · 可进入 <b>{{ atlasOpenCount }}</b></p>
-      <button class="orn-btn primary big" @click="toggle('atlas')">打开图集 · M</button>
-    </section>
-    <section class="chest panel" :class="{ on: open.vault }" @click="toggle('vault')" title="打开仓库（H）">
-      <Gi n="locked-chest" c="el-gold" g="仓"/>
-      <h2 class="ttl">仓库</h2>
-      <p>通货 <b>{{ vaultCounts.currency }}</b> · 传奇 <b>{{ vaultCounts.legend }}</b> · 装备 <b>{{ vaultCounts.items }}</b></p>
-      <small>点开 · H</small>
-    </section>
-    </main>
+    <minimap v-if="opts.minimap && hub" :run="hub" :tick="hubTick" :zoom="opts.minimapZoom" @open="mapOpen = !mapOpen"></minimap>
+    <big-map v-if="mapOpen && hub" :run="hub" :tick="hubTick" @close="mapOpen = false"></big-map>
+    <p class="hub-hint" v-if="hub && !atlasOpen && !center && !open.vault && !open.char">家 · 安全区　点 NPC、仓库或北面的地图仪走过去 · WASD 或点地面移动</p>
     <!-- home: level, experience and the portal back into an open map, bottom-left -->
     <section class="home-left">
       <div class="facts"><span><b>T{{ save.unlocked }}</b>最高</span><span><b>{{ save.atlas.done.length }}</b>已打通</span><span><b>{{ save.stats.maps }}</b>通关</span><span><b>{{ save.stats.kills }}</b>击杀</span></div>
@@ -1027,7 +1012,7 @@ export function mountGame(el) {
       function skillDragEnd() { dragSkill.value = null; dropBar.value = null; }
       function skillDrop(i) { const d = dragSkill.value; dropBar.value = null; if (d) setBar(i, d.id); }
       function quickBar(id) { if (save.skills.includes(id)) return; const i = save.skills.indexOf(null); setBar(i >= 0 ? i : SKILL_BAR - 1, id); }
-      function gearChanged() { syncSkillBar(save); gearKey.value++; roles.value = null; persist(); if (run.value) run.value.rebuildHero(build()); }
+      function gearChanged() { syncSkillBar(save); gearKey.value++; roles.value = null; persist(); if (run.value) run.value.rebuildHero(build()); else if (hub.value) hub.value.rebuildHero(build()); }
       function pick(it) { picked.value = it ?? null; pickedLine.value = null; craftMsg.value = ''; }
       function equippedFor(it) { if (!it) return null; if (it.slot.startsWith('ring')) return save.equipped.ring1 ?? save.equipped.ring2; return save.equipped[it.slot]; }
       async function hoverOn(e, it, ground = false) {
@@ -1166,6 +1151,38 @@ export function mountGame(el) {
         if (it && save.inventory.includes(it)) toVault(it, k);
         else if (d && d.page !== k && save.stash.pages[k].length < PAGE_SIZE) { const pg = save.stash.pages[d.page]; pg.splice(pg.indexOf(d.it), 1); save.stash.pages[k].push(d.it); persist(); }
       }
+      // ---- home: a safe little dungeon with NPCs, the stash and the map device ----
+      const hub = shallowRef(null), hubTick = ref(0);
+      let seenArrivals = 0, seenHubPortal = 0, hubLoop = false;
+      function ensureScene() { if (!scene) { scene = new Scene3D(stage.value); ov = new Overlay(overlay.value); bindLabels(overlay.value); globalThis.__dw.scene = scene; } applySettings(); }
+      function enterHub(fresh = false) {
+        if (!hub.value || fresh) { hub.value = markRaw(new MapRun(build(), { hub: true, seed: 20261104 })); seenArrivals = 0; seenHubPortal = 0; }
+        else { hub.value.rebuildHero(build()); const d = hub.value.dungeon, c = d.tileCenter(Math.floor(d.rooms[1].centerX), Math.floor(d.rooms[1].centerY) - 2); hub.value.hero.x = c.x; hub.value.hero.y = c.y; hub.value.walkTo = null; }
+        nextTick(() => { if (!stage.value) return; ensureScene(); ov?.clearLoot(); last = performance.now(); acc = 0; cancelAnimationFrame(raf); raf = requestAnimationFrame(frame); });
+      }
+      onMounted(() => { if (!run.value) enterHub(true); });
+      /** Arrived at an NPC / the stash: say something, open their panel. */
+      function openStation(st) {
+        if (st.kind === 'npc') { const line = st.lines[Math.floor(Math.random() * st.lines.length)]; toast(`${st.title}·${st.name}：${line}`, 'quest', null); sfx('open'); }
+        const p = st.panel;
+        if (p === 'vault') { if (!open.vault) toggle('vault'); }
+        else if (p === 'talents' || p === 'atlas') { if (!isOpen(p)) toggle(p); }
+        else openCenter(p);
+      }
+      function hubFrame(r, now) {
+        const dt = Math.max(0, Math.min(0.1, (now - last) / 1000)); last = Math.max(last, now); acc += dt;
+        const mx = (keys.has('d') ? 1 : 0) - (keys.has('a') ? 1 : 0), my = (keys.has('w') ? 1 : 0) - (keys.has('s') ? 1 : 0);
+        if (mx || my) r.walkTo = null;
+        r.setMove(mx, my);
+        const at = scene.pick(mouse.x, mouse.y); if (at) r.setAim(at.x, at.y);
+        r.setCasting(false);
+        while (acc >= 1 / 60) { r.step(1 / 60); acc -= 1 / 60; }
+        if (r.portalReached > seenHubPortal) { seenHubPortal = r.portalReached; if (!atlasOpen.value) toggle('atlas'); }
+        if (r.arrivals > seenArrivals) { seenArrivals = r.arrivals; openStation(r.arrived); }
+        scene.update(r, now / 1000); ov.update(scene, r);
+        if (Math.round(now / 100) % 2 === 0) hubTick.value++;
+        raf = requestAnimationFrame(frame);
+      }
       // ---- town portal: the map stays open while you are home ----
       function portalHome() {
         const r = run.value; if (!r || r.phase === 'failed') return;
@@ -1173,7 +1190,7 @@ export function mountGame(el) {
         for (; seenPicked < r.pickedUp.length; ++seenPicked) bank(r.pickedUp[seenPicked]);
         persist(); sfx('portal');
         cancelAnimationFrame(raf); hover.value = null; mouse.down = false; keys.clear(); setLoop('drone', 0); setLoop('wind', 0);
-        portalRun.value = r; run.value = null; gearKey.value++;
+        portalRun.value = r; run.value = null; gearKey.value++; enterHub();
         toast('回到家了：地图还开着，左下角的传送门（T）带你回去', 'good', 'magic-portal', 'el-gold');
         nextTick(showPendingStory);
       }
@@ -1250,9 +1267,9 @@ export function mountGame(el) {
         r.node = node.id; r.canTake = d => bagFits(save, d); r.autoCurrency = opts.autoCurrency; mapOpen.value = false;
         run.value = markRaw(r); open.char = open.bag = open.vault = false; seenKills = 0; seenFull = -9; bossXp = false; center.value = null; seenPicked = 0; seenClear = -1; seenLoot = new Set(); seenPortal = 0; clearedBanner.value = false;
         Object.assign(resultLoot, { items: 0, currencies: 0, stones: 0, legend: 0, opened: 0, done: false });
+        ov?.clearLoot();
         nextTick(() => {
-          if (!scene) { scene = new Scene3D(stage.value); ov = new Overlay(overlay.value); bindLabels(overlay.value); globalThis.__dw.scene = scene; }
-          applySettings();
+          ensureScene();
           stage.value.focus();
           last = performance.now(); acc = 0;
           cancelAnimationFrame(raf); raf = requestAnimationFrame(frame);
@@ -1272,6 +1289,7 @@ export function mountGame(el) {
         cancelAnimationFrame(raf); ov?.clearLoot(); hover.value = null; setLoop('drone', 0); setLoop('wind', 0);
         run.value = null; roles.value = null; gearKey.value++; nextTick(showPendingStory);
         if (r.phase === 'cleared') atlasSel.value = firstNear(r.node);
+        enterHub();
       }
       // Everything picked up goes straight into the save, so the bag shows it during the run too.
       function bank(d) {
@@ -1283,6 +1301,7 @@ export function mountGame(el) {
         else if (bagFits(save, d)) save.currencies[d.id] = (save.currencies[d.id] || 0) + d.count;
         else { save.stash.currency[d.id] = (save.stash.currency[d.id] || 0) + d.count; overflow++; } }
       function frame(now) {
+        if (!run.value && hub.value && scene) { hubFrame(hub.value, now); return; }
         const r = run.value; if (!r) return;
         // A frame queued before the run started can carry an older timestamp: never step backwards.
         const dt = Math.max(0, Math.min(0.1, (now - last) / 1000)); last = Math.max(last, now); acc += dt;
@@ -1375,7 +1394,9 @@ export function mountGame(el) {
         root.addEventListener('mousedown', e => {
           const el = e.target.closest('.lt'); if (!el || e.button !== 0) return;
           e.stopPropagation(); e.preventDefault();
-          if (el.classList.contains('lt-portal')) run.value?.walkToPortal(); else run.value?.walkToLoot(el.dataset.key);
+          const w = run.value ?? hub.value;
+          if (el.classList.contains('lt-station')) hub.value?.walkToStation(el.dataset.station);
+          else if (el.classList.contains('lt-portal')) w?.walkToPortal(); else w?.walkToLoot(el.dataset.key);
           hover.value = null;
         });
       }
@@ -1392,7 +1413,7 @@ export function mountGame(el) {
         if (!down) return;
         if (/^[1-4]$/.test(k)) selectSkill(+k - 1);
         if (k === 't') { if (run.value) portalHome(); else portalBack(); }
-        if (k === 'tab') { e.preventDefault(); if (run.value) mapOpen.value = !mapOpen.value; return; }
+        if (k === 'tab') { e.preventDefault(); if (run.value || hub.value) mapOpen.value = !mapOpen.value; return; }
         const p = PANELS.find(p => p.key.toLowerCase() === k); if (p) toggle(p.id);
         if (k === 'escape') {
           if (mapOpen.value) { mapOpen.value = false; return; }
@@ -1404,6 +1425,13 @@ export function mountGame(el) {
       const kd = e => onKey(e, true), ku = e => onKey(e, false);
       const mm = e => { const rect = stage.value?.getBoundingClientRect(); if (rect) { mouse.x = e.clientX - rect.left; mouse.y = e.clientY - rect.top; } };
       const md = e => {
+        if (e.button === 0 && !run.value && hub.value && scene && e.target.closest('.stage')) {
+          // Home: click an NPC / the stash / the map device to walk there and use it; anywhere else to walk.
+          const h = hub.value, at = scene.pick(mouse.x, mouse.y); if (!at) return;
+          const st = h.stations.find(s => Math.hypot(at.x - s.x, at.y - s.y) < (s.id === 'device' ? 160 : 110));
+          if (st) h.walkToStation(st.id); else h.walkToPoint(at.x, at.y);
+          return;
+        }
         if (e.button !== 0 || !run.value || !e.target.closest('.stage')) return;
         // A click on the portal walks there instead of casting.
         const r = run.value, at = r.portal && scene?.pick(mouse.x, mouse.y);
@@ -1433,7 +1461,7 @@ export function mountGame(el) {
         volume, cycleVolume, quest, questIndex, questSel, story, chapters: CHAPTERS, chapterNo, fmtN, rewardText, closeStory, claimStory, dragItem, dropSlot, dropBar, skillCards, skillGrid, hoverThing, tipPinned, activeCur, activeIdx, pickCur, curStacks, unpinTip, tipCraft, setBar, skillDragStart, skillDragEnd, skillDrop, quickBar, run, resultLoot, clearedBanner, hud,
         profile, requirements, statRows, bdArch, bdStages, currentBd, centerName, centerTitle, traits, granted, ladder, ladderFocus, primarySkill, bagCells,
         bagLeft, bagSize: BAG_SIZE, pageCells, pageSize: PAGE_SIZE, pages: PAGES, legendCap: LEGEND_CAP, currencyPage: CURRENCY_PAGE, vaultTab, legendSel, dropTab, dragFrom, legendCount, vaultCounts, wallet, tipStacks,
-        opts, settingTab, settingTabs, keybinds: KEYBINDS, setQuality, resetSettings, mapOpen,
+        hub, hubTick, opts, settingTab, settingTabs, keybinds: KEYBINDS, setQuality, resetSettings, mapOpen,
         selected, menu, ctrlClick, openMenu, menuDo, legendary, dropBagCell, dropPageCell, toVault, fromVault, moveCurrency, takeCurrency, vaultDragStart, dropToBag, dropToPage, portalRun, portalHome, portalBack, xpNext, maxLevel: MAX_LEVEL,
         pick, equippedFor, hoverOn, hoverOff, doEquip, doUnequip, dragStart, dropOn, doSalvage, doCraft, applyBd, clearBd, accountName, leaveAccount, grantLegendary, evaluate, update, toggle, isOpen, openCenter, startRun, leaveRun, selectSkill, gearChanged,
         panels: PANELS, tierList: Array.from({ length: MAP_TIERS }, (_, i) => i + 1), families: MAP_FAMILIES, slots: SLOTS, slotNames: SLOT_NAMES, currencies: CURRENCIES,

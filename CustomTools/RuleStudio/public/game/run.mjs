@@ -9,6 +9,7 @@ import { castTime } from '../../core/skills.mjs';
 import { detachRules } from '../../core/rules.mjs';
 import { generateDungeon, dungeonRandom } from './dungeon.mjs';
 import { rollWaystoneDrops } from './waystones.mjs';
+import { HUB_LAYOUT, NPCS, STATIONS } from './hub.mjs';
 
 export const STATUS_LOOK = {
   ignited: { color: '#ff7a2e', glyph: '燃', fx: 'ignite' }, poisoned: { color: '#7ee36b', glyph: '毒', fx: 'poison' }, bleeding: { color: '#e0334a', glyph: '血', fx: 'bleed' },
@@ -32,18 +33,19 @@ export class MapRun {
    * opts: { tier, family, seed, quantity, mods } — mods come from the atlas node (atlas.mjs nodeMods):
    *   { quantity, pack, elite, legend, life, damage, bossLife }
    */
-  constructor(build, { tier = 1, family = 'ruin', seed = Date.now() % 1e9, quantity = 1, mods = {} } = {}) {
+  constructor(build, { tier = 1, family = 'ruin', seed = Date.now() % 1e9, quantity = 1, mods = {}, hub = false } = {}) {
+    this.hub = hub;   // the home (初始地牢): no monsters, NPCs and stations instead
     this.profile = mapProfile(tier, family);
     this.tier = this.profile.tier;
     this.seed = seed;
     this.mods = { pack: 1, elite: 1, legend: 1, life: 1, damage: 1, bossLife: 1, aggro: 1, ...mods };
     this.quantity = quantity * (mods.quantity ?? 1);
     this.walkTo = null;
-    this.dungeon = generateDungeon(seed, this.tier);
+    this.dungeon = generateDungeon(seed, this.tier, hub ? HUB_LAYOUT : null);
     this.world = createWorld(gameContent(), { seed, terrain: dungeonTerrain(this.dungeon) });
     this.rng = dungeonRandom(seed ^ 0x51ab);
     this.elapsed = 0;
-    this.phase = 'running';
+    this.phase = hub ? 'hub' : 'running';
     this.portal = null; this.portalReached = 0;
     this.flashes = []; this.loot = []; this.log = []; this.kills = 0; this.pickedUp = [];
     // The page says whether a drop still fits in the bag (5 × 12); a full bag leaves it on the floor.
@@ -51,7 +53,7 @@ export class MapRun {
     this.recentKills = []; this.combo = 0; this.bestCombo = 0; this.lastKillAt = -9; this.cascadeKills = 0; this.screenClears = []; this.lastScreenClear = -9;
     this.build = build;
     this.spawnHero();
-    this.populate();
+    if (hub) this.setupHub(); else this.populate();
     this.world.listeners.push(e => this.onEvent(e));
   }
 
@@ -84,6 +86,31 @@ export class MapRun {
     h.life = Math.max(1, h.max.life * fill.life); h.mana = h.max.mana * fill.mana; h.es = h.max.es * fill.es;
     for (const m of this.world.actors.values()) if (m.brainTarget === old) m.brainTarget = null;
     this.selected = Math.min(this.selected, Math.max(0, this.skills.length - 1));
+  }
+
+  /** Home: NPCs standing in the hall, the stash in the east wing; the map device is the portal in the north sanctum. */
+  setupHub() {
+    const d = this.dungeon, at = (room, [dx, dy]) => { const r = d.rooms[room]; return d.tileCenter(Math.floor(r.centerX + dx), Math.floor(r.centerY + dy)); };
+    this.stations = [];
+    for (const n of NPCS) {
+      const p = at(n.room, n.at);
+      const a = this.world.spawnActor({ kind: 'npc', team: 0, brain: 'none', x: p.x, y: p.y, radius: 34, name: n.name, mods: [{ stat: 'immortal', op: 'flag' }, { stat: 'cannotMove', op: 'flag' }] });
+      a.template = 'npc'; a.npcSkin = n.skin; a.facing = { x: 0, y: -1 }; a.home = { x: p.x, y: p.y };
+      this.stations.push({ ...n, kind: 'npc', x: p.x, y: p.y, actor: a, reach: 150 });
+    }
+    for (const s of STATIONS) { const p = at(s.room, s.at); this.stations.push({ ...s, kind: s.id, x: p.x, y: p.y, reach: s.id === 'device' ? PORTAL_REACH : 160 }); }
+    const dev = this.stations.find(s => s.id === 'device');
+    this.portal = { x: dev.x, y: dev.y, born: 0, inside: false, label: '地图仪', sub: '点我走过去 · 放入路石，打开图集' };
+    this.arrivals = 0; this.arrived = null;
+  }
+  /** Walk to a station (NPC, stash); arriving there raises `arrivals` and sets `arrived` (the page opens its panel). */
+  /** Home: click on the floor to walk there. */
+  walkToPoint(x, y) { this.walkTo = { point: { x, y } }; }
+  walkToStation(id) {
+    const st = this.stations?.find(s => s.id === id); if (!st) return;
+    if (st.id === 'device') { this.walkToPortal(); return; }
+    if (Math.hypot(st.x - this.hero.x, st.y - this.hero.y) < st.reach) { this.arrived = st; this.arrivals++; return; }
+    this.walkTo = { station: st };
   }
 
   /** Packs in every room by the map's pressure profile; the boss waits in the boss room. */
@@ -174,7 +201,7 @@ export class MapRun {
 
   // ---- simulation ---------------------------------------------------------------------------
   step(dt) {
-    if (this.phase !== 'running' && this.phase !== 'cleared') return;
+    if (this.phase !== 'running' && this.phase !== 'cleared' && this.phase !== 'hub') return;
     this.elapsed += dt;
     const h = this.hero, w = this.world;
     if (this.casting && h.alive && !w.quick(h, 'cannotAct')) {
@@ -193,7 +220,14 @@ export class MapRun {
       this.portal.inside = inside;
       if (this.walkTo === 'portal' && !inside) { h.vx = this.portal.x - h.x; h.vy = this.portal.y - h.y; }
     }
-    if (this.walkTo && this.walkTo !== 'portal') {
+    if (this.walkTo?.point) {
+      const t = this.walkTo.point;
+      if (Math.hypot(t.x - h.x, t.y - h.y) < 40) { this.walkTo = null; h.vx = h.vy = 0; } else { h.vx = t.x - h.x; h.vy = t.y - h.y; }
+    } else if (this.walkTo?.station) {
+      const st = this.walkTo.station;
+      if (Math.hypot(st.x - h.x, st.y - h.y) < st.reach) { this.arrived = st; this.arrivals++; this.walkTo = null; h.vx = h.vy = 0; }
+      else { h.vx = st.x - h.x; h.vy = st.y - h.y; }
+    } else if (this.walkTo && this.walkTo !== 'portal') {
       const l = this.loot.find(x => x.key === this.walkTo);
       if (!l) { this.walkTo = null; h.vx = h.vy = 0; }
       else if (Math.hypot(l.x - h.x, l.y - h.y) < 90) { if (this.canTake(l.drop)) { l.taken = true; this.pickedUp.push(l.drop); } else this.fullAt = this.elapsed; this.walkTo = null; h.vx = h.vy = 0; }
@@ -204,6 +238,11 @@ export class MapRun {
       if (m.team !== 1) continue;
       m.hitFlash = Math.max(0, m.hitFlash - dt * 6);
       if (m.brainTarget) { const dx = m.brainTarget.x - m.x, dy = m.brainTarget.y - m.y, l = Math.hypot(dx, dy) || 1; m.facing = { x: dx / l, y: dy / l }; }
+    }
+    // NPCs turn to face you when you come close
+    if (this.hub) for (const st of this.stations) if (st.actor) {
+      const dx = h.x - st.x, dy = h.y - st.y, l = Math.hypot(dx, dy);
+      if (l < 700 && l > 1) st.actor.facing = { x: dx / l, y: dy / l };
     }
     for (const f of this.flashes) f.age += dt;
     this.flashes = this.flashes.filter(f => f.age < 1.1);

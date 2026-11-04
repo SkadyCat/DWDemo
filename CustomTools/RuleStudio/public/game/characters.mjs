@@ -148,7 +148,7 @@ export class Characters {
     let v = free?.pop();
     if (!v) {
       const tpl = this.tpl[kind], inst = instantiate(tpl, characterMaterial(tpl));
-      v = { kind, tpl, inst, pelvisH: inst.rest.pelvis?.y ?? 0.5, anim: HUMANOID.has(kind) ? this.pack.bones.map(n => inst.bones[n]) : null };
+      v = { kind, tpl, inst, pelvisH: inst.rest.pelvis?.y ?? 0.5, anim: HUMANOID.has(kind) || kind.startsWith('hero:') ? this.pack.bones.map(n => inst.bones[n]) : null };
       this.scene.add(inst.root);
     }
     v.inst.root.visible = true; v.inst.root.rotation.set(0, 0, 0); v.t = 0; v.speed = 0; v.cast = -9; v.phase = Math.random() * 4; v.last = null;
@@ -370,7 +370,7 @@ export class Characters {
     // nearest monsters and modelled summons get models
     const wanted = [];
     for (const m of run.monsters) { const d = Math.hypot(m.x - hero.x, m.y - hero.y) * M; if (d < MODEL_RANGE) wanted.push([d, m, null]); }
-    for (const m of run.minions) { const mm = m.template === 'thrall' ? [monsterKind({ ...m, team: 1 }), m.kind === 'elite' ? 1.25 : 1] : MINION_MODEL[m.template]; if (mm) wanted.push([Math.hypot(m.x - hero.x, m.y - hero.y) * M * 0.5, m, mm]); }
+    for (const m of run.minions) { const mm = m.npcSkin ? ['hero:' + m.npcSkin, 1 / 1.15] : m.template === 'thrall' ? [monsterKind({ ...m, team: 1 }), m.kind === 'elite' ? 1.25 : 1] : MINION_MODEL[m.template]; if (mm) wanted.push([Math.hypot(m.x - hero.x, m.y - hero.y) * M * 0.5, m, mm]); }
     wanted.sort((a, b) => a[0] - b[0]);
     const keep = new Set();
     for (const [, m, mm] of wanted.slice(0, MODEL_CAP)) {
@@ -382,7 +382,7 @@ export class Characters {
       // a light wash of the damage element (elites a touch of gold); see-through bodies keep their own colour
       const wash = new THREE.Color(0xffffff).lerp(new THREE.Color(ELEMENT_TINT[m.element] ?? 0xffffff), v.tpl.transparent ? 0 : 0.45);
       if (m.kind === 'elite' && !m.boss) wash.lerp(new THREE.Color(0xffd75e), 0.3);
-      const tint = mm ? (MINION_TINT[m.template] ?? 0xd8fff4) : wash.getHex();
+      const tint = m.npcSkin ? 0xffffff : mm ? (MINION_TINT[m.template] ?? 0xd8fff4) : wash.getHex();
       this.place(v, m, dt, { scale: (HEIGHT[kind] ?? v.tpl.height * 1.15) * size / v.tpl.height, tint, frozen: m.hasStatus?.('frozen'), flash: (m.hitFlash ?? 0) > 0.6, elapsed });
       shown.add(m.id);
     }
