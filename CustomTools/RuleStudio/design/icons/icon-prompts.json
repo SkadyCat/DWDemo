@@ -15,7 +15,7 @@
    "name": "火球",
    "use": "技能栏、技能提示（主动技能）",
    "now": "fireball",
-   "file": "icons/skill/fireball.png",
+   "file": "design/icons/skill/fireball.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a roaring fireball with a comet tail, colour accent blazing orange-red fire (#ff8a3d).",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -26,7 +26,7 @@
    "name": "冰霜新星",
    "use": "技能栏、技能提示（主动技能）",
    "now": "snowflake-1",
-   "file": "icons/skill/ice_nova.png",
+   "file": "design/icons/skill/ice_nova.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a burst ring of ice shards exploding outward from a frozen core, colour accent icy pale-blue frost (#8fd8ff).",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -37,7 +37,7 @@
    "name": "电弧",
    "use": "技能栏、技能提示（主动技能）",
    "now": "lightning-arc",
-   "file": "icons/skill/arc.png",
+   "file": "design/icons/skill/arc.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a forking arc of lightning jumping between three points, colour accent crackling yellow lightning (#ffe066).",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -48,7 +48,7 @@
    "name": "电花",
    "use": "技能栏、技能提示（主动技能）",
    "now": "spark-spirit",
-   "file": "icons/skill/spark.png",
+   "file": "design/icons/skill/spark.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: small erratic sparks of electricity bouncing like fireflies, colour accent crackling yellow lightning (#ffe066).",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -59,7 +59,7 @@
    "name": "寒冰弹",
    "use": "技能栏、技能提示（主动技能）",
    "now": "ice-bolt",
-   "file": "icons/skill/frost_bolt.png",
+   "file": "design/icons/skill/frost_bolt.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a sharp icicle bolt flying with a frosty trail, colour accent icy pale-blue frost (#8fd8ff).",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -70,7 +70,7 @@
    "name": "火墙",
    "use": "技能栏、技能提示（主动技能）",
    "now": "flame",
-   "file": "icons/skill/flame_wall.png",
+   "file": "design/icons/skill/flame_wall.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a wall of flames rising from the ground, colour accent blazing orange-red fire (#ff8a3d).",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -81,7 +81,7 @@
    "name": "重击",
    "use": "技能栏、技能提示（主动技能）",
    "now": "hammer-drop",
-   "file": "icons/skill/heavy_strike.png",
+   "file": "design/icons/skill/heavy_strike.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a massive warhammer slamming down with an impact shockwave, colour accent steel and bone tones (#d8c6a4).",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -92,7 +92,7 @@
    "name": "劈砍",
    "use": "技能栏、技能提示（主动技能）",
    "now": "crossed-swords",
-   "file": "icons/skill/cleave.png",
+   "file": "design/icons/skill/cleave.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a wide crescent slash of an axe blade, colour accent steel and bone tones (#d8c6a4).",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -103,7 +103,7 @@
    "name": "旋风斩",
    "use": "技能栏、技能提示（主动技能）",
    "now": "whirlwind",
-   "file": "icons/skill/cyclone.png",
+   "file": "design/icons/skill/cyclone.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a spinning whirlwind of blades around a warrior silhouette, colour accent steel and bone tones (#d8c6a4).",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -114,7 +114,7 @@
    "name": "崩雷鸣",
    "use": "技能栏、技能提示（主动技能）",
    "now": "thor-hammer",
-   "file": "icons/skill/falling_thunder.png",
+   "file": "design/icons/skill/falling_thunder.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a war hammer charged with lightning striking the ground, colour accent steel and bone tones (#d8c6a4).",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -125,7 +125,7 @@
    "name": "闪现打击",
    "use": "技能栏、技能提示（主动技能）",
    "now": "teleport",
-   "file": "icons/skill/flicker_strike.png",
+   "file": "design/icons/skill/flicker_strike.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a dagger strike leaving afterimages of teleport flashes, colour accent steel and bone tones (#d8c6a4).",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -136,7 +136,7 @@
    "name": "蝰蛇飞刃",
    "use": "技能栏、技能提示（主动技能）",
    "now": "thrown-daggers",
-   "file": "icons/skill/viper_knives.png",
+   "file": "design/icons/skill/viper_knives.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a fan of green poison-dripping throwing knives, colour accent steel and bone tones (#d8c6a4).",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -147,7 +147,7 @@
    "name": "灵刃召唤",
    "use": "技能栏、技能提示（主动技能）",
    "now": "spinning-sword",
-   "file": "icons/skill/summon_blades.png",
+   "file": "design/icons/skill/summon_blades.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a ring of floating ghostly swords.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -158,7 +158,7 @@
    "name": "风暴图腾",
    "use": "技能栏、技能提示（主动技能）",
    "now": "stone-tower",
-   "file": "icons/skill/storm_totem_place.png",
+   "file": "design/icons/skill/storm_totem_place.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a carved stone totem crackling with lightning.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -169,7 +169,7 @@
    "name": "寒潮",
    "use": "触发技能（提示、图鉴里出现）",
    "now": "frozen-orb",
-   "file": "icons/skill/glacial_burst.png",
+   "file": "design/icons/skill/glacial_burst.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a wave of frost bursting from a shattered ice orb, colour accent icy pale-blue frost (#8fd8ff).",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -180,7 +180,7 @@
    "name": "龙卷风",
    "use": "技能栏、技能提示（主动技能）",
    "now": "tornado",
-   "file": "icons/skill/tornado.png",
+   "file": "design/icons/skill/tornado.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a towering grey tornado tearing up debris, colour accent steel and bone tones (#d8c6a4).",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -191,7 +191,7 @@
    "name": "落雷",
    "use": "触发技能（提示、图鉴里出现）",
    "now": "lightning-branches",
-   "file": "icons/skill/thunder_fall.png",
+   "file": "design/icons/skill/thunder_fall.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a lightning bolt falling straight from a dark cloud, colour accent crackling yellow lightning (#ffe066).",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -202,7 +202,7 @@
    "name": "冰刺爆发",
    "use": "触发技能（提示、图鉴里出现）",
    "now": "ice-spear",
-   "file": "icons/skill/ice_spike_burst.png",
+   "file": "design/icons/skill/ice_spike_burst.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: ice spikes erupting from the ground in a cluster, colour accent icy pale-blue frost (#8fd8ff).",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -213,7 +213,7 @@
    "name": "炎爆",
    "use": "触发技能（提示、图鉴里出现）",
    "now": "fluffy-flame",
-   "file": "icons/skill/flame_burst.png",
+   "file": "design/icons/skill/flame_burst.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a round explosion of fire, colour accent blazing orange-red fire (#ff8a3d).",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -224,7 +224,7 @@
    "name": "刀锋环",
    "use": "触发技能（提示、图鉴里出现）",
    "now": "spinning-blades",
-   "file": "icons/skill/blade_ring.png",
+   "file": "design/icons/skill/blade_ring.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: eight blades flying outward in a ring, colour accent steel and bone tones (#d8c6a4).",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -235,7 +235,7 @@
    "name": "落地冲击",
    "use": "触发技能（提示、图鉴里出现）",
    "now": "heavy-fall",
-   "file": "icons/skill/ground_slam.png",
+   "file": "design/icons/skill/ground_slam.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a fist hitting the ground, cracks radiating out, colour accent steel and bone tones (#d8c6a4).",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -246,7 +246,7 @@
    "name": "雷闪步",
    "use": "技能栏、技能提示（主动技能）",
    "now": "lightning-trio",
-   "file": "icons/skill/storm_step.png",
+   "file": "design/icons/skill/storm_step.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a lightning-wreathed footstep dash, colour accent crackling yellow lightning (#ffe066).",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -257,7 +257,7 @@
    "name": "霜刃突进",
    "use": "技能栏、技能提示（主动技能）",
    "now": "ice-spear",
-   "file": "icons/skill/frost_dash.png",
+   "file": "design/icons/skill/frost_dash.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a figure dashing forward leaving a trail of ice, colour accent icy pale-blue frost (#8fd8ff).",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -268,7 +268,7 @@
    "name": "残影步",
    "use": "技能栏、技能提示（主动技能）",
    "now": "shadow-follower",
-   "file": "icons/skill/phantom_step.png",
+   "file": "design/icons/skill/phantom_step.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a shadow afterimage left behind a dashing figure, colour accent blazing orange-red fire (#ff8a3d).",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -279,7 +279,7 @@
    "name": "星刃瞬步",
    "use": "技能栏、技能提示（主动技能）",
    "now": "star-swirl",
-   "file": "icons/skill/star_step.png",
+   "file": "design/icons/skill/star_step.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a burst of star-shaped blades around a blink flash, colour accent steel and bone tones (#d8c6a4).",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -290,7 +290,7 @@
    "name": "虚空跃迁",
    "use": "技能栏、技能提示（主动技能）",
    "now": "portal",
-   "file": "icons/skill/void_leap.png",
+   "file": "design/icons/skill/void_leap.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a purple void portal swallowing a leaping figure, colour accent violet chaos energy (#c39bff).",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -301,7 +301,7 @@
    "name": "盾爆",
    "use": "技能栏、技能提示（主动技能）",
    "now": "shield-impact",
-   "file": "icons/skill/aegis_nova.png",
+   "file": "design/icons/skill/aegis_nova.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: an energy shield exploding into a shockwave, colour accent steel and bone tones (#d8c6a4).",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -312,7 +312,7 @@
    "name": "盾击",
    "use": "技能栏、技能提示（主动技能）",
    "now": "shield-bash",
-   "file": "icons/skill/shield_bash.png",
+   "file": "design/icons/skill/shield_bash.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a shield smashing forward with impact lines, colour accent steel and bone tones (#d8c6a4).",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -323,7 +323,7 @@
    "name": "盾刃弹幕",
    "use": "技能栏、技能提示（主动技能）",
    "now": "shield-reflect",
-   "file": "icons/skill/aegis_shards.png",
+   "file": "design/icons/skill/aegis_shards.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a shield shattering into three flying ice blades, colour accent icy pale-blue frost (#8fd8ff).",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -334,7 +334,7 @@
    "name": "骸骨召唤",
    "use": "技能栏、技能提示（主动技能）",
    "now": "raise-skeleton",
-   "file": "icons/skill/raise_skeletons.png",
+   "file": "design/icons/skill/raise_skeletons.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: skeletal hands rising from the ground.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -345,7 +345,7 @@
    "name": "熔火魔像",
    "use": "技能栏、技能提示（主动技能）",
    "now": "golem-head",
-   "file": "icons/skill/summon_golem.png",
+   "file": "design/icons/skill/summon_golem.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a molten lava golem head with glowing eyes.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -356,7 +356,7 @@
    "name": "幽魂射手",
    "use": "技能栏、技能提示（主动技能）",
    "now": "bowman",
-   "file": "icons/skill/summon_archers.png",
+   "file": "design/icons/skill/summon_archers.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a ghostly skeletal archer drawing a bow.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -367,7 +367,7 @@
    "name": "蛛巢",
    "use": "技能栏、技能提示（主动技能）",
    "now": "spider-alt",
-   "file": "icons/skill/summon_spiders.png",
+   "file": "design/icons/skill/summon_spiders.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a cluster of green venomous spiders hatching.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -378,7 +378,7 @@
    "name": "霜灵",
    "use": "技能栏、技能提示（主动技能）",
    "now": "ice-spell-cast",
-   "file": "icons/skill/summon_wisps.png",
+   "file": "design/icons/skill/summon_wisps.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: small glowing frost wisps orbiting.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -389,7 +389,7 @@
    "name": "爆燃陷阱",
    "use": "技能栏、技能提示（主动技能）",
    "now": "land-mine",
-   "file": "icons/skill/fire_trap.png",
+   "file": "design/icons/skill/fire_trap.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a spiked mine glowing with fire runes, colour accent blazing orange-red fire (#ff8a3d).",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -400,7 +400,7 @@
    "name": "霜冻陷阱",
    "use": "技能栏、技能提示（主动技能）",
    "now": "frozen-orb",
-   "file": "icons/skill/frost_trap.png",
+   "file": "design/icons/skill/frost_trap.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a frozen rune trap with an ice crystal core, colour accent icy pale-blue frost (#8fd8ff).",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -411,7 +411,7 @@
    "name": "刃轮陷阱",
    "use": "技能栏、技能提示（主动技能）",
    "now": "circular-saw",
-   "file": "icons/skill/blade_trap.png",
+   "file": "design/icons/skill/blade_trap.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a spinning circular saw trap on the floor, colour accent steel and bone tones (#d8c6a4).",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -422,7 +422,7 @@
    "name": "捕兽箭",
    "use": "技能栏、技能提示（主动技能）",
    "now": "wolf-trap",
-   "file": "icons/skill/snare_shot.png",
+   "file": "design/icons/skill/snare_shot.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: an arrow with a steel bear trap at the tip, colour accent steel and bone tones (#d8c6a4).",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -433,7 +433,7 @@
    "name": "机关陷阱",
    "use": "技能栏、技能提示（主动技能）",
    "now": "ballista",
-   "file": "icons/skill/turret_trap.png",
+   "file": "design/icons/skill/turret_trap.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a small wooden ballista unfolding from a trap, colour accent steel and bone tones (#d8c6a4).",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -444,7 +444,7 @@
    "name": "电击陷阱",
    "use": "技能栏、技能提示（主动技能）",
    "now": "electrical-crescent",
-   "file": "icons/skill/shock_trap.png",
+   "file": "design/icons/skill/shock_trap.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a rune plate crackling with an electric crescent, colour accent crackling yellow lightning (#ffe066).",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -455,7 +455,7 @@
    "name": "宝库之门",
    "use": "技能栏、技能提示（主动技能）",
    "now": "portal",
-   "file": "icons/skill/gate_of_treasures.png",
+   "file": "design/icons/skill/gate_of_treasures.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a golden swirling portal with a sword blade emerging from its centre, colour accent steel and bone tones (#d8c6a4).",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -466,7 +466,7 @@
    "name": "宝具",
    "use": "触发技能（提示、图鉴里出现）",
    "now": "thrown-spear",
-   "file": "icons/skill/treasure_shot.png",
+   "file": "design/icons/skill/treasure_shot.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: an ornate golden spear flying out of a gold ripple, colour accent steel and bone tones (#d8c6a4).",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -477,7 +477,7 @@
    "name": "天降宝具",
    "use": "触发技能（提示、图鉴里出现）",
    "now": "sword-in-stone",
-   "file": "icons/skill/treasure_fall.png",
+   "file": "design/icons/skill/treasure_fall.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a jeweled sword plunging down from the sky into the ground, colour accent steel and bone tones (#d8c6a4).",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -488,7 +488,7 @@
    "name": "开天之光",
    "use": "触发技能（提示、图鉴里出现）",
    "now": "sun-spear",
-   "file": "icons/skill/sundering_star.png",
+   "file": "design/icons/skill/sundering_star.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a red-gold beam of light splitting the sky, colour accent steel and bone tones (#d8c6a4).",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -499,7 +499,7 @@
    "name": "引信弹",
    "use": "技能栏、技能提示（主动技能）",
    "now": "unlit-bomb",
-   "file": "icons/skill/fuse_bolt.png",
+   "file": "design/icons/skill/fuse_bolt.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a lit bomb fuse sparking, colour accent blazing orange-red fire (#ff8a3d).",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -510,7 +510,7 @@
    "name": "播种",
    "use": "技能栏、技能提示（主动技能）",
    "now": "sprout",
-   "file": "icons/skill/sow_seed.png",
+   "file": "design/icons/skill/sow_seed.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a thorny sapling sprouting from a glowing seed.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -521,7 +521,7 @@
    "name": "引力奇点",
    "use": "技能栏、技能提示（主动技能）",
    "now": "vortex",
-   "file": "icons/skill/singularity.png",
+   "file": "design/icons/skill/singularity.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a black hole pulling debris into a violet spiral, colour accent violet chaos energy (#c39bff).",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -532,7 +532,7 @@
    "name": "统御之鞭",
    "use": "技能栏、技能提示（主动技能）",
    "now": "whip",
-   "file": "icons/skill/dominion_lash.png",
+   "file": "design/icons/skill/dominion_lash.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a barbed whip cracking with violet energy, colour accent steel and bone tones (#d8c6a4).",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -543,7 +543,7 @@
    "name": "唤云",
    "use": "技能栏、技能提示（主动技能）",
    "now": "lightning-storm",
-   "file": "icons/skill/call_storm.png",
+   "file": "design/icons/skill/call_storm.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a dark storm cloud with lightning.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -554,7 +554,7 @@
    "name": "霜矛",
    "use": "技能栏、技能提示（主动技能）",
    "now": "ice-spear",
-   "file": "icons/skill/rime_lance.png",
+   "file": "design/icons/skill/rime_lance.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a long spear of ice, colour accent icy pale-blue frost (#8fd8ff).",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -565,7 +565,7 @@
    "name": "引爆",
    "use": "触发技能（提示、图鉴里出现）",
    "now": "explosion-rays",
-   "file": "icons/skill/fuse_blast.png",
+   "file": "design/icons/skill/fuse_blast.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a chain of explosions going off one after another, colour accent blazing orange-red fire (#ff8a3d).",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -576,7 +576,7 @@
    "name": "荆棘",
    "use": "触发技能（提示、图鉴里出现）",
    "now": "thorn-helix",
-   "file": "icons/skill/thorn_volley.png",
+   "file": "design/icons/skill/thorn_volley.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a volley of thorns shot from a twisted branch, colour accent steel and bone tones (#d8c6a4).",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -587,7 +587,7 @@
    "name": "荆刺",
    "use": "触发技能（提示、图鉴里出现）",
    "now": "thorny-vine",
-   "file": "icons/skill/thorn_ring.png",
+   "file": "design/icons/skill/thorn_ring.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a ring of thorny vines bursting outward, colour accent steel and bone tones (#d8c6a4).",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -598,7 +598,7 @@
    "name": "坍缩",
    "use": "触发技能（提示、图鉴里出现）",
    "now": "black-hole-bolas",
-   "file": "icons/skill/collapse.png",
+   "file": "design/icons/skill/collapse.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a black hole collapsing into a violet shockwave, colour accent violet chaos energy (#c39bff).",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -609,7 +609,7 @@
    "name": "云雷",
    "use": "触发技能（提示、图鉴里出现）",
    "now": "lightning-branches",
-   "file": "icons/skill/cloud_bolt.png",
+   "file": "design/icons/skill/cloud_bolt.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: lightning striking down from a small cloud, colour accent crackling yellow lightning (#ffe066).",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -620,7 +620,7 @@
    "name": "云间电弧",
    "use": "触发技能（提示、图鉴里出现）",
    "now": "lightning-arc",
-   "file": "icons/skill/cloud_arc.png",
+   "file": "design/icons/skill/cloud_arc.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: lightning arcing between clouds, colour accent crackling yellow lightning (#ffe066).",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -631,7 +631,7 @@
    "name": "回声寒环",
    "use": "触发技能（提示、图鉴里出现）",
    "now": "ice-spell-cast",
-   "file": "icons/skill/echo_nova.png",
+   "file": "design/icons/skill/echo_nova.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a frost ring expanding around a ghostly echo of a mage, colour accent icy pale-blue frost (#8fd8ff).",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -642,7 +642,7 @@
    "name": "狼群",
    "use": "技能栏、技能提示（主动技能）",
    "now": "wolf-howl",
-   "file": "icons/skill/summon_wolves.png",
+   "file": "design/icons/skill/summon_wolves.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a shadow wolf howling.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -653,7 +653,7 @@
    "name": "血契",
    "use": "技能栏、技能提示（主动技能）",
    "now": "bleeding-heart",
-   "file": "icons/skill/blood_pact.png",
+   "file": "design/icons/skill/blood_pact.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a bleeding heart bound by a chain.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -664,7 +664,7 @@
    "name": "收魂",
    "use": "技能栏、技能提示（主动技能）",
    "now": "scythe",
-   "file": "icons/skill/soul_reap.png",
+   "file": "design/icons/skill/soul_reap.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a dark scythe harvesting a wisp of a soul, colour accent steel and bone tones (#d8c6a4).",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -675,7 +675,7 @@
    "name": "冰痕",
    "use": "触发技能（提示、图鉴里出现）",
    "now": "ice-spell-cast",
-   "file": "icons/skill/frost_trail.png",
+   "file": "design/icons/skill/frost_trail.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a trail of frost footprints, colour accent icy pale-blue frost (#8fd8ff).",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -686,7 +686,7 @@
    "name": "迹电",
    "use": "触发技能（提示、图鉴里出现）",
    "now": "lightning-arc",
-   "file": "icons/skill/step_arc.png",
+   "file": "design/icons/skill/step_arc.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a small spark trailing a footstep, colour accent crackling yellow lightning (#ffe066).",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -697,7 +697,7 @@
    "name": "虚空裂隙",
    "use": "触发技能（提示、图鉴里出现）",
    "now": "vortex",
-   "file": "icons/skill/void_rift.png",
+   "file": "design/icons/skill/void_rift.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a tear in space with violet void inside, colour accent violet chaos energy (#c39bff).",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -708,7 +708,7 @@
    "name": "碎盾寒潮",
    "use": "触发技能（提示、图鉴里出现）",
    "now": "shield-disabled",
-   "file": "icons/skill/shield_shatter.png",
+   "file": "design/icons/skill/shield_shatter.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a cracked shield releasing a cold blast.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -719,7 +719,7 @@
    "name": "满盾电涌",
    "use": "触发技能（提示、图鉴里出现）",
    "now": "electric",
-   "file": "icons/skill/shield_pulse.png",
+   "file": "design/icons/skill/shield_pulse.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a full shield emitting an electric pulse.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -730,7 +730,7 @@
    "name": "战杖",
    "use": "背包格、装备位、物品提示（同一基底的所有装备）",
    "now": "wizard-staff",
-   "file": "icons/base/war_staff.png",
+   "file": "design/icons/base/war_staff.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a tall war staff topped with a glowing crystal.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -741,7 +741,7 @@
    "name": "法杖",
    "use": "背包格、装备位、物品提示（同一基底的所有装备）",
    "now": "crystal-wand",
-   "file": "icons/base/wand.png",
+   "file": "design/icons/base/wand.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a slender crystal wand.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -752,7 +752,7 @@
    "name": "重锤",
    "use": "背包格、装备位、物品提示（同一基底的所有装备）",
    "now": "flat-hammer",
-   "file": "icons/base/maul.png",
+   "file": "design/icons/base/maul.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a heavy two-handed maul.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -763,7 +763,7 @@
    "name": "匕首",
    "use": "背包格、装备位、物品提示（同一基底的所有装备）",
    "now": "plain-dagger",
-   "file": "icons/base/dagger.png",
+   "file": "design/icons/base/dagger.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a curved dagger.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -774,7 +774,7 @@
    "name": "塔盾",
    "use": "背包格、装备位、物品提示（同一基底的所有装备）",
    "now": "round-shield",
-   "file": "icons/base/tower_shield.png",
+   "file": "design/icons/base/tower_shield.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a large tower shield with a gold rim.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -785,7 +785,7 @@
    "name": "法器",
    "use": "背包格、装备位、物品提示（同一基底的所有装备）",
    "now": "crystal-ball",
-   "file": "icons/base/focus.png",
+   "file": "design/icons/base/focus.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a crystal orb floating above a small claw stand.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -796,7 +796,7 @@
    "name": "箭袋",
    "use": "背包格、装备位、物品提示（同一基底的所有装备）",
    "now": "thrown-daggers",
-   "file": "icons/base/quiver.png",
+   "file": "design/icons/base/quiver.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a leather quiver full of arrows.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -807,7 +807,7 @@
    "name": "铁盔",
    "use": "背包格、装备位、物品提示（同一基底的所有装备）",
    "now": "barbute",
-   "file": "icons/base/iron_helm.png",
+   "file": "design/icons/base/iron_helm.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a heavy iron knight helm.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -818,7 +818,7 @@
    "name": "丝帽",
    "use": "背包格、装备位、物品提示（同一基底的所有装备）",
    "now": "hood",
-   "file": "icons/base/silk_hood.png",
+   "file": "design/icons/base/silk_hood.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a silk mage hood with embroidered runes.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -829,7 +829,7 @@
    "name": "皮帽",
    "use": "背包格、装备位、物品提示（同一基底的所有装备）",
    "now": "light-helm",
-   "file": "icons/base/leather_cap.png",
+   "file": "design/icons/base/leather_cap.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a leather rogue cap.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -840,7 +840,7 @@
    "name": "板甲",
    "use": "背包格、装备位、物品提示（同一基底的所有装备）",
    "now": "chest-armor",
-   "file": "icons/base/plate.png",
+   "file": "design/icons/base/plate.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a full plate chest armor.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -851,7 +851,7 @@
    "name": "法袍",
    "use": "背包格、装备位、物品提示（同一基底的所有装备）",
    "now": "robe",
-   "file": "icons/base/robe.png",
+   "file": "design/icons/base/robe.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: an embroidered sorcerer robe.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -862,7 +862,7 @@
    "name": "皮衣",
    "use": "背包格、装备位、物品提示（同一基底的所有装备）",
    "now": "leather-vest",
-   "file": "icons/base/leather.png",
+   "file": "design/icons/base/leather.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a studded leather vest.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -873,7 +873,7 @@
    "name": "铁手",
    "use": "背包格、装备位、物品提示（同一基底的所有装备）",
    "now": "mailed-fist",
-   "file": "icons/base/gauntlets.png",
+   "file": "design/icons/base/gauntlets.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: armored steel gauntlets.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -884,7 +884,7 @@
    "name": "丝手",
    "use": "背包格、装备位、物品提示（同一基底的所有装备）",
    "now": "gloves",
-   "file": "icons/base/silk_gloves.png",
+   "file": "design/icons/base/silk_gloves.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: silk spellcaster gloves with rune stitching.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -895,7 +895,7 @@
    "name": "缠手",
    "use": "背包格、装备位、物品提示（同一基底的所有装备）",
    "now": "fist",
-   "file": "icons/base/wraps.png",
+   "file": "design/icons/base/wraps.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: cloth fist wraps.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -906,7 +906,7 @@
    "name": "铁靴",
    "use": "背包格、装备位、物品提示（同一基底的所有装备）",
    "now": "leg-armor",
-   "file": "icons/base/greaves.png",
+   "file": "design/icons/base/greaves.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: iron armored boots.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -917,7 +917,7 @@
    "name": "丝靴",
    "use": "背包格、装备位、物品提示（同一基底的所有装备）",
    "now": "boots",
-   "file": "icons/base/slippers.png",
+   "file": "design/icons/base/slippers.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: soft silk boots.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -928,7 +928,7 @@
    "name": "皮靴",
    "use": "背包格、装备位、物品提示（同一基底的所有装备）",
    "now": "leather-boot",
-   "file": "icons/base/treads.png",
+   "file": "design/icons/base/treads.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: leather traveller boots.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -939,7 +939,7 @@
    "name": "重带",
    "use": "背包格、装备位、物品提示（同一基底的所有装备）",
    "now": "belt-armor",
-   "file": "icons/base/heavy_belt.png",
+   "file": "design/icons/base/heavy_belt.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a thick plated belt with a big buckle.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -950,7 +950,7 @@
    "name": "链带",
    "use": "背包格、装备位、物品提示（同一基底的所有装备）",
    "now": "belt",
-   "file": "icons/base/chain_belt.png",
+   "file": "design/icons/base/chain_belt.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a belt made of linked chains.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -961,7 +961,7 @@
    "name": "玉坠",
    "use": "背包格、装备位、物品提示（同一基底的所有装备）",
    "now": "gem-necklace",
-   "file": "icons/base/jade_amulet.png",
+   "file": "design/icons/base/jade_amulet.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a jade amulet on a gold chain.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -972,7 +972,7 @@
    "name": "玛瑙坠",
    "use": "背包格、装备位、物品提示（同一基底的所有装备）",
    "now": "gem-pendant",
-   "file": "icons/base/onyx_amulet.png",
+   "file": "design/icons/base/onyx_amulet.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a black onyx pendant.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -983,7 +983,7 @@
    "name": "红玉戒",
    "use": "背包格、装备位、物品提示（同一基底的所有装备）",
    "now": "ring",
-   "file": "icons/base/ruby_ring.png",
+   "file": "design/icons/base/ruby_ring.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a gold ring with a ruby.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -994,7 +994,7 @@
    "name": "蓝玉戒",
    "use": "背包格、装备位、物品提示（同一基底的所有装备）",
    "now": "diamond-ring",
-   "file": "icons/base/sapphire_ring.png",
+   "file": "design/icons/base/sapphire_ring.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a silver ring with a sapphire.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1005,7 +1005,7 @@
    "name": "黄玉戒",
    "use": "背包格、装备位、物品提示（同一基底的所有装备）",
    "now": "ring-mould",
-   "file": "icons/base/topaz_ring.png",
+   "file": "design/icons/base/topaz_ring.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a gold ring with a yellow topaz.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1016,7 +1016,7 @@
    "name": "武器",
    "use": "角色面板上空着的装备位（会画成半透明的灰色）",
    "now": "wizard-staff",
-   "file": "icons/slot/weapon.png",
+   "file": "design/icons/slot/weapon.png",
    "style": "emblem",
    "prompt": "flat game UI emblem, one bold silhouette symbol, solid white on a pure black background, no shading, no gradient, clean vector edges, thick shapes readable at 32 px, centered with generous padding, square 1:1. Subject: a tall war staff topped with a glowing crystal.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1027,7 +1027,7 @@
    "name": "副手",
    "use": "角色面板上空着的装备位（会画成半透明的灰色）",
    "now": "round-shield",
-   "file": "icons/slot/offhand.png",
+   "file": "design/icons/slot/offhand.png",
    "style": "emblem",
    "prompt": "flat game UI emblem, one bold silhouette symbol, solid white on a pure black background, no shading, no gradient, clean vector edges, thick shapes readable at 32 px, centered with generous padding, square 1:1. Subject: a large tower shield with a gold rim.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1038,7 +1038,7 @@
    "name": "头盔",
    "use": "角色面板上空着的装备位（会画成半透明的灰色）",
    "now": "barbute",
-   "file": "icons/slot/helmet.png",
+   "file": "design/icons/slot/helmet.png",
    "style": "emblem",
    "prompt": "flat game UI emblem, one bold silhouette symbol, solid white on a pure black background, no shading, no gradient, clean vector edges, thick shapes readable at 32 px, centered with generous padding, square 1:1. Subject: a heavy iron knight helm.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1049,7 +1049,7 @@
    "name": "胸甲",
    "use": "角色面板上空着的装备位（会画成半透明的灰色）",
    "now": "chest-armor",
-   "file": "icons/slot/chest.png",
+   "file": "design/icons/slot/chest.png",
    "style": "emblem",
    "prompt": "flat game UI emblem, one bold silhouette symbol, solid white on a pure black background, no shading, no gradient, clean vector edges, thick shapes readable at 32 px, centered with generous padding, square 1:1. Subject: a full plate chest armor.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1060,7 +1060,7 @@
    "name": "手套",
    "use": "角色面板上空着的装备位（会画成半透明的灰色）",
    "now": "gloves",
-   "file": "icons/slot/gloves.png",
+   "file": "design/icons/slot/gloves.png",
    "style": "emblem",
    "prompt": "flat game UI emblem, one bold silhouette symbol, solid white on a pure black background, no shading, no gradient, clean vector edges, thick shapes readable at 32 px, centered with generous padding, square 1:1. Subject: armored steel gauntlets.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1071,7 +1071,7 @@
    "name": "鞋子",
    "use": "角色面板上空着的装备位（会画成半透明的灰色）",
    "now": "leather-boot",
-   "file": "icons/slot/boots.png",
+   "file": "design/icons/slot/boots.png",
    "style": "emblem",
    "prompt": "flat game UI emblem, one bold silhouette symbol, solid white on a pure black background, no shading, no gradient, clean vector edges, thick shapes readable at 32 px, centered with generous padding, square 1:1. Subject: leather traveller boots.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1082,7 +1082,7 @@
    "name": "腰带",
    "use": "角色面板上空着的装备位（会画成半透明的灰色）",
    "now": "belt",
-   "file": "icons/slot/belt.png",
+   "file": "design/icons/slot/belt.png",
    "style": "emblem",
    "prompt": "flat game UI emblem, one bold silhouette symbol, solid white on a pure black background, no shading, no gradient, clean vector edges, thick shapes readable at 32 px, centered with generous padding, square 1:1. Subject: a belt made of linked chains.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1093,7 +1093,7 @@
    "name": "项链",
    "use": "角色面板上空着的装备位（会画成半透明的灰色）",
    "now": "gem-pendant",
-   "file": "icons/slot/amulet.png",
+   "file": "design/icons/slot/amulet.png",
    "style": "emblem",
    "prompt": "flat game UI emblem, one bold silhouette symbol, solid white on a pure black background, no shading, no gradient, clean vector edges, thick shapes readable at 32 px, centered with generous padding, square 1:1. Subject: a black onyx pendant.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1104,7 +1104,7 @@
    "name": "戒指",
    "use": "角色面板上空着的装备位（会画成半透明的灰色）",
    "now": "ring",
-   "file": "icons/slot/ring1.png",
+   "file": "design/icons/slot/ring1.png",
    "style": "emblem",
    "prompt": "flat game UI emblem, one bold silhouette symbol, solid white on a pure black background, no shading, no gradient, clean vector edges, thick shapes readable at 32 px, centered with generous padding, square 1:1. Subject: a gold ring with a ruby.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1115,7 +1115,7 @@
    "name": "魔晶",
    "use": "背包、通货页、洗炼：添加一条随机词条（不足 6 条时）",
    "now": "crystal-cluster",
-   "file": "icons/currency/augment.png",
+   "file": "design/icons/currency/augment.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a small cluster of glowing blue crystals.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1126,7 +1126,7 @@
    "name": "混沌石",
    "use": "背包、通货页、洗炼：重洗全部随机词条（未封印的），条数不变",
    "now": "vortex",
-   "file": "icons/currency/chaos.png",
+   "file": "design/icons/currency/chaos.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a swirling chaos orb with violet and gold.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1137,7 +1137,7 @@
    "name": "灵石",
    "use": "背包、通货页、洗炼：随机一条随机词条 T 阶 +1",
    "now": "upgrade",
-   "file": "icons/currency/upgrade.png",
+   "file": "design/icons/currency/upgrade.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a luminous spirit stone with an upward arrow rune.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1148,7 +1148,7 @@
    "name": "无效石",
    "use": "背包、通货页、洗炼：随机移除一条未封印的随机词条",
    "now": "broken-shield",
-   "file": "icons/currency/annul.png",
+   "file": "design/icons/currency/annul.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a dull grey stone with a crack and a cancel rune.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1159,7 +1159,7 @@
    "name": "封印符",
    "use": "背包、通货页、洗炼：封印选中的词条或特性：重洗不会动它",
    "now": "rune-stone",
-   "file": "icons/currency/seal.png",
+   "file": "design/icons/currency/seal.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a talisman paper seal with a red stamp.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1170,7 +1170,7 @@
    "name": "淬火石",
    "use": "背包、通货页、洗炼：选中的特性 T 阶 +1（不超过本件上限）",
    "now": "anvil-impact",
-   "file": "icons/currency/temper.png",
+   "file": "design/icons/currency/temper.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a tempering stone glowing on an anvil.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1181,7 +1181,7 @@
    "name": "形态精华",
    "use": "背包、通货页、洗炼：把选中的特性重铸为随机形态特性",
    "now": "fire-gem",
-   "file": "icons/currency/essence_form.png",
+   "file": "design/icons/currency/essence_form.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a blue-white crystal essence vial with a swirl rune.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1192,7 +1192,7 @@
    "name": "联动精华",
    "use": "背包、通货页、洗炼：把选中的特性重铸为随机联动特性（物品 T3+）",
    "now": "emerald",
-   "file": "icons/currency/essence_link.png",
+   "file": "design/icons/currency/essence_link.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a green crystal essence linked by a chain motif.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1203,7 +1203,7 @@
    "name": "核心精华",
    "use": "背包、通货页、洗炼：把选中的特性重铸为随机核心特性（物品 T6+）",
    "now": "diamond-hard",
-   "file": "icons/currency/essence_core.png",
+   "file": "design/icons/currency/essence_core.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a radiant gold-white diamond essence like a small sun.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1214,7 +1214,7 @@
    "name": "技能石",
    "use": "背包、通货页、洗炼：重铸装备上的主动技能（同底材技能池）",
    "now": "gems",
-   "file": "icons/currency/skill_gem.png",
+   "file": "design/icons/currency/skill_gem.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a faceted multicolor skill gem.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1225,7 +1225,7 @@
    "name": "焚城之杖",
    "use": "传奇物品（现在用基底图标 wizard-staff）：火球命中时 30% 几率从命中处再射出一发火球（每秒最多 6 次）　「城墙烧塌的那一夜，火焰学会了自己找路。」",
    "now": "wizard-staff",
-   "file": "icons/legendary/pyre_staff.png",
+   "file": "design/icons/legendary/pyre_staff.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a tall war staff topped with a glowing crystal, a unique legendary version named \"pyre staff\", ornate and one of a kind, glowing with blazing orange-red fire (#ff8a3d), amber legendary aura.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1236,7 +1236,7 @@
    "name": "霜语",
    "use": "传奇物品（现在用基底图标 crystal-wand）：寒冰弹穿透所有敌人，命中必定冰冻，冰冻时间翻倍　「它说的每一个字，都会在空气里结霜。」",
    "now": "crystal-wand",
-   "file": "icons/legendary/rime_wand.png",
+   "file": "design/icons/legendary/rime_wand.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a slender crystal wand, a unique legendary version named \"rime wand\", ornate and one of a kind, glowing with icy pale-blue frost (#8fd8ff), amber legendary aura.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1247,7 +1247,7 @@
    "name": "雷鸣之锤",
    "use": "传奇物品（现在用基底图标 flat-hammer）：每 2 秒获得 1 个能量球；能量球上限 +2；崩雷鸣的闪电感电　「锤落之处，天空记得回响。」",
    "now": "flat-hammer",
-   "file": "icons/legendary/thunder_maul.png",
+   "file": "design/icons/legendary/thunder_maul.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a heavy two-handed maul, a unique legendary version named \"thunder maul\", ornate and one of a kind, glowing with crackling yellow lightning (#ffe066), amber legendary aura.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1258,7 +1258,7 @@
    "name": "影牙",
    "use": "传奇物品（现在用基底图标 plain-dagger）：位移技能没有冷却；每次闪现落地召唤一把灵刃（最多 8 把）　「你看见它的时候，它已经在你身后了。」",
    "now": "plain-dagger",
-   "file": "icons/legendary/shadow_fang.png",
+   "file": "design/icons/legendary/shadow_fang.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a curved dagger, a unique legendary version named \"shadow fang\", ornate and one of a kind, glowing with steel and bone tones (#d8c6a4), amber legendary aura.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1269,7 +1269,7 @@
    "name": "狂岚",
    "use": "传奇物品（现在用基底图标 flat-hammer）：引导时每 0.5 秒向四周掷出一圈 8 道刀锋　「风暴的中心最安静，安静得只剩刀声。」",
    "now": "flat-hammer",
-   "file": "icons/legendary/gale_cleaver.png",
+   "file": "design/icons/legendary/gale_cleaver.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a heavy two-handed maul, a unique legendary version named \"gale cleaver\", ornate and one of a kind, glowing with steel and bone tones (#d8c6a4), amber legendary aura.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1280,7 +1280,7 @@
    "name": "天穹权杖",
    "use": "传奇物品（现在用基底图标 wizard-staff）：电弧连锁 +5 次，每次连锁 +1 次分叉　「握住它，就是握住一整片雷雨。」",
    "now": "wizard-staff",
-   "file": "icons/legendary/storm_scepter.png",
+   "file": "design/icons/legendary/storm_scepter.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a tall war staff topped with a glowing crystal, a unique legendary version named \"storm scepter\", ornate and one of a kind, glowing with crackling yellow lightning (#ffe066), amber legendary aura.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1291,7 +1291,7 @@
    "name": "风暴之眼",
    "use": "传奇物品（现在用基底图标 wizard-staff）：龙卷风 +1 道；龙卷风命中时 20% 几率在命中处分裂出一道新的龙卷风（每秒最多 3 次）　「风暴的中心最安静——直到它决定换个地方。」",
    "now": "wizard-staff",
-   "file": "icons/legendary/eye_of_storm.png",
+   "file": "design/icons/legendary/eye_of_storm.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a tall war staff topped with a glowing crystal, a unique legendary version named \"eye of storm\", ornate and one of a kind, glowing with steel and bone tones (#d8c6a4), amber legendary aura.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1302,7 +1302,7 @@
    "name": "冰川之壁",
    "use": "传奇物品（现在用基底图标 round-shield）：+12% 格挡几率；格挡时在身边掀起寒潮（冷却 0.4 秒）　「万年不化的冰，挡得住一切，也冻得住一切。」",
    "now": "round-shield",
-   "file": "icons/legendary/glacier_wall.png",
+   "file": "design/icons/legendary/glacier_wall.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a large tower shield with a gold rim, a unique legendary version named \"glacier wall\", ornate and one of a kind, glowing with icy pale-blue frost (#8fd8ff), amber legendary aura.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1313,7 +1313,7 @@
    "name": "万象",
    "use": "传奇物品（现在用基底图标 crystal-ball）：召唤物上限 +4；召唤物死亡时爆炸，造成其最大生命 120% 的物理伤害　「一即是万，万归于一。」",
    "now": "crystal-ball",
-   "file": "icons/legendary/legion_focus.png",
+   "file": "design/icons/legendary/legion_focus.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a crystal orb floating above a small claw stand, a unique legendary version named \"legion focus\", ornate and one of a kind, glowing with steel and bone tones (#d8c6a4), amber legendary aura.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1324,7 +1324,7 @@
    "name": "狂王之冠",
    "use": "传奇物品（现在用基底图标 barbute）：狂怒球上限 +3；击杀时获得狂怒球；每个狂怒球使范围扩大 6%　「王冠越重，杀意越轻。」",
    "now": "barbute",
-   "file": "icons/legendary/mad_crown.png",
+   "file": "design/icons/legendary/mad_crown.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a heavy iron knight helm, a unique legendary version named \"mad crown\", ornate and one of a kind, glowing with blazing orange-red fire (#ff8a3d), amber legendary aura.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1335,7 +1335,7 @@
    "name": "千面",
    "use": "传奇物品（现在用基底图标 hood）：法术额外重复 1 次；施法速度降低 15%（更多）　「每一张脸都在念同一句咒。」",
    "now": "hood",
-   "file": "icons/legendary/thousand_faces.png",
+   "file": "design/icons/legendary/thousand_faces.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a silk mage hood with embroidered runes, a unique legendary version named \"thousand faces\", ornate and one of a kind, glowing with icy pale-blue frost (#8fd8ff), amber legendary aura.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1346,7 +1346,7 @@
    "name": "不灭之铠",
    "use": "传奇物品（现在用基底图标 chest-armor）：生命低于 40% 时被击中，获得护体与猛攻并回复 25% 生命（冷却 8 秒）　「它被打穿过一百次，每一次都自己合上了。」",
    "now": "chest-armor",
-   "file": "icons/legendary/undying_plate.png",
+   "file": "design/icons/legendary/undying_plate.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a full plate chest armor, a unique legendary version named \"undying plate\", ornate and one of a kind, glowing with steel and bone tones (#d8c6a4), amber legendary aura.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1357,7 +1357,7 @@
    "name": "星辰法袍",
    "use": "传奇物品（现在用基底图标 robe）：能量护盾提高 60%；能量护盾全满时法术伤害提高 30%（更多）　「把夜空穿在身上的人，不怕任何一颗星落下。」",
    "now": "robe",
-   "file": "icons/legendary/starweave_robe.png",
+   "file": "design/icons/legendary/starweave_robe.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: an embroidered sorcerer robe, a unique legendary version named \"starweave robe\", ornate and one of a kind, glowing with icy pale-blue frost (#8fd8ff), amber legendary aura.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1368,7 +1368,7 @@
    "name": "夜幕",
    "use": "传奇物品（现在用基底图标 leather-vest）：闪避提高 80%；闪避攻击时向攻击者掷出蝰蛇飞刃　「黑暗不躲闪。是你看不见它。」",
    "now": "leather-vest",
-   "file": "icons/legendary/nightveil.png",
+   "file": "design/icons/legendary/nightveil.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a studded leather vest, a unique legendary version named \"nightveil\", ornate and one of a kind, glowing with violet chaos energy (#c39bff), amber legendary aura.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1379,7 +1379,7 @@
    "name": "引雷之手",
    "use": "传奇物品（现在用基底图标 mailed-fist）：攻击命中感电敌人时在其头顶落雷（冷却 0.25 秒）　「举起手，雷就落下。」",
    "now": "mailed-fist",
-   "file": "icons/legendary/stormcaller.png",
+   "file": "design/icons/legendary/stormcaller.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: armored steel gauntlets, a unique legendary version named \"stormcaller\", ornate and one of a kind, glowing with crackling yellow lightning (#ffe066), amber legendary aura.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1390,7 +1390,7 @@
    "name": "炼金之手",
    "use": "传奇物品（现在用基底图标 gloves）：中毒敌人死亡时，全部毒层以双倍强度扩散到 3 个附近敌人　「毒不会消失，只会换个主人，变得更浓。」",
    "now": "gloves",
-   "file": "icons/legendary/alchemist.png",
+   "file": "design/icons/legendary/alchemist.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: silk spellcaster gloves with rune stitching, a unique legendary version named \"alchemist\", ornate and one of a kind, glowing with violet chaos energy (#c39bff), amber legendary aura.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1401,7 +1401,7 @@
    "name": "碎骨",
    "use": "传奇物品（现在用基底图标 fist）：打击技能额外命中 3 个敌人，并溅射周围 160 范围　「一拳下去，碎的从来不止一个。」",
    "now": "fist",
-   "file": "icons/legendary/bonebreaker.png",
+   "file": "design/icons/legendary/bonebreaker.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: cloth fist wraps, a unique legendary version named \"bonebreaker\", ornate and one of a kind, glowing with steel and bone tones (#d8c6a4), amber legendary aura.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1412,7 +1412,7 @@
    "name": "疾风之靴",
    "use": "传奇物品（现在用基底图标 leather-boot）：移动速度提高 30%；每移动 4 米向最近的敌人施放你的主技能　「跑起来，剩下的交给风。」",
    "now": "leather-boot",
-   "file": "icons/legendary/windstride.png",
+   "file": "design/icons/legendary/windstride.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: leather traveller boots, a unique legendary version named \"windstride\", ornate and one of a kind, glowing with steel and bone tones (#d8c6a4), amber legendary aura.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1423,7 +1423,7 @@
    "name": "霜行者",
    "use": "传奇物品（现在用基底图标 boots）：每移动 1.5 米在脚下掀起寒潮　「她走过的地方，春天要晚来一个月。」",
    "now": "boots",
-   "file": "icons/legendary/frostwalker.png",
+   "file": "design/icons/legendary/frostwalker.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: soft silk boots, a unique legendary version named \"frostwalker\", ornate and one of a kind, glowing with icy pale-blue frost (#8fd8ff), amber legendary aura.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1434,7 +1434,7 @@
    "name": "战神腰带",
    "use": "传奇物品（现在用基底图标 belt-armor）：击杀获得 3 点杀意（最多 30，脱战消退）；每点杀意使伤害提高 2%（更多）　「杀得越多，手越稳。」",
    "now": "belt-armor",
-   "file": "icons/legendary/warlord_belt.png",
+   "file": "design/icons/legendary/warlord_belt.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a thick plated belt with a big buckle, a unique legendary version named \"warlord belt\", ornate and one of a kind, glowing with blazing orange-red fire (#ff8a3d), amber legendary aura.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1445,7 +1445,7 @@
    "name": "铁链",
    "use": "传奇物品（现在用基底图标 belt）：被击中时获得耐力球；每个耐力球使护甲提高 25%，受到伤害降低 3%　「锁住的不是身体，是退路。」",
    "now": "belt",
-   "file": "icons/legendary/iron_chain.png",
+   "file": "design/icons/legendary/iron_chain.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a belt made of linked chains, a unique legendary version named \"iron chain\", ornate and one of a kind, glowing with steel and bone tones (#d8c6a4), amber legendary aura.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1456,7 +1456,7 @@
    "name": "永冬之心",
    "use": "传奇物品（现在用基底图标 gem-pendant）：击碎冰冻的敌人时在原地掀起寒潮，寒潮必定冰冻（首领只冻一瞬）　「「冬天从不进攻。它只是等，等你的心跳慢下来。」」",
    "now": "gem-pendant",
-   "file": "icons/legendary/heart_of_winter.png",
+   "file": "design/icons/legendary/heart_of_winter.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a black onyx pendant, a unique legendary version named \"heart of winter\", ornate and one of a kind, glowing with icy pale-blue frost (#8fd8ff), amber legendary aura.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1467,7 +1467,7 @@
    "name": "三相之眼",
    "use": "传奇物品（现在用基底图标 gem-necklace）：你施加的任何元素异常同时附带感电与冰缓　「一只眼看见火，一只看见冰，第三只看见雷。」",
    "now": "gem-necklace",
-   "file": "icons/legendary/eye_of_three.png",
+   "file": "design/icons/legendary/eye_of_three.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a jade amulet on a gold chain, a unique legendary version named \"eye of three\", ornate and one of a kind, glowing with crackling yellow lightning (#ffe066), amber legendary aura.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1478,7 +1478,7 @@
    "name": "回响之戒",
    "use": "传奇物品（现在用基底图标 diamond-ring）：击杀时 20% 几率从尸体重放你的主技能（每秒最多 5 次）　「每一声倒地，都是下一声的开始。」",
    "now": "diamond-ring",
-   "file": "icons/legendary/echo_ring.png",
+   "file": "design/icons/legendary/echo_ring.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a silver ring with a sapphire, a unique legendary version named \"echo ring\", ornate and one of a kind, glowing with icy pale-blue frost (#8fd8ff), amber legendary aura.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1489,7 +1489,7 @@
    "name": "余烬之戒",
    "use": "传奇物品（现在用基底图标 ring）：你的爆炸范围扩大 40% 并必定点燃　「火不会熄，只会睡着。」",
    "now": "ring",
-   "file": "icons/legendary/ember_ring.png",
+   "file": "design/icons/legendary/ember_ring.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a gold ring with a ruby, a unique legendary version named \"ember ring\", ornate and one of a kind, glowing with blazing orange-red fire (#ff8a3d), amber legendary aura.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1500,7 +1500,7 @@
    "name": "雷环",
    "use": "传奇物品（现在用基底图标 ring-mould）：感电效果提高 50%；感电敌人死亡时向附近放出 3 道电弧（每秒最多 4 次）　「雷声从一个死人传到下一个。」",
    "now": "ring-mould",
-   "file": "icons/legendary/thunder_ring.png",
+   "file": "design/icons/legendary/thunder_ring.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a gold ring with a yellow topaz, a unique legendary version named \"thunder ring\", ornate and one of a kind, glowing with crackling yellow lightning (#ffe066), amber legendary aura.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1511,7 +1511,7 @@
    "name": "任务",
    "use": "右侧功能栏按钮",
    "now": "quill-ink",
-   "file": "icons/panel/quest.png",
+   "file": "design/icons/panel/quest.png",
    "style": "emblem",
    "prompt": "flat game UI emblem, one bold silhouette symbol, solid white on a pure black background, no shading, no gradient, clean vector edges, thick shapes readable at 32 px, centered with generous padding, square 1:1. Subject: a quill and ink pot.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1522,7 +1522,7 @@
    "name": "地图",
    "use": "右侧功能栏按钮",
    "now": "treasure-map",
-   "file": "icons/panel/atlas.png",
+   "file": "design/icons/panel/atlas.png",
    "style": "emblem",
    "prompt": "flat game UI emblem, one bold silhouette symbol, solid white on a pure black background, no shading, no gradient, clean vector edges, thick shapes readable at 32 px, centered with generous padding, square 1:1. Subject: a rolled treasure map.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1533,7 +1533,7 @@
    "name": "天赋",
    "use": "右侧功能栏按钮",
    "now": "skills",
-   "file": "icons/panel/talents.png",
+   "file": "design/icons/panel/talents.png",
    "style": "emblem",
    "prompt": "flat game UI emblem, one bold silhouette symbol, solid white on a pure black background, no shading, no gradient, clean vector edges, thick shapes readable at 32 px, centered with generous padding, square 1:1. Subject: a branching skill tree.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1544,7 +1544,7 @@
    "name": "角色",
    "use": "右侧功能栏按钮",
    "now": "person",
-   "file": "icons/panel/char.png",
+   "file": "design/icons/panel/char.png",
    "style": "emblem",
    "prompt": "flat game UI emblem, one bold silhouette symbol, solid white on a pure black background, no shading, no gradient, clean vector edges, thick shapes readable at 32 px, centered with generous padding, square 1:1. Subject: a standing hero figure.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1555,7 +1555,7 @@
    "name": "背包",
    "use": "右侧功能栏按钮",
    "now": "knapsack",
-   "file": "icons/panel/bag.png",
+   "file": "design/icons/panel/bag.png",
    "style": "emblem",
    "prompt": "flat game UI emblem, one bold silhouette symbol, solid white on a pure black background, no shading, no gradient, clean vector edges, thick shapes readable at 32 px, centered with generous padding, square 1:1. Subject: a backpack.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1566,7 +1566,7 @@
    "name": "洗炼",
    "use": "右侧功能栏按钮",
    "now": "anvil",
-   "file": "icons/panel/craft.png",
+   "file": "design/icons/panel/craft.png",
    "style": "emblem",
    "prompt": "flat game UI emblem, one bold silhouette symbol, solid white on a pure black background, no shading, no gradient, clean vector edges, thick shapes readable at 32 px, centered with generous padding, square 1:1. Subject: an anvil.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1577,7 +1577,7 @@
    "name": "流派",
    "use": "右侧功能栏按钮",
    "now": "scroll-unfurled",
-   "file": "icons/panel/bd.png",
+   "file": "design/icons/panel/bd.png",
    "style": "emblem",
    "prompt": "flat game UI emblem, one bold silhouette symbol, solid white on a pure black background, no shading, no gradient, clean vector edges, thick shapes readable at 32 px, centered with generous padding, square 1:1. Subject: an unfurled scroll.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1588,7 +1588,7 @@
    "name": "传奇图鉴",
    "use": "右侧功能栏按钮",
    "now": "laurel-crown",
-   "file": "icons/panel/codex.png",
+   "file": "design/icons/panel/codex.png",
    "style": "emblem",
    "prompt": "flat game UI emblem, one bold silhouette symbol, solid white on a pure black background, no shading, no gradient, clean vector edges, thick shapes readable at 32 px, centered with generous padding, square 1:1. Subject: a laurel crown.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1599,7 +1599,7 @@
    "name": "仓库",
    "use": "右侧功能栏按钮",
    "now": "locked-chest",
-   "file": "icons/panel/vault.png",
+   "file": "design/icons/panel/vault.png",
    "style": "emblem",
    "prompt": "flat game UI emblem, one bold silhouette symbol, solid white on a pure black background, no shading, no gradient, clean vector edges, thick shapes readable at 32 px, centered with generous padding, square 1:1. Subject: a locked treasure chest.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1610,7 +1610,7 @@
    "name": "设置",
    "use": "右侧功能栏按钮",
    "now": "cog",
-   "file": "icons/panel/settings.png",
+   "file": "design/icons/panel/settings.png",
    "style": "emblem",
    "prompt": "flat game UI emblem, one bold silhouette symbol, solid white on a pure black background, no shading, no gradient, clean vector edges, thick shapes readable at 32 px, centered with generous padding, square 1:1. Subject: a cog wheel.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1621,7 +1621,7 @@
    "name": "余烬",
    "use": "地图类型（图集节点、地图信息）",
    "now": "campfire",
-   "file": "icons/family/ember.png",
+   "file": "design/icons/family/ember.png",
    "style": "emblem",
    "prompt": "flat game UI emblem, one bold silhouette symbol, solid white on a pure black background, no shading, no gradient, clean vector edges, thick shapes readable at 32 px, centered with generous padding, square 1:1. Subject: a campfire.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1632,7 +1632,7 @@
    "name": "霜原",
    "use": "地图类型（图集节点、地图信息）",
    "now": "ice-cube",
-   "file": "icons/family/frost.png",
+   "file": "design/icons/family/frost.png",
    "style": "emblem",
    "prompt": "flat game UI emblem, one bold silhouette symbol, solid white on a pure black background, no shading, no gradient, clean vector edges, thick shapes readable at 32 px, centered with generous padding, square 1:1. Subject: an ice cube crystal.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1643,7 +1643,7 @@
    "name": "雷暴",
    "use": "地图类型（图集节点、地图信息）",
    "now": "lightning-storm",
-   "file": "icons/family/storm.png",
+   "file": "design/icons/family/storm.png",
    "style": "emblem",
    "prompt": "flat game UI emblem, one bold silhouette symbol, solid white on a pure black background, no shading, no gradient, clean vector edges, thick shapes readable at 32 px, centered with generous padding, square 1:1. Subject: a lightning storm cloud.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1654,7 +1654,7 @@
    "name": "腐沼",
    "use": "地图类型（图集节点、地图信息）",
    "now": "poison-bottle",
-   "file": "icons/family/blight.png",
+   "file": "design/icons/family/blight.png",
    "style": "emblem",
    "prompt": "flat game UI emblem, one bold silhouette symbol, solid white on a pure black background, no shading, no gradient, clean vector edges, thick shapes readable at 32 px, centered with generous padding, square 1:1. Subject: a poison bottle.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1665,7 +1665,7 @@
    "name": "遗迹",
    "use": "地图类型（图集节点、地图信息）",
    "now": "dungeon-gate",
-   "file": "icons/family/ruin.png",
+   "file": "design/icons/family/ruin.png",
    "style": "emblem",
    "prompt": "flat game UI emblem, one bold silhouette symbol, solid white on a pure black background, no shading, no gradient, clean vector edges, thick shapes readable at 32 px, centered with generous padding, square 1:1. Subject: a ruined dungeon gate.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1676,7 +1676,7 @@
    "name": "首领要塞",
    "use": "图集特殊节点：首领更强（生命 +50%），传奇几率 ×2.5，物品数量 +50%。",
    "now": "crowned-skull",
-   "file": "icons/node/boss.png",
+   "file": "design/icons/node/boss.png",
    "style": "emblem",
    "prompt": "flat game UI emblem, one bold silhouette symbol, solid white on a pure black background, no shading, no gradient, clean vector edges, thick shapes readable at 32 px, centered with generous padding, square 1:1. Subject: a crowned skull.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1687,7 +1687,7 @@
    "name": "宝库",
    "use": "图集特殊节点：怪少一些，物品数量 ×2，传奇几率 ×3。",
    "now": "locked-chest",
-   "file": "icons/node/vault.png",
+   "file": "design/icons/node/vault.png",
    "style": "emblem",
    "prompt": "flat game UI emblem, one bold silhouette symbol, solid white on a pure black background, no shading, no gradient, clean vector edges, thick shapes readable at 32 px, centered with generous padding, square 1:1. Subject: a locked chest.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1698,7 +1698,7 @@
    "name": "腐化",
    "use": "图集特殊节点：怪物生命 +35%、伤害 +30%；物品数量 +60%，传奇几率 ×2。",
    "now": "evil-moon",
-   "file": "icons/node/corrupt.png",
+   "file": "design/icons/node/corrupt.png",
    "style": "emblem",
    "prompt": "flat game UI emblem, one bold silhouette symbol, solid white on a pure black background, no shading, no gradient, clean vector edges, thick shapes readable at 32 px, centered with generous padding, square 1:1. Subject: an evil crescent moon.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1709,7 +1709,7 @@
    "name": "试炼",
    "use": "图集特殊节点：怪群规模 ×1.8，精英更多。清屏的地方。",
    "now": "crossed-swords",
-   "file": "icons/node/trial.png",
+   "file": "design/icons/node/trial.png",
    "style": "emblem",
    "prompt": "flat game UI emblem, one bold silhouette symbol, solid white on a pure black background, no shading, no gradient, clean vector edges, thick shapes readable at 32 px, centered with generous padding, square 1:1. Subject: crossed swords.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1720,7 +1720,7 @@
    "name": "形态",
    "use": "装备特性的三层（提示里的小标）",
    "now": "magic-swirl",
-   "file": "icons/layer/form.png",
+   "file": "design/icons/layer/form.png",
    "style": "emblem",
    "prompt": "flat game UI emblem, one bold silhouette symbol, solid white on a pure black background, no shading, no gradient, clean vector edges, thick shapes readable at 32 px, centered with generous padding, square 1:1. Subject: a magic swirl.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1731,7 +1731,7 @@
    "name": "联动",
    "use": "装备特性的三层（提示里的小标）",
    "now": "orbit",
-   "file": "icons/layer/link.png",
+   "file": "design/icons/layer/link.png",
    "style": "emblem",
    "prompt": "flat game UI emblem, one bold silhouette symbol, solid white on a pure black background, no shading, no gradient, clean vector edges, thick shapes readable at 32 px, centered with generous padding, square 1:1. Subject: two orbits linked together.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1742,7 +1742,7 @@
    "name": "核心",
    "use": "装备特性的三层（提示里的小标）",
    "now": "sun",
-   "file": "icons/layer/core.png",
+   "file": "design/icons/layer/core.png",
    "style": "emblem",
    "prompt": "flat game UI emblem, one bold silhouette symbol, solid white on a pure black background, no shading, no gradient, clean vector edges, thick shapes readable at 32 px, centered with generous padding, square 1:1. Subject: a radiant sun.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1753,7 +1753,7 @@
    "name": "能量球",
    "use": "左下角资源 / 增益",
    "now": "sparkles",
-   "file": "icons/buff/power.png",
+   "file": "design/icons/buff/power.png",
    "style": "emblem",
    "prompt": "flat game UI emblem, one bold silhouette symbol, solid white on a pure black background, no shading, no gradient, clean vector edges, thick shapes readable at 32 px, centered with generous padding, square 1:1. Subject: sparkling power orb.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1764,7 +1764,7 @@
    "name": "狂怒球",
    "use": "左下角资源 / 增益",
    "now": "flaming-claw",
-   "file": "icons/buff/frenzy.png",
+   "file": "design/icons/buff/frenzy.png",
    "style": "emblem",
    "prompt": "flat game UI emblem, one bold silhouette symbol, solid white on a pure black background, no shading, no gradient, clean vector edges, thick shapes readable at 32 px, centered with generous padding, square 1:1. Subject: a flaming claw.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1775,7 +1775,7 @@
    "name": "耐力球",
    "use": "左下角资源 / 增益",
    "now": "checked-shield",
-   "file": "icons/buff/endurance.png",
+   "file": "design/icons/buff/endurance.png",
    "style": "emblem",
    "prompt": "flat game UI emblem, one bold silhouette symbol, solid white on a pure black background, no shading, no gradient, clean vector edges, thick shapes readable at 32 px, centered with generous padding, square 1:1. Subject: a shield with a check mark.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1786,7 +1786,7 @@
    "name": "迸发",
    "use": "左下角资源 / 增益",
    "now": "bolt-spell-cast",
-   "file": "icons/buff/burst.png",
+   "file": "design/icons/buff/burst.png",
    "style": "emblem",
    "prompt": "flat game UI emblem, one bold silhouette symbol, solid white on a pure black background, no shading, no gradient, clean vector edges, thick shapes readable at 32 px, centered with generous padding, square 1:1. Subject: a spell burst.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1797,7 +1797,7 @@
    "name": "杀意",
    "use": "左下角资源 / 增益",
    "now": "skull-crossed-bones",
-   "file": "icons/buff/rage.png",
+   "file": "design/icons/buff/rage.png",
    "style": "emblem",
    "prompt": "flat game UI emblem, one bold silhouette symbol, solid white on a pure black background, no shading, no gradient, clean vector edges, thick shapes readable at 32 px, centered with generous padding, square 1:1. Subject: a skull with crossed bones.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1808,7 +1808,7 @@
    "name": "猛攻",
    "use": "左下角资源 / 增益",
    "now": "run",
-   "file": "icons/buff/onslaught.png",
+   "file": "design/icons/buff/onslaught.png",
    "style": "emblem",
    "prompt": "flat game UI emblem, one bold silhouette symbol, solid white on a pure black background, no shading, no gradient, clean vector edges, thick shapes readable at 32 px, centered with generous padding, square 1:1. Subject: a running figure.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1819,7 +1819,7 @@
    "name": "护体",
    "use": "左下角资源 / 增益",
    "now": "shield-reflect",
-   "file": "icons/buff/fortify.png",
+   "file": "design/icons/buff/fortify.png",
    "style": "emblem",
    "prompt": "flat game UI emblem, one bold silhouette symbol, solid white on a pure black background, no shading, no gradient, clean vector edges, thick shapes readable at 32 px, centered with generous padding, square 1:1. Subject: a reflecting shield.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1830,7 +1830,7 @@
    "name": "雷霆蓄势",
    "use": "左下角资源 / 增益",
    "now": "lightning-helix",
-   "file": "icons/buff/thunder_ready.png",
+   "file": "design/icons/buff/thunder_ready.png",
    "style": "emblem",
    "prompt": "flat game UI emblem, one bold silhouette symbol, solid white on a pure black background, no shading, no gradient, clean vector edges, thick shapes readable at 32 px, centered with generous padding, square 1:1. Subject: a lightning helix.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1841,7 +1841,7 @@
    "name": "超导",
    "use": "左下角资源 / 增益",
    "now": "electric",
-   "file": "icons/buff/superconduct.png",
+   "file": "design/icons/buff/superconduct.png",
    "style": "emblem",
    "prompt": "flat game UI emblem, one bold silhouette symbol, solid white on a pure black background, no shading, no gradient, clean vector edges, thick shapes readable at 32 px, centered with generous padding, square 1:1. Subject: electric sparks.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1852,7 +1852,7 @@
    "name": "燃",
    "use": "怪物头顶的状态小标（现在是一个汉字）",
    "now": "（文字）",
-   "file": "icons/status/ignited.png",
+   "file": "design/icons/status/ignited.png",
    "style": "emblem",
    "prompt": "flat game UI emblem, one bold silhouette symbol, solid white on a pure black background, no shading, no gradient, clean vector edges, thick shapes readable at 32 px, centered with generous padding, square 1:1. Subject: a flame.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1863,7 +1863,7 @@
    "name": "毒",
    "use": "怪物头顶的状态小标（现在是一个汉字）",
    "now": "（文字）",
-   "file": "icons/status/poisoned.png",
+   "file": "design/icons/status/poisoned.png",
    "style": "emblem",
    "prompt": "flat game UI emblem, one bold silhouette symbol, solid white on a pure black background, no shading, no gradient, clean vector edges, thick shapes readable at 32 px, centered with generous padding, square 1:1. Subject: a poison drop.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1874,7 +1874,7 @@
    "name": "血",
    "use": "怪物头顶的状态小标（现在是一个汉字）",
    "now": "（文字）",
-   "file": "icons/status/bleeding.png",
+   "file": "design/icons/status/bleeding.png",
    "style": "emblem",
    "prompt": "flat game UI emblem, one bold silhouette symbol, solid white on a pure black background, no shading, no gradient, clean vector edges, thick shapes readable at 32 px, centered with generous padding, square 1:1. Subject: a blood drop.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1885,7 +1885,7 @@
    "name": "电",
    "use": "怪物头顶的状态小标（现在是一个汉字）",
    "now": "（文字）",
-   "file": "icons/status/shocked.png",
+   "file": "design/icons/status/shocked.png",
    "style": "emblem",
    "prompt": "flat game UI emblem, one bold silhouette symbol, solid white on a pure black background, no shading, no gradient, clean vector edges, thick shapes readable at 32 px, centered with generous padding, square 1:1. Subject: a lightning bolt.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1896,7 +1896,7 @@
    "name": "缓",
    "use": "怪物头顶的状态小标（现在是一个汉字）",
    "now": "（文字）",
-   "file": "icons/status/chilled.png",
+   "file": "design/icons/status/chilled.png",
    "style": "emblem",
    "prompt": "flat game UI emblem, one bold silhouette symbol, solid white on a pure black background, no shading, no gradient, clean vector edges, thick shapes readable at 32 px, centered with generous padding, square 1:1. Subject: a snowflake.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1907,7 +1907,7 @@
    "name": "冻",
    "use": "怪物头顶的状态小标（现在是一个汉字）",
    "now": "（文字）",
-   "file": "icons/status/frozen.png",
+   "file": "design/icons/status/frozen.png",
    "style": "emblem",
    "prompt": "flat game UI emblem, one bold silhouette symbol, solid white on a pure black background, no shading, no gradient, clean vector edges, thick shapes readable at 32 px, centered with generous padding, square 1:1. Subject: an ice block.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1918,7 +1918,7 @@
    "name": "击",
    "use": "怪物头顶的状态小标（现在是一个汉字）",
    "now": "（文字）",
-   "file": "icons/status/electrocuted.png",
+   "file": "design/icons/status/electrocuted.png",
    "style": "emblem",
    "prompt": "flat game UI emblem, one bold silhouette symbol, solid white on a pure black background, no shading, no gradient, clean vector edges, thick shapes readable at 32 px, centered with generous padding, square 1:1. Subject: a star of electricity (stunned).",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1929,7 +1929,7 @@
    "name": "脆",
    "use": "怪物头顶的状态小标（现在是一个汉字）",
    "now": "（文字）",
-   "file": "icons/status/brittle.png",
+   "file": "design/icons/status/brittle.png",
    "style": "emblem",
    "prompt": "flat game UI emblem, one bold silhouette symbol, solid white on a pure black background, no shading, no gradient, clean vector edges, thick shapes readable at 32 px, centered with generous padding, square 1:1. Subject: a cracked crystal.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1940,7 +1940,7 @@
    "name": "疲",
    "use": "怪物头顶的状态小标（现在是一个汉字）",
    "now": "（文字）",
-   "file": "icons/status/sapped.png",
+   "file": "design/icons/status/sapped.png",
    "style": "emblem",
    "prompt": "flat game UI emblem, one bold silhouette symbol, solid white on a pure black background, no shading, no gradient, clean vector edges, thick shapes readable at 32 px, centered with generous padding, square 1:1. Subject: a drained battery-like rune.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1951,7 +1951,7 @@
    "name": "灼",
    "use": "怪物头顶的状态小标（现在是一个汉字）",
    "now": "（文字）",
-   "file": "icons/status/scorched.png",
+   "file": "design/icons/status/scorched.png",
    "style": "emblem",
    "prompt": "flat game UI emblem, one bold silhouette symbol, solid white on a pure black background, no shading, no gradient, clean vector edges, thick shapes readable at 32 px, centered with generous padding, square 1:1. Subject: a scorched mark.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1962,7 +1962,7 @@
    "name": "导",
    "use": "怪物头顶的状态小标（现在是一个汉字）",
    "now": "（文字）",
-   "file": "icons/status/superconduct.png",
+   "file": "design/icons/status/superconduct.png",
    "style": "emblem",
    "prompt": "flat game UI emblem, one bold silhouette symbol, solid white on a pure black background, no shading, no gradient, clean vector edges, thick shapes readable at 32 px, centered with generous padding, square 1:1. Subject: a frost and lightning intertwined.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1973,7 +1973,7 @@
    "name": "狂",
    "use": "怪物头顶的状态小标（现在是一个汉字）",
    "now": "（文字）",
-   "file": "icons/status/enraged.png",
+   "file": "design/icons/status/enraged.png",
    "style": "emblem",
    "prompt": "flat game UI emblem, one bold silhouette symbol, solid white on a pure black background, no shading, no gradient, clean vector edges, thick shapes readable at 32 px, centered with generous padding, square 1:1. Subject: a roaring angry face.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1984,7 +1984,7 @@
    "name": "警",
    "use": "怪物头顶的状态小标（现在是一个汉字）",
    "now": "（文字）",
-   "file": "icons/status/alerted.png",
+   "file": "design/icons/status/alerted.png",
    "style": "emblem",
    "prompt": "flat game UI emblem, one bold silhouette symbol, solid white on a pure black background, no shading, no gradient, clean vector edges, thick shapes readable at 32 px, centered with generous padding, square 1:1. Subject: an exclamation mark eye.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -1995,7 +1995,7 @@
    "name": "冻",
    "use": "怪物头顶的状态小标（现在是一个汉字）",
    "now": "（文字）",
-   "file": "icons/status/frostbite.png",
+   "file": "design/icons/status/frostbite.png",
    "style": "emblem",
    "prompt": "flat game UI emblem, one bold silhouette symbol, solid white on a pure black background, no shading, no gradient, clean vector edges, thick shapes readable at 32 px, centered with generous padding, square 1:1. Subject: a frost bitten claw.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -2006,7 +2006,7 @@
    "name": "猛",
    "use": "怪物头顶的状态小标（现在是一个汉字）",
    "now": "（文字）",
-   "file": "icons/status/onslaught.png",
+   "file": "design/icons/status/onslaught.png",
    "style": "emblem",
    "prompt": "flat game UI emblem, one bold silhouette symbol, solid white on a pure black background, no shading, no gradient, clean vector edges, thick shapes readable at 32 px, centered with generous padding, square 1:1. Subject: speed lines.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -2017,7 +2017,7 @@
    "name": "护",
    "use": "怪物头顶的状态小标（现在是一个汉字）",
    "now": "（文字）",
-   "file": "icons/status/fortify.png",
+   "file": "design/icons/status/fortify.png",
    "style": "emblem",
    "prompt": "flat game UI emblem, one bold silhouette symbol, solid white on a pure black background, no shading, no gradient, clean vector edges, thick shapes readable at 32 px, centered with generous padding, square 1:1. Subject: a raised shield.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -2028,7 +2028,7 @@
    "name": "雷",
    "use": "怪物头顶的状态小标（现在是一个汉字）",
    "now": "（文字）",
-   "file": "icons/status/thunder_ready.png",
+   "file": "design/icons/status/thunder_ready.png",
    "style": "emblem",
    "prompt": "flat game UI emblem, one bold silhouette symbol, solid white on a pure black background, no shading, no gradient, clean vector edges, thick shapes readable at 32 px, centered with generous padding, square 1:1. Subject: a charging thunder.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -2039,7 +2039,7 @@
    "name": "引",
    "use": "怪物头顶的状态小标（现在是一个汉字）",
    "now": "（文字）",
-   "file": "icons/status/primed.png",
+   "file": "design/icons/status/primed.png",
    "style": "emblem",
    "prompt": "flat game UI emblem, one bold silhouette symbol, solid white on a pure black background, no shading, no gradient, clean vector edges, thick shapes readable at 32 px, centered with generous padding, square 1:1. Subject: a lit fuse.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -2050,7 +2050,7 @@
    "name": "锁",
    "use": "怪物头顶的状态小标（现在是一个汉字）",
    "now": "（文字）",
-   "file": "icons/status/chained.png",
+   "file": "design/icons/status/chained.png",
    "style": "emblem",
    "prompt": "flat game UI emblem, one bold silhouette symbol, solid white on a pure black background, no shading, no gradient, clean vector edges, thick shapes readable at 32 px, centered with generous padding, square 1:1. Subject: golden chains.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -2061,7 +2061,7 @@
    "name": "长",
    "use": "怪物头顶的状态小标（现在是一个汉字）",
    "now": "（文字）",
-   "file": "icons/status/overgrown.png",
+   "file": "design/icons/status/overgrown.png",
    "style": "emblem",
    "prompt": "flat game UI emblem, one bold silhouette symbol, solid white on a pure black background, no shading, no gradient, clean vector edges, thick shapes readable at 32 px, centered with generous padding, square 1:1. Subject: a growing leaf.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -2072,7 +2072,7 @@
    "name": "路石",
    "use": "地图装置里的路石、掉落",
    "now": "stone-tablet",
-   "file": "icons/misc/waystone.png",
+   "file": "design/icons/misc/waystone.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: an engraved stone tablet glowing with a map rune.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -2083,7 +2083,7 @@
    "name": "传送回家",
    "use": "左下角传送按钮、家里回到地图的传送门",
    "now": "magic-portal",
-   "file": "icons/misc/town_portal.png",
+   "file": "design/icons/misc/town_portal.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: a blue swirling town portal.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"
@@ -2094,7 +2094,7 @@
    "name": "仓库",
    "use": "家里的仓库宝箱",
    "now": "locked-chest",
-   "file": "icons/misc/stash_chest.png",
+   "file": "design/icons/misc/stash_chest.png",
    "style": "painted",
    "prompt": "hand-painted dark fantasy ARPG icon, a single centered subject, strong readable silhouette at 48 px, dramatic rim light, deep navy background (#0b1224) fading to black at the edges, subtle gold filigree accents, painterly texture with crisp edges, high contrast, square 1:1. Subject: an ornate gold-trimmed treasure chest.",
    "negative": "text, letters, numbers, watermark, signature, border, frame, UI panel, multiple objects, character portrait, photo, 3d render, blurry, low contrast, cropped subject"

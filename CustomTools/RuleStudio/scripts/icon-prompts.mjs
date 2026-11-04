@@ -1,5 +1,5 @@
 // 图标清单 + 文生图提示词：把游戏里用到的每一个图标列出来（分类、id、中文名、用途、现在用的 game-icons 名），
-// 每个配一条英文提示词（统一画风 + 这个图标画什么）。生成 docs/icon-prompts.md（给人看）和 docs/icon-prompts.json（批量跑图）。
+// 每个配一条英文提示词（统一画风 + 这个图标画什么）。生成 design/icons/icon-prompts.md（给人看）和 design/icons/icon-prompts.json（批量跑图），出好的图也放在 design/icons/<分类>/<id>.png。
 //   node scripts/icon-prompts.mjs
 import { writeFileSync } from 'node:fs';
 import * as I from '../public/game/icons.mjs';
@@ -79,7 +79,7 @@ const MISC = [
 
 // ---------------------------------------------------------------- the list
 const rows = [];
-const add = (cat, id, name, use, now, subject, style, extra = '') => rows.push({ cat, id, name, use, now, file: `icons/${cat}/${id}.png`, style,
+const add = (cat, id, name, use, now, subject, style, extra = '') => rows.push({ cat, id, name, use, now, file: `design/icons/${cat}/${id}.png`, style,
   prompt: `${STYLE[style]}. Subject: ${subject}${extra ? ', ' + extra : ''}.`, negative: NEGATIVE });
 
 const skillEl = id => { const d = content.skills.get(id)?.damage ?? {}; let best = null, v = -1; for (const [k, x] of Object.entries(d)) if (typeof x === 'number' && x > v) { v = x; best = k; } return best; };
@@ -125,7 +125,7 @@ let md = `# 图标清单与文生图提示词
 
 ## 接入方式
 
-把图放到 \`public/assets/icons/<分类>/<id>.png\`（分类和 id 见下表，JSON 里每条的 \`file\` 就是这个路径）。提示词是英文的，国内外的文生图工具都能直接用；传奇那一节的中文描述和题词可以一起给工具当参考。emblem 类可以直接替换现在的遮罩；painted 类要把对应图标从「遮罩上色」改为「直接贴图」，图到位后改一处 \`icons.mjs\` 就能切过去。
+出好的图先放在这个文件夹：\`design/icons/<分类>/<id>.png\`（分类和 id 见下表，JSON 里每条的 \`file\` 就是这个路径）。提示词是英文的，国内外的文生图工具都能直接用；传奇那一节的中文描述和题词可以一起给工具当参考。emblem 类可以直接替换现在的遮罩；painted 类要把对应图标从「遮罩上色」改为「直接贴图」，图到位后改一处 \`icons.mjs\` 就能切过去。
 
 `;
 for (const cat of Object.keys(CAT)) {
@@ -133,6 +133,6 @@ for (const cat of Object.keys(CAT)) {
   md += `\n## ${CAT[cat]}（${list.length}）\n\n| id | 名称 | 用在哪里 | 现在的图标 | 提示词（画什么） |\n|---|---|---|---|---|\n`;
   for (const r of list) md += `| \`${r.id}\` | ${esc(r.name)} | ${esc(r.use)} | ${esc(r.now)} | ${esc(r.prompt.slice(STYLE[r.style].length + 11))} |\n`;
 }
-writeFileSync(new URL('../docs/icon-prompts.md', import.meta.url), md);
-writeFileSync(new URL('../docs/icon-prompts.json', import.meta.url), JSON.stringify({ style: STYLE, negative: NEGATIVE, size: [512, 512], icons: rows }, null, 1));
-console.log(`${rows.length} icons → docs/icon-prompts.md, docs/icon-prompts.json`);
+writeFileSync(new URL('../design/icons/icon-prompts.md', import.meta.url), md);
+writeFileSync(new URL('../design/icons/icon-prompts.json', import.meta.url), JSON.stringify({ style: STYLE, negative: NEGATIVE, size: [512, 512], icons: rows }, null, 1));
+console.log(`${rows.length} icons → design/icons/icon-prompts.md, design/icons/icon-prompts.json`);
