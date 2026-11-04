@@ -482,7 +482,7 @@ const TEMPLATE = /* html */ `
       </div>
       <!-- every waystone in the bag: pick one to run this node at the stone's tier -->
       <div class="ac-stone">
-        <div class="device">
+        <div class="mdev">
           <div class="dev-ring">
             <button class="dev-core" :class="stone ? 'w-' + stone.rarity : 'empty'" @click="stone && pickStone(stone)"
               @mouseenter="stone && hoverThing($event, 'waystone', { stone, note: '点一下取下' })" @mouseleave="hoverOff">
