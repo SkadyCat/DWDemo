@@ -226,7 +226,9 @@ const Minimap = {
         const b = base.getContext('2d');
         for (const t of d.tiles) { b.fillStyle = d.rooms[t.room]?.kind === 'boss' ? '#5a2a26' : t.room < 0 ? '#28324a' : '#3a4866'; b.fillRect(t.x * scale, t.y * scale, scale + .5, scale + .5); }
       }
-      ctx.clearRect(0, 0, c.width, c.height);
+      ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, c.width, c.height);
+      // World +y is "up" on screen (the camera looks north): flip the canvas so the map turns the way the game does.
+      ctx.setTransform(1, 0, 0, -1, 0, c.height);
       ctx.save(); ctx.beginPath(); ctx.arc(c.width / 2, c.height / 2, c.width / 2, 0, 7); ctx.clip();
       const toMap = (x, y) => [(x + d.half) / d.tile * scale, (y + d.half) / d.tile * scale];
       const [hx, hy] = toMap(r.hero.x, r.hero.y);
@@ -266,7 +268,9 @@ const BigMap = {
         const has = new Set(d.tiles.map(t => t.x + ',' + t.y));
         for (const t of d.tiles) for (const [dx, dy, ax, ay, bx, by] of [[1, 0, 1, 0, 1, 1], [-1, 0, 0, 0, 0, 1], [0, 1, 0, 1, 1, 1], [0, -1, 0, 0, 1, 0]]) if (!has.has((t.x + dx) + ',' + (t.y + dy))) { b.beginPath(); b.moveTo(ox + (t.x + ax) * scale, oy + (t.y + ay) * scale); b.lineTo(ox + (t.x + bx) * scale, oy + (t.y + by) * scale); b.stroke(); }
       }
-      ctx.clearRect(0, 0, c.width, c.height); ctx.drawImage(base, 0, 0);
+      ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, c.width, c.height);
+      ctx.setTransform(1, 0, 0, -1, 0, c.height);   // world +y is up on screen
+      ctx.drawImage(base, 0, 0);
       const toMap = (x, y) => [ox + (x + d.half) / d.tile * scale, oy + (y + d.half) / d.tile * scale];
       for (const m of r.monsters) { const [x, y] = toMap(m.x, m.y); ctx.fillStyle = m.boss ? '#ff6a4a' : m.kind === 'elite' ? '#ffd27a' : '#d0584f'; const s = m.boss ? 10 : m.kind === 'elite' ? 6 : 3.5; ctx.fillRect(x - s / 2, y - s / 2, s, s); }
       for (const l of r.loot) { const [x, y] = toMap(l.x, l.y); ctx.fillStyle = l.drop.item?.legend ? '#ffad5a' : l.drop.type === 'waystone' ? '#9fd8ff' : '#fbe7b0'; ctx.beginPath(); ctx.arc(x, y, 2.6, 0, 7); ctx.fill(); }
