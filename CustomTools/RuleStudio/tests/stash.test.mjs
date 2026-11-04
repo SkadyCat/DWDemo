@@ -4,10 +4,12 @@ import assert from 'node:assert/strict';
 import { newSave, migrate, placeBag, moveInBag, equip, bagFree, bagFits, deposit, withdraw, depositCurrency, withdrawCurrency, craft, toBag, gainXp, xpToNext,
   BAG_SIZE, PAGE_SIZE, PAGES, LEGEND_CAP } from '../public/game/save.mjs';
 
+// the new-save starter sigils sit in the bag; these tests count cells from empty
+const fresh = () => { const s = fresh(); s.scarabs = {}; return s; };
 const item = (i, extra = {}) => ({ uid: 'it' + i, slot: 'ring1', base: 'ring', tier: 1, traits: [], lines: [], ...extra });
 
 test('背包是 5 × 12 = 60 格：装备一件一格，通货 20 个一格', () => {
-  const s = newSave();
+  const s = fresh();
   assert.equal(BAG_SIZE, 60); assert.equal(bagFree(s), 60);
   s.currencies.chaos = 21;                      // two stacks
   for (let i = 0; i < 57; ++i) s.inventory.push(item(i));
@@ -21,7 +23,7 @@ test('背包是 5 × 12 = 60 格：装备一件一格，通货 20 个一格', ()
 });
 
 test('仓库：5 个常规页，每页 144 格；传奇进传奇页，每种最多 10 件，多的落到常规页', () => {
-  const s = newSave();
+  const s = fresh();
   assert.equal(s.stash.pages.length, PAGES); assert.equal(PAGE_SIZE, 144); assert.equal(LEGEND_CAP, 10);
   for (let i = 0; i < 12; ++i) s.inventory.push(item(i, { legend: 'pyre_staff' }));
   s.inventory.push(item(50));
@@ -34,7 +36,7 @@ test('仓库：5 个常规页，每页 144 格；传奇进传奇页，每种最�
 });
 
 test('通货页：存入全部、按堆取出（受背包空格限制）；在家洗炼背包不够就从仓库扣', () => {
-  const s = newSave();
+  const s = fresh();
   s.currencies.chaos = 30; s.currencies.augment = 5;
   assert.equal(depositCurrency(s), 35);
   assert.equal(s.currencies.chaos, 0); assert.equal(s.stash.currency.chaos, 30);
@@ -51,7 +53,7 @@ test('通货页：存入全部、按堆取出（受背包空格限制）；在�
 });
 
 test('背包满时：卸装备被拒、一键流派换下的东西进仓库；旧存档多出来的东西搬进仓库', () => {
-  const s = newSave();
+  const s = fresh();
   for (let i = 0; i < 60; ++i) s.inventory.push(item(i));
   assert.equal(toBag(s, item(77)), 'stash'); assert.equal(s.stash.pages[0].length, 1);
   const old = { ...newSave(), stash: undefined };
@@ -64,7 +66,7 @@ test('背包满时：卸装备被拒、一键流派换下的东西进仓库；�
 });
 
 test('经验：升级所需递增，一次给很多能连升', () => {
-  const s = newSave();
+  const s = fresh();
   assert.equal(s.level, 1);
   assert.ok(xpToNext(10) > xpToNext(2));
   const up = gainXp(s, xpToNext(1) + xpToNext(2) + 5);
@@ -72,7 +74,7 @@ test('经验：升级所需递增，一次给很多能连升', () => {
 });
 
 test('背包不自动整理：拿走一件，后面的不前移；新东西进第一个空格；可以拖到指定格子', () => {
-  const s = newSave();
+  const s = fresh();
   for (let i = 0; i < 5; ++i) s.inventory.push(item(i));
   s.currencies.chaos = 5;
   let g = placeBag(s);
@@ -93,4 +95,11 @@ test('背包不自动整理：拿走一件，后面的不前移；新东西进�
   const w = { ...item(50), slot: 'weapon', base: 'wand', skill: 'fireball' }; s.inventory.push(w); g = placeBag(s);
   const at = w.cell; equip(s, w.uid); g = placeBag(s);
   assert.equal(g[at]?.slot, 'weapon', '换下的武器放回原格');
+});
+
+test('路石背包 ↔ 玩家背包：路石退回背包占一格，再放回路石背包', async () => {
+  const { stoneToBag, stoneToDevice, placeBag, bagUsed } = await import('../public/game/save.mjs');
+  const s = fresh(); s.waystones = [{ uid: 'w1', tier: 3, rarity: 'magic', mods: [] }];
+  assert.ok(stoneToBag(s, 'w1', 7)); assert.equal(bagUsed(s), 1); assert.equal(placeBag(s)[7].uid, 'w1'); assert.equal(s.waystones.length, 0);
+  assert.ok(stoneToDevice(s, 'w1')); assert.equal(bagUsed(s), 0); assert.equal(s.waystones.length, 1);
 });
