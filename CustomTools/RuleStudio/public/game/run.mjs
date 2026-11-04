@@ -10,6 +10,7 @@ import { detachRules } from '../../core/rules.mjs';
 import { generateDungeon, dungeonRandom } from './dungeon.mjs';
 import { rollWaystoneDrops } from './waystones.mjs';
 import { HUB_LAYOUT, NPCS, STATIONS } from './hub.mjs';
+import { Town, steerOnFlow } from './town.mjs';
 import { rollScarabDrops } from './scarabs.mjs';
 
 export const STATUS_LOOK = {
@@ -103,6 +104,20 @@ export class MapRun {
     const dev = this.stations.find(s => s.id === 'device');
     this.portal = { x: dev.x, y: dev.y, born: 0, inside: false, label: '地图仪', sub: '点我走过去 · 放入路石，打开图集' };
     this.arrivals = 0; this.arrived = null;
+    this.town = new Town(this.dungeon, this.seed);   // the people of 夜阙 walking about
+  }
+  /** Direction to walk towards (tx, ty): straight in a map, round the houses at home. */
+  steer(tx, ty) {
+    const h = this.hero;
+    if (!this.hub) return { x: tx - h.x, y: ty - h.y };
+    const d = this.dungeon; let t = d.tileOf(tx, ty);
+    // a click on a house: head for the nearest street tile instead
+    for (let r = 1; r < 6 && !d.walkable(t.x, t.y); ++r) { const o = t; for (let dy = -r; dy <= r && o === t; ++dy) for (let dx = -r; dx <= r; ++dx) if (d.walkable(o.x + dx, o.y + dy)) { t = { x: o.x + dx, y: o.y + dy }; break; } }
+    if (!d.walkable(d.tileOf(tx, ty).x, d.tileOf(tx, ty).y)) { const c = d.tileCenter(t.x, t.y); tx = c.x; ty = c.y; }
+    const key = t.y * d.size + t.x;
+    if (this.flowKey !== key) { this.flowKey = key; this.flowField = d.flow(tx, ty); }
+    const p = steerOnFlow(d, this.flowField, h.x, h.y, tx, ty);
+    return { x: p.x - h.x, y: p.y - h.y };
   }
   /** Walk to a station (NPC, stash); arriving there raises `arrivals` and sets `arrived` (the page opens its panel). */
   /** Home: click on the floor to walk there. */
@@ -219,15 +234,15 @@ export class MapRun {
       const d = Math.hypot(this.portal.x - h.x, this.portal.y - h.y), inside = d < PORTAL_REACH;
       if (inside && this.walkTo === 'portal') { this.portalReached++; this.walkTo = null; h.vx = h.vy = 0; }
       this.portal.inside = inside;
-      if (this.walkTo === 'portal' && !inside) { h.vx = this.portal.x - h.x; h.vy = this.portal.y - h.y; }
+      if (this.walkTo === 'portal' && !inside) { const v = this.steer(this.portal.x, this.portal.y); h.vx = v.x; h.vy = v.y; }
     }
     if (this.walkTo?.point) {
       const t = this.walkTo.point;
-      if (Math.hypot(t.x - h.x, t.y - h.y) < 40) { this.walkTo = null; h.vx = h.vy = 0; } else { h.vx = t.x - h.x; h.vy = t.y - h.y; }
+      if (Math.hypot(t.x - h.x, t.y - h.y) < 40) { this.walkTo = null; h.vx = h.vy = 0; } else { const v = this.steer(t.x, t.y); h.vx = v.x; h.vy = v.y; }
     } else if (this.walkTo?.station) {
       const st = this.walkTo.station;
       if (Math.hypot(st.x - h.x, st.y - h.y) < st.reach) { this.arrived = st; this.arrivals++; this.walkTo = null; h.vx = h.vy = 0; }
-      else { h.vx = st.x - h.x; h.vy = st.y - h.y; }
+      else { const v = this.steer(st.x, st.y); h.vx = v.x; h.vy = v.y; }
     } else if (this.walkTo && this.walkTo !== 'portal') {
       const l = this.loot.find(x => x.key === this.walkTo);
       if (!l) { this.walkTo = null; h.vx = h.vy = 0; }
@@ -240,6 +255,7 @@ export class MapRun {
       m.hitFlash = Math.max(0, m.hitFlash - dt * 6);
       if (m.brainTarget) { const dx = m.brainTarget.x - m.x, dy = m.brainTarget.y - m.y, l = Math.hypot(dx, dy) || 1; m.facing = { x: dx / l, y: dy / l }; }
     }
+    if (this.hub) this.town?.update(dt, h);
     // NPCs turn to face you when you come close
     if (this.hub) for (const st of this.stations) if (st.actor) {
       const dx = h.x - st.x, dy = h.y - st.y, l = Math.hypot(dx, dy);

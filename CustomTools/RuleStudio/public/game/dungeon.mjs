@@ -15,6 +15,7 @@ export function generateDungeon(seed, floor = 1, layout = null) {
   const rng = dungeonRandom((seed ^ Math.imul(floor, 0x9e3779b9)) >>> 0);
   const cells = new Uint8Array(MAP_SIZE * MAP_SIZE), edges = [], rooms = [];
   const desired = layout ? 0 : 11 + Math.floor(rng() * 4);
+  const blockAt = new Int16Array(MAP_SIZE * MAP_SIZE).fill(-1);   // town: which building a solid tile belongs to
   if (layout) layout.rooms.forEach((r, i) => rooms.push({ id: i, ...r, centerX: r.x + r.w / 2, centerY: r.y + r.h / 2, kind: r.kind ?? 'room' }));
   for (let attempt = 0; attempt < 700 && rooms.length < desired; attempt++) {
     const w = 5 + 2 * Math.floor(rng() * 3), h = 5 + 2 * Math.floor(rng() * 3);
@@ -50,6 +51,9 @@ export function generateDungeon(seed, floor = 1, layout = null) {
     const a = rooms[Math.floor(rng() * rooms.length)], b = rooms[Math.floor(rng() * rooms.length)];
     if (a !== b && !edges.some(e => e.source === a.id && e.target === b.id || e.source === b.id && e.target === a.id)) connect(a, b);
   }
+  // A town layout (夜阙城): open ground everywhere inside, buildings (and the well, the river) solid.
+  for (const r of layout?.open ?? []) for (let y = r.y; y < r.y + r.h; y++) for (let x = r.x; x < r.x + r.w; x++) cells[y * MAP_SIZE + x] = 1;
+  (layout?.blocks ?? []).forEach((b, i) => { for (let y = b.y; y < b.y + b.h; y++) for (let x = b.x; x < b.x + b.w; x++) { cells[y * MAP_SIZE + x] = 0; blockAt[y * MAP_SIZE + x] = i; } });
   const half = MAP_SIZE * TILE / 2;
   const tileCenter = (x, y) => ({ x: (x + .5) * TILE - half, y: (y + .5) * TILE - half });
   const tileOf = (x, y) => ({ x: Math.floor((x + half) / TILE), y: Math.floor((y + half) / TILE) });
@@ -60,7 +64,7 @@ export function generateDungeon(seed, floor = 1, layout = null) {
   for (let y = 0; y < MAP_SIZE; y++) for (let x = 0; x < MAP_SIZE; x++) {
     if (isFloor(x, y)) {
       tiles.push({ x, y, room: roomTile(x, y) });
-    } else if (DIRS.some(([dx, dy]) => isFloor(x + dx, y + dy))) walls.push({ x, y });
+    } else if (DIRS.some(([dx, dy]) => isFloor(x + dx, y + dy))) walls.push(blockAt[y * MAP_SIZE + x] >= 0 ? { x, y, block: blockAt[y * MAP_SIZE + x] } : { x, y });
   }
   // Segment versus expanded solid tiles. Return the earliest fraction, or -1.
   const sweep = (sx, sy, ex, ey, radius = 0) => {
@@ -99,11 +103,11 @@ export function generateDungeon(seed, floor = 1, layout = null) {
     return result;
   };
   const entryRoom = layout ? rooms[0] : rooms.reduce((best, r) => r.centerX < best.centerX ? r : best);
-  const entry = { x: entryRoom.centerX * TILE - half, y: entryRoom.centerY * TILE - half };
+  const entry = layout?.entry ? tileCenter(layout.entry.x, layout.entry.y) : { x: entryRoom.centerX * TILE - half, y: entryRoom.centerY * TILE - half };
   const distances = flow(entry.x, entry.y);
   const bossRoom = layout ? -1 : rooms.reduce((best, r) => distances[Math.floor(r.centerY) * MAP_SIZE + Math.floor(r.centerX)] > distances[Math.floor(best.centerY) * MAP_SIZE + Math.floor(best.centerX)] ? r : best).id;
   if (!layout) { entryRoom.kind = 'entry'; rooms[bossRoom].kind = 'boss'; }
-  return { seed, floor, size: MAP_SIZE, tile: TILE, half, cells, rooms, edges, bossRoom, entryRoom: entryRoom.id, tiles, walls, tileCenter, tileOf, roomTile, walkable, sweep, move, flow,
+  return { seed, floor, size: MAP_SIZE, blocks: layout?.blocks ?? [], wallHeight: layout?.wallHeight ?? 1.45, tile: TILE, half, cells, rooms, edges, bossRoom, entryRoom: entryRoom.id, tiles, walls, tileCenter, tileOf, roomTile, walkable, sweep, move, flow,
     entry,
     mapPath: tiles.map(t => `M${t.x} ${t.y}h1v1h-1z`).join('') };
 }

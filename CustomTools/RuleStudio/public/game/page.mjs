@@ -17,6 +17,7 @@ import { MapRun } from './run.mjs';
 import { TalentBoard } from './talents-panel.mjs';
 import { switchAccount } from './accounts.mjs';
 import { sfx, setLoop, audio } from './audio.mjs';
+import { LEGEND_LORE } from './legend-lore.mjs';
 import { CHAPTERS, newQuestState, questView, questEvent, questTick, claimChapter } from './quests.mjs';
 import { talentPoints } from '../../core/content/talents.mjs';
 import { Scene3D, Overlay } from './scene.mjs';
@@ -802,14 +803,17 @@ const TEMPLATE = /* html */ `
       </div>
 
       <div v-if="center === 'codex'" class="codex">
-        <p class="hint">{{ legendaries.length }} 件传奇，每件一条改写玩法的传奇特性；基底其余特性和随机词条照常随机。首领约三分之一几率掉落，精英偶尔掉落。「试玩」直接放一件进背包。</p>
+        <p class="hint">{{ legendaries.length }} 件传奇，都是九城名人的遗物（点「来历」看它的故事）。每件一条改写玩法的传奇特性；基底其余特性和随机词条照常随机。首领约三分之一几率掉落，精英偶尔掉落。「试玩」直接放一件进背包。</p>
         <div class="codex-grid">
-          <article v-for="L in legendaries" :key="L.id" class="lcard" :class="'th-' + L.theme">
-            <div class="lcard-icon"><Gi :n="baseIcon(L.base)" c="r-legendary"/></div>
+          <article v-for="L in legendaries" :key="L.id" class="lcard" :class="['th-' + L.theme, { open: loreSel === L.id }]">
+            <div class="lcard-icon"><Gi :n="'legendary/' + L.id" c="r-legendary"/></div>
             <h4>{{ L.name }}</h4><p class="lcard-slot">{{ slotNames[L.slot] }}<template v-if="L.skill"> · {{ skillName(L.skill) }}</template></p>
             <p class="lcard-text">{{ L.legend.text }}</p>
             <p class="lcard-flavor">{{ L.flavor }}</p>
-            <button class="orn-btn sm" @click="grantLegendary(L.id)">试玩</button>
+            <p v-if="LEGEND_LORE[L.id]" class="lcard-owner">{{ LEGEND_LORE[L.id].owner }} · {{ LEGEND_LORE[L.id].city }}</p>
+            <div v-if="loreSel === L.id" class="lcard-lore"><p v-for="(para, i) in loreParas(L.id)" :key="i">{{ para }}</p></div>
+            <div class="lcard-btns"><button v-if="LEGEND_LORE[L.id]" class="orn-btn ghost sm" @click="loreSel = loreSel === L.id ? null : L.id">{{ loreSel === L.id ? '收起' : '来历' }}</button>
+              <button class="orn-btn sm" @click="grantLegendary(L.id)">试玩</button></div>
           </article>
         </div>
       </div>
@@ -1292,7 +1296,7 @@ export function mountGame(el) {
       function ensureScene() { if (!scene) { scene = new Scene3D(stage.value); ov = new Overlay(overlay.value); bindLabels(overlay.value); globalThis.__dw.scene = scene; } applySettings(); }
       function enterHub(fresh = false) {
         if (!hub.value || fresh) { hub.value = markRaw(new MapRun(build(), { hub: true, seed: 20261104 })); seenArrivals = 0; seenHubPortal = 0; }
-        else { hub.value.rebuildHero(build()); const d = hub.value.dungeon, c = d.tileCenter(Math.floor(d.rooms[1].centerX), Math.floor(d.rooms[1].centerY) - 2); hub.value.hero.x = c.x; hub.value.hero.y = c.y; hub.value.walkTo = null; }
+        else { hub.value.rebuildHero(build()); const d = hub.value.dungeon, c = d.tileCenter(Math.floor(d.rooms[1].centerX), Math.floor(d.rooms[1].centerY) - 5); hub.value.hero.x = c.x; hub.value.hero.y = c.y; hub.value.walkTo = null; }
         nextTick(() => { if (!stage.value) return; ensureScene(); ov?.clearLoot(); last = performance.now(); acc = 0; cancelAnimationFrame(raf); raf = requestAnimationFrame(frame); });
       }
       onMounted(() => { if (!run.value) enterHub(true); });
@@ -1367,6 +1371,7 @@ export function mountGame(el) {
         clearArchetype(save); picked.value = null; hover.value = null; gearChanged();
         toast('已换成空白流派：装备已卸下，从零开始', 'good');
       }
+      const loreSel = ref(null), loreParas = id => (LEGEND_LORE[id]?.lore ?? '').split('\n');
       function grantLegendary(id) {
         const tier = Math.max(3, Math.min(10, Math.round(save.unlocked * 10 / 16) + 1));
         const it = rollLegendary(id, tier, rng); save.inventory.push(it); persist();
@@ -1577,6 +1582,9 @@ export function mountGame(el) {
           // Home: click an NPC / the stash / the map device to walk there and use it; anywhere else to walk.
           const h = hub.value, at = scene.pick(mouse.x, mouse.y); if (!at) return;
           const st = h.stations.find(s => Math.hypot(at.x - s.x, at.y - s.y) < (s.id === 'device' ? 160 : 110));
+          // a townsperson: they stop and answer (walk up to them if they are far)
+          const folk = !st && h.town?.at(at.x, at.y);
+          if (folk) { h.town.talk(folk); if (Math.hypot(folk.x - h.hero.x, folk.y - h.hero.y) > 260) h.walkToPoint(folk.x + (h.hero.x > folk.x ? 80 : -80), folk.y - 60); sfx('open'); return; }
           if (st) h.walkToStation(st.id); else h.walkToPoint(at.x, at.y);
           return;
         }
@@ -1611,7 +1619,7 @@ export function mountGame(el) {
         legendCells, bagLeft, bagSize: BAG_SIZE, pageCells, pageSize: PAGE_SIZE, pages: PAGES, legendCap: LEGEND_CAP, currencyPage: CURRENCY_PAGE, vaultTab, legendSel, dropTab, dragFrom, legendCount, vaultCounts, wallet, tipStacks,
         hub, hubTick, opts, settingTab, settingTabs, keybinds: KEYBINDS, setQuality, resetSettings, mapOpen,
         waystoneIcon, sigilIcon, stoneOut, backToDevice, dropOnStoneCell, selected, menu, ctrlClick, openMenu, menuDo, affixRows, totals, slotPos, pentaPoints, dragAnyStart, dragAnyEnd, dropOnCurrencyPage, dropOnLegendPage, dropOnCore, dropOnStones, dropOnSlot, dropOnScarabs, dropOnCraft, dropDev, deviceSlots, scarabsLeft, slotScarab, unslotScarab, scarabName, scarabText, scarabColor, parseScarab, legendary, dropBagCell, dropPageCell, toVault, fromVault, moveCurrency, takeCurrency, vaultDragStart, dropToBag, dropToPage, portalRun, portalHome, portalBack, xpNext, maxLevel: MAX_LEVEL,
-        pick, equippedFor, hoverOn, hoverOff, doEquip, doUnequip, dragStart, dropOn, doSalvage, doCraft, applyBd, clearBd, accountName, leaveAccount, grantLegendary, evaluate, update, toggle, isOpen, openCenter, startRun, leaveRun, selectSkill, gearChanged,
+        pick, equippedFor, hoverOn, hoverOff, doEquip, doUnequip, dragStart, dropOn, doSalvage, doCraft, applyBd, clearBd, accountName, leaveAccount, grantLegendary, LEGEND_LORE, loreSel, loreParas, evaluate, update, toggle, isOpen, openCenter, startRun, leaveRun, selectSkill, gearChanged,
         panels: PANELS, tierList: Array.from({ length: MAP_TIERS }, (_, i) => i + 1), families: MAP_FAMILIES, slots: SLOTS, slotNames: SLOT_NAMES, currencies: CURRENCIES,
         archetypes: ARCHETYPES, legendaries: LEGENDARIES, skillBar: SKILL_BAR, glyph: SLOT_GLYPH,
         rarity: rarityOf, itemNameOf: itemName, skillName, skillTags, itemIcon, skillEl: id => EL_CLASS[skillElement(id)],
@@ -1628,6 +1636,6 @@ export function mountGame(el) {
   });
   const vm = app.mount(el);
   // Debug/automation hook (tests drive the run through it).
-  globalThis.__dw = { get run() { return vm.run; }, get save() { return vm.save; }, vm };
+  globalThis.__dw = { get run() { return vm.run; }, get save() { return vm.save; }, get hub() { return vm.hub; }, vm };
   return app;
 }

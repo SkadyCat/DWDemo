@@ -9,9 +9,10 @@ import * as THREE from '../vendor/three.module.js';
 import { assetUrl } from '../asset-url.mjs';
 import { loadCharacter, instantiate, characterMaterial } from './anim/glb.mjs';
 import { loadPack, CleanMotion } from './anim/mm3c.mjs';
+import { FOLK } from './townsfolk.mjs';
 
 const M = 0.01, TAU = Math.PI * 2;
-const MODEL_CAP = 64, MODEL_RANGE = 24, CORPSE_TIME = 1.7, SINK_TIME = 0.7;
+const MODEL_CAP = 64, MODEL_RANGE = 24, FOLK_CAP = 52, FOLK_RANGE = 26, CORPSE_TIME = 1.7, SINK_TIME = 0.7;
 const HERO_SKINS = ['Wizard', 'Pyromancer', 'Frost', 'Druid', 'Warlock', 'Alchemist'];
 export const MONSTERS = ['goblin', 'skeleton', 'cultist', 'mushroom', 'golem', 'knight', 'imp', 'ogre', 'wolf', 'spider', 'bat', 'slime',
   'centipede', 'manta', 'hand', 'stonering', 'rockcluster', 'ghost', 'sporeball', 'stump',
@@ -148,7 +149,7 @@ export class Characters {
     let v = free?.pop();
     if (!v) {
       const tpl = this.tpl[kind], inst = instantiate(tpl, characterMaterial(tpl));
-      v = { kind, tpl, inst, pelvisH: inst.rest.pelvis?.y ?? 0.5, anim: HUMANOID.has(kind) || kind.startsWith('hero:') ? this.pack.bones.map(n => inst.bones[n]) : null };
+      v = { kind, tpl, inst, pelvisH: inst.rest.pelvis?.y ?? 0.5, anim: HUMANOID.has(kind) || kind.startsWith('hero:') || kind.startsWith('tf:') ? this.pack.bones.map(n => inst.bones[n]) : null };
       this.scene.add(inst.root);
     }
     v.inst.root.visible = true; v.inst.root.rotation.set(0, 0, 0); v.t = 0; v.speed = 0; v.cast = -9; v.phase = Math.random() * 4; v.last = null;
@@ -160,8 +161,9 @@ export class Characters {
   /** Pose a humanoid from the pack: idle/run blended by speed, an upper-body cast on top, or the death clip. */
   poseHumanoid(v, dt, { speed, cast, death }) {
     const P = this.pack, C = this.clips, s = v.pelvisH / 0.959;
-    const k = Math.min(1, speed / 1.2);
-    v.t += dt; v.phase += dt * Math.max(0.6, speed / (C.runSpeed * s));
+    // townsfolk walk: half the run pose blended over idle, at a calmer cadence (the pack has no walk cycle)
+    const k = v.walk ? Math.min(v.walk, speed / 1.6) : Math.min(1, speed / 1.2);
+    v.t += dt; v.phase += dt * Math.max(0.6, speed / (C.runSpeed * s)) * (v.walk ? 1.9 : 1);
     const qa = this.qa, pa = this.pa, qb = this.qb, pb = this.pb;
     if (death !== undefined) { P.pose(C.death, death, qa, pa); }
     else {
@@ -358,6 +360,28 @@ export class Characters {
     (v.anim ? this.poseHumanoid : this.poseCreature).call(this, v, dt, pose);
   }
 
+  /** The people of 夜阙 (scripts/gen-townsfolk.py): loaded the first time you are home. */
+  loadFolk() {
+    this.folkLoading ??= Promise.all(FOLK.map(f => loadCharacter(assetUrl(`/assets/characters/townsfolk/${f.id}.glb`)).then(t => { this.tpl['tf:' + f.id] = t; }).catch(() => {})))
+      .then(() => { this.folkReady = true; });
+  }
+  /** Home: the nearest townsfolk get models and walk / stand / turn to you. */
+  updateFolk(town, hero, dt) {
+    this.folkLive ??= new Map();
+    if (!this.folkReady) { this.loadFolk(); return; }
+    const near = town.agents.map(a => [Math.hypot(a.x - hero.x, a.y - hero.y) * M, a]).filter(([d]) => d < FOLK_RANGE).sort((a, b) => a[0] - b[0]).slice(0, FOLK_CAP);
+    const keep = new Set();
+    for (const [, a] of near) {
+      const kind = 'tf:' + a.model; if (!this.tpl[kind]) continue;
+      keep.add(a.id);
+      let v = this.folkLive.get(a.id);
+      if (!v) { v = this.take(kind); v.walk = a.kid ? 0.85 : 0.6; this.folkLive.set(a.id, v); }
+      this.place(v, a, dt, { scale: 1, tint: 0xffffff, elapsed: 0 });
+    }
+    for (const [id, v] of this.folkLive) if (!keep.has(id)) { this.folkLive.delete(id); this.release(v); }
+  }
+  hideFolk() { if (this.folkLive) { for (const v of this.folkLive.values()) this.release(v); this.folkLive.clear(); } }
+
   /** Per frame. Returns the ids drawn as models (the caller skips their capsules). */
   update(run, dt) {
     const shown = new Set();
@@ -367,6 +391,7 @@ export class Characters {
     dt = Math.min(dt, 0.1);
     this.updateHero(run, dt);
     const hero = run.hero, elapsed = run.elapsed;
+    if (run.town) this.updateFolk(run.town, hero, dt); else this.hideFolk();
     // nearest monsters and modelled summons get models
     const wanted = [];
     for (const m of run.monsters) { const d = Math.hypot(m.x - hero.x, m.y - hero.y) * M; if (d < MODEL_RANGE) wanted.push([d, m, null]); }

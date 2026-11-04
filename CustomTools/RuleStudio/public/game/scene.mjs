@@ -41,7 +41,7 @@ export class Scene3D {
     this.camera = new THREE.PerspectiveCamera(48, 1, 0.1, 200);
     this.zoom = 0.85;
     this.opts = { resScale: 1, shadows: true, bloom: 1, shake: 1, zoom: 1, flashes: true };
-    scene.add(new THREE.HemisphereLight(0xb8c8ff, 0x302418, 1.4), new THREE.AmbientLight(0x404a60, 0.6));
+    this.hemi = new THREE.HemisphereLight(0xb8c8ff, 0x302418, 1.4); this.amb = new THREE.AmbientLight(0x404a60, 0.6); scene.add(this.hemi, this.amb);
     const sun = this.sun = new THREE.DirectionalLight(0xfff1dc, 2.2);
     sun.castShadow = true; sun.shadow.mapSize.set(2048, 2048);
     Object.assign(sun.shadow.camera, { left: -22, right: 22, top: 22, bottom: -22, near: 1, far: 80 });
@@ -117,18 +117,21 @@ export class Scene3D {
       this.floor = createDungeonFloor(run.dungeon); this.scene.add(this.floor.group);
       this.hubProps?.dispose(); this.hubProps = run.hub ? createHubProps(run) : null;
       if (this.hubProps) this.scene.add(this.hubProps.group);
-      this.camBase.set(hp.x, 15.5 * this.zoom, hp.z + 10.5 * this.zoom);
+      this.camBase.set(hp.x, 15.5 * this.zoom * (run.hub ? 1.2 : 1), hp.z + 10.5 * this.zoom * (run.hub ? 1.2 : 1));
       this.loot.reset();
     }
-    const offset = new THREE.Vector3(0, 15.5, 10.5).multiplyScalar(this.zoom);
+    const offset = new THREE.Vector3(0, 15.5, 10.5).multiplyScalar(this.zoom * (run.hub ? 1.2 : 1));   // the town wants a wider view
     this.camBase.lerp(new THREE.Vector3(hp.x, 0, hp.z).add(offset), 0.12);
     this.camera.position.copy(this.camBase);
     this.camera.lookAt(this.camBase.clone().sub(offset));
     if (this.fxState) this.camera.position.addScaledVector(this.fxState.shake, this.opts.shake);
     this.sun.position.set(hp.x + 10, 22, hp.z + 6); this.sun.target.position.set(hp.x, 0, hp.z);
+    // home: when 诺娅 turns the lamp down for the night, the town goes dim and warm (lamps and windows keep glowing)
+    const night = run.hub ? run.town?.night ?? 0 : 0;
+    this.sun.intensity = 2.2 * (1 - 0.6 * night); this.hemi.intensity = 1.4 * (1 - 0.5 * night); this.amb.intensity = 0.6 * (1 - 0.3 * night);
 
     this.portal.update(run.portal ? { x: run.portal.x, y: run.portal.y, radius: 90, active: true } : null, time);
-    this.hubProps?.update(time);
+    this.hubProps?.update(time, run.hero, run.town?.night ?? 0);
     const dt = this.lastRun === run ? run.elapsed - this.lastElapsed : 0;
     this.lastRun = run; this.lastElapsed = run.elapsed;
     const ch = this.chars.update(run, dt);
@@ -317,6 +320,7 @@ export class Overlay {
     for (let i = f; i < this.floats.length; ++i) this.floats[i].el.style.display = 'none';
     this.updateLoot(scene, run, this.updatePortal(scene, run));
     this.updateStations(scene, run);
+    this.updateSpeech(scene, run);
   }
   /** Home: a name plate over every NPC and the stash (click it to walk there and talk). */
   updateStations(scene, run) {
@@ -337,6 +341,28 @@ export class Overlay {
       const w = el.offsetWidth, h = el.offsetHeight;
       el.style.transform = `translate3d(${(at.x - w / 2).toFixed(1)}px,${(at.y - h).toFixed(1)}px,0)`;
     }
+  }
+  /** Home: speech bubbles over townsfolk who are saying something. */
+  updateSpeech(scene, run) {
+    this.sayEls ??= new Map();
+    const town = run.hub ? run.town : null, live = new Set();
+    if (town) for (const a of town.agents) {
+      if (!a.say) continue;
+      live.add(a.id);
+      let el = this.sayEls.get(a.id);
+      if (!el || el.dataset.text !== a.say.text) {
+        if (!el) { el = document.createElement('div'); el.className = 'lt lt-say'; this.labelLayer.appendChild(el); this.sayEls.set(a.id, el); }
+        el.dataset.text = a.say.text; el.innerHTML = '';
+        if (a.name) { const b = document.createElement('b'); b.textContent = a.name; el.appendChild(b); }
+        el.appendChild(document.createTextNode(a.say.text));
+      }
+      const at = scene.project(toV(a.x, a.y, (a.kid ? 1.25 : 1.85) + 0.25));
+      if (!at) { el.style.display = 'none'; continue; }
+      el.style.display = '';
+      el.style.opacity = Math.min(1, (a.say.until - town.time) * 2).toFixed(2);
+      el.style.transform = `translate3d(${(at.x - el.offsetWidth / 2).toFixed(1)}px,${(at.y - el.offsetHeight).toFixed(1)}px,0)`;
+    }
+    for (const [id, el] of this.sayEls) if (!live.has(id)) { el.remove(); this.sayEls.delete(id); }
   }
   /** A clickable name plate over the boss portal. */
   updatePortal(scene, run) {

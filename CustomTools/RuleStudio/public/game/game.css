@@ -982,3 +982,16 @@ select { font: inherit; color: var(--txt); background: var(--deep); border: 1px 
 
 /* 钉住的提示：关闭按钮在整个面板的右上角 */
 .itip .itip-x { position: absolute; top: 8px; right: 8px; z-index: 2; width: 24px; height: 24px; font-size: 14px; }
+
+/* 夜阙城：镇民头顶的对话气泡 */
+.lt.lt-say { z-index: 4; max-width: 220px; padding: 5px 10px 6px; font-size: 12.5px; line-height: 1.45; color: #2a2016; white-space: normal; text-align: left;
+  background: #f3ead6; border: 1px solid #b89a62; border-radius: 10px; box-shadow: 0 3px 10px rgba(0, 0, 0, .45); pointer-events: none; text-shadow: none; cursor: default; }
+.lt.lt-say::after { content: ''; position: absolute; left: 50%; top: 100%; width: 0; height: 0; margin-left: -6px; background: none; opacity: 1; border: 6px solid transparent; border-bottom: 0; border-top-color: #f3ead6; }
+.lt.lt-say b { display: block; font-size: 11px; letter-spacing: .12em; color: #8a5a1a; }
+
+/* 传奇图鉴：主人一行，点「来历」整张卡展开读故事 */
+.lcard .lcard-owner { font-size: 11.5px; color: var(--gold-lo, #b89a62); letter-spacing: .08em; margin: 2px 0 6px; }
+.lcard.open { grid-column: 1 / -1; }
+.lcard .lcard-lore { margin: 4px 0 10px; padding: 10px 14px; max-width: 46em; background: rgba(0, 0, 0, .25); border-left: 2px solid var(--gold-lo, #b89a62); }
+.lcard .lcard-lore p { margin: 0 0 .7em; font-size: 13.5px; line-height: 1.85; color: #d8d0bc; }
+.lcard .lcard-btns { display: flex; gap: 8px; }
