@@ -5,7 +5,7 @@ import { newSave, migrate, placeBag, moveInBag, equip, bagFree, bagFits, deposit
   BAG_SIZE, PAGE_SIZE, PAGES, LEGEND_CAP } from '../public/game/save.mjs';
 
 // the new-save starter sigils sit in the bag; these tests count cells from empty
-const fresh = () => { const s = fresh(); s.scarabs = {}; return s; };
+const fresh = () => { const s = newSave(); s.scarabs = {}; return s; };
 const item = (i, extra = {}) => ({ uid: 'it' + i, slot: 'ring1', base: 'ring', tier: 1, traits: [], lines: [], ...extra });
 
 test('背包是 5 × 12 = 60 格：装备一件一格，通货 20 个一格', () => {
