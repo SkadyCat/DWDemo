@@ -47,7 +47,7 @@ export class MapRun {
     this.portal = null; this.portalReached = 0;
     this.flashes = []; this.loot = []; this.log = []; this.kills = 0; this.pickedUp = [];
     // The page says whether a drop still fits in the bag (5 × 12); a full bag leaves it on the floor.
-    this.canTake = () => true; this.fullAt = -9;
+    this.canTake = () => true; this.fullAt = -9; this.autoCurrency = true;
     this.recentKills = []; this.combo = 0; this.bestCombo = 0; this.lastKillAt = -9; this.cascadeKills = 0; this.screenClears = []; this.lastScreenClear = -9;
     this.build = build;
     this.spawnHero();
@@ -208,7 +208,7 @@ export class MapRun {
     for (const f of this.flashes) f.age += dt;
     this.flashes = this.flashes.filter(f => f.age < 1.1);
     // Loot: currency is picked up by walking over it; equipment waits for a click on its label (like PoE).
-    for (const l of this.loot) if (!l.taken && l.drop.type === 'currency' && this.elapsed - l.born > 0.9 && Math.hypot(l.x - h.x, l.y - h.y) < 110) { if (this.canTake(l.drop)) { l.taken = true; this.pickedUp.push(l.drop); } else if (this.elapsed - this.fullAt > 3) this.fullAt = this.elapsed; }
+    if (this.autoCurrency) for (const l of this.loot) if (!l.taken && l.drop.type === 'currency' && this.elapsed - l.born > 0.9 && Math.hypot(l.x - h.x, l.y - h.y) < 110) { if (this.canTake(l.drop)) { l.taken = true; this.pickedUp.push(l.drop); } else if (this.elapsed - this.fullAt > 3) this.fullAt = this.elapsed; }
     this.loot = this.loot.filter(l => !l.taken);
     if (!h.alive || h.life <= 0) { this.phase = 'failed'; this.endedAt = this.elapsed; }
   }

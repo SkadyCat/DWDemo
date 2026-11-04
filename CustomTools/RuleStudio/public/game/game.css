@@ -811,3 +811,40 @@ select { font: inherit; color: var(--txt); background: var(--deep); border: 1px 
 .vleg { grid-template-columns: repeat(5, 1fr); width: calc(var(--cs) * 12 + 33px); } .vleg-slot { height: 74px; }
 .er-left, .home-left { bottom: 52px; }
 .tp-btn.big small { left: 100%; top: 50%; margin: 0 0 0 14px; transform: translateY(-50%); font-size: 13px; }
+
+/* ============ minimap → big map, settings ============ */
+.minimap { right: 104px; padding: 0; cursor: pointer; transition: box-shadow .15s; }
+.minimap:hover { box-shadow: 0 0 0 1px var(--gold-hi), 0 0 0 6px rgba(10, 18, 38, .85), 0 0 0 7px var(--gold), 0 10px 30px #000; }
+.minimap small { position: absolute; left: 50%; bottom: -9px; transform: translateX(-50%); padding: 0 6px; font-size: 10px; color: var(--mute); background: var(--deep); border: 1px solid var(--gold-lo); border-radius: 8px; }
+.bigmap { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 26; width: min(78vh, 78vw); display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer;
+  padding: 14px; border-radius: 6px; background: radial-gradient(ellipse at center, rgba(8, 12, 28, .55), rgba(4, 6, 14, .25) 70%, transparent); }
+.bigmap canvas { width: 100%; aspect-ratio: 1; filter: drop-shadow(0 0 12px rgba(0, 0, 0, .8)); }
+.bigmap footer { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 14px; font-size: 12px; color: var(--mute); text-shadow: 0 1px 3px #000; }
+.bigmap footer span { display: flex; align-items: center; gap: 5px; } .bigmap footer em { font-style: normal; opacity: .7; }
+.bigmap footer i { width: 8px; height: 8px; display: inline-block; }
+.d-you { background: #7fe0c8; clip-path: polygon(100% 50%, 0 0, 0 100%); } .d-mob { background: #d0584f; } .d-elite { background: #ffd27a; } .d-boss { background: #ff6a4a; } .d-loot { background: #fbe7b0; border-radius: 50%; } .d-portal { border: 2px solid #8fb8ff; border-radius: 50%; }
+
+.rail { gap: min(14px, calc((100vh - 40px) / 10 - 52px)); }
+.rail button { width: min(62px, calc((100vh - 60px) / 10 - 8px)); height: min(62px, calc((100vh - 60px) / 10 - 8px)); padding: min(14px, 1.6vh); }
+
+.win-center.c-settings { width: min(760px, calc(100vw - 260px)); height: auto; max-height: calc(100vh - 60px); }
+.settings { display: flex; flex-direction: column; gap: 12px; }
+.stabs { display: flex; gap: 4px; justify-content: center; border-bottom: 1px solid var(--line); padding-bottom: 8px; }
+.stabs button { padding: 6px 18px; font: 15px var(--title); letter-spacing: .2em; color: var(--mute); border-radius: 3px; }
+.stabs button:hover { color: var(--gold-hi); }
+.stabs button.on { color: var(--gold-hi); background: linear-gradient(#24315c, #0c1430); box-shadow: inset 0 0 0 1px var(--gold), inset 0 -2px 0 var(--gold-hi); }
+.srows { display: flex; flex-direction: column; }
+.srow { display: grid; grid-template-columns: 210px 1fr 56px; align-items: center; gap: 14px; padding: 9px 6px; border-bottom: 1px solid rgba(216, 180, 106, .1); cursor: default; }
+.srow > span { font-size: 14px; color: var(--txt, #e6dcc4); display: flex; flex-direction: column; }
+.srow > span small { font-size: 11px; color: var(--mute); margin-top: 2px; }
+.srow > b { font: 13px var(--num); color: var(--gold-hi); text-align: right; }
+.srow input[type=range] { width: 100%; accent-color: var(--gold); }
+.srow input[type=checkbox] { justify-self: start; width: 18px; height: 18px; accent-color: var(--gold); cursor: pointer; }
+.srow kbd { justify-self: start; padding: 2px 10px; font: 12px var(--num); color: var(--gold-hi); background: var(--deep); border: 1px solid var(--gold-lo); border-radius: 4px; }
+.seg { display: flex; flex-wrap: wrap; gap: 4px; }
+.seg button { padding: 4px 12px; font-size: 12.5px; color: var(--mute); border-radius: 3px; box-shadow: inset 0 0 0 1px rgba(216, 180, 106, .25); }
+.seg button.on { color: #1a1206; background: linear-gradient(#f5d99a, #c9a055); box-shadow: none; }
+.sfoot { display: flex; align-items: center; gap: 12px; padding-top: 6px; } .sfoot .hint { margin: 0; font-size: 12px; }
+
+/* UI scale (settings · 界面缩放): every HUD layer except the 3D view */
+.g > :not(.stage):not(.camp-bg) { zoom: var(--ui, 1); }

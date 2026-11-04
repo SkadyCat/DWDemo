@@ -50,12 +50,12 @@ export const MONSTER_TYPES = Object.freeze(patchMap('monsters', {
 /** Monster skills. Damage numbers are per point of tier damage; spawn scales them by `added.*`. */
 export const MAP_PACK = Object.freeze({
   skills: patchList('monsterSkills', [
-    { id: 'mob_strike', tags: ['attack', 'melee', 'monster'], time: 1.4, crit: 5, range: 90, actions: [{ do: 'strike', range: 90 }] },
-    { id: 'mob_bolt', tags: ['spell', 'projectile', 'monster'], time: 2, crit: 5, range: 700, actions: [{ do: 'projectile', speed: 900, radius: 18 }] },
+    { id: 'mob_strike', name: '扑击', tags: ['attack', 'melee', 'monster'], time: 1.4, crit: 5, range: 90, actions: [{ do: 'strike', range: 90 }] },
+    { id: 'mob_bolt', name: '暗弹', tags: ['spell', 'projectile', 'monster'], time: 2, crit: 5, range: 700, actions: [{ do: 'projectile', speed: 900, radius: 18 }] },
     // Telegraphed big hit: lands 1.2 s later where the target stood. The pressure is "can you take it".
-    { id: 'boss_slam', tags: ['attack', 'area', 'monster', 'telegraph'], time: 3.5, cooldown: 4, crit: 0, range: 600, effectiveness: 100,
+    { id: 'boss_slam', name: '重砸', tags: ['attack', 'area', 'monster', 'telegraph'], time: 3.5, cooldown: 4, crit: 0, range: 600, effectiveness: 100,
       actions: [{ do: 'area', at: 'target', radius: 160, delay: 1.2, mult: 900, fx: 'telegraph' }] },
-    { id: 'boss_nova', tags: ['spell', 'area', 'monster'], time: 2, cooldown: 6, crit: 0, range: 500, actions: [{ do: 'area', at: 'self', radius: 420, mult: 300 }] },
+    { id: 'boss_nova', name: '震荡新星', tags: ['spell', 'area', 'monster'], time: 2, cooldown: 6, crit: 0, range: 500, actions: [{ do: 'area', at: 'self', radius: 420, mult: 300 }] },
   ]),
   statuses: [
     { id: 'enraged', name: '狂暴', duration: 1e9, mods: [{ stat: 'damage', op: 'more', value: 200 }, { stat: 'speed', op: 'more', value: 50 }, { stat: 'aggro', op: 'more', value: 300 }] },

@@ -20,6 +20,7 @@ import { sfx, setLoop, audio } from './audio.mjs';
 import { CHAPTERS, newQuestState, questView, questEvent, questTick, claimChapter } from './quests.mjs';
 import { talentPoints } from '../../core/content/talents.mjs';
 import { Scene3D, Overlay } from './scene.mjs';
+import { loadSettings, saveSettings, DEFAULTS as SETTING_DEFAULTS, QUALITY, KEYBINDS } from './settings.mjs';
 import { dungeonRandom } from './dungeon.mjs';
 import { runSelfUpdate } from '../self-update.mjs';
 import { waystoneName, starterWaystones, FREE_TIER, WAYSTONE_RARITY } from './waystones.mjs';
@@ -34,7 +35,7 @@ const SLOT_GLYPH = { weapon: '兵', offhand: '副', helmet: '盔', chest: '甲',
 const PANELS = [
   { id: 'atlas', name: '地图', key: 'M' }, { id: 'talents', name: '天赋', key: 'P' }, { id: 'char', name: '角色', key: 'C' }, { id: 'bag', name: '背包', key: 'I' },
   { id: 'quest', name: '任务', key: 'J' }, { id: 'craft', name: '洗炼', key: 'K' }, { id: 'bd', name: '流派', key: 'B' }, { id: 'codex', name: '传奇', key: 'L' },
-  { id: 'vault', name: '仓库', key: 'H' },
+  { id: 'vault', name: '仓库', key: 'H' }, { id: 'settings', name: '设置', key: 'O' },
 ];
 const TIER_ROMAN = ['', 'Ⅰ', 'Ⅱ', 'Ⅲ', 'Ⅳ', 'Ⅴ', 'Ⅵ', 'Ⅶ', 'Ⅷ', 'Ⅸ', 'Ⅹ', 'Ⅺ', 'Ⅻ', 'XIII', 'XIV', 'XV', 'XVI'];
 
@@ -212,14 +213,15 @@ const ThingTip = {
 };
 
 const Minimap = {
-  props: { run: Object, tick: Number },
+  props: { run: Object, tick: Number, zoom: { type: Number, default: 1 } },
+  emits: ['open'],
   setup(props) {
     const el = ref(null);
     let base = null, layout = null;
     function draw() {
       const c = el.value, r = props.run; if (!c || !r) return;
-      const d = r.dungeon, size = d.size, scale = c.width / size * 2.2, ctx = c.getContext('2d');
-      if (layout !== d) {
+      const d = r.dungeon, size = d.size, scale = c.width / size * 2.2 * props.zoom, ctx = c.getContext('2d');
+      if (layout !== d || base.width !== Math.ceil(size * scale)) {
         layout = d; base = document.createElement('canvas'); base.width = base.height = Math.ceil(size * scale);
         const b = base.getContext('2d');
         for (const t of d.tiles) { b.fillStyle = d.rooms[t.room]?.kind === 'boss' ? '#5a2a26' : t.room < 0 ? '#28324a' : '#3a4866'; b.fillRect(t.x * scale, t.y * scale, scale + .5, scale + .5); }
@@ -238,7 +240,49 @@ const Minimap = {
     watch(() => props.tick, draw); onMounted(draw);
     return { el };
   },
-  template: `<div class="minimap"><canvas ref="el" width="200" height="200" aria-label="小地图"></canvas></div>`,
+  template: `<button class="minimap" @click="$emit('open')" title="打开大地图（Tab）"><canvas ref="el" width="200" height="200" aria-label="小地图"></canvas><small>Tab</small></button>`,
+};
+/** The whole map in the middle of the screen (Diablo's Tab map): rooms, the boss room, monsters, loot, the portal, you. */
+const BigMap = {
+  props: { run: Object, tick: Number },
+  emits: ['close'],
+  setup(props) {
+    const el = ref(null);
+    let base = null, layout = null;
+    function draw() {
+      const c = el.value, r = props.run; if (!c || !r) return;
+      const d = r.dungeon, ctx = c.getContext('2d');
+      // fit the explored footprint (all tiles) into the canvas
+      let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+      for (const t of d.tiles) { x0 = Math.min(x0, t.x); y0 = Math.min(y0, t.y); x1 = Math.max(x1, t.x + 1); y1 = Math.max(y1, t.y + 1); }
+      const pad = 2, scale = Math.min(c.width / (x1 - x0 + pad * 2), c.height / (y1 - y0 + pad * 2));
+      const ox = (c.width - (x1 - x0) * scale) / 2 - x0 * scale, oy = (c.height - (y1 - y0) * scale) / 2 - y0 * scale;
+      if (layout !== d) {
+        layout = d; base = document.createElement('canvas'); base.width = c.width; base.height = c.height;
+        const b = base.getContext('2d');
+        for (const t of d.tiles) { b.fillStyle = d.rooms[t.room]?.kind === 'boss' ? 'rgba(150,60,52,.75)' : t.room < 0 ? 'rgba(70,90,130,.55)' : 'rgba(96,120,170,.6)'; b.fillRect(ox + t.x * scale, oy + t.y * scale, scale + .6, scale + .6); }
+        // outline the rooms' edges a little brighter
+        b.strokeStyle = 'rgba(216,180,106,.35)'; b.lineWidth = 1;
+        const has = new Set(d.tiles.map(t => t.x + ',' + t.y));
+        for (const t of d.tiles) for (const [dx, dy, ax, ay, bx, by] of [[1, 0, 1, 0, 1, 1], [-1, 0, 0, 0, 0, 1], [0, 1, 0, 1, 1, 1], [0, -1, 0, 0, 1, 0]]) if (!has.has((t.x + dx) + ',' + (t.y + dy))) { b.beginPath(); b.moveTo(ox + (t.x + ax) * scale, oy + (t.y + ay) * scale); b.lineTo(ox + (t.x + bx) * scale, oy + (t.y + by) * scale); b.stroke(); }
+      }
+      ctx.clearRect(0, 0, c.width, c.height); ctx.drawImage(base, 0, 0);
+      const toMap = (x, y) => [ox + (x + d.half) / d.tile * scale, oy + (y + d.half) / d.tile * scale];
+      for (const m of r.monsters) { const [x, y] = toMap(m.x, m.y); ctx.fillStyle = m.boss ? '#ff6a4a' : m.kind === 'elite' ? '#ffd27a' : '#d0584f'; const s = m.boss ? 10 : m.kind === 'elite' ? 6 : 3.5; ctx.fillRect(x - s / 2, y - s / 2, s, s); }
+      for (const l of r.loot) { const [x, y] = toMap(l.x, l.y); ctx.fillStyle = l.drop.item?.legend ? '#ffad5a' : l.drop.type === 'waystone' ? '#9fd8ff' : '#fbe7b0'; ctx.beginPath(); ctx.arc(x, y, 2.6, 0, 7); ctx.fill(); }
+      for (const m of r.minions ?? []) { const [x, y] = toMap(m.x, m.y); ctx.fillStyle = '#7fe0c8'; ctx.fillRect(x - 1.5, y - 1.5, 3, 3); }
+      if (r.portal) { const [x, y] = toMap(r.portal.x, r.portal.y); ctx.strokeStyle = '#8fb8ff'; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.arc(x, y, 8, 0, 7); ctx.stroke(); }
+      const [hx, hy] = toMap(r.hero.x, r.hero.y), a = Math.atan2(r.hero.aim.y, r.hero.aim.x);
+      ctx.fillStyle = '#7fe0c8'; ctx.strokeStyle = '#04110e'; ctx.lineWidth = 1.5; ctx.beginPath();
+      ctx.moveTo(hx + Math.cos(a) * 11, hy + Math.sin(a) * 11); ctx.lineTo(hx + Math.cos(a + 2.5) * 7, hy + Math.sin(a + 2.5) * 7); ctx.lineTo(hx + Math.cos(a - 2.5) * 7, hy + Math.sin(a - 2.5) * 7); ctx.closePath(); ctx.fill(); ctx.stroke();
+    }
+    watch(() => props.tick, draw); onMounted(draw);
+    return { el };
+  },
+  template: `<section class="bigmap" @click="$emit('close')" aria-label="大地图">
+    <canvas ref="el" width="900" height="900"></canvas>
+    <footer><span><i class="d-you"></i>你</span><span><i class="d-mob"></i>怪物</span><span><i class="d-elite"></i>精英</span><span><i class="d-boss"></i>首领</span><span><i class="d-loot"></i>掉落</span><span><i class="d-portal"></i>传送阵</span><em>Tab 或点击关闭</em></footer>
+  </section>`,
 };
 
 // ------------------------------------------------------------------ page
@@ -258,7 +302,8 @@ const TEMPLATE = /* html */ `
       </div>
       <button class="plate-leave" @click="leaveRun">{{ run.phase === 'running' ? '撤离' : '回家' }}</button>
     </section>
-    <minimap :run="run" :tick="hud.tick"></minimap>
+    <minimap v-if="opts.minimap" :run="run" :tick="hud.tick" :zoom="opts.minimapZoom" @open="mapOpen = !mapOpen"></minimap>
+    <big-map v-if="mapOpen" :run="run" :tick="hud.tick" @close="mapOpen = false"></big-map>
 
     <section class="bossbar" v-if="hud.bossShow" :class="{ enraged: hud.bossEnraged }">
       <h3>{{ hud.bossName }}<small v-for="m in hud.bossMods" :key="m">{{ m }}</small><em v-if="hud.bossEnraged">狂暴</em></h3>
@@ -320,7 +365,7 @@ const TEMPLATE = /* html */ `
   <!-- =================== CAMP =================== -->
   <template v-else>
     <header class="topbar">
-      <button class="orn-btn ghost sm vol" @click="cycleVolume" :title="'音效音量（点一下切换）'">{{ volume === 0 ? '音效 关' : '音效 ' + Math.round(volume * 100) + '%' }}</button>
+      <button class="orn-btn ghost sm" @click="openCenter('settings')" title="设置（O）">设置</button>
       <button class="orn-btn ghost sm" @click="leaveAccount" :title="'当前账号：' + accountName">账号 · {{ accountName }}</button>
       <a class="orn-btn ghost sm" href="/editor/index.html" target="_blank" rel="noopener">内容编辑器</a>
       <button class="orn-btn ghost sm" @click="update">{{ updateText || '更新到最新' }}</button>
@@ -360,7 +405,7 @@ const TEMPLATE = /* html */ `
   <div class="toasts" :class="{ camp: !run }"><p v-for="t in toasts" :key="t.id" :class="t.cls"><Gi v-if="t.icon" :n="t.icon" :c="t.ic || ''"/>{{ t.text }}</p></div>
 
   <!-- =================== QUEST TRACKER + STORY =================== -->
-  <aside class="qtrack" v-if="quest && !atlasOpen && !talentOpen && !open.char && !open.vault && !center" :class="{ inrun: !!run }" @click="openCenter('quest')" title="打开任务（J）">
+  <aside class="qtrack" v-if="opts.showQuest && quest && !atlasOpen && !talentOpen && !open.char && !open.vault && !center" :class="{ inrun: !!run }" @click="openCenter('quest')" title="打开任务（J）">
     <header><small>第 {{ chapterNo(quest.index) }} 章 · {{ quest.chapter.sub }}</small><b>{{ quest.chapter.title }}</b></header>
     <ul><li v-for="(st, i) in quest.steps" :key="i" :class="{ done: st.done }"><i></i><span>{{ st.text }}</span><em v-if="st.need > 1 && !st.done && st.goal.type !== 'tier'">{{ fmtN(st.have) }}/{{ fmtN(st.need) }}</em></li></ul>
     <p v-if="quest.complete" class="qready">本章完成 · 点这里领取奖励</p>
@@ -679,6 +724,42 @@ const TEMPLATE = /* html */ `
         <p v-if="!quest" class="ql-end">星烬纪已经完结。图集还在，继续往外走吧。</p>
       </div>
 
+      <div v-if="center === 'settings'" class="settings">
+        <nav class="stabs"><button v-for="t in settingTabs" :key="t[0]" :class="{ on: settingTab === t[0] }" @click="settingTab = t[0]">{{ t[1] }}</button></nav>
+        <div class="srows" v-if="settingTab === 'audio'">
+          <label class="srow"><span>主音量</span><input type="range" min="0" max="1" step="0.05" v-model.number="opts.master"><b>{{ Math.round(opts.master * 100) }}%</b></label>
+          <label class="srow"><span>音效</span><input type="range" min="0" max="1" step="0.05" v-model.number="opts.sfx"><b>{{ Math.round(opts.sfx * 100) }}%</b></label>
+          <label class="srow"><span>环境音<small>地图里的低鸣、龙卷风声</small></span><input type="range" min="0" max="1" step="0.05" v-model.number="opts.ambience"><b>{{ Math.round(opts.ambience * 100) }}%</b></label>
+          <label class="srow"><span>切到别的窗口时静音</span><input type="checkbox" v-model="opts.muteUnfocused"><b></b></label>
+        </div>
+        <div class="srows" v-if="settingTab === 'video'">
+          <div class="srow"><span>画质预设</span><div class="seg"><button v-for="q in [['low', '低'], ['medium', '中'], ['high', '高']]" :key="q[0]" :class="{ on: opts.quality === q[0] }" @click="setQuality(q[0])">{{ q[1] }}</button></div><b></b></div>
+          <label class="srow"><span>渲染分辨率<small>越低越流畅</small></span><input type="range" min="0.5" max="1" step="0.05" v-model.number="opts.resScale"><b>{{ Math.round(opts.resScale * 100) }}%</b></label>
+          <label class="srow"><span>阴影</span><input type="checkbox" v-model="opts.shadows"><b></b></label>
+          <label class="srow"><span>泛光强度</span><input type="range" min="0" max="1.5" step="0.05" v-model.number="opts.bloom"><b>{{ Math.round(opts.bloom * 100) }}%</b></label>
+          <label class="srow"><span>镜头震动</span><input type="range" min="0" max="1.5" step="0.05" v-model.number="opts.shake"><b>{{ Math.round(opts.shake * 100) }}%</b></label>
+          <label class="srow"><span>闪屏与色散<small>大爆炸时的白闪、画面边缘的色散</small></span><input type="checkbox" v-model="opts.flashes"><b></b></label>
+          <label class="srow"><span>镜头距离</span><input type="range" min="0.75" max="1.35" step="0.05" v-model.number="opts.cameraZoom"><b>{{ Math.round(opts.cameraZoom * 100) }}%</b></label>
+        </div>
+        <div class="srows" v-if="settingTab === 'game'">
+          <label class="srow"><span>伤害数字</span><input type="checkbox" v-model="opts.damageNumbers"><b></b></label>
+          <div class="srow"><span>怪物血条</span><div class="seg"><button v-for="q in [['all', '全部'], ['elite', '只看精英和首领'], ['off', '关']]" :key="q[0]" :class="{ on: opts.healthBars === q[0] }" @click="opts.healthBars = q[0]">{{ q[1] }}</button></div><b></b></div>
+          <div class="srow"><span>掉落过滤<small>按住 Alt 总是显示全部</small></span><div class="seg"><button v-for="q in [['all', '全部'], ['default', '隐藏普通'], ['rare', '只看稀有以上']]" :key="q[0]" :class="{ on: opts.lootFilter === q[0] }" @click="opts.lootFilter = q[0]">{{ q[1] }}</button></div><b></b></div>
+          <label class="srow"><span>走过通货自动拾取</span><input type="checkbox" v-model="opts.autoCurrency"><b></b></label>
+          <label class="srow"><span>小地图</span><input type="checkbox" v-model="opts.minimap"><b></b></label>
+          <label class="srow"><span>小地图缩放</span><input type="range" min="0.6" max="2" step="0.1" v-model.number="opts.minimapZoom"><b>{{ opts.minimapZoom.toFixed(1) }}×</b></label>
+        </div>
+        <div class="srows" v-if="settingTab === 'ui'">
+          <label class="srow"><span>界面缩放</span><input type="range" min="0.8" max="1.3" step="0.05" v-model.number="opts.uiScale"><b>{{ Math.round(opts.uiScale * 100) }}%</b></label>
+          <label class="srow"><span>任务追踪</span><input type="checkbox" v-model="opts.showQuest"><b></b></label>
+          <label class="srow"><span>悬停提示</span><input type="checkbox" v-model="opts.showTips"><b></b></label>
+        </div>
+        <div class="srows keys" v-if="settingTab === 'keys'">
+          <div class="srow" v-for="k in keybinds" :key="k[0]"><span>{{ k[0] }}</span><kbd>{{ k[1] }}</kbd><b></b></div>
+        </div>
+        <footer class="sfoot"><button class="orn-btn ghost sm" @click="resetSettings">恢复默认</button><span class="hint">设置只存在这台电脑的浏览器里，换账号也保留。</span></footer>
+      </div>
+
       <div v-if="center === 'codex'" class="codex">
         <p class="hint">{{ legendaries.length }} 件传奇，每件一条改写玩法的传奇特性；基底其余特性和随机词条照常随机。首领约三分之一几率掉落，精英偶尔掉落。「试玩」直接放一件进背包。</p>
         <div class="codex-grid">
@@ -701,7 +782,7 @@ const TEMPLATE = /* html */ `
 
 export function mountGame(el) {
   const app = createApp({
-    components: { ItemTip, ThingTip, Minimap, Gi, TalentBoard },
+    components: { ItemTip, ThingTip, Minimap, BigMap, Gi, TalentBoard },
     template: TEMPLATE,
     setup() {
       const save = reactive(loadSave());
@@ -737,6 +818,24 @@ export function mountGame(el) {
         if (got) { toast(`得到 ${Object.entries(got.currencies).map(([id, n]) => CURRENCIES[id].name + '×' + n).join('、')}，${got.waystones.length} 块路石`, 'quest', 'locked-chest', 'el-gold'); questSel.value = Math.min(save.quests.chapter, CHAPTERS.length - 1); }
         writeSave(save); nextTick(showPendingStory);
       }
+      // ---- settings -------------------------------------------------------------------------------
+      const opts = reactive(loadSettings()), settingTab = ref('audio'), mapOpen = ref(false);
+      const settingTabs = [['audio', '音频'], ['video', '画面'], ['game', '游戏'], ['ui', '界面'], ['keys', '按键']];
+      let focused = true;
+      function applySettings() {
+        audio.setVolume(opts.muteUnfocused && !focused ? 0 : opts.master); audio.setSfx(opts.sfx); audio.setAmbience(opts.ambience);
+        scene?.applySettings({ resScale: opts.resScale, shadows: opts.shadows, bloom: opts.bloom, shake: opts.shake, zoom: 1 / opts.cameraZoom, flashes: opts.flashes });
+        if (ov) Object.assign(ov.opts, { damageNumbers: opts.damageNumbers, healthBars: opts.healthBars, lootFilter: opts.lootFilter });
+        if (run.value) run.value.autoCurrency = opts.autoCurrency;
+        document.documentElement.style.setProperty('--ui', String(opts.uiScale));
+      }
+      watch(opts, () => { saveSettings({ ...opts }); applySettings(); }, { deep: true });
+      onMounted(applySettings);
+      const onFocus = v => { focused = v; if (opts.muteUnfocused) applySettings(); };
+      const blurF = () => onFocus(false), focusF = () => onFocus(true);
+      onMounted(() => { addEventListener('blur', blurF); addEventListener('focus', focusF); }); onBeforeUnmount(() => { removeEventListener('blur', blurF); removeEventListener('focus', focusF); });
+      function setQuality(q) { opts.quality = q; Object.assign(opts, QUALITY[q]); }
+      function resetSettings() { Object.assign(opts, SETTING_DEFAULTS); }
       const volume = ref(audio.volume);
       function cycleVolume() { const steps = [0, .3, .6, 1], i = steps.findIndex(v => Math.abs(v - volume.value) < .05); audio.setVolume(steps[(i + 1) % steps.length]); volume.value = audio.volume; sfx('click'); }
       const persist = () => { writeSave(save); const n = questTick(save); if (n.length) { questNotes(n); writeSave(save); } };
@@ -892,7 +991,7 @@ export function mountGame(el) {
       const wallet = computed(() => Object.fromEntries(Object.keys(CURRENCIES).map(id => [id, curHave(save, id, !run.value)])));
       const xpNext = computed(() => xpToNext(save.level));
       const centerName = computed(() => PANELS.find(p => p.id === center.value)?.name ?? '');
-      const centerTitle = computed(() => ({ quest: '星 烬 纪', craft: '洗 炼', bd: '流 派', codex: '传 奇 图 鉴' })[center.value] ?? '');
+      const centerTitle = computed(() => ({ quest: '星 烬 纪', craft: '洗 炼', bd: '流 派', codex: '传 奇 图 鉴', settings: '设 置' })[center.value] ?? '');
 
       function toast(text, cls = '', icon = null, ic = '') { const id = ++toastId; toasts.value.push({ id, text, cls, icon, ic }); if (toasts.value.length > 6) toasts.value.shift(); setTimeout(() => { toasts.value = toasts.value.filter(t => t.id !== id); }, 3200); }
       // ---- skill bar drag & drop ----
@@ -930,6 +1029,7 @@ export function mountGame(el) {
       let lastAnchor = null;
       async function placeTip(anchor, value) {
         lastAnchor = anchor;
+        if (!opts.showTips && !value?.item) return;   // 悬停提示关掉时，装备提示照常（换装、洗炼要用）
         if (tipPinned.value) return;          // a pinned tooltip stays until it is closed
         hover.value = value;
         await nextTick();
@@ -1094,11 +1194,12 @@ export function mountGame(el) {
         if (used) save.waystones.splice(save.waystones.findIndex(w => w.uid === used.uid), 1);
         persist(); atlasOpen.value = false; talentOpen.value = false;
         const r = new MapRun(build(), { tier, family: node.family, mods, seed: (Date.now() ^ (Math.random() * 1e9)) >>> 0 });
-        r.node = node.id; r.canTake = d => bagFits(save, d);
+        r.node = node.id; r.canTake = d => bagFits(save, d); r.autoCurrency = opts.autoCurrency; mapOpen.value = false;
         run.value = markRaw(r); open.char = open.bag = open.vault = false; seenKills = 0; seenFull = -9; bossXp = false; center.value = null; seenPicked = 0; seenClear = -1; seenLoot = new Set(); seenPortal = 0; clearedBanner.value = false;
         Object.assign(resultLoot, { items: 0, currencies: 0, stones: 0, legend: 0, opened: 0, done: false });
         nextTick(() => {
           if (!scene) { scene = new Scene3D(stage.value); ov = new Overlay(overlay.value); bindLabels(overlay.value); globalThis.__dw.scene = scene; }
+          applySettings();
           stage.value.focus();
           last = performance.now(); acc = 0;
           cancelAnimationFrame(raf); raf = requestAnimationFrame(frame);
@@ -1236,10 +1337,13 @@ export function mountGame(el) {
         if (!down) return;
         if (/^[1-4]$/.test(k)) selectSkill(+k - 1);
         if (k === 't') { if (run.value) portalHome(); else portalBack(); }
+        if (k === 'tab') { e.preventDefault(); if (run.value) mapOpen.value = !mapOpen.value; return; }
         const p = PANELS.find(p => p.key.toLowerCase() === k); if (p) toggle(p.id);
         if (k === 'escape') {
+          if (mapOpen.value) { mapOpen.value = false; return; }
           if (talentOpen.value || atlasOpen.value || open.char || open.bag || open.vault || center.value) { talentOpen.value = false; atlasOpen.value = false; open.char = open.bag = open.vault = false; center.value = null; hover.value = null; }
           else if (run.value && run.value.phase === 'failed') leaveRun();
+          else openCenter('settings');   // nothing open: Esc is the game menu
         }
       };
       const kd = e => onKey(e, true), ku = e => onKey(e, false);
@@ -1274,6 +1378,7 @@ export function mountGame(el) {
         volume, cycleVolume, quest, questIndex, questSel, story, chapters: CHAPTERS, chapterNo, fmtN, rewardText, closeStory, claimStory, dragItem, dropSlot, dropBar, skillCards, skillGrid, hoverThing, tipPinned, activeCur, activeIdx, pickCur, curStacks, unpinTip, tipCraft, setBar, skillDragStart, skillDragEnd, skillDrop, quickBar, run, resultLoot, clearedBanner, hud,
         profile, requirements, statRows, bdArch, bdStages, currentBd, centerName, centerTitle, traits, granted, ladder, ladderFocus, primarySkill, bagCells,
         bagLeft, bagSize: BAG_SIZE, pageCells, pageSize: PAGE_SIZE, pages: PAGES, legendCap: LEGEND_CAP, currencyPage: CURRENCY_PAGE, vaultTab, legendSel, dropTab, dragFrom, legendCount, vaultCounts, wallet, tipStacks,
+        opts, settingTab, settingTabs, keybinds: KEYBINDS, setQuality, resetSettings, mapOpen,
         legendary, dropBagCell, dropPageCell, toVault, fromVault, moveCurrency, takeCurrency, vaultDragStart, dropToBag, dropToPage, portalRun, portalHome, portalBack, xpNext, maxLevel: MAX_LEVEL,
         pick, equippedFor, hoverOn, hoverOff, doEquip, doUnequip, dragStart, dropOn, doSalvage, doCraft, applyBd, clearBd, accountName, leaveAccount, grantLegendary, evaluate, update, toggle, isOpen, openCenter, startRun, leaveRun, selectSkill, gearChanged,
         panels: PANELS, tierList: Array.from({ length: MAP_TIERS }, (_, i) => i + 1), families: MAP_FAMILIES, slots: SLOTS, slotNames: SLOT_NAMES, currencies: CURRENCIES,

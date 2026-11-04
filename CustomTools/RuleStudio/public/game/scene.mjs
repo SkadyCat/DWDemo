@@ -37,6 +37,7 @@ export class Scene3D {
     scene.fog = new THREE.Fog(0x090c12, 22, 58);
     this.camera = new THREE.PerspectiveCamera(48, 1, 0.1, 200);
     this.zoom = 0.85;
+    this.opts = { resScale: 1, shadows: true, bloom: 1, shake: 1, zoom: 1, flashes: true };
     scene.add(new THREE.HemisphereLight(0xb8c8ff, 0x302418, 1.4), new THREE.AmbientLight(0x404a60, 0.6));
     const sun = this.sun = new THREE.DirectionalLight(0xfff1dc, 2.2);
     sun.castShadow = true; sun.shadow.mapSize.set(2048, 2048);
@@ -118,7 +119,7 @@ export class Scene3D {
     this.camBase.lerp(new THREE.Vector3(hp.x, 0, hp.z).add(offset), 0.12);
     this.camera.position.copy(this.camBase);
     this.camera.lookAt(this.camBase.clone().sub(offset));
-    if (this.fxState) this.camera.position.add(this.fxState.shake);
+    if (this.fxState) this.camera.position.addScaledVector(this.fxState.shake, this.opts.shake);
     this.sun.position.set(hp.x + 10, 22, hp.z + 6); this.sun.target.position.set(hp.x, 0, hp.z);
 
     this.portal.update(run.portal ? { x: run.portal.x, y: run.portal.y, radius: 90, active: true } : null, time);
@@ -172,11 +173,19 @@ export class Scene3D {
       return { key: l.key, x: l.x * M, z: -l.y * M, sourceX: l.sourceX * M, sourceZ: -l.sourceY * M, kind: 'item',
         rarity: item ? RARITY_KEY[rarityOf(d.item).id] : undefined, category: item ? 'equipment' : 'currency', currencyGrade: item ? undefined : (d.id.startsWith('essence') ? 3 : d.id === 'chaos' || d.id === 'seal' ? 2 : 1) };
     }), run.elapsed, []);
-    this.post.render(this.scene, this.camera, this.fxState);
+    this.post.render(this.scene, this.camera, this.fxState ? { ...this.fxState, bloom: (this.fxState.bloom ?? .7) * this.opts.bloom, flash: this.opts.flashes ? this.fxState.flash : 0, aberration: this.opts.flashes ? this.fxState.aberration : 0 } : this.fxState);
   }
 
   lootAnchor(key) { return this.loot.anchor(key); }
 
+  /** Settings: render scale, shadows, bloom, camera shake, camera distance. */
+  applySettings(o) {
+    this.opts = { ...this.opts, ...o };
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2) * this.opts.resScale);
+    if (this.renderer.shadowMap.enabled !== this.opts.shadows) { this.renderer.shadowMap.enabled = this.opts.shadows; this.sun.castShadow = this.opts.shadows; this.scene.traverse(m => { if (m.material) m.material.needsUpdate = true; }); }
+    this.zoom = 0.85 * this.opts.zoom;
+    this.resize?.();
+  }
   dispose() { this.chars.dispose(); this.portal.dispose(); this.floor?.dispose(); this.effects.dispose(); this.loot.dispose(); this.post.dispose(); this.renderer.dispose(); this.renderer.domElement.remove(); }
 }
 
@@ -187,6 +196,7 @@ export class Overlay {
     this.labels = new Map();            // loot key -> { el, w, h }
     this.labelLayer = document.createElement('div'); this.labelLayer.className = 'lt-layer'; root.appendChild(this.labelLayer);
     this.showAll = false;               // hold Alt: also show plain (white) items
+    this.opts = { damageNumbers: true, healthBars: 'all', lootFilter: 'default' };
   }
   /**
    * PoE-style ground labels: one name plate per drop, coloured by rarity, following the drop on screen.
@@ -200,7 +210,7 @@ export class Overlay {
       const stone = d.type === 'waystone';
       const rid = item ? rarityOf(d.item).id : stone ? 'waystone' : 'currency';
       const bl = item ? baseLinesOf(d.item) : 0;
-      if (rid === 'normal' && bl < 3 && !this.showAll) continue;
+      if (!this.showAll && item && ((this.opts.lootFilter !== 'all' && rid === 'normal' && bl < 3) || (this.opts.lootFilter === 'rare' && rid === 'magic' && bl < 3))) continue;
       const at = scene.project(toV(l.x, l.y, 0.42));
       if (!at || at.x < -80 || at.y < -40 || at.x > scene.width + 80 || at.y > scene.height + 40) continue;
       let lab = this.labels.get(l.key);
@@ -271,7 +281,8 @@ export class Overlay {
     const hero = run.hero;
     this.setBar(this.heroBar, hero.alive ? scene.project(toV(hero.x, hero.y, 2.05)) : null, hero, run.statuses(hero), '');
     let used = 0;
-    const list = run.monsters.filter(mn => Math.hypot(mn.x - hero.x, mn.y - hero.y) < 1600).slice(0, 120);
+    const hb = this.opts.healthBars;
+    const list = hb === 'off' ? [] : run.monsters.filter(mn => (hb !== 'elite' || mn.kind !== 'monster') && Math.hypot(mn.x - hero.x, mn.y - hero.y) < 1600).slice(0, 120);
     for (const mon of list) {
       const at = scene.project(toV(mon.x, mon.y, 1.45 * sizeOf(mon) + 0.35));
       if (!at) continue;
@@ -284,7 +295,7 @@ export class Overlay {
     }
     for (let i = used; i < this.bars.length; ++i) this.bars[i].el.style.display = 'none';
     let f = 0;
-    for (const [i, fl] of run.flashes.entries()) {
+    for (const [i, fl] of (this.opts.damageNumbers ? run.flashes : []).entries()) {
       const at = scene.project(toV(fl.x + ((i * 37) % 9 - 4) * 6, fl.y, 1.9 + fl.age * 1.6));
       if (!at || f >= 240) continue;
       if (f >= this.floats.length) { const el = document.createElement('div'); el.className = 'ft'; this.root.appendChild(el); this.floats.push({ el, text: '', cls: '' }); }

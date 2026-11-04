@@ -9,6 +9,7 @@ const VOL_KEY = 'dw.volume';
 let ctx = null, master = null, dry = null, wet = null, noiseBuf = null, comp = null, meter = null;
 let volume = (() => { try { const v = parseFloat(localStorage.getItem(VOL_KEY)); return Number.isFinite(v) ? v : 0.6; } catch { return 0.6; } })();
 const last = new Map(), live = new Map();
+let sfxLevel = 1, ambLevel = 1;   // the settings' 音效 / 环境音 sliders, on top of the master volume
 
 function impulse(c, seconds = 2.2, decay = 3.2) {
   const n = Math.floor(c.sampleRate * seconds), b = c.createBuffer(2, n, c.sampleRate);
@@ -156,14 +157,14 @@ const SFX = {
  * Cooldown and voice caps keep a 200-monster fight readable.
  */
 export function sfx(name, opts = {}) {
-  if (volume <= 0) return;
+  if (volume <= 0 || sfxLevel <= 0) return;
   const def = SFX[name]; if (!def || !init() || ctx.state !== 'running') return;
   const [cool, cap, recipe] = def, now = ctx.currentTime;
   if (now - (last.get(name) ?? -1) < cool) return;
   const n = live.get(name) ?? 0; if (n >= cap) return;
   last.set(name, now); live.set(name, n + 1);
   setTimeout(() => live.set(name, Math.max(0, (live.get(name) ?? 1) - 1)), 350);
-  try { recipe(now + 0.005, out(now, { gain: opts.gain ?? 1, pan: opts.pan ?? 0, verb: opts.verb ?? 0.3 }), opts); } catch (e) { console.warn('[sfx]', name, e); }
+  try { recipe(now + 0.005, out(now, { gain: (opts.gain ?? 1) * sfxLevel, pan: opts.pan ?? 0, verb: opts.verb ?? 0.3 }), opts); } catch (e) { console.warn('[sfx]', name, e); }
 }
 
 // ---- loops: wind for tornadoes, a low drone in maps --------------------------------------------
@@ -189,13 +190,15 @@ export function setLoop(name, level) {
     }
   });
   if (!g) return;
-  const peak = { wind: 0.22, drone: 0.05 }[name] ?? 0.1;
+  const peak = ({ wind: 0.22, drone: 0.05 }[name] ?? 0.1) * ambLevel;
   g.gain.setTargetAtTime(Math.max(0, Math.min(1, level)) * peak, ctx.currentTime, 0.25);
 }
 
 export const audio = {
   get volume() { return volume; },
   setVolume(v) { volume = Math.max(0, Math.min(1, v)); try { localStorage.setItem(VOL_KEY, String(volume)); } catch { /* ignore */ } if (master) master.gain.setTargetAtTime(volume, ctx.currentTime, 0.05); },
+  setSfx(v) { sfxLevel = Math.max(0, Math.min(1, v)); },
+  setAmbience(v) { ambLevel = Math.max(0, Math.min(1, v)); },
   names: Object.keys(SFX),
   /** Current output level 0..1 (for tests and a level meter). */
   level() { if (!meter) return 0; const a = new Float32Array(meter.fftSize); meter.getFloatTimeDomainData(a); let m = 0; for (const v of a) m = Math.max(m, Math.abs(v)); return m; },
