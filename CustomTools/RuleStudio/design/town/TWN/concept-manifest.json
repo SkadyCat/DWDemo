@@ -1,0 +1,1015 @@
+{
+  "schemaVersion": 1,
+  "generatedOn": "2026-11-05",
+  "stage": "concept",
+  "provider": "built-in image_gen",
+  "promptSet": "../town-prompts.json",
+  "promptSetSha256": "ab5cc362a9073d4516b8494aae4f4b352b387290dd0974f0cacf14d4276cc32f",
+  "count": 50,
+  "assetConcepts": 45,
+  "sceneConcepts": 5,
+  "export": "Independent built-in image generations, followed by 1024x1024 PNG size/format normalization. Source originals retained.",
+  "review": "All concepts visually reviewed per image and on 128px/256px contact sheets. Rejected variants regenerated; final scene framing refined with built-in image_gen.",
+  "images": [
+    {
+      "id": "TWN-STR-01",
+      "name": "金殿",
+      "variant": "A",
+      "assetStem": "TWN_STR_hall_A",
+      "kind": "asset",
+      "sizeMeters": "26 × 8 × 8",
+      "file": "design/town/TWN/TWN_STR_hall_A/TWN_STR_hall_A_concept.png",
+      "width": 1024,
+      "height": 1024,
+      "format": "PNG",
+      "bytes": 1515989,
+      "sha256": "75f2ae849091d859d30ddc64cd432bc348122b5994524d6d7aec61203fa30549",
+      "sourceSha256": "309dbb90ff34fc6f7d6a533d4c5228f4cadffb36fcaa1184a8a540a28fdb832f",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "id": "TWN-STR-02",
+      "name": "灯井",
+      "variant": "A",
+      "assetStem": "TWN_STR_lampwell_A",
+      "kind": "asset",
+      "sizeMeters": "6 × 6 × 5",
+      "file": "design/town/TWN/TWN_STR_lampwell_A/TWN_STR_lampwell_A_concept.png",
+      "width": 1024,
+      "height": 1024,
+      "format": "PNG",
+      "bytes": 1489352,
+      "sha256": "7467d187c040c1d6f345da03c338a678634b5e453d50813cd42c65a3647593cf",
+      "sourceSha256": "f7cbc7fbde70e7f1927513e64cc5c213e04c5430044ee75d00f59a433cffd694",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "id": "TWN-STR-03",
+      "name": "半盏灯酒馆",
+      "variant": "A",
+      "assetStem": "TWN_STR_tavern_A",
+      "kind": "asset",
+      "sizeMeters": "14 × 10 × 8",
+      "file": "design/town/TWN/TWN_STR_tavern_A/TWN_STR_tavern_A_concept.png",
+      "width": 1024,
+      "height": 1024,
+      "format": "PNG",
+      "bytes": 1759629,
+      "sha256": "b2e55380df5d675c185ca11b9be79d1aa6c3127050ee4bbd71b2c2a2921cdcac",
+      "sourceSha256": "7855949aa504130e3a0bbfca36727d845df52b40144e2dfe5f5835abf3cfa886",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "id": "TWN-STR-04",
+      "name": "铁匠铺",
+      "variant": "A",
+      "assetStem": "TWN_STR_forge_A",
+      "kind": "asset",
+      "sizeMeters": "12 × 8 × 6",
+      "file": "design/town/TWN/TWN_STR_forge_A/TWN_STR_forge_A_concept.png",
+      "width": 1024,
+      "height": 1024,
+      "format": "PNG",
+      "bytes": 1596645,
+      "sha256": "e67b8a007de63a7f4ce7c428a2ee343d62d7d90f765b6663be686d074215868c",
+      "sourceSha256": "f9dfefc128d0fcfbd8e579161f68ea4885df92262e29bcc050be919cd3fe5594",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "id": "TWN-STR-05",
+      "name": "观星阁",
+      "variant": "A",
+      "assetStem": "TWN_STR_observatory_A",
+      "kind": "asset",
+      "sizeMeters": "10 × 10 × 12",
+      "file": "design/town/TWN/TWN_STR_observatory_A/TWN_STR_observatory_A_concept.png",
+      "width": 1024,
+      "height": 1024,
+      "format": "PNG",
+      "bytes": 1652624,
+      "sha256": "bb79011d85526d8fe58d237b7d849b129e6aeb7fef7b2645e83b774be2754976",
+      "sourceSha256": "80f5754a4173a6e7fe6956ec02bf847c9b40223406e3f03885160499b47b9926",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "id": "TWN-STR-06",
+      "name": "库房",
+      "variant": "A",
+      "assetStem": "TWN_STR_vault_A",
+      "kind": "asset",
+      "sizeMeters": "12 × 12 × 5",
+      "file": "design/town/TWN/TWN_STR_vault_A/TWN_STR_vault_A_concept.png",
+      "width": 1024,
+      "height": 1024,
+      "format": "PNG",
+      "bytes": 1479272,
+      "sha256": "8f7a65ae0b110165e87395d3a298b9a173ea7a66f8bd55bdee11a419c66ef9d6",
+      "sourceSha256": "ff93ebf9c205cf50d93f96717089719d6a30516f6f7b04ec1c8ba87523f4e70b",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "id": "TWN-STR-07",
+      "name": "营地之门",
+      "variant": "A",
+      "assetStem": "TWN_STR_gate_A",
+      "kind": "asset",
+      "sizeMeters": "10 × 6 × 8",
+      "file": "design/town/TWN/TWN_STR_gate_A/TWN_STR_gate_A_concept.png",
+      "width": 1024,
+      "height": 1024,
+      "format": "PNG",
+      "bytes": 1712189,
+      "sha256": "db0c4533d1d07041c9e1c4b39a4171f918f1217f9bc1069e49f15d86a92bcd18",
+      "sourceSha256": "b831df8862e7826827e4411da404167040739257ae1fec3c24fa283d7714f6b0",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "id": "TWN-STR-10",
+      "name": "小民房",
+      "variant": "A",
+      "assetStem": "TWN_STR_house_A",
+      "kind": "asset",
+      "sizeMeters": "6 × 6 × 5",
+      "file": "design/town/TWN/TWN_STR_house_A/TWN_STR_house_A_concept.png",
+      "width": 1024,
+      "height": 1024,
+      "format": "PNG",
+      "bytes": 1708935,
+      "sha256": "d402ea84f81407a4f044c6756474f8383e882d71580ba29457a48f0a5a3d3d50",
+      "sourceSha256": "788a533c117d9c2ef88a5ccf98abec5d0fadb5d42235cd0024e4dedbc55acb75",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "id": "TWN-STR-10",
+      "name": "小民房",
+      "variant": "B",
+      "assetStem": "TWN_STR_house_B",
+      "kind": "asset",
+      "sizeMeters": "6 × 6 × 5",
+      "file": "design/town/TWN/TWN_STR_house_B/TWN_STR_house_B_concept.png",
+      "width": 1024,
+      "height": 1024,
+      "format": "PNG",
+      "bytes": 1523941,
+      "sha256": "ef95a83e193a0b1635ff25d95f592a62986382264c54c418492621283a0780d2",
+      "sourceSha256": "59aa2c85e6db6f2dcf9edd84480a7b4964df9ff45eecec1145ab3955c241b5da",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "id": "TWN-STR-10",
+      "name": "小民房",
+      "variant": "C",
+      "assetStem": "TWN_STR_house_C",
+      "kind": "asset",
+      "sizeMeters": "6 × 6 × 5",
+      "file": "design/town/TWN/TWN_STR_house_C/TWN_STR_house_C_concept.png",
+      "width": 1024,
+      "height": 1024,
+      "format": "PNG",
+      "bytes": 1666064,
+      "sha256": "0dbb88d78e98ddea11c683d929c6ac302023432ab424a6ad0ad048965fdd05f5",
+      "sourceSha256": "d16698cccbc3c39ae3ce145d48605c0ffc4ccb38ef4f6fae3f41fc4f5785c457",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "id": "TWN-STR-11",
+      "name": "长条民房",
+      "variant": "A",
+      "assetStem": "TWN_STR_house_long_A",
+      "kind": "asset",
+      "sizeMeters": "6 × 4 × 4.5",
+      "file": "design/town/TWN/TWN_STR_house_long_A/TWN_STR_house_long_A_concept.png",
+      "width": 1024,
+      "height": 1024,
+      "format": "PNG",
+      "bytes": 1540201,
+      "sha256": "6df8a8008ca05991a71b49dc8310fcb58570ddcef7bd887a1ceb3b43eb0f7032",
+      "sourceSha256": "f54d1050471364075b6046a9f1a7ed2c04c262db0d6b7beabeeee5c1497546f9",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "id": "TWN-STR-12",
+      "name": "二层民房",
+      "variant": "A",
+      "assetStem": "TWN_STR_house_big_A",
+      "kind": "asset",
+      "sizeMeters": "8 × 6 × 7",
+      "file": "design/town/TWN/TWN_STR_house_big_A/TWN_STR_house_big_A_concept.png",
+      "width": 1024,
+      "height": 1024,
+      "format": "PNG",
+      "bytes": 1640552,
+      "sha256": "4658cf5162318c4018225a33c828fc1437ff28fe69e362faabbf5de0d81afca8",
+      "sourceSha256": "7b2a647baf6f9f7a0deeee2601f76e447675c29696023906e9bc331648cc95a2",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "id": "TWN-STR-13",
+      "name": "小作坊",
+      "variant": "A",
+      "assetStem": "TWN_STR_workshop_A",
+      "kind": "asset",
+      "sizeMeters": "6 × 6 × 4",
+      "file": "design/town/TWN/TWN_STR_workshop_A/TWN_STR_workshop_A_concept.png",
+      "width": 1024,
+      "height": 1024,
+      "format": "PNG",
+      "bytes": 1743309,
+      "sha256": "1382cad14950d82934c0a71abf335943c1414ddaf7357d2af4cd8a4dc1a24687",
+      "sourceSha256": "3096e21e311763bfec598a0e8ba566bab1098e5a33d0f2d549a197de79a2252f",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "id": "TWN-STR-14",
+      "name": "棚屋",
+      "variant": "A",
+      "assetStem": "TWN_STR_shack_A",
+      "kind": "asset",
+      "sizeMeters": "4 × 4 × 3",
+      "file": "design/town/TWN/TWN_STR_shack_A/TWN_STR_shack_A_concept.png",
+      "width": 1024,
+      "height": 1024,
+      "format": "PNG",
+      "bytes": 1492746,
+      "sha256": "c720bdd23ab4cd167bbf43e63617819662dbb3d83dc6b482489e56b5578ce7c0",
+      "sourceSha256": "d424aafb551162db4f6f523a13b6a9a701fe6f31207172125eaec8d832b6d495",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "id": "TWN-STR-14",
+      "name": "棚屋",
+      "variant": "B",
+      "assetStem": "TWN_STR_shack_B",
+      "kind": "asset",
+      "sizeMeters": "4 × 4 × 3",
+      "file": "design/town/TWN/TWN_STR_shack_B/TWN_STR_shack_B_concept.png",
+      "width": 1024,
+      "height": 1024,
+      "format": "PNG",
+      "bytes": 1550477,
+      "sha256": "35ee711d37a88e6077c6cf819d8c185d1b1925cb818b688f5570238e3265d583",
+      "sourceSha256": "c483f2dcd9d4906e91e9a1e23197ce9a3f889883df28d8879b586b6ed09ef5bf",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "id": "TWN-STR-14",
+      "name": "棚屋",
+      "variant": "C",
+      "assetStem": "TWN_STR_shack_C",
+      "kind": "asset",
+      "sizeMeters": "4 × 4 × 3",
+      "file": "design/town/TWN/TWN_STR_shack_C/TWN_STR_shack_C_concept.png",
+      "width": 1024,
+      "height": 1024,
+      "format": "PNG",
+      "bytes": 1581039,
+      "sha256": "b9767d74c8a9c4ce56578b85d65e29c35634edd989f824cd3708bd74712542dc",
+      "sourceSha256": "825c251deff3bbb30cd3b3c6547f86350cbd5900cf51102b96b169a96cb97117",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "id": "TWN-STR-20",
+      "name": "栈桥",
+      "variant": "A",
+      "assetStem": "TWN_STR_pier_A",
+      "kind": "asset",
+      "sizeMeters": "4 × 8 × 1",
+      "file": "design/town/TWN/TWN_STR_pier_A/TWN_STR_pier_A_concept.png",
+      "width": 1024,
+      "height": 1024,
+      "format": "PNG",
+      "bytes": 1314350,
+      "sha256": "1933742d5b864c752e128982cff8f1ddd621e5cc5ccb3923558a77d1ecfaa3ee",
+      "sourceSha256": "f7e0275ddfc4f69050431a974f9f3a61b3d237393da40ab08b6f9620cf7911f7",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "id": "TWN-PRP-20",
+      "name": "小船",
+      "variant": "A",
+      "assetStem": "TWN_PRP_boat_A",
+      "kind": "asset",
+      "sizeMeters": "3 × 1.2 × 0.8",
+      "file": "design/town/TWN/TWN_PRP_boat_A/TWN_PRP_boat_A_concept.png",
+      "width": 1024,
+      "height": 1024,
+      "format": "PNG",
+      "bytes": 1225949,
+      "sha256": "5eef55a879a9b26a5553417d90cd3267e3a03446778b5ef33e3bdca6f0a37af7",
+      "sourceSha256": "8406780cb3f6fae6dab89a7144bb732ce9fcdefda1d45b8cbc224c71fac7f919",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "id": "TWN-PRP-01",
+      "name": "面包摊",
+      "variant": "A",
+      "assetStem": "TWN_PRP_stall_bread_A",
+      "kind": "asset",
+      "sizeMeters": "2 × 1.4 × 2.2",
+      "file": "design/town/TWN/TWN_PRP_stall_bread_A/TWN_PRP_stall_bread_A_concept.png",
+      "width": 1024,
+      "height": 1024,
+      "format": "PNG",
+      "bytes": 1479970,
+      "sha256": "d0ac0304970c4ce01088bafeffccdb041e1f1ce19eafa96e9d0b1dbbeed649e5",
+      "sourceSha256": "2cc20029c591027c2f5a4eb76878791700915b48815e7a5e66114b5d1d4d651c",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "id": "TWN-PRP-02",
+      "name": "腌菜摊",
+      "variant": "A",
+      "assetStem": "TWN_PRP_stall_pickle_A",
+      "kind": "asset",
+      "sizeMeters": "2 × 1.4 × 2.2",
+      "file": "design/town/TWN/TWN_PRP_stall_pickle_A/TWN_PRP_stall_pickle_A_concept.png",
+      "width": 1024,
+      "height": 1024,
+      "format": "PNG",
+      "bytes": 1644871,
+      "sha256": "7a24266e2cdb02087c233783f12274b6bbb4ab0f5a52cb118683cf4b0ed296e9",
+      "sourceSha256": "785d5362f3e4774dbe423a1cff6faae5976a4c6e2f88b3fbb74572a36a87fea3",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "id": "TWN-PRP-03",
+      "name": "旧衣摊",
+      "variant": "A",
+      "assetStem": "TWN_PRP_stall_cloth_A",
+      "kind": "asset",
+      "sizeMeters": "2 × 1.4 × 2.2",
+      "file": "design/town/TWN/TWN_PRP_stall_cloth_A/TWN_PRP_stall_cloth_A_concept.png",
+      "width": 1024,
+      "height": 1024,
+      "format": "PNG",
+      "bytes": 1514995,
+      "sha256": "c632cab51a71b581fbda3f3f223cc70fad304954cfc3de8fcf26968cec93c7f7",
+      "sourceSha256": "7952fc6b6e8cba776621d49bc0bf18fd48f901a0b3961d1c9083b2045f4cc28c",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "id": "TWN-PRP-04",
+      "name": "药草摊",
+      "variant": "A",
+      "assetStem": "TWN_PRP_stall_herb_A",
+      "kind": "asset",
+      "sizeMeters": "2 × 1.4 × 2.2",
+      "file": "design/town/TWN/TWN_PRP_stall_herb_A/TWN_PRP_stall_herb_A_concept.png",
+      "width": 1024,
+      "height": 1024,
+      "format": "PNG",
+      "bytes": 1337237,
+      "sha256": "609c176c5b94f75362e627af2a3080b520adcdff5faff99e1f35981bd332e255",
+      "sourceSha256": "2e9a9e81b378568e01cb108b52fef71c1ae401580f589b211c2a01aea2026b5f",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "id": "TWN-PRP-05",
+      "name": "修鞋摊",
+      "variant": "A",
+      "assetStem": "TWN_PRP_stall_shoe_A",
+      "kind": "asset",
+      "sizeMeters": "2 × 1.4 × 2.2",
+      "file": "design/town/TWN/TWN_PRP_stall_shoe_A/TWN_PRP_stall_shoe_A_concept.png",
+      "width": 1024,
+      "height": 1024,
+      "format": "PNG",
+      "bytes": 1457646,
+      "sha256": "d64cefa38af5f680af077fb746549752f1122c82fc9ba40810e646df95effc02",
+      "sourceSha256": "fcb9e2a6b77121b4856963082ca36c5d50961d0cb7601267b2743d859a9062dc",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "id": "TWN-PRP-06",
+      "name": "杂货摊",
+      "variant": "A",
+      "assetStem": "TWN_PRP_stall_junk_A",
+      "kind": "asset",
+      "sizeMeters": "2 × 1.4 × 2.2",
+      "file": "design/town/TWN/TWN_PRP_stall_junk_A/TWN_PRP_stall_junk_A_concept.png",
+      "width": 1024,
+      "height": 1024,
+      "format": "PNG",
+      "bytes": 1573723,
+      "sha256": "ca6f5db883e8f7d62ca3f68ff46552e8fe330e3179ab134fd89bbc5761ab93a5",
+      "sourceSha256": "24dbf0a17056ff4fb35dc2a614df1f57ba555d4bc8600e297d519a533266ed80",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "id": "TWN-PRP-07",
+      "name": "长椅",
+      "variant": "A",
+      "assetStem": "TWN_PRP_bench_A",
+      "kind": "asset",
+      "sizeMeters": "1.8 × 0.5 × 0.9",
+      "file": "design/town/TWN/TWN_PRP_bench_A/TWN_PRP_bench_A_concept.png",
+      "width": 1024,
+      "height": 1024,
+      "format": "PNG",
+      "bytes": 1250215,
+      "sha256": "a9562e30518633b3d4287d2fd5691fe83e810a836d7a84934c31fc4a562345df",
+      "sourceSha256": "502b4ed837305ad2d1cc91b3764c8cce44672a685d3e8de8187caa3919a14658",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "id": "TWN-PRP-08",
+      "name": "布告板",
+      "variant": "A",
+      "assetStem": "TWN_PRP_board_A",
+      "kind": "asset",
+      "sizeMeters": "2 × 0.4 × 2.2",
+      "file": "design/town/TWN/TWN_PRP_board_A/TWN_PRP_board_A_concept.png",
+      "width": 1024,
+      "height": 1024,
+      "format": "PNG",
+      "bytes": 1474080,
+      "sha256": "eb4bdec160478dc9a9d9b70351d635e32e43926fc09d63cc7a7f1115674015af",
+      "sourceSha256": "369c55ebcdca2ab739eba400ce3d781c930e07a5dc452b2bdc8c5d6b6154d9de",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "id": "TWN-PRP-09",
+      "name": "祈愿龛",
+      "variant": "A",
+      "assetStem": "TWN_PRP_shrine_A",
+      "kind": "asset",
+      "sizeMeters": "2.4 × 1.2 × 1.6",
+      "file": "design/town/TWN/TWN_PRP_shrine_A/TWN_PRP_shrine_A_concept.png",
+      "width": 1024,
+      "height": 1024,
+      "format": "PNG",
+      "bytes": 1424031,
+      "sha256": "25d453356299122c30bbddc422c7f7a0f9cf2e024f89c0042d16cf32f9a458a1",
+      "sourceSha256": "4073e6816fcf4ca96a1725376eaa91aeea8477c239b870397eb5288f405bacbb",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "id": "TWN-PRP-10",
+      "name": "路灯",
+      "variant": "A",
+      "assetStem": "TWN_PRP_streetlamp_A",
+      "kind": "asset",
+      "sizeMeters": "0.8 × 0.4 × 2.8",
+      "file": "design/town/TWN/TWN_PRP_streetlamp_A/TWN_PRP_streetlamp_A_concept.png",
+      "width": 1024,
+      "height": 1024,
+      "format": "PNG",
+      "bytes": 920911,
+      "sha256": "97bb2c9effe01af9d3a402c65b9e13a6ee73dad83f8db4af80b2b559d473c002",
+      "sourceSha256": "cecc5c05b6a6b55d731ba61833158ce45c86f148617844bdda59e7835f6cd4a9",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "id": "TWN-PRP-11",
+      "name": "木箱木桶堆",
+      "variant": "A",
+      "assetStem": "TWN_PRP_crates_A",
+      "kind": "asset",
+      "sizeMeters": "1.6 × 1 × 1.2",
+      "file": "design/town/TWN/TWN_PRP_crates_A/TWN_PRP_crates_A_concept.png",
+      "width": 1024,
+      "height": 1024,
+      "format": "PNG",
+      "bytes": 1332160,
+      "sha256": "395dd41f35c122cfd5d28ec5270191cd7956f46115b6e204891eced4b77c579a",
+      "sourceSha256": "4f54b8123e6a793441ba5a19e9608f6a6680c8223a07761a3845fafcab0e2b6f",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "id": "TWN-PRP-12",
+      "name": "晾衣绳",
+      "variant": "A",
+      "assetStem": "TWN_PRP_laundry_A",
+      "kind": "asset",
+      "sizeMeters": "4 × 0.3 × 2",
+      "file": "design/town/TWN/TWN_PRP_laundry_A/TWN_PRP_laundry_A_concept.png",
+      "width": 1024,
+      "height": 1024,
+      "format": "PNG",
+      "bytes": 1076509,
+      "sha256": "cd8f05cf6ac78cc56127f814e3166c2820f1da1f8eb0e94d761577a3cff8a9a9",
+      "sourceSha256": "439fc3205cd6b8245600b3d499b277371dcf429056aa136d31d51827084f6063",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "id": "TWN-PRP-13",
+      "name": "手推车",
+      "variant": "A",
+      "assetStem": "TWN_PRP_cart_A",
+      "kind": "asset",
+      "sizeMeters": "2 × 1 × 1",
+      "file": "design/town/TWN/TWN_PRP_cart_A/TWN_PRP_cart_A_concept.png",
+      "width": 1024,
+      "height": 1024,
+      "format": "PNG",
+      "bytes": 1248840,
+      "sha256": "6225a1099724580ec679b13dddd91677cb21d7c88b9aa7b2eb5949ebca1b9949",
+      "sourceSha256": "36d3909ef1fd80e1f1138dc4ae52cac0b124c47c8448dccfee9662187750c25c",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "id": "TWN-PRP-14",
+      "name": "水槽",
+      "variant": "A",
+      "assetStem": "TWN_PRP_trough_A",
+      "kind": "asset",
+      "sizeMeters": "1.6 × 0.6 × 0.6",
+      "file": "design/town/TWN/TWN_PRP_trough_A/TWN_PRP_trough_A_concept.png",
+      "width": 1024,
+      "height": 1024,
+      "format": "PNG",
+      "bytes": 1248902,
+      "sha256": "c718bfdaeff6b87bb639cbcdbe3a97976626cb898606001ed6c7e5ebc38fa299",
+      "sourceSha256": "c843e0419c16f832a22ba9b095dfc2a61e8131c6796b81f9aeb80e273000ca2f",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "id": "TWN-PRP-15",
+      "name": "酒馆外桌",
+      "variant": "A",
+      "assetStem": "TWN_PRP_tavern_table_A",
+      "kind": "asset",
+      "sizeMeters": "1.6 × 1.6 × 0.8",
+      "file": "design/town/TWN/TWN_PRP_tavern_table_A/TWN_PRP_tavern_table_A_concept.png",
+      "width": 1024,
+      "height": 1024,
+      "format": "PNG",
+      "bytes": 1362653,
+      "sha256": "2c0d89d3ad8102aece861f68517c785c0ff798706b688c1973abeaa9ec5d5363",
+      "sourceSha256": "e9b52a39291e7e578ffc0974b6b12d798f27eafc1e9aa20653902d4069e77da6",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "id": "TWN-PRP-16",
+      "name": "九城旗",
+      "variant": "A",
+      "assetStem": "TWN_PRP_banner_A",
+      "kind": "asset",
+      "sizeMeters": "0.6 × 0.3 × 3",
+      "file": "design/town/TWN/TWN_PRP_banner_A/TWN_PRP_banner_A_concept.png",
+      "width": 1024,
+      "height": 1024,
+      "format": "PNG",
+      "bytes": 1086280,
+      "sha256": "8d453ad81b60667837d45dd0022c43a07853e7d86d88d710f9c02488051b6290",
+      "sourceSha256": "fec869bf6798e58e124bea38d96e74991f5613982a74c132b45eb5481d7fc033",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "id": "TWN-PRP-17",
+      "name": "发光苔藓花坛",
+      "variant": "A",
+      "assetStem": "TWN_PRP_mossbed_A",
+      "kind": "asset",
+      "sizeMeters": "1.4 × 1.4 × 0.6",
+      "file": "design/town/TWN/TWN_PRP_mossbed_A/TWN_PRP_mossbed_A_concept.png",
+      "width": 1024,
+      "height": 1024,
+      "format": "PNG",
+      "bytes": 1316443,
+      "sha256": "8cc1f8e0ffad5f60eb1a06e8113553a33e7cfd42fe9f3505eb8863642f117529",
+      "sourceSha256": "a3c48d4236d7501efe14ad7d4883c4f21361a80020b6d73edaa958e97c79c8fb",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "id": "TWN-PRP-18",
+      "name": "地图仪",
+      "variant": "A",
+      "assetStem": "TWN_PRP_mapdevice_A",
+      "kind": "asset",
+      "sizeMeters": "3 × 3 × 2.4",
+      "file": "design/town/TWN/TWN_PRP_mapdevice_A/TWN_PRP_mapdevice_A_concept.png",
+      "width": 1024,
+      "height": 1024,
+      "format": "PNG",
+      "bytes": 1475063,
+      "sha256": "064b3cabeb79b92a209656d7b2b83ad2b949a586f82dbb19ae343f01a67e79d3",
+      "sourceSha256": "ca5ab77c14e3e2c03c672d7592617a893f688bec955192de5d90e108783c797d",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "id": "TWN-PRP-19",
+      "name": "NPC 站台",
+      "variant": "A",
+      "assetStem": "TWN_PRP_dais_A",
+      "kind": "asset",
+      "sizeMeters": "1.4 × 1.4 × 0.15",
+      "file": "design/town/TWN/TWN_PRP_dais_A/TWN_PRP_dais_A_concept.png",
+      "width": 1024,
+      "height": 1024,
+      "format": "PNG",
+      "bytes": 1221506,
+      "sha256": "49141cbe6fd391bea581b3b2013559de791d41ff5268cd199e5670b3e8da526a",
+      "sourceSha256": "3fa6322f401f370e59ad5717cf8f61080aa8ef1ffbeaa60751cd7f88391a85d1",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "id": "TWN-FLR-01",
+      "name": "石板路",
+      "variant": "A",
+      "assetStem": "TWN_FLR_cobble_A",
+      "kind": "asset",
+      "sizeMeters": "2 × 2 × 0.2",
+      "file": "design/town/TWN/TWN_FLR_cobble_A/TWN_FLR_cobble_A_concept.png",
+      "width": 1024,
+      "height": 1024,
+      "format": "PNG",
+      "bytes": 1250637,
+      "sha256": "6ebbf7601341219541bca71448d920ddb0ffce1457c19ae3a856ae34d25338b6",
+      "sourceSha256": "51b6223624fb558fad57af6f9b6e76fcecf4d14659f5df056ca501ac953780ea",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "id": "TWN-FLR-02",
+      "name": "广场石板",
+      "variant": "A",
+      "assetStem": "TWN_FLR_plaza_A",
+      "kind": "asset",
+      "sizeMeters": "2 × 2 × 0.2",
+      "file": "design/town/TWN/TWN_FLR_plaza_A/TWN_FLR_plaza_A_concept.png",
+      "width": 1024,
+      "height": 1024,
+      "format": "PNG",
+      "bytes": 1073126,
+      "sha256": "3cc16aa37857c9da8f1d25337c86da4909384bc594e2ecb2f062bafdda6a7f52",
+      "sourceSha256": "f3b002d715a7a34c533d20390a65de77ec4e012fe15c3dc7a71a7f88d7bf64f8",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "id": "TWN-FLR-03",
+      "name": "金殿大理石",
+      "variant": "A",
+      "assetStem": "TWN_FLR_marble_A",
+      "kind": "asset",
+      "sizeMeters": "2 × 2 × 0.2",
+      "file": "design/town/TWN/TWN_FLR_marble_A/TWN_FLR_marble_A_concept.png",
+      "width": 1024,
+      "height": 1024,
+      "format": "PNG",
+      "bytes": 1144015,
+      "sha256": "a8a68706ff1799909ebe4701db3cbde1556026ea0662c24fd39f0caaaf5b2790",
+      "sourceSha256": "9295211de51d37a7fbc0e490d018e7bedf37ebced059e2a2a17028bb346fee26",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "id": "TWN-FLR-04",
+      "name": "码头木板",
+      "variant": "A",
+      "assetStem": "TWN_FLR_planks_A",
+      "kind": "asset",
+      "sizeMeters": "2 × 2 × 0.2",
+      "file": "design/town/TWN/TWN_FLR_planks_A/TWN_FLR_planks_A_concept.png",
+      "width": 1024,
+      "height": 1024,
+      "format": "PNG",
+      "bytes": 1408159,
+      "sha256": "03fbe58be6040bcf4f8344313bbcbd2591105f467de9e7e10a3762e43bf95038",
+      "sourceSha256": "23125a905df964e04596c887b5cade4b3dd40f350ad65e0ea0797fc22a12d21e",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "id": "TWN-FLR-05",
+      "name": "泥地",
+      "variant": "A",
+      "assetStem": "TWN_FLR_dirt_A",
+      "kind": "asset",
+      "sizeMeters": "2 × 2 × 0.2",
+      "file": "design/town/TWN/TWN_FLR_dirt_A/TWN_FLR_dirt_A_concept.png",
+      "width": 1024,
+      "height": 1024,
+      "format": "PNG",
+      "bytes": 1115513,
+      "sha256": "232d2f319cb7e5edebab35c16431bdbe883580385114bae0148702d8accdb53e",
+      "sourceSha256": "cf0eab8a5aa9ef9e240443166bde1623637ccfd7938917745cbc64227dde751a",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "id": "TWN-WAL-01",
+      "name": "洞壁直段",
+      "variant": "A",
+      "assetStem": "TWN_WAL_cavern_A",
+      "kind": "asset",
+      "sizeMeters": "2 × 0.6 × 3.2",
+      "file": "design/town/TWN/TWN_WAL_cavern_A/TWN_WAL_cavern_A_concept.png",
+      "width": 1024,
+      "height": 1024,
+      "format": "PNG",
+      "bytes": 1264369,
+      "sha256": "132de0f04e00f2ffbc0e63f1e84426eb66ea30d171f70e798c4bc80ab1c47dbd",
+      "sourceSha256": "bbe4f8480e7c4b89b06e99eeb16b87f875565d6b6b8bcb4ef55569edc6fee9b5",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "id": "TWN-WAL-02",
+      "name": "洞壁转角",
+      "variant": "A",
+      "assetStem": "TWN_WAL_cavern_corner_A",
+      "kind": "asset",
+      "sizeMeters": "2 × 2 × 3.2",
+      "file": "design/town/TWN/TWN_WAL_cavern_corner_A/TWN_WAL_cavern_corner_A_concept.png",
+      "width": 1024,
+      "height": 1024,
+      "format": "PNG",
+      "bytes": 1437208,
+      "sha256": "df3085ac93e4150113348406610507d41913fdac7c86c79bab4a7c76bb17fd5c",
+      "sourceSha256": "6675fa3299a5fa8d985aa0099ee95989114cb552379d5827dc03120f9ef9e713",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "id": "TWN-WAL-03",
+      "name": "鎏金残壁",
+      "variant": "A",
+      "assetStem": "TWN_WAL_cavern_gilded_A",
+      "kind": "asset",
+      "sizeMeters": "2 × 0.6 × 3.2",
+      "file": "design/town/TWN/TWN_WAL_cavern_gilded_A/TWN_WAL_cavern_gilded_A_concept.png",
+      "width": 1024,
+      "height": 1024,
+      "format": "PNG",
+      "bytes": 993429,
+      "sha256": "3bda05966d03ed176d36bad9b027d25c5630e5c6debd45dc43c9cb664e3e9eaf",
+      "sourceSha256": "503eebfe6d8a8272812db79622cafb9ece171c8bda1002de6fe667d2e8ce19e0",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "id": "TWN-SCN-01",
+      "name": "夜阙城全景",
+      "variant": "A",
+      "assetStem": "TWN_SCN_overview_A",
+      "kind": "scene",
+      "sizeMeters": null,
+      "file": "design/town/TWN/TWN_SCN_overview_A/TWN_SCN_overview_A_concept.png",
+      "width": 1024,
+      "height": 1024,
+      "format": "PNG",
+      "bytes": 2007328,
+      "sha256": "0179c9148b0e55a7e855160508726601f86ce1cfeeb5070d1d4cebad1ae1972a",
+      "sourceSha256": "bb15afd3a919c2747d1998adfa27b80cbb839001c18cc4b34b1b5af8a2a6bd6f",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "id": "TWN-SCN-02",
+      "name": "灯井广场",
+      "variant": "A",
+      "assetStem": "TWN_SCN_plaza_A",
+      "kind": "scene",
+      "sizeMeters": null,
+      "file": "design/town/TWN/TWN_SCN_plaza_A/TWN_SCN_plaza_A_concept.png",
+      "width": 1024,
+      "height": 1024,
+      "format": "PNG",
+      "bytes": 2070961,
+      "sha256": "e76a3760eb226c23c858605e62f4679d8ca222354911994c5b4c3e077ea3331e",
+      "sourceSha256": "ff8746c061a3eb7993bf8882bd22b5dadebdfd0007f60670a8fb50af65a1f16d",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "id": "TWN-SCN-03",
+      "name": "集市街",
+      "variant": "A",
+      "assetStem": "TWN_SCN_market_A",
+      "kind": "scene",
+      "sizeMeters": null,
+      "file": "design/town/TWN/TWN_SCN_market_A/TWN_SCN_market_A_concept.png",
+      "width": 1024,
+      "height": 1024,
+      "format": "PNG",
+      "bytes": 1516103,
+      "sha256": "608f2a2d10354dd3d7a9f37693ef6f6648ea5f855620059738f235a75198dd61",
+      "sourceSha256": "45b555dfbf5848f5afb7361d0eb3035c5b23d8a73cca7c6db08148de3efbbc9a",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "id": "TWN-SCN-04",
+      "name": "棚户区",
+      "variant": "A",
+      "assetStem": "TWN_SCN_shanty_A",
+      "kind": "scene",
+      "sizeMeters": null,
+      "file": "design/town/TWN/TWN_SCN_shanty_A/TWN_SCN_shanty_A_concept.png",
+      "width": 1024,
+      "height": 1024,
+      "format": "PNG",
+      "bytes": 2044026,
+      "sha256": "d7271e809668c0d4ea779ab5205a91ee7747718437dad98e8b4e59e5791b747e",
+      "sourceSha256": "2a84dd887c013de2f557342ea9829df580d4d9864b25c00aad87da93f037a561",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "id": "TWN-SCN-05",
+      "name": "暗河码头",
+      "variant": "A",
+      "assetStem": "TWN_SCN_dock_A",
+      "kind": "scene",
+      "sizeMeters": null,
+      "file": "design/town/TWN/TWN_SCN_dock_A/TWN_SCN_dock_A_concept.png",
+      "width": 1024,
+      "height": 1024,
+      "format": "PNG",
+      "bytes": 1868237,
+      "sha256": "36596a2354b568a8ee22d9d7abc0c9accc4c536a44901784a9b8f58d9c0f6dc8",
+      "sourceSha256": "51357fe7e6a98e3b21ff228579690a21fd12f4a027383f38f50587cb8224b832",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    }
+  ]
+}
