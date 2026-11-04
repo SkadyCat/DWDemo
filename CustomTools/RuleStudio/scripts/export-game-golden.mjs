@@ -15,7 +15,7 @@ import { TALENT_TREE, canAllocate, canRefund, talentPoints } from '../core/conte
 import { newSave, buildOf, equip, applyArchetype, salvage, craft } from '../public/game/save.mjs';
 import { ARCHETYPES } from '../core/content/archetypes.mjs';
 import { MapRun } from '../public/game/run.mjs';
-import { newQuestState, questView, questEvent, questTick, claimChapter } from '../public/game/quests.mjs';
+import { newQuestState, questView, questEvent, questTick, claimChapter, sideView, questGivers, trackHint, migrateQuests } from '../public/game/quests.mjs';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const outDir = path.resolve(process.argv[2] ?? path.join(here, '..', 'export/game-golden'));
@@ -135,12 +135,16 @@ files.runs = [
   const view = () => { const v = questView(save); return v && { index: v.index, complete: v.complete, claimed: v.claimed, steps: v.steps.map(st => ({ have: st.have, need: st.need, done: st.done })) }; };
   const item = bl => ({ ...rollItem(1, rng, 'chest'), baseLines: bl });
   const events = [
+    { type: 'talk', who: 'torg' }, { type: 'talk', who: 'chronicler' }, { type: 'deposit' }, { type: 'talk', who: 'torg' }, { type: 'deposit' },
+    { type: 'talk', who: 'rosa' }, { type: 'kills', n: 120 }, { type: 'talk', who: 'grey' }, { type: 'portal' }, { track: 't_bread' },
     { type: 'clear', tier: 1, family: 'ruin', kind: 'normal' }, { type: 'pickup', bl: 1 }, { type: 'equip' },
     { type: 'clear', tier: 2, family: 'ember', kind: 'normal' }, { type: 'clear', tier: 2, family: 'ember', kind: 'normal' }, { type: 'clear', tier: 2, family: 'frost', kind: 'trial' },
     { state: { unlocked: 3 } }, { claim: true },
     { type: 'clear', tier: 3, family: 'ruin', kind: 'normal' }, { type: 'clear', tier: 3, family: 'ruin', kind: 'trial' }, { type: 'craft' }, { type: 'craft' }, { type: 'craft' },
     { type: 'clear', tier: 4, family: 'ruin', kind: 'normal' }, { state: { talents: [1, 2], unlocked: 5 } }, { claim: true },
     { type: 'kills', n: 900 }, { type: 'kills', n: 900 }, { type: 'pickup', bl: 2 }, { type: 'pickup', bl: 3 }, { type: 'clear', tier: 5, family: 'ember', kind: 'boss' }, { state: { skills: 2 } },
+    { type: 'talk', who: 'mentor' }, { type: 'bd' }, { type: 'talk', who: 'astrologer' }, { type: 'talk', who: 'helen' }, { track: 't_chestnut' }, { type: 'clear', tier: 4, family: 'ember', kind: 'normal' },
+    { track: null }, { type: 'talk', who: 'smith' },
   ];
   for (const e of events) {
     let notes;
@@ -152,15 +156,21 @@ files.runs = [
     } else if (e.claim) {
       const got = claimChapter(save, rng);
       notes = got ? [{ type: 'claim', currencies: got.currencies, waystones: got.waystones.map(stone) }] : [];
-    } else notes = questEvent(save, e.type === 'pickup' ? { type: 'pickup', item: item(e.bl) } : e);
-    log.push({ event: e, notes, view: view(), currencies: { ...save.currencies } });
+    } else if ('track' in e) { save.track = e.track; notes = []; }
+    else notes = questEvent(save, e.type === 'pickup' ? { type: 'pickup', item: item(e.bl) } : e);
+    notes = notes.map(n => n.quest ? { type: n.type, id: n.quest.id } : n);
+    const sides = sideView(save).map(x => ({ id: x.quest.id, state: x.state, steps: x.steps.map(st => ({ have: st.have, done: st.done })) }));
+    const tracked = save.track && sideView(save).some(x => x.quest.id === save.track && x.state !== 'done') ? save.track : null;
+    log.push({ event: e, notes, view: view(), sides, givers: [...questGivers(save)].sort(), track: trackHint(save, tracked), currencies: { ...save.currencies }, scarabs: { ...(save.scarabs ?? {}) } });
   }
+  // saves from the eight-chapter story land on the matching chapter of the six
+  const migrated = [0, 2, 3, 5, 8].map(ch => { const sv = { quests: { chapter: ch, progress: { [`${ch}.0`]: 3 }, done: {}, introSeen: ch, claimed: [] } }; migrateQuests(sv); return sv.quests; });
   // equip swaps: the old piece lands where the new one was
   const sv = newSave(), r2 = dungeonRandom(5);
   for (let k = 0; k < 4; ++k) sv.inventory.push(rollItem(3, r2, 'chest'));
   const swaps = [];
   for (const k of [1, 2, 0]) { const uid = sv.inventory[k].uid; equip(sv, uid); swaps.push({ inventory: sv.inventory.map(strip), chest: strip(sv.equipped.chest) }); }
-  files.quests = { log, swaps };
+  files.quests = { log, swaps, migrated };
 }
 
 fs.mkdirSync(outDir, { recursive: true });
