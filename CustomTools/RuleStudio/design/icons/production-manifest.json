@@ -1,0 +1,3436 @@
+{
+  "schemaVersion": 1,
+  "generatedOn": "2026-11-04",
+  "provider": "built-in image_gen",
+  "promptSet": "icon-prompts.json",
+  "promptSetSha256": "746342c2ebcd7577ecb4a061151439e9d380099c9bd1aa523365d5144bcc6047",
+  "count": 190,
+  "styleCounts": {
+    "painted": 130,
+    "emblem": 60
+  },
+  "export": "One independent generation per icon, followed by size/PNG normalization only; source originals retained.",
+  "review": "All outputs visually reviewed individually and on 48px and 128px contact sheets; rejected variants regenerated.",
+  "icons": [
+    {
+      "cat": "skill",
+      "id": "fireball",
+      "name": "火球",
+      "file": "design/icons/skill/fireball.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "27e2c2c81a56da8a951b23074114cb2d96c47262a08c84e11ceeff05d55a47cf",
+      "bytes": 464645,
+      "sourceSha256": "925894c034a386027985c08dec0da8dbab1f1cfaae1ac4c83fb01fce25d4c1a5",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "ice_nova",
+      "name": "冰霜新星",
+      "file": "design/icons/skill/ice_nova.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "854967238241911503f6e6a2eb85db418fac9cae19efa630f05c9453777a08c2",
+      "bytes": 348709,
+      "sourceSha256": "7cf9089892bc37b9f1a71e67f70adf381887a0b633a12dfc7fcf03e9cda8aa5e",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "arc",
+      "name": "电弧",
+      "file": "design/icons/skill/arc.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "770f0d08ff1b7bfb3d2e3abdc2a0eef78474141cc6a326f4084071385974317c",
+      "bytes": 265313,
+      "sourceSha256": "baa9c04b3fe247cccd22f1dfe623405e8d2b66426d2748fb2e28b0c66d410c57",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "spark",
+      "name": "电花",
+      "file": "design/icons/skill/spark.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "7fd147679e6e6b022d1cc0c449280fb694b19bcaefad0cfb60e3a13f4c1e132c",
+      "bytes": 302655,
+      "sourceSha256": "588ff9f6909b3b5eb31830baad0f202da7620822ebf06b948d50eeb8e737755e",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "frost_bolt",
+      "name": "寒冰弹",
+      "file": "design/icons/skill/frost_bolt.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "6c65ad960f2dd1899ba5c3db9a3fbe12c138a03d6709b590a63a023084527035",
+      "bytes": 460734,
+      "sourceSha256": "526623aae790b92310ee10d2fc7b3bc8c176ffcd12612451f6554ec729268b8a",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "flame_wall",
+      "name": "火墙",
+      "file": "design/icons/skill/flame_wall.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "0793e0bacfcff2e0d1b36a4ca5a5c98154a7af62a110984f488d11fd0e2357a7",
+      "bytes": 356476,
+      "sourceSha256": "1bc593fb49cf37eca02dd2b858033ac3013a2636560fa9e6611857dbaeff2918",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "heavy_strike",
+      "name": "重击",
+      "file": "design/icons/skill/heavy_strike.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "7e4430026905b90974c23cb7b5b0b72c92113850e0d7f540e8b29b65731e433a",
+      "bytes": 391194,
+      "sourceSha256": "0177c21de43829e8c3acaac6257803d862fce45f73f2c85c6d0be2e4e609cf89",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "cleave",
+      "name": "劈砍",
+      "file": "design/icons/skill/cleave.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "40cc1ce431ff702e8bde3668ca3f93970aea658a9e5fdaecc332de7436918841",
+      "bytes": 376992,
+      "sourceSha256": "a70dd2f8fabd9422ffe150ade2658debe00e3f27209128bc238488c6caaee6e3",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "cyclone",
+      "name": "旋风斩",
+      "file": "design/icons/skill/cyclone.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "dcfd5eb62d2f55d0e21974d9be3d9ee8aae536747371301d2de57d93c37cceb7",
+      "bytes": 504369,
+      "sourceSha256": "ad0061a5dcf4bd310925d08b77b729aa28e53e4c681cccd4e7687b6df42725e9",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "falling_thunder",
+      "name": "崩雷鸣",
+      "file": "design/icons/skill/falling_thunder.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "daa6918c220180dad614aa91a274dd3365e82641d9173fb1ab9a20a091c7d40b",
+      "bytes": 346477,
+      "sourceSha256": "032488fff66ac9f81d06c91ae392c5f30318a50fee2118daab60607e2fc37196",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "flicker_strike",
+      "name": "闪现打击",
+      "file": "design/icons/skill/flicker_strike.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "969bb5742e1f2d875c3949a64812dda204367c69aabb63613d3d89eb6f021e31",
+      "bytes": 309882,
+      "sourceSha256": "bbfc98199b8b5134b3141f87f4f54cdb765b81a5d0560d63c125c9bd18d33770",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "viper_knives",
+      "name": "蝰蛇飞刃",
+      "file": "design/icons/skill/viper_knives.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "4a040d4de70ee274c85394d4da4911aa29c9d0d33005b467fc750f3d9c11200a",
+      "bytes": 360152,
+      "sourceSha256": "5f92d616dc14830ccb7ae2e9603bd6d52c5f876b0bd6ebe4f5f66eba0aa08021",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "summon_blades",
+      "name": "灵刃召唤",
+      "file": "design/icons/skill/summon_blades.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "1e22a7bd311a07f5bfc4e8895f7b9eb9628c30005c7957b6f54dc6849bdc895f",
+      "bytes": 442060,
+      "sourceSha256": "6e4e2eb230f36dbf588b55e4f488f4d9f61739d87207ff8d1dd609092533c1b9",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "storm_totem_place",
+      "name": "风暴图腾",
+      "file": "design/icons/skill/storm_totem_place.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "572ef71b5f4f3c3e45c13d74ae962bdd1d4e28c60acc6bfe0cf55e10c044dd25",
+      "bytes": 354990,
+      "sourceSha256": "96b90671e64eb4c1f05cd4432838f8c1da76d3eb62fc42e3c3253213a51ca924",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "glacial_burst",
+      "name": "寒潮",
+      "file": "design/icons/skill/glacial_burst.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "28ee6ee624e1333fb1133c2e2fc36a2ea3e280545d8e8e6706fa9b5133f0c890",
+      "bytes": 402356,
+      "sourceSha256": "68a349e96cdfaa2027f0ead67fb59eb7aedcbcee495d71ba22ae3513b834836f",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "tornado",
+      "name": "龙卷风",
+      "file": "design/icons/skill/tornado.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "584110f864191fb45c47fce390f48631c13da3480d6841944ea6cdc4aee9dec7",
+      "bytes": 419365,
+      "sourceSha256": "16a45504b9bff4d73c906987399e5b801dcffed6c468945676c0dc7a22db632b",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "thunder_fall",
+      "name": "落雷",
+      "file": "design/icons/skill/thunder_fall.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "b9cd757130ae991f712427f904a1780830ca3477dee3140787fca0584c3280ce",
+      "bytes": 430961,
+      "sourceSha256": "b0b1a1196937874c5a9413e89b160a456f5cba180a77c49f35b3f9409c2ba7e6",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "ice_spike_burst",
+      "name": "冰刺爆发",
+      "file": "design/icons/skill/ice_spike_burst.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "f7c5e339a78f9fd4e2537dbe18122e6dad557b82af6cec152641ac02c591fa3b",
+      "bytes": 338609,
+      "sourceSha256": "518fb4c8cf944e6e0eb87fa5e3bb8ac7ebdf7cb76212fdc6c93a2df294a25883",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "flame_burst",
+      "name": "炎爆",
+      "file": "design/icons/skill/flame_burst.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "707e86fcaafe69a2bac12cc3800de2fdbf0997610ed2c45b0dbcabdfe0e6d92a",
+      "bytes": 344775,
+      "sourceSha256": "97d8248990acbaee66ff34ad002522a6a34f59f12180274a60648727f9f963a0",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "blade_ring",
+      "name": "刀锋环",
+      "file": "design/icons/skill/blade_ring.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "36dfe748b8394999290a6685ca6522619da43d2ec042314575f5dd6680c4a141",
+      "bytes": 336081,
+      "sourceSha256": "c1ca61d3057eb7a1aa8e4b0496a1580de976d95f01672f61cacb5601c75b4b1b",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "ground_slam",
+      "name": "落地冲击",
+      "file": "design/icons/skill/ground_slam.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "04e44e56a5aea497a82427173dce26287cde8a7a6639ffa62bd258842d0be71f",
+      "bytes": 391399,
+      "sourceSha256": "d2f2906d830e564434a4322df1250c0a3a2411f54bfb11aa0a789c84642af1cb",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "storm_step",
+      "name": "雷闪步",
+      "file": "design/icons/skill/storm_step.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "a7cdb223f3317f862aeaeb7e058721b992c1f65f546a2b608d7941fad908696e",
+      "bytes": 331411,
+      "sourceSha256": "08ada46603dc1ff6dcfa7556b7bea110c0c4307d0ecd216a3e2d9c3a3cc157be",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "frost_dash",
+      "name": "霜刃突进",
+      "file": "design/icons/skill/frost_dash.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "19030c1fb98f4a82a7701047e21d3138d3415c1a287d4585ff3c5df27ca8f4bf",
+      "bytes": 398960,
+      "sourceSha256": "1bd233159ec4d393abb34420d136ceae2cfb26fb36b1e5d63612c8d3a2c2c050",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "phantom_step",
+      "name": "残影步",
+      "file": "design/icons/skill/phantom_step.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "3c09c7f9a3f25d41c35750457435efbbb96885ae3f1e4f00df6c6a1de2f71997",
+      "bytes": 297824,
+      "sourceSha256": "4e4e71bb3c0e267f54f29a6aea2076b984648dbe8b1e0b82adbb7455f24a355a",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "star_step",
+      "name": "星刃瞬步",
+      "file": "design/icons/skill/star_step.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "44844fe0f1d1bda7572362d98dfdacd8087944725f7e3088a2b269f2efbbd92f",
+      "bytes": 455008,
+      "sourceSha256": "c8534e8c9af788f457b409eb1321d66d17f2e19595ec8e90628bec785f84af5b",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "void_leap",
+      "name": "虚空跃迁",
+      "file": "design/icons/skill/void_leap.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "455aeeea0549a7c17426d78afdb6553bf7ff8d32d7912bafba6a9e3b25121bba",
+      "bytes": 404936,
+      "sourceSha256": "86ce198c816759ec9a8d32b383e877df7194c198cc237d445f0484a3e5ea5efd",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "aegis_nova",
+      "name": "盾爆",
+      "file": "design/icons/skill/aegis_nova.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "9d2f04743382da6d42d8a78696f921e3cde4ca8b9d65aeb14b9ee02f3ca369a7",
+      "bytes": 396629,
+      "sourceSha256": "93bb6e9cce3b7fc2cda8783be8ffd5277b51a5b86bc8895daaa5b741fd0f2483",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "shield_bash",
+      "name": "盾击",
+      "file": "design/icons/skill/shield_bash.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "428e58d60acfe87ccf27857f4fc4e79357021039fdbea45b659a107566c09797",
+      "bytes": 383880,
+      "sourceSha256": "a7eb75bc9548eea2d6b00fb9778ffdd0d01aaafb8069f1fa125380ce30629012",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "aegis_shards",
+      "name": "盾刃弹幕",
+      "file": "design/icons/skill/aegis_shards.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "52574123d467aba9cfcac4905dccbd26b09ced7dca50eb904b55138583029348",
+      "bytes": 367612,
+      "sourceSha256": "acb0df26cef69e31b3cd89a87d29d6201b682764a07506ab547f2d050571e520",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "raise_skeletons",
+      "name": "骸骨召唤",
+      "file": "design/icons/skill/raise_skeletons.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "9b62b67cb9e4fbbea89aa2b0dcff746f1031c5ccd40b1a209870a396069acf6f",
+      "bytes": 337825,
+      "sourceSha256": "5f33e045eaff076e41910073a000ddcb173e482587150bb5aac0a51161826707",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "summon_golem",
+      "name": "熔火魔像",
+      "file": "design/icons/skill/summon_golem.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "734311ab3d07fb29282f075864702c36a906449045f8bcdea806b26666379ff7",
+      "bytes": 359861,
+      "sourceSha256": "bcf4b7b1558c121ae7017cdeba1d7d11d3d61fb80be6b72603cab25a767a6911",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "summon_archers",
+      "name": "幽魂射手",
+      "file": "design/icons/skill/summon_archers.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "dcc6dc336fe697c4e925f653d91022cb99bf2fe3b585893655014170f473e367",
+      "bytes": 379155,
+      "sourceSha256": "1c12f9e619bf7a8383bc3c0b1679fc23397f09909a80101284ddbf8821a3df06",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "summon_spiders",
+      "name": "蛛巢",
+      "file": "design/icons/skill/summon_spiders.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "4ba14ec4ef9736ecdaad992da57268c5322e7e77ff7f0c72815431cf1e4e3c67",
+      "bytes": 508092,
+      "sourceSha256": "684eff52f58ee97e21af28c4ccd1b2bbc46d25a308608f73058e6fa726ae9f44",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "summon_wisps",
+      "name": "霜灵",
+      "file": "design/icons/skill/summon_wisps.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "ea78b3f164bc43a72744a106e5ad0456d0a7cb8bcec0b72b27179a95612cbd9c",
+      "bytes": 299973,
+      "sourceSha256": "5c101f3c898b09884aee231aec456d250669e3285379550edd25e53ec6e16342",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "fire_trap",
+      "name": "爆燃陷阱",
+      "file": "design/icons/skill/fire_trap.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "c80486d02357cb19638926a50f4a8b1d7a2b5bfb49e383ad3b9384eb9f63dbfe",
+      "bytes": 358585,
+      "sourceSha256": "ffa817641252b82fa25a8647a185dc1d10191a187aae679381a682c1c2c8a724",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "frost_trap",
+      "name": "霜冻陷阱",
+      "file": "design/icons/skill/frost_trap.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "0dff1d916071889bc2b09e9133d253ce7a9cb8b9f51cb2d2df7e4f7567273fdc",
+      "bytes": 357129,
+      "sourceSha256": "d720d21aac0d14b781506f48a285aca34d66261f933fde995b6bbcbc73c82e8b",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "blade_trap",
+      "name": "刃轮陷阱",
+      "file": "design/icons/skill/blade_trap.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "01168c149f1b3f4cf1fcc66b6847380491c9470a806ac465449b32f803c83e8a",
+      "bytes": 485780,
+      "sourceSha256": "1f1f464e34deabb9eb26c746e071eb359373642f0157f9a16197faf7bf2679b3",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "snare_shot",
+      "name": "捕兽箭",
+      "file": "design/icons/skill/snare_shot.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "cf59c3742fe2fffd1eae3b9af9b0fbf0542145a38c39824dae50c1da7dd2b673",
+      "bytes": 277176,
+      "sourceSha256": "2ee8e63d1fa4ca7e7ef71a2e6664c587eb5ea3d87bed0e15fe7c741cffef2fdd",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "turret_trap",
+      "name": "机关陷阱",
+      "file": "design/icons/skill/turret_trap.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "bdbd16a471c1c396eca803036f8bc423bc1e7c294f738afc38afe4b60d93a82c",
+      "bytes": 345782,
+      "sourceSha256": "16818471f956625a89505511cc71f6889e69c33aea26a03f26e3a23fd673ade8",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "shock_trap",
+      "name": "电击陷阱",
+      "file": "design/icons/skill/shock_trap.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "ba44d2576de5c2e923559b8b89a4e003e75d43540880747cdb4988a15fb33eb1",
+      "bytes": 390909,
+      "sourceSha256": "b89ee976207c2d78fa83c282847f26cc9536e2b982d4a584f499808f7801f237",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "gate_of_treasures",
+      "name": "宝库之门",
+      "file": "design/icons/skill/gate_of_treasures.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "640cbdf5551c62e82bbe3b33dfa50fe5d0bbd1dcb4385ea09b0357d983d7df6d",
+      "bytes": 527713,
+      "sourceSha256": "5187f819aeb223de271044e3e0f8ed81e6960e5dd46c74af2abaa928f2dcf32f",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "treasure_shot",
+      "name": "宝具",
+      "file": "design/icons/skill/treasure_shot.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "8f4516ea9b22e4a5e46d2b05e3c030ad8a0f7f319911f9d0d6762136dc51a977",
+      "bytes": 276066,
+      "sourceSha256": "0c69450bc821684b1f4e65ab6877715daf8be120c131a9502a81bf8737350d7c",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "treasure_fall",
+      "name": "天降宝具",
+      "file": "design/icons/skill/treasure_fall.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "c961a6b2074511e73b80b438827c0905e06e1b3f9b7d40f92ca73d28444b4d92",
+      "bytes": 305749,
+      "sourceSha256": "cfc906bd2ba79d45f95e100db2a6bfbf75d6d104b6d7fbb6bd4c385ab9273805",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "sundering_star",
+      "name": "开天之光",
+      "file": "design/icons/skill/sundering_star.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "f332a537caf9256725d87ce8177362dd38c0ab903afa9ed98365b3772655548e",
+      "bytes": 379632,
+      "sourceSha256": "9edeb49c5a1cc7bbae15f2ba904272bd4fd10946b298c22a68c9576e1d6c4408",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "fuse_bolt",
+      "name": "引信弹",
+      "file": "design/icons/skill/fuse_bolt.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "118469479a538fff2dbd2ce2e699cb2066ca5e1db57455cc629a1af9e14c2fbc",
+      "bytes": 418781,
+      "sourceSha256": "994192eac10de930a55fc209a5d8d9b45dd9224923e62307d0ab34dd15b36f8d",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "sow_seed",
+      "name": "播种",
+      "file": "design/icons/skill/sow_seed.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "c7cd11893438ba49afb04e27440192cf71c469fdacb23476982a8d857a8f34b1",
+      "bytes": 264459,
+      "sourceSha256": "c2ee058332c27ddf78c94156c30c3bdce2d227f2d006e05f885668a4c380568c",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "singularity",
+      "name": "引力奇点",
+      "file": "design/icons/skill/singularity.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "8335331863b572c89226a821b68efc7e3e84449106d46c4843a81a4877c18f76",
+      "bytes": 390884,
+      "sourceSha256": "8dcdcdd471812170a030f340635cd930f712853cc52763c7e663077e68764e47",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "dominion_lash",
+      "name": "统御之鞭",
+      "file": "design/icons/skill/dominion_lash.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "f4119489e69dcfd4ee6e3ee36ffacb289a132636085ab9f24c6c7e2395ad4374",
+      "bytes": 306522,
+      "sourceSha256": "9a096ba03ad5b9fb52d5f81471bdb9f9e5ada2b985b3958bd94f54f4af7a3dc6",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "call_storm",
+      "name": "唤云",
+      "file": "design/icons/skill/call_storm.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "215292375d10da79a0054381a76f9f6a46d207f598536286ec1301e01547a220",
+      "bytes": 443155,
+      "sourceSha256": "a81c53b37beb58e8b35e9040a7a2446a20ed0ed90df5ee350794debec1a4d74a",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "rime_lance",
+      "name": "霜矛",
+      "file": "design/icons/skill/rime_lance.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "ffd353f316f886609e3db311351b2785cdcb4c9d670d940daa567b79c7397d9f",
+      "bytes": 244432,
+      "sourceSha256": "c6f97a98988aafdf8bcf482297d9bbdca742923dc5265a1e97fd76f8752a7241",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "fuse_blast",
+      "name": "引爆",
+      "file": "design/icons/skill/fuse_blast.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "21c969eaada5259c30801a9e88bc738ccf66dfea8d721ea80ab882f05982f509",
+      "bytes": 320668,
+      "sourceSha256": "322d3052b896cb79c28ced5b97629e91faa9555ffe41e30f10bcfb9731b74ddd",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "thorn_volley",
+      "name": "荆棘",
+      "file": "design/icons/skill/thorn_volley.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "55db0d142d7c04cf4fab057511c31922f9d7cae1c59919c64dea6fa02d68efe4",
+      "bytes": 341578,
+      "sourceSha256": "863551926aa51a65f94c67e3cf17a60bb0ef48138dee50c58bf259d504316ece",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "thorn_ring",
+      "name": "荆刺",
+      "file": "design/icons/skill/thorn_ring.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "fdfc1c59254e2b97290aef87ba5dc5b2fad6c4c2ba0ea7bd63c847f152cb7d42",
+      "bytes": 451672,
+      "sourceSha256": "bfea6dec0b744601c97c896efcc8d4972cdee3ad9cb104c890aee5193ec5d689",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "collapse",
+      "name": "坍缩",
+      "file": "design/icons/skill/collapse.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "14814aecd734cb775942c1fb4cc8f79d11217d8553aa1d0fc4a57a59149e709e",
+      "bytes": 407904,
+      "sourceSha256": "554b178ffba6c767196973dc4706f6bed254c0a07b36a25af38fec637ac2d68b",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "cloud_bolt",
+      "name": "云雷",
+      "file": "design/icons/skill/cloud_bolt.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "c3394bb372a784aabd920ebe61600916ea3f713441dac09bcbc5045a9cc4b53c",
+      "bytes": 311175,
+      "sourceSha256": "0f94e94b392e94770a34095b41d17fdb8487adfa2ad212097a1d95f4043551f5",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "cloud_arc",
+      "name": "云间电弧",
+      "file": "design/icons/skill/cloud_arc.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "2164c1b4f6697edd2fa0ab92aa61a9629c933ab48e9debaca904cceea35537c3",
+      "bytes": 312699,
+      "sourceSha256": "e21324a4b607201efbc151356d72beaeda83045a0ce02231bd7933fe8927a487",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "echo_nova",
+      "name": "回声寒环",
+      "file": "design/icons/skill/echo_nova.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "8c680e8c9d24101e6039bee596423dc8ff6cbb4db69f75c6bc231767038073e9",
+      "bytes": 542743,
+      "sourceSha256": "d979f1f4a135d48dae8780a2f196ce4d1d24bcf6c9fac9ddc5930dadb9aee6cf",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "summon_wolves",
+      "name": "狼群",
+      "file": "design/icons/skill/summon_wolves.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "94727e6f00845e9323ceaecb9efe59844b64967e3a08a467e391087e6bed5ca7",
+      "bytes": 319966,
+      "sourceSha256": "7941f676af066654c69317619500770f852f5db415d7089d77c093727b0269f3",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "blood_pact",
+      "name": "血契",
+      "file": "design/icons/skill/blood_pact.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "a7da6f8d5627fc1d08025d765f72d687d67ddeda816a4abf105a8a882f5fe517",
+      "bytes": 340628,
+      "sourceSha256": "9f0258c34d641e7225cadd458dba6f8a20ded6e6347553f8e559dfb647e96ee2",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "soul_reap",
+      "name": "收魂",
+      "file": "design/icons/skill/soul_reap.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "1e855bd9c9a3f52c22a0831bcd4de1687e84b44b1736716e0ab19fcdb9202976",
+      "bytes": 311912,
+      "sourceSha256": "ac7476512e72f4d93dc073054fb6d58f5876c5147a6c3bfc663b2d15e9036d5e",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "frost_trail",
+      "name": "冰痕",
+      "file": "design/icons/skill/frost_trail.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "ea12f0d2a4bb64a3cf494f57a1b054c8687e3887b6275bc322ef23b109e03ca8",
+      "bytes": 446682,
+      "sourceSha256": "7b84989c6876e7593cb82979fe272f895cb081cb60bb6cb8622bd00ea48f7c49",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "step_arc",
+      "name": "迹电",
+      "file": "design/icons/skill/step_arc.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "590c9fe98b38588bb90e824be1a0fc6138127ccd436d681b89967158e23fb15d",
+      "bytes": 291230,
+      "sourceSha256": "714517dbfdfa9f4e5a6085b88ef60fb9d870f7ae598e530474f5163006c49ee7",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "void_rift",
+      "name": "虚空裂隙",
+      "file": "design/icons/skill/void_rift.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "098cb0a62ebd5e9cedfd42fa21f282f9d3f6aa2453c263b261a3230d7e5f03a7",
+      "bytes": 296875,
+      "sourceSha256": "f12f117abceea9c9f0ca5c0f10c19a3b00b9e0e32b0fc52cba6ea2d4fe87e29b",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "shield_shatter",
+      "name": "碎盾寒潮",
+      "file": "design/icons/skill/shield_shatter.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "546c80cf49dc9d7bedea1ee52c3256716be031da1ae43caabeadf208c1ff12b3",
+      "bytes": 422531,
+      "sourceSha256": "b78a384687b5582cef25001f5e9ffca14ababd15b11ad461ec2081b8f93ec976",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "skill",
+      "id": "shield_pulse",
+      "name": "满盾电涌",
+      "file": "design/icons/skill/shield_pulse.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "a3c9261bd0ff94a10d5099c75a0f7b13cabacf4645b2785a26838322e5375912",
+      "bytes": 531207,
+      "sourceSha256": "32b6f052710ed34094e44bc7fb437c80575b22b26ab6d055a4d869a189b3fb35",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "base",
+      "id": "war_staff",
+      "name": "战杖",
+      "file": "design/icons/base/war_staff.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "b47682c1d17c8a8c5c4ba6fe354e5a1de162a6d4ef53e25f0fc93025c0c9a02d",
+      "bytes": 226742,
+      "sourceSha256": "ede8e88d29920529aa87954ec273f05568c0ca955fc48a12e4bc439d0097b6e3",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "base",
+      "id": "wand",
+      "name": "法杖",
+      "file": "design/icons/base/wand.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "0c5abbda6b224f3c9e70128c6d313c1149980739abf8f90971d122e04547a5f4",
+      "bytes": 264779,
+      "sourceSha256": "f4b3cb102447d48c162dbaeb248852a5f73bebd9d9d93f5e11ffcc6e74de7588",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "base",
+      "id": "maul",
+      "name": "重锤",
+      "file": "design/icons/base/maul.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "a65d473a0eb0beea61ed044504bf994e21b9bfe278736a51dc157ed0d3f79450",
+      "bytes": 294617,
+      "sourceSha256": "e7910e90204017ffc980f56df8db1cbb7fdc64ef8b46eac1be4ad929e74bc7a5",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "base",
+      "id": "dagger",
+      "name": "匕首",
+      "file": "design/icons/base/dagger.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "b81827b6bf0df946ba538703c68e931285a61786a5a87c19cd81a12d1ee2e666",
+      "bytes": 350807,
+      "sourceSha256": "204551acd635eeedca4b9e6bcf90ea08462e7b9c38dfae1ee77abc77946ccd83",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "base",
+      "id": "tower_shield",
+      "name": "塔盾",
+      "file": "design/icons/base/tower_shield.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "d08bd653a9738e28e78691d069bcd9f87d719c29d7388c215a79f26fd6183265",
+      "bytes": 332927,
+      "sourceSha256": "7bb22dc296a3b433d83cae2ddf7a586e8d8fea95a97f33a872768d582fb32893",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "base",
+      "id": "focus",
+      "name": "法器",
+      "file": "design/icons/base/focus.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "aa2c39358d9c47c7d91bd4bdee2938dffae788c98ea716454766776323c15776",
+      "bytes": 320831,
+      "sourceSha256": "e1590c4b4312d1ce2261fe98a2948173c7e77881a799bfa0e6536ed03f287aa2",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "base",
+      "id": "quiver",
+      "name": "箭袋",
+      "file": "design/icons/base/quiver.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "385cf496221104ebe73e71b6a0eb39197f3a47e349a2c627037b6abd725f4d13",
+      "bytes": 284168,
+      "sourceSha256": "5bc621c7b9c28f2bf4e9858fd442e987ed6dfe98a02158f565c030501f8446c0",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "base",
+      "id": "iron_helm",
+      "name": "铁盔",
+      "file": "design/icons/base/iron_helm.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "8a1771820314607376e81097df159eca4e2ed24deb380d84e788644e2f006e5b",
+      "bytes": 452697,
+      "sourceSha256": "ba519591c98bfb5415e3459335c3eea9a1fbd3beff9441ebb0e732a46aba7f3e",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "base",
+      "id": "silk_hood",
+      "name": "丝帽",
+      "file": "design/icons/base/silk_hood.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "7bc4566dc0efdc84249655a9a62c2a1b2462b08401607877c8334914c202666a",
+      "bytes": 328027,
+      "sourceSha256": "06c8cad0d251c6b8380c113995b359548bb6b0162c5eef865e4a30a52977f5a1",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "base",
+      "id": "leather_cap",
+      "name": "皮帽",
+      "file": "design/icons/base/leather_cap.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "61f1ec8a70d86c418a456bf680e743b20d40f38b968527b59ac99d92cb13b38c",
+      "bytes": 323834,
+      "sourceSha256": "0f59fb62df9bed13f3bedff304a11403e0cc936a78d6b027a1733ed0e53976d6",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "base",
+      "id": "plate",
+      "name": "板甲",
+      "file": "design/icons/base/plate.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "08df1747f58abe20e7bdf44cea8c139013b96bf0d9d9e83fca0128261532bd09",
+      "bytes": 396824,
+      "sourceSha256": "0a419230dc429955f00d0976db815a46dc0d3cb539ad3782228b180e0f613b8d",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "base",
+      "id": "robe",
+      "name": "法袍",
+      "file": "design/icons/base/robe.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "670b949f80194125b4fd92549d03b6ad16cd68d3f117d063f8f7f641641004ce",
+      "bytes": 452298,
+      "sourceSha256": "80092f0d28ba161cb55d483b463ba6de2d6d75e4babb8e30b37c319ebab7ef6b",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "base",
+      "id": "leather",
+      "name": "皮衣",
+      "file": "design/icons/base/leather.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "ca468c5cf78e9c15420b3d29b2afad8def3ad7f142d134c36e613d06209b680b",
+      "bytes": 356723,
+      "sourceSha256": "873c5480aca0ec88e819f76fb544b9f43aa465a71647b541abde091101093952",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "base",
+      "id": "gauntlets",
+      "name": "铁手",
+      "file": "design/icons/base/gauntlets.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "7ceebff452a13a3380658baf357f44e282112ecd8ae93a97238bd2c8a6b84c7f",
+      "bytes": 374864,
+      "sourceSha256": "f7d1e686f55f1c80499b0e44fe7515f29b096edbd61c03a9a9d68e0d0783df87",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "base",
+      "id": "silk_gloves",
+      "name": "丝手",
+      "file": "design/icons/base/silk_gloves.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "ad4f22b6a139f1d531f2c669dcee31701a1a61a5e56bf7ce42613144560aca08",
+      "bytes": 358687,
+      "sourceSha256": "b54e70a32be48b7562f274560e487d6c2b1e514be7c2980b1da721f753303151",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "base",
+      "id": "wraps",
+      "name": "缠手",
+      "file": "design/icons/base/wraps.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "cbadf09b14a853e2122280d59c4eb4326a5f618e2c61636728ec11705255b2d5",
+      "bytes": 496086,
+      "sourceSha256": "21375d546cfe98bfad05a3ce84b7be136ba478b67589f1c3ecea17f31dc5eebc",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "base",
+      "id": "greaves",
+      "name": "铁靴",
+      "file": "design/icons/base/greaves.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "19ba1f72f338b8392b54c3eaaa5cea522982697afaac200ad5ee420a438c22b8",
+      "bytes": 344804,
+      "sourceSha256": "578b15f76c5cfa11f81d5095e0298152e0ed38fadfdfc7da9bc87df31c300ef4",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "base",
+      "id": "slippers",
+      "name": "丝靴",
+      "file": "design/icons/base/slippers.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "178691ea41af70f39a1cf6e99c2fb9b0c20362aa87cfaea430787f3379697232",
+      "bytes": 323564,
+      "sourceSha256": "17a96c26e0bf51f81451a7a47a747105892ae63a6cba8114753aae256a9c61c3",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "base",
+      "id": "treads",
+      "name": "皮靴",
+      "file": "design/icons/base/treads.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "4efe8d5cd55a25cca6243c2e35c1b72aea15d875cb49df56d675e7b8b96d89e8",
+      "bytes": 362865,
+      "sourceSha256": "bf447ea97d7c03ea0e660568482372e84b636eb3715eeb7d127653014f0d725f",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "base",
+      "id": "heavy_belt",
+      "name": "重带",
+      "file": "design/icons/base/heavy_belt.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "4fadde471c9aeae7ca7c6803ec741ae32e5e6ff0dc1b2653b605c8c18709480a",
+      "bytes": 436893,
+      "sourceSha256": "42a93dd9fd234ef60e755a64209c22a94d21894d5074d853334e7deb0ed33160",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "base",
+      "id": "chain_belt",
+      "name": "链带",
+      "file": "design/icons/base/chain_belt.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "54dc5c16326dc8b92d633dfa863875e37ebb452d313885c72a34b7844ac8fdcc",
+      "bytes": 273407,
+      "sourceSha256": "04ef9141385d0f3c681d06992b776621d214fdb54918755327642a4dd72969b8",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "base",
+      "id": "jade_amulet",
+      "name": "玉坠",
+      "file": "design/icons/base/jade_amulet.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "3664514d1ef20be0501df5a318c9fb0e8cb270b2aa3295b8d86df02ceb82ffe9",
+      "bytes": 304776,
+      "sourceSha256": "3b7f8d87583771e74e796cc2277c8cb69046185fd8556151149b774b31477623",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "base",
+      "id": "onyx_amulet",
+      "name": "玛瑙坠",
+      "file": "design/icons/base/onyx_amulet.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "dbfda56975156889198342d19cc8030ea1d628a851319db0fc928f1129665b21",
+      "bytes": 304206,
+      "sourceSha256": "9ef49220b88c5c04523bfee53b34665fa4fff9aa6322091546549f93eed2b565",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "base",
+      "id": "ruby_ring",
+      "name": "红玉戒",
+      "file": "design/icons/base/ruby_ring.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "49451117781e2cb7d2e8286acf09d0d36bdad9aee869b6826e931b6c62be4a56",
+      "bytes": 447229,
+      "sourceSha256": "bf39cf1b972ff3d3cb5184761e956cff82d78e400d305b77430395ff9f63c78e",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "base",
+      "id": "sapphire_ring",
+      "name": "蓝玉戒",
+      "file": "design/icons/base/sapphire_ring.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "ca6871c0af16dc0162b2c6acfba571aaff915095fbb03898f72c83f71648e460",
+      "bytes": 310685,
+      "sourceSha256": "4cde3f35587c84c3627b663a977fcafca23b92a138c3508eb54ea248ffa5244d",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "base",
+      "id": "topaz_ring",
+      "name": "黄玉戒",
+      "file": "design/icons/base/topaz_ring.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "4a5a19172800d0e583896bd60ca4854862f166203b83987de5d7301cc673f11c",
+      "bytes": 290693,
+      "sourceSha256": "56efcd6ed70006679d28f5c2fa39e215089a19ac59aebc6447b32ce3b0611417",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "slot",
+      "id": "weapon",
+      "name": "武器",
+      "file": "design/icons/slot/weapon.png",
+      "style": "emblem",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "8cc949e7b8f71a7e34716ff5e948533cbd9bf916a7378a8096de8dd78d40d5ee",
+      "bytes": 68255,
+      "sourceSha256": "fe55a066d4545a379c6f29e019367d4f1f2426e33473c4e7ead4610c7b46eae5",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "slot",
+      "id": "offhand",
+      "name": "副手",
+      "file": "design/icons/slot/offhand.png",
+      "style": "emblem",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "599c2991eb4bb42cf6c824c1806b12dd4530df2bfb35fdb04243128bb0f45723",
+      "bytes": 105998,
+      "sourceSha256": "5ee6db2a6c723b80c3e2d08cb0eff87f7879f23f00c4149bba1a4a265160c51b",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "slot",
+      "id": "helmet",
+      "name": "头盔",
+      "file": "design/icons/slot/helmet.png",
+      "style": "emblem",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "95a78acf14095e45ca81df41aa5227698fd1b5255acf7e29bcb9fb67e99fba67",
+      "bytes": 133274,
+      "sourceSha256": "fdafaad2c6597ff2ef790f1f0af1b79919f0cc3713b4d7829fd1a12be7eeb93f",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "slot",
+      "id": "chest",
+      "name": "胸甲",
+      "file": "design/icons/slot/chest.png",
+      "style": "emblem",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "bcd95455ffb604d5637126adfdd852edc9d3448175c74c9130b1ff0981b8f2e7",
+      "bytes": 131221,
+      "sourceSha256": "3421a029a0fa7f8b8a8d6f26f01b0a51f56a4f941598e9db12ea696e0cb7b52e",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "slot",
+      "id": "gloves",
+      "name": "手套",
+      "file": "design/icons/slot/gloves.png",
+      "style": "emblem",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "7ab89649a55918c8956dae120fbd0e54d174c1287c52b7bb41d7ef5f486659c3",
+      "bytes": 123144,
+      "sourceSha256": "d319bab8cc80fad5370f6b7c7cd86bbae5847fdd9332664e0c772dcae766f5df",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "slot",
+      "id": "boots",
+      "name": "鞋子",
+      "file": "design/icons/slot/boots.png",
+      "style": "emblem",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "4d85bd22762f78874cdce6215b8479d8332a9051cfc6de81528cd14a263cdb5a",
+      "bytes": 122837,
+      "sourceSha256": "88283fa63d88bea4def896df4abc878d86c5a64adbcdfacc39d88dc4f8b1caf3",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "slot",
+      "id": "belt",
+      "name": "腰带",
+      "file": "design/icons/slot/belt.png",
+      "style": "emblem",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "b79808c6d598374c1b4030db634e90ee6908a8b517449574b196c162a066e58f",
+      "bytes": 97044,
+      "sourceSha256": "0a1f5abac8d7d639f6030b2cf2fff68d1169ff20d4e2f79ac5c6cb3840d05ba7",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "slot",
+      "id": "amulet",
+      "name": "项链",
+      "file": "design/icons/slot/amulet.png",
+      "style": "emblem",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "825361e4529f01e92389e9c240ba700ef77519ab8c3fac9893049f7be7f5e152",
+      "bytes": 83250,
+      "sourceSha256": "2a429319f1958e6702f887040cf23458bcf3c8d44b5f96d78d533e66e474f500",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "slot",
+      "id": "ring1",
+      "name": "戒指",
+      "file": "design/icons/slot/ring1.png",
+      "style": "emblem",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "4bfe767d9fe7fba8731d25331218588d4227f506e3e7b435849ce23314c27127",
+      "bytes": 96135,
+      "sourceSha256": "2a5cbb82ab43ded8fa76e22336568796a4dd2dc26af0f4fe937104c69e60705c",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "currency",
+      "id": "augment",
+      "name": "魔晶",
+      "file": "design/icons/currency/augment.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "69a985150cf506b2daa156afe910ba5b13cdf9098320420e6bb5b23378cab350",
+      "bytes": 435193,
+      "sourceSha256": "9519a1c7460695f5b74423a054a70f2e50c6aba9b38096265dd8d7f0142bb1ab",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "currency",
+      "id": "chaos",
+      "name": "混沌石",
+      "file": "design/icons/currency/chaos.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "b0b5b6ffe26a3e655381ac1308f7180b42280401cbddeb88738c4e0c5d697f82",
+      "bytes": 369680,
+      "sourceSha256": "0812be3f457c71cc4643530cd9d83d9d9ae9fe1c3f7aebdc7b501b9d3e6081a0",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "currency",
+      "id": "upgrade",
+      "name": "灵石",
+      "file": "design/icons/currency/upgrade.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "3723fbec425132e6514054cc33264dd1fa91696297e5cee483baec57d60b62d5",
+      "bytes": 314175,
+      "sourceSha256": "185e83c9d254628c20ea543c440e8e1208f02eab878a54bb48b1684266b625c7",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "currency",
+      "id": "annul",
+      "name": "无效石",
+      "file": "design/icons/currency/annul.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "a5aca03681e3f7fcc91ab20605bb488628a713f9745af984cab4c963f003f7d4",
+      "bytes": 391115,
+      "sourceSha256": "984a1f28060c01441a11044746cdca68d9c83105cae8f81d5cd57880c5c4d94b",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "currency",
+      "id": "seal",
+      "name": "封印符",
+      "file": "design/icons/currency/seal.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "9e9f1318afe968752f612b2f6a517caa426233d513b863e338dde9e4eb154110",
+      "bytes": 457523,
+      "sourceSha256": "a96d0cdcae12e420797d2db33592cad4134f8fe51de71dfd9e9ae1094ec506a8",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "currency",
+      "id": "temper",
+      "name": "淬火石",
+      "file": "design/icons/currency/temper.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "23f6995e74ec723dfd1e475240f033b2fb39ec3c53678cde4ce7fa03a48ded3d",
+      "bytes": 320174,
+      "sourceSha256": "65aa9323258b1f45b600a2a29598c347d4ce28e79752af6092bd6376e9d709af",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "currency",
+      "id": "essence_form",
+      "name": "形态精华",
+      "file": "design/icons/currency/essence_form.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "707668547a61d6d62b34318d1d9ea162429ccd55f8976091b7e92bfe64c96ff1",
+      "bytes": 306304,
+      "sourceSha256": "59c97999edcef14c66e5b9b5c2304b721934b04af76a46205c799c84b8e72fae",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "currency",
+      "id": "essence_link",
+      "name": "联动精华",
+      "file": "design/icons/currency/essence_link.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "b28f92db3388c7932f92a7cbd5f12ce5b2b713cde255c1cee94f608283a3e92a",
+      "bytes": 289010,
+      "sourceSha256": "8378b609114fd63dc79b775cebd60b0ad3810ddb232dafc2537f29bd5e647753",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "currency",
+      "id": "essence_core",
+      "name": "核心精华",
+      "file": "design/icons/currency/essence_core.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "a7b6fda74288f93f95c6eb2e976d63720a181e00416e511a06940f2d93d74afe",
+      "bytes": 503164,
+      "sourceSha256": "b5c998c9390f048fba89d5283019c45fa369f8f6cf816a4883c098ee35fa989a",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "currency",
+      "id": "skill_gem",
+      "name": "技能石",
+      "file": "design/icons/currency/skill_gem.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "25b35094f62a6ae4131c555b4f18f637c49159a7c394b3e5cf6ed36495882317",
+      "bytes": 298162,
+      "sourceSha256": "8a39325f53b65ce9cf743078582f3f1d11935783c577bf1299f4c787f70693ce",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "legendary",
+      "id": "pyre_staff",
+      "name": "焚城之杖",
+      "file": "design/icons/legendary/pyre_staff.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "7be4c4c7111425b52430f95c9cb60d47ee687c97460ae1b6b1f2acd09b046385",
+      "bytes": 249181,
+      "sourceSha256": "e1dd184b083f0ecf2f98a1f50ff37ea0b0577b35b38f154b6fa74ddeabc38117",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "legendary",
+      "id": "rime_wand",
+      "name": "霜语",
+      "file": "design/icons/legendary/rime_wand.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "e7a0d6e4c7784eeceabb481afecf54ab226bc40277a5afa600b60babedf0eba0",
+      "bytes": 304752,
+      "sourceSha256": "cd523e2a4fe1a479bc9b8d39580a4a3e1acc452e07d3d26c6dfc6d48048d2402",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "legendary",
+      "id": "thunder_maul",
+      "name": "雷鸣之锤",
+      "file": "design/icons/legendary/thunder_maul.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "cc2e286a6ffa16717b40c649e6b9d3dce6857d3914a9e2a308058914ca15ee31",
+      "bytes": 429009,
+      "sourceSha256": "0792a8a8bb0056c12835560be697ab36e0b3b7c7679caf0ebae9090ec1fbc9e1",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "legendary",
+      "id": "shadow_fang",
+      "name": "影牙",
+      "file": "design/icons/legendary/shadow_fang.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "ee4da24fadde529db727cdde7bb9d56dd0fe4486a6de22042cf419a7fcc030ca",
+      "bytes": 297090,
+      "sourceSha256": "c4ffd9925f6ac2add00160a0b602d08b8cb81fa49795eddf8b2df1b4bd004e91",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "legendary",
+      "id": "gale_cleaver",
+      "name": "狂岚",
+      "file": "design/icons/legendary/gale_cleaver.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "41df808a5b99c749d0dd4eebb8fe16d650efee11fdad380c8e66dfcfb973b34e",
+      "bytes": 322955,
+      "sourceSha256": "ad93a852f91c2fb21041eaba371f45eccc4be9faa51eab1fd8fcedadf4ee95b0",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "legendary",
+      "id": "storm_scepter",
+      "name": "天穹权杖",
+      "file": "design/icons/legendary/storm_scepter.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "297cc22208988e5b4c7c9e62c4355d042d8e7ea00fe957e662fcfa88b37c7bde",
+      "bytes": 262806,
+      "sourceSha256": "aaa17a3a09c07a0a4a64add06b396e320ae4a1f3a9010f6396e55a9f61ba118e",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "legendary",
+      "id": "eye_of_storm",
+      "name": "风暴之眼",
+      "file": "design/icons/legendary/eye_of_storm.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "2041d57a4a879904d2a14b9c1a9a43e4266bb4944b9d647a5167e4108950589a",
+      "bytes": 340991,
+      "sourceSha256": "10a3ea55840b29001127e7844e945da7249c0e558e319b14add7838253b2fede",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "legendary",
+      "id": "glacier_wall",
+      "name": "冰川之壁",
+      "file": "design/icons/legendary/glacier_wall.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "117e610e763acd3f49a26a7ba0e33be1842e232f45a42a7e4082db6d05266c08",
+      "bytes": 370151,
+      "sourceSha256": "f07cd86aa3fdaa6d616acc1e6b9ea75a0c756ee6c31d0b3633f0213824b9ea64",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "legendary",
+      "id": "legion_focus",
+      "name": "万象",
+      "file": "design/icons/legendary/legion_focus.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "b104fec684362666b083160204337a67db36405d3b4dd932b4f9f91c907af4f0",
+      "bytes": 330887,
+      "sourceSha256": "bdbf0d229aa500f345262e232507354937e55dc084355d7e87a75b6710c89666",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "legendary",
+      "id": "mad_crown",
+      "name": "狂王之冠",
+      "file": "design/icons/legendary/mad_crown.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "1ecc2bbca6366339da5fbd4b9f938ae037a2ea7c6b6d9a2cab30f63094f9ac5c",
+      "bytes": 389741,
+      "sourceSha256": "d7b887373afc3994ae409a7f7375e296c87208219cb07ce0cbf7e36075c2b762",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "legendary",
+      "id": "thousand_faces",
+      "name": "千面",
+      "file": "design/icons/legendary/thousand_faces.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "4c2ab9b57a970348203934d1992db2490c1ab34186c13e6a13394f5d0c806a7b",
+      "bytes": 522984,
+      "sourceSha256": "2621ae78e8ed03710732658ee2f4923987294cb290c6209cebbb791666aaedb3",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "legendary",
+      "id": "undying_plate",
+      "name": "不灭之铠",
+      "file": "design/icons/legendary/undying_plate.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "b15f576b50cbc54eaabfbb88ecff5f5c12167f06710af8fbe89d8302eaa8a39a",
+      "bytes": 394446,
+      "sourceSha256": "40fd33f4fcd6f6e5b8da4ac191a8a34dea4ae5b046d4b34704e0d9c440b232a8",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "legendary",
+      "id": "starweave_robe",
+      "name": "星辰法袍",
+      "file": "design/icons/legendary/starweave_robe.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "d66292e5a73f94b58400a60023aab42ab1542e02f6bcf051e20b8f2af1715bd2",
+      "bytes": 400052,
+      "sourceSha256": "80390e11e561fa2d6aec419938d2fc55e443847ddf2e8df993daa66446352dc0",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "legendary",
+      "id": "nightveil",
+      "name": "夜幕",
+      "file": "design/icons/legendary/nightveil.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "925beca9a51d567e0f218cab85def038af5a133677866b1dc5f3411a752a427e",
+      "bytes": 417156,
+      "sourceSha256": "1da3e76a53bdd64ca65cd26b911e10b0072ee212e58c0fef0411e5bffe743e08",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "legendary",
+      "id": "stormcaller",
+      "name": "引雷之手",
+      "file": "design/icons/legendary/stormcaller.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "def58d0f5959aded68307f73ab392ed454452b67068c110e96691746f26a6f22",
+      "bytes": 520876,
+      "sourceSha256": "f14a85c57966dba7d71cb175fec8940fee7d312bf53c41662ee55f9b2c30e4ed",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "legendary",
+      "id": "alchemist",
+      "name": "炼金之手",
+      "file": "design/icons/legendary/alchemist.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "9929c0d7f45bbe773e5bdea961a972b23423d01de066c93400db5fd14624fede",
+      "bytes": 407981,
+      "sourceSha256": "857864a1996cdbbca4584298d4ef81eac21adc59d85d025e3056d22bfcdcd1ed",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "legendary",
+      "id": "bonebreaker",
+      "name": "碎骨",
+      "file": "design/icons/legendary/bonebreaker.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "e80f927387937ccec4052b8e020583478bf221769bb3bcd7611c32c062f72a3f",
+      "bytes": 413369,
+      "sourceSha256": "bdc8c418e14f004d1010e177f937fc17e80cfb99c192cb901e73ac27ff3603c7",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "legendary",
+      "id": "windstride",
+      "name": "疾风之靴",
+      "file": "design/icons/legendary/windstride.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "6774dcf7263cc2257999e26fd14c922b3c2702e575eb3decea629e887a08998d",
+      "bytes": 380463,
+      "sourceSha256": "33942482eced8110453c3262c3d7c07162744d8d7917563b91c46e703c991d6b",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "legendary",
+      "id": "frostwalker",
+      "name": "霜行者",
+      "file": "design/icons/legendary/frostwalker.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "9f779dbc7d3682df8b16266b88a182b6aa3daa73d9321ad1d349cbd96b620710",
+      "bytes": 561443,
+      "sourceSha256": "58717b68b86ed5fc80021a3b2890763a7ad3357ce4c150f38615e00ce03d763a",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "legendary",
+      "id": "warlord_belt",
+      "name": "战神腰带",
+      "file": "design/icons/legendary/warlord_belt.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "f94c79c78f45bcc239d5d824dc91648e3734291274f04b53db7bef83c8433cce",
+      "bytes": 364598,
+      "sourceSha256": "680423720662a99c737fe4f36dfc6b6f796e9f3b158a3335047865a71b79f749",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "legendary",
+      "id": "iron_chain",
+      "name": "铁链",
+      "file": "design/icons/legendary/iron_chain.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "3884a8f379b48b65b8758213ec2040118784b4d916c797e0a4df853fca788b3a",
+      "bytes": 317510,
+      "sourceSha256": "f522444b546555352a14f82b251303a42130e72b317d040ebbaeaba51ee87ebb",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "legendary",
+      "id": "heart_of_winter",
+      "name": "永冬之心",
+      "file": "design/icons/legendary/heart_of_winter.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "38ce67736949b0f34888181ca6d6d0d462b84cc257aaad4953c424b2b9e575d3",
+      "bytes": 356073,
+      "sourceSha256": "c8d09502b957d639436c8d3c02fdbcad36b7ba3a4b6c7838d2295983e096e625",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "legendary",
+      "id": "eye_of_three",
+      "name": "三相之眼",
+      "file": "design/icons/legendary/eye_of_three.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "e7a1da4a19e740919a74bdb57c8fe8f77c131d2802e673b90d0482dcfbc2b1dc",
+      "bytes": 385881,
+      "sourceSha256": "1b0ea11fe2c3bdf78a1c0cf0c3c6327d907cea2e7622b987aea7d35e338ce690",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "legendary",
+      "id": "echo_ring",
+      "name": "回响之戒",
+      "file": "design/icons/legendary/echo_ring.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "731d1c093788abdc80160bccb119b79ec1a670f2ac5458eede2d49457cca9845",
+      "bytes": 377631,
+      "sourceSha256": "2a976bdedff395a1597347b2fd1689260918304350090bd3fe5a2385cc461856",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "legendary",
+      "id": "ember_ring",
+      "name": "余烬之戒",
+      "file": "design/icons/legendary/ember_ring.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "de75ce5f102ef4e30f06e3747162059f3bb22e27abd2e8228aeccf241f55d6ca",
+      "bytes": 326278,
+      "sourceSha256": "0f77277799297140c0185d3a7ff95b9f98d5e2e8c8c36b1a43bccac970dced82",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "legendary",
+      "id": "thunder_ring",
+      "name": "雷环",
+      "file": "design/icons/legendary/thunder_ring.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "452d409a3c32108bc33e8f42cf6ed8809a0d06c12df51c1a9702ecf5b2e65093",
+      "bytes": 365986,
+      "sourceSha256": "12412efa97c63a2d89807a270993f4fa54260da41439b53462a5242ccae0cc17",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "panel",
+      "id": "quest",
+      "name": "任务",
+      "file": "design/icons/panel/quest.png",
+      "style": "emblem",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "75816b197c0e7b54cee1de0015afca8c6fe2d9192d124cf8d19439783965d7b7",
+      "bytes": 91156,
+      "sourceSha256": "f33518f0aba0da7a4b721990684e8bd274307bb47c15d0f5de3315e0f3fe30cc",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "panel",
+      "id": "atlas",
+      "name": "地图",
+      "file": "design/icons/panel/atlas.png",
+      "style": "emblem",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "f6f2d52bf3d3dc74eb774063f94db312dfb6cd9078298d802c4a572099b18f14",
+      "bytes": 134601,
+      "sourceSha256": "898ae9bfc91980ba419f9f0fa549be704823b36804238efa80e5f347cf32787b",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "panel",
+      "id": "talents",
+      "name": "天赋",
+      "file": "design/icons/panel/talents.png",
+      "style": "emblem",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "f81556b7599ffa2b17666018c2189d86af020c9d5c994c88cac2ddf84fc83815",
+      "bytes": 93382,
+      "sourceSha256": "3082deb6bf62a91ef457eab0aa8571ea47da2fb09f24207227146caeb4842ecc",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "panel",
+      "id": "char",
+      "name": "角色",
+      "file": "design/icons/panel/char.png",
+      "style": "emblem",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "cd9ff732a881ef8e50c59dcdd0708c8efd0da5ec2c705f681ce824d4937e019d",
+      "bytes": 98043,
+      "sourceSha256": "9f4008c47dc494b729718bfc42cff8eb46899a6c55e4a94acfa755ee34b9e648",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "panel",
+      "id": "bag",
+      "name": "背包",
+      "file": "design/icons/panel/bag.png",
+      "style": "emblem",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "f7b97695c95d9afe7672e315d456046c4c8f9a97c97a7a96bbf919682a5fd7b4",
+      "bytes": 126650,
+      "sourceSha256": "1087bc745362d68c8d884afdf71dcc231c3b67bd7ffd4b523551ddeb7434a201",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "panel",
+      "id": "craft",
+      "name": "洗炼",
+      "file": "design/icons/panel/craft.png",
+      "style": "emblem",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "2561cb9e7f92994d5d09f19374938fa9a764b77b82d1601736e117cb8ba79b60",
+      "bytes": 72481,
+      "sourceSha256": "9704e77c7988616813fa9c8c53bdd430e574cddccbeb7634713bb3534a4abd62",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "panel",
+      "id": "bd",
+      "name": "流派",
+      "file": "design/icons/panel/bd.png",
+      "style": "emblem",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "151efdebda7b819e06076e8a52108d8089dca66d5346ea7567403dee12489515",
+      "bytes": 113212,
+      "sourceSha256": "26150d23b75d6449957ef4fcb6e5444a3f49f9662f6fbfd156b11b6b8cbe8ac7",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "panel",
+      "id": "codex",
+      "name": "传奇图鉴",
+      "file": "design/icons/panel/codex.png",
+      "style": "emblem",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "1d497956261365e17ec4cebea09f83b359730a268d5c9e4dc66adf71e285f837",
+      "bytes": 107586,
+      "sourceSha256": "49162378783085a57d4e663b7e627cde4bae1d527a9ceeeb9527309b336d979e",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "panel",
+      "id": "vault",
+      "name": "仓库",
+      "file": "design/icons/panel/vault.png",
+      "style": "emblem",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "019a57fcdaaa40046e795866b34d67bbf3a05c4c379937118528bf1f40a17974",
+      "bytes": 108207,
+      "sourceSha256": "663945cb1898b0420eba4e05dd08760643174e7c3e0e5ec29043460e771b25ab",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "panel",
+      "id": "settings",
+      "name": "设置",
+      "file": "design/icons/panel/settings.png",
+      "style": "emblem",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "13dcec8982c7c09aba5d95a60c48b306044b30cc61c569b3052010cce8c8eace",
+      "bytes": 100279,
+      "sourceSha256": "f0b36fd8fd49d1c88c4061a1bf305ca22ff66d63c698a4a03c74a4d68a24070b",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "family",
+      "id": "ember",
+      "name": "余烬",
+      "file": "design/icons/family/ember.png",
+      "style": "emblem",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "02859de4d635168f4d15c917bd1e9b1994b763cef1d9e258041cfbb2b8a5a737",
+      "bytes": 103420,
+      "sourceSha256": "a42da70d8cd11bbf7bd22a8f06636120ec4e9a42f698c313430e49106db47fa4",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "family",
+      "id": "frost",
+      "name": "霜原",
+      "file": "design/icons/family/frost.png",
+      "style": "emblem",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "7755df5817c8590f9d702e25905ebb0dc0d7791bbe39e8a472dda1ea85224d43",
+      "bytes": 109507,
+      "sourceSha256": "5377c41cb71a3da72aa93810b581fdecc4f884314472bbee541bec609231ec30",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "family",
+      "id": "storm",
+      "name": "雷暴",
+      "file": "design/icons/family/storm.png",
+      "style": "emblem",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "7eb3a2bac41751d9c0031bf49ca19838c303382bdce76940f5d3b0dfbafacb61",
+      "bytes": 95236,
+      "sourceSha256": "3dd6f43e337152673e0c8a9b6888400234dfde641fe29082fc2acc85504fe43a",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "family",
+      "id": "blight",
+      "name": "腐沼",
+      "file": "design/icons/family/blight.png",
+      "style": "emblem",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "95fe7353ad219523b121592dfb46d1acd70574502c2658b5195ebb489114a621",
+      "bytes": 111214,
+      "sourceSha256": "004fdd7cd2f53df01824052025958216fdf813e27cffc18a2b4285adaf404987",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "family",
+      "id": "ruin",
+      "name": "遗迹",
+      "file": "design/icons/family/ruin.png",
+      "style": "emblem",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "61869011a347d2c85fe6929fc9bfabdeb22a6b22e9c975253abbff29fb3eb2fe",
+      "bytes": 131834,
+      "sourceSha256": "0704152492b25c649c5dcfda52590409d403ef967d1acda2708c530db3fdad4f",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "node",
+      "id": "boss",
+      "name": "首领要塞",
+      "file": "design/icons/node/boss.png",
+      "style": "emblem",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "df2a26f601e4cd6e1206f087f7e055ac5cc25c7e00e76588cb1b944b92fa2369",
+      "bytes": 109141,
+      "sourceSha256": "12c0d16bc859a447a96b2a1d3334987cb5ecf9d03021236b3ac34f9db2ade1e6",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "node",
+      "id": "vault",
+      "name": "宝库",
+      "file": "design/icons/node/vault.png",
+      "style": "emblem",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "ed36d689c7f7c92c576cbbf97cc7ac5a1ab1c3004af3d105ba8e18ce08bf9952",
+      "bytes": 119098,
+      "sourceSha256": "4c3a192d16dce4dd6e1c15f798aa537df6cd39364abda9d83e178e12f3ea7d0c",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "node",
+      "id": "corrupt",
+      "name": "腐化",
+      "file": "design/icons/node/corrupt.png",
+      "style": "emblem",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "c546a1a744bb75f1510c83a27effe25b875edd80076dd10d3e78f539c8d2ce90",
+      "bytes": 102835,
+      "sourceSha256": "d226249116172b372f52290fc46b69b2d4108487ed3e8af05de0dc9f4c638df8",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "node",
+      "id": "trial",
+      "name": "试炼",
+      "file": "design/icons/node/trial.png",
+      "style": "emblem",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "7d7b059ec7a60babcbbab7b04e42fbe60d21a99043f700fc29b2de7c4e719640",
+      "bytes": 98994,
+      "sourceSha256": "9d599912795cb539f02a6996e5b13ed32b86ca9b53ef1e8debf5086f9281fad7",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "layer",
+      "id": "form",
+      "name": "形态",
+      "file": "design/icons/layer/form.png",
+      "style": "emblem",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "3be53dad882f8eba84319d190ce3df252f221fccb6299ac8c7944b2606e3fdf7",
+      "bytes": 99264,
+      "sourceSha256": "2a1df4aa05c90c9423536d2be4b90589a8b2b3518ec6bed4e4b0816cc620d04f",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "layer",
+      "id": "link",
+      "name": "联动",
+      "file": "design/icons/layer/link.png",
+      "style": "emblem",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "7cb72d2077a66ea50e881d49502479f28e53b9f273f66bbb47f849c40a77a0b2",
+      "bytes": 102152,
+      "sourceSha256": "8683dde787f3bb5bed56cb596fbe876291e2cad4fe01e5214e7a699f191b5d6f",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "layer",
+      "id": "core",
+      "name": "核心",
+      "file": "design/icons/layer/core.png",
+      "style": "emblem",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "f9ccfa885714b4362b5b6f7e27e2bb93afa2cd72cc2944415add1cfac812030f",
+      "bytes": 113101,
+      "sourceSha256": "1282348ad2c7c9fc76bd5730fd2437dace0979f36a1d5fdfd6a0d7fbcade3822",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "buff",
+      "id": "power",
+      "name": "能量球",
+      "file": "design/icons/buff/power.png",
+      "style": "emblem",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "3734260b1a334d1b4d047aa07daca12ae8d82babbdf1fa587bfe2ddd8b5351d8",
+      "bytes": 94092,
+      "sourceSha256": "cbae518ba069b01a2e1c88a22d4e5ca726916bfb40c33fa16c71d2e5367679c0",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "buff",
+      "id": "frenzy",
+      "name": "狂怒球",
+      "file": "design/icons/buff/frenzy.png",
+      "style": "emblem",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "6719a2cfe701d59d3ef880afe42b6405770ff7d54aaa0cefeebfb3e5b8aff317",
+      "bytes": 119870,
+      "sourceSha256": "90e6cc84342dedb5ac35089d4b313a9350569843fe0d6a1b87fe62c4fc4e8ae8",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "buff",
+      "id": "endurance",
+      "name": "耐力球",
+      "file": "design/icons/buff/endurance.png",
+      "style": "emblem",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "c0cbbe010e40e2d9d93909040584571d3dfa2d75f29095b92d8792587c8a6cf0",
+      "bytes": 96249,
+      "sourceSha256": "cc4f678b3ca5c42347691cdafa4ed47dbde1520d91239bb32c0f434393b4f976",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "buff",
+      "id": "burst",
+      "name": "迸发",
+      "file": "design/icons/buff/burst.png",
+      "style": "emblem",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "4226fc5176c138a6c6c5433e5ade3a2af206050927624abdeb01c96ccb2769a1",
+      "bytes": 117604,
+      "sourceSha256": "4563ad8395a00ffded6a7bf7195332eb0ba1f0a88106a811d9bc4062d675642d",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "buff",
+      "id": "rage",
+      "name": "杀意",
+      "file": "design/icons/buff/rage.png",
+      "style": "emblem",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "88cdf4c55113bee7d9ccbb648b8429f61c55603a3019df2e6865539a619720bf",
+      "bytes": 119127,
+      "sourceSha256": "e99bdf008c77d0c1538110f8d84b5fc0b52016dc6fdd27230446dfcd236406a4",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "buff",
+      "id": "onslaught",
+      "name": "猛攻",
+      "file": "design/icons/buff/onslaught.png",
+      "style": "emblem",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "5fb3b50154870748894d808c6a1eeb50fc0577272cdbc2084f3e13f75f0c0ab7",
+      "bytes": 94579,
+      "sourceSha256": "1229318d875faf3c18e5e55cfecc6abebf573dcfb201bd9c8c7abc2eb800aee1",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "buff",
+      "id": "fortify",
+      "name": "护体",
+      "file": "design/icons/buff/fortify.png",
+      "style": "emblem",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "f4ae959f246c8446883333116b7f1d394569447a64416b487a617467e85640b5",
+      "bytes": 112800,
+      "sourceSha256": "9b5e99cdcfadd18d51b32776ef57ff36f330cf34b7fea1cbea384d9ffdced339",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "buff",
+      "id": "thunder_ready",
+      "name": "雷霆蓄势",
+      "file": "design/icons/buff/thunder_ready.png",
+      "style": "emblem",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "d9718da20ed5bcc391b056e53573c3ed357d465b72488d422b9fb86f4e79b4d0",
+      "bytes": 104847,
+      "sourceSha256": "5e71edd82134ba74ad979801a0d28a2292040b901ad1cfecc5f981ef0ccaaaff",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "buff",
+      "id": "superconduct",
+      "name": "超导",
+      "file": "design/icons/buff/superconduct.png",
+      "style": "emblem",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "19418ee718a01ccb15b1b9be4ca6493aef71566f94acfc9bcbc74428059ccebb",
+      "bytes": 82553,
+      "sourceSha256": "b3eed3c6cc81d6965e752f479513c58e76ea555bbe0bc4d89bc74d30d7bffab0",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "status",
+      "id": "ignited",
+      "name": "燃",
+      "file": "design/icons/status/ignited.png",
+      "style": "emblem",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "da0ceceae578be0df15c8c50eda1df52fdd0d56cff17126385bff3b4c3d82c1c",
+      "bytes": 99463,
+      "sourceSha256": "e2d04e1904e015ef2c5def50add5d425e910a7cd1b81e43c643bff3010ce7d4d",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "status",
+      "id": "poisoned",
+      "name": "毒",
+      "file": "design/icons/status/poisoned.png",
+      "style": "emblem",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "e251797a49cc2d1df61940b1aa2e907e19fa4226c90f7801d8bbee720a871131",
+      "bytes": 99977,
+      "sourceSha256": "5fdd9f8402807d025c7c6b0883a39bd7e6e6bed3d0f6847b7211ab3b1c555f13",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "status",
+      "id": "bleeding",
+      "name": "血",
+      "file": "design/icons/status/bleeding.png",
+      "style": "emblem",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "92f2864ce02447c708b3630b1c1c89853e37d9c12278b189be0f857e4b9a8cae",
+      "bytes": 82497,
+      "sourceSha256": "305f760a3c6df3d61dc38c626b639e1323a3cb430a0da59ef49ec0c73f9d07de",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "status",
+      "id": "shocked",
+      "name": "电",
+      "file": "design/icons/status/shocked.png",
+      "style": "emblem",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "02e2fcb4e39b1aaf1eba9d2f63a4b949ec96a7f8651d3f6dc5fa447f5ca24afa",
+      "bytes": 80484,
+      "sourceSha256": "1559903e38f8ca2736d5b0e02d9f89049350d09a0b01fbf1f4102e312d8ed3a1",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "status",
+      "id": "chilled",
+      "name": "缓",
+      "file": "design/icons/status/chilled.png",
+      "style": "emblem",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "9e95c08ab5c4ea34b4c8ede587a05037a59d57f421b4ba102a4e52234d82cde8",
+      "bytes": 112283,
+      "sourceSha256": "c0538ddcae8a51246e3751e20efabc6b85e43464003c593f44c4c93773af37c2",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "status",
+      "id": "frozen",
+      "name": "冻",
+      "file": "design/icons/status/frozen.png",
+      "style": "emblem",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "0931d05e3cd7517efc73af9350815cc0dd2a0dafaeaf415113689664e29d86ad",
+      "bytes": 105737,
+      "sourceSha256": "681c695b2af271ca69c4ae06d51cf5ce1b66ddf762ba869fc7adbef988ed7138",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "status",
+      "id": "electrocuted",
+      "name": "击",
+      "file": "design/icons/status/electrocuted.png",
+      "style": "emblem",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "5bba7cdb009359e84cf2c0cd93031004a0313458eb09a412d4c9e910ec4e41dd",
+      "bytes": 106711,
+      "sourceSha256": "89c7c178b7e4e25b193410e4004c1034b0c883354151494a1a41e696ff0de10e",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "status",
+      "id": "brittle",
+      "name": "脆",
+      "file": "design/icons/status/brittle.png",
+      "style": "emblem",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "c4020e591e4ab40d259724d4b21c817d1bbfd19bec52ba206b6403ff118163d1",
+      "bytes": 103917,
+      "sourceSha256": "518be043db02ff7e6057f422c65b8bc64870324b61db0ebef88a7ed029fa8b04",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "status",
+      "id": "sapped",
+      "name": "疲",
+      "file": "design/icons/status/sapped.png",
+      "style": "emblem",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "59b9b92c4592eecec66fdac0f71d5557e2bb2dd95ea09b692697c1b1e35db884",
+      "bytes": 72000,
+      "sourceSha256": "1a1e1803e8532b4b3239ac7d8d5de40c9889d17e5291c78fc3f5304e78d421e1",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "status",
+      "id": "scorched",
+      "name": "灼",
+      "file": "design/icons/status/scorched.png",
+      "style": "emblem",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "094adf09a78c712caf8724f6ddf9e220afebc9d226a38b7d511856f167ae1a30",
+      "bytes": 92294,
+      "sourceSha256": "3d9db377a880f51f36e71349dfd25d4c6d6430b806eee536769d1cc16fe82c13",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "status",
+      "id": "superconduct",
+      "name": "导",
+      "file": "design/icons/status/superconduct.png",
+      "style": "emblem",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "9b85e7366b70c922a13ff0b9fbf18c24a13457a08bf36e87a50ad8879c8198dc",
+      "bytes": 121276,
+      "sourceSha256": "ec264d2415c78d5c3847644935710b750fde073b4b3075f38c719fa2304fe4fa",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "status",
+      "id": "enraged",
+      "name": "狂",
+      "file": "design/icons/status/enraged.png",
+      "style": "emblem",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "5e3193d7ee4f27df9d4a3bb32e4ada30d3d7fcccac7d1135ad69ebf16d9869eb",
+      "bytes": 127876,
+      "sourceSha256": "2f2196d6ea907a141caabba78ce84828d9b7b5efe5b6c9467f17df59c29b25c8",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "status",
+      "id": "alerted",
+      "name": "警",
+      "file": "design/icons/status/alerted.png",
+      "style": "emblem",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "054e1c0735adbd864eef3157bb0d421ff9bc7067e19bde134349eea018c1312c",
+      "bytes": 95806,
+      "sourceSha256": "f8e073d57fbb123acd6cb4505bceb3a5f80b4b49afc5ba69062695b0619933f1",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "status",
+      "id": "frostbite",
+      "name": "冻",
+      "file": "design/icons/status/frostbite.png",
+      "style": "emblem",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "e2905beb4caa95c0238acabe6523575ec7ad82cb909a199e27e4fa6f43abe37e",
+      "bytes": 100470,
+      "sourceSha256": "15305158e4c0682f5dea6acd57044929baa54b2deeddbfccf70ea5ab55bfffc7",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "status",
+      "id": "onslaught",
+      "name": "猛",
+      "file": "design/icons/status/onslaught.png",
+      "style": "emblem",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "8d17be047dbf50db2cbecc01db61faf27e0fd18e2dc6dd21b1329eba29588cdc",
+      "bytes": 61722,
+      "sourceSha256": "9a4974f8948009667df9d1b2381ceb8a53c85b6e6f439adf71271ba695ec09c6",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "status",
+      "id": "fortify",
+      "name": "护",
+      "file": "design/icons/status/fortify.png",
+      "style": "emblem",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "e35417e6e9297872bf2e3bb04605ba9a464caac492eafb2224d914c3cef3a3f7",
+      "bytes": 86307,
+      "sourceSha256": "f2e80975d594cac34d27680adb50ea36b5819bf5c21dbc0285d9331391139eb7",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "status",
+      "id": "thunder_ready",
+      "name": "雷",
+      "file": "design/icons/status/thunder_ready.png",
+      "style": "emblem",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "b3d762f4a681eef54720b437bccd90c3da422ef873047ec1aef453ee8ab1eddf",
+      "bytes": 100282,
+      "sourceSha256": "cdabdab2e5349d2238e0087f3e906547e10af823472d596e99cfb75eb810388c",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "status",
+      "id": "primed",
+      "name": "引",
+      "file": "design/icons/status/primed.png",
+      "style": "emblem",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "b3e8b74839facb78835631ba621039c30bbf2807c38525c5f67bc25e5cb324b4",
+      "bytes": 64572,
+      "sourceSha256": "566afbe7c0ef89b36a30e1b8fb0098a3a4ffb6ac6dffd8e5684f5cf8d5d22066",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "status",
+      "id": "chained",
+      "name": "锁",
+      "file": "design/icons/status/chained.png",
+      "style": "emblem",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "90af6a426e82f38712614907151f83688d3e53f34029228f19f61aff4b2a495d",
+      "bytes": 92469,
+      "sourceSha256": "91767a51f6962e6a2984d5615bed742a7248f80ab9f4292eb300e4210a0f4714",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "status",
+      "id": "overgrown",
+      "name": "长",
+      "file": "design/icons/status/overgrown.png",
+      "style": "emblem",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "173c636df08c3ad5e4f428580ad01a117f2eba981d633aeca40189b0d64be612",
+      "bytes": 97083,
+      "sourceSha256": "d1a42cd3fb91579756769e4386763ff2dbc094cb54fe9675ca5965088b7294d8",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "misc",
+      "id": "waystone",
+      "name": "路石",
+      "file": "design/icons/misc/waystone.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "53d80607b1a67456e3a5fe464e3a079ecc55943f488630debc57a4b1234a93e1",
+      "bytes": 429414,
+      "sourceSha256": "dc85cee3c65e2cb7aeb372719b2322d0c2f317503584a8a13e9c0064014878b4",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "misc",
+      "id": "town_portal",
+      "name": "传送回家",
+      "file": "design/icons/misc/town_portal.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "7a3c783a12320f7f6bb2625344965c11e8de3effca0c8b8c1da8b8fb3a15083e",
+      "bytes": 470636,
+      "sourceSha256": "a356efd5c48fee35dfc666951130fa07c86fc4791ac34bba290397e07a998463",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    },
+    {
+      "cat": "misc",
+      "id": "stash_chest",
+      "name": "仓库",
+      "file": "design/icons/misc/stash_chest.png",
+      "style": "painted",
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "sha256": "aef1e93b0c778d616658fd4ff81d769bc0c4f8a50696c52943e7fa2633aeccd3",
+      "bytes": 336411,
+      "sourceSha256": "ea5d58a7014bcc31aa5f7fe98b1cb9b82b8d97ca64a2a5d9f0a827974f83b35f",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "provider": "built-in image_gen"
+    }
+  ]
+}
