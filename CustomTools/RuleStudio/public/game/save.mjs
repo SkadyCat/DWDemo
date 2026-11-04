@@ -26,7 +26,9 @@ const stackables = save => [
   ...Object.keys(CURRENCIES).map(id => ({ key: id, id, n: save.currencies[id] || 0, size: STACK, sigil: false })),
   ...SCARAB_IDS.map(id => ({ key: 'sg:' + id, id, n: save.scarabs?.[id] || 0, size: SIGIL_STACK, sigil: true })),
 ];
-export const bagUsed = save => save.inventory.length + currencyStacks(save).length + sigilStacks(save).length;
+/** Waystones the player moved out of the map device into the bag (one a cell). */
+export const bagStones = save => (save.bagStones ??= []);
+export const bagUsed = save => save.inventory.length + bagStones(save).length + currencyStacks(save).length + sigilStacks(save).length;
 export const bagFree = save => BAG_SIZE - bagUsed(save);
 /** Can this drop go into the bag? Currency fits when it tops up a stack or there is a free cell. */
 export function bagFits(save, drop) {
@@ -57,19 +59,29 @@ export function placeBag(save) {
     cc[st.key] = (cc[st.key] ?? []).filter(c => Number.isInteger(c) && c >= 0 && c < BAG_SIZE && !used.has(c)).slice(0, Math.ceil(st.n / st.size));
     cc[st.key].forEach(c => used.add(c));
   }
-  const grid = placeGrid(save.inventory, BAG_SIZE, used);
+  const grid = placeGrid([...save.inventory, ...bagStones(save)], BAG_SIZE, used);
   for (const st of list) while (cc[st.key].length < Math.ceil(st.n / st.size)) { let c = grid.indexOf(null); if (c < 0) { c = grid.length; grid.push(null); } cc[st.key].push(c); grid[c] = 'taken'; }
   for (const st of list) cc[st.key].forEach((c, k) => { grid[c] = { cur: true, sigil: st.sigil, key: st.key, id: st.id, n: Math.min(st.size, st.n - k * st.size) }; });
   return grid.map(x => (x === 'taken' ? null : x));
 }
 /** Move a bag item to cell `to` (swapping with whatever is there). */
 export function moveInBag(save, it, to) {
-  if (!save.inventory.includes(it) || to < 0 || to >= BAG_SIZE) return false;
+  if (!(save.inventory.includes(it) || bagStones(save).includes(it)) || to < 0 || to >= BAG_SIZE) return false;
   const grid = placeBag(save), there = grid[to], from = it.cell;
   if (there === it) return false;
   if (there?.cur) { const cc = save.curCells[there.key]; cc[cc.indexOf(to)] = from; }
   else if (there) there.cell = from;
   it.cell = to; return true;
+}
+
+/** Map device's waystone bag ↔ the player's bag. */
+export function stoneToBag(save, uid, cell = null) {
+  const i = save.waystones.findIndex(w => w.uid === uid); if (i < 0 || bagFree(save) <= 0) return false;
+  const [w] = save.waystones.splice(i, 1); delete w.cell; if (cell !== null) w.cell = cell; w.bagStone = true; bagStones(save).push(w); return true;
+}
+export function stoneToDevice(save, uid) {
+  const list = bagStones(save), i = list.findIndex(w => w.uid === uid); if (i < 0) return false;
+  const [w] = list.splice(i, 1); delete w.cell; delete w.bagStone; save.waystones.push(w); return true;
 }
 
 /** Bag → stash. Legendaries go to the legendary page while their slot has room, everything else to `page`. */

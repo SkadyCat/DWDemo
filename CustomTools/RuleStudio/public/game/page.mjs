@@ -11,7 +11,7 @@ import { mapProfile, mapRequirements, MAP_FAMILIES, MAP_TIERS, ELITE_MODS } from
 import { gameContent } from '../../core/content/game.mjs';
 import { defenceReport, roleReport } from '../../core/analysis.mjs';
 import { loadSave, writeSave, buildOf, equip, unequip, salvage, craft, applyArchetype, clearArchetype, grantedSkills, syncSkillBar, SKILL_BAR,
-  STACK, BAG_SIZE, PAGE_SIZE, PAGES, LEGEND_CAP, currencyStacks, placeBag, placeGrid, moveInBag, bagUsed, bagFree, bagFits, deposit, withdraw, depositCurrency, withdrawCurrency, curHave, toBag, xpToNext, killXp, gainXp, MAX_LEVEL } from './save.mjs';
+  STACK, BAG_SIZE, PAGE_SIZE, PAGES, LEGEND_CAP, currencyStacks, placeBag, placeGrid, moveInBag, bagUsed, bagFree, bagFits, deposit, withdraw, stoneToBag, stoneToDevice, depositCurrency, withdrawCurrency, curHave, toBag, xpToNext, killXp, gainXp, MAX_LEVEL } from './save.mjs';
 import { equippedTraits, ladderStatus, detectArchetype } from './traits.mjs';
 import { MapRun } from './run.mjs';
 import { TalentBoard } from './talents-panel.mjs';
@@ -504,12 +504,12 @@ const TEMPLATE = /* html */ `
         </section>
         <!-- usable waystones -->
         <section class="ac-stones">
-          <h4 class="ac-h">可用路石 <small>{{ save.waystones.length }} 块 · 点一下或拖进法阵</small></h4>
+          <h4 class="ac-h">路石背包 <small>{{ save.waystones.length }} 块 · 点一下或拖进法阵 · 双击退回背包</small></h4>
           <div class="ws-grid" @dragover.prevent @drop.prevent="dropOnStones">
             <button v-for="(w, i) in stoneCells" :key="w ? w.uid : 'e' + i" class="ws" :disabled="!w"
               :draggable="!!w" @dragstart="w && dragAnyStart($event, { kind: 'stone', w })" @dragend="dragAnyEnd"
               :class="w ? ['w-' + w.rarity, { on: w.uid === wsSel }] : 'empty'"
-               @mouseenter="w && hoverThing($event, 'waystone', { stone: w, note: w.uid === wsSel ? '已放进法阵' + (freeNode ? '：再点一下取下' : '') : '点一下放进法阵，本次按 T' + w.tier + ' 打' })" @mouseleave="hoverOff" @click="w && pickStone(w)">
+               @mouseenter="w && hoverThing($event, 'waystone', { stone: w, note: (w.uid === wsSel ? '已放进法阵' + (freeNode ? '：再点一下取下' : '') : '点一下放进法阵，本次按 T' + w.tier + ' 打') + ' · 双击退回背包' })" @mouseleave="hoverOff" @click="w && pickStone(w)" @dblclick="w && stoneOut(w)">
               <template v-if="w"><Gi n="stone-tablet" :c="'w-' + w.rarity"/><b>{{ w.tier }}</b></template></button>
           </div>
           <p v-if="!save.waystones.length" class="ws-none">还没有路石：打倒首领必掉。</p>
@@ -670,12 +670,13 @@ const TEMPLATE = /* html */ `
     <header class="win-head"><h2>行 囊</h2><span class="count" :class="{ full: bagLeft <= 0 }">{{ bagSize - bagLeft }} / {{ bagSize }} 格</span><button class="x" @click="open.bag = false" aria-label="关闭">×</button></header>
     <div class="win-body">
       <div class="grid g12" :class="{ dropzone: dragFrom }" @dragover.prevent @drop.prevent="dropToBag">
-        <button v-for="(c, i) in bagCells" :key="c ? (c.cur ? 'c' + c.id + i : c.uid) : 'e' + i" class="cell" :class="!c ? 'empty' : c.cur ? 'cur' : ['r-' + rarity(c).id, { on: picked === c, sel: selected.has(c.uid) }]" :draggable="!!c"
-          @dragstart="c && (c.sigil ? dragAnyStart($event, { kind: 'bagSigil', id: c.id }) : c.cur ? dragAnyStart($event, { kind: 'bagCur', id: c.id }) : dragStart(c))" @dragend="dragItem = null; dropSlot = null; dragFrom = null; dragAnyEnd()" @dragover.prevent @drop.prevent.stop="dropBagCell(i)"
-          @click.exact="c && (c.sigil ? (atlasOpen && slotScarab(c.id)) : c.cur ? (open.vault && moveCurrency(c.id)) : (selected.clear(), pick(c)))" @click.ctrl.exact="c && ctrlClick(c)" @click.meta.exact="c && ctrlClick(c)"
-          @dblclick="c && !c.cur && doEquip(c.uid)" @contextmenu.prevent="c && ($event.ctrlKey && $event.button === 0 ? ctrlClick(c) : c.sigil ? (atlasOpen && slotScarab(c.id)) : c.cur ? open.vault && moveCurrency(c.id) : openMenu($event, c))"
-          @mouseenter="c && (c.sigil ? hoverThing($event, 'scarab', { id: c.id, have: save.scarabs[c.id], note: atlasOpen ? '拖到地图仪的槽里，或点一下放进第一个空槽' : '打开图集后拖到地图仪的槽里' }) : c.cur ? hoverThing($event, 'currency', { id: c.id, count: c.n, note: open.vault ? '点一下：这种通货全部存进仓库' : '每格最多 20 个 · 悬停装备按 Ctrl 钉住提示即可在提示里使用' }) : hoverOn($event, c))" @mouseleave="hoverOff">
-          <template v-if="c && c.sigil"><Gi n="star-formation" c="scarab" g="契" :style="{ '--sc': scarabColor(c.id) }"/><em>{{ c.n }}</em></template>
+        <button v-for="(c, i) in bagCells" :key="c ? (c.cur ? 'c' + c.id + i : c.uid) : 'e' + i" class="cell" :class="!c ? 'empty' : c.bagStone ? 'ws-cell w-' + c.rarity : c.cur ? 'cur' : ['r-' + rarity(c).id, { on: picked === c, sel: selected.has(c.uid) }]" :draggable="!!c"
+          @dragstart="c && (c.bagStone ? dragAnyStart($event, { kind: 'bagStone', w: c }) : c.sigil ? dragAnyStart($event, { kind: 'bagSigil', id: c.id }) : c.cur ? dragAnyStart($event, { kind: 'bagCur', id: c.id }) : dragStart(c))" @dragend="dragItem = null; dropSlot = null; dragFrom = null; dragAnyEnd()" @dragover.prevent @drop.prevent.stop="dropBagCell(i)"
+          @click.exact="c && (c.bagStone ? null : c.sigil ? (atlasOpen && slotScarab(c.id)) : c.cur ? (open.vault && moveCurrency(c.id)) : (selected.clear(), pick(c)))" @click.ctrl.exact="c && ctrlClick(c)" @click.meta.exact="c && ctrlClick(c)"
+          @dblclick="c && (c.bagStone ? backToDevice(c) : !c.cur && doEquip(c.uid))" @contextmenu.prevent="c && (c.bagStone ? backToDevice(c) : $event.ctrlKey && $event.button === 0 ? ctrlClick(c) : c.sigil ? (atlasOpen && slotScarab(c.id)) : c.cur ? open.vault && moveCurrency(c.id) : openMenu($event, c))"
+          @mouseenter="c && (c.bagStone ? hoverThing($event, 'waystone', { stone: c, note: '双击或右键放回路石背包（地图仪）' }) : c.sigil ? hoverThing($event, 'scarab', { id: c.id, have: save.scarabs[c.id], note: atlasOpen ? '拖到地图仪的槽里，或点一下放进第一个空槽' : '打开图集后拖到地图仪的槽里' }) : c.cur ? hoverThing($event, 'currency', { id: c.id, count: c.n, note: open.vault ? '点一下：这种通货全部存进仓库' : '每格最多 20 个 · 悬停装备按 Ctrl 钉住提示即可在提示里使用' }) : hoverOn($event, c))" @mouseleave="hoverOff">
+          <template v-if="c && c.bagStone"><Gi n="stone-tablet" :c="'w-' + c.rarity"/><b>{{ c.tier }}</b></template>
+          <template v-else-if="c && c.sigil"><Gi n="star-formation" c="scarab" g="契" :style="{ '--sc': scarabColor(c.id) }"/><em>{{ c.n }}</em></template>
           <template v-else-if="c && c.cur"><Gi :n="curIcon(c.id)" c="r-currency"/><em>{{ c.n }}</em></template>
           <template v-else-if="c"><Gi :n="itemIcon(c)" :c="'r-' + rarity(c).id" :g="glyph[c.slot]"/><b>{{ c.tier }}</b><i v-if="c.skill" class="cell-skill" title="带主动技能"></i></template>
         </button>
@@ -1215,6 +1216,9 @@ export function mountGame(el) {
           return true;
         }
         if (d.kind === 'slot') { unslotScarab(d.i); return true; }
+        if (d.kind === 'stone') { stoneOut(d.w, i !== null && !bagCells.value[i] ? i : null); return true; }
+        if (d.kind === 'core') { if (stone.value) stoneOut(stone.value, i !== null && !bagCells.value[i] ? i : null); return true; }
+        if (d.kind === 'bagStone') { if (i !== null && moveInBag(save, d.w, i)) persist(); return true; }
         if (d.kind === 'bagSigil') return true;
         if (d.kind === 'stashCur') { takeCurrency(d.id, 20); return true; }
         if (d.kind === 'legend') { fromVault(d.it, { legend: d.legend }); if (i !== null && save.inventory.includes(d.it) && !bagCells.value[i]) { d.it.cell = i; persist(); } return true; }
@@ -1231,8 +1235,18 @@ export function mountGame(el) {
         if (!it.legend) { toast('传奇页只放传奇', 'bad'); return; }
         toVault(it); legendSel.value = it.legend;
       }
-      function dropOnCore() { const d = takeAny(); if (d?.kind === 'stone' && d.w.uid !== wsSel.value) pickStone(d.w); }
-      function dropOnStones() { const d = takeAny(); if (d?.kind === 'core' && stone.value) pickStone(stone.value); }
+      function stoneOut(w, cell = null) {
+        if (!stoneToBag(save, w.uid, cell)) { toast('背包满了：先腾出一格', 'bad'); return; }
+        if (wsSel.value === w.uid) wsSel.value = null;
+        hover.value = null; sfx('stoneDrop'); persist();
+      }
+      function backToDevice(w) { if (stoneToDevice(save, w.uid)) { hover.value = null; sfx('stoneDrop'); persist(); } }
+      function dropOnCore() {
+        const d = takeAny(); if (!d) return;
+        if (d.kind === 'bagStone') { backToDevice(d.w); if (d.w.uid !== wsSel.value) pickStone(d.w); }
+        else if (d.kind === 'stone' && d.w.uid !== wsSel.value) pickStone(d.w);
+      }
+      function dropOnStones() { const d = takeAny(); if (d?.kind === 'core' && stone.value) pickStone(stone.value); else if (d?.kind === 'bagStone') backToDevice(d.w); }
       function dropOnSlot(i) {
         const d = takeAny(); if (!d) return;
         if (d.kind === 'scarab' || d.kind === 'bagSigil') slotScarab(d.id, i);
@@ -1586,7 +1600,7 @@ export function mountGame(el) {
         profile, requirements, statRows, bdArch, bdStages, currentBd, centerName, centerTitle, traits, granted, ladder, ladderFocus, primarySkill, bagCells,
         bagLeft, bagSize: BAG_SIZE, pageCells, pageSize: PAGE_SIZE, pages: PAGES, legendCap: LEGEND_CAP, currencyPage: CURRENCY_PAGE, vaultTab, legendSel, dropTab, dragFrom, legendCount, vaultCounts, wallet, tipStacks,
         hub, hubTick, opts, settingTab, settingTabs, keybinds: KEYBINDS, setQuality, resetSettings, mapOpen,
-        selected, menu, ctrlClick, openMenu, menuDo, affixRows, totals, slotPos, pentaPoints, dragAnyStart, dragAnyEnd, dropOnCurrencyPage, dropOnLegendPage, dropOnCore, dropOnStones, dropOnSlot, dropOnScarabs, dropOnCraft, dropDev, deviceSlots, scarabsLeft, slotScarab, unslotScarab, scarabName, scarabText, scarabColor, parseScarab, legendary, dropBagCell, dropPageCell, toVault, fromVault, moveCurrency, takeCurrency, vaultDragStart, dropToBag, dropToPage, portalRun, portalHome, portalBack, xpNext, maxLevel: MAX_LEVEL,
+        stoneOut, backToDevice, selected, menu, ctrlClick, openMenu, menuDo, affixRows, totals, slotPos, pentaPoints, dragAnyStart, dragAnyEnd, dropOnCurrencyPage, dropOnLegendPage, dropOnCore, dropOnStones, dropOnSlot, dropOnScarabs, dropOnCraft, dropDev, deviceSlots, scarabsLeft, slotScarab, unslotScarab, scarabName, scarabText, scarabColor, parseScarab, legendary, dropBagCell, dropPageCell, toVault, fromVault, moveCurrency, takeCurrency, vaultDragStart, dropToBag, dropToPage, portalRun, portalHome, portalBack, xpNext, maxLevel: MAX_LEVEL,
         pick, equippedFor, hoverOn, hoverOff, doEquip, doUnequip, dragStart, dropOn, doSalvage, doCraft, applyBd, clearBd, accountName, leaveAccount, grantLegendary, evaluate, update, toggle, isOpen, openCenter, startRun, leaveRun, selectSkill, gearChanged,
         panels: PANELS, tierList: Array.from({ length: MAP_TIERS }, (_, i) => i + 1), families: MAP_FAMILIES, slots: SLOTS, slotNames: SLOT_NAMES, currencies: CURRENCIES,
         archetypes: ARCHETYPES, legendaries: LEGENDARIES, skillBar: SKILL_BAR, glyph: SLOT_GLYPH,

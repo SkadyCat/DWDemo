@@ -965,3 +965,4 @@ select { font: inherit; color: var(--txt); background: var(--deep); border: 1px 
 .atlas-card .sigil { width: min(300px, calc(100vh - 470px)); min-width: 200px; }
 .atlas-affix { position: absolute; left: 480px; top: 104px; width: 330px; max-height: calc(100vh - 128px); z-index: 5; padding: 18px 18px 16px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: var(--gold-lo) transparent; }
 .atlas-affix .ac-totals { grid-template-columns: 1fr; }
+.cell.ws-cell.w-magic { box-shadow: inset 0 0 0 1px #4a6ab0; } .cell.ws-cell.w-rare { box-shadow: inset 0 0 0 1px #b09a42; } .cell.ws-cell.w-normal { box-shadow: inset 0 0 0 1px rgba(216, 180, 106, .3); }
