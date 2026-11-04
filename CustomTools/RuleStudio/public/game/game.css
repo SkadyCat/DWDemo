@@ -903,3 +903,6 @@ select { font: inherit; color: var(--txt); background: var(--deep); border: 1px 
 .sc-mods li { color: var(--sc) !important; }
 .lt.r-scarab { --c: #ffd27a; }
 .atlas-win { background-color: #050811; }
+/* drop targets light up while something is dragged over them */
+.dev-core.drop, .dev-slot.drop { box-shadow: 0 0 0 2px var(--jade), 0 0 18px rgba(127, 224, 200, .5); }
+[draggable="true"] { cursor: grab; } [draggable="true"]:active { cursor: grabbing; }

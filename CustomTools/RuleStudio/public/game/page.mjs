@@ -484,21 +484,27 @@ const TEMPLATE = /* html */ `
       <div class="ac-stone">
         <div class="mdev">
           <div class="dev-ring">
-            <button class="dev-core" :class="stone ? 'w-' + stone.rarity : 'empty'" @click="stone && pickStone(stone)"
+            <button class="dev-core" :class="[stone ? 'w-' + stone.rarity : 'empty', { drop: dropDev === 'core' }]" @click="stone && pickStone(stone)"
+              :draggable="!!stone" @dragstart="dragAnyStart($event, { kind: 'core' })" @dragend="dragAnyEnd"
+              @dragover.prevent="dropDev = 'core'" @dragleave="dropDev = null" @drop.prevent.stop="dropOnCore"
               @mouseenter="stone && hoverThing($event, 'waystone', { stone, note: '点一下取下' })" @mouseleave="hoverOff">
               <Gi v-if="stone" n="stone-tablet" :c="'w-' + stone.rarity"/><b v-if="stone">{{ stone.tier }}</b><small v-else>{{ freeNode ? '不需要路石' : '放入路石' }}</small></button>
-            <button v-for="(id, i) in deviceSlots" :key="i" class="dev-slot" :class="{ empty: !id }" :style="{ '--a': (i * 72) + 'deg', '--sc': id ? scarabColor(id) : 'transparent' }"
+            <button v-for="(id, i) in deviceSlots" :key="i" class="dev-slot" :class="{ empty: !id, drop: dropDev === i }"
+              :draggable="!!id" @dragstart="dragAnyStart($event, { kind: 'slot', i })" @dragend="dragAnyEnd"
+              @dragover.prevent="dropDev = i" @dragleave="dropDev = null" @drop.prevent.stop="dropOnSlot(i)" :style="{ '--a': (i * 72) + 'deg', '--sc': id ? scarabColor(id) : 'transparent' }"
               @click="id && unslotScarab(i)" @mouseenter="id && hoverThing($event, 'scarab', { id, note: '点一下取下' })" @mouseleave="hoverOff">
               <Gi v-if="id" n="scarab-beetle" c="scarab" g="甲"/><i v-else>+</i></button>
           </div>
-          <div class="sc-inv">
+          <div class="sc-inv" @dragover.prevent @drop.prevent="dropOnScarabs">
             <button v-for="s in scarabsLeft" :key="s.id" class="sc-cell" :style="{ '--sc': scarabColor(s.id) }" @click="slotScarab(s.id)"
+              draggable="true" @dragstart="dragAnyStart($event, { kind: 'scarab', id: s.id })" @dragend="dragAnyEnd"
               @mouseenter="hoverThing($event, 'scarab', { id: s.id, have: s.n, note: '点一下放进地图仪' })" @mouseleave="hoverOff"><Gi n="scarab-beetle" c="scarab" g="甲"/><b>{{ s.n }}</b><small>{{ ['Ⅰ', 'Ⅱ', 'Ⅲ'][parseScarab(s.id).tier] }}</small></button>
             <p v-if="!scarabsLeft.length" class="ws-none">没有圣甲虫了：首领常掉，精英偶尔掉。</p>
           </div>
         </div>
-        <div class="ws-grid">
+        <div class="ws-grid" @dragover.prevent @drop.prevent="dropOnStones">
           <button v-for="(w, i) in stoneCells" :key="w ? w.uid : 'e' + i" class="ws" :disabled="!w"
+            :draggable="!!w" @dragstart="w && dragAnyStart($event, { kind: 'stone', w })" @dragend="dragAnyEnd"
             :class="w ? ['w-' + w.rarity, { on: w.uid === wsSel }] : 'empty'"
              @mouseenter="w && hoverThing($event, 'waystone', { stone: w, note: w.uid === wsSel ? '已选中' + (freeNode ? '：再点一下取消' : '') : '点一下选中，本次按 T' + w.tier + ' 打' })" @mouseleave="hoverOff" @click="w && pickStone(w)">
             <template v-if="w"><Gi n="stone-tablet" :c="'w-' + w.rarity"/><b>{{ w.tier }}</b></template></button>
@@ -548,6 +554,7 @@ const TEMPLATE = /* html */ `
       </div>
       <div class="doll">
         <button v-for="s in slots" :key="s" class="slot" :class="['s-' + s, slotClass(s), { drop: dropSlot === s }]" @click="pick(save.equipped[s])" @contextmenu.prevent="doUnequip(s)"
+          :draggable="!!save.equipped[s]" @dragstart="save.equipped[s] && dragAnyStart($event, { kind: 'equipped', slot: s })" @dragend="dragAnyEnd"
           @mouseenter="hoverOn($event, save.equipped[s])" @mouseleave="hoverOff" @dragover.prevent="dropSlot = s" @dragleave="dropSlot = null" @drop.prevent="dropOn(s)">
           <Gi v-if="save.equipped[s]" :n="itemIcon(save.equipped[s])" :c="'r-' + rarity(save.equipped[s]).id" :g="glyph[s]"/>
           <Gi v-else :n="slotIcon(s)" c="ghost" :g="glyph[s]"/>
@@ -580,11 +587,12 @@ const TEMPLATE = /* html */ `
     <div class="win-body">
       <!-- currency page: every currency has its own fixed slot -->
       <template v-if="vaultTab === 'currency'">
-        <div class="vcur" @dragover.prevent @drop.prevent="dropToPage(0)">
+        <div class="vcur" @dragover.prevent @drop.prevent="dropOnCurrencyPage">
           <section v-for="g in currencyPage" :key="g.name" class="vcur-group">
             <h4>{{ g.name }}</h4>
             <div class="vcur-row">
-              <button v-for="id in g.ids" :key="id" class="vcur-slot" :class="{ none: !save.stash.currency[id] }" @click="takeCurrency(id, $event.shiftKey ? 1e9 : 20)" @contextmenu.prevent="takeCurrency(id, 1e9)"
+              <button v-for="id in g.ids" :key="id" class="vcur-slot" :class="{ none: !save.stash.currency[id] }" @click="takeCurrency(id, $event.shiftKey ? 1e9 : 20)"
+                :draggable="!!save.stash.currency[id]" @dragstart="dragAnyStart($event, { kind: 'stashCur', id })" @dragend="dragAnyEnd" @contextmenu.prevent="takeCurrency(id, 1e9)"
                 @mouseenter="hoverThing($event, 'currency', { id, have: save.stash.currency[id] || 0, note: '点一下取出一堆（20 个）· 右键或 Shift 取出能放下的全部' })" @mouseleave="hoverOff">
                 <Gi :n="curIcon(id)" c="r-currency"/><em>{{ fmtN(save.stash.currency[id] || 0) }}</em><small>{{ currencies[id].name }}</small></button>
             </div>
@@ -594,7 +602,7 @@ const TEMPLATE = /* html */ `
       </template>
       <!-- legendary page: one slot per legendary, up to 10 copies each -->
       <template v-else-if="vaultTab === 'legend'">
-        <div class="vleg">
+        <div class="vleg" @dragover.prevent @drop.prevent="dropOnLegendPage">
           <button v-for="L in legendaries" :key="L.id" class="vleg-slot" :class="['th-' + L.theme, { none: !legendCount(L.id), on: legendSel === L.id }]" @click="legendSel = legendSel === L.id ? null : L.id"
             @mouseenter="legendCount(L.id) && hoverOn($event, save.stash.legend[L.id][0])" @mouseleave="hoverOff">
             <Gi :n="baseIcon(L.base)" c="r-legendary"/><small>{{ L.name }}</small><em>{{ legendCount(L.id) }}/{{ legendCap }}</em></button>
@@ -603,6 +611,8 @@ const TEMPLATE = /* html */ `
           <h4>{{ legendary(legendSel).name }} <small>{{ legendCount(legendSel) }} / {{ legendCap }} · 右键取回背包</small></h4>
           <div class="grid g10">
             <button v-for="i in legendCap" :key="i" class="cell" :class="save.stash.legend[legendSel]?.[i - 1] ? 'r-legendary' : 'empty'"
+              :draggable="!!save.stash.legend[legendSel]?.[i - 1]" @dragstart="dragAnyStart($event, { kind: 'legend', it: save.stash.legend[legendSel][i - 1], legend: legendSel })" @dragend="dragAnyEnd"
+              @dragover.prevent @drop.prevent.stop="dropOnLegendPage"
               @contextmenu.prevent="save.stash.legend[legendSel]?.[i - 1] && fromVault(save.stash.legend[legendSel][i - 1], { legend: legendSel })"
               @dblclick="save.stash.legend[legendSel]?.[i - 1] && fromVault(save.stash.legend[legendSel][i - 1], { legend: legendSel })"
               @mouseenter="save.stash.legend[legendSel]?.[i - 1] && hoverOn($event, save.stash.legend[legendSel][i - 1])" @mouseleave="hoverOff">
@@ -641,8 +651,8 @@ const TEMPLATE = /* html */ `
     <header class="win-head"><h2>行 囊</h2><span class="count" :class="{ full: bagLeft <= 0 }">{{ bagSize - bagLeft }} / {{ bagSize }} 格</span><button class="x" @click="open.bag = false" aria-label="关闭">×</button></header>
     <div class="win-body">
       <div class="grid g12" :class="{ dropzone: dragFrom }" @dragover.prevent @drop.prevent="dropToBag">
-        <button v-for="(c, i) in bagCells" :key="c ? (c.cur ? 'c' + c.id + i : c.uid) : 'e' + i" class="cell" :class="!c ? 'empty' : c.cur ? 'cur' : ['r-' + rarity(c).id, { on: picked === c, sel: selected.has(c.uid) }]" :draggable="!!c && !c.cur"
-          @dragstart="c && !c.cur && dragStart(c)" @dragend="dragItem = null; dropSlot = null; dragFrom = null" @dragover.prevent @drop.prevent.stop="dropBagCell(i)"
+        <button v-for="(c, i) in bagCells" :key="c ? (c.cur ? 'c' + c.id + i : c.uid) : 'e' + i" class="cell" :class="!c ? 'empty' : c.cur ? 'cur' : ['r-' + rarity(c).id, { on: picked === c, sel: selected.has(c.uid) }]" :draggable="!!c"
+          @dragstart="c && (c.cur ? dragAnyStart($event, { kind: 'bagCur', id: c.id }) : dragStart(c))" @dragend="dragItem = null; dropSlot = null; dragFrom = null; dragAnyEnd()" @dragover.prevent @drop.prevent.stop="dropBagCell(i)"
           @click.exact="c && (c.cur ? (open.vault && moveCurrency(c.id)) : (selected.clear(), pick(c)))" @click.ctrl.exact="c && ctrlClick(c)" @click.meta.exact="c && ctrlClick(c)"
           @dblclick="c && !c.cur && doEquip(c.uid)" @contextmenu.prevent="c && ($event.ctrlKey && $event.button === 0 ? ctrlClick(c) : c.cur ? open.vault && moveCurrency(c.id) : openMenu($event, c))"
           @mouseenter="c && (c.cur ? hoverThing($event, 'currency', { id: c.id, count: c.n, note: open.vault ? '点一下：这种通货全部存进仓库' : '每格最多 20 个 · 悬停装备按 Ctrl 钉住提示即可在提示里使用' }) : hoverOn($event, c))" @mouseleave="hoverOff">
@@ -665,7 +675,7 @@ const TEMPLATE = /* html */ `
   <section class="win panel win-center" v-if="center" :class="'c-' + center" :aria-label="centerName">
     <header class="win-head"><h2>{{ centerTitle }}</h2><button class="x" @click="center = null" aria-label="关闭">×</button></header>
     <div class="win-body">
-      <div v-if="center === 'craft'" class="craft">
+      <div v-if="center === 'craft'" class="craft" @dragover.prevent @drop.prevent="dropOnCraft">
         <div class="craft-item">
           <item-tip v-if="picked" :item="picked" inline selectable :selected="pickedLine" @line="sel => pickedLine = sel"></item-tip>
           <p v-else class="hint">先在角色或背包里点一件装备。</p>
@@ -1145,7 +1155,49 @@ export function mountGame(el) {
       function moveCurrency(id) { const n = depositCurrency(save, id); if (n) { hover.value = null; sfx('coin'); persist(); toast(`存入 ${n} 个通货`, 'cur', 'locked-chest', 'r-currency'); } }
       function takeCurrency(id, n) { const got = withdrawCurrency(save, id, n); if (!got) { toast(save.stash.currency[id] ? '背包满了：先腾出一格' : `仓库里没有${CURRENCIES[id].name}`, 'bad'); return; } sfx('coin'); persist(); }
       function vaultDragStart(it) { dragFrom.value = { it, page: vaultTab.value }; hover.value = null; }
+      // ---- drag & drop beyond bag items: equipped gear, currency, legendaries, waystones, scarabs ----
+      const dragAny = ref(null), dropDev = ref(null);
+      function dragAnyStart(e, d) { dragAny.value = d; hover.value = null; if (tipPinned.value) unpinTip(); try { e.dataTransfer.setData('text/plain', d.kind); e.dataTransfer.effectAllowed = 'move'; } catch { /* old browsers */ } }
+      function dragAnyEnd() { dragAny.value = null; dropDev.value = null; }
+      const takeAny = () => { const d = dragAny.value; dragAny.value = null; dropDev.value = null; return d; };
+      /** Something dragged onto the bag (cell i, or anywhere when i is null). */
+      function dropAnyOnBag(d, i = null) {
+        if (!d) return false;
+        if (d.kind === 'equipped') {
+          if (!save.equipped[d.slot]) return true;
+          if (i !== null && bagCells.value[i] && !bagCells.value[i].cur) { doEquip(bagCells.value[i].uid, d.slot); return true; }   // onto an item: swap
+          const it = save.equipped[d.slot]; doUnequip(d.slot); if (i !== null && save.inventory.includes(it) && !bagCells.value[i]) { it.cell = i; persist(); }
+          return true;
+        }
+        if (d.kind === 'stashCur') { takeCurrency(d.id, 20); return true; }
+        if (d.kind === 'legend') { fromVault(d.it, { legend: d.legend }); if (i !== null && save.inventory.includes(d.it) && !bagCells.value[i]) { d.it.cell = i; persist(); } return true; }
+        return d.kind === 'bagCur';
+      }
+      function dropOnCurrencyPage() {
+        const d = takeAny(), it = dragItem.value; dragItem.value = null;
+        if (d?.kind === 'bagCur') moveCurrency(d.id);
+        else if (it && save.inventory.includes(it)) toVault(it, 0);
+      }
+      function dropOnLegendPage() {
+        const it = dragItem.value; dragItem.value = null; takeAny();
+        if (!it || !save.inventory.includes(it)) return;
+        if (!it.legend) { toast('传奇页只放传奇', 'bad'); return; }
+        toVault(it); legendSel.value = it.legend;
+      }
+      function dropOnCore() { const d = takeAny(); if (d?.kind === 'stone' && d.w.uid !== wsSel.value) pickStone(d.w); }
+      function dropOnStones() { const d = takeAny(); if (d?.kind === 'core' && stone.value) pickStone(stone.value); }
+      function dropOnSlot(i) {
+        const d = takeAny(); if (!d) return;
+        if (d.kind === 'scarab') { deviceSlots[i] = d.id; sfx('click'); }
+        else if (d.kind === 'slot' && d.i !== i) { const t = deviceSlots[i]; deviceSlots[i] = deviceSlots[d.i]; deviceSlots[d.i] = t; sfx('click'); }
+      }
+      function dropOnScarabs() { const d = takeAny(); if (d?.kind === 'slot') unslotScarab(d.i); }
+      function dropOnCraft() {
+        const it = dragItem.value ?? (dragAny.value?.kind === 'equipped' ? save.equipped[dragAny.value.slot] : null); dragItem.value = null; takeAny();
+        if (it) { pick(it); craftMsg.value = ''; }
+      }
       function dropBagCell(i) {
+        if (dropAnyOnBag(takeAny(), i)) return;
         const it = dragItem.value, d = dragFrom.value; dragItem.value = null; dragFrom.value = null;
         if (it && moveInBag(save, it, i)) { persist(); return; }
         if (d && !bagCells.value[i]) { fromVault(d.it, { page: d.page }); d.it.cell = i; persist(); }
@@ -1157,7 +1209,7 @@ export function mountGame(el) {
         if (there === d.it) return;
         if (there) there.cell = d.it.cell; d.it.cell = i; persist();
       }
-      function dropToBag() { const d = dragFrom.value; dragFrom.value = null; if (d) fromVault(d.it, { page: d.page }); }
+      function dropToBag() { if (dropAnyOnBag(takeAny())) return; const d = dragFrom.value; dragFrom.value = null; if (d) fromVault(d.it, { page: d.page }); }
       function dropToPage(k) {
         const it = dragItem.value, d = dragFrom.value; dragItem.value = null; dragFrom.value = null;
         if (it && save.inventory.includes(it)) toVault(it, k);
@@ -1214,7 +1266,16 @@ export function mountGame(el) {
         nextTick(() => { stage.value.focus(); last = performance.now(); acc = 0; cancelAnimationFrame(raf); raf = requestAnimationFrame(frame); });
       }
       function dragStart(it) { dragItem.value = it; hover.value = null; }
-      function dropOn(s) { const it = dragItem.value; dropSlot.value = null; dragItem.value = null; if (it) doEquip(it.uid, s); }
+      function dropOn(s) {
+        const it = dragItem.value, d = dragAny.value, f = dragFrom.value; dropSlot.value = null; dragItem.value = null; dragFrom.value = null; takeAny();
+        if (it) { doEquip(it.uid, s); return; }
+        const ring = x => x === 'ring1' || x === 'ring2';
+        if (d?.kind === 'equipped' && d.slot !== s && ring(d.slot) && ring(s)) { const t = save.equipped[s]; save.equipped[s] = save.equipped[d.slot] && { ...save.equipped[d.slot], slot: s }; save.equipped[d.slot] = t && { ...t, slot: d.slot }; gearChanged(); return; }
+        // from the stash or the legendary page: take it out, then put it on
+        const from = f ? { it: f.it, where: { page: f.page } } : d?.kind === 'legend' ? { it: d.it, where: { legend: d.legend } } : null;
+        if (from && withdraw(save, from.it.uid, from.where)) doEquip(from.it.uid, s);
+        else if (from) toast('背包满了：先腾出一格', 'bad');
+      }
       function doSalvage(uid) { const g = salvage(save, uid, rng); if (picked.value?.uid === uid) picked.value = null; hover.value = null; craftMsg.value = g ? `分解得到 ${CURRENCIES[g].name}` : '已分解'; persist(); }
       function doCraft(id) {
         const r = craft(save, picked.value, id, rng, pickedLine.value, !run.value);
@@ -1478,7 +1539,7 @@ export function mountGame(el) {
         profile, requirements, statRows, bdArch, bdStages, currentBd, centerName, centerTitle, traits, granted, ladder, ladderFocus, primarySkill, bagCells,
         bagLeft, bagSize: BAG_SIZE, pageCells, pageSize: PAGE_SIZE, pages: PAGES, legendCap: LEGEND_CAP, currencyPage: CURRENCY_PAGE, vaultTab, legendSel, dropTab, dragFrom, legendCount, vaultCounts, wallet, tipStacks,
         hub, hubTick, opts, settingTab, settingTabs, keybinds: KEYBINDS, setQuality, resetSettings, mapOpen,
-        selected, menu, ctrlClick, openMenu, menuDo, deviceSlots, scarabsLeft, slotScarab, unslotScarab, scarabName, scarabText, scarabColor, parseScarab, legendary, dropBagCell, dropPageCell, toVault, fromVault, moveCurrency, takeCurrency, vaultDragStart, dropToBag, dropToPage, portalRun, portalHome, portalBack, xpNext, maxLevel: MAX_LEVEL,
+        selected, menu, ctrlClick, openMenu, menuDo, dragAnyStart, dragAnyEnd, dropOnCurrencyPage, dropOnLegendPage, dropOnCore, dropOnStones, dropOnSlot, dropOnScarabs, dropOnCraft, dropDev, deviceSlots, scarabsLeft, slotScarab, unslotScarab, scarabName, scarabText, scarabColor, parseScarab, legendary, dropBagCell, dropPageCell, toVault, fromVault, moveCurrency, takeCurrency, vaultDragStart, dropToBag, dropToPage, portalRun, portalHome, portalBack, xpNext, maxLevel: MAX_LEVEL,
         pick, equippedFor, hoverOn, hoverOff, doEquip, doUnequip, dragStart, dropOn, doSalvage, doCraft, applyBd, clearBd, accountName, leaveAccount, grantLegendary, evaluate, update, toggle, isOpen, openCenter, startRun, leaveRun, selectSkill, gearChanged,
         panels: PANELS, tierList: Array.from({ length: MAP_TIERS }, (_, i) => i + 1), families: MAP_FAMILIES, slots: SLOTS, slotNames: SLOT_NAMES, currencies: CURRENCIES,
         archetypes: ARCHETYPES, legendaries: LEGENDARIES, skillBar: SKILL_BAR, glyph: SLOT_GLYPH,
