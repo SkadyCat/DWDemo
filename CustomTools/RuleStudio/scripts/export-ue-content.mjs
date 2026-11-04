@@ -39,6 +39,8 @@ export function buildContentExport() {
   const affixes = [];
   const seen = new Set();
   const add = a => { if (a && !seen.has(a.id)) { seen.add(a.id); affixes.push(affixData(a)); } };
+  // Affixes the packs define themselves (MAP_PACK mob_instinct: every map monster carries it).
+  for (const a of pick('affixes')) add(a);
   for (const f of families()) for (let t = 1; t <= f.levels; ++t) add(affixLine(f.id, t));
   // Base-defence lines of every base at every item tier (items equip them as `base:<stat><value>…`).
   for (const slot of Object.keys(BASES)) for (const b of BASES[slot]) for (let tier = 1; tier <= 10; ++tier)
