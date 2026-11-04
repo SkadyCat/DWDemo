@@ -12,6 +12,7 @@ import { Treasury } from './treasury.mjs';
 import { rarityOf, itemName, CURRENCIES, baseLinesOf } from '../../core/content/items.mjs';
 import { waystoneName } from './waystones.mjs';
 import { scarabName, scarabText } from './scarabs.mjs';
+import { materialInfo } from './economy.mjs';
 
 const M = 0.01;
 const toV = (x, y, h = 0) => new THREE.Vector3(x * M, h, -y * M);
@@ -180,7 +181,8 @@ export class Scene3D {
       const d = l.drop, item = d.type === 'item';
       if (d.type === 'waystone' || d.type === 'scarab') return { key: l.key, x: l.x * M, z: -l.y * M, sourceX: l.sourceX * M, sourceZ: -l.sourceY * M, kind: 'item', category: 'omen' };
       return { key: l.key, x: l.x * M, z: -l.y * M, sourceX: l.sourceX * M, sourceZ: -l.sourceY * M, kind: 'item',
-        rarity: item ? RARITY_KEY[rarityOf(d.item).id] : undefined, category: item ? 'equipment' : 'currency', currencyGrade: item ? undefined : (d.id.startsWith('essence') ? 3 : d.id === 'chaos' || d.id === 'seal' ? 2 : 1) };
+        rarity: item ? RARITY_KEY[rarityOf(d.item).id] : undefined, category: item ? 'equipment' : 'currency',
+        currencyGrade: item ? undefined : d.type === 'silver' ? 1 : d.type === 'material' ? (d.id === 'dust' ? 3 : 2) : (d.id.startsWith('essence') ? 3 : d.id === 'chaos' || d.id === 'seal' ? 2 : 1) };
     }), run.elapsed, []);
     this.post.render(this.scene, this.camera, this.fxState ? { ...this.fxState, bloom: (this.fxState.bloom ?? .7) * this.opts.bloom, flash: this.opts.flashes ? this.fxState.flash : 0, aberration: this.opts.flashes ? this.fxState.aberration : 0 } : this.fxState);
   }
@@ -216,7 +218,7 @@ export class Overlay {
     for (const l of run.loot) {
       if (!scene.lootAnchor(l.key)) continue;                       // still in the air
       const d = l.drop, item = d.type === 'item';
-      const stone = d.type === 'waystone', scarab = d.type === 'scarab';
+      const stone = d.type === 'waystone', scarab = d.type === 'scarab', silver = d.type === 'silver', mat = d.type === 'material';
       const rid = item ? rarityOf(d.item).id : stone ? 'waystone' : scarab ? 'scarab' : 'currency';
       const bl = item ? baseLinesOf(d.item) : 0;
       if (!this.showAll && item && ((this.opts.lootFilter !== 'all' && rid === 'normal' && bl < 3) || (this.opts.lootFilter === 'rare' && rid === 'magic' && bl < 3))) continue;
@@ -226,10 +228,11 @@ export class Overlay {
       if (!lab) {
         const el = document.createElement('div');
         // Base lines 1–3: two and three get their own plate (pips, glow; three adds a light beam and a shimmer).
-        const grade = item ? ` b${bl}` : stone ? ' w-' + d.stone.rarity : scarab ? ' g2' : d.id.startsWith('essence') ? ' g3' : d.id === 'chaos' || d.id === 'seal' ? ' g2' : '';
+        const grade = item ? ` b${bl}` : stone ? ' w-' + d.stone.rarity : scarab ? ' g2' : silver ? ' silver' : mat ? (d.id === 'dust' ? ' g3 mat' : ' g2 mat') : d.id.startsWith('essence') ? ' g3' : d.id === 'chaos' || d.id === 'seal' ? ' g2' : '';
         el.className = `lt r-${rid}${grade}`; el.dataset.key = l.key;
-        el.innerHTML = `${item && bl > 1 ? `<i class="pips">${'◆'.repeat(bl)}</i>` : ''}<span>${item ? itemName(d.item) : stone ? waystoneName(d.stone) : scarab ? scarabName(d.id) : CURRENCIES[d.id].name}</span>`;
-        if (!item && !stone) el.title = scarab ? scarabText(d.id) : CURRENCIES[d.id].desc;
+        el.innerHTML = `${item && bl > 1 ? `<i class="pips">${'◆'.repeat(bl)}</i>` : ''}<span>${item ? itemName(d.item) : stone ? waystoneName(d.stone) : scarab ? scarabName(d.id) : silver ? `${d.count} 星银` : mat ? `${materialInfo(d.id).name}${d.count > 1 ? ' ×' + d.count : ''}` : CURRENCIES[d.id].name}</span>`;
+        if (mat) el.style.setProperty('--c', materialInfo(d.id).color);
+        if (!item && !stone) el.title = scarab ? scarabText(d.id) : silver ? '星银：买东西、点天赋、雇佣兵都要用' : mat ? materialInfo(d.id).text : CURRENCIES[d.id].desc;
         this.labelLayer.appendChild(el);
         lab = { el, w: el.offsetWidth, h: el.offsetHeight };
         this.labels.set(l.key, lab);

@@ -1,14 +1,16 @@
 // 天赋盘窗口：星盘（SVG，可拖动、滚轮缩放、搜索高亮）+ 左侧汇总。点亮必须与已点亮的点相连；
 // 取消时其余点仍须与起点相连。效果就是普通词条，点亮后立即进入战斗（gearChanged 重建英雄）。
+// 点数（打通图集节点得来）是资格；点亮还要星银和天赋所在域的地区物资，越往后越贵（economy.mjs talentCost）；取消返还六成。
 import { reactive, computed, ref, onMounted, onBeforeUnmount } from '../vendor/vue.esm-browser.prod.js';
 import { TALENT_TREE, talentLines, talentName, canAllocate, canRefund } from '../../core/content/talents.mjs';
 import { family, LAYERS } from '../../core/content/families.mjs';
+import { talentCost, canPay, pay, refund, materialInfo, REFUND } from './economy.mjs';
 
 const T = TALENT_TREE;
 const KIND_NAME = { start: '起点', small: '天赋', notable: '大天赋', trait: '特性', keystone: '基石' };
 
 export const TalentBoard = {
-  props: { save: Object, points: Number },
+  props: { save: Object, points: Number, discount: { type: Number, default: 0 } },
   emits: ['changed', 'close'],
   setup(props, { emit }) {
     const el = ref(null), size = reactive({ w: innerWidth, h: innerHeight });
@@ -41,21 +43,32 @@ export const TalentBoard = {
     const hoverInfo = computed(() => {
       const n = hover.value; if (!n) return null;
       const st = state(n.id);
-      const hint = n.id === T.start ? '你从这里出发' : st === 'on' ? (canRefund(props.save.talents.allocated, n.id) ? '点击取消，返还 1 点' : '其他天赋依赖它，不能单独取消') : st === 'open' ? (left.value > 0 ? '点击点亮，消耗 1 点' : '没有剩余天赋点') : '还没连通：先点亮与它相连的天赋';
+      const cost = st !== 'on' && n.id !== T.start ? costOf(n) : null;
+      const hint = n.id === T.start ? '你从这里出发' : st === 'on' ? (canRefund(props.save.talents.allocated, n.id) ? `点击取消，返还 1 点和花费的 ${Math.round(REFUND * 100)}%` : '其他天赋依赖它，不能单独取消') : st === 'open' ? (left.value <= 0 ? '没有剩余天赋点：打通更多图集节点' : canPay(props.save, cost) ? '点击点亮' : '星银或物资不够') : '还没连通：先点亮与它相连的天赋';
       const layer = n.kind === 'trait' ? LAYERS[family(n.lines[0].id).layer].name + '特性' : KIND_NAME[n.kind];
       const name = talentName(n);
-      return { name, layer, lines: talentLines(n).filter(l => l !== name), hint, st, x: Math.min(mouse.x + 18, size.w - 340), y: Math.min(mouse.y + 18, size.h - 180) };
+      const costRows = cost ? [{ name: '星银', need: cost.silver, have: props.save.silver ?? 0 }, ...Object.entries(cost.mats).map(([id, k]) => ({ name: materialInfo(id).name, need: k, have: props.save.materials?.[id] ?? 0, color: materialInfo(id).color }))] : [];
+      return { name, layer, lines: talentLines(n).filter(l => l !== name), hint, st, costRows, x: Math.min(mouse.x + 18, size.w - 340), y: Math.min(mouse.y + 18, size.h - 220) };
     });
 
+    const costOf = n => talentCost(n, props.save.talents.allocated.length, props.discount);
+    // what you hold of the materials the talent board asks for
+    const purse = computed(() => { void used.value; return Object.entries(props.save.materials ?? {}).filter(([, k]) => k > 0).map(([id, k]) => ({ ...materialInfo(id), n: k })); });
     function click(n) {
       if (drag.moved || n.id === T.start) return;
       const list = props.save.talents.allocated, st = state(n.id);
-      if (st === 'on') { if (!canRefund(list, n.id)) { msg.value = '其他天赋依赖它，不能单独取消'; return; } list.splice(list.indexOf(n.id), 1); }
-      else if (st === 'open') { if (left.value <= 0) { msg.value = '天赋点不够：打通更多图集节点获得天赋点'; return; } list.push(n.id); }
+      const paid = props.save.talents.paid ??= {};
+      if (st === 'on') { if (!canRefund(list, n.id)) { msg.value = '其他天赋依赖它，不能单独取消'; return; } list.splice(list.indexOf(n.id), 1); refund(props.save, paid[n.id]); delete paid[n.id]; }
+      else if (st === 'open') {
+        if (left.value <= 0) { msg.value = '天赋点不够：打通更多图集节点获得天赋点'; return; }
+        const cost = costOf(n);
+        if (!canPay(props.save, cost)) { msg.value = '星银或物资不够：去地图里刷，或者派佣兵去带回来'; return; }
+        pay(props.save, cost); paid[n.id] = cost; list.push(n.id);
+      }
       else { msg.value = '还没连通'; return; }
       msg.value = ''; emit('changed');
     }
-    function reset() { props.save.talents.allocated.splice(0); emit('changed'); }
+    function reset() { const paid = props.save.talents.paid ?? {}; for (const id of props.save.talents.allocated) { refund(props.save, paid[id]); delete paid[id]; } props.save.talents.allocated.splice(0); emit('changed'); }
     const down = e => { if (e.button !== 0) return; Object.assign(drag, { on: true, moved: false, sx: e.clientX, sy: e.clientY, cx: cam.x, cy: cam.y }); };
     const move = e => {
       mouse.x = e.clientX; mouse.y = e.clientY;
@@ -71,7 +84,7 @@ export const TalentBoard = {
     };
     const rs = () => { size.w = innerWidth; size.h = innerHeight; };
     onMounted(() => addEventListener('resize', rs)); onBeforeUnmount(() => removeEventListener('resize', rs));
-    return { el, cam, drag, box, nodes, edges, domains, hover, hoverInfo, q, msg, used, left, summary, click, reset, down, move, up, wheel, far: computed(() => cam.k < .5) };
+    return { el, cam, drag, box, nodes, edges, domains, hover, hoverInfo, q, msg, used, left, summary, purse, click, reset, down, move, up, wheel, far: computed(() => cam.k < .5) };
   },
   template: /* html */ `
   <section class="tal-win" aria-label="天赋盘">
@@ -95,7 +108,8 @@ export const TalentBoard = {
     </div>
     <aside class="tal-side panel">
       <h3 class="ttl">星 盘</h3>
-      <p class="tal-points"><b>{{ left }}</b> 点可用 <small>每打通一个图集节点 +1（首领要塞 +2）</small></p>
+      <p class="tal-points"><b>{{ left }}</b> 点可用 <small>每打通一个图集节点 +1（首领要塞 +2）。点亮还要星银和那一域的地区物资，越往后越贵</small></p>
+      <p class="tal-purse"><b>{{ save.silver || 0 }}</b> 星银<span v-for="m in purse" :key="m.id" :style="{ color: m.color }">{{ m.name }} {{ m.n }}</span></p>
       <input class="tal-search" v-model="q" placeholder="搜索：如 点燃、投射物、生命" aria-label="搜索天赋">
       <div class="tal-sum">
         <h4 class="sub">基石与特性 <small>{{ summary.special.length }}</small></h4>
@@ -110,6 +124,7 @@ export const TalentBoard = {
     <div class="tal-tip" v-if="hoverInfo" :style="{ left: hoverInfo.x + 'px', top: hoverInfo.y + 'px' }" :class="'s-' + hoverInfo.st">
       <h4>{{ hoverInfo.name }}<small>{{ hoverInfo.layer }}</small></h4>
       <p v-for="(l, i) in hoverInfo.lines" :key="i">{{ l }}</p>
+      <ul v-if="hoverInfo.costRows.length" class="tal-cost"><li v-for="c in hoverInfo.costRows" :key="c.name" :class="{ short: c.have < c.need }"><span :style="c.color ? { color: c.color } : null">{{ c.name }}</span><b>{{ c.need }}</b><small>有 {{ c.have }}</small></li></ul>
       <em>{{ hoverInfo.hint }}</em>
     </div>
   </section>`,

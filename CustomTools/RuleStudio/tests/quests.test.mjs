@@ -5,12 +5,12 @@ import assert from 'node:assert/strict';
 import { CHAPTERS, SIDE_QUESTS, newQuestState, questView, sideView, questGivers, questEvent, questTick, claimChapter, migrateQuests } from '../public/game/quests.mjs';
 import { CURRENCIES } from '../core/content/items.mjs';
 import { NODE_KINDS, FAMILY_ORDER } from '../public/game/atlas.mjs';
-import { NPCS } from '../public/game/hub.mjs';
+import { NPCS, STATIONS } from '../public/game/hub.mjs';
 import { FOLK } from '../public/game/townsfolk.mjs';
 import { SCARAB_IDS } from '../public/game/scarabs.mjs';
 
 const fresh = () => ({ unlocked: 1, inventory: [], equipped: {}, skills: ['fireball', null, null, null], talents: { allocated: [] }, currencies: {}, waystones: [], scarabs: {}, quests: newQuestState() });
-const people = new Set([...NPCS.map(n => n.id), ...FOLK.map(f => f.id)]);
+const people = new Set([...NPCS.map(n => n.id), ...STATIONS.map(n => n.id), ...FOLK.map(f => f.id)]);
 
 test('六章，每章有目标和奖励；引用的通货、地区、节点类型、要找的人都存在', () => {
   assert.equal(CHAPTERS.length, 6);

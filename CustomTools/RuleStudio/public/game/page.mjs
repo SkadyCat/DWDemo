@@ -18,6 +18,9 @@ import { TalentBoard } from './talents-panel.mjs';
 import { switchAccount } from './accounts.mjs';
 import { sfx, setLoop, audio } from './audio.mjs';
 import { LEGEND_LORE } from './legend-lore.mjs';
+import { MATERIAL_IDS, materialInfo, itemPrice, marketPrice, sellMaterial, buyMaterial, refine, refineFee, REFINE, marketTick, mapIncome } from './economy.mjs';
+import { FACTIONS, REP_TIERS, repTier, perks as factionPerks, refreshBoard, takeContract, dropContract, contractEvent, deliver, MAX_TAKEN } from './factions.mjs';
+import { RANKS, mercRoster, archetypeName, mercLine, mercPower, successChance, expeditionFee, expeditionMaps, hire, giveGear, sendOut, mercTick } from './mercs.mjs';
 import { CHAPTERS, newQuestState, questView, questEvent, questTick, claimChapter, migrateQuests, sideView, questGivers, trackHint } from './quests.mjs';
 import { talentPoints } from '../../core/content/talents.mjs';
 import { Scene3D, Overlay } from './scene.mjs';
@@ -412,7 +415,7 @@ const TEMPLATE = /* html */ `
     <p class="hub-hint" v-if="hub && !atlasOpen && !center && !open.vault && !open.char">家 · 安全区　点 NPC、仓库或北面的地图仪走过去 · WASD 或点地面移动</p>
     <!-- home: level, experience and the portal back into an open map, bottom-left -->
     <section class="home-left">
-      <div class="facts"><span><b>T{{ save.unlocked }}</b>最高</span><span><b>{{ save.atlas.done.length }}</b>已打通</span><span><b>{{ save.stats.maps }}</b>通关</span><span><b>{{ save.stats.kills }}</b>击杀</span></div>
+      <div class="facts"><span class="silver" :class="{ flash: silverFlash && hud.tick >= 0 }"><b>{{ fmtN(save.silver || 0) }}</b>星银</span><span><b>T{{ save.unlocked }}</b>最高</span><span><b>{{ save.atlas.done.length }}</b>已打通</span><span><b>{{ save.stats.maps }}</b>通关</span><span><b>{{ save.stats.kills }}</b>击杀</span></div>
       <button class="tp-btn big" v-if="portalRun" @click="portalBack" title="回到还开着的地图（T）"><Gi n="magic-portal" c="el-gold" g="传"/><kbd>T</kbd><small>回到 T{{ portalRun.tier }} {{ familyName(portalRun.profile.family) }}</small></button>
     </section>
   </template>
@@ -453,7 +456,7 @@ const TEMPLATE = /* html */ `
   </div>
 
   <!-- =================== TALENTS (rail · P) =================== -->
-  <talent-board v-if="talentOpen" :save="save" :points="talentPts" @changed="gearChanged" @close="toggle('talents')"></talent-board>
+  <talent-board v-if="talentOpen" :save="save" :points="talentPts" :discount="pk.talentDiscount" @changed="gearChanged(); persist()" @close="toggle('talents')"></talent-board>
 
   <!-- =================== ATLAS (rail · M) =================== -->
   <section class="atlas-win" v-if="atlasOpen" aria-label="地图图集">
@@ -479,11 +482,14 @@ const TEMPLATE = /* html */ `
         <g v-for="n in atlasShown" :key="n.id" class="node" :class="['st-' + n.st, 'k-' + n.kind, { sel: n.id === atlasSel, here: n.id === save.atlas.at, quest: n.quest }]" :style="{ '--hue': n.hue }" :transform="'translate(' + n.x + ' ' + n.y + ')'" @click="selectNode(n.id)">
           <circle class="halo" :r="n.kind === 'boss' ? 30 : 22"/>
           <g v-if="n.quest" class="qmark" :transform="'translate(' + (n.kind === 'boss' ? 20 : 15) + ' ' + (n.kind === 'boss' ? -22 : -17) + ')'"><circle r="8"/><text dy=".36em">!</text></g>
+          <g v-if="n.contract" class="cmark" :transform="'translate(' + (n.kind === 'boss' ? -21 : -16) + ' ' + (n.kind === 'boss' ? -22 : -17) + ')'"><title>能完成委托：{{ n.contract }}</title><rect x="-7" y="-7" width="14" height="14" rx="2"/><text dy=".36em">委</text></g>
+          <g v-if="n.merc" class="mmark" :transform="'translate(0 ' + (n.kind === 'boss' ? 30 : 23) + ')'"><title>佣兵出征中：{{ n.merc }}</title><circle r="7"/><text dy=".36em">⚔</text></g>
           <circle class="ring" :r="n.kind === 'boss' ? 19 : n.kind === 'normal' ? 12 : 15"/>
           <image v-if="n.kind !== 'normal'" :href="kindIconUrl(n.kind, n.st === 'done' ? '#2a1a06' : '#fbe7b0')" :x="n.kind === 'boss' ? -12 : -9" :y="n.kind === 'boss' ? -12 : -9" :width="n.kind === 'boss' ? 24 : 18" :height="n.kind === 'boss' ? 24 : 18"/>
           <text v-else-if="n.st === 'seen'" class="tier" dy=".35em">?</text>
           <circle v-else class="core" r="3.2"/>
           <text v-if="n.label" class="name" :y="n.kind === 'boss' ? -30 : -22">{{ n.name }}</text>
+          <text v-if="n.merc" class="merc-name" :y="n.kind === 'boss' ? 48 : 40">{{ n.merc }}</text>
           <path v-if="n.id === save.atlas.at" class="here-mark" d="M0 -9 L6 0 L0 9 L-6 0Z" :transform="'translate(0 ' + (n.kind === 'boss' ? 44 : 36) + ')'"/>
         </g>
       </svg>
@@ -685,6 +691,7 @@ const TEMPLATE = /* html */ `
     <button v-if="menu.items.length === 1" @click="menuDo('equip')">装备</button>
     <button v-if="open.vault" @click="menuDo('stash')">存入仓库</button>
     <button v-if="menu.items.length === 1" @click="menuDo('craft')">洗炼</button>
+    <button v-if="!run" @click="menuDo('sell')">卖给商会 · {{ fmtN(menu.items.reduce((s, it) => s + priceOf(it), 0)) }} 星银</button>
     <button v-if="!menu.confirm" class="danger" @click="menuDo('drop')">丢弃{{ menu.items.length > 1 ? '（' + menu.items.length + ' 件）' : '' }}</button>
     <button v-else class="danger sure" @click="menuDo('drop')">确定丢弃？里面有稀有或传奇</button>
   </div>
@@ -692,6 +699,9 @@ const TEMPLATE = /* html */ `
   <!-- =================== BAG =================== -->
   <section class="win panel win-right" v-if="open.bag" aria-label="背包">
     <header class="win-head"><h2>行 囊</h2><span class="count" :class="{ full: bagLeft <= 0 }">{{ bagSize - bagLeft }} / {{ bagSize }} 格</span><button class="x" @click="open.bag = false" aria-label="关闭">×</button></header>
+    <div class="purse" title="星银和物资不占背包格子"><b class="pv">{{ fmtN(save.silver || 0) }}<small>星银</small></b>
+      <span v-for="m in ownedMaterials" :key="m.id" class="pm" :style="{ '--c': m.color }" :title="m.text">{{ m.name }} <b>{{ m.n }}</b></span>
+      <span v-if="!ownedMaterials.length" class="hint">还没有物资：地图里的怪会掉，首领掉得多</span></div>
     <div class="win-body">
       <div class="grid g12" :class="{ dropzone: dragFrom }" @dragover.prevent @drop.prevent="dropToBag">
         <button v-for="(c, i) in bagCells" :key="c ? (c.cur ? 'c' + c.id + i : c.uid) : 'e' + i" class="cell" :class="!c ? 'empty' : c.bagStone ? 'ws-cell w-' + c.rarity : c.cur ? 'cur' : ['r-' + rarity(c).id, { on: picked === c, sel: selected.has(c.uid) }]" :draggable="!!c"
@@ -839,6 +849,74 @@ const TEMPLATE = /* html */ `
         <footer class="sfoot"><button class="orn-btn ghost sm" @click="resetSettings">恢复默认</button><span class="hint">设置只存在这台电脑的浏览器里，换账号也保留。</span></footer>
       </div>
 
+      <div v-if="center === 'shop'" class="world shop">
+        <p class="hint">商会收物资、卖物资，价格跟着库存走：你卖得多就便宜，买得多就贵；每打完一张图，库存慢慢回到平常。{{ REFINE }} 份同种物资能精炼成 1 份高一档的。背包里的装备右键「卖给商会」。</p>
+        <div class="world-top"><b class="pv">{{ fmtN(save.silver || 0) }}<small>星银</small></b><span>商会 · {{ factionRows.find(f => f.id === 'merchants').tierName }}<template v-if="pk.trade"> · 价格优惠 {{ Math.round(pk.trade * 100) }}%</template></span>
+          <button class="orn-btn sm" :disabled="!junk.length" @click="sellItems(junk)">卖掉背包里的普通、魔法装备（{{ junk.length }} 件 · {{ fmtN(junk.reduce((s, it) => s + priceOf(it), 0)) }} 星银）</button></div>
+        <table class="mat-table">
+          <thead><tr><th>物资</th><th>有</th><th>收购价</th><th></th><th>出售价</th><th></th><th></th></tr></thead>
+          <tbody><tr v-for="m in shopRows" :key="m.id" :class="{ none: !m.n }">
+            <td :title="m.text"><i class="dot" :style="{ background: m.color }"></i>{{ m.name }}<small v-if="m.stock < 12"> · 缺货</small><small v-else-if="m.stock > 30"> · 积压</small></td>
+            <td><b>{{ m.n }}</b></td><td>{{ m.sell }}</td>
+            <td><button class="mini" :disabled="!m.n" @click="shopDo('sell', m.id, 1)">卖 1</button><button class="mini" :disabled="!m.n" @click="shopDo('sell', m.id, m.n)">全卖</button></td>
+            <td>{{ m.buy }}</td>
+            <td><button class="mini" :disabled="(save.silver || 0) < m.buy" @click="shopDo('buy', m.id, 1)">买 1</button><button class="mini" :disabled="(save.silver || 0) < m.buy * 5" @click="shopDo('buy', m.id, 5)">买 5</button></td>
+            <td><button v-if="m.canRefine" class="mini" :disabled="m.n < REFINE" @click="shopDo('refine', m.id)">精炼</button></td></tr></tbody>
+        </table>
+      </div>
+
+      <div v-if="center === 'board'" class="world board">
+        <p class="hint">夜阙城里几伙人贴的委托。一次最多接 {{ MAX_TAKEN }} 个；交货类的在这里交。每打完三张图，没人接的委托换一批。声望到了档位，各家给的好处不一样。</p>
+        <section class="factions">
+          <article v-for="f in factionRows" :key="f.id" :style="{ '--c': f.color }">
+            <header><b>{{ f.name }}</b><em>{{ f.tierName }}</em><small>{{ f.who }} · {{ f.where }}</small></header>
+            <div class="rep"><i :style="{ width: f.pct + '%' }"></i><span>{{ f.rep }}<template v-if="f.next"> / {{ f.next }}</template></span></div>
+            <p>{{ f.perk || f.text }}</p><p v-if="f.nextPerk" class="next">下一档：{{ f.nextPerk }}</p>
+          </article>
+        </section>
+        <h4 class="sub">委托</h4>
+        <ul class="contracts">
+          <li v-for="c in board" :key="c.id" :class="c.state" :style="{ '--c': FACTIONS[c.faction].color }">
+            <header><em>{{ FACTIONS[c.faction].name }}</em><b>{{ c.title }}</b><small v-if="c.state === 'taken'">已接 · {{ c.have }}/{{ c.need }}</small></header>
+            <p>{{ c.text }}</p><p class="story-reward">{{ contractReward(c) }}</p>
+            <div class="btns">
+              <button v-if="c.state === 'open'" class="orn-btn sm" :disabled="board.filter(x => x.state === 'taken').length >= MAX_TAKEN" @click="boardDo('take', c.id)">接 下</button>
+              <template v-else><button v-if="c.goal.type === 'deliver'" class="orn-btn primary sm" :disabled="!canDeliver(c)" @click="boardDo('deliver', c.id)">交 货</button>
+                <button class="orn-btn ghost sm" @click="boardDo('drop', c.id)">放弃</button></template>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div v-if="center === 'guild'" class="world guild">
+        <p class="hint">在公会登记的镇上人。雇下来以后可以把背包里用不上的装备给他，再派他去图集上你到过的节点。出征按你打的图数算：你打完几张图，他就回来，成功带回那片地区的物资和星银，还会升一级；失败可能会死。星尘他们拿不到，只有你自己去打首领。</p>
+        <div class="world-top"><b class="pv">{{ fmtN(save.silver || 0) }}<small>星银</small></b><span>冒险者公会 · {{ factionRows.find(f => f.id === 'guild').tierName }} · 能雇{{ RANKS.slice(0, pk.mercRank).map(r => r.name).join('、') }}</span></div>
+        <h4 class="sub">你的人 <small>{{ mercs.length }}</small></h4>
+        <ul class="mercs">
+          <li v-for="m in mercs" :key="m.id" :class="{ out: m.trip }">
+            <header><b>{{ m.name }}</b><em>{{ RANKS[m.rank].name }} · {{ m.level }} 级 · {{ archetypeName(m.bd) }}</em><small>实力 {{ mercPower(m).toFixed(1) }}</small></header>
+            <p class="gear">武器：{{ m.gear.weapon ? itemNameOf(m.gear.weapon) + ' T' + m.gear.weapon.tier : '空手' }}　护甲：{{ m.gear.armour ? itemNameOf(m.gear.armour) + ' T' + m.gear.armour.tier : '没有' }}</p>
+            <p v-if="m.trip" class="trip">出征中：{{ m.trip.name }}（T{{ m.trip.tier }}）· 你再打 {{ Math.max(0, m.trip.back - save.stats.maps) }} 张图他回来 · 成功率 {{ Math.round(m.trip.chance * 100) }}%</p>
+            <p v-else-if="m.restUntil > save.stats.maps" class="trip">在养伤，再打 {{ m.restUntil - save.stats.maps }} 张图</p>
+            <div v-else class="btns">
+              <select v-model="mercPick[m.id]"><option :value="undefined">选一个节点</option><option v-for="n in tripNodes" :key="n.id" :value="n.id">T{{ n.tier }} {{ n.name }}（{{ regionName(n.family) }}）· 成功率 {{ Math.round(successChance(m, n.tier) * 100) }}%</option></select>
+              <button class="orn-btn sm" :disabled="mercPick[m.id] == null" @click="guildDo('send', m.id)">派出征{{ mercPick[m.id] != null ? ' · ' + fmtN(expeditionFee(atlas.nodes[mercPick[m.id]].tier, pk.mercFee)) + ' 星银' : '' }}</button>
+              <select v-model="gearPick[m.id]"><option :value="undefined">给他一件装备</option><option v-for="it in giftable" :key="it.uid" :value="it.uid">{{ itemNameOf(it) }} · T{{ it.tier }}</option></select>
+              <button class="orn-btn ghost sm" :disabled="!gearPick[m.id]" @click="guildDo('gear', m.id)">交给他</button>
+            </div>
+          </li>
+          <li v-if="!mercs.length" class="hint">还没有雇人。</li>
+        </ul>
+        <h4 class="sub">在公会登记的人</h4>
+        <ul class="mercs roster">
+          <li v-for="r in hireable" :key="r.id" :class="{ locked: r.rank >= pk.mercRank }">
+            <header><b>{{ r.name }}</b><em>{{ RANKS[r.rank].name }} · {{ r.level }} 级 · {{ archetypeName(r.bd) }}</em><small v-if="r.rank >= pk.mercRank">公会声望不够</small></header>
+            <button class="orn-btn sm" :disabled="r.rank >= pk.mercRank || (save.silver || 0) < RANKS[r.rank].hire" @click="guildDo('hire', r.id)">雇 · {{ fmtN(RANKS[r.rank].hire) }} 星银</button>
+          </li>
+        </ul>
+        <template v-if="save.fallen?.length"><h4 class="sub">没回来的人</h4><p class="fallen"><span v-for="f in save.fallen" :key="f.id">{{ f.name }} · {{ f.at }}</span></p></template>
+      </div>
+
       <div v-if="center === 'codex'" class="codex">
         <p class="hint">{{ legendaries.length }} 件传奇，都是九城名人的遗物（点「来历」看它的故事）。每件一条改写玩法的传奇特性；基底其余特性和随机词条照常随机。首领约三分之一几率掉落，精英偶尔掉落。「试玩」直接放一件进背包。</p>
         <div class="codex-grid">
@@ -877,7 +955,7 @@ export function mountGame(el) {
       const CN = ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十'];
       const chapterNo = i => CN[i] ?? i + 1;
       const fmtN = n => n >= 1000 ? (n / 1000).toFixed(n % 1000 ? 1 : 0) + 'k' : n;
-      const rewardText = r => [...Object.entries(r.currencies ?? {}).map(([id, n]) => `${CURRENCIES[id].name} ×${n}`), ...Object.entries(r.scarabs ?? {}).map(([id, n]) => `${scarabName(id)} ×${n}`), ...(r.waystones ?? []).map(([t, rar]) => `${{ normal: '普通', magic: '魔法', rare: '稀有' }[rar]}路石 T${t}`)].join('　');
+      const rewardText = r => [...(r.silver ? [`星银 ×${r.silver}`] : []), ...Object.entries(r.currencies ?? {}).map(([id, n]) => `${CURRENCIES[id].name} ×${n}`), ...Object.entries(r.scarabs ?? {}).map(([id, n]) => `${scarabName(id)} ×${n}`), ...(r.waystones ?? []).map(([t, rar]) => `${{ normal: '普通', magic: '魔法', rare: '稀有' }[rar]}路石 T${t}`)].join('　');
       const sides = computed(() => { void questKey.value; void gearKey.value; return sideView(save); });
       const sideActive = computed(() => sides.value.filter(x => x.state === 'active').slice(0, 3));
       const givers = computed(() => { void questKey.value; void gearKey.value; return questGivers(save); });
@@ -950,7 +1028,7 @@ export function mountGame(el) {
       const volume = ref(audio.volume);
       function cycleVolume() { const steps = [0, .3, .6, 1], i = steps.findIndex(v => Math.abs(v - volume.value) < .05); audio.setVolume(steps[(i + 1) % steps.length]); volume.value = audio.volume; sfx('click'); }
       const persist = () => { writeSave(save); const n = questTick(save); if (n.length) { questNotes(n); writeSave(save); } };
-      const questFire = ev => { questNotes(questEvent(save, ev)); writeSave(save); };
+      const questFire = ev => { questNotes(questEvent(save, ev)); contractNotes(contractEvent(save, ev)); writeSave(save); };
       onMounted(() => setTimeout(showPendingStory, 400));
       const stage = ref(null), overlay = ref(null), tipEl = ref(null), comboEl = ref(null), flashEl = ref(null);
       const open = reactive({ char: false, bag: false, vault: false }), center = ref(null);
@@ -1051,8 +1129,16 @@ export function mountGame(el) {
           if (goals.some(g => (!g.family || g.family === n.family) && (!g.kind || g.kind === n.kind) && (!g.minTier || n.tier >= g.minTier))) out.add(n.id); }
         return out;
       });
+      // hired hands out on a node, and nodes that would finish a contract you have taken
+      const mercAt = computed(() => { void questKey.value; const m = new Map(); for (const x of save.mercs ?? []) if (x.trip) m.set(x.trip.node, (m.get(x.trip.node) ? m.get(x.trip.node) + '、' : '') + x.name); return m; });
+      const contractNodes = computed(() => { void questKey.value; const out = new Map();
+        for (const c of save.board?.list ?? []) if (c.state === 'taken' && c.goal.type === 'clear') for (const n of atlas.nodes) {
+          const g = c.goal; if (n.id === 0 || (g.family && n.family !== g.family) || (g.kind && n.kind !== g.kind) || (g.minTier && n.tier < g.minTier) || !['open', 'done'].includes(view.value.status(n.id))) continue;
+          out.set(n.id, c.title); }
+        return out; });
       const atlasShown = computed(() => atlas.nodes.map(decorate).filter(n => n.st !== 'hidden')
-        .map(n => ({ ...n, quest: questNodes.value.has(n.id), label: n.id === atlasSel.value || n.st === 'open' || questNodes.value.has(n.id) || (n.kind === 'boss' && n.st !== 'seen') })));
+        .map(n => ({ ...n, quest: questNodes.value.has(n.id), merc: mercAt.value.get(n.id) ?? null, contract: contractNodes.value.get(n.id) ?? null,
+          label: n.id === atlasSel.value || n.st === 'open' || questNodes.value.has(n.id) || mercAt.value.has(n.id) || (n.kind === 'boss' && n.st !== 'seen') })));
       const atlasLit = computed(() => atlas.nodes.filter(n => view.value.status(n.id) !== 'hidden').map(n => ({ id: n.id, x: n.x, y: n.y, fog: { done: 210, open: 170, seen: 110 }[view.value.status(n.id)] })));
       // Unknown maps still glint through the fog, so the whole star map reads at a glance.
       const atlasStars = computed(() => atlas.nodes.filter(n => view.value.status(n.id) === 'hidden' && n.kind !== 'boss').map(n => ({ id: n.id, x: n.x, y: n.y, hue: FAMILY_HUE[n.family], r: 2 + (n.id * 7 % 5) * 0.5 })));
@@ -1134,7 +1220,7 @@ export function mountGame(el) {
       const wallet = computed(() => Object.fromEntries(Object.keys(CURRENCIES).map(id => [id, curHave(save, id, !run.value)])));
       const xpNext = computed(() => xpToNext(save.level));
       const centerName = computed(() => PANELS.find(p => p.id === center.value)?.name ?? '');
-      const centerTitle = computed(() => ({ quest: '星 烬 纪', craft: '洗 炼', bd: '流 派', codex: '传 奇 图 鉴', settings: '设 置' })[center.value] ?? '');
+      const centerTitle = computed(() => ({ quest: '星 烬 纪', craft: '洗 炼', bd: '流 派', codex: '传 奇 图 鉴', settings: '设 置', shop: '商 会', board: '布 告 板', guild: '冒 险 者 公 会' })[center.value] ?? '');
 
       function toast(text, cls = '', icon = null, ic = '') { const id = ++toastId; toasts.value.push({ id, text, cls, icon, ic }); if (toasts.value.length > 6) toasts.value.shift(); setTimeout(() => { toasts.value = toasts.value.filter(t => t.id !== id); }, 3200); }
       // ---- skill bar drag & drop ----
@@ -1245,6 +1331,7 @@ export function mountGame(el) {
         if (what === 'equip') { menu.value = null; doEquip(m.items[0].uid); return; }
         if (what === 'craft') { menu.value = null; pick(m.items[0]); openCenter('craft'); return; }
         if (what === 'stash') { menu.value = null; selected.clear(); for (const it of m.items) toVault(it); return; }
+        if (what === 'sell') { menu.value = null; selected.clear(); hover.value = null; sellItems(m.items); return; }
         if (what === 'drop') {
           const precious = m.items.some(it => it.legend || ['rare', 'exalted', 'legendary'].includes(rarityOf(it).id));
           if (precious && !m.confirm) { m.confirm = true; return; }
@@ -1256,6 +1343,68 @@ export function mountGame(el) {
       const closeMenu = e => { if (menu.value && !e.target.closest?.('.ctxmenu')) menu.value = null; if (selected.size && e.button === 0 && !e.ctrlKey && !e.metaKey && !e.target.closest?.('.cell, .ctxmenu')) selected.clear(); };
       onMounted(() => addEventListener('mousedown', closeMenu, true)); onBeforeUnmount(() => removeEventListener('mousedown', closeMenu, true));
       watch(() => open.bag, v => { if (!v) { selected.clear(); menu.value = null; } });
+      // ---- the world loop: silver, materials, 商会, the board, hired hands (design/world-loop.md) ----
+      const silverFlash = ref(null), pk = computed(() => { void questKey.value; void gearKey.value; return factionPerks(save); });
+      const ownedMaterials = computed(() => { void questKey.value; void gearKey.value; void hud.tick; return MATERIAL_IDS.filter(id => (save.materials?.[id] ?? 0) > 0).map(id => ({ ...materialInfo(id), n: save.materials[id] })); });
+      const priceOf = it => itemPrice(it, rarityOf(it).id, baseLinesOf(it), pk.value.trade);
+      function sellItems(items) {
+        let got = 0, n = 0;
+        for (const it of items) { const i = save.inventory.indexOf(it); if (i < 0) continue; save.inventory.splice(i, 1); if (picked.value === it) picked.value = null; got += priceOf(it); n++; }
+        if (!n) return;
+        save.silver = (save.silver ?? 0) + got; sfx('coin'); persist(); gearKey.value++;
+        toast(`卖给商会 ${n} 件，得到 ${fmtN(got)} 星银`, 'good', 'two-coins', 'el-gold'); questFire({ type: 'sell' });
+      }
+      const junk = computed(() => { void gearKey.value; return save.inventory.filter(it => !it.legend && ['normal', 'magic'].includes(rarityOf(it).id) && baseLinesOf(it) < 3); });
+      // 商会: materials bought and sold at prices that move with the stock
+      const shopRows = computed(() => { void questKey.value; void gearKey.value; return MATERIAL_IDS.map(id => ({ ...materialInfo(id), n: save.materials?.[id] ?? 0, sell: marketPrice(save, id, 'sell', pk.value.trade), buy: marketPrice(save, id, 'buy', pk.value.trade), stock: save.market?.stock?.[id] ?? 20, canRefine: materialInfo(id).region && materialInfo(id).grade < 2 })); });
+      function shopDo(what, id, n = 1) {
+        if (what === 'sell') { const k = what === 'sell' && n === -1 ? save.materials[id] : n, got = sellMaterial(save, id, k, pk.value.trade); if (got) { sfx('coin'); toast(`卖出 ${materialInfo(id).name}，得到 ${got} 星银`, 'good'); } }
+        else if (what === 'buy') { const k = buyMaterial(save, id, n, pk.value.trade); if (k) { sfx('coin'); toast(`买了 ${k} 份${materialInfo(id).name}`, 'good'); } else toast('星银不够，或者商会没货了', 'bad'); }
+        else if (what === 'refine') { if (refine(save, id, pk.value.freeRefine)) { sfx('craft'); toast(`${REFINE} 份${materialInfo(id).name}精炼成 1 份更好的`, 'good'); } else toast(`精炼要 ${REFINE} 份${materialInfo(id).name}和 ${refineFee(id, pk.value.freeRefine)} 星银`, 'bad'); }
+        questKey.value++; persist();
+      }
+      // the board: contracts and the factions' reputation
+      const board = computed(() => { void questKey.value; void gearKey.value; refreshBoard(save); return save.board.list; });
+      const factionRows = computed(() => { void questKey.value; return Object.entries(FACTIONS).map(([id, f]) => { const t = repTier(save, id), v = save.rep?.[id] ?? 0, next = REP_TIERS[t + 1];
+        return { id, ...f, tier: t, tierName: REP_TIERS[t].name, rep: v, next: next ? next.at : null, pct: next ? Math.round((v - REP_TIERS[t].at) / (next.at - REP_TIERS[t].at) * 100) : 100, perk: f.perks[t], nextPerk: next ? f.perks[t + 1] : null }; }); });
+      const contractReward = c => [`${fmtN(c.reward.silver)} 星银`, `${FACTIONS[c.faction].name}声望 +${c.reward.rep}`, ...Object.entries(c.reward.materials ?? {}).map(([id, n]) => `${materialInfo(id).name} ×${n}`), c.reward.scarabs ? `星契 ×${c.reward.scarabs}` : ''].filter(Boolean).join('　');
+      const canDeliver = c => c.goal.type === 'deliver' && (c.goal.item === 'waystone' ? [...save.waystones, ...(save.bagStones ?? [])].some(w => w.tier >= (c.goal.minTier ?? 1)) : (save.materials?.[c.goal.item] ?? 0) >= c.need);
+      function boardDo(what, id) {
+        if (what === 'take') { if (!takeContract(save, id)) toast(`一次最多接 ${MAX_TAKEN} 个委托`, 'bad'); else sfx('quest'); }
+        else if (what === 'drop') dropContract(save, id);
+        else if (what === 'deliver') { const r = deliver(save, id); if (r) contractNotes([r]); else toast('东西还不够', 'bad'); }
+        questKey.value++; persist();
+      }
+      function contractNotes(list) {
+        for (const { contract: c, rankUp } of list ?? []) {
+          sfx('chapter'); toast(`委托完成「${c.title}」· ${contractReward(c)}`, 'quest big', 'laurel-crown', 'el-gold');
+          if (rankUp) toast(`${FACTIONS[c.faction].name}：${REP_TIERS[repTier(save, c.faction)].name} · ${FACTIONS[c.faction].perks[repTier(save, c.faction)]}`, 'quest', 'laurel-crown', 'el-gold');
+        }
+        if (list?.length) { questKey.value++; for (const _ of list) questNotes(questEvent(save, { type: 'contract' })); }
+      }
+      // the guild: hire townsfolk, kit them out, send them to atlas nodes
+      const roster = mercRoster();
+      const mercs = computed(() => { void questKey.value; void gearKey.value; return save.mercs ?? []; });
+      const hireable = computed(() => { void questKey.value; return roster.filter(r => !save.mercs?.some(m => m.id === r.id) && !save.fallen?.some(m => m.id === r.id)); });
+      const mercPick = reactive({}), gearPick = reactive({});
+      const tripNodes = computed(() => { void save.atlas.done.length; return atlas.nodes.filter(n => n.id !== 0 && ['done', 'open'].includes(view.value.status(n.id)) && n.tier <= save.unlocked).sort((a, b) => b.tier - a.tier || a.name.localeCompare(b.name)); });
+      const giftable = computed(() => { void gearKey.value; return save.inventory.filter(it => it.slot && it.slot !== 'ring1' && it.slot !== 'ring2' && it.slot !== 'amulet'); });
+      function guildDo(what, id) {
+        if (what === 'hire') { const m = hire(save, roster, id, pk.value.mercRank); if (m) { sfx('quest'); toast(`${m.name}：${mercLine('hire', m.level)}`, 'quest'); questFire({ type: 'hire' }); } else toast(pk.value.mercRank <= (roster.find(r => r.id === id)?.rank ?? 0) ? '冒险者公会的声望不够：先接几个讨伐委托' : '星银不够', 'bad'); }
+        else if (what === 'send') { const node = atlas.nodes[mercPick[id]]; if (!node) { toast('先选一个节点', 'bad'); return; } const t = sendOut(save, id, node, pk.value.mercFee); if (t) { sfx('portal'); toast(`派出去了：${node.name}（T${node.tier}），你打完 ${expeditionMaps(node.tier)} 张图后回来`, 'good'); questFire({ type: 'send' }); } else toast('星银不够，或者他还在休息', 'bad'); }
+        else if (what === 'gear') { const it = save.inventory.find(x => x.uid === gearPick[id]); if (it && giveGear(save, id, it)) { sfx('equip'); toast('装备交给他了', 'good'); gearKey.value++; } }
+        questKey.value++; persist();
+      }
+      /** After every cleared map: the market drifts, the board refreshes, hired hands come back. */
+      function worldTick() {
+        marketTick(save); refreshBoard(save);
+        for (const r of mercTick(save, Math.random, pk.value.materials)) {
+          if (r.ok) toast(`${r.merc.name}从${r.trip.name}回来了：${mercLine('ok', r.merc.wins)} 带回 ${fmtN(r.loot.silver)} 星银、${Object.entries(r.loot.materials).map(([id, n]) => materialInfo(id).name + '×' + n).join('、')}`, 'quest', 'two-coins', 'el-gold');
+          else if (r.died) toast(`${r.merc.name}没能从${r.trip.name}回来。`, 'bad big', 'tombstone', 'el-red');
+          else toast(`${r.merc.name}：${mercLine('hurt', r.merc.level)}`, 'bad');
+        }
+        questKey.value++;
+      }
       // ---- stash ----
       const inVault = it => save.stash.pages.some(p => p.includes(it)) || Object.values(save.stash.legend).some(l => l.includes(it));
       function toVault(it, page = typeof vaultTab.value === 'number' ? vaultTab.value : 0) {
@@ -1485,7 +1634,8 @@ export function mountGame(el) {
         for (let i = 0; i < deviceSlots.length; ++i) deviceSlots[i] = null;
         if (withSigil) questFire({ type: 'sigil' });
         persist(); atlasOpen.value = false; talentOpen.value = false;
-        const r = new MapRun(build(), { tier, family: node.family, mods, seed: (Date.now() ^ (Math.random() * 1e9)) >>> 0 });
+        const pk = factionPerks(save), runMods = { ...mods, quantity: (mods.quantity ?? 1) * (1 + pk.quantity), materials: (mods.materials ?? 1) * (1 + pk.materials) };
+        const r = new MapRun(build(), { tier, family: node.family, mods: runMods, seed: (Date.now() ^ (Math.random() * 1e9)) >>> 0 });
         r.node = node.id; r.canTake = d => bagFits(save, d); r.autoCurrency = opts.autoCurrency; mapOpen.value = false;
         run.value = markRaw(r); open.char = open.bag = open.vault = false; seenKills = 0; seenFull = -9; bossXp = false; center.value = null; seenPicked = 0; seenClear = -1; seenLoot = new Set(); seenPortal = 0; clearedBanner.value = false;
         Object.assign(resultLoot, { items: 0, currencies: 0, stones: 0, legend: 0, opened: 0, done: false });
@@ -1521,6 +1671,8 @@ export function mountGame(el) {
         if (d.type === 'item') { if (bagFree(save) > 0) save.inventory.push(d.item); else { toBag(save, d.item); overflow++; } }
         else if (d.type === 'waystone') save.waystones.push(d.stone);
         else if (d.type === 'scarab') save.scarabs[d.id] = (save.scarabs[d.id] ?? 0) + 1;
+        else if (d.type === 'silver') save.silver = (save.silver ?? 0) + d.count;
+        else if (d.type === 'material') save.materials[d.id] = (save.materials[d.id] ?? 0) + d.count;
         else if (bagFits(save, d)) save.currencies[d.id] = (save.currencies[d.id] || 0) + d.count;
         else { save.stash.currency[d.id] = (save.stash.currency[d.id] || 0) + d.count; overflow++; } }
       function frame(now) {
@@ -1563,6 +1715,8 @@ export function mountGame(el) {
             toast(`${bl > 1 ? '◆'.repeat(bl) + ' ' : ''}${rr.name} · ${itemName(d.item)}`, `r-${rr.id} b${bl}`, itemIcon(d.item), 'r-' + rr.id);
           } else if (d.type === 'waystone') toast(waystoneName(d.stone), 'w-' + d.stone.rarity, waystoneIcon(d.stone), 'w-' + d.stone.rarity);
           else if (d.type === 'scarab') toast(scarabName(d.id), 'cur', sigilIcon(d.id), 'r-currency');
+          else if (d.type === 'silver') silverFlash.value = { n: d.count, t: performance.now() };
+          else if (d.type === 'material') toast(`${materialInfo(d.id).name}${d.count > 1 ? ' ×' + d.count : ''}`, 'cur mat', 'ore', 'r-currency');
           else toast(CURRENCIES[d.id].name, 'cur', CURRENCY_ICON[d.id], 'r-currency');
         }
         if (r.phase !== 'running' && !resultLoot.done) {
@@ -1575,6 +1729,7 @@ export function mountGame(el) {
             if (r.node != null) resultLoot.opened = completeNode(atlas, save.atlas, r.node);
             const qn = atlas.nodes[r.node] ?? {};
             questFire({ type: 'clear', tier: r.tier, family: qn.family, kind: qn.kind });
+            worldTick();
             persist();
             setTimeout(() => sfx('portal'), 900);
             clearedBanner.value = true; setTimeout(() => { if (run.value === r) clearedBanner.value = false; }, 7000);
@@ -1690,7 +1845,7 @@ export function mountGame(el) {
         profile, requirements, statRows, bdArch, bdStages, currentBd, centerName, centerTitle, traits, granted, ladder, ladderFocus, primarySkill, bagCells,
         legendCells, bagLeft, bagSize: BAG_SIZE, pageCells, pageSize: PAGE_SIZE, pages: PAGES, legendCap: LEGEND_CAP, currencyPage: CURRENCY_PAGE, vaultTab, legendSel, dropTab, dragFrom, legendCount, vaultCounts, wallet, tipStacks,
         hub, hubTick, opts, settingTab, settingTabs, keybinds: KEYBINDS, setQuality, resetSettings, mapOpen,
-        waystoneIcon, sigilIcon, stoneOut, backToDevice, dropOnStoneCell, selected, menu, ctrlClick, openMenu, menuDo, affixRows, totals, slotPos, pentaPoints, dragAnyStart, dragAnyEnd, dropOnCurrencyPage, dropOnLegendPage, dropOnCore, dropOnStones, dropOnSlot, dropOnScarabs, dropOnCraft, dropDev, deviceSlots, scarabsLeft, slotScarab, unslotScarab, scarabName, scarabText, scarabColor, parseScarab, legendary, dropBagCell, dropPageCell, toVault, fromVault, moveCurrency, takeCurrency, vaultDragStart, dropToBag, dropToPage, portalRun, portalHome, portalBack, xpNext, maxLevel: MAX_LEVEL,
+        waystoneIcon, sigilIcon, silverFlash, ownedMaterials, priceOf, sellItems, junk, shopRows, shopDo, board, factionRows, contractReward, canDeliver, boardDo, mercs, hireable, mercPick, gearPick, tripNodes, giftable, guildDo, RANKS, archetypeName, mercPower, successChance, expeditionFee, expeditionMaps, pk, FACTIONS, MAX_TAKEN, REFINE, mapIncome, stoneOut, backToDevice, dropOnStoneCell, selected, menu, ctrlClick, openMenu, menuDo, affixRows, totals, slotPos, pentaPoints, dragAnyStart, dragAnyEnd, dropOnCurrencyPage, dropOnLegendPage, dropOnCore, dropOnStones, dropOnSlot, dropOnScarabs, dropOnCraft, dropDev, deviceSlots, scarabsLeft, slotScarab, unslotScarab, scarabName, scarabText, scarabColor, parseScarab, legendary, dropBagCell, dropPageCell, toVault, fromVault, moveCurrency, takeCurrency, vaultDragStart, dropToBag, dropToPage, portalRun, portalHome, portalBack, xpNext, maxLevel: MAX_LEVEL,
         pick, equippedFor, hoverOn, hoverOff, doEquip, doUnequip, dragStart, dropOn, doSalvage, doCraft, applyBd, clearBd, accountName, leaveAccount, grantLegendary, LEGEND_LORE, loreSel, loreParas, evaluate, update, toggle, isOpen, openCenter, startRun, leaveRun, selectSkill, gearChanged,
         panels: PANELS, tierList: Array.from({ length: MAP_TIERS }, (_, i) => i + 1), families: MAP_FAMILIES, slots: SLOTS, slotNames: SLOT_NAMES, currencies: CURRENCIES,
         archetypes: ARCHETYPES, legendaries: LEGENDARIES, skillBar: SKILL_BAR, glyph: SLOT_GLYPH,

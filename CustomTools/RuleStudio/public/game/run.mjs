@@ -12,6 +12,7 @@ import { rollWaystoneDrops } from './waystones.mjs';
 import { HUB_LAYOUT, NPCS, STATIONS } from './hub.mjs';
 import { Town, steerOnFlow } from './town.mjs';
 import { rollScarabDrops } from './scarabs.mjs';
+import { rollEconomyDrops } from './economy.mjs';
 
 export const STATUS_LOOK = {
   ignited: { color: '#ff7a2e', glyph: '燃', fx: 'ignite' }, poisoned: { color: '#7ee36b', glyph: '毒', fx: 'poison' }, bleeding: { color: '#e0334a', glyph: '血', fx: 'bleed' },
@@ -37,10 +38,10 @@ export class MapRun {
    */
   constructor(build, { tier = 1, family = 'ruin', seed = Date.now() % 1e9, quantity = 1, mods = {}, hub = false } = {}) {
     this.hub = hub;   // the home (初始地牢): no monsters, NPCs and stations instead
-    this.profile = mapProfile(tier, family);
+    this.profile = mapProfile(tier, family); this.family = family;
     this.tier = this.profile.tier;
     this.seed = seed;
-    this.mods = { pack: 1, elite: 1, legend: 1, life: 1, damage: 1, bossLife: 1, aggro: 1, currency: 1, stones: 1, scarabs: 1, ...mods };
+    this.mods = { pack: 1, elite: 1, legend: 1, life: 1, damage: 1, bossLife: 1, aggro: 1, currency: 1, stones: 1, scarabs: 1, materials: 1, ...mods };
     this.quantity = quantity * (mods.quantity ?? 1);
     this.walkTo = null;
     this.dungeon = generateDungeon(seed, this.tier, hub ? HUB_LAYOUT : null);
@@ -264,7 +265,7 @@ export class MapRun {
     for (const f of this.flashes) f.age += dt;
     this.flashes = this.flashes.filter(f => f.age < 1.1);
     // Loot: currency is picked up by walking over it; equipment waits for a click on its label (like PoE).
-    if (this.autoCurrency) for (const l of this.loot) if (!l.taken && l.drop.type === 'currency' && this.elapsed - l.born > 0.9 && Math.hypot(l.x - h.x, l.y - h.y) < 110) { if (this.canTake(l.drop)) { l.taken = true; this.pickedUp.push(l.drop); } else if (this.elapsed - this.fullAt > 3) this.fullAt = this.elapsed; }
+    if (this.autoCurrency) for (const l of this.loot) if (!l.taken && (l.drop.type === 'currency' || l.drop.type === 'silver' || l.drop.type === 'material') && this.elapsed - l.born > 0.9 && Math.hypot(l.x - h.x, l.y - h.y) < 110) { if (this.canTake(l.drop)) { l.taken = true; this.pickedUp.push(l.drop); } else if (this.elapsed - this.fullAt > 3) this.fullAt = this.elapsed; }
     this.loot = this.loot.filter(l => !l.taken);
     if (!h.alive || h.life <= 0) { this.phase = 'failed'; this.endedAt = this.elapsed; }
   }
@@ -292,6 +293,7 @@ export class MapRun {
       // 财富圣甲虫: more currency (each stack's count, rounded by chance)
       for (const d of drops) if (d.type === 'currency' && this.mods.currency !== 1) { const c = d.count * this.mods.currency; d.count = Math.max(1, Math.floor(c) + (this.rng() < c - Math.floor(c) ? 1 : 0)); }
       drops.push(...rollScarabDrops(this.tier, kind, this.rng, this.quantity * this.mods.scarabs));
+      drops.push(...rollEconomyDrops(this.tier, this.family, kind, this.rng, { quantity: this.quantity, materials: this.mods.materials }));
       for (const drop of drops) {
         const a = this.rng() * Math.PI * 2, r = 30 + this.rng() * (kind === 'boss' ? 160 : 60);
         this.loot.push({ key: `${this.elapsed.toFixed(3)}:${this.loot.length}:${this.rng()}`, x: e.target.x + Math.cos(a) * r, y: e.target.y + Math.sin(a) * r, sourceX: e.target.x, sourceY: e.target.y, drop, born: this.elapsed });

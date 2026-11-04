@@ -32,7 +32,7 @@ export const bagUsed = save => save.inventory.length + bagStones(save).length + 
 export const bagFree = save => BAG_SIZE - bagUsed(save);
 /** Can this drop go into the bag? Currency fits when it tops up a stack or there is a free cell. */
 export function bagFits(save, drop) {
-  if (drop.type === 'waystone') return true;   // waystones go to the map device, not the bag
+  if (drop.type === 'waystone' || drop.type === 'silver' || drop.type === 'material') return true;   // waystones go to the map device; silver and materials to the purse
   if (drop.type === 'item') return bagFree(save) > 0;
   if (drop.type === 'scarab') { const have = save.scarabs?.[drop.id] || 0; return have % SIGIL_STACK !== 0 || bagFree(save) > 0; }
   const have = save.currencies[drop.id] || 0, room = (STACK - (have % STACK)) % STACK;
@@ -136,7 +136,9 @@ export const grantedSkills = save => [...new Set(SLOTS.map(s => save.equipped[s]
 export function newSave() {
   const save = { version: 2, inventory: [], equipped: Object.fromEntries(SLOTS.map(s => [s, null])), currencies: Object.fromEntries(Object.keys(CURRENCIES).map(k => [k, 0])),
     skills: [null, null, null, null], talents: { allocated: [] }, unlocked: 1, best: {}, archetype: null, bdStage: null, stats: { maps: 0, kills: 0 },
-    stash: newStash(), level: 1, xp: 0, scarabs: { bounty_0: 2, coin_0: 1 }, deviceSlots: [null, null, null, null, null] };
+    stash: newStash(), level: 1, xp: 0, scarabs: { bounty_0: 2, coin_0: 1 }, deviceSlots: [null, null, null, null, null],
+    // the world loop (economy.mjs / factions.mjs / mercs.mjs): purse, reputations, the board, hired hands
+    silver: 0, materials: {}, rep: {}, board: null, market: null, mercs: [], fallen: [] };
   // A starter wand with Fireball so a fresh character can play.
   save.equipped.weapon = makeItem('weapon', 'wand', 1, { skill: 'fireball', traits: [{ id: 'proj_count', tier: 1 }, { id: 'proj_pierce', tier: 1 }], lines: [{ id: 'added_fire_spell', tier: 1 }] });
   syncSkillBar(save);
@@ -164,6 +166,8 @@ export function migrate(save) {
   save.level = Math.max(1, save.level | 0 || 1); save.xp = Math.max(0, save.xp || 0);
   if (!save.scarabs || typeof save.scarabs !== 'object') save.scarabs = { bounty_0: 2, coin_0: 1 };
   if (!Array.isArray(save.deviceSlots) || save.deviceSlots.length !== 5) save.deviceSlots = [null, null, null, null, null];
+  save.silver = Math.max(0, save.silver | 0); save.materials ??= {}; save.rep ??= {}; save.mercs ??= []; save.fallen ??= [];
+  save.talents.paid ??= {};
   // Currency first: anything past what the bag can hold waits in the currency page.
   for (const id of Object.keys(CURRENCIES)) {
     const cap = Math.max(0, BAG_SIZE - save.inventory.length) * STACK;   // rough: the bag cannot hold more than this

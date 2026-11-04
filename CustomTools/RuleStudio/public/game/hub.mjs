@@ -24,4 +24,8 @@ export const NPCS = [
 export const STATIONS = [
   { id: 'stash', name: '仓库', title: '存放物品', panel: 'vault', room: 8, at: [-4, -3] },   // 库房门前
   { id: 'device', name: '地图仪', title: '放入路石 · 打开图集', panel: 'atlas', room: 1, at: [0, -2] },   // 金殿台阶前
+  // the world loop (design/world-loop.md): buy and sell, contracts, hired hands
+  { id: 'shop', name: '商会', title: '买卖物资 · 出售装备', panel: 'shop', room: 4, at: [1, -4] },        // 集市街南头
+  { id: 'board', name: '布告板', title: '委托 · 势力声望', panel: 'board', room: 0, at: [4, -4] },        // 灯井广场东南角
+  { id: 'guild', name: '冒险者公会', title: '雇佣兵 · 派出征', panel: 'guild', room: 3, at: [-3, -2] },  // 半盏灯酒馆门口
 ];

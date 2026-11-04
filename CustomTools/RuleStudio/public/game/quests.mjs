@@ -18,6 +18,7 @@ import { rollWaystone } from './waystones.mjs';
  *   talk    { who }                              — talked to a townsperson / NPC (event: who = folk id or station id)
  *   deposit · bd · sigil · portal · lore {}      — put something in the stash · applied a build · opened a map with a 星契 slotted ·
  *                                                  went home through the town portal · read a legendary's story (events)
+ *   sell · contract · hire · send {}             — sold to 商会 · finished a contract from the board · hired a merc · sent one out (events)
  *   tier    { value }                            — the highest open map tier is at least value (state)
  *   talent  { value }                            — talent points allocated (state)
  *   skills  { value }                            — skills on the bar (state)
@@ -182,6 +183,15 @@ export const SIDE_QUESTS = Object.freeze([
   { id: 'g_sigil', kind: 'guide', after: 2, giver: 'collector', giverName: '维克', title: '埋在药草底下的', ask: '拿着。放在地图仪边上那几个槽里，再开图试试。',
     steps: [{ text: '再去找维克', goal: { type: 'talk', who: 'collector' } }, { text: '从背包把一枚星契拖进地图仪的法阵槽，开一张图', goal: { type: 'sigil' } }],
     done: '长得好吧？药园的人就是这么种东西的。', reward: { currencies: { chaos: 2 }, scarabs: { bounty_1: 2, swarm_1: 1 } } },
+  { id: 'g_shop', kind: 'guide', after: 0, giver: 'shop', giverName: '商会', title: '换成星银', ask: '收货，也卖货。背包里用不上的装备拿来，换成星银；点天赋、雇人都要钱。',
+    steps: [{ text: '去集市街南头的商会柜台', goal: { type: 'talk', who: 'shop' } }, { text: '把一件装备卖给商会（背包里右键「卖给商会」）', goal: { type: 'sell' } }],
+    done: '下回有好东西也拿来。价钱看行情。', reward: { silver: 150, currencies: { augment: 2 } } },
+  { id: 'g_board', kind: 'guide', after: 0, giver: 'bru', giverName: '布鲁', title: '布告板', ask: '布告板上又贴了几张委托。公会的、商会的、守灯会的都有，接一张，干完了有钱拿，人家也记你的好。',
+    steps: [{ text: '在灯井广场找布鲁', goal: { type: 'talk', who: 'bru' } }, { text: '在布告板接下一个委托并完成它', goal: { type: 'contract' } }],
+    done: '记你的好比钱管用。以后找人帮忙，人家认你。', reward: { silver: 300, currencies: { chaos: 1 } } },
+  { id: 'g_guild', kind: 'guide', after: 1, giver: 'mati', giverName: '玛蒂', title: '雇个帮手', ask: '一个人刷不过来的。公会登记了一些人，钱给够就替你出去跑，带回来的东西归你。',
+    steps: [{ text: '去半盏灯酒馆门口找玛蒂', goal: { type: 'talk', who: 'mati' } }, { text: '在冒险者公会雇一个佣兵', goal: { type: 'hire' } }, { text: '派他去图集上的一个节点', goal: { type: 'send' } }],
+    done: '他会回来的。大概。', reward: { silver: 400, currencies: { upgrade: 3 } } },
   // ---- 镇上的事 ----
   { id: 't_bread', kind: 'town', after: 0, giver: 'rosa', giverName: '罗莎', title: '绿面包', ask: '苔藓粉快没了。城门边上长了一片，拾荒队不敢去，怪太多。',
     steps: [{ text: '去集市街的面包摊找罗莎', goal: { type: 'talk', who: 'rosa' } }, { text: '出去清掉 300 只怪，拾荒队才敢去城门边上摘苔藓', goal: { type: 'kills', count: 300 } }],
@@ -279,7 +289,7 @@ function matches(g, ev) {
     case 'kills': return ev.type === 'kills' ? ev.n : 0;
     case 'pickup': return ev.type === 'pickup' && (!g.baseLines || baseLinesOf(ev.item) >= g.baseLines) && (!g.legend || ev.item.legend) ? 1 : 0;
     case 'talk': return ev.type === 'talk' && ev.who === g.who ? 1 : 0;
-    case 'equip': case 'craft': case 'deposit': case 'bd': case 'sigil': case 'portal': case 'lore': return ev.type === g.type ? 1 : 0;
+    case 'equip': case 'craft': case 'deposit': case 'bd': case 'sigil': case 'portal': case 'lore': case 'sell': case 'contract': case 'hire': case 'send': return ev.type === g.type ? 1 : 0;
     default: return 0;
   }
 }
@@ -314,6 +324,7 @@ export function questTick(save) {
     if (x.steps.every(s => s.done)) {
       const r = x.quest.reward ?? {};
       for (const [id, n] of Object.entries(r.currencies ?? {})) save.currencies[id] = (save.currencies[id] || 0) + n;
+      if (r.silver) save.silver = (save.silver ?? 0) + r.silver;
       if (r.scarabs) { save.scarabs ??= {}; for (const [id, n] of Object.entries(r.scarabs)) save.scarabs[id] = (save.scarabs[id] || 0) + n; }
       q.side.claimed.push(x.quest.id);
       out.push({ type: 'side', quest: x.quest, reward: r });
@@ -343,7 +354,7 @@ export function claimChapter(save, rng = Math.random) {
 }
 
 // Where a step sends you at home: a person, a station, or out through the map device.
-const STEP_PLACE = { deposit: 'stash', bd: 'mentor', lore: 'collector', talent: 'astrologer', craft: 'smith', sigil: 'device' };
+const STEP_PLACE = { deposit: 'stash', bd: 'mentor', lore: 'collector', talent: 'astrologer', craft: 'smith', sigil: 'device', sell: 'shop', contract: 'board', hire: 'guild', send: 'guild' };
 /**
  * What the tracker follows: the chapter by default, or the side quest `trackId` while it is open.
  * Returns { title, text, who? } — who: a townsperson / station id to walk to at home ('device' = go out into a map);
