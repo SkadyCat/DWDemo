@@ -956,3 +956,12 @@ select { font: inherit; color: var(--txt); background: var(--deep); border: 1px 
 .sigil-slot:hover { transform: translate(-50%, -50%) scale(1.08); }
 .sigil-slot.drop { box-shadow: 0 0 0 2px var(--jade), 0 0 18px rgba(127, 224, 200, .6); }
 .ac-stones .ws-grid { max-height: 150px; }
+
+/* device card: fixed parts only (rune circle, waystones, start); the affixes grow in their own panel beside it */
+.atlas-card .ac-body { overflow: hidden; gap: 10px; }
+.atlas-card .ac-device { flex: none; }
+.atlas-card .ac-stones { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.atlas-card .ac-stones .ws-grid { flex: 1; min-height: 64px; max-height: none; overflow-y: auto; align-content: start; }
+.atlas-card .sigil { width: min(300px, calc(100vh - 470px)); min-width: 200px; }
+.atlas-affix { position: absolute; left: 480px; top: 104px; width: 330px; max-height: calc(100vh - 128px); z-index: 5; padding: 18px 18px 16px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: var(--gold-lo) transparent; }
+.atlas-affix .ac-totals { grid-template-columns: 1fr; }

@@ -471,17 +471,6 @@ const TEMPLATE = /* html */ `
         <div><h2>{{ selNode.name }}</h2><p>T{{ runTier }} · {{ regionName(selNode.family) }} · <span :class="'st-' + selNode.st">{{ statusName(selNode.st) }}</span></p></div>
       </header>
       <div class="ac-body">
-        <!-- everything this map will have, all spelled out -->
-        <section class="ac-affix">
-          <h4 class="ac-h">本图词条 <small>{{ affixRows.length ? '共 ' + affixRows.length + ' 条' : '' }}</small></h4>
-          <ul class="affix-list">
-            <li v-for="(r, i) in affixRows" :key="i" :class="'src-' + r.src" :style="r.color ? { '--sc': r.color } : null"><em>{{ r.tag }}</em><span>{{ r.text }}</span></li>
-            <li v-if="!affixRows.length" class="src-none"><em>普通</em><span>这张图没有额外词条。放一块带词缀的路石或几枚星契来加强它。</span></li>
-          </ul>
-          <dl class="ac-totals">
-            <div v-for="t in totals" :key="t[0]" :class="{ up: t[2] }"><dt>{{ t[0] }}</dt><dd>{{ t[1] }}</dd></div>
-          </dl>
-        </section>
         <!-- the map device: a rune circle with the waystone in the middle and five fixed sigil slots -->
         <section class="ac-device">
           <h4 class="ac-h">地图仪 <small>路石放进法阵中心 · 从背包把星契拖到外圈的槽</small></h4>
@@ -529,6 +518,21 @@ const TEMPLATE = /* html */ `
       <footer class="ac-foot">
         <button class="orn-btn primary big" :disabled="!canStart" @click="startRun">{{ startText }}</button>
       </footer>
+    </section>
+
+    <!-- this map's affixes: the part that grows, beside the device card -->
+    <section class="atlas-affix panel" v-if="selNode">
+        <!-- everything this map will have, all spelled out -->
+      <section class="ac-affix">
+          <h4 class="ac-h">本图词条 <small>{{ affixRows.length ? '共 ' + affixRows.length + ' 条' : '' }}</small></h4>
+          <ul class="affix-list">
+            <li v-for="(r, i) in affixRows" :key="i" :class="'src-' + r.src" :style="r.color ? { '--sc': r.color } : null"><em>{{ r.tag }}</em><span>{{ r.text }}</span></li>
+            <li v-if="!affixRows.length" class="src-none"><em>普通</em><span>这张图没有额外词条。放一块带词缀的路石或几枚星契来加强它。</span></li>
+          </ul>
+          <dl class="ac-totals">
+            <div v-for="t in totals" :key="t[0]" :class="{ up: t[2] }"><dt>{{ t[0] }}</dt><dd>{{ t[1] }}</dd></div>
+          </dl>
+      </section>
     </section>
 
     <section class="atlas-foot">
