@@ -1675,7 +1675,13 @@ export function mountGame(el) {
         else if (d.type === 'material') save.materials[d.id] = (save.materials[d.id] ?? 0) + d.count;
         else if (bagFits(save, d)) save.currencies[d.id] = (save.currencies[d.id] || 0) + d.count;
         else { save.stash.currency[d.id] = (save.stash.currency[d.id] || 0) + d.count; overflow++; } }
+      // One bad frame must not stop the game: log it and keep the loop going.
+      let frameErrors = 0;
       function frame(now) {
+        try { frameStep(now); }
+        catch (err) { if (frameErrors++ < 5) console.error('[游戏循环] 这一帧出错了，跳过继续：', err); cancelAnimationFrame(raf); raf = requestAnimationFrame(frame); }
+      }
+      function frameStep(now) {
         if (!run.value && hub.value && scene) { hubFrame(hub.value, now); return; }
         const r = run.value; if (!r) return;
         // A frame queued before the run started can carry an older timestamp: never step backwards.
@@ -1696,7 +1702,9 @@ export function mountGame(el) {
           { const d = l.drop, h = r.hero, at = { pan: Math.max(-.8, Math.min(.8, (l.x - h.x) / 900)) };
             if (d.type === 'waystone') sfx('stoneDrop', at);
             else if (d.type === 'item') { const rid = rarityOf(d.item).id, bl = baseLinesOf(d.item); sfx('drop', { ...at, tier: d.item.legend || rid === 'exalted' || bl >= 3 ? 4 : rid === 'rare' ? 3 : rid === 'magic' || bl === 2 ? 2 : 1 }); }
-            else if (d.id === 'chaos' || d.id === 'seal' || d.id.startsWith('essence') || d.id === 'skill_gem') sfx('drop', { ...at, tier: 2 }); }
+            else if (d.type === 'silver') { /* small change: no drop sound */ }
+            else if (d.type === 'material') sfx('drop', { ...at, tier: d.id === 'dust' ? 3 : 2 });
+            else if (d.id === 'chaos' || d.id === 'seal' || d.id?.startsWith('essence') || d.id === 'skill_gem') sfx('drop', { ...at, tier: 2 }); }
           if (l.drop.item?.legend) { legendBanner.value = { id: l.key, name: itemName(l.drop.item) }; setTimeout(() => { if (legendBanner.value?.id === l.key) legendBanner.value = null; }, 2600); }
         }
         if (r.kills > seenKills || (!bossXp && r.boss && !r.boss.alive)) {
