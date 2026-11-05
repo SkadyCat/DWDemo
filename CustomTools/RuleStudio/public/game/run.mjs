@@ -205,7 +205,9 @@ export class MapRun {
   /** Hold to cast the selected skill toward the cursor (channelled skills channel while held). */
   setCasting(on) { this.casting = on; if (!on && this.hero.channeling) this.world.stopChannel(this.hero); }
 
-  heroTarget() {
+  heroTarget() { return this.cursorTarget() ?? this.world.nearest(this.hero, 'enemy', 500); }
+  /** The enemy nearest the cursor within 2.6 m (null: none; the cast then aims at the cursor itself). */
+  cursorTarget() {
     const h = this.hero, aim = h.aimPoint;
     let best = null, bd = 260 * 260;
     for (const a of this.world.actors.values()) {
@@ -213,7 +215,7 @@ export class MapRun {
       const d = (a.x - aim.x) ** 2 + (a.y - aim.y) ** 2;
       if (d < bd) { bd = d; best = a; }
     }
-    return best ?? this.world.nearest(h, 'enemy', 500);
+    return best;
   }
 
   // ---- simulation ---------------------------------------------------------------------------
@@ -225,7 +227,10 @@ export class MapRun {
       const sk = this.skills[this.selected];
       if (sk && !h.channeling && w.time >= (h.busyUntil ?? 0)) {
         const target = this.heroTarget();
-        if (w.cast(h, sk, { aim: target ? { x: target.x, y: target.y } : h.aimPoint, target })) h.busyUntil = w.time + castTime(w, h, sk);
+        // aim at the enemy under the cursor, else at the cursor: the nearest enemy stays the target (strikes, homing),
+        // but cones, lines and projectiles go where the mouse is instead of off towards that enemy
+        const under = this.cursorTarget();
+        if (w.cast(h, sk, { aim: under ? { x: under.x, y: under.y } : h.aimPoint, target })) h.busyUntil = w.time + castTime(w, h, sk);
       }
       if (h.channeling) h.channelTarget = this.heroTarget();
     }
