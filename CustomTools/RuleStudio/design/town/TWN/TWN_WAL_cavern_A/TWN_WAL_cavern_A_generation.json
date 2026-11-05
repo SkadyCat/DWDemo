@@ -1,0 +1,142 @@
+{
+  "schemaVersion": 1,
+  "id": "TWN-WAL-01",
+  "name": "洞壁直段",
+  "stem": "TWN_WAL_cavern_A",
+  "provider": "Meshy",
+  "endpoint": "/multi-image-to-3d",
+  "taskId": "01a1abec-1e69-75df-b3d4-ff5e09cd69a4",
+  "consumedCredits": 30,
+  "input": {
+    "settings": {
+      "ai_model": "meshy-7.1",
+      "geometry_resolution": "standard",
+      "should_texture": true,
+      "texture_model": "meshy-7",
+      "enable_pbr": true,
+      "texture_resolution": "2k",
+      "should_remesh": true,
+      "topology": "triangle",
+      "target_polycount": 1200,
+      "image_enhancement": false,
+      "target_formats": [
+        "glb"
+      ],
+      "multi_view_thumbnails": true
+    },
+    "viewOrder": [
+      "front",
+      "side",
+      "back"
+    ],
+    "views": [
+      {
+        "file": "design/town/TWN/TWN_WAL_cavern_A/TWN_WAL_cavern_A_front.png",
+        "sha256": "29cb42cf38b7b0c818c223eaa50d5453e16bb69fc9dc5efdc5d6304cda094925"
+      },
+      {
+        "file": "design/town/TWN/TWN_WAL_cavern_A/TWN_WAL_cavern_A_side.png",
+        "sha256": "aa9296a9d566433e450a994110cae9a4c0f7f9349915320aa311a46a814514d9"
+      },
+      {
+        "file": "design/town/TWN/TWN_WAL_cavern_A/TWN_WAL_cavern_A_back.png",
+        "sha256": "8288b7e03c16535b176b3fc784d15c94c202043eede9068c04be8842ce2f22fe"
+      }
+    ]
+  },
+  "glb": {
+    "meshes": 1,
+    "triangles": 1224,
+    "materials": 1,
+    "embeddedImages": 3,
+    "sha256": "0bf31a1a81f9f8d8067161d30425fa530b18d386c68cea40736fdb2828b4583b",
+    "bytes": 5296524
+  },
+  "targetDimensionsM": [
+    2.0,
+    0.6,
+    3.2
+  ],
+  "dimensionFieldsUnit": "meters (per source document)",
+  "gridCellM": 2,
+  "qa": {
+    "asset": "TWN_WAL_cavern_A",
+    "sha256": "0bf31a1a81f9f8d8067161d30425fa530b18d386c68cea40736fdb2828b4583b",
+    "import": "passed",
+    "render": "passed",
+    "meshes": 1,
+    "triangles": 1224,
+    "materials": 1,
+    "embeddedImages": 3,
+    "boundsMin": [
+      -0.5626879930496216,
+      -0.17992407083511353,
+      -0.9517769813537598
+    ],
+    "boundsMax": [
+      0.5748590230941772,
+      0.17332997918128967,
+      0.9486420154571533
+    ],
+    "dimensionsUnscaled": [
+      1.1375470161437988,
+      0.3532540500164032,
+      1.900418996810913
+    ]
+  },
+  "visualReview": {
+    "status": "passed",
+    "sha256": "0bf31a1a81f9f8d8067161d30425fa530b18d386c68cea40736fdb2828b4583b",
+    "notes": [
+      "Reviewed all four Meshy directions against concept and orthographic inputs. Full rock wall segment, timber crossbeam/uprights/diagonal braces, brass bolt plates and moss patches present.",
+      "Back is simplified/flattened compared to front, acceptable boundary-wall back. No large missing section or unwanted base."
+    ]
+  },
+  "previousAttempts": [],
+  "postProcessing": "pending: scale, bottom-center pivot, theme palette, final decimation and seams",
+  "sheetSource": {
+    "provider": "built-in image_gen",
+    "conceptSha256": "132de0f04e00f2ffbc0e63f1e84426eb66ea30d171f70e798c4bc80ab1c47dbd",
+    "file": "design/town/TWN/TWN_WAL_cavern_A/TWN_WAL_cavern_A_sheet-source.png",
+    "sha256": "b1a87afb6258fa065911fd8222a978b14964c1c76c27742708951fa2bdbcb0d2",
+    "dimensions": [
+      1536,
+      1024
+    ],
+    "basePrompt": "Orthographic turnaround reference sheet of straight rough cavern rock wall segment, chunky faceted brown-grey rock, a timber support beam bolted across it, small glowing moss at the foot, warm cream plaster walls with dark oak half-timber beams, weathered sandstone and grey cobblestone, slate-blue and terracotta roof tiles, tarnished gold trim, warm lantern-orange glowing windows, cozy underground-town palette of warm browns, cream and muted gold. Exactly the same object as the reference image, shown three times side by side from left to right: front view, right side view, back view. Same scale, same height, aligned on the same baseline, each view centered in its own equal-width panel with generous empty space between views. low poly 3D game asset, flat shading, faceted geometry, clean hard edges, limited color palette, orthographic projection, no perspective distortion, even flat studio lighting, no cast shadows, no ambient occlusion, no reflections, plain pure white background, object fully visible with margin, no ground plane, no text, no labels, no arrows",
+    "exportLayout": {
+      "method": "white_gutters_common_uniform_scale",
+      "explicitCuts": false,
+      "sourceCuts": [
+        610,
+        918
+      ],
+      "sourceObjectBounds": [
+        [
+          63,
+          90,
+          553,
+          932
+        ],
+        [
+          669,
+          91,
+          854,
+          931
+        ],
+        [
+          983,
+          90,
+          1473,
+          932
+        ]
+      ],
+      "sharedVerticalBounds": [
+        90,
+        932
+      ],
+      "scale": 0.9142857142857143
+    },
+    "productionNotes": "Built-in image_gen, orthographic sheet reviewed and three views exported."
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "stem": "TWN_PRP_crates_A",
+  "viewOrder": [
+    "front",
+    "side",
+    "back"
+  ],
+  "files": [
+    {
+      "file": "design/town/TWN/TWN_PRP_crates_A/TWN_PRP_crates_A_sheet.png",
+      "sha256": "e422f6bd04fa4021cf78f35ece63c26d3f2d2f50348501d13cc199e9c05ee9e0",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_PRP_crates_A/TWN_PRP_crates_A_front.png",
+      "sha256": "6343434b905999e4da713561cf4f4dd944e7984f7f3b189dd4d4a554d549a5d7",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_PRP_crates_A/TWN_PRP_crates_A_side.png",
+      "sha256": "793683f088592cca22de3ae444b6c7c805af095eb9a22a3ffafe93c12512f3e9",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_PRP_crates_A/TWN_PRP_crates_A_back.png",
+      "sha256": "6d93e48caa2d4f97f802ab5d1aba390aa4424db7e72d8054fb522381d07d4940",
+      "width": 512,
+      "height": 1024
+    }
+  ]
+}

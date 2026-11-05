@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "stem": "TWN_STR_hall_A",
+  "viewOrder": [
+    "front",
+    "side",
+    "back"
+  ],
+  "files": [
+    {
+      "file": "design/town/TWN/TWN_STR_hall_A/TWN_STR_hall_A_sheet.png",
+      "sha256": "6de7bc2951f4cefe2b97737f896a70716708d9d2df5ae206bb87387a859afb8b",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_STR_hall_A/TWN_STR_hall_A_front.png",
+      "sha256": "e865f32506f2b02f7fa1483283a526c34941b252783ec083615b5cc30f35bb87",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_STR_hall_A/TWN_STR_hall_A_side.png",
+      "sha256": "681167def632bc05855bc3a42890bb75c69bee564bd45d6f0f869f008e2fa94f",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_STR_hall_A/TWN_STR_hall_A_back.png",
+      "sha256": "9721d22dcefedd67f84189516d887a73177bd93052a05e14ecc503f9c69f589c",
+      "width": 512,
+      "height": 1024
+    }
+  ]
+}

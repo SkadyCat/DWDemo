@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "stem": "TWN_PRP_laundry_A",
+  "viewOrder": [
+    "front",
+    "side",
+    "back"
+  ],
+  "files": [
+    {
+      "file": "design/town/TWN/TWN_PRP_laundry_A/TWN_PRP_laundry_A_sheet.png",
+      "sha256": "56fa1353680ca283d17ef722e8e8f4edbecab30354ff7098a649f076fb691f5a",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_PRP_laundry_A/TWN_PRP_laundry_A_front.png",
+      "sha256": "5efb148f47f4c9aec08823270e6b8c6d14eb595551968285d5f4d4df3aef798f",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_PRP_laundry_A/TWN_PRP_laundry_A_side.png",
+      "sha256": "5ecc98e4ce42d44e569ae296ac0ca2f24d16c73f7423ac3a477a8f25367e928c",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_PRP_laundry_A/TWN_PRP_laundry_A_back.png",
+      "sha256": "e5c525ef72e6153e1a28b86292d91e3febd873240c7ff7c1fbf5deb0a41404b7",
+      "width": 512,
+      "height": 1024
+    }
+  ]
+}

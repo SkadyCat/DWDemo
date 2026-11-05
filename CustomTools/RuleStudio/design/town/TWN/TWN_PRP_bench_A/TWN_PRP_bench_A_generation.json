@@ -1,0 +1,141 @@
+{
+  "schemaVersion": 1,
+  "id": "TWN-PRP-07",
+  "name": "长椅",
+  "stem": "TWN_PRP_bench_A",
+  "provider": "Meshy",
+  "endpoint": "/multi-image-to-3d",
+  "taskId": "01a1abe6-733b-73f9-a23d-184fb6166b36",
+  "consumedCredits": 30,
+  "input": {
+    "settings": {
+      "ai_model": "meshy-7.1",
+      "geometry_resolution": "standard",
+      "should_texture": true,
+      "texture_model": "meshy-7",
+      "enable_pbr": true,
+      "texture_resolution": "2k",
+      "should_remesh": true,
+      "topology": "triangle",
+      "target_polycount": 1500,
+      "image_enhancement": false,
+      "target_formats": [
+        "glb"
+      ],
+      "multi_view_thumbnails": true
+    },
+    "viewOrder": [
+      "front",
+      "side",
+      "back"
+    ],
+    "views": [
+      {
+        "file": "design/town/TWN/TWN_PRP_bench_A/TWN_PRP_bench_A_front.png",
+        "sha256": "23f5744d19dbe85c52a763ddacb6154dfc2c64566570a29793602fe8f117ee99"
+      },
+      {
+        "file": "design/town/TWN/TWN_PRP_bench_A/TWN_PRP_bench_A_side.png",
+        "sha256": "ce3a483d1bd117bf1d5f24b7f420d4ebd284a2bda32327adcb71dda5505fedb3"
+      },
+      {
+        "file": "design/town/TWN/TWN_PRP_bench_A/TWN_PRP_bench_A_back.png",
+        "sha256": "15d3d092d4e47592f671cb01b239ce46fbd73faed4fb214cd667386b83d7ec21"
+      }
+    ]
+  },
+  "glb": {
+    "meshes": 1,
+    "triangles": 1414,
+    "materials": 1,
+    "embeddedImages": 3,
+    "sha256": "41543669a180e3c729911e0770a300e1cf9c0af1aea32e1491c1513b4e49fe76",
+    "bytes": 5060444
+  },
+  "targetDimensionsM": [
+    1.8,
+    0.5,
+    0.9
+  ],
+  "dimensionFieldsUnit": "meters (per source document)",
+  "gridCellM": 2,
+  "qa": {
+    "asset": "TWN_PRP_bench_A",
+    "sha256": "41543669a180e3c729911e0770a300e1cf9c0af1aea32e1491c1513b4e49fe76",
+    "import": "passed",
+    "render": "passed",
+    "meshes": 1,
+    "triangles": 1414,
+    "materials": 1,
+    "embeddedImages": 3,
+    "boundsMin": [
+      -0.9517660140991211,
+      -0.49957606196403503,
+      -0.8032559752464294
+    ],
+    "boundsMax": [
+      0.9507880210876465,
+      0.5087040662765503,
+      0.802048921585083
+    ],
+    "dimensionsUnscaled": [
+      1.9025540351867676,
+      1.0082801580429077,
+      1.6053049564361572
+    ]
+  },
+  "visualReview": {
+    "status": "passed",
+    "sha256": "41543669a180e3c729911e0770a300e1cf9c0af1aea32e1491c1513b4e49fe76",
+    "notes": [
+      "Concept/sheet and five Meshy directions compared.",
+      "Two back boards, slatted seat, iron uprights and both arched leg frames/four feet all present and volumetric; no major component loss."
+    ]
+  },
+  "previousAttempts": [],
+  "postProcessing": "pending: scale, bottom-center pivot, theme palette, final decimation and seams",
+  "sheetSource": {
+    "provider": "built-in image_gen",
+    "conceptSha256": "a9562e30518633b3d4287d2fd5691fe83e810a836d7a84934c31fc4a562345df",
+    "file": "design/town/TWN/TWN_PRP_bench_A/TWN_PRP_bench_A_sheet-source.png",
+    "sha256": "88fe01d792432e003d39020e47ed6189b3fe83c550839542a396a2208e19b8c2",
+    "dimensions": [
+      1536,
+      1024
+    ],
+    "basePrompt": "Orthographic turnaround reference sheet of a simple wooden park bench with a backrest and black iron legs, warm cream plaster walls with dark oak half-timber beams, weathered sandstone and grey cobblestone, slate-blue and terracotta roof tiles, tarnished gold trim, warm lantern-orange glowing windows, cozy underground-town palette of warm browns, cream and muted gold. Exactly the same object as the reference image, shown three times side by side from left to right: front view, right side view, back view. Same scale, same height, aligned on the same baseline, each view centered in its own equal-width panel with generous empty space between views. low poly 3D game asset, flat shading, faceted geometry, clean hard edges, limited color palette, orthographic projection, no perspective distortion, even flat studio lighting, no cast shadows, no ambient occlusion, no reflections, plain pure white background, object fully visible with margin, no ground plane, no text, no labels, no arrows",
+    "exportLayout": {
+      "method": "white_gutters_common_uniform_scale",
+      "sourceCuts": [
+        587,
+        948
+      ],
+      "sourceObjectBounds": [
+        [
+          55,
+          270,
+          558,
+          756
+        ],
+        [
+          614,
+          270,
+          915,
+          756
+        ],
+        [
+          983,
+          270,
+          1484,
+          756
+        ]
+      ],
+      "sharedVerticalBounds": [
+        270,
+        756
+      ],
+      "scale": 0.8906560636182903
+    },
+    "productionNotes": "Built-in image_gen; front/right/back bench silhouette retained, two back boards and arched iron leg frames; concept plank count is approximate; no additional scene geometry."
+  }
+}

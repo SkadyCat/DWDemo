@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "stem": "TWN_WAL_cavern_gilded_A",
+  "viewOrder": [
+    "front",
+    "side",
+    "back"
+  ],
+  "files": [
+    {
+      "file": "design/town/TWN/TWN_WAL_cavern_gilded_A/TWN_WAL_cavern_gilded_A_sheet.png",
+      "sha256": "e7e102c81d38ad1b47e026f371ebf12661d3db87630ab8c4aebae93911038d4f",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_WAL_cavern_gilded_A/TWN_WAL_cavern_gilded_A_front.png",
+      "sha256": "f865828f1593c4aa2d352bcb0534f5237202525ed571c67a0e80acb3fd028898",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_WAL_cavern_gilded_A/TWN_WAL_cavern_gilded_A_side.png",
+      "sha256": "e2cdbbd978db3be54b29ef6b74918e188f68f724adbd4a72d17c53ed83e6c70c",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_WAL_cavern_gilded_A/TWN_WAL_cavern_gilded_A_back.png",
+      "sha256": "e30702881cb7ef59802fb54ad6eaf23e7734efff5b83555114a0afdd06d793b7",
+      "width": 512,
+      "height": 1024
+    }
+  ]
+}

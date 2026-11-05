@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 1,
+  "id": "TWN-FLR-03",
+  "name": "金殿大理石",
+  "stem": "TWN_FLR_marble_A",
+  "provider": "Meshy",
+  "endpoint": "/multi-image-to-3d",
+  "taskId": "01a1abef-5b63-771f-ac8b-d670b3b66b06",
+  "consumedCredits": 30,
+  "input": {
+    "settings": {
+      "ai_model": "meshy-7.1",
+      "geometry_resolution": "standard",
+      "should_texture": true,
+      "texture_model": "meshy-7",
+      "enable_pbr": true,
+      "texture_resolution": "2k",
+      "should_remesh": true,
+      "topology": "triangle",
+      "target_polycount": 600,
+      "image_enhancement": false,
+      "target_formats": [
+        "glb"
+      ],
+      "multi_view_thumbnails": true
+    },
+    "viewOrder": [
+      "front",
+      "side",
+      "top",
+      "concept_three_quarter"
+    ],
+    "views": [
+      {
+        "file": "design/town/TWN/TWN_FLR_marble_A/TWN_FLR_marble_A_front.png",
+        "sha256": "78b2305e1c6fdba21817fc578930178abb5387559b20cce8cad915923206e41b"
+      },
+      {
+        "file": "design/town/TWN/TWN_FLR_marble_A/TWN_FLR_marble_A_side.png",
+        "sha256": "fcb8f006579e4cff2dc31186307f08ac276b30098a2cdca68aee53a2dae8fd7f"
+      },
+      {
+        "file": "design/town/TWN/TWN_FLR_marble_A/TWN_FLR_marble_A_top.png",
+        "sha256": "b11eadf4d273fe50004dcee486e78db94004e6316a5b0afa5ca0957ccb464e08"
+      },
+      {
+        "file": "design/town/TWN/TWN_FLR_marble_A/TWN_FLR_marble_A_concept.png",
+        "sha256": "a8a68706ff1799909ebe4701db3cbde1556026ea0662c24fd39f0caaaf5b2790"
+      }
+    ]
+  },
+  "glb": {
+    "meshes": 1,
+    "triangles": 413,
+    "materials": 1,
+    "embeddedImages": 3,
+    "sha256": "c8ab384d2ef2fb80017bec1fb266aae003916fb45303959e5099c2e0e59a11a8",
+    "bytes": 5121744
+  },
+  "targetDimensionsM": [
+    2.0,
+    2.0,
+    0.2
+  ],
+  "dimensionFieldsUnit": "meters (per source document)",
+  "gridCellM": 2,
+  "qa": {
+    "asset": "TWN_FLR_marble_A",
+    "sha256": "c8ab384d2ef2fb80017bec1fb266aae003916fb45303959e5099c2e0e59a11a8",
+    "import": "passed",
+    "render": "passed",
+    "meshes": 1,
+    "triangles": 413,
+    "materials": 1,
+    "embeddedImages": 3,
+    "boundsMin": [
+      -0.9517640471458435,
+      -0.9507079720497131,
+      -0.08090495318174362
+    ],
+    "boundsMax": [
+      0.9508939385414124,
+      0.9517530202865601,
+      0.07966092228889465
+    ],
+    "dimensionsUnscaled": [
+      1.9026579856872559,
+      1.902461051940918,
+      0.16056588292121887
+    ]
+  },
+  "visualReview": {
+    "status": "passed",
+    "sha256": "c8ab384d2ef2fb80017bec1fb266aae003916fb45303959e5099c2e0e59a11a8",
+    "notes": [
+      "Corrected model re-reviewed across all four Meshy directions plus independent Blender top render. Full square footprint restored; no longer narrow strip.",
+      "Cream marble material, stone seams, thin slab body complete; gold seams are subdued in preview, a downstream material/art cleanup note."
+    ]
+  },
+  "previousAttempts": [
+    {
+      "taskId": "01a1abea-86c9-771c-8f2e-87dc53191a02",
+      "consumedCredits": 30,
+      "glbSha256": "97237e3b45199d13d32bf2ef4d9830e2e0bc15eff5d34f17865a71a7f32ac3db",
+      "visualReview": "rejected",
+      "reason": "First GLB became a narrow strip. Corrected with concept as fourth view; footprint now square."
+    }
+  ],
+  "postProcessing": "pending: scale, bottom-center pivot, theme palette, final decimation and seams",
+  "sheetSource": {
+    "provider": "built-in image_gen",
+    "conceptSha256": "a8a68706ff1799909ebe4701db3cbde1556026ea0662c24fd39f0caaaf5b2790",
+    "file": "design/town/TWN/TWN_FLR_marble_A/TWN_FLR_marble_A_sheet-source.png",
+    "sha256": "0f232bd755a830a3feb53ad95d902c8ae9f93caf990f2519ab2d50a2b847343b",
+    "dimensions": [
+      1536,
+      1024
+    ],
+    "basePrompt": "Orthographic reference sheet of square flat floor tile of polished cream marble slabs with fine gold seams, warm cream plaster walls with dark oak half-timber beams, weathered sandstone and grey cobblestone, slate-blue and terracotta roof tiles, tarnished gold trim, warm lantern-orange glowing windows, cozy underground-town palette of warm browns, cream and muted gold. Exactly the same object as the reference image, shown three times side by side from left to right: top-down view, front view, right side view. Same scale, aligned, each view centered in its own equal-width panel with generous empty space between views. low poly 3D game asset, flat shading, faceted geometry, clean hard edges, limited color palette, orthographic projection, no perspective distortion, even flat studio lighting, no cast shadows, no ambient occlusion, no reflections, plain pure white background, object fully visible with margin, no ground plane, no text, no labels",
+    "exportLayout": {
+      "method": "equal_panels",
+      "scale": 1.0
+    },
+    "productionNotes": "Built-in image_gen, orthographic sheet reviewed and three views exported."
+  }
+}

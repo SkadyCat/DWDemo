@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "id": "TWN-PRP-17",
+  "name": "发光苔藓花坛",
+  "stem": "TWN_PRP_mossbed_A",
+  "provider": "Meshy",
+  "endpoint": "/multi-image-to-3d",
+  "taskId": "01a1abea-58d3-7140-ac69-64c9c73e06ae",
+  "consumedCredits": 30,
+  "input": {
+    "settings": {
+      "ai_model": "meshy-7.1",
+      "geometry_resolution": "standard",
+      "should_texture": true,
+      "texture_model": "meshy-7",
+      "enable_pbr": true,
+      "texture_resolution": "2k",
+      "should_remesh": true,
+      "topology": "triangle",
+      "target_polycount": 1500,
+      "image_enhancement": false,
+      "target_formats": [
+        "glb"
+      ],
+      "multi_view_thumbnails": true
+    },
+    "viewOrder": [
+      "front",
+      "side",
+      "back"
+    ],
+    "views": [
+      {
+        "file": "design/town/TWN/TWN_PRP_mossbed_A/TWN_PRP_mossbed_A_front.png",
+        "sha256": "091e44ddacc6cd793fa9faf828c4f65c95886dce4956826a7691aa9a10bdd54f"
+      },
+      {
+        "file": "design/town/TWN/TWN_PRP_mossbed_A/TWN_PRP_mossbed_A_side.png",
+        "sha256": "379df2059846a5150dc475fcaa4e3281c5df57aa019049d59ae6877f869c3523"
+      },
+      {
+        "file": "design/town/TWN/TWN_PRP_mossbed_A/TWN_PRP_mossbed_A_back.png",
+        "sha256": "6fd00dacf697e9d3e1648591ba9980e17c4f62575dbd49685706fa93e04f142b"
+      }
+    ]
+  },
+  "glb": {
+    "meshes": 1,
+    "triangles": 1560,
+    "materials": 1,
+    "embeddedImages": 3,
+    "sha256": "12dfbcafc833677faf14e4b9fff1b3bd71eccf972835c10f9d4da4e9fd616864",
+    "bytes": 5240136
+  },
+  "targetDimensionsM": [
+    1.4,
+    1.4,
+    0.6
+  ],
+  "dimensionFieldsUnit": "meters (per source document)",
+  "gridCellM": 2,
+  "qa": {
+    "asset": "TWN_PRP_mossbed_A",
+    "sha256": "12dfbcafc833677faf14e4b9fff1b3bd71eccf972835c10f9d4da4e9fd616864",
+    "import": "passed",
+    "render": "passed",
+    "meshes": 1,
+    "triangles": 1560,
+    "materials": 1,
+    "embeddedImages": 3,
+    "boundsMin": [
+      -0.9522479772567749,
+      -0.9492250084877014,
+      -0.5362879037857056
+    ],
+    "boundsMax": [
+      0.9495579600334167,
+      0.9523000121116638,
+      0.5337280035018921
+    ],
+    "dimensionsUnscaled": [
+      1.9018058776855469,
+      1.9015250205993652,
+      1.0700159072875977
+    ]
+  },
+  "visualReview": {
+    "status": "passed",
+    "sha256": "12dfbcafc833677faf14e4b9fff1b3bd71eccf972835c10f9d4da4e9fd616864",
+    "notes": [
+      "Compared concept/sheet, four Meshy previews and independent Blender high-angle render. Closed circular sandstone planter, teal moss mounds and all THREE pale mushrooms confirmed; low previews had occluded the smallest mushroom. Glow/material finish is downstream."
+    ]
+  },
+  "previousAttempts": [],
+  "postProcessing": "pending: scale, bottom-center pivot, theme palette, final decimation and seams",
+  "sheetSource": {
+    "provider": "built-in image_gen",
+    "conceptSha256": "8cc1f8e0ffad5f60eb1a06e8113553a33e7cfd42fe9f3505eb8863642f117529",
+    "file": "design/town/TWN/TWN_PRP_mossbed_A/TWN_PRP_mossbed_A_sheet-source.png",
+    "sha256": "660886c4b394a9c259bb8d7f8130c0cfbb5e1d2677f557047ccc80a3067c01ad",
+    "dimensions": [
+      1536,
+      1024
+    ],
+    "basePrompt": "Orthographic turnaround reference sheet of a low round stone planter filled with soft glowing teal moss and a few small pale mushrooms, warm cream plaster walls with dark oak half-timber beams, weathered sandstone and grey cobblestone, slate-blue and terracotta roof tiles, tarnished gold trim, warm lantern-orange glowing windows, cozy underground-town palette of warm browns, cream and muted gold. Exactly the same object as the reference image, shown three times side by side from left to right: front view, right side view, back view. Same scale, same height, aligned on the same baseline, each view centered in its own equal-width panel with generous empty space between views. low poly 3D game asset, flat shading, faceted geometry, clean hard edges, limited color palette, orthographic projection, no perspective distortion, even flat studio lighting, no cast shadows, no ambient occlusion, no reflections, plain pure white background, object fully visible with margin, no ground plane, no text, no labels, no arrows",
+    "exportLayout": {
+      "method": "equal_panels",
+      "scale": 1.0
+    },
+    "productionNotes": "Reviewed three elevations of round sandstone planter, matte teal moss and three pale mushrooms with rear occlusion. Removed concept glow for reconstruction; no added buildings."
+  }
+}

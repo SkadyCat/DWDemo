@@ -1,0 +1,142 @@
+{
+  "schemaVersion": 1,
+  "id": "TWN-PRP-04",
+  "name": "药草摊",
+  "stem": "TWN_PRP_stall_herb_A",
+  "provider": "Meshy",
+  "endpoint": "/multi-image-to-3d",
+  "taskId": "01a1abe4-c6ab-7255-96bb-9e084fb80be3",
+  "consumedCredits": 30,
+  "input": {
+    "settings": {
+      "ai_model": "meshy-7.1",
+      "geometry_resolution": "standard",
+      "should_texture": true,
+      "texture_model": "meshy-7",
+      "enable_pbr": true,
+      "texture_resolution": "2k",
+      "should_remesh": true,
+      "topology": "triangle",
+      "target_polycount": 1500,
+      "image_enhancement": false,
+      "target_formats": [
+        "glb"
+      ],
+      "multi_view_thumbnails": true
+    },
+    "viewOrder": [
+      "front",
+      "side",
+      "back"
+    ],
+    "views": [
+      {
+        "file": "design/town/TWN/TWN_PRP_stall_herb_A/TWN_PRP_stall_herb_A_front.png",
+        "sha256": "36bb8e10e0cd82b8686a23085be8949eda8e4238ff546187e98eab5b6bce9784"
+      },
+      {
+        "file": "design/town/TWN/TWN_PRP_stall_herb_A/TWN_PRP_stall_herb_A_side.png",
+        "sha256": "a6dcc4721d82c2049f8261fe3037efad9d592343ce3108ce1130d09d41538651"
+      },
+      {
+        "file": "design/town/TWN/TWN_PRP_stall_herb_A/TWN_PRP_stall_herb_A_back.png",
+        "sha256": "6eaf6fe379ad3e75f9e909a44dbd59e209060a6c56d56741c7b6641468e4b7ce"
+      }
+    ]
+  },
+  "glb": {
+    "meshes": 1,
+    "triangles": 1347,
+    "materials": 1,
+    "embeddedImages": 3,
+    "sha256": "3967f52822ea2363ef071254d8255094eaf9f55b0ad0d5db11b8b972644ddd93",
+    "bytes": 7056364
+  },
+  "targetDimensionsM": [
+    2.0,
+    1.4,
+    2.2
+  ],
+  "dimensionFieldsUnit": "meters (per source document)",
+  "gridCellM": 2,
+  "qa": {
+    "asset": "TWN_PRP_stall_herb_A",
+    "sha256": "3967f52822ea2363ef071254d8255094eaf9f55b0ad0d5db11b8b972644ddd93",
+    "import": "passed",
+    "render": "passed",
+    "meshes": 1,
+    "triangles": 1347,
+    "materials": 1,
+    "embeddedImages": 3,
+    "boundsMin": [
+      -0.7271069884300232,
+      -0.3920240104198456,
+      -0.9516890645027161
+    ],
+    "boundsMax": [
+      0.7338380217552185,
+      0.3903060555458069,
+      0.946306049823761
+    ],
+    "dimensionsUnscaled": [
+      1.4609450101852417,
+      0.7823300361633301,
+      1.897995114326477
+    ]
+  },
+  "visualReview": {
+    "status": "passed",
+    "sha256": "3967f52822ea2363ef071254d8255094eaf9f55b0ad0d5db11b8b972644ddd93",
+    "notes": [
+      "Concept/sheet and five Meshy directions compared.",
+      "Four posts, green awning/trim, suspended herb bundles, tabletop, jars/pots/mushrooms and cloth runner retained; coherent depth and complete counter.",
+      "Small herbs simplified as expected for lowpoly; no major component omitted."
+    ]
+  },
+  "previousAttempts": [],
+  "postProcessing": "pending: scale, bottom-center pivot, theme palette, final decimation and seams",
+  "sheetSource": {
+    "provider": "built-in image_gen",
+    "conceptSha256": "609c176c5b94f75362e627af2a3080b520adcdff5faff99e1f35981bd332e255",
+    "file": "design/town/TWN/TWN_PRP_stall_herb_A/TWN_PRP_stall_herb_A_sheet-source.png",
+    "sha256": "47a6b1b6d18c42355ff7f490cf93a1d9ac41cb13f1ff259ec161bcc9f75c88d3",
+    "dimensions": [
+      1536,
+      1024
+    ],
+    "basePrompt": "Orthographic turnaround reference sheet of a market stall with a green awning, bundles of dried herbs hanging from the awning frame, small clay pots and mushrooms on the counter, warm cream plaster walls with dark oak half-timber beams, weathered sandstone and grey cobblestone, slate-blue and terracotta roof tiles, tarnished gold trim, warm lantern-orange glowing windows, cozy underground-town palette of warm browns, cream and muted gold. Exactly the same object as the reference image, shown three times side by side from left to right: front view, right side view, back view. Same scale, same height, aligned on the same baseline, each view centered in its own equal-width panel with generous empty space between views. low poly 3D game asset, flat shading, faceted geometry, clean hard edges, limited color palette, orthographic projection, no perspective distortion, even flat studio lighting, no cast shadows, no ambient occlusion, no reflections, plain pure white background, object fully visible with margin, no ground plane, no text, no labels, no arrows",
+    "exportLayout": {
+      "method": "white_gutters_common_uniform_scale",
+      "sourceCuts": [
+        576,
+        969
+      ],
+      "sourceObjectBounds": [
+        [
+          40,
+          201,
+          524,
+          838
+        ],
+        [
+          628,
+          201,
+          926,
+          838
+        ],
+        [
+          1012,
+          201,
+          1494,
+          838
+        ]
+      ],
+      "sharedVerticalBounds": [
+        201,
+        838
+      ],
+      "scale": 0.9256198347107438
+    },
+    "productionNotes": "Built-in image_gen; same four-post green herb stall front/right/back; herbs and pots physically consistent; white-gutter layout normalized."
+  }
+}

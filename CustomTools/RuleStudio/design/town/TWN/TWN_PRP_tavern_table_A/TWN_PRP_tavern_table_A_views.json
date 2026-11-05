@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "stem": "TWN_PRP_tavern_table_A",
+  "viewOrder": [
+    "front",
+    "side",
+    "back"
+  ],
+  "files": [
+    {
+      "file": "design/town/TWN/TWN_PRP_tavern_table_A/TWN_PRP_tavern_table_A_sheet.png",
+      "sha256": "544fa3fd1c88f358b949b9347faee071952e5ac515df2396730dda1f6afda7c8",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_PRP_tavern_table_A/TWN_PRP_tavern_table_A_front.png",
+      "sha256": "6bde42060882ede7c5bb4778099c4b6ca0b0d8545aa3002dc44f19eab287f854",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_PRP_tavern_table_A/TWN_PRP_tavern_table_A_side.png",
+      "sha256": "c4e8041861c4982ca0c2c17eddb6c3a6c3bf436b55b23afe944d31e4b5db70ce",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_PRP_tavern_table_A/TWN_PRP_tavern_table_A_back.png",
+      "sha256": "73335c69d564706fe7b6927623cfec28b8e0987ef7234c9ba14ca43c9f79e25b",
+      "width": 512,
+      "height": 1024
+    }
+  ]
+}

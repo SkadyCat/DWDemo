@@ -1,0 +1,114 @@
+{
+  "schemaVersion": 1,
+  "id": "TWN-PRP-10",
+  "name": "路灯",
+  "stem": "TWN_PRP_streetlamp_A",
+  "provider": "Meshy",
+  "endpoint": "/multi-image-to-3d",
+  "taskId": "01a1abe6-a6ad-7662-b1c8-fa2c453fa37b",
+  "consumedCredits": 30,
+  "input": {
+    "settings": {
+      "ai_model": "meshy-7.1",
+      "geometry_resolution": "standard",
+      "should_texture": true,
+      "texture_model": "meshy-7",
+      "enable_pbr": true,
+      "texture_resolution": "2k",
+      "should_remesh": true,
+      "topology": "triangle",
+      "target_polycount": 1500,
+      "image_enhancement": false,
+      "target_formats": [
+        "glb"
+      ],
+      "multi_view_thumbnails": true
+    },
+    "viewOrder": [
+      "front",
+      "side",
+      "back"
+    ],
+    "views": [
+      {
+        "file": "design/town/TWN/TWN_PRP_streetlamp_A/TWN_PRP_streetlamp_A_front.png",
+        "sha256": "798e09811ebc0471445501cf73dec4db0dc97ee731fd76c218ae9d80276fd882"
+      },
+      {
+        "file": "design/town/TWN/TWN_PRP_streetlamp_A/TWN_PRP_streetlamp_A_side.png",
+        "sha256": "8c3cf528bad538f4f4519866d73137453939e8310d985b60b7113a19f9a856b5"
+      },
+      {
+        "file": "design/town/TWN/TWN_PRP_streetlamp_A/TWN_PRP_streetlamp_A_back.png",
+        "sha256": "5939c8918162254db3f0228f2cb62ae686c3dc060c7dd44cbaeb8876b94c82fc"
+      }
+    ]
+  },
+  "glb": {
+    "meshes": 1,
+    "triangles": 1543,
+    "materials": 1,
+    "embeddedImages": 3,
+    "sha256": "5374302d034f8f5d6d908e196684264bf5451537bdd07720cbd0cbc8b8169766",
+    "bytes": 5965168
+  },
+  "targetDimensionsM": [
+    0.8,
+    0.4,
+    2.8
+  ],
+  "dimensionFieldsUnit": "meters (per source document)",
+  "gridCellM": 2,
+  "qa": {
+    "asset": "TWN_PRP_streetlamp_A",
+    "sha256": "5374302d034f8f5d6d908e196684264bf5451537bdd07720cbd0cbc8b8169766",
+    "import": "passed",
+    "render": "passed",
+    "meshes": 1,
+    "triangles": 1543,
+    "materials": 1,
+    "embeddedImages": 3,
+    "boundsMin": [
+      -0.32347699999809265,
+      -0.17227008938789368,
+      -0.9517030715942383
+    ],
+    "boundsMax": [
+      0.3223320245742798,
+      0.17264093458652496,
+      0.9507320523262024
+    ],
+    "dimensionsUnscaled": [
+      0.6458090543746948,
+      0.34491103887557983,
+      1.902435064315796
+    ]
+  },
+  "visualReview": {
+    "status": "passed",
+    "sha256": "5374302d034f8f5d6d908e196684264bf5451537bdd07720cbd0cbc8b8169766",
+    "notes": [
+      "Concept/sheet and five Meshy directions compared.",
+      "Complete curled-arm post, hanging lantern, gold bands and polygonal foot present; lantern is separate volumetric geometry with visible grill.",
+      "Yaw/front orientation differs from input sheet; downstream axis normalization required, no missing large component."
+    ]
+  },
+  "previousAttempts": [],
+  "postProcessing": "pending: scale, bottom-center pivot, theme palette, final decimation and seams",
+  "sheetSource": {
+    "provider": "built-in image_gen",
+    "conceptSha256": "97bb2c9effe01af9d3a402c65b9e13a6ee73dad83f8db4af80b2b559d473c002",
+    "file": "design/town/TWN/TWN_PRP_streetlamp_A/TWN_PRP_streetlamp_A_sheet-source.png",
+    "sha256": "4b7980b252d03d4399e0c6d42733e24be321af80edb8cd0b0a05034692dcb244",
+    "dimensions": [
+      1536,
+      1024
+    ],
+    "basePrompt": "Orthographic turnaround reference sheet of a tall black wrought-iron street lamp post with a curled arm and a hanging glass lantern glowing warm orange, warm cream plaster walls with dark oak half-timber beams, weathered sandstone and grey cobblestone, slate-blue and terracotta roof tiles, tarnished gold trim, warm lantern-orange glowing windows, cozy underground-town palette of warm browns, cream and muted gold. Exactly the same object as the reference image, shown three times side by side from left to right: front view, right side view, back view. Same scale, same height, aligned on the same baseline, each view centered in its own equal-width panel with generous empty space between views. low poly 3D game asset, flat shading, faceted geometry, clean hard edges, limited color palette, orthographic projection, no perspective distortion, even flat studio lighting, no cast shadows, no ambient occlusion, no reflections, plain pure white background, object fully visible with margin, no ground plane, no text, no labels, no arrows",
+    "exportLayout": {
+      "method": "equal_panels",
+      "scale": 1.0
+    },
+    "productionNotes": "Built-in image_gen; curled streetlamp front/right/back orthographic, opaque amber lantern has no bloom, same gold bands and polygonal base; visually reviewed."
+  }
+}

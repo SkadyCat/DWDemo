@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "stem": "TWN_STR_house_C",
+  "viewOrder": [
+    "front",
+    "side",
+    "back"
+  ],
+  "files": [
+    {
+      "file": "design/town/TWN/TWN_STR_house_C/TWN_STR_house_C_sheet.png",
+      "sha256": "902a342f374f1ebb90eaecb7cea7218e5f12f18642abf500bb2740d26d3258e6",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_STR_house_C/TWN_STR_house_C_front.png",
+      "sha256": "373777150df13f0d6466263e2ed961d4a345ca92379ac0d60b54e03815c291fb",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_STR_house_C/TWN_STR_house_C_side.png",
+      "sha256": "760ac775f05f51009f29781be2d1b402a1894678c0adbdb7ef59399e0da93100",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_STR_house_C/TWN_STR_house_C_back.png",
+      "sha256": "7c63985c6218e1a57a9a0336d7b061e334baf9401153a599eb47ab4135828db0",
+      "width": 512,
+      "height": 1024
+    }
+  ]
+}

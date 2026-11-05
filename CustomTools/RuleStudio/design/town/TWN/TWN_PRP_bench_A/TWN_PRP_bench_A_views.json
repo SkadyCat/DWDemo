@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "stem": "TWN_PRP_bench_A",
+  "viewOrder": [
+    "front",
+    "side",
+    "back"
+  ],
+  "files": [
+    {
+      "file": "design/town/TWN/TWN_PRP_bench_A/TWN_PRP_bench_A_sheet.png",
+      "sha256": "f9d0dbf9b0e6b41289df5495e1d3e6fcb73526f37490648b2eb1ec326aefeae7",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_PRP_bench_A/TWN_PRP_bench_A_front.png",
+      "sha256": "23f5744d19dbe85c52a763ddacb6154dfc2c64566570a29793602fe8f117ee99",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_PRP_bench_A/TWN_PRP_bench_A_side.png",
+      "sha256": "ce3a483d1bd117bf1d5f24b7f420d4ebd284a2bda32327adcb71dda5505fedb3",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_PRP_bench_A/TWN_PRP_bench_A_back.png",
+      "sha256": "15d3d092d4e47592f671cb01b239ce46fbd73faed4fb214cd667386b83d7ec21",
+      "width": 512,
+      "height": 1024
+    }
+  ]
+}

@@ -1,0 +1,141 @@
+{
+  "schemaVersion": 1,
+  "id": "TWN-PRP-14",
+  "name": "水槽",
+  "stem": "TWN_PRP_trough_A",
+  "provider": "Meshy",
+  "endpoint": "/multi-image-to-3d",
+  "taskId": "01a1abe8-427e-718c-9fc8-8e82c48e76d9",
+  "consumedCredits": 30,
+  "input": {
+    "settings": {
+      "ai_model": "meshy-7.1",
+      "geometry_resolution": "standard",
+      "should_texture": true,
+      "texture_model": "meshy-7",
+      "enable_pbr": true,
+      "texture_resolution": "2k",
+      "should_remesh": true,
+      "topology": "triangle",
+      "target_polycount": 1500,
+      "image_enhancement": false,
+      "target_formats": [
+        "glb"
+      ],
+      "multi_view_thumbnails": true
+    },
+    "viewOrder": [
+      "front",
+      "side",
+      "back"
+    ],
+    "views": [
+      {
+        "file": "design/town/TWN/TWN_PRP_trough_A/TWN_PRP_trough_A_front.png",
+        "sha256": "961c501a3b010cdd080f7f2a8fd74d8fc3cdba3db88ee8191d7ae29f7c2b3ef9"
+      },
+      {
+        "file": "design/town/TWN/TWN_PRP_trough_A/TWN_PRP_trough_A_side.png",
+        "sha256": "a3ea14a09fbd524586dccc8bcceff1d6160d9d43733a074e236c21f7c53c3b9a"
+      },
+      {
+        "file": "design/town/TWN/TWN_PRP_trough_A/TWN_PRP_trough_A_back.png",
+        "sha256": "d387a233745b3744d2511c34a1749a8c0cc9f00463a89352a791c121c44dee3a"
+      }
+    ]
+  },
+  "glb": {
+    "meshes": 1,
+    "triangles": 1435,
+    "materials": 1,
+    "embeddedImages": 3,
+    "sha256": "3552ec843003fb29f2b1a74823c09f9cff52bac18944e9d63d09165dfb38b885",
+    "bytes": 5762244
+  },
+  "targetDimensionsM": [
+    1.6,
+    0.6,
+    0.6
+  ],
+  "dimensionFieldsUnit": "meters (per source document)",
+  "gridCellM": 2,
+  "qa": {
+    "asset": "TWN_PRP_trough_A",
+    "sha256": "3552ec843003fb29f2b1a74823c09f9cff52bac18944e9d63d09165dfb38b885",
+    "import": "passed",
+    "render": "passed",
+    "meshes": 1,
+    "triangles": 1435,
+    "materials": 1,
+    "embeddedImages": 3,
+    "boundsMin": [
+      -0.951650083065033,
+      -0.36671197414398193,
+      -0.3955310583114624
+    ],
+    "boundsMax": [
+      0.9502120018005371,
+      0.35600700974464417,
+      0.39309799671173096
+    ],
+    "dimensionsUnscaled": [
+      1.9018621444702148,
+      0.7227189540863037,
+      0.7886290550231934
+    ]
+  },
+  "visualReview": {
+    "status": "passed",
+    "sha256": "3552ec843003fb29f2b1a74823c09f9cff52bac18944e9d63d09165dfb38b885",
+    "notes": [
+      "Compared concept/sheet, four Meshy previews and independent Blender high-angle render. Open tub geometry and water surface visibly exist, rim/straps/four legs and hanging ladle retained. The earlier low previews simply hid top; no missing water or solid wooden lid."
+    ]
+  },
+  "previousAttempts": [],
+  "postProcessing": "pending: scale, bottom-center pivot, theme palette, final decimation and seams",
+  "sheetSource": {
+    "provider": "built-in image_gen",
+    "conceptSha256": "c718bfdaeff6b87bb639cbcdbe3a97976626cb898606001ed6c7e5ebc38fa299",
+    "file": "design/town/TWN/TWN_PRP_trough_A/TWN_PRP_trough_A_sheet-source.png",
+    "sha256": "019a8c7027d10e42099c4cba901acb2d9b6ad211c11367893170227cc2c79eeb",
+    "dimensions": [
+      1536,
+      1024
+    ],
+    "basePrompt": "Orthographic turnaround reference sheet of a long wooden water trough with iron bands, filled with water, a ladle hanging on the side, warm cream plaster walls with dark oak half-timber beams, weathered sandstone and grey cobblestone, slate-blue and terracotta roof tiles, tarnished gold trim, warm lantern-orange glowing windows, cozy underground-town palette of warm browns, cream and muted gold. Exactly the same object as the reference image, shown three times side by side from left to right: front view, right side view, back view. Same scale, same height, aligned on the same baseline, each view centered in its own equal-width panel with generous empty space between views. low poly 3D game asset, flat shading, faceted geometry, clean hard edges, limited color palette, orthographic projection, no perspective distortion, even flat studio lighting, no cast shadows, no ambient occlusion, no reflections, plain pure white background, object fully visible with margin, no ground plane, no text, no labels, no arrows",
+    "exportLayout": {
+      "method": "white_gutters_common_uniform_scale",
+      "explicitCuts": false,
+      "sourceCuts": [
+        643,
+        900
+      ],
+      "sourceObjectBounds": [
+        [
+          33,
+          378,
+          618,
+          640
+        ],
+        [
+          668,
+          376,
+          875,
+          640
+        ],
+        [
+          926,
+          378,
+          1510,
+          640
+        ]
+      ],
+      "sharedVerticalBounds": [
+        376,
+        640
+      ],
+      "scale": 0.7658119658119659
+    },
+    "productionNotes": "Reviewed long-front/short-right/long-back trough elevations; ladle only on front, iron straps and four legs consistent, matte water below rim. No unwanted houses or lighting effects."
+  }
+}

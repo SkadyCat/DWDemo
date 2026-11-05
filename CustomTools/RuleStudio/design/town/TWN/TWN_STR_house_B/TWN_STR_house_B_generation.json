@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 1,
+  "id": "TWN-STR-10",
+  "name": "小民房",
+  "stem": "TWN_STR_house_B",
+  "provider": "Meshy",
+  "endpoint": "/multi-image-to-3d",
+  "taskId": "01a1abdb-5eba-742f-838e-8cc8b2762fb0",
+  "consumedCredits": 30,
+  "input": {
+    "settings": {
+      "ai_model": "meshy-7.1",
+      "geometry_resolution": "standard",
+      "should_texture": true,
+      "texture_model": "meshy-7",
+      "enable_pbr": true,
+      "texture_resolution": "2k",
+      "should_remesh": true,
+      "topology": "triangle",
+      "target_polycount": 6000,
+      "image_enhancement": false,
+      "target_formats": [
+        "glb"
+      ],
+      "multi_view_thumbnails": true
+    },
+    "viewOrder": [
+      "front",
+      "side",
+      "back"
+    ],
+    "views": [
+      {
+        "file": "design/town/TWN/TWN_STR_house_B/TWN_STR_house_B_front.png",
+        "sha256": "f3340c19cb709c3a2973a48d057ff398e39b43f336a8cf86d598634018196d84"
+      },
+      {
+        "file": "design/town/TWN/TWN_STR_house_B/TWN_STR_house_B_side.png",
+        "sha256": "708b35770d9b20aec1f3545c9445c785af0d29835daf0b3e7a248921c28f84cf"
+      },
+      {
+        "file": "design/town/TWN/TWN_STR_house_B/TWN_STR_house_B_back.png",
+        "sha256": "b79f339b39c0d6ef6332b2bd61178cf0fb75c15f2593af50c3f4778c7110fd2f"
+      }
+    ]
+  },
+  "glb": {
+    "meshes": 1,
+    "triangles": 5808,
+    "materials": 1,
+    "embeddedImages": 3,
+    "sha256": "4ac63eac794c44b85659985c85e978d9a2ca0cf3b45acef404a09bbd50eace9e",
+    "bytes": 7844060
+  },
+  "targetDimensionsM": [
+    6.0,
+    6.0,
+    5.0
+  ],
+  "dimensionFieldsUnit": "meters (per source document)",
+  "gridCellM": 2,
+  "qa": {
+    "asset": "TWN_STR_house_B",
+    "sha256": "4ac63eac794c44b85659985c85e978d9a2ca0cf3b45acef404a09bbd50eace9e",
+    "import": "passed",
+    "render": "passed",
+    "meshes": 1,
+    "triangles": 5808,
+    "materials": 1,
+    "embeddedImages": 3,
+    "boundsMin": [
+      -0.929207980632782,
+      -0.7192360758781433,
+      -0.951725959777832
+    ],
+    "boundsMax": [
+      0.9170899987220764,
+      0.7200890779495239,
+      0.9498760104179382
+    ],
+    "dimensionsUnscaled": [
+      1.8462979793548584,
+      1.4393250942230225,
+      1.901602029800415
+    ]
+  },
+  "visualReview": {
+    "status": "passed",
+    "sha256": "4ac63eac794c44b85659985c85e978d9a2ca0cf3b45acef404a09bbd50eace9e",
+    "notes": [
+      "Concept and orthographic sheet compared with five Meshy previews.",
+      "Cottage shell, gabled slate roof, chimney, doorway/windows, stone base, attached woodshed and stacked logs are all present; no large components omitted.",
+      "Preview identity accepted; material/color/pivot refinement remains downstream."
+    ]
+  },
+  "previousAttempts": [],
+  "postProcessing": "pending: scale, bottom-center pivot, theme palette, final decimation and seams",
+  "sheetSource": {
+    "provider": "built-in image_gen",
+    "conceptSha256": "ef95a83e193a0b1635ff25d95f592a62986382264c54c418492621283a0780d2",
+    "file": "design/town/TWN/TWN_STR_house_B/TWN_STR_house_B_sheet-source.png",
+    "sha256": "9cd7e7d1b174beb7d74ee087696365974d23034a2ec1ec5adf523c7a8ceb4786",
+    "dimensions": [
+      1536,
+      1024
+    ],
+    "basePrompt": "Orthographic turnaround reference sheet of a small one-storey cottage with pale ochre plaster and dark beams, a slate-blue tile roof, a lean-to woodshed on one side, a wooden door with a horseshoe above it, warm-lit windows, warm cream plaster walls with dark oak half-timber beams, weathered sandstone and grey cobblestone, slate-blue and terracotta roof tiles, tarnished gold trim, warm lantern-orange glowing windows, cozy underground-town palette of warm browns, cream and muted gold. Exactly the same object as the reference image, shown three times side by side from left to right: front view, right side view, back view. Same scale, same height, aligned on the same baseline, each view centered in its own equal-width panel with generous empty space between views. low poly 3D game asset, flat shading, faceted geometry, clean hard edges, limited color palette, orthographic projection, no perspective distortion, even flat studio lighting, no cast shadows, no ambient occlusion, no reflections, plain pure white background, object fully visible with margin, no ground plane, no text, no labels, no arrows",
+    "exportLayout": {
+      "method": "equal_panels"
+    },
+    "productionNotes": "Built-in image_gen, orthographic sheet reviewed and three views exported."
+  }
+}

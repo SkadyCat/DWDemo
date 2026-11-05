@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "stem": "TWN_FLR_cobble_A",
+  "viewOrder": [
+    "top",
+    "front",
+    "side"
+  ],
+  "files": [
+    {
+      "file": "design/town/TWN/TWN_FLR_cobble_A/TWN_FLR_cobble_A_sheet.png",
+      "sha256": "acca630dd27da90920719626813ee318b7288bc2f50cfe80c9941201b334aa10",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_FLR_cobble_A/TWN_FLR_cobble_A_top.png",
+      "sha256": "33068934d323ce19b937526e4aa203b17ee8337c9ed7fbe880e84214b3c075aa",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_FLR_cobble_A/TWN_FLR_cobble_A_front.png",
+      "sha256": "a85d63fff140e78f730021cc3f14de592c0f18bdfad67bd9f18b90009359072d",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_FLR_cobble_A/TWN_FLR_cobble_A_side.png",
+      "sha256": "5c78647b54a1b0c227ce268600361c7758d0d86c726d2591ce96ce77351c53ca",
+      "width": 512,
+      "height": 1024
+    }
+  ]
+}

@@ -1,0 +1,141 @@
+{
+  "schemaVersion": 1,
+  "id": "TWN-PRP-02",
+  "name": "腌菜摊",
+  "stem": "TWN_PRP_stall_pickle_A",
+  "provider": "Meshy",
+  "endpoint": "/multi-image-to-3d",
+  "taskId": "01a1abe3-79f4-746b-a184-cd2a5bccf91f",
+  "consumedCredits": 30,
+  "input": {
+    "settings": {
+      "ai_model": "meshy-7.1",
+      "geometry_resolution": "standard",
+      "should_texture": true,
+      "texture_model": "meshy-7",
+      "enable_pbr": true,
+      "texture_resolution": "2k",
+      "should_remesh": true,
+      "topology": "triangle",
+      "target_polycount": 1500,
+      "image_enhancement": false,
+      "target_formats": [
+        "glb"
+      ],
+      "multi_view_thumbnails": true
+    },
+    "viewOrder": [
+      "front",
+      "side",
+      "back"
+    ],
+    "views": [
+      {
+        "file": "design/town/TWN/TWN_PRP_stall_pickle_A/TWN_PRP_stall_pickle_A_front.png",
+        "sha256": "7d2531bebdf7291a3e692e575db2989a371a59b93455bece5281d3bdae6cd2c9"
+      },
+      {
+        "file": "design/town/TWN/TWN_PRP_stall_pickle_A/TWN_PRP_stall_pickle_A_side.png",
+        "sha256": "0fc82449ce6a83fe69d152c15f440427438ee26c25b7f70b16ee35b5d48769b0"
+      },
+      {
+        "file": "design/town/TWN/TWN_PRP_stall_pickle_A/TWN_PRP_stall_pickle_A_back.png",
+        "sha256": "97abae952c237c14dbd873b880e0e2b9266cbb2eb80366bd9d18a48bf1e4f210"
+      }
+    ]
+  },
+  "glb": {
+    "meshes": 1,
+    "triangles": 1478,
+    "materials": 1,
+    "embeddedImages": 3,
+    "sha256": "4c444d84ab5375f0be463bb7bed0400c2e78742db38a661c511dc5c707e1ddb8",
+    "bytes": 8090848
+  },
+  "targetDimensionsM": [
+    2.0,
+    1.4,
+    2.2
+  ],
+  "dimensionFieldsUnit": "meters (per source document)",
+  "gridCellM": 2,
+  "qa": {
+    "asset": "TWN_PRP_stall_pickle_A",
+    "sha256": "4c444d84ab5375f0be463bb7bed0400c2e78742db38a661c511dc5c707e1ddb8",
+    "import": "passed",
+    "render": "passed",
+    "meshes": 1,
+    "triangles": 1478,
+    "materials": 1,
+    "embeddedImages": 3,
+    "boundsMin": [
+      -0.9143419861793518,
+      -0.48120296001434326,
+      -0.9516650438308716
+    ],
+    "boundsMax": [
+      0.9156620502471924,
+      0.4903070628643036,
+      0.9507169723510742
+    ],
+    "dimensionsUnscaled": [
+      1.8300039768218994,
+      0.9715100526809692,
+      1.9023820161819458
+    ]
+  },
+  "visualReview": {
+    "status": "passed",
+    "sha256": "4c444d84ab5375f0be463bb7bed0400c2e78742db38a661c511dc5c707e1ddb8",
+    "notes": [
+      "Compared concept/sheet and all four model previews. Blue awning, jar display, separate large brine barrel/ladle, timber/cream counter and lantern present. Barrel visible from correct side and rear. Lantern hanging support is very fine/simplified; independent import check can confirm attachment."
+    ]
+  },
+  "previousAttempts": [],
+  "postProcessing": "pending: scale, bottom-center pivot, theme palette, final decimation and seams",
+  "sheetSource": {
+    "provider": "built-in image_gen",
+    "conceptSha256": "7a24266e2cdb02087c233783f12274b6bbb4ab0f5a52cb118683cf4b0ed296e9",
+    "file": "design/town/TWN/TWN_PRP_stall_pickle_A/TWN_PRP_stall_pickle_A_sheet-source.png",
+    "sha256": "5b6a5471f37e8de43f08c7121ee13de5a2092975bb212f55e1a0378a394ba861",
+    "dimensions": [
+      1536,
+      1024
+    ],
+    "basePrompt": "Orthographic turnaround reference sheet of a market stall with a blue canvas awning, rows of glass jars of pickles and a big wooden barrel of brine next to the counter, warm cream plaster walls with dark oak half-timber beams, weathered sandstone and grey cobblestone, slate-blue and terracotta roof tiles, tarnished gold trim, warm lantern-orange glowing windows, cozy underground-town palette of warm browns, cream and muted gold. Exactly the same object as the reference image, shown three times side by side from left to right: front view, right side view, back view. Same scale, same height, aligned on the same baseline, each view centered in its own equal-width panel with generous empty space between views. low poly 3D game asset, flat shading, faceted geometry, clean hard edges, limited color palette, orthographic projection, no perspective distortion, even flat studio lighting, no cast shadows, no ambient occlusion, no reflections, plain pure white background, object fully visible with margin, no ground plane, no text, no labels, no arrows",
+    "exportLayout": {
+      "method": "white_gutters_common_uniform_scale",
+      "explicitCuts": false,
+      "sourceCuts": [
+        575,
+        942
+      ],
+      "sourceObjectBounds": [
+        [
+          108,
+          316,
+          497,
+          714
+        ],
+        [
+          653,
+          316,
+          868,
+          713
+        ],
+        [
+          1018,
+          316,
+          1427,
+          714
+        ]
+      ],
+      "sharedVerticalBounds": [
+        316,
+        714
+      ],
+      "scale": 1.0
+    },
+    "productionNotes": "Reviewed front/right/back technical elevations. Corrected back-view brine barrel position to mirrored left. Blue awning, jars, barrel and lantern consistent; emission disabled."
+  }
+}

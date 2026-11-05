@@ -1,0 +1,142 @@
+{
+  "schemaVersion": 1,
+  "id": "TWN-STR-01",
+  "name": "金殿",
+  "stem": "TWN_STR_hall_A",
+  "provider": "Meshy",
+  "endpoint": "/multi-image-to-3d",
+  "taskId": "01a1abe2-8e55-754a-8a04-75d0eb5f2bdf",
+  "consumedCredits": 30,
+  "input": {
+    "settings": {
+      "ai_model": "meshy-7.1",
+      "geometry_resolution": "standard",
+      "should_texture": true,
+      "texture_model": "meshy-7",
+      "enable_pbr": true,
+      "texture_resolution": "2k",
+      "should_remesh": true,
+      "topology": "triangle",
+      "target_polycount": 6000,
+      "image_enhancement": false,
+      "target_formats": [
+        "glb"
+      ],
+      "multi_view_thumbnails": true
+    },
+    "viewOrder": [
+      "front",
+      "side",
+      "back"
+    ],
+    "views": [
+      {
+        "file": "design/town/TWN/TWN_STR_hall_A/TWN_STR_hall_A_front.png",
+        "sha256": "e865f32506f2b02f7fa1483283a526c34941b252783ec083615b5cc30f35bb87"
+      },
+      {
+        "file": "design/town/TWN/TWN_STR_hall_A/TWN_STR_hall_A_side.png",
+        "sha256": "681167def632bc05855bc3a42890bb75c69bee564bd45d6f0f869f008e2fa94f"
+      },
+      {
+        "file": "design/town/TWN/TWN_STR_hall_A/TWN_STR_hall_A_back.png",
+        "sha256": "9721d22dcefedd67f84189516d887a73177bd93052a05e14ecc503f9c69f589c"
+      }
+    ]
+  },
+  "glb": {
+    "meshes": 1,
+    "triangles": 5241,
+    "materials": 1,
+    "embeddedImages": 3,
+    "sha256": "1d71fba8ba6e4abea156b3ad7bb4fb7d857197d4e4ec4fa3306ae0a07af763f6",
+    "bytes": 9990656
+  },
+  "targetDimensionsM": [
+    26.0,
+    8.0,
+    8.0
+  ],
+  "dimensionFieldsUnit": "meters (per source document)",
+  "gridCellM": 2,
+  "qa": {
+    "asset": "TWN_STR_hall_A",
+    "sha256": "1d71fba8ba6e4abea156b3ad7bb4fb7d857197d4e4ec4fa3306ae0a07af763f6",
+    "import": "passed",
+    "render": "passed",
+    "meshes": 1,
+    "triangles": 5241,
+    "materials": 1,
+    "embeddedImages": 3,
+    "boundsMin": [
+      -0.9506909251213074,
+      -0.42724499106407166,
+      -0.5076528787612915
+    ],
+    "boundsMax": [
+      0.9508099555969238,
+      0.43580198287963867,
+      0.5085839629173279
+    ],
+    "dimensionsUnscaled": [
+      1.901500940322876,
+      0.8630470037460327,
+      1.0162367820739746
+    ]
+  },
+  "visualReview": {
+    "status": "passed",
+    "sha256": "1d71fba8ba6e4abea156b3ad7bb4fb7d857197d4e4ec4fa3306ae0a07af763f6",
+    "notes": [
+      "Reviewed all four Meshy directions against concept and orthographic inputs. Full long hall volume, gold roof, front gable, porch colonnade and broad stairs present.",
+      "Eleven-column row broadly retained; minor rear wall and window warping visible. Main building silhouette complete."
+    ]
+  },
+  "previousAttempts": [],
+  "postProcessing": "pending: scale, bottom-center pivot, theme palette, final decimation and seams",
+  "sheetSource": {
+    "provider": "built-in image_gen",
+    "conceptSha256": "75f2ae849091d859d30ddc64cd432bc348122b5994524d6d7aec61203fa30549",
+    "file": "design/town/TWN/TWN_STR_hall_A/TWN_STR_hall_A_sheet-source.png",
+    "sha256": "13bdcae1d735e89767b0ec1e63e65e73e697e5671187210b7c78c6eb1aded1a9",
+    "dimensions": [
+      1536,
+      1024
+    ],
+    "basePrompt": "Orthographic turnaround reference sheet of a long gilded palace hall with a broad marble stair across the whole front, eleven white marble columns with gold capitals holding a deep porch, a steep gabled roof covered in gold tiles, tall shut bronze double doors with three gold bands in the middle, warm light from narrow tall windows, wide and low silhouette, warm cream plaster walls with dark oak half-timber beams, weathered sandstone and grey cobblestone, slate-blue and terracotta roof tiles, tarnished gold trim, warm lantern-orange glowing windows, cozy underground-town palette of warm browns, cream and muted gold. Exactly the same object as the reference image, shown three times side by side from left to right: front view, right side view, back view. Same scale, same height, aligned on the same baseline, each view centered in its own equal-width panel with generous empty space between views. low poly 3D game asset, flat shading, faceted geometry, clean hard edges, limited color palette, orthographic projection, no perspective distortion, even flat studio lighting, no cast shadows, no ambient occlusion, no reflections, plain pure white background, object fully visible with margin, no ground plane, no text, no labels, no arrows",
+    "exportLayout": {
+      "method": "white_gutters_common_uniform_scale",
+      "explicitCuts": true,
+      "sourceCuts": [
+        625,
+        916
+      ],
+      "sourceObjectBounds": [
+        [
+          24,
+          371,
+          609,
+          688
+        ],
+        [
+          640,
+          381,
+          907,
+          688
+        ],
+        [
+          927,
+          396,
+          1515,
+          688
+        ]
+      ],
+      "sharedVerticalBounds": [
+        371,
+        688
+      ],
+      "scale": 0.7619047619047619
+    },
+    "productionNotes": "Built-in image_gen. Reviewed orthographic sheet; eleven front columns preserved (six left of doorway, five right); common physical scale across elevations. Manual cuts follow real white gutters."
+  }
+}

@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "id": "TWN-WAL-03",
+  "name": "鎏金残壁",
+  "stem": "TWN_WAL_cavern_gilded_A",
+  "provider": "Meshy",
+  "endpoint": "/multi-image-to-3d",
+  "taskId": "01a1abed-412a-7269-beb8-4a5e32b0fff3",
+  "consumedCredits": 30,
+  "input": {
+    "settings": {
+      "ai_model": "meshy-7.1",
+      "geometry_resolution": "standard",
+      "should_texture": true,
+      "texture_model": "meshy-7",
+      "enable_pbr": true,
+      "texture_resolution": "2k",
+      "should_remesh": true,
+      "topology": "triangle",
+      "target_polycount": 1200,
+      "image_enhancement": false,
+      "target_formats": [
+        "glb"
+      ],
+      "multi_view_thumbnails": true
+    },
+    "viewOrder": [
+      "front",
+      "side",
+      "back"
+    ],
+    "views": [
+      {
+        "file": "design/town/TWN/TWN_WAL_cavern_gilded_A/TWN_WAL_cavern_gilded_A_front.png",
+        "sha256": "f865828f1593c4aa2d352bcb0534f5237202525ed571c67a0e80acb3fd028898"
+      },
+      {
+        "file": "design/town/TWN/TWN_WAL_cavern_gilded_A/TWN_WAL_cavern_gilded_A_side.png",
+        "sha256": "e2cdbbd978db3be54b29ef6b74918e188f68f724adbd4a72d17c53ed83e6c70c"
+      },
+      {
+        "file": "design/town/TWN/TWN_WAL_cavern_gilded_A/TWN_WAL_cavern_gilded_A_back.png",
+        "sha256": "e30702881cb7ef59802fb54ad6eaf23e7734efff5b83555114a0afdd06d793b7"
+      }
+    ]
+  },
+  "glb": {
+    "meshes": 1,
+    "triangles": 1245,
+    "materials": 1,
+    "embeddedImages": 3,
+    "sha256": "4eea4d59f90231535654a5c2e5dfe332c371d439f63aa1aa7556889c4a2a1d75",
+    "bytes": 5853748
+  },
+  "targetDimensionsM": [
+    2.0,
+    0.6,
+    3.2
+  ],
+  "dimensionFieldsUnit": "meters (per source document)",
+  "gridCellM": 2,
+  "qa": {
+    "asset": "TWN_WAL_cavern_gilded_A",
+    "sha256": "4eea4d59f90231535654a5c2e5dfe332c371d439f63aa1aa7556889c4a2a1d75",
+    "import": "passed",
+    "render": "passed",
+    "meshes": 1,
+    "triangles": 1245,
+    "materials": 1,
+    "embeddedImages": 3,
+    "boundsMin": [
+      -0.3405250012874603,
+      -0.1366259604692459,
+      -0.9514260292053223
+    ],
+    "boundsMax": [
+      0.34325098991394043,
+      0.14082996547222137,
+      0.9506949782371521
+    ],
+    "dimensionsUnscaled": [
+      0.6837760210037231,
+      0.2774559259414673,
+      1.9021210670471191
+    ]
+  },
+  "visualReview": {
+    "status": "passed",
+    "sha256": "4eea4d59f90231535654a5c2e5dfe332c371d439f63aa1aa7556889c4a2a1d75",
+    "notes": [
+      "Compared concept/sheet and four Meshy model previews at full resolution. Broken rock slab, front-only gilded cream relief and fleur-de-lis preserved. Thin rocky side profiles and plain rock rear closed; no added building, base or unrequested large hole."
+    ]
+  },
+  "previousAttempts": [],
+  "postProcessing": "pending: scale, bottom-center pivot, theme palette, final decimation and seams",
+  "sheetSource": {
+    "provider": "built-in image_gen",
+    "conceptSha256": "3bda05966d03ed176d36bad9b027d25c5630e5c6debd45dc43c9cb664e3e9eaf",
+    "file": "design/town/TWN/TWN_WAL_cavern_gilded_A/TWN_WAL_cavern_gilded_A_sheet-source.png",
+    "sha256": "1c42100eb751411c1c1e017746bd4a11b83cb31586f0131a9d7435ac954cc125",
+    "dimensions": [
+      1536,
+      1024
+    ],
+    "basePrompt": "Orthographic turnaround reference sheet of straight cavern rock wall segment with a broken piece of gilded carved palace wall fused into it, gold leaf flaking off, warm cream plaster walls with dark oak half-timber beams, weathered sandstone and grey cobblestone, slate-blue and terracotta roof tiles, tarnished gold trim, warm lantern-orange glowing windows, cozy underground-town palette of warm browns, cream and muted gold. Exactly the same object as the reference image, shown three times side by side from left to right: front view, right side view, back view. Same scale, same height, aligned on the same baseline, each view centered in its own equal-width panel with generous empty space between views. low poly 3D game asset, flat shading, faceted geometry, clean hard edges, limited color palette, orthographic projection, no perspective distortion, even flat studio lighting, no cast shadows, no ambient occlusion, no reflections, plain pure white background, object fully visible with margin, no ground plane, no text, no labels, no arrows",
+    "exportLayout": {
+      "method": "equal_panels",
+      "scale": 1.0
+    },
+    "productionNotes": "Reviewed front/right/back wall fragment elevations; carved gilded cream relief only at front, narrow rocky thickness and plain rocky back. Broken silhouette and matte flaking gold preserved."
+  }
+}

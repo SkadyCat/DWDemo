@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "stem": "TWN_WAL_cavern_corner_A",
+  "viewOrder": [
+    "front",
+    "side",
+    "back"
+  ],
+  "files": [
+    {
+      "file": "design/town/TWN/TWN_WAL_cavern_corner_A/TWN_WAL_cavern_corner_A_sheet.png",
+      "sha256": "e2e2acd0ab5320aa8605c5ae4de0e4d83e5a23b11a71130a00e44eebc6edb56f",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_WAL_cavern_corner_A/TWN_WAL_cavern_corner_A_front.png",
+      "sha256": "16cc7d7b9e2e0366c8b3bfd6e7979abe134f7da9a6c1e13fc7078cbafd592f03",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_WAL_cavern_corner_A/TWN_WAL_cavern_corner_A_side.png",
+      "sha256": "1983ed42c6c8a9d05fd5e176163326fd3fa73543da01c3d42fb2d5d14bebb5c8",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_WAL_cavern_corner_A/TWN_WAL_cavern_corner_A_back.png",
+      "sha256": "9c248525e5e8cf8c2b604f89caa6fe54019b19cedeb6613b5c29e4a70b87890a",
+      "width": 512,
+      "height": 1024
+    }
+  ]
+}

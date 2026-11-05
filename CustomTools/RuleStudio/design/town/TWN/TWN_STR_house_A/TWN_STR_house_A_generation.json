@@ -1,0 +1,111 @@
+{
+  "schemaVersion": 1,
+  "id": "TWN-STR-10",
+  "name": "小民房",
+  "stem": "TWN_STR_house_A",
+  "provider": "Meshy",
+  "endpoint": "/multi-image-to-3d",
+  "taskId": "01a1abd8-5bc6-769e-a01e-41ce4f001782",
+  "consumedCredits": 30,
+  "input": {
+    "settings": {
+      "ai_model": "meshy-7.1",
+      "geometry_resolution": "standard",
+      "should_texture": true,
+      "texture_model": "meshy-7",
+      "enable_pbr": true,
+      "texture_resolution": "2k",
+      "should_remesh": true,
+      "topology": "triangle",
+      "target_polycount": 6000,
+      "image_enhancement": false,
+      "target_formats": [
+        "glb"
+      ],
+      "multi_view_thumbnails": true
+    },
+    "viewOrder": [
+      "front",
+      "side",
+      "back"
+    ],
+    "views": [
+      {
+        "file": "design/town/TWN/TWN_STR_house_A/TWN_STR_house_A_front.png",
+        "sha256": "fd372ac711ec98dd281816f17b6e22cb7437155a90e1f95132c5567781764051"
+      },
+      {
+        "file": "design/town/TWN/TWN_STR_house_A/TWN_STR_house_A_side.png",
+        "sha256": "c68c7ec0a400f6b42d1bfa814ef529c2c01983b849dc2ea3bfd3ca58009fa399"
+      },
+      {
+        "file": "design/town/TWN/TWN_STR_house_A/TWN_STR_house_A_back.png",
+        "sha256": "f4e8af2a5bfa48ae02bb47358ba96ea26d280c42d51e33fa3b0adf35116d2add"
+      }
+    ]
+  },
+  "glb": {
+    "meshes": 1,
+    "triangles": 5853,
+    "materials": 1,
+    "embeddedImages": 3,
+    "sha256": "28466d9ce4374480c8cf3a3c4f51cc8ee493e3921fb07eac220128a151ac2303",
+    "bytes": 8489708
+  },
+  "targetDimensionsM": [
+    6.0,
+    6.0,
+    5.0
+  ],
+  "dimensionFieldsUnit": "meters (per source document)",
+  "gridCellM": 2,
+  "qa": {
+    "asset": "TWN_STR_house_A",
+    "sha256": "28466d9ce4374480c8cf3a3c4f51cc8ee493e3921fb07eac220128a151ac2303",
+    "import": "passed",
+    "render": "passed",
+    "meshes": 1,
+    "triangles": 5853,
+    "materials": 1,
+    "embeddedImages": 3,
+    "boundsMin": [
+      -0.7768689393997192,
+      -0.7090680003166199,
+      -0.9525709748268127
+    ],
+    "boundsMax": [
+      0.7749590277671814,
+      0.6932250261306763,
+      0.9497309327125549
+    ],
+    "dimensionsUnscaled": [
+      1.5518279075622559,
+      1.4022929668426514,
+      1.9023019075393677
+    ]
+  },
+  "visualReview": {
+    "status": "passed",
+    "sha256": "28466d9ce4374480c8cf3a3c4f51cc8ee493e3921fb07eac220128a151ac2303",
+    "notes": [
+      "Reviewed all four Meshy directions against concept and orthographic inputs. Cottage volume, roof, chimney, door, flower-box windows and steps present."
+    ]
+  },
+  "previousAttempts": [],
+  "postProcessing": "pending: scale, bottom-center pivot, theme palette, final decimation and seams",
+  "sheetSource": {
+    "provider": "built-in image_gen",
+    "conceptSha256": "d402ea84f81407a4f044c6756474f8383e882d71580ba29457a48f0a5a3d3d50",
+    "file": "design/town/TWN/TWN_STR_house_A/TWN_STR_house_A_sheet-source.png",
+    "sha256": "4fda94567d42a0d5e965bab32fbcbb39574fab7579ea4a0c659a081bc0139293",
+    "dimensions": [
+      1536,
+      1024
+    ],
+    "basePrompt": "Orthographic turnaround reference sheet of a small one-storey half-timbered cottage, cream plaster walls with dark beams, a steep terracotta tile gable roof, a stone chimney, a wooden front door with a little lantern, two small warm-lit windows with flower boxes, warm cream plaster walls with dark oak half-timber beams, weathered sandstone and grey cobblestone, slate-blue and terracotta roof tiles, tarnished gold trim, warm lantern-orange glowing windows, cozy underground-town palette of warm browns, cream and muted gold. Exactly the same object as the reference image, shown three times side by side from left to right: front view, right side view, back view. Same scale, same height, aligned on the same baseline, each view centered in its own equal-width panel with generous empty space between views. low poly 3D game asset, flat shading, faceted geometry, clean hard edges, limited color palette, orthographic projection, no perspective distortion, even flat studio lighting, no cast shadows, no ambient occlusion, no reflections, plain pure white background, object fully visible with margin, no ground plane, no text, no labels, no arrows",
+    "exportLayout": {
+      "method": "equal_panels"
+    },
+    "productionNotes": "Built-in image_gen, orthographic sheet reviewed and three views exported."
+  }
+}

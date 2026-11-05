@@ -1,0 +1,111 @@
+{
+  "schemaVersion": 1,
+  "id": "TWN-STR-05",
+  "name": "观星阁",
+  "stem": "TWN_STR_observatory_A",
+  "provider": "Meshy",
+  "endpoint": "/multi-image-to-3d",
+  "taskId": "01a1abde-db42-7400-9c22-274d8d50bf6c",
+  "consumedCredits": 30,
+  "input": {
+    "settings": {
+      "ai_model": "meshy-7.1",
+      "geometry_resolution": "standard",
+      "should_texture": true,
+      "texture_model": "meshy-7",
+      "enable_pbr": true,
+      "texture_resolution": "2k",
+      "should_remesh": true,
+      "topology": "triangle",
+      "target_polycount": 6000,
+      "image_enhancement": false,
+      "target_formats": [
+        "glb"
+      ],
+      "multi_view_thumbnails": true
+    },
+    "viewOrder": [
+      "front",
+      "side",
+      "back"
+    ],
+    "views": [
+      {
+        "file": "design/town/TWN/TWN_STR_observatory_A/TWN_STR_observatory_A_front.png",
+        "sha256": "92f4b5bad3180d25aa2b457955d90637a8f0c9546439fc3f2a7efd8ec66c03bb"
+      },
+      {
+        "file": "design/town/TWN/TWN_STR_observatory_A/TWN_STR_observatory_A_side.png",
+        "sha256": "e2efc5411c89f533a708eb58a2a6ae5eba66302c5a688931f2378952e16d444f"
+      },
+      {
+        "file": "design/town/TWN/TWN_STR_observatory_A/TWN_STR_observatory_A_back.png",
+        "sha256": "d7a0d4fb43fb55d77128ce513635e8136f1e5586fc6b69e860d2d51577cf1d84"
+      }
+    ]
+  },
+  "glb": {
+    "meshes": 1,
+    "triangles": 6129,
+    "materials": 1,
+    "embeddedImages": 3,
+    "sha256": "dcd4cb657801de7bc7961c416e63b327eb6d455e1ac283dab84f241dd4adfe35",
+    "bytes": 9456520
+  },
+  "targetDimensionsM": [
+    10.0,
+    10.0,
+    12.0
+  ],
+  "dimensionFieldsUnit": "meters (per source document)",
+  "gridCellM": 2,
+  "qa": {
+    "asset": "TWN_STR_observatory_A",
+    "sha256": "dcd4cb657801de7bc7961c416e63b327eb6d455e1ac283dab84f241dd4adfe35",
+    "import": "passed",
+    "render": "passed",
+    "meshes": 1,
+    "triangles": 6129,
+    "materials": 1,
+    "embeddedImages": 3,
+    "boundsMin": [
+      -0.507282018661499,
+      -0.4682950973510742,
+      -0.951697051525116
+    ],
+    "boundsMax": [
+      0.5056940317153931,
+      0.45660895109176636,
+      0.9487180709838867
+    ],
+    "dimensionsUnscaled": [
+      1.012976050376892,
+      0.9249040484428406,
+      1.9004151821136475
+    ]
+  },
+  "visualReview": {
+    "status": "passed",
+    "sha256": "dcd4cb657801de7bc7961c416e63b327eb6d455e1ac283dab84f241dd4adfe35",
+    "notes": [
+      "Compared concept/sheet and all four model previews. Tall faceted stone tower, three carved bands, slate roof, projecting telescope, wooden balcony/crow and arched base door retained. No added house or major missing element."
+    ]
+  },
+  "previousAttempts": [],
+  "postProcessing": "pending: scale, bottom-center pivot, theme palette, final decimation and seams",
+  "sheetSource": {
+    "provider": "built-in image_gen",
+    "conceptSha256": "bb79011d85526d8fe58d237b7d849b129e6aeb7fef7b2645e83b774be2754976",
+    "file": "design/town/TWN/TWN_STR_observatory_A/TWN_STR_observatory_A_sheet-source.png",
+    "sha256": "7b21906bb2d327ff433bcb26d881aa966bb45fbb91a038a73471530142695ee4",
+    "dimensions": [
+      1536,
+      1024
+    ],
+    "basePrompt": "Orthographic turnaround reference sheet of a tall slender octagonal stone tower with three carved stone bands, a steep slate-blue conical roof, a long brass telescope poking out through a slot near the top, a small wooden balcony with a crow perch, windows glowing pale blue, an arched wooden door at the base, warm cream plaster walls with dark oak half-timber beams, weathered sandstone and grey cobblestone, slate-blue and terracotta roof tiles, tarnished gold trim, warm lantern-orange glowing windows, cozy underground-town palette of warm browns, cream and muted gold. Exactly the same object as the reference image, shown three times side by side from left to right: front view, right side view, back view. Same scale, same height, aligned on the same baseline, each view centered in its own equal-width panel with generous empty space between views. low poly 3D game asset, flat shading, faceted geometry, clean hard edges, limited color palette, orthographic projection, no perspective distortion, even flat studio lighting, no cast shadows, no ambient occlusion, no reflections, plain pure white background, object fully visible with margin, no ground plane, no text, no labels, no arrows",
+    "exportLayout": {
+      "method": "equal_panels"
+    },
+    "productionNotes": "Built-in image_gen, orthographic sheet reviewed and three views exported."
+  }
+}

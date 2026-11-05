@@ -1,0 +1,143 @@
+{
+  "schemaVersion": 1,
+  "id": "TWN-PRP-13",
+  "name": "手推车",
+  "stem": "TWN_PRP_cart_A",
+  "provider": "Meshy",
+  "endpoint": "/multi-image-to-3d",
+  "taskId": "01a1abe8-23f4-7784-88fd-4ebd72c8333c",
+  "consumedCredits": 30,
+  "input": {
+    "settings": {
+      "ai_model": "meshy-7.1",
+      "geometry_resolution": "standard",
+      "should_texture": true,
+      "texture_model": "meshy-7",
+      "enable_pbr": true,
+      "texture_resolution": "2k",
+      "should_remesh": true,
+      "topology": "triangle",
+      "target_polycount": 1500,
+      "image_enhancement": false,
+      "target_formats": [
+        "glb"
+      ],
+      "multi_view_thumbnails": true
+    },
+    "viewOrder": [
+      "front",
+      "side",
+      "back"
+    ],
+    "views": [
+      {
+        "file": "design/town/TWN/TWN_PRP_cart_A/TWN_PRP_cart_A_front.png",
+        "sha256": "81ccb6093db2a8bff05c5d6b48af2064aba16441891ee3965301a6b845f3b1c2"
+      },
+      {
+        "file": "design/town/TWN/TWN_PRP_cart_A/TWN_PRP_cart_A_side.png",
+        "sha256": "2fb2c6336cf84f025f946ee1817383e45d9e52d024596298d10dec77f4584176"
+      },
+      {
+        "file": "design/town/TWN/TWN_PRP_cart_A/TWN_PRP_cart_A_back.png",
+        "sha256": "156d503ff6d28dcfe243d68f241e3cb54c869428cd08cee1e76aca33473a9e43"
+      }
+    ]
+  },
+  "glb": {
+    "meshes": 1,
+    "triangles": 1465,
+    "materials": 1,
+    "embeddedImages": 3,
+    "sha256": "6689ef6ac04f5cb0cdd3cc6fc8bee5a01a00f62b80f0ca45cfccd0f0c7a86c16",
+    "bytes": 6663276
+  },
+  "targetDimensionsM": [
+    2.0,
+    1.0,
+    1.0
+  ],
+  "dimensionFieldsUnit": "meters (per source document)",
+  "gridCellM": 2,
+  "qa": {
+    "asset": "TWN_PRP_cart_A",
+    "sha256": "6689ef6ac04f5cb0cdd3cc6fc8bee5a01a00f62b80f0ca45cfccd0f0c7a86c16",
+    "import": "passed",
+    "render": "passed",
+    "meshes": 1,
+    "triangles": 1465,
+    "materials": 1,
+    "embeddedImages": 3,
+    "boundsMin": [
+      -0.9516820311546326,
+      -0.44980305433273315,
+      -0.6079030632972717
+    ],
+    "boundsMax": [
+      0.9438689947128296,
+      0.44979196786880493,
+      0.6069300770759583
+    ],
+    "dimensionsUnscaled": [
+      1.8955509662628174,
+      0.8995950222015381,
+      1.21483314037323
+    ]
+  },
+  "visualReview": {
+    "status": "passed",
+    "sha256": "6689ef6ac04f5cb0cdd3cc6fc8bee5a01a00f62b80f0ca45cfccd0f0c7a86c16",
+    "notes": [
+      "Concept/sheet and five Meshy directions compared.",
+      "Both spoked wheels, cargo bed, paired handles, sacks and crate retained; handle-facing view confirms two separate handles.",
+      "Yaw/front differs from sheet; axes normalization downstream."
+    ]
+  },
+  "previousAttempts": [],
+  "postProcessing": "pending: scale, bottom-center pivot, theme palette, final decimation and seams",
+  "sheetSource": {
+    "provider": "built-in image_gen",
+    "conceptSha256": "6225a1099724580ec679b13dddd91677cb21d7c88b9aa7b2eb5949ebca1b9949",
+    "file": "design/town/TWN/TWN_PRP_cart_A/TWN_PRP_cart_A_sheet-source.png",
+    "sha256": "d4e6319ccac8020706fd80346cc710479eab1d8582e96034a9fd627e7dc2caaa",
+    "dimensions": [
+      1536,
+      1024
+    ],
+    "basePrompt": "Orthographic turnaround reference sheet of a two-wheeled wooden handcart loaded with sacks and a crate, its handles resting on the ground, warm cream plaster walls with dark oak half-timber beams, weathered sandstone and grey cobblestone, slate-blue and terracotta roof tiles, tarnished gold trim, warm lantern-orange glowing windows, cozy underground-town palette of warm browns, cream and muted gold. Exactly the same object as the reference image, shown three times side by side from left to right: front view, right side view, back view. Same scale, same height, aligned on the same baseline, each view centered in its own equal-width panel with generous empty space between views. low poly 3D game asset, flat shading, faceted geometry, clean hard edges, limited color palette, orthographic projection, no perspective distortion, even flat studio lighting, no cast shadows, no ambient occlusion, no reflections, plain pure white background, object fully visible with margin, no ground plane, no text, no labels, no arrows",
+    "exportLayout": {
+      "method": "white_gutters_common_uniform_scale",
+      "explicitCuts": false,
+      "sourceCuts": [
+        402,
+        1125
+      ],
+      "sourceObjectBounds": [
+        [
+          42,
+          250,
+          362,
+          707
+        ],
+        [
+          442,
+          279,
+          1080,
+          705
+        ],
+        [
+          1170,
+          249,
+          1493,
+          700
+        ]
+      ],
+      "sharedVerticalBounds": [
+        249,
+        707
+      ],
+      "scale": 0.7021943573667712
+    },
+    "productionNotes": "Built-in image_gen; orthographic front with handles, true right wheel profile, rear cargo panel; three sacks and crate retained; generous gutters normalized."
+  }
+}

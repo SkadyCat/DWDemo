@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "stem": "TWN_FLR_planks_A",
+  "viewOrder": [
+    "top",
+    "front",
+    "side"
+  ],
+  "files": [
+    {
+      "file": "design/town/TWN/TWN_FLR_planks_A/TWN_FLR_planks_A_sheet.png",
+      "sha256": "137abe9e2a2979fda34ccef5a40392c38a9715180e55b4d42c3e13818de3b2bb",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_FLR_planks_A/TWN_FLR_planks_A_top.png",
+      "sha256": "c69b90bd0ad977585c3076bbd356f36472b80b04826799694268e5ec3b6c9080",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_FLR_planks_A/TWN_FLR_planks_A_front.png",
+      "sha256": "407c3f864241ad8cf608f0b440c651ca1ace8fe2be83f71ca4f7ed6ffdb1b67c",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_FLR_planks_A/TWN_FLR_planks_A_side.png",
+      "sha256": "adabaabf57ce69f46ff29bf0b7f649ffdc342435a03f355b3bffb3c6cc0cf619",
+      "width": 512,
+      "height": 1024
+    }
+  ]
+}

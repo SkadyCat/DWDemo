@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 1,
+  "id": "TWN-STR-02",
+  "name": "灯井",
+  "stem": "TWN_STR_lampwell_A",
+  "provider": "Meshy",
+  "endpoint": "/multi-image-to-3d",
+  "taskId": "01a1abdf-2535-7444-b0f9-0873a3afa0c9",
+  "consumedCredits": 30,
+  "input": {
+    "settings": {
+      "ai_model": "meshy-7.1",
+      "geometry_resolution": "standard",
+      "should_texture": true,
+      "texture_model": "meshy-7",
+      "enable_pbr": true,
+      "texture_resolution": "2k",
+      "should_remesh": true,
+      "topology": "triangle",
+      "target_polycount": 6000,
+      "image_enhancement": false,
+      "target_formats": [
+        "glb"
+      ],
+      "multi_view_thumbnails": true
+    },
+    "viewOrder": [
+      "front",
+      "side",
+      "back",
+      "concept_three_quarter"
+    ],
+    "views": [
+      {
+        "file": "design/town/TWN/TWN_STR_lampwell_A/TWN_STR_lampwell_A_front.png",
+        "sha256": "2e15d858e30fd02e53cb176cd18e08e3eceb20bfe5ecd97b04814c6c484c3e9a"
+      },
+      {
+        "file": "design/town/TWN/TWN_STR_lampwell_A/TWN_STR_lampwell_A_side.png",
+        "sha256": "9ef7147be81cc510c6c566832955fa05086b265affa28e28d885033f94679adc"
+      },
+      {
+        "file": "design/town/TWN/TWN_STR_lampwell_A/TWN_STR_lampwell_A_back.png",
+        "sha256": "c7f7e8796b61937de37c0010e141aa2595917661d259c60b19613a8bcc764fd2"
+      },
+      {
+        "file": "design/town/TWN/TWN_STR_lampwell_A/TWN_STR_lampwell_A_concept.png",
+        "sha256": "7467d187c040c1d6f345da03c338a678634b5e453d50813cd42c65a3647593cf"
+      }
+    ]
+  },
+  "glb": {
+    "meshes": 1,
+    "triangles": 6139,
+    "materials": 1,
+    "embeddedImages": 3,
+    "sha256": "3aaca7afc55139c0ab27774d9ffdc98468fa50a1b54f520c7c1642e40eb82f98",
+    "bytes": 8286928
+  },
+  "targetDimensionsM": [
+    6.0,
+    6.0,
+    5.0
+  ],
+  "dimensionFieldsUnit": "meters (per source document)",
+  "gridCellM": 2,
+  "qa": {
+    "asset": "TWN_STR_lampwell_A",
+    "sha256": "3aaca7afc55139c0ab27774d9ffdc98468fa50a1b54f520c7c1642e40eb82f98",
+    "import": "passed",
+    "render": "passed",
+    "meshes": 1,
+    "triangles": 6139,
+    "materials": 1,
+    "embeddedImages": 3,
+    "boundsMin": [
+      -0.8004339337348938,
+      -0.7681090235710144,
+      -0.9518939256668091
+    ],
+    "boundsMax": [
+      0.7996169924736023,
+      0.7690739631652832,
+      0.9475979804992676
+    ],
+    "dimensionsUnscaled": [
+      1.600050926208496,
+      1.5371830463409424,
+      1.8994919061660767
+    ]
+  },
+  "visualReview": {
+    "status": "passed",
+    "sha256": "3aaca7afc55139c0ab27774d9ffdc98468fa50a1b54f520c7c1642e40eb82f98",
+    "notes": [
+      "Corrected replacement task 01a1abdf-2535-7444-b0f9-0873a3afa0c9 reviewed against concept, sheet and five latest previews.",
+      "Circular stone well rim/shaft, stone footings, four timber posts, brass top ring and hanging lantern all present; initial missing-well defect corrected.",
+      "No missing major component; emissive treatment remains downstream."
+    ]
+  },
+  "previousAttempts": [
+    {
+      "taskId": "01a1abd9-ab5e-71f5-8b7c-80a3312fdb58",
+      "consumedCredits": 30,
+      "glbSha256": "08ff5c14ec77f042d19b61ff2ca20f343cf8dab0facc92daa0300c78b31bf752",
+      "visualReview": "rejected",
+      "reason": "Missing the circular stone well and two support posts."
+    }
+  ],
+  "postProcessing": "pending: scale, bottom-center pivot, theme palette, final decimation and seams",
+  "sheetSource": {
+    "provider": "built-in image_gen",
+    "conceptSha256": "7467d187c040c1d6f345da03c338a678634b5e453d50813cd42c65a3647593cf",
+    "file": "design/town/TWN/TWN_STR_lampwell_A/TWN_STR_lampwell_A_sheet-source.png",
+    "sha256": "29287ab19b0027932424b64d599f8b3b38e272d9ac485ea97e9c698edd371d05",
+    "dimensions": [
+      1536,
+      1024
+    ],
+    "basePrompt": "Orthographic turnaround reference sheet of a round stone well about six meters across with a thick low rim, four tall dark oak posts around it holding a gilded iron ring high above the shaft, a big brass lantern hanging from the ring, pale golden starlight glowing up from inside the shaft, warm cream plaster walls with dark oak half-timber beams, weathered sandstone and grey cobblestone, slate-blue and terracotta roof tiles, tarnished gold trim, warm lantern-orange glowing windows, cozy underground-town palette of warm browns, cream and muted gold. Exactly the same object as the reference image, shown three times side by side from left to right: front view, right side view, back view. Same scale, same height, aligned on the same baseline, each view centered in its own equal-width panel with generous empty space between views. low poly 3D game asset, flat shading, faceted geometry, clean hard edges, limited color palette, orthographic projection, no perspective distortion, even flat studio lighting, no cast shadows, no ambient occlusion, no reflections, plain pure white background, object fully visible with margin, no ground plane, no text, no labels, no arrows",
+    "exportLayout": {
+      "method": "equal_panels"
+    },
+    "productionNotes": "Built-in image_gen, orthographic sheet reviewed and three views exported."
+  }
+}

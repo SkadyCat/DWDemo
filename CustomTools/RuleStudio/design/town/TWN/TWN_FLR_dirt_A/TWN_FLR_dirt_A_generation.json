@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "id": "TWN-FLR-05",
+  "name": "泥地",
+  "stem": "TWN_FLR_dirt_A",
+  "provider": "Meshy",
+  "endpoint": "/multi-image-to-3d",
+  "taskId": "01a1abeb-68cd-7691-b375-165f5ed5e6f2",
+  "consumedCredits": 30,
+  "input": {
+    "settings": {
+      "ai_model": "meshy-7.1",
+      "geometry_resolution": "standard",
+      "should_texture": true,
+      "texture_model": "meshy-7",
+      "enable_pbr": true,
+      "texture_resolution": "2k",
+      "should_remesh": true,
+      "topology": "triangle",
+      "target_polycount": 600,
+      "image_enhancement": false,
+      "target_formats": [
+        "glb"
+      ],
+      "multi_view_thumbnails": true
+    },
+    "viewOrder": [
+      "front",
+      "side",
+      "top"
+    ],
+    "views": [
+      {
+        "file": "design/town/TWN/TWN_FLR_dirt_A/TWN_FLR_dirt_A_front.png",
+        "sha256": "d630804ea85083270552b48476521d478bcd8a8da5487ca76ee59e94f4ac7db5"
+      },
+      {
+        "file": "design/town/TWN/TWN_FLR_dirt_A/TWN_FLR_dirt_A_side.png",
+        "sha256": "095b044f02e7f85b938c5c7797ddcffaf45872bc83d502e0183e6fbef3f24408"
+      },
+      {
+        "file": "design/town/TWN/TWN_FLR_dirt_A/TWN_FLR_dirt_A_top.png",
+        "sha256": "5606ccc3f17d00a084ad2fcb21e83e69472056ed94788e7b32adc50b37e28661"
+      }
+    ]
+  },
+  "glb": {
+    "meshes": 1,
+    "triangles": 601,
+    "materials": 1,
+    "embeddedImages": 3,
+    "sha256": "4274c279ba014bb32faff77910a6192277d28d9a0971a9210bc16571473b4162",
+    "bytes": 5070768
+  },
+  "targetDimensionsM": [
+    2.0,
+    2.0,
+    0.2
+  ],
+  "dimensionFieldsUnit": "meters (per source document)",
+  "gridCellM": 2,
+  "qa": {
+    "asset": "TWN_FLR_dirt_A",
+    "sha256": "4274c279ba014bb32faff77910a6192277d28d9a0971a9210bc16571473b4162",
+    "import": "passed",
+    "render": "passed",
+    "meshes": 1,
+    "triangles": 601,
+    "materials": 1,
+    "embeddedImages": 3,
+    "boundsMin": [
+      -0.9516950249671936,
+      -0.9508690237998962,
+      -0.09229592233896255
+    ],
+    "boundsMax": [
+      0.950687050819397,
+      0.9516730308532715,
+      0.09137697517871857
+    ],
+    "dimensionsUnscaled": [
+      1.9023821353912354,
+      1.9025421142578125,
+      0.18367290496826172
+    ]
+  },
+  "visualReview": {
+    "status": "passed",
+    "sha256": "4274c279ba014bb32faff77910a6192277d28d9a0971a9210bc16571473b4162",
+    "notes": [
+      "Compared concept/sheet, four Meshy previews and independent Blender high-angle render. Thin square slab with closed bottom, surface pebbles/straw and irregular puddle inset visibly present. Bounds independently confirmed by root: 1.9024 x 0.1837 x 1.9025. Puddle appears pale under current PBR lighting; final colors/material finish remain downstream."
+    ]
+  },
+  "previousAttempts": [],
+  "postProcessing": "pending: scale, bottom-center pivot, theme palette, final decimation and seams",
+  "sheetSource": {
+    "provider": "built-in image_gen",
+    "conceptSha256": "232d2f319cb7e5edebab35c16431bdbe883580385114bae0148702d8accdb53e",
+    "file": "design/town/TWN/TWN_FLR_dirt_A/TWN_FLR_dirt_A_sheet-source.png",
+    "sha256": "ee92e838c047014bdde2d0b76984c7f37307cb888524cee1978e5b6a8e2e1a86",
+    "dimensions": [
+      1536,
+      1024
+    ],
+    "basePrompt": "Orthographic reference sheet of square flat tile of packed brown dirt with scattered pebbles, a puddle and some straw, warm cream plaster walls with dark oak half-timber beams, weathered sandstone and grey cobblestone, slate-blue and terracotta roof tiles, tarnished gold trim, warm lantern-orange glowing windows, cozy underground-town palette of warm browns, cream and muted gold. Exactly the same object as the reference image, shown three times side by side from left to right: top-down view, front view, right side view. Same scale, aligned, each view centered in its own equal-width panel with generous empty space between views. low poly 3D game asset, flat shading, faceted geometry, clean hard edges, limited color palette, orthographic projection, no perspective distortion, even flat studio lighting, no cast shadows, no ambient occlusion, no reflections, plain pure white background, object fully visible with margin, no ground plane, no text, no labels",
+    "exportLayout": {
+      "method": "equal_panels",
+      "scale": 1.0
+    },
+    "productionNotes": "Reviewed top/front/right flat dirt tile, square plan, pebbles/straw/puddle layout consistent, thin edge silhouettes and matte puddle without reflection. No extra structures."
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "stem": "TWN_PRP_stall_shoe_A",
+  "viewOrder": [
+    "front",
+    "side",
+    "back"
+  ],
+  "files": [
+    {
+      "file": "design/town/TWN/TWN_PRP_stall_shoe_A/TWN_PRP_stall_shoe_A_sheet.png",
+      "sha256": "607fd0c5e3371b154bea73f60755c19a1a00e111a23772fbf6d68739bef46166",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_PRP_stall_shoe_A/TWN_PRP_stall_shoe_A_front.png",
+      "sha256": "9e1155bc19289734a4af9170b6ad376e6eeac6d81eae425f2945ed33982f0fff",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_PRP_stall_shoe_A/TWN_PRP_stall_shoe_A_side.png",
+      "sha256": "e158c89b4a61eae20559a582fd78e969acc91a60c3ac7f9af665cb8ab2984eb6",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_PRP_stall_shoe_A/TWN_PRP_stall_shoe_A_back.png",
+      "sha256": "b036ac561a0a8c18fade3237d646c9c419b2ea17da48011bf037d7d9f28596b0",
+      "width": 512,
+      "height": 1024
+    }
+  ]
+}

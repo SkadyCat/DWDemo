@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 1,
+  "id": "TWN-STR-14",
+  "name": "棚屋",
+  "stem": "TWN_STR_shack_B",
+  "provider": "Meshy",
+  "endpoint": "/multi-image-to-3d",
+  "taskId": "01a1abe2-0660-71dc-ac38-bc0f5ff01ffc",
+  "consumedCredits": 30,
+  "input": {
+    "settings": {
+      "ai_model": "meshy-7.1",
+      "geometry_resolution": "standard",
+      "should_texture": true,
+      "texture_model": "meshy-7",
+      "enable_pbr": true,
+      "texture_resolution": "2k",
+      "should_remesh": true,
+      "topology": "triangle",
+      "target_polycount": 6000,
+      "image_enhancement": false,
+      "target_formats": [
+        "glb"
+      ],
+      "multi_view_thumbnails": true
+    },
+    "viewOrder": [
+      "front",
+      "side",
+      "back"
+    ],
+    "views": [
+      {
+        "file": "design/town/TWN/TWN_STR_shack_B/TWN_STR_shack_B_front.png",
+        "sha256": "670003b6024a03f6f026956340d46b977ab833b2e384dd34dfecfee602eb16c8"
+      },
+      {
+        "file": "design/town/TWN/TWN_STR_shack_B/TWN_STR_shack_B_side.png",
+        "sha256": "0048f23f4d867cf05c34bfbc10b4433abd3b5f2a7c250ae8eaa8684d90a63eb2"
+      },
+      {
+        "file": "design/town/TWN/TWN_STR_shack_B/TWN_STR_shack_B_back.png",
+        "sha256": "79b304012544a26e261f51b6ad244f3c0c6db2af0d3e7ef7ba5f3261e7746eff"
+      }
+    ]
+  },
+  "glb": {
+    "meshes": 1,
+    "triangles": 5811,
+    "materials": 1,
+    "embeddedImages": 3,
+    "sha256": "c355a9410949d747ac262ec2e60d8af6933e2a5b7d0efc75930bdc8e7793cacc",
+    "bytes": 8430984
+  },
+  "targetDimensionsM": [
+    4.0,
+    4.0,
+    3.0
+  ],
+  "dimensionFieldsUnit": "meters (per source document)",
+  "gridCellM": 2,
+  "qa": {
+    "asset": "TWN_STR_shack_B",
+    "sha256": "c355a9410949d747ac262ec2e60d8af6933e2a5b7d0efc75930bdc8e7793cacc",
+    "import": "passed",
+    "render": "passed",
+    "meshes": 1,
+    "triangles": 5811,
+    "materials": 1,
+    "embeddedImages": 3,
+    "boundsMin": [
+      -0.7993460297584534,
+      -0.8450419902801514,
+      -0.9409099221229553
+    ],
+    "boundsMax": [
+      0.8077589869499207,
+      0.8706420063972473,
+      0.9499359130859375
+    ],
+    "dimensionsUnscaled": [
+      1.607105016708374,
+      1.715683937072754,
+      1.890845775604248
+    ]
+  },
+  "visualReview": {
+    "status": "passed",
+    "sha256": "c355a9410949d747ac262ec2e60d8af6933e2a5b7d0efc75930bdc8e7793cacc",
+    "notes": [
+      "Reviewed all four Meshy directions against concept and orthographic inputs. Full shack volume, rusty roof sheets, ballast stones, scrap boards and cart wheel present.",
+      "Door iron ring/bucket absent or too soft to identify in previews; window not luminous. Roof reconstruction is more gabled than the concept lean-to. These are art fidelity notes; no major wall/roof/body section is missing."
+    ]
+  },
+  "previousAttempts": [],
+  "postProcessing": "pending: scale, bottom-center pivot, theme palette, final decimation and seams",
+  "sheetSource": {
+    "provider": "built-in image_gen",
+    "conceptSha256": "35ee711d37a88e6077c6cf819d8c185d1b1925cb818b688f5570238e3265d583",
+    "file": "design/town/TWN/TWN_STR_shack_B/TWN_STR_shack_B_sheet-source.png",
+    "sha256": "ab86ed4c82fc51534b8c60e8e208df83038745780bf615562b410db73876a675",
+    "dimensions": [
+      1536,
+      1024
+    ],
+    "basePrompt": "Orthographic turnaround reference sheet of a small shack made of old crate boards and a broken cart wheel, a roof of rusty iron sheets weighed down with stones, a small lit window, a bucket by the door, warm cream plaster walls with dark oak half-timber beams, weathered sandstone and grey cobblestone, slate-blue and terracotta roof tiles, tarnished gold trim, warm lantern-orange glowing windows, cozy underground-town palette of warm browns, cream and muted gold. Exactly the same object as the reference image, shown three times side by side from left to right: front view, right side view, back view. Same scale, same height, aligned on the same baseline, each view centered in its own equal-width panel with generous empty space between views. low poly 3D game asset, flat shading, faceted geometry, clean hard edges, limited color palette, orthographic projection, no perspective distortion, even flat studio lighting, no cast shadows, no ambient occlusion, no reflections, plain pure white background, object fully visible with margin, no ground plane, no text, no labels, no arrows",
+    "exportLayout": {
+      "method": "equal_panels",
+      "scale": 1.0
+    },
+    "productionNotes": "Built-in image_gen, orthographic sheet reviewed and three views exported."
+  }
+}

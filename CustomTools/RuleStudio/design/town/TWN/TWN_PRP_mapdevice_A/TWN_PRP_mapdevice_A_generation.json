@@ -1,0 +1,111 @@
+{
+  "schemaVersion": 1,
+  "id": "TWN-PRP-18",
+  "name": "地图仪",
+  "stem": "TWN_PRP_mapdevice_A",
+  "provider": "Meshy",
+  "endpoint": "/multi-image-to-3d",
+  "taskId": "01a1abd9-b643-755b-9740-a99de6601a93",
+  "consumedCredits": 30,
+  "input": {
+    "settings": {
+      "ai_model": "meshy-7.1",
+      "geometry_resolution": "standard",
+      "should_texture": true,
+      "texture_model": "meshy-7",
+      "enable_pbr": true,
+      "texture_resolution": "2k",
+      "should_remesh": true,
+      "topology": "triangle",
+      "target_polycount": 3000,
+      "image_enhancement": false,
+      "target_formats": [
+        "glb"
+      ],
+      "multi_view_thumbnails": true
+    },
+    "viewOrder": [
+      "front",
+      "side",
+      "back"
+    ],
+    "views": [
+      {
+        "file": "design/town/TWN/TWN_PRP_mapdevice_A/TWN_PRP_mapdevice_A_front.png",
+        "sha256": "d47f7cadee6d8d44b926a0d40d12b06a3e2c479b1ca07c8ce23bfd224c719b85"
+      },
+      {
+        "file": "design/town/TWN/TWN_PRP_mapdevice_A/TWN_PRP_mapdevice_A_side.png",
+        "sha256": "ee1481eea6646fbf2e491537994b702f4a82c07dae779c9d94524d73fd98bd94"
+      },
+      {
+        "file": "design/town/TWN/TWN_PRP_mapdevice_A/TWN_PRP_mapdevice_A_back.png",
+        "sha256": "60fc3a7c819b904dd263d1aa5686233c0ad808744b9894d4d2cc1ea0bbc32e9c"
+      }
+    ]
+  },
+  "glb": {
+    "meshes": 1,
+    "triangles": 3075,
+    "materials": 1,
+    "embeddedImages": 3,
+    "sha256": "865efbb2c65fabdd30d2dd63324f1da6198777fd71efcf041a4802dc24d1dc8c",
+    "bytes": 8666056
+  },
+  "targetDimensionsM": [
+    3.0,
+    3.0,
+    2.4
+  ],
+  "dimensionFieldsUnit": "meters (per source document)",
+  "gridCellM": 2,
+  "qa": {
+    "asset": "TWN_PRP_mapdevice_A",
+    "sha256": "865efbb2c65fabdd30d2dd63324f1da6198777fd71efcf041a4802dc24d1dc8c",
+    "import": "passed",
+    "render": "passed",
+    "meshes": 1,
+    "triangles": 3075,
+    "materials": 1,
+    "embeddedImages": 3,
+    "boundsMin": [
+      -0.6672629714012146,
+      -0.6671570539474487,
+      -0.9447460770606995
+    ],
+    "boundsMax": [
+      0.6674519777297974,
+      0.6676129698753357,
+      0.9497510194778442
+    ],
+    "dimensionsUnscaled": [
+      1.3347148895263672,
+      1.3347699642181396,
+      1.8944971561431885
+    ]
+  },
+  "visualReview": {
+    "status": "passed",
+    "sha256": "865efbb2c65fabdd30d2dd63324f1da6198777fd71efcf041a4802dc24d1dc8c",
+    "notes": [
+      "Compared concept, technical sheet and Meshy front/right/back/left previews. Nested brass rings have open gaps, central crystal and circular stone plinth with front slot are present. No extra geometry blocks silhouette."
+    ]
+  },
+  "previousAttempts": [],
+  "postProcessing": "pending: scale, bottom-center pivot, theme palette, final decimation and seams",
+  "sheetSource": {
+    "provider": "built-in image_gen",
+    "conceptSha256": "064b3cabeb79b92a209656d7b2b83ad2b949a586f82dbb19ae343f01a67e79d3",
+    "file": "design/town/TWN/TWN_PRP_mapdevice_A/TWN_PRP_mapdevice_A_sheet-source.png",
+    "sha256": "d1dd50f3a5e44f30b62adae41796f8d7a8f7093517fc7236d9608afd6079f6cb",
+    "dimensions": [
+      1536,
+      1024
+    ],
+    "basePrompt": "Orthographic turnaround reference sheet of a brass armillary map device on a round stone plinth: several nested brass rings tilted at different angles around a small floating crystal, engraved star map on the plinth top, a slot for a stone tablet in front, warm cream plaster walls with dark oak half-timber beams, weathered sandstone and grey cobblestone, slate-blue and terracotta roof tiles, tarnished gold trim, warm lantern-orange glowing windows, cozy underground-town palette of warm browns, cream and muted gold. Exactly the same object as the reference image, shown three times side by side from left to right: front view, right side view, back view. Same scale, same height, aligned on the same baseline, each view centered in its own equal-width panel with generous empty space between views. low poly 3D game asset, flat shading, faceted geometry, clean hard edges, limited color palette, orthographic projection, no perspective distortion, even flat studio lighting, no cast shadows, no ambient occlusion, no reflections, plain pure white background, object fully visible with margin, no ground plane, no text, no labels, no arrows",
+    "exportLayout": {
+      "method": "equal_panels"
+    },
+    "productionNotes": "Concept referenced. Regenerated to true horizontal orthographic elevations, side outer ring edge-on, full white gutters; flat unlit crystal."
+  }
+}

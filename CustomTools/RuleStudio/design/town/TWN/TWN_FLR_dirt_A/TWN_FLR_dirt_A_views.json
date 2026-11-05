@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "stem": "TWN_FLR_dirt_A",
+  "viewOrder": [
+    "top",
+    "front",
+    "side"
+  ],
+  "files": [
+    {
+      "file": "design/town/TWN/TWN_FLR_dirt_A/TWN_FLR_dirt_A_sheet.png",
+      "sha256": "0e91096d25d74aefadfac71b505230973eaa4ce673fe73f57ca19a78f5c729d2",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_FLR_dirt_A/TWN_FLR_dirt_A_top.png",
+      "sha256": "5606ccc3f17d00a084ad2fcb21e83e69472056ed94788e7b32adc50b37e28661",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_FLR_dirt_A/TWN_FLR_dirt_A_front.png",
+      "sha256": "d630804ea85083270552b48476521d478bcd8a8da5487ca76ee59e94f4ac7db5",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_FLR_dirt_A/TWN_FLR_dirt_A_side.png",
+      "sha256": "095b044f02e7f85b938c5c7797ddcffaf45872bc83d502e0183e6fbef3f24408",
+      "width": 512,
+      "height": 1024
+    }
+  ]
+}

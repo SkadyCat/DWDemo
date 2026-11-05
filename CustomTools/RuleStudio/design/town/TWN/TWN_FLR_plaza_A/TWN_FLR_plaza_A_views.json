@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "stem": "TWN_FLR_plaza_A",
+  "viewOrder": [
+    "top",
+    "front",
+    "side"
+  ],
+  "files": [
+    {
+      "file": "design/town/TWN/TWN_FLR_plaza_A/TWN_FLR_plaza_A_sheet.png",
+      "sha256": "52804a41b084e5eb87340833fd90028b590e4e2439fa9892c6e2d8e20d7d530a",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_FLR_plaza_A/TWN_FLR_plaza_A_top.png",
+      "sha256": "4d4daa200ce54a01610ce1b7b6c27871131e5a083827175e92f63937fd6b6c8a",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_FLR_plaza_A/TWN_FLR_plaza_A_front.png",
+      "sha256": "42e76f5120ed2e9259846cafa58e6126a3b3655f568de0a5de50e25639336b4f",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_FLR_plaza_A/TWN_FLR_plaza_A_side.png",
+      "sha256": "f3c1ab35221b00efeda7cfa302713622c65d6500a557d20228ce888b53cf9bff",
+      "width": 512,
+      "height": 1024
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+﻿id,name,category,variant,grid_w,grid_d,grid_h,glb_file,notes
+TWN-STR-01,金殿,STR,A,26.0,8.0,8.0,TWN_STR_hall_A/TWN_STR_hall_A.glb,原始Meshy模型；尺寸、轴心、配色和最终减面交由后处理。 后墙及门窗有轻微形变。
+TWN-STR-02,灯井,STR,A,6.0,6.0,5.0,TWN_STR_lampwell_A/TWN_STR_lampwell_A.glb,原始Meshy模型；尺寸、轴心、配色和最终减面交由后处理。
+TWN-PRP-18,地图仪,PRP,A,3.0,3.0,2.4,TWN_PRP_mapdevice_A/TWN_PRP_mapdevice_A.glb,原始Meshy模型；尺寸、轴心、配色和最终减面交由后处理。
+TWN-STR-10,小民房,STR,A,6.0,6.0,5.0,TWN_STR_house_A/TWN_STR_house_A.glb,原始Meshy模型；尺寸、轴心、配色和最终减面交由后处理。
+TWN-STR-10,小民房,STR,B,6.0,6.0,5.0,TWN_STR_house_B/TWN_STR_house_B.glb,原始Meshy模型；尺寸、轴心、配色和最终减面交由后处理。
+TWN-STR-10,小民房,STR,C,6.0,6.0,5.0,TWN_STR_house_C/TWN_STR_house_C.glb,原始Meshy模型；尺寸、轴心、配色和最终减面交由后处理。
+TWN-STR-03,半盏灯酒馆,STR,A,14.0,10.0,8.0,TWN_STR_tavern_A/TWN_STR_tavern_A.glb,原始Meshy模型；尺寸、轴心、配色和最终减面交由后处理。 前廊、门窗与木梁细节稍软，后续清理。
+TWN-STR-04,铁匠铺,STR,A,12.0,8.0,6.0,TWN_STR_forge_A/TWN_STR_forge_A.glb,原始Meshy模型；尺寸、轴心、配色和最终减面交由后处理。
+TWN-STR-05,观星阁,STR,A,10.0,10.0,12.0,TWN_STR_observatory_A/TWN_STR_observatory_A.glb,原始Meshy模型；尺寸、轴心、配色和最终减面交由后处理。
+TWN-STR-06,库房,STR,A,12.0,12.0,5.0,TWN_STR_vault_A/TWN_STR_vault_A.glb,原始Meshy模型；尺寸、轴心、配色和最终减面交由后处理。
+TWN-STR-07,营地之门,STR,A,10.0,6.0,8.0,TWN_STR_gate_A/TWN_STR_gate_A.glb,原始Meshy模型；尺寸、轴心、配色和最终减面交由后处理。
+TWN-STR-11,长条民房,STR,A,6.0,4.0,4.5,TWN_STR_house_long_A/TWN_STR_house_long_A.glb,原始Meshy模型；尺寸、轴心、配色和最终减面交由后处理。
+TWN-STR-12,二层民房,STR,A,8.0,6.0,7.0,TWN_STR_house_big_A/TWN_STR_house_big_A.glb,原始Meshy模型；尺寸、轴心、配色和最终减面交由后处理。 整体稍窄高，后处理统一比例。
+TWN-STR-13,小作坊,STR,A,6.0,6.0,4.0,TWN_STR_workshop_A/TWN_STR_workshop_A.glb,原始Meshy模型；尺寸、轴心、配色和最终减面交由后处理。 后烟囱与屋面交接处需清理。
+TWN-STR-14,棚屋,STR,A,4.0,4.0,3.0,TWN_STR_shack_A/TWN_STR_shack_A.glb,原始Meshy模型；尺寸、轴心、配色和最终减面交由后处理。
+TWN-STR-14,棚屋,STR,B,4.0,4.0,3.0,TWN_STR_shack_B/TWN_STR_shack_B.glb,原始Meshy模型；尺寸、轴心、配色和最终减面交由后处理。 屋顶比概念更偏双坡；门环和桶细节不清，后处理补整。
+TWN-STR-14,棚屋,STR,C,4.0,4.0,3.0,TWN_STR_shack_C/TWN_STR_shack_C.glb,原始Meshy模型；尺寸、轴心、配色和最终减面交由后处理。
+TWN-STR-20,栈桥,STR,A,4.0,8.0,1.0,TWN_STR_pier_A/TWN_STR_pier_A.glb,原始Meshy模型；尺寸、轴心、配色和最终减面交由后处理。 系柱布置与技术图略有差异，保留概念图轮廓。
+TWN-PRP-20,小船,PRP,A,3.0,1.2,0.8,TWN_PRP_boat_A/TWN_PRP_boat_A.glb,原始Meshy模型；尺寸、轴心、配色和最终减面交由后处理。
+TWN-PRP-01,面包摊,PRP,A,2.0,1.4,2.2,TWN_PRP_stall_bread_A/TWN_PRP_stall_bread_A.glb,原始Meshy模型；尺寸、轴心、配色和最终减面交由后处理。
+TWN-PRP-02,腌菜摊,PRP,A,2.0,1.4,2.2,TWN_PRP_stall_pickle_A/TWN_PRP_stall_pickle_A.glb,原始Meshy模型；尺寸、轴心、配色和最终减面交由后处理。
+TWN-PRP-03,旧衣摊,PRP,A,2.0,1.4,2.2,TWN_PRP_stall_cloth_A/TWN_PRP_stall_cloth_A.glb,原始Meshy模型；尺寸、轴心、配色和最终减面交由后处理。
+TWN-PRP-04,药草摊,PRP,A,2.0,1.4,2.2,TWN_PRP_stall_herb_A/TWN_PRP_stall_herb_A.glb,原始Meshy模型；尺寸、轴心、配色和最终减面交由后处理。 朝向需在后处理中统一。
+TWN-PRP-05,修鞋摊,PRP,A,2.0,1.4,2.2,TWN_PRP_stall_shoe_A/TWN_PRP_stall_shoe_A.glb,原始Meshy模型；尺寸、轴心、配色和最终减面交由后处理。
+TWN-PRP-06,杂货摊,PRP,A,2.0,1.4,2.2,TWN_PRP_stall_junk_A/TWN_PRP_stall_junk_A.glb,原始Meshy模型；尺寸、轴心、配色和最终减面交由后处理。 遮篷与杂物边缘略有形变。
+TWN-PRP-07,长椅,PRP,A,1.8,0.5,0.9,TWN_PRP_bench_A/TWN_PRP_bench_A.glb,原始Meshy模型；尺寸、轴心、配色和最终减面交由后处理。
+TWN-PRP-08,布告板,PRP,A,2.0,0.4,2.2,TWN_PRP_board_A/TWN_PRP_board_A.glb,原始Meshy模型；尺寸、轴心、配色和最终减面交由后处理。
+TWN-PRP-09,祈愿龛,PRP,A,2.4,1.2,1.6,TWN_PRP_shrine_A/TWN_PRP_shrine_A.glb,原始Meshy模型；尺寸、轴心、配色和最终减面交由后处理。 台阶与雕刻边缘稍软。
+TWN-PRP-10,路灯,PRP,A,0.8,0.4,2.8,TWN_PRP_streetlamp_A/TWN_PRP_streetlamp_A.glb,原始Meshy模型；尺寸、轴心、配色和最终减面交由后处理。
+TWN-PRP-11,木箱木桶堆,PRP,A,1.6,1.0,1.2,TWN_PRP_crates_A/TWN_PRP_crates_A.glb,原始Meshy模型；尺寸、轴心、配色和最终减面交由后处理。
+TWN-PRP-12,晾衣绳,PRP,A,4.0,0.3,2.0,TWN_PRP_laundry_A/TWN_PRP_laundry_A.glb,原始Meshy模型；尺寸、轴心、配色和最终减面交由后处理。
+TWN-PRP-13,手推车,PRP,A,2.0,1.0,1.0,TWN_PRP_cart_A/TWN_PRP_cart_A.glb,原始Meshy模型；尺寸、轴心、配色和最终减面交由后处理。 朝向需在后处理中统一。
+TWN-PRP-14,水槽,PRP,A,1.6,0.6,0.6,TWN_PRP_trough_A/TWN_PRP_trough_A.glb,原始Meshy模型；尺寸、轴心、配色和最终减面交由后处理。
+TWN-PRP-15,酒馆外桌,PRP,A,1.6,1.6,0.8,TWN_PRP_tavern_table_A/TWN_PRP_tavern_table_A.glb,原始Meshy模型；尺寸、轴心、配色和最终减面交由后处理。 烛焰未保留，后续以发光/特效处理。
+TWN-PRP-16,九城旗,PRP,A,0.6,0.3,3.0,TWN_PRP_banner_A/TWN_PRP_banner_A.glb,原始Meshy模型；尺寸、轴心、配色和最终减面交由后处理。 背面徽记残片需清理贴图。
+TWN-PRP-17,发光苔藓花坛,PRP,A,1.4,1.4,0.6,TWN_PRP_mossbed_A/TWN_PRP_mossbed_A.glb,原始Meshy模型；尺寸、轴心、配色和最终减面交由后处理。
+TWN-PRP-19,NPC 站台,PRP,A,1.4,1.4,0.15,TWN_PRP_dais_A/TWN_PRP_dais_A.glb,原始Meshy模型；尺寸、轴心、配色和最终减面交由后处理。
+TWN-FLR-01,石板路,FLR,A,2.0,2.0,0.2,TWN_FLR_cobble_A/TWN_FLR_cobble_A.glb,原始Meshy模型；尺寸、轴心、配色和最终减面交由后处理。 当前PBR底色较浅，后处理统一调色板。
+TWN-FLR-02,广场石板,FLR,A,2.0,2.0,0.2,TWN_FLR_plaza_A/TWN_FLR_plaza_A.glb,原始Meshy模型；尺寸、轴心、配色和最终减面交由后处理。
+TWN-FLR-03,金殿大理石,FLR,A,2.0,2.0,0.2,TWN_FLR_marble_A/TWN_FLR_marble_A.glb,原始Meshy模型；尺寸、轴心、配色和最终减面交由后处理。
+TWN-FLR-04,码头木板,FLR,A,2.0,2.0,0.2,TWN_FLR_planks_A/TWN_FLR_planks_A.glb,原始Meshy模型；尺寸、轴心、配色和最终减面交由后处理。
+TWN-FLR-05,泥地,FLR,A,2.0,2.0,0.2,TWN_FLR_dirt_A/TWN_FLR_dirt_A.glb,原始Meshy模型；尺寸、轴心、配色和最终减面交由后处理。 水洼在当前PBR光照下偏白，后处理统一材质。
+TWN-WAL-01,洞壁直段,WAL,A,2.0,0.6,3.2,TWN_WAL_cavern_A/TWN_WAL_cavern_A.glb,原始Meshy模型；尺寸、轴心、配色和最终减面交由后处理。 背面较简化，保留完整墙体。
+TWN-WAL-02,洞壁转角,WAL,A,2.0,2.0,3.2,TWN_WAL_cavern_corner_A/TWN_WAL_cavern_corner_A.glb,原始Meshy模型；尺寸、轴心、配色和最终减面交由后处理。
+TWN-WAL-03,鎏金残壁,WAL,A,2.0,0.6,3.2,TWN_WAL_cavern_gilded_A/TWN_WAL_cavern_gilded_A.glb,原始Meshy模型；尺寸、轴心、配色和最终减面交由后处理。

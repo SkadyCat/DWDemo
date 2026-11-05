@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "stem": "TWN_STR_forge_A",
+  "viewOrder": [
+    "front",
+    "side",
+    "back"
+  ],
+  "files": [
+    {
+      "file": "design/town/TWN/TWN_STR_forge_A/TWN_STR_forge_A_sheet.png",
+      "sha256": "13e302654e0a21ca9ee0a048c29fb4221b08c47b8d8993bcd34b16ba704f724b",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_STR_forge_A/TWN_STR_forge_A_front.png",
+      "sha256": "c174f68620b3fbe598b63dd0b97ae187fc766e2d1c181bc95f601afec0928aa4",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_STR_forge_A/TWN_STR_forge_A_side.png",
+      "sha256": "7a81c8b8de15b6b5b509f40d577d489974275f2e2f6fa9d400c36fc5d663f53c",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_STR_forge_A/TWN_STR_forge_A_back.png",
+      "sha256": "3b281ce41dcb7ec00323b91c37f16bc3eb7ef88912390e9b6019a7389a06cba9",
+      "width": 512,
+      "height": 1024
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "stem": "TWN_PRP_cart_A",
+  "viewOrder": [
+    "front",
+    "side",
+    "back"
+  ],
+  "files": [
+    {
+      "file": "design/town/TWN/TWN_PRP_cart_A/TWN_PRP_cart_A_sheet.png",
+      "sha256": "e2ee8cd1399664b8ac988a3379217236b26aa2c7ac23d70c4813117bb8195d59",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_PRP_cart_A/TWN_PRP_cart_A_front.png",
+      "sha256": "81ccb6093db2a8bff05c5d6b48af2064aba16441891ee3965301a6b845f3b1c2",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_PRP_cart_A/TWN_PRP_cart_A_side.png",
+      "sha256": "2fb2c6336cf84f025f946ee1817383e45d9e52d024596298d10dec77f4584176",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_PRP_cart_A/TWN_PRP_cart_A_back.png",
+      "sha256": "156d503ff6d28dcfe243d68f241e3cb54c869428cd08cee1e76aca33473a9e43",
+      "width": 512,
+      "height": 1024
+    }
+  ]
+}

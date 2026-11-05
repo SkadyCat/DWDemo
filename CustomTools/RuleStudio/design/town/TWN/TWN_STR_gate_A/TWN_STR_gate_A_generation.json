@@ -1,0 +1,142 @@
+{
+  "schemaVersion": 1,
+  "id": "TWN-STR-07",
+  "name": "营地之门",
+  "stem": "TWN_STR_gate_A",
+  "provider": "Meshy",
+  "endpoint": "/multi-image-to-3d",
+  "taskId": "01a1abe0-d001-72fc-8059-51119f49f6cb",
+  "consumedCredits": 30,
+  "input": {
+    "settings": {
+      "ai_model": "meshy-7.1",
+      "geometry_resolution": "standard",
+      "should_texture": true,
+      "texture_model": "meshy-7",
+      "enable_pbr": true,
+      "texture_resolution": "2k",
+      "should_remesh": true,
+      "topology": "triangle",
+      "target_polycount": 6000,
+      "image_enhancement": false,
+      "target_formats": [
+        "glb"
+      ],
+      "multi_view_thumbnails": true
+    },
+    "viewOrder": [
+      "front",
+      "side",
+      "back"
+    ],
+    "views": [
+      {
+        "file": "design/town/TWN/TWN_STR_gate_A/TWN_STR_gate_A_front.png",
+        "sha256": "99090071c168c2fc4cd9a06b41784117bb4300f3463b83ee6fe4ddd6acba5073"
+      },
+      {
+        "file": "design/town/TWN/TWN_STR_gate_A/TWN_STR_gate_A_side.png",
+        "sha256": "fc15fc36cfae3bf3f5a0b810aa9aa3fefbc34e1502f12b9408dc5e16bc9c8317"
+      },
+      {
+        "file": "design/town/TWN/TWN_STR_gate_A/TWN_STR_gate_A_back.png",
+        "sha256": "99d95cbb6f664fa853fa31185896b6032a75500e783dd1354a520b2723057f38"
+      }
+    ]
+  },
+  "glb": {
+    "meshes": 1,
+    "triangles": 6082,
+    "materials": 1,
+    "embeddedImages": 3,
+    "sha256": "88b9e085eae0fe4e40043d47d890488d31341bcd2535555f60162a3c77911a40",
+    "bytes": 8036964
+  },
+  "targetDimensionsM": [
+    10.0,
+    6.0,
+    8.0
+  ],
+  "dimensionFieldsUnit": "meters (per source document)",
+  "gridCellM": 2,
+  "qa": {
+    "asset": "TWN_STR_gate_A",
+    "sha256": "88b9e085eae0fe4e40043d47d890488d31341bcd2535555f60162a3c77911a40",
+    "import": "passed",
+    "render": "passed",
+    "meshes": 1,
+    "triangles": 6082,
+    "materials": 1,
+    "embeddedImages": 3,
+    "boundsMin": [
+      -0.9505040049552917,
+      -0.6123860478401184,
+      -0.737281084060669
+    ],
+    "boundsMax": [
+      0.9499850273132324,
+      0.6104949116706848,
+      0.7363629937171936
+    ],
+    "dimensionsUnscaled": [
+      1.900489091873169,
+      1.2228809595108032,
+      1.4736440181732178
+    ]
+  },
+  "visualReview": {
+    "status": "passed",
+    "sha256": "88b9e085eae0fe4e40043d47d890488d31341bcd2535555f60162a3c77911a40",
+    "notes": [
+      "Concept/sheet and five Meshy directions compared.",
+      "Full rock enclosure, arched gate and ascending stairs, twin banners/torches, tiled canopy, guard booth and stone ground slab all retained; no missing large component.",
+      "Rear is closed cavern rock as in sheet; physical traversability is downstream integration."
+    ]
+  },
+  "previousAttempts": [],
+  "postProcessing": "pending: scale, bottom-center pivot, theme palette, final decimation and seams",
+  "sheetSource": {
+    "provider": "built-in image_gen",
+    "conceptSha256": "db0c4533d1d07041c9e1c4b39a4171f918f1217f9bc1069e49f15d86a92bcd18",
+    "file": "design/town/TWN/TWN_STR_gate_A/TWN_STR_gate_A_sheet-source.png",
+    "sha256": "2d5d42fbccca8b15d2d3992c61e92867bead533906f6003eb685a18cfc6e28cc",
+    "dimensions": [
+      1536,
+      1024
+    ],
+    "basePrompt": "Orthographic turnaround reference sheet of a massive arched gateway carved straight into a rough cavern rock wall, a worn stone stair climbing up and out of sight through the arch, iron brackets with two burning torches, old banners hanging on both sides, a stone guard post with a small roof next to the arch, warm cream plaster walls with dark oak half-timber beams, weathered sandstone and grey cobblestone, slate-blue and terracotta roof tiles, tarnished gold trim, warm lantern-orange glowing windows, cozy underground-town palette of warm browns, cream and muted gold. Exactly the same object as the reference image, shown three times side by side from left to right: front view, right side view, back view. Same scale, same height, aligned on the same baseline, each view centered in its own equal-width panel with generous empty space between views. low poly 3D game asset, flat shading, faceted geometry, clean hard edges, limited color palette, orthographic projection, no perspective distortion, even flat studio lighting, no cast shadows, no ambient occlusion, no reflections, plain pure white background, object fully visible with margin, no ground plane, no text, no labels, no arrows",
+    "exportLayout": {
+      "method": "white_gutters_common_uniform_scale",
+      "sourceCuts": [
+        578,
+        956
+      ],
+      "sourceObjectBounds": [
+        [
+          52,
+          319,
+          544,
+          704
+        ],
+        [
+          612,
+          317,
+          924,
+          704
+        ],
+        [
+          989,
+          320,
+          1483,
+          703
+        ]
+      ],
+      "sharedVerticalBounds": [
+        317,
+        704
+      ],
+      "scale": 0.9068825910931174
+    },
+    "productionNotes": "True front/right/back elevations reviewed against concept, stone gateway and attached guard booth retained; white-gutter layout normalized."
+  }
+}

@@ -1,0 +1,142 @@
+{
+  "schemaVersion": 1,
+  "id": "TWN-PRP-09",
+  "name": "祈愿龛",
+  "stem": "TWN_PRP_shrine_A",
+  "provider": "Meshy",
+  "endpoint": "/multi-image-to-3d",
+  "taskId": "01a1abe6-9a2b-7467-a3c4-46bd3c967649",
+  "consumedCredits": 30,
+  "input": {
+    "settings": {
+      "ai_model": "meshy-7.1",
+      "geometry_resolution": "standard",
+      "should_texture": true,
+      "texture_model": "meshy-7",
+      "enable_pbr": true,
+      "texture_resolution": "2k",
+      "should_remesh": true,
+      "topology": "triangle",
+      "target_polycount": 1500,
+      "image_enhancement": false,
+      "target_formats": [
+        "glb"
+      ],
+      "multi_view_thumbnails": true
+    },
+    "viewOrder": [
+      "front",
+      "side",
+      "back"
+    ],
+    "views": [
+      {
+        "file": "design/town/TWN/TWN_PRP_shrine_A/TWN_PRP_shrine_A_front.png",
+        "sha256": "cffda01a67596564a32d283037c86a968266d3da9fb6ab5314a3812e9f90b357"
+      },
+      {
+        "file": "design/town/TWN/TWN_PRP_shrine_A/TWN_PRP_shrine_A_side.png",
+        "sha256": "5d01e4606dd5861fa8b5675ebf64ee5d3a532b8a670c25210ccab206c7ee8fef"
+      },
+      {
+        "file": "design/town/TWN/TWN_PRP_shrine_A/TWN_PRP_shrine_A_back.png",
+        "sha256": "9c7038b6faeb56cbca82608719116d8443a4107a925798c04eb7ee963c9279a2"
+      }
+    ]
+  },
+  "glb": {
+    "meshes": 1,
+    "triangles": 1503,
+    "materials": 1,
+    "embeddedImages": 3,
+    "sha256": "266b28527b37fdc0d4e3c407cadce9f2e3f2e30266aba2f31b6d786c54005ece",
+    "bytes": 7227408
+  },
+  "targetDimensionsM": [
+    2.4,
+    1.2,
+    1.6
+  ],
+  "dimensionFieldsUnit": "meters (per source document)",
+  "gridCellM": 2,
+  "qa": {
+    "asset": "TWN_PRP_shrine_A",
+    "sha256": "266b28527b37fdc0d4e3c407cadce9f2e3f2e30266aba2f31b6d786c54005ece",
+    "import": "passed",
+    "render": "passed",
+    "meshes": 1,
+    "triangles": 1503,
+    "materials": 1,
+    "embeddedImages": 3,
+    "boundsMin": [
+      -0.9361119866371155,
+      -0.661064088344574,
+      -0.6841779947280884
+    ],
+    "boundsMax": [
+      0.9481300115585327,
+      0.6616820096969604,
+      0.678292989730835
+    ],
+    "dimensionsUnscaled": [
+      1.884242057800293,
+      1.3227460384368896,
+      1.3624709844589233
+    ]
+  },
+  "visualReview": {
+    "status": "passed",
+    "sha256": "266b28527b37fdc0d4e3c407cadce9f2e3f2e30266aba2f31b6d786c54005ece",
+    "notes": [
+      "Reviewed all four Meshy directions against concept and orthographic inputs. Stepped stone body, top marble block, candles and horse/ribbon/shoe/cup offerings present.",
+      "Some softened carvings and step edges; no large hole, missing body section or unwanted base."
+    ]
+  },
+  "previousAttempts": [],
+  "postProcessing": "pending: scale, bottom-center pivot, theme palette, final decimation and seams",
+  "sheetSource": {
+    "provider": "built-in image_gen",
+    "conceptSha256": "25d453356299122c30bbddc422c7f7a0f9cf2e024f89c0042d16cf32f9a458a1",
+    "file": "design/town/TWN/TWN_PRP_shrine_A/TWN_PRP_shrine_A_sheet-source.png",
+    "sha256": "f5974cf4878acbac649eef359bafa90320c1840de194b61ca002ca362d5348e8",
+    "dimensions": [
+      1536,
+      1024
+    ],
+    "basePrompt": "Orthographic turnaround reference sheet of a small stepped stone shrine with a marble block on top, many melted candles on the steps, small offerings left on it: a toy horse, a ribbon, a shoe, a cup, warm cream plaster walls with dark oak half-timber beams, weathered sandstone and grey cobblestone, slate-blue and terracotta roof tiles, tarnished gold trim, warm lantern-orange glowing windows, cozy underground-town palette of warm browns, cream and muted gold. Exactly the same object as the reference image, shown three times side by side from left to right: front view, right side view, back view. Same scale, same height, aligned on the same baseline, each view centered in its own equal-width panel with generous empty space between views. low poly 3D game asset, flat shading, faceted geometry, clean hard edges, limited color palette, orthographic projection, no perspective distortion, even flat studio lighting, no cast shadows, no ambient occlusion, no reflections, plain pure white background, object fully visible with margin, no ground plane, no text, no labels, no arrows",
+    "exportLayout": {
+      "method": "white_gutters_common_uniform_scale",
+      "explicitCuts": false,
+      "sourceCuts": [
+        563,
+        972
+      ],
+      "sourceObjectBounds": [
+        [
+          40,
+          332,
+          528,
+          691
+        ],
+        [
+          598,
+          332,
+          937,
+          691
+        ],
+        [
+          1008,
+          332,
+          1496,
+          691
+        ]
+      ],
+      "sharedVerticalBounds": [
+        332,
+        691
+      ],
+      "scale": 0.9180327868852459
+    },
+    "productionNotes": "Built-in image_gen, orthographic sheet reviewed and three views exported."
+  }
+}

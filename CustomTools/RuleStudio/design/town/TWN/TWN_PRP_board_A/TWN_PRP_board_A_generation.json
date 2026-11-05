@@ -1,0 +1,141 @@
+{
+  "schemaVersion": 1,
+  "id": "TWN-PRP-08",
+  "name": "布告板",
+  "stem": "TWN_PRP_board_A",
+  "provider": "Meshy",
+  "endpoint": "/multi-image-to-3d",
+  "taskId": "01a1abe6-8e75-71af-b164-ba1399bb2d68",
+  "consumedCredits": 30,
+  "input": {
+    "settings": {
+      "ai_model": "meshy-7.1",
+      "geometry_resolution": "standard",
+      "should_texture": true,
+      "texture_model": "meshy-7",
+      "enable_pbr": true,
+      "texture_resolution": "2k",
+      "should_remesh": true,
+      "topology": "triangle",
+      "target_polycount": 1500,
+      "image_enhancement": false,
+      "target_formats": [
+        "glb"
+      ],
+      "multi_view_thumbnails": true
+    },
+    "viewOrder": [
+      "front",
+      "side",
+      "back"
+    ],
+    "views": [
+      {
+        "file": "design/town/TWN/TWN_PRP_board_A/TWN_PRP_board_A_front.png",
+        "sha256": "98387fd45a8485925252e3c6a95998585a692577372df499e77ae9de2fb211c5"
+      },
+      {
+        "file": "design/town/TWN/TWN_PRP_board_A/TWN_PRP_board_A_side.png",
+        "sha256": "eea33d2e85e8523edab7ae9e02ece203ea8efe73f29579b8278099694834bd8d"
+      },
+      {
+        "file": "design/town/TWN/TWN_PRP_board_A/TWN_PRP_board_A_back.png",
+        "sha256": "db67e40a37630b6072b8fabb3fa7ce4b8d39955e3955de8df828b4b3d5d0535f"
+      }
+    ]
+  },
+  "glb": {
+    "meshes": 1,
+    "triangles": 1466,
+    "materials": 1,
+    "embeddedImages": 3,
+    "sha256": "921b0e655cf3df3e21bf8009ac428c4f3b61c16fd46a49397d6780a5e8a751c7",
+    "bytes": 7797344
+  },
+  "targetDimensionsM": [
+    2.0,
+    0.4,
+    2.2
+  ],
+  "dimensionFieldsUnit": "meters (per source document)",
+  "gridCellM": 2,
+  "qa": {
+    "asset": "TWN_PRP_board_A",
+    "sha256": "921b0e655cf3df3e21bf8009ac428c4f3b61c16fd46a49397d6780a5e8a751c7",
+    "import": "passed",
+    "render": "passed",
+    "meshes": 1,
+    "triangles": 1466,
+    "materials": 1,
+    "embeddedImages": 3,
+    "boundsMin": [
+      -0.7339430451393127,
+      -0.30317598581314087,
+      -0.9517301321029663
+    ],
+    "boundsMax": [
+      0.7302080392837524,
+      0.30561307072639465,
+      0.950998067855835
+    ],
+    "dimensionsUnscaled": [
+      1.46415114402771,
+      0.6087890863418579,
+      1.9027281999588013
+    ]
+  },
+  "visualReview": {
+    "status": "passed",
+    "sha256": "921b0e655cf3df3e21bf8009ac428c4f3b61c16fd46a49397d6780a5e8a751c7",
+    "notes": [
+      "Compared concept/sheet and all four Meshy model previews. Two support posts/stone footings, shingle gable roof, lanterns, paper-covered front with face drawings, plain rear boards retained. No large undesired holes or added scene geometry."
+    ]
+  },
+  "previousAttempts": [],
+  "postProcessing": "pending: scale, bottom-center pivot, theme palette, final decimation and seams",
+  "sheetSource": {
+    "provider": "built-in image_gen",
+    "conceptSha256": "eb4bdec160478dc9a9d9b70351d635e32e43926fc09d63cc7a7f1115674015af",
+    "file": "design/town/TWN/TWN_PRP_board_A/TWN_PRP_board_A_sheet-source.png",
+    "sha256": "31693ca37421fbbd1278415a48432113cbdadeb2033601e4bc30e10dfcc23ae3",
+    "dimensions": [
+      1536,
+      1024
+    ],
+    "basePrompt": "Orthographic turnaround reference sheet of a wooden notice board on two posts under a tiny shingle roof, covered with many pinned paper notes and a few drawings of faces, warm cream plaster walls with dark oak half-timber beams, weathered sandstone and grey cobblestone, slate-blue and terracotta roof tiles, tarnished gold trim, warm lantern-orange glowing windows, cozy underground-town palette of warm browns, cream and muted gold. Exactly the same object as the reference image, shown three times side by side from left to right: front view, right side view, back view. Same scale, same height, aligned on the same baseline, each view centered in its own equal-width panel with generous empty space between views. low poly 3D game asset, flat shading, faceted geometry, clean hard edges, limited color palette, orthographic projection, no perspective distortion, even flat studio lighting, no cast shadows, no ambient occlusion, no reflections, plain pure white background, object fully visible with margin, no ground plane, no text, no labels, no arrows",
+    "exportLayout": {
+      "method": "white_gutters_common_uniform_scale",
+      "explicitCuts": false,
+      "sourceCuts": [
+        633,
+        903
+      ],
+      "sourceObjectBounds": [
+        [
+          39,
+          171,
+          604,
+          833
+        ],
+        [
+          664,
+          167,
+          875,
+          833
+        ],
+        [
+          931,
+          171,
+          1497,
+          833
+        ]
+      ],
+      "sharedVerticalBounds": [
+        167,
+        833
+      ],
+      "scale": 0.7915194346289752
+    },
+    "productionNotes": "Reviewed front/right/back board elevations, three portrait notes only on front, simple rear planks, two support posts and lanterns. No readable words or glow."
+  }
+}

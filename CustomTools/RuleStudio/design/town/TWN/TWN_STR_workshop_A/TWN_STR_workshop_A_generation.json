@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 1,
+  "id": "TWN-STR-13",
+  "name": "小作坊",
+  "stem": "TWN_STR_workshop_A",
+  "provider": "Meshy",
+  "endpoint": "/multi-image-to-3d",
+  "taskId": "01a1abe1-006d-753d-9115-ee5ee87b9f27",
+  "consumedCredits": 30,
+  "input": {
+    "settings": {
+      "ai_model": "meshy-7.1",
+      "geometry_resolution": "standard",
+      "should_texture": true,
+      "texture_model": "meshy-7",
+      "enable_pbr": true,
+      "texture_resolution": "2k",
+      "should_remesh": true,
+      "topology": "triangle",
+      "target_polycount": 6000,
+      "image_enhancement": false,
+      "target_formats": [
+        "glb"
+      ],
+      "multi_view_thumbnails": true
+    },
+    "viewOrder": [
+      "front",
+      "side",
+      "back"
+    ],
+    "views": [
+      {
+        "file": "design/town/TWN/TWN_STR_workshop_A/TWN_STR_workshop_A_front.png",
+        "sha256": "b3811f5e8fe2007e4a7e57e719de727f7764dc575af0d4668e153d516ddc3523"
+      },
+      {
+        "file": "design/town/TWN/TWN_STR_workshop_A/TWN_STR_workshop_A_side.png",
+        "sha256": "e69ffbea1458489c78b7f06aef8d5842ae2761afd6314b902837857ac1d0be7a"
+      },
+      {
+        "file": "design/town/TWN/TWN_STR_workshop_A/TWN_STR_workshop_A_back.png",
+        "sha256": "54329edf23193c119747d8d785dcf58e4dfe04aaa91bb1c5d89c0be7c34e7ef6"
+      }
+    ]
+  },
+  "glb": {
+    "meshes": 1,
+    "triangles": 5893,
+    "materials": 1,
+    "embeddedImages": 3,
+    "sha256": "f312efd26509631065635ae37901d1e729e19c6ceb5b55d54590872123b245ae",
+    "bytes": 9511224
+  },
+  "targetDimensionsM": [
+    6.0,
+    6.0,
+    4.0
+  ],
+  "dimensionFieldsUnit": "meters (per source document)",
+  "gridCellM": 2,
+  "qa": {
+    "asset": "TWN_STR_workshop_A",
+    "sha256": "f312efd26509631065635ae37901d1e729e19c6ceb5b55d54590872123b245ae",
+    "import": "passed",
+    "render": "passed",
+    "meshes": 1,
+    "triangles": 5893,
+    "materials": 1,
+    "embeddedImages": 3,
+    "boundsMin": [
+      -0.7883369326591492,
+      -0.7280700206756592,
+      -0.95176100730896
+    ],
+    "boundsMax": [
+      0.7873249650001526,
+      0.7358378767967224,
+      0.946902871131897
+    ],
+    "dimensionsUnscaled": [
+      1.5756618976593018,
+      1.4639079570770264,
+      1.898663878440857
+    ]
+  },
+  "visualReview": {
+    "status": "passed",
+    "sha256": "f312efd26509631065635ae37901d1e729e19c6ceb5b55d54590872123b245ae",
+    "notes": [
+      "Concept/sheet and five Meshy directions compared.",
+      "Workshop shell, steep roof/dormer/chimney, large open double doors, visible workbench, barrels/planks and stone foundation present; identity and silhouette complete.",
+      "Minor rear chimney/roof intersection can be refined downstream; no major geometry absent."
+    ]
+  },
+  "previousAttempts": [],
+  "postProcessing": "pending: scale, bottom-center pivot, theme palette, final decimation and seams",
+  "sheetSource": {
+    "provider": "built-in image_gen",
+    "conceptSha256": "1382cad14950d82934c0a71abf335943c1414ddaf7357d2af4cd8a4dc1a24687",
+    "file": "design/town/TWN/TWN_STR_workshop_A/TWN_STR_workshop_A_sheet-source.png",
+    "sha256": "c198fcfff78f9a6dfd180502c300203277cfa48331f9b4e45fa11d3465bea0da",
+    "dimensions": [
+      1536,
+      1024
+    ],
+    "basePrompt": "Orthographic turnaround reference sheet of a small stone workshop with a wide open double door, a slate roof, barrels and planks stacked outside, a workbench visible inside the doorway, warm cream plaster walls with dark oak half-timber beams, weathered sandstone and grey cobblestone, slate-blue and terracotta roof tiles, tarnished gold trim, warm lantern-orange glowing windows, cozy underground-town palette of warm browns, cream and muted gold. Exactly the same object as the reference image, shown three times side by side from left to right: front view, right side view, back view. Same scale, same height, aligned on the same baseline, each view centered in its own equal-width panel with generous empty space between views. low poly 3D game asset, flat shading, faceted geometry, clean hard edges, limited color palette, orthographic projection, no perspective distortion, even flat studio lighting, no cast shadows, no ambient occlusion, no reflections, plain pure white background, object fully visible with margin, no ground plane, no text, no labels, no arrows",
+    "exportLayout": {
+      "method": "equal_panels"
+    },
+    "productionNotes": "Built-in image_gen; front/right/back geometrically matched to concept; visually inspected; flat studio lighting."
+  }
+}

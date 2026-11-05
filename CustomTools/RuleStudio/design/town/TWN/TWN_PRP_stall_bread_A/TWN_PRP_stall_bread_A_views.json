@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "stem": "TWN_PRP_stall_bread_A",
+  "viewOrder": [
+    "front",
+    "side",
+    "back"
+  ],
+  "files": [
+    {
+      "file": "design/town/TWN/TWN_PRP_stall_bread_A/TWN_PRP_stall_bread_A_sheet.png",
+      "sha256": "ecc9b8e3b28defe42b34e713fa688d26d008a71ca6c594732658779eed45ae7c",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_PRP_stall_bread_A/TWN_PRP_stall_bread_A_front.png",
+      "sha256": "637cc578e1417621f964495ea115666c717a40c502c1be48b1618bb913613e6e",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_PRP_stall_bread_A/TWN_PRP_stall_bread_A_side.png",
+      "sha256": "81a79b24a9a0d72cab8803922815962f0a35c508669bf025b60b0cbdb5bccca2",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_PRP_stall_bread_A/TWN_PRP_stall_bread_A_back.png",
+      "sha256": "5eaf70a32d5da0cbe3464e3042faac9d9a893a0a03b78e891daeb39a3c46c443",
+      "width": 512,
+      "height": 1024
+    }
+  ]
+}

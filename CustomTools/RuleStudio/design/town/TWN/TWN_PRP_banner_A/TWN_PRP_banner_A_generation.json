@@ -1,0 +1,128 @@
+{
+  "schemaVersion": 1,
+  "id": "TWN-PRP-16",
+  "name": "九城旗",
+  "stem": "TWN_PRP_banner_A",
+  "provider": "Meshy",
+  "endpoint": "/multi-image-to-3d",
+  "taskId": "01a1abf2-7992-75eb-a06a-6ee1e8f40829",
+  "consumedCredits": 30,
+  "input": {
+    "settings": {
+      "ai_model": "meshy-7.1",
+      "geometry_resolution": "standard",
+      "should_texture": true,
+      "texture_model": "meshy-7",
+      "enable_pbr": true,
+      "texture_resolution": "2k",
+      "should_remesh": true,
+      "topology": "triangle",
+      "target_polycount": 1500,
+      "image_enhancement": false,
+      "target_formats": [
+        "glb"
+      ],
+      "multi_view_thumbnails": true
+    },
+    "viewOrder": [
+      "front",
+      "side",
+      "back",
+      "concept_three_quarter"
+    ],
+    "views": [
+      {
+        "file": "design/town/TWN/TWN_PRP_banner_A/TWN_PRP_banner_A_front.png",
+        "sha256": "95a381e655772faffd53512211675025686ffcfc6127f6b7d1e553b4202e141e"
+      },
+      {
+        "file": "design/town/TWN/TWN_PRP_banner_A/TWN_PRP_banner_A_side.png",
+        "sha256": "9e1fdc45a97e6f325b30bb854daec14a92f80b2886a9a76aca3574f0ccd4abf5"
+      },
+      {
+        "file": "design/town/TWN/TWN_PRP_banner_A/TWN_PRP_banner_A_back.png",
+        "sha256": "04ba240849739f62ffb4b3e9a099e258d8938415b3cd3f7f9b81d35905709fc1"
+      },
+      {
+        "file": "design/town/TWN/TWN_PRP_banner_A/TWN_PRP_banner_A_concept.png",
+        "sha256": "8d453ad81b60667837d45dd0022c43a07853e7d86d88d710f9c02488051b6290"
+      }
+    ]
+  },
+  "glb": {
+    "meshes": 1,
+    "triangles": 1491,
+    "materials": 1,
+    "embeddedImages": 3,
+    "sha256": "7ca1ab0c13c191fb34a0afb89b99488cc8d557e17a38a44c0529949aabd0d394",
+    "bytes": 6228232
+  },
+  "targetDimensionsM": [
+    0.6,
+    0.3,
+    3.0
+  ],
+  "dimensionFieldsUnit": "meters (per source document)",
+  "gridCellM": 2,
+  "qa": {
+    "asset": "TWN_PRP_banner_A",
+    "sha256": "7ca1ab0c13c191fb34a0afb89b99488cc8d557e17a38a44c0529949aabd0d394",
+    "import": "passed",
+    "render": "passed",
+    "meshes": 1,
+    "triangles": 1491,
+    "materials": 1,
+    "embeddedImages": 3,
+    "boundsMin": [
+      -0.4019410014152527,
+      -0.2154710739850998,
+      -0.9516819715499878
+    ],
+    "boundsMax": [
+      0.39410001039505005,
+      0.21598392724990845,
+      0.9490299820899963
+    ],
+    "dimensionsUnscaled": [
+      0.7960410118103027,
+      0.43145501613616943,
+      1.900712013244629
+    ]
+  },
+  "visualReview": {
+    "status": "passed",
+    "sha256": "7ca1ab0c13c191fb34a0afb89b99488cc8d557e17a38a44c0529949aabd0d394",
+    "notes": [
+      "Corrected replacement task 01a1abf2-7992-75eb-a06a-6ee1e8f40829 compared with concept, sheet and five latest Meshy preview directions.",
+      "One full pole, one footing/base, cantilever arm, torn banner cloth and gold star/red city-wall emblem present; erroneous duplicate-pole/base silhouette fixed.",
+      "Previous rejected SHA 50d59d96adfd41448ed4e7f88da4235e72abd4e016e7894fcbe03e1fa9d34899 had two poles/two footings and is not the reviewed delivery.",
+      "Minor rear emblem fragments are downstream texture cleanup."
+    ]
+  },
+  "previousAttempts": [
+    {
+      "taskId": "01a1abea-4d6a-714c-949b-634e3df9be8d",
+      "consumedCredits": 30,
+      "glbSha256": "50d59d96adfd41448ed4e7f88da4235e72abd4e016e7894fcbe03e1fa9d34899",
+      "visualReview": "rejected",
+      "reason": "First GLB duplicated the single banner into two poles. Corrected with concept as fourth view."
+    }
+  ],
+  "postProcessing": "pending: scale, bottom-center pivot, theme palette, final decimation and seams",
+  "sheetSource": {
+    "provider": "built-in image_gen",
+    "conceptSha256": "8d453ad81b60667837d45dd0022c43a07853e7d86d88d710f9c02488051b6290",
+    "file": "design/town/TWN/TWN_PRP_banner_A/TWN_PRP_banner_A_sheet-source.png",
+    "sha256": "3896a808866de1c1d1c76ba7109efd04ed63fbb4cbb9495420913d2d1f8a38d8",
+    "dimensions": [
+      1536,
+      1024
+    ],
+    "basePrompt": "Orthographic turnaround reference sheet of a tall wooden pole with a long hanging cloth banner, the banner shows a simple emblem of a star over a city wall, frayed bottom edge, warm cream plaster walls with dark oak half-timber beams, weathered sandstone and grey cobblestone, slate-blue and terracotta roof tiles, tarnished gold trim, warm lantern-orange glowing windows, cozy underground-town palette of warm browns, cream and muted gold. Exactly the same object as the reference image, shown three times side by side from left to right: front view, right side view, back view. Same scale, same height, aligned on the same baseline, each view centered in its own equal-width panel with generous empty space between views. low poly 3D game asset, flat shading, faceted geometry, clean hard edges, limited color palette, orthographic projection, no perspective distortion, even flat studio lighting, no cast shadows, no ambient occlusion, no reflections, plain pure white background, object fully visible with margin, no ground plane, no text, no labels, no arrows",
+    "exportLayout": {
+      "method": "equal_panels",
+      "scale": 1.0
+    },
+    "productionNotes": "Built-in image_gen; banner front/right/back preserves pole, torn cream cloth and star/city-wall emblem; simple blank rear cloth; orthographic and shadow-free reviewed."
+  }
+}

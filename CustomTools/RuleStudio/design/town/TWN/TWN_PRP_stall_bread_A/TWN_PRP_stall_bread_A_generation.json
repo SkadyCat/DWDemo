@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 1,
+  "id": "TWN-PRP-01",
+  "name": "面包摊",
+  "stem": "TWN_PRP_stall_bread_A",
+  "provider": "Meshy",
+  "endpoint": "/multi-image-to-3d",
+  "taskId": "01a1abe3-6c64-7780-a73f-da5d71d219a2",
+  "consumedCredits": 30,
+  "input": {
+    "settings": {
+      "ai_model": "meshy-7.1",
+      "geometry_resolution": "standard",
+      "should_texture": true,
+      "texture_model": "meshy-7",
+      "enable_pbr": true,
+      "texture_resolution": "2k",
+      "should_remesh": true,
+      "topology": "triangle",
+      "target_polycount": 1500,
+      "image_enhancement": false,
+      "target_formats": [
+        "glb"
+      ],
+      "multi_view_thumbnails": true
+    },
+    "viewOrder": [
+      "front",
+      "side",
+      "back"
+    ],
+    "views": [
+      {
+        "file": "design/town/TWN/TWN_PRP_stall_bread_A/TWN_PRP_stall_bread_A_front.png",
+        "sha256": "637cc578e1417621f964495ea115666c717a40c502c1be48b1618bb913613e6e"
+      },
+      {
+        "file": "design/town/TWN/TWN_PRP_stall_bread_A/TWN_PRP_stall_bread_A_side.png",
+        "sha256": "81a79b24a9a0d72cab8803922815962f0a35c508669bf025b60b0cbdb5bccca2"
+      },
+      {
+        "file": "design/town/TWN/TWN_PRP_stall_bread_A/TWN_PRP_stall_bread_A_back.png",
+        "sha256": "5eaf70a32d5da0cbe3464e3042faac9d9a893a0a03b78e891daeb39a3c46c443"
+      }
+    ]
+  },
+  "glb": {
+    "meshes": 1,
+    "triangles": 1465,
+    "materials": 1,
+    "embeddedImages": 3,
+    "sha256": "d932c0b04f317abc98aac055e8ed97627c0a00e3293df5609385938db99f5587",
+    "bytes": 7199508
+  },
+  "targetDimensionsM": [
+    2.0,
+    1.4,
+    2.2
+  ],
+  "dimensionFieldsUnit": "meters (per source document)",
+  "gridCellM": 2,
+  "qa": {
+    "asset": "TWN_PRP_stall_bread_A",
+    "sha256": "d932c0b04f317abc98aac055e8ed97627c0a00e3293df5609385938db99f5587",
+    "import": "passed",
+    "render": "passed",
+    "meshes": 1,
+    "triangles": 1465,
+    "materials": 1,
+    "embeddedImages": 3,
+    "boundsMin": [
+      -0.7544200420379639,
+      -0.3560791015625,
+      -0.9518190622329712
+    ],
+    "boundsMax": [
+      0.7545280456542969,
+      0.3600449562072754,
+      0.9501120448112488
+    ],
+    "dimensionsUnscaled": [
+      1.5089480876922607,
+      0.7161240577697754,
+      1.9019310474395752
+    ]
+  },
+  "visualReview": {
+    "status": "passed",
+    "sha256": "d932c0b04f317abc98aac055e8ed97627c0a00e3293df5609385938db99f5587",
+    "notes": [
+      "Concept/sheet and five Meshy directions compared.",
+      "Four-post stall, red/cream awning, braced counter, bread pile and basket all retained and coherent from side/rear; no large component loss."
+    ]
+  },
+  "previousAttempts": [],
+  "postProcessing": "pending: scale, bottom-center pivot, theme palette, final decimation and seams",
+  "sheetSource": {
+    "provider": "built-in image_gen",
+    "conceptSha256": "d0ac0304970c4ce01088bafeffccdb041e1f1ce19eafa96e9d0b1dbbeed649e5",
+    "file": "design/town/TWN/TWN_PRP_stall_bread_A/TWN_PRP_stall_bread_A_sheet-source.png",
+    "sha256": "539acc2a5a4acb7a9b9e9d75c1be13f6f911f96d47562d69d272798b6a188dee",
+    "dimensions": [
+      1536,
+      1024
+    ],
+    "basePrompt": "Orthographic turnaround reference sheet of a market stall with a wooden counter and a striped red canvas awning on four poles, round loaves of slightly green bread stacked on the counter, a basket of rolls, warm cream plaster walls with dark oak half-timber beams, weathered sandstone and grey cobblestone, slate-blue and terracotta roof tiles, tarnished gold trim, warm lantern-orange glowing windows, cozy underground-town palette of warm browns, cream and muted gold. Exactly the same object as the reference image, shown three times side by side from left to right: front view, right side view, back view. Same scale, same height, aligned on the same baseline, each view centered in its own equal-width panel with generous empty space between views. low poly 3D game asset, flat shading, faceted geometry, clean hard edges, limited color palette, orthographic projection, no perspective distortion, even flat studio lighting, no cast shadows, no ambient occlusion, no reflections, plain pure white background, object fully visible with margin, no ground plane, no text, no labels, no arrows",
+    "exportLayout": {
+      "method": "equal_panels",
+      "scale": 1.0
+    },
+    "productionNotes": "Built-in image_gen; front/right/back consistent red-cream awning and green bread stall; no extra buildings; visually reviewed."
+  }
+}

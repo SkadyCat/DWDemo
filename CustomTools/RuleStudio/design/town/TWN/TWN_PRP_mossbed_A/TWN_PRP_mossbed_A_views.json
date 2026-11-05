@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "stem": "TWN_PRP_mossbed_A",
+  "viewOrder": [
+    "front",
+    "side",
+    "back"
+  ],
+  "files": [
+    {
+      "file": "design/town/TWN/TWN_PRP_mossbed_A/TWN_PRP_mossbed_A_sheet.png",
+      "sha256": "9d22758b802bb07f6b6cdbbfdfb86805b463233978a4a644f373f3661a50671e",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_PRP_mossbed_A/TWN_PRP_mossbed_A_front.png",
+      "sha256": "091e44ddacc6cd793fa9faf828c4f65c95886dce4956826a7691aa9a10bdd54f",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_PRP_mossbed_A/TWN_PRP_mossbed_A_side.png",
+      "sha256": "379df2059846a5150dc475fcaa4e3281c5df57aa019049d59ae6877f869c3523",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_PRP_mossbed_A/TWN_PRP_mossbed_A_back.png",
+      "sha256": "6fd00dacf697e9d3e1648591ba9980e17c4f62575dbd49685706fa93e04f142b",
+      "width": 512,
+      "height": 1024
+    }
+  ]
+}

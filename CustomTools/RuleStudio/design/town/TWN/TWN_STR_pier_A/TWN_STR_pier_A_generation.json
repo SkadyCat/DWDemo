@@ -1,0 +1,154 @@
+{
+  "schemaVersion": 1,
+  "id": "TWN-STR-20",
+  "name": "栈桥",
+  "stem": "TWN_STR_pier_A",
+  "provider": "Meshy",
+  "endpoint": "/multi-image-to-3d",
+  "taskId": "01a1abed-23a5-7456-8f41-5e5e34f0765c",
+  "consumedCredits": 30,
+  "input": {
+    "settings": {
+      "ai_model": "meshy-7.1",
+      "geometry_resolution": "standard",
+      "should_texture": true,
+      "texture_model": "meshy-7",
+      "enable_pbr": true,
+      "texture_resolution": "2k",
+      "should_remesh": true,
+      "topology": "triangle",
+      "target_polycount": 2000,
+      "image_enhancement": false,
+      "target_formats": [
+        "glb"
+      ],
+      "multi_view_thumbnails": true
+    },
+    "viewOrder": [
+      "front",
+      "side",
+      "top",
+      "concept_three_quarter"
+    ],
+    "views": [
+      {
+        "file": "design/town/TWN/TWN_STR_pier_A/TWN_STR_pier_A_front.png",
+        "sha256": "72dfe5e9ef55c76979f535b86219276b377e9647ab100ce28b37780d6e579feb"
+      },
+      {
+        "file": "design/town/TWN/TWN_STR_pier_A/TWN_STR_pier_A_side.png",
+        "sha256": "6b45711574754c83cff6e6475548bb2aa6cc5278df85a3f8c9a147d2a3498750"
+      },
+      {
+        "file": "design/town/TWN/TWN_STR_pier_A/TWN_STR_pier_A_top.png",
+        "sha256": "92fe5f0f6ddba43b8f100a68204773b72d017d2a827adf10620658033f9296b3"
+      },
+      {
+        "file": "design/town/TWN/TWN_STR_pier_A/TWN_STR_pier_A_concept.png",
+        "sha256": "1933742d5b864c752e128982cff8f1ddd621e5cc5ccb3923558a77d1ecfaa3ee"
+      }
+    ]
+  },
+  "glb": {
+    "meshes": 1,
+    "triangles": 1861,
+    "materials": 1,
+    "embeddedImages": 3,
+    "sha256": "b648e14e6d3dd487c8255800d87e1dd6e36bc38874230487ff98b6462a288b1a",
+    "bytes": 7483392
+  },
+  "targetDimensionsM": [
+    4.0,
+    8.0,
+    1.0
+  ],
+  "dimensionFieldsUnit": "meters (per source document)",
+  "gridCellM": 2,
+  "qa": {
+    "asset": "TWN_STR_pier_A",
+    "sha256": "b648e14e6d3dd487c8255800d87e1dd6e36bc38874230487ff98b6462a288b1a",
+    "import": "passed",
+    "render": "passed",
+    "meshes": 1,
+    "triangles": 1861,
+    "materials": 1,
+    "embeddedImages": 3,
+    "boundsMin": [
+      -0.950965940952301,
+      -0.5411350131034851,
+      -0.6433919668197632
+    ],
+    "boundsMax": [
+      0.9653699994087219,
+      0.5397210121154785,
+      0.6410709619522095
+    ],
+    "dimensionsUnscaled": [
+      1.916335940361023,
+      1.0808560848236084,
+      1.2844629287719727
+    ]
+  },
+  "visualReview": {
+    "status": "passed",
+    "sha256": "b648e14e6d3dd487c8255800d87e1dd6e36bc38874230487ff98b6462a288b1a",
+    "notes": [
+      "Re-reviewed corrected model SHA using all four Meshy previews. Hanging lantern body and suspension now present beneath far-end arm; deck, posts, rope coils and diagonal supports intact, no added ground slab. Corrected variant follows concept with five bollards rather than the first failed generation eight-bollard sheet interpretation. Original missing-lantern attempt rejected and replaced by root."
+    ]
+  },
+  "previousAttempts": [
+    {
+      "taskId": "01a1abe3-57dc-77e4-bc0f-0ab69a31ff45",
+      "consumedCredits": 30,
+      "glbSha256": "cad1ae205742a238d555d9bb9552f8c7423f9a8ca6acf535bccfeb5d2c028d58",
+      "visualReview": "rejected",
+      "reason": "First GLB omitted the hanging lantern. Corrected with concept as fourth view."
+    }
+  ],
+  "postProcessing": "pending: scale, bottom-center pivot, theme palette, final decimation and seams",
+  "sheetSource": {
+    "provider": "built-in image_gen",
+    "conceptSha256": "1933742d5b864c752e128982cff8f1ddd621e5cc5ccb3923558a77d1ecfaa3ee",
+    "file": "design/town/TWN/TWN_STR_pier_A/TWN_STR_pier_A_sheet-source.png",
+    "sha256": "3a5edf833f77b7c9332b021f16b60ea790e33dd0f41aa25c38725d0bc9358519",
+    "dimensions": [
+      1536,
+      1024
+    ],
+    "basePrompt": "Orthographic reference sheet of a simple wooden pier: thick planks on round wooden posts, mooring bollards with rope coiled around them, a lantern post at the far end, warm cream plaster walls with dark oak half-timber beams, weathered sandstone and grey cobblestone, slate-blue and terracotta roof tiles, tarnished gold trim, warm lantern-orange glowing windows, cozy underground-town palette of warm browns, cream and muted gold. Exactly the same object as the reference image, shown three times side by side from left to right: top-down view, front view, right side view. Same scale, aligned, each view centered in its own equal-width panel with generous empty space between views. low poly 3D game asset, flat shading, faceted geometry, clean hard edges, limited color palette, orthographic projection, no perspective distortion, even flat studio lighting, no cast shadows, no ambient occlusion, no reflections, plain pure white background, object fully visible with margin, no ground plane, no text, no labels",
+    "exportLayout": {
+      "method": "white_gutters_common_uniform_scale",
+      "explicitCuts": true,
+      "sourceCuts": [
+        375,
+        800
+      ],
+      "sourceObjectBounds": [
+        [
+          39,
+          156,
+          339,
+          844
+        ],
+        [
+          419,
+          262,
+          755,
+          698
+        ],
+        [
+          845,
+          266,
+          1499,
+          698
+        ]
+      ],
+      "sharedVerticalBounds": [
+        156,
+        844
+      ],
+      "scale": 0.6850152905198776
+    },
+    "productionNotes": "Reviewed top/front/right flat-asset sheet. Corrected top lantern to overhead cap and matched eight bollard tops with four post pairs in side elevation. Explicit source white-gutter cuts x375/800 visually checked."
+  }
+}

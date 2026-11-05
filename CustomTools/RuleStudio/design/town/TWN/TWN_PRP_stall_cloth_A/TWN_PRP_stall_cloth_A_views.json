@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "stem": "TWN_PRP_stall_cloth_A",
+  "viewOrder": [
+    "front",
+    "side",
+    "back"
+  ],
+  "files": [
+    {
+      "file": "design/town/TWN/TWN_PRP_stall_cloth_A/TWN_PRP_stall_cloth_A_sheet.png",
+      "sha256": "8f582c64a7ffcc101abbf25bb593a941869a4b83d4cd43cef54b4085b682adab",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_PRP_stall_cloth_A/TWN_PRP_stall_cloth_A_front.png",
+      "sha256": "37e5ad366977e24774475b2436324b720d1bb1aa15060e23a96cceedfd0b0bd9",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_PRP_stall_cloth_A/TWN_PRP_stall_cloth_A_side.png",
+      "sha256": "959b76898b706a709f01c545aa9182b845f7a5e0184c1cc847c254bc8cfffe6c",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_PRP_stall_cloth_A/TWN_PRP_stall_cloth_A_back.png",
+      "sha256": "cb2f7b7b791a64fcea27fc490eb915012a9ee30898823d6d1675f6c88c860e04",
+      "width": 512,
+      "height": 1024
+    }
+  ]
+}

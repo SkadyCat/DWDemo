@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "stem": "TWN_PRP_stall_pickle_A",
+  "viewOrder": [
+    "front",
+    "side",
+    "back"
+  ],
+  "files": [
+    {
+      "file": "design/town/TWN/TWN_PRP_stall_pickle_A/TWN_PRP_stall_pickle_A_sheet.png",
+      "sha256": "0ad728172053429459f06e7636df81e8a47164250f7dac95572ccb87b270e78b",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_PRP_stall_pickle_A/TWN_PRP_stall_pickle_A_front.png",
+      "sha256": "7d2531bebdf7291a3e692e575db2989a371a59b93455bece5281d3bdae6cd2c9",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_PRP_stall_pickle_A/TWN_PRP_stall_pickle_A_side.png",
+      "sha256": "0fc82449ce6a83fe69d152c15f440427438ee26c25b7f70b16ee35b5d48769b0",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_PRP_stall_pickle_A/TWN_PRP_stall_pickle_A_back.png",
+      "sha256": "97abae952c237c14dbd873b880e0e2b9266cbb2eb80366bd9d18a48bf1e4f210",
+      "width": 512,
+      "height": 1024
+    }
+  ]
+}

@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 1,
+  "id": "TWN-PRP-03",
+  "name": "旧衣摊",
+  "stem": "TWN_PRP_stall_cloth_A",
+  "provider": "Meshy",
+  "endpoint": "/multi-image-to-3d",
+  "taskId": "01a1abe9-9c75-736a-afd4-057f9891aa5c",
+  "consumedCredits": 30,
+  "input": {
+    "settings": {
+      "ai_model": "meshy-7.1",
+      "geometry_resolution": "standard",
+      "should_texture": true,
+      "texture_model": "meshy-7",
+      "enable_pbr": true,
+      "texture_resolution": "2k",
+      "should_remesh": true,
+      "topology": "triangle",
+      "target_polycount": 1500,
+      "image_enhancement": false,
+      "target_formats": [
+        "glb"
+      ],
+      "multi_view_thumbnails": true
+    },
+    "viewOrder": [
+      "front",
+      "side",
+      "back",
+      "concept_three_quarter"
+    ],
+    "views": [
+      {
+        "file": "design/town/TWN/TWN_PRP_stall_cloth_A/TWN_PRP_stall_cloth_A_front.png",
+        "sha256": "37e5ad366977e24774475b2436324b720d1bb1aa15060e23a96cceedfd0b0bd9"
+      },
+      {
+        "file": "design/town/TWN/TWN_PRP_stall_cloth_A/TWN_PRP_stall_cloth_A_side.png",
+        "sha256": "959b76898b706a709f01c545aa9182b845f7a5e0184c1cc847c254bc8cfffe6c"
+      },
+      {
+        "file": "design/town/TWN/TWN_PRP_stall_cloth_A/TWN_PRP_stall_cloth_A_back.png",
+        "sha256": "cb2f7b7b791a64fcea27fc490eb915012a9ee30898823d6d1675f6c88c860e04"
+      },
+      {
+        "file": "design/town/TWN/TWN_PRP_stall_cloth_A/TWN_PRP_stall_cloth_A_concept.png",
+        "sha256": "c632cab51a71b581fbda3f3f223cc70fad304954cfc3de8fcf26968cec93c7f7"
+      }
+    ]
+  },
+  "glb": {
+    "meshes": 1,
+    "triangles": 1521,
+    "materials": 1,
+    "embeddedImages": 3,
+    "sha256": "26ac8a5d569261bf8b8f98b11f3aaa2f76b072cad18121e78fab37963b0bc465",
+    "bytes": 7534096
+  },
+  "targetDimensionsM": [
+    2.0,
+    1.4,
+    2.2
+  ],
+  "dimensionFieldsUnit": "meters (per source document)",
+  "gridCellM": 2,
+  "qa": {
+    "asset": "TWN_PRP_stall_cloth_A",
+    "sha256": "26ac8a5d569261bf8b8f98b11f3aaa2f76b072cad18121e78fab37963b0bc465",
+    "import": "passed",
+    "render": "passed",
+    "meshes": 1,
+    "triangles": 1521,
+    "materials": 1,
+    "embeddedImages": 3,
+    "boundsMin": [
+      -0.9296099543571472,
+      -0.6421879529953003,
+      -0.951668918132782
+    ],
+    "boundsMax": [
+      0.912636935710907,
+      0.6419298648834229,
+      0.9507248997688293
+    ],
+    "dimensionsUnscaled": [
+      1.8422468900680542,
+      1.2841178178787231,
+      1.9023938179016113
+    ]
+  },
+  "visualReview": {
+    "status": "passed",
+    "sha256": "26ac8a5d569261bf8b8f98b11f3aaa2f76b072cad18121e78fab37963b0bc465",
+    "notes": [
+      "Corrected model re-reviewed across all four Meshy directions against concept and orthographic inputs. Continuous full-width tabletop/counter and three folded clothing piles restored.",
+      "Canopy, support posts, diagonal braces and three hanging patched coats present. Minor canopy/cloth warping remains for art cleanup; no missing major component."
+    ]
+  },
+  "previousAttempts": [
+    {
+      "taskId": "01a1abe3-efac-7648-bf2e-2100e86af73a",
+      "consumedCredits": 30,
+      "glbSha256": "09fd2a5cec4ae266b0e3fbfa1e72bb254a33d34436826f180ad236aac59380e0",
+      "visualReview": "rejected",
+      "reason": "First GLB omitted the front counter. Corrected with concept as fourth view."
+    }
+  ],
+  "postProcessing": "pending: scale, bottom-center pivot, theme palette, final decimation and seams",
+  "sheetSource": {
+    "provider": "built-in image_gen",
+    "conceptSha256": "c632cab51a71b581fbda3f3f223cc70fad304954cfc3de8fcf26968cec93c7f7",
+    "file": "design/town/TWN/TWN_PRP_stall_cloth_A/TWN_PRP_stall_cloth_A_sheet-source.png",
+    "sha256": "94dc0265580e8c5bda8dec891436f5d88a0052c48eb625aab07bcac509717888",
+    "dimensions": [
+      1536,
+      1024
+    ],
+    "basePrompt": "Orthographic turnaround reference sheet of a market stall with a mustard-yellow awning, folded old clothes in piles on the counter and patched coats hanging from a rail at the side, warm cream plaster walls with dark oak half-timber beams, weathered sandstone and grey cobblestone, slate-blue and terracotta roof tiles, tarnished gold trim, warm lantern-orange glowing windows, cozy underground-town palette of warm browns, cream and muted gold. Exactly the same object as the reference image, shown three times side by side from left to right: front view, right side view, back view. Same scale, same height, aligned on the same baseline, each view centered in its own equal-width panel with generous empty space between views. low poly 3D game asset, flat shading, faceted geometry, clean hard edges, limited color palette, orthographic projection, no perspective distortion, even flat studio lighting, no cast shadows, no ambient occlusion, no reflections, plain pure white background, object fully visible with margin, no ground plane, no text, no labels, no arrows",
+    "exportLayout": {
+      "method": "equal_panels",
+      "scale": 1.0
+    },
+    "productionNotes": "Built-in image_gen, orthographic sheet reviewed and three views exported."
+  }
+}

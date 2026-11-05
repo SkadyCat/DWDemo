@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "id": "TWN-STR-14",
+  "name": "棚屋",
+  "stem": "TWN_STR_shack_A",
+  "provider": "Meshy",
+  "endpoint": "/multi-image-to-3d",
+  "taskId": "01a1abe1-0e32-7378-b603-63db9514ca8a",
+  "consumedCredits": 30,
+  "input": {
+    "settings": {
+      "ai_model": "meshy-7.1",
+      "geometry_resolution": "standard",
+      "should_texture": true,
+      "texture_model": "meshy-7",
+      "enable_pbr": true,
+      "texture_resolution": "2k",
+      "should_remesh": true,
+      "topology": "triangle",
+      "target_polycount": 6000,
+      "image_enhancement": false,
+      "target_formats": [
+        "glb"
+      ],
+      "multi_view_thumbnails": true
+    },
+    "viewOrder": [
+      "front",
+      "side",
+      "back"
+    ],
+    "views": [
+      {
+        "file": "design/town/TWN/TWN_STR_shack_A/TWN_STR_shack_A_front.png",
+        "sha256": "c1079e36a845adcf9deb0c84fdb3ef42becb41a06edacf09c47c44faed682f5f"
+      },
+      {
+        "file": "design/town/TWN/TWN_STR_shack_A/TWN_STR_shack_A_side.png",
+        "sha256": "20bf77528ca6dfb9d1069ed10fc4fb78d4309a3b819b43c403d5088d698b21a9"
+      },
+      {
+        "file": "design/town/TWN/TWN_STR_shack_A/TWN_STR_shack_A_back.png",
+        "sha256": "f897e6c5d578b2c6747ac7d9dae9bd008d8e693100531c2498954365960c0c91"
+      }
+    ]
+  },
+  "glb": {
+    "meshes": 1,
+    "triangles": 5843,
+    "materials": 1,
+    "embeddedImages": 3,
+    "sha256": "30ddbc6f0626dd78720a7d24b68f9198e4e403db38b0c6aca70042c2c4b76e06",
+    "bytes": 8030676
+  },
+  "targetDimensionsM": [
+    4.0,
+    4.0,
+    3.0
+  ],
+  "dimensionFieldsUnit": "meters (per source document)",
+  "gridCellM": 2,
+  "qa": {
+    "asset": "TWN_STR_shack_A",
+    "sha256": "30ddbc6f0626dd78720a7d24b68f9198e4e403db38b0c6aca70042c2c4b76e06",
+    "import": "passed",
+    "render": "passed",
+    "meshes": 1,
+    "triangles": 5843,
+    "materials": 1,
+    "embeddedImages": 3,
+    "boundsMin": [
+      -0.7388670444488525,
+      -0.7002450823783875,
+      -0.9517850875854492
+    ],
+    "boundsMax": [
+      0.7243440747261047,
+      0.704581081867218,
+      0.9484490156173706
+    ],
+    "dimensionsUnscaled": [
+      1.4632110595703125,
+      1.4048261642456055,
+      1.9002341032028198
+    ]
+  },
+  "visualReview": {
+    "status": "passed",
+    "sha256": "30ddbc6f0626dd78720a7d24b68f9198e4e403db38b0c6aca70042c2c4b76e06",
+    "notes": [
+      "Compared concept/sheet and all four model previews. Scrap plank walls, tan/blue patched tarp, hanging ragged door curtain, small window and tin chimney present. Front-facing preview naming differs from reference orientation; scale/pivot/orientation remain downstream tasks."
+    ]
+  },
+  "previousAttempts": [],
+  "postProcessing": "pending: scale, bottom-center pivot, theme palette, final decimation and seams",
+  "sheetSource": {
+    "provider": "built-in image_gen",
+    "conceptSha256": "c720bdd23ab4cd167bbf43e63617819662dbb3d83dc6b482489e56b5578ce7c0",
+    "file": "design/town/TWN/TWN_STR_shack_A/TWN_STR_shack_A_sheet-source.png",
+    "sha256": "fefcb8ec06fda88fe5c3954deb97bd1b055f8dcf92fe3a021443c6c120707203",
+    "dimensions": [
+      1536,
+      1024
+    ],
+    "basePrompt": "Orthographic turnaround reference sheet of a small refugee shack built from mismatched scrap planks, a sloping lean-to roof of boards with a patched cloth tarp, a ragged curtain for a door, a tin chimney pipe, warm cream plaster walls with dark oak half-timber beams, weathered sandstone and grey cobblestone, slate-blue and terracotta roof tiles, tarnished gold trim, warm lantern-orange glowing windows, cozy underground-town palette of warm browns, cream and muted gold. Exactly the same object as the reference image, shown three times side by side from left to right: front view, right side view, back view. Same scale, same height, aligned on the same baseline, each view centered in its own equal-width panel with generous empty space between views. low poly 3D game asset, flat shading, faceted geometry, clean hard edges, limited color palette, orthographic projection, no perspective distortion, even flat studio lighting, no cast shadows, no ambient occlusion, no reflections, plain pure white background, object fully visible with margin, no ground plane, no text, no labels, no arrows",
+    "exportLayout": {
+      "method": "equal_panels",
+      "scale": 1.0
+    },
+    "productionNotes": "Reviewed front/right/back elevations of same scrap-plank shack, patched tarp and ragged curtain preserved. No added structures."
+  }
+}

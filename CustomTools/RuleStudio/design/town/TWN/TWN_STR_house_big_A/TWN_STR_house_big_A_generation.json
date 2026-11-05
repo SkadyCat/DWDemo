@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 1,
+  "id": "TWN-STR-12",
+  "name": "二层民房",
+  "stem": "TWN_STR_house_big_A",
+  "provider": "Meshy",
+  "endpoint": "/multi-image-to-3d",
+  "taskId": "01a1abe0-f261-75ea-af04-055637ee3ab2",
+  "consumedCredits": 30,
+  "input": {
+    "settings": {
+      "ai_model": "meshy-7.1",
+      "geometry_resolution": "standard",
+      "should_texture": true,
+      "texture_model": "meshy-7",
+      "enable_pbr": true,
+      "texture_resolution": "2k",
+      "should_remesh": true,
+      "topology": "triangle",
+      "target_polycount": 6000,
+      "image_enhancement": false,
+      "target_formats": [
+        "glb"
+      ],
+      "multi_view_thumbnails": true
+    },
+    "viewOrder": [
+      "front",
+      "side",
+      "back"
+    ],
+    "views": [
+      {
+        "file": "design/town/TWN/TWN_STR_house_big_A/TWN_STR_house_big_A_front.png",
+        "sha256": "8e75c4cba1bf3a30424d4f9500e36de04c664fba17ab038e80e9dd564ad02c1b"
+      },
+      {
+        "file": "design/town/TWN/TWN_STR_house_big_A/TWN_STR_house_big_A_side.png",
+        "sha256": "9d8370277205ed197cd000533d0460c64de6c5e67d538113584de524778ba827"
+      },
+      {
+        "file": "design/town/TWN/TWN_STR_house_big_A/TWN_STR_house_big_A_back.png",
+        "sha256": "b4ecd1fc6245024fca64e87167e203517da7eab91b6595b46df387f9d0eef0a3"
+      }
+    ]
+  },
+  "glb": {
+    "meshes": 1,
+    "triangles": 6003,
+    "materials": 1,
+    "embeddedImages": 3,
+    "sha256": "7094d4a50c1475ad8c68167b523d274e14d1964691a60c18a34be824d6409204",
+    "bytes": 9229928
+  },
+  "targetDimensionsM": [
+    8.0,
+    6.0,
+    7.0
+  ],
+  "dimensionFieldsUnit": "meters (per source document)",
+  "gridCellM": 2,
+  "qa": {
+    "asset": "TWN_STR_house_big_A",
+    "sha256": "7094d4a50c1475ad8c68167b523d274e14d1964691a60c18a34be824d6409204",
+    "import": "passed",
+    "render": "passed",
+    "meshes": 1,
+    "triangles": 6003,
+    "materials": 1,
+    "embeddedImages": 3,
+    "boundsMin": [
+      -0.6294470429420471,
+      -0.528886079788208,
+      -0.9516860842704773
+    ],
+    "boundsMax": [
+      0.6354349851608276,
+      0.5297930240631104,
+      0.9506000876426697
+    ],
+    "dimensionsUnscaled": [
+      1.2648820877075195,
+      1.0586791038513184,
+      1.902286171913147
+    ]
+  },
+  "visualReview": {
+    "status": "passed",
+    "sha256": "7094d4a50c1475ad8c68167b523d274e14d1964691a60c18a34be824d6409204",
+    "notes": [
+      "Reviewed all four Meshy directions against concept and orthographic inputs. Two-storey volume, overhang, brackets, dormer, roof, chimney, balcony and drying cloth present.",
+      "Proportions somewhat narrow/tall; scaling is downstream and does not warrant rejection."
+    ]
+  },
+  "previousAttempts": [],
+  "postProcessing": "pending: scale, bottom-center pivot, theme palette, final decimation and seams",
+  "sheetSource": {
+    "provider": "built-in image_gen",
+    "conceptSha256": "4658cf5162318c4018225a33c828fc1437ff28fe69e362faabbf5de0d81afca8",
+    "file": "design/town/TWN/TWN_STR_house_big_A/TWN_STR_house_big_A_sheet-source.png",
+    "sha256": "416f42f29672b90573818f0d1d8bd2c65f2c7d8208a56be1a7b0ead45dbd9363",
+    "dimensions": [
+      1536,
+      1024
+    ],
+    "basePrompt": "Orthographic turnaround reference sheet of a two-storey half-timbered townhouse whose upper floor sticks out over the street on wooden brackets, a steep terracotta roof, a small wooden balcony with drying cloth, warm-lit windows on both floors, a shop sign over the door, warm cream plaster walls with dark oak half-timber beams, weathered sandstone and grey cobblestone, slate-blue and terracotta roof tiles, tarnished gold trim, warm lantern-orange glowing windows, cozy underground-town palette of warm browns, cream and muted gold. Exactly the same object as the reference image, shown three times side by side from left to right: front view, right side view, back view. Same scale, same height, aligned on the same baseline, each view centered in its own equal-width panel with generous empty space between views. low poly 3D game asset, flat shading, faceted geometry, clean hard edges, limited color palette, orthographic projection, no perspective distortion, even flat studio lighting, no cast shadows, no ambient occlusion, no reflections, plain pure white background, object fully visible with margin, no ground plane, no text, no labels, no arrows",
+    "exportLayout": {
+      "method": "equal_panels",
+      "scale": 1.0
+    },
+    "productionNotes": "Built-in image_gen, orthographic sheet reviewed and three views exported."
+  }
+}

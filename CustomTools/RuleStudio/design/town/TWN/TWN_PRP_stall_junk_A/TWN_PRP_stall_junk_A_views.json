@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "stem": "TWN_PRP_stall_junk_A",
+  "viewOrder": [
+    "front",
+    "side",
+    "back"
+  ],
+  "files": [
+    {
+      "file": "design/town/TWN/TWN_PRP_stall_junk_A/TWN_PRP_stall_junk_A_sheet.png",
+      "sha256": "30d3ec87c4a58032a41f1dc99bc57809e1a7f73ba4959d27ac7b8acb6096f463",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_PRP_stall_junk_A/TWN_PRP_stall_junk_A_front.png",
+      "sha256": "630169caefffa9fcc50fb8d592f93f7c2c1adf2ee5049602a14136d23d29e054",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_PRP_stall_junk_A/TWN_PRP_stall_junk_A_side.png",
+      "sha256": "a890f562ce7a5baf80a29a31d2bf91b5e0e935f2287f23d8461d4ff0688ef98b",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_PRP_stall_junk_A/TWN_PRP_stall_junk_A_back.png",
+      "sha256": "e3d0e5a965b6e672dc4257d45bc78846a00d7298fedb8adb6508b135bd2b0865",
+      "width": 512,
+      "height": 1024
+    }
+  ]
+}

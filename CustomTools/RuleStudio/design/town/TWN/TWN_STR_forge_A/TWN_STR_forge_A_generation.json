@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 1,
+  "id": "TWN-STR-04",
+  "name": "铁匠铺",
+  "stem": "TWN_STR_forge_A",
+  "provider": "Meshy",
+  "endpoint": "/multi-image-to-3d",
+  "taskId": "01a1abde-3ce3-746e-b246-b01803cd081c",
+  "consumedCredits": 30,
+  "input": {
+    "settings": {
+      "ai_model": "meshy-7.1",
+      "geometry_resolution": "standard",
+      "should_texture": true,
+      "texture_model": "meshy-7",
+      "enable_pbr": true,
+      "texture_resolution": "2k",
+      "should_remesh": true,
+      "topology": "triangle",
+      "target_polycount": 6000,
+      "image_enhancement": false,
+      "target_formats": [
+        "glb"
+      ],
+      "multi_view_thumbnails": true
+    },
+    "viewOrder": [
+      "front",
+      "side",
+      "back"
+    ],
+    "views": [
+      {
+        "file": "design/town/TWN/TWN_STR_forge_A/TWN_STR_forge_A_front.png",
+        "sha256": "c174f68620b3fbe598b63dd0b97ae187fc766e2d1c181bc95f601afec0928aa4"
+      },
+      {
+        "file": "design/town/TWN/TWN_STR_forge_A/TWN_STR_forge_A_side.png",
+        "sha256": "7a81c8b8de15b6b5b509f40d577d489974275f2e2f6fa9d400c36fc5d663f53c"
+      },
+      {
+        "file": "design/town/TWN/TWN_STR_forge_A/TWN_STR_forge_A_back.png",
+        "sha256": "3b281ce41dcb7ec00323b91c37f16bc3eb7ef88912390e9b6019a7389a06cba9"
+      }
+    ]
+  },
+  "glb": {
+    "meshes": 1,
+    "triangles": 5731,
+    "materials": 1,
+    "embeddedImages": 3,
+    "sha256": "2483a931d327a18d0d3684b61a988de03e234cd76ebe1c7e5b62dae01d183a40",
+    "bytes": 8859272
+  },
+  "targetDimensionsM": [
+    12.0,
+    8.0,
+    6.0
+  ],
+  "dimensionFieldsUnit": "meters (per source document)",
+  "gridCellM": 2,
+  "qa": {
+    "asset": "TWN_STR_forge_A",
+    "sha256": "2483a931d327a18d0d3684b61a988de03e234cd76ebe1c7e5b62dae01d183a40",
+    "import": "passed",
+    "render": "passed",
+    "meshes": 1,
+    "triangles": 5731,
+    "materials": 1,
+    "embeddedImages": 3,
+    "boundsMin": [
+      -0.9520760178565979,
+      -0.8607280850410461,
+      -0.8610489368438721
+    ],
+    "boundsMax": [
+      0.9503849744796753,
+      0.8336120247840881,
+      0.8606659770011902
+    ],
+    "dimensionsUnscaled": [
+      1.902461051940918,
+      1.6943401098251343,
+      1.721714973449707
+    ]
+  },
+  "visualReview": {
+    "status": "passed",
+    "sha256": "2483a931d327a18d0d3684b61a988de03e234cd76ebe1c7e5b62dae01d183a40",
+    "notes": [
+      "Concept and orthographic sheet compared with five Meshy previews.",
+      "Open-front forge includes back/side walls, partial roof and chimney, furnace arch, workbench, anvil/stump, quench trough and ground slab; major silhouette complete.",
+      "No large component loss observed; furnace emissive treatment is downstream."
+    ]
+  },
+  "previousAttempts": [],
+  "postProcessing": "pending: scale, bottom-center pivot, theme palette, final decimation and seams",
+  "sheetSource": {
+    "provider": "built-in image_gen",
+    "conceptSha256": "e67b8a007de63a7f4ce7c428a2ee343d62d7d90f765b6663be686d074215868c",
+    "file": "design/town/TWN/TWN_STR_forge_A/TWN_STR_forge_A_sheet-source.png",
+    "sha256": "b4c0b389798f8b7534a0d725d5fe32ef1eb99c725519003e73937ecec33414ba",
+    "dimensions": [
+      1536,
+      1024
+    ],
+    "basePrompt": "Orthographic turnaround reference sheet of an open-fronted blacksmith workshop: thick stone back and side walls, a short lean-to roof only over the back half, a large brick furnace with a glowing orange mouth against the back wall and a tall square chimney, an anvil on a stump in the open front, a wooden quench trough with water, tools hanging on the wall, warm cream plaster walls with dark oak half-timber beams, weathered sandstone and grey cobblestone, slate-blue and terracotta roof tiles, tarnished gold trim, warm lantern-orange glowing windows, cozy underground-town palette of warm browns, cream and muted gold. Exactly the same object as the reference image, shown three times side by side from left to right: front view, right side view, back view. Same scale, same height, aligned on the same baseline, each view centered in its own equal-width panel with generous empty space between views. low poly 3D game asset, flat shading, faceted geometry, clean hard edges, limited color palette, orthographic projection, no perspective distortion, even flat studio lighting, no cast shadows, no ambient occlusion, no reflections, plain pure white background, object fully visible with margin, no ground plane, no text, no labels, no arrows",
+    "exportLayout": {
+      "method": "equal_panels"
+    },
+    "productionNotes": "Built-in image_gen, orthographic sheet reviewed and three views exported."
+  }
+}

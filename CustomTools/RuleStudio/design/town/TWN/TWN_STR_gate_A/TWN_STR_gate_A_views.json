@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "stem": "TWN_STR_gate_A",
+  "viewOrder": [
+    "front",
+    "side",
+    "back"
+  ],
+  "files": [
+    {
+      "file": "design/town/TWN/TWN_STR_gate_A/TWN_STR_gate_A_sheet.png",
+      "sha256": "79f2da59137cdb0079a4bd2cad90ae5f3af10525af91ff7b437ad20f57cf7001",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_STR_gate_A/TWN_STR_gate_A_front.png",
+      "sha256": "99090071c168c2fc4cd9a06b41784117bb4300f3463b83ee6fe4ddd6acba5073",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_STR_gate_A/TWN_STR_gate_A_side.png",
+      "sha256": "fc15fc36cfae3bf3f5a0b810aa9aa3fefbc34e1502f12b9408dc5e16bc9c8317",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_STR_gate_A/TWN_STR_gate_A_back.png",
+      "sha256": "99d95cbb6f664fa853fa31185896b6032a75500e783dd1354a520b2723057f38",
+      "width": 512,
+      "height": 1024
+    }
+  ]
+}

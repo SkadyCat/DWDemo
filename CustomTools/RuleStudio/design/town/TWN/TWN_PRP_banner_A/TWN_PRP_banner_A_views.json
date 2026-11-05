@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "stem": "TWN_PRP_banner_A",
+  "viewOrder": [
+    "front",
+    "side",
+    "back"
+  ],
+  "files": [
+    {
+      "file": "design/town/TWN/TWN_PRP_banner_A/TWN_PRP_banner_A_sheet.png",
+      "sha256": "422c90099d08e1c0434c9676b5b2be4f48e5e0b5826dcddf87bd7c25b662f9ba",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_PRP_banner_A/TWN_PRP_banner_A_front.png",
+      "sha256": "95a381e655772faffd53512211675025686ffcfc6127f6b7d1e553b4202e141e",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_PRP_banner_A/TWN_PRP_banner_A_side.png",
+      "sha256": "9e1fdc45a97e6f325b30bb854daec14a92f80b2886a9a76aca3574f0ccd4abf5",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_PRP_banner_A/TWN_PRP_banner_A_back.png",
+      "sha256": "04ba240849739f62ffb4b3e9a099e258d8938415b3cd3f7f9b81d35905709fc1",
+      "width": 512,
+      "height": 1024
+    }
+  ]
+}

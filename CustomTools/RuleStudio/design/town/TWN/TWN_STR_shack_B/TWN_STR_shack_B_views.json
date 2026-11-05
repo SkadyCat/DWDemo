@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "stem": "TWN_STR_shack_B",
+  "viewOrder": [
+    "front",
+    "side",
+    "back"
+  ],
+  "files": [
+    {
+      "file": "design/town/TWN/TWN_STR_shack_B/TWN_STR_shack_B_sheet.png",
+      "sha256": "53add4c30aa08cd91fcd539fa922aefba18a4b4f442ad8db100df05079141f95",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_STR_shack_B/TWN_STR_shack_B_front.png",
+      "sha256": "670003b6024a03f6f026956340d46b977ab833b2e384dd34dfecfee602eb16c8",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_STR_shack_B/TWN_STR_shack_B_side.png",
+      "sha256": "0048f23f4d867cf05c34bfbc10b4433abd3b5f2a7c250ae8eaa8684d90a63eb2",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_STR_shack_B/TWN_STR_shack_B_back.png",
+      "sha256": "79b304012544a26e261f51b6ad244f3c0c6db2af0d3e7ef7ba5f3261e7746eff",
+      "width": 512,
+      "height": 1024
+    }
+  ]
+}

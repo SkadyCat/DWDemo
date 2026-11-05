@@ -1,0 +1,141 @@
+{
+  "schemaVersion": 1,
+  "id": "TWN-PRP-20",
+  "name": "小船",
+  "stem": "TWN_PRP_boat_A",
+  "provider": "Meshy",
+  "endpoint": "/multi-image-to-3d",
+  "taskId": "01a1abe3-62b4-7112-bc8f-6b10d7d0f1ad",
+  "consumedCredits": 30,
+  "input": {
+    "settings": {
+      "ai_model": "meshy-7.1",
+      "geometry_resolution": "standard",
+      "should_texture": true,
+      "texture_model": "meshy-7",
+      "enable_pbr": true,
+      "texture_resolution": "2k",
+      "should_remesh": true,
+      "topology": "triangle",
+      "target_polycount": 1500,
+      "image_enhancement": false,
+      "target_formats": [
+        "glb"
+      ],
+      "multi_view_thumbnails": true
+    },
+    "viewOrder": [
+      "front",
+      "side",
+      "back"
+    ],
+    "views": [
+      {
+        "file": "design/town/TWN/TWN_PRP_boat_A/TWN_PRP_boat_A_front.png",
+        "sha256": "c1f7691a530c7f97e628b5562b562b157de48bb21f7c8640e3929cdb0e06de5c"
+      },
+      {
+        "file": "design/town/TWN/TWN_PRP_boat_A/TWN_PRP_boat_A_side.png",
+        "sha256": "405aa8bf0bb0eeba3d0e1b5df38a881f65a7f397234f3f6869f6ed2a323210c5"
+      },
+      {
+        "file": "design/town/TWN/TWN_PRP_boat_A/TWN_PRP_boat_A_back.png",
+        "sha256": "7071f3cd15116ba3e61224b3e89808dd3fab5fac31111ae573a5228ea8fedab0"
+      }
+    ]
+  },
+  "glb": {
+    "meshes": 1,
+    "triangles": 1495,
+    "materials": 1,
+    "embeddedImages": 3,
+    "sha256": "488c1f5cca2cba19caf5ddf7a7cbc0d353a3b1d34e0379afd413cf21b468b392",
+    "bytes": 6640168
+  },
+  "targetDimensionsM": [
+    3.0,
+    1.2,
+    0.8
+  ],
+  "dimensionFieldsUnit": "meters (per source document)",
+  "gridCellM": 2,
+  "qa": {
+    "asset": "TWN_PRP_boat_A",
+    "sha256": "488c1f5cca2cba19caf5ddf7a7cbc0d353a3b1d34e0379afd413cf21b468b392",
+    "import": "passed",
+    "render": "passed",
+    "meshes": 1,
+    "triangles": 1495,
+    "materials": 1,
+    "embeddedImages": 3,
+    "boundsMin": [
+      -0.9517250061035156,
+      -0.3581699728965759,
+      -0.3308749794960022
+    ],
+    "boundsMax": [
+      0.9507529139518738,
+      0.36182695627212524,
+      0.3291899561882019
+    ],
+    "dimensionsUnscaled": [
+      1.9024779796600342,
+      0.7199969291687012,
+      0.6600649356842041
+    ]
+  },
+  "visualReview": {
+    "status": "passed",
+    "sha256": "488c1f5cca2cba19caf5ddf7a7cbc0d353a3b1d34e0379afd413cf21b468b392",
+    "notes": [
+      "Reviewed all four Meshy directions against concept and orthographic inputs. Complete planked boat hull, bow/stern, lantern, rope and oars present.",
+      "Independent Blender top render confirms interior seats, planks and both oars."
+    ]
+  },
+  "previousAttempts": [],
+  "postProcessing": "pending: scale, bottom-center pivot, theme palette, final decimation and seams",
+  "sheetSource": {
+    "provider": "built-in image_gen",
+    "conceptSha256": "5eef55a879a9b26a5553417d90cd3267e3a03446778b5ef33e3bdca6f0a37af7",
+    "file": "design/town/TWN/TWN_PRP_boat_A/TWN_PRP_boat_A_sheet-source.png",
+    "sha256": "768d96d46889c3181b777ab6f6716ff447e2f3bb3be5d6aed306e5d4b7e02d46",
+    "dimensions": [
+      1536,
+      1024
+    ],
+    "basePrompt": "Orthographic turnaround reference sheet of a small flat-bottomed wooden rowboat with two oars resting inside, a coil of rope and a small lantern at the bow, warm cream plaster walls with dark oak half-timber beams, weathered sandstone and grey cobblestone, slate-blue and terracotta roof tiles, tarnished gold trim, warm lantern-orange glowing windows, cozy underground-town palette of warm browns, cream and muted gold. Exactly the same object as the reference image, shown three times side by side from left to right: front view, right side view, back view. Same scale, same height, aligned on the same baseline, each view centered in its own equal-width panel with generous empty space between views. low poly 3D game asset, flat shading, faceted geometry, clean hard edges, limited color palette, orthographic projection, no perspective distortion, even flat studio lighting, no cast shadows, no ambient occlusion, no reflections, plain pure white background, object fully visible with margin, no ground plane, no text, no labels, no arrows",
+    "exportLayout": {
+      "method": "white_gutters_common_uniform_scale",
+      "sourceCuts": [
+        355,
+        1185
+      ],
+      "sourceObjectBounds": [
+        [
+          31,
+          387,
+          314,
+          640
+        ],
+        [
+          396,
+          375,
+          1147,
+          640
+        ],
+        [
+          1223,
+          387,
+          1505,
+          640
+        ]
+      ],
+      "sharedVerticalBounds": [
+        375,
+        640
+      ],
+      "scale": 0.596537949400799
+    },
+    "productionNotes": "Built-in image_gen, orthographic sheet reviewed and three views exported."
+  }
+}

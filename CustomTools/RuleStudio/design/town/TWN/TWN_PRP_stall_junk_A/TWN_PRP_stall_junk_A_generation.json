@@ -1,0 +1,142 @@
+{
+  "schemaVersion": 1,
+  "id": "TWN-PRP-06",
+  "name": "杂货摊",
+  "stem": "TWN_PRP_stall_junk_A",
+  "provider": "Meshy",
+  "endpoint": "/multi-image-to-3d",
+  "taskId": "01a1abe5-7ef3-77ca-be8c-dfad3b7ce492",
+  "consumedCredits": 30,
+  "input": {
+    "settings": {
+      "ai_model": "meshy-7.1",
+      "geometry_resolution": "standard",
+      "should_texture": true,
+      "texture_model": "meshy-7",
+      "enable_pbr": true,
+      "texture_resolution": "2k",
+      "should_remesh": true,
+      "topology": "triangle",
+      "target_polycount": 1500,
+      "image_enhancement": false,
+      "target_formats": [
+        "glb"
+      ],
+      "multi_view_thumbnails": true
+    },
+    "viewOrder": [
+      "front",
+      "side",
+      "back"
+    ],
+    "views": [
+      {
+        "file": "design/town/TWN/TWN_PRP_stall_junk_A/TWN_PRP_stall_junk_A_front.png",
+        "sha256": "630169caefffa9fcc50fb8d592f93f7c2c1adf2ee5049602a14136d23d29e054"
+      },
+      {
+        "file": "design/town/TWN/TWN_PRP_stall_junk_A/TWN_PRP_stall_junk_A_side.png",
+        "sha256": "a890f562ce7a5baf80a29a31d2bf91b5e0e935f2287f23d8461d4ff0688ef98b"
+      },
+      {
+        "file": "design/town/TWN/TWN_PRP_stall_junk_A/TWN_PRP_stall_junk_A_back.png",
+        "sha256": "e3d0e5a965b6e672dc4257d45bc78846a00d7298fedb8adb6508b135bd2b0865"
+      }
+    ]
+  },
+  "glb": {
+    "meshes": 1,
+    "triangles": 1479,
+    "materials": 1,
+    "embeddedImages": 3,
+    "sha256": "53e977d06a53af6c645633091ea0c11726726af78a0ac7a99a20d1465d4b47e9",
+    "bytes": 6944360
+  },
+  "targetDimensionsM": [
+    2.0,
+    1.4,
+    2.2
+  ],
+  "dimensionFieldsUnit": "meters (per source document)",
+  "gridCellM": 2,
+  "qa": {
+    "asset": "TWN_PRP_stall_junk_A",
+    "sha256": "53e977d06a53af6c645633091ea0c11726726af78a0ac7a99a20d1465d4b47e9",
+    "import": "passed",
+    "render": "passed",
+    "meshes": 1,
+    "triangles": 1479,
+    "materials": 1,
+    "embeddedImages": 3,
+    "boundsMin": [
+      -0.8763579726219177,
+      -0.46250009536743164,
+      -0.9480339884757996
+    ],
+    "boundsMax": [
+      0.8773750066757202,
+      0.46206894516944885,
+      0.9468040466308594
+    ],
+    "dimensionsUnscaled": [
+      1.7537329196929932,
+      0.9245690107345581,
+      1.8948380947113037
+    ]
+  },
+  "visualReview": {
+    "status": "passed",
+    "sha256": "53e977d06a53af6c645633091ea0c11726726af78a0ac7a99a20d1465d4b47e9",
+    "notes": [
+      "Reviewed all four Meshy directions against concept and orthographic inputs. Complete orange-awning stall, continuous counter and supports, gold fittings, pot/keys/lantern/clock present.",
+      "Minor item and canopy distortions; no major component missing or large unwanted base."
+    ]
+  },
+  "previousAttempts": [],
+  "postProcessing": "pending: scale, bottom-center pivot, theme palette, final decimation and seams",
+  "sheetSource": {
+    "provider": "built-in image_gen",
+    "conceptSha256": "ca6f5db883e8f7d62ca3f68ff46552e8fe330e3179ab134fd89bbc5761ab93a5",
+    "file": "design/town/TWN/TWN_PRP_stall_junk_A/TWN_PRP_stall_junk_A_sheet-source.png",
+    "sha256": "7f7b651d4f4c6aca209c598cb2de4080e79fb57217f4e3ee106bdcdc6fa1ece9",
+    "dimensions": [
+      1536,
+      1024
+    ],
+    "basePrompt": "Orthographic turnaround reference sheet of a market stall with an orange awning, odd scavenged junk on the counter: a pot without a bottom, rusty keys, a cracked lantern, a broken clock, warm cream plaster walls with dark oak half-timber beams, weathered sandstone and grey cobblestone, slate-blue and terracotta roof tiles, tarnished gold trim, warm lantern-orange glowing windows, cozy underground-town palette of warm browns, cream and muted gold. Exactly the same object as the reference image, shown three times side by side from left to right: front view, right side view, back view. Same scale, same height, aligned on the same baseline, each view centered in its own equal-width panel with generous empty space between views. low poly 3D game asset, flat shading, faceted geometry, clean hard edges, limited color palette, orthographic projection, no perspective distortion, even flat studio lighting, no cast shadows, no ambient occlusion, no reflections, plain pure white background, object fully visible with margin, no ground plane, no text, no labels, no arrows",
+    "exportLayout": {
+      "method": "white_gutters_common_uniform_scale",
+      "explicitCuts": false,
+      "sourceCuts": [
+        585,
+        954
+      ],
+      "sourceObjectBounds": [
+        [
+          36,
+          257,
+          533,
+          792
+        ],
+        [
+          637,
+          250,
+          907,
+          792
+        ],
+        [
+          1002,
+          257,
+          1500,
+          792
+        ]
+      ],
+      "sharedVerticalBounds": [
+        250,
+        792
+      ],
+      "scale": 0.8995983935742972
+    },
+    "productionNotes": "Built-in image_gen, orthographic sheet reviewed and three views exported."
+  }
+}

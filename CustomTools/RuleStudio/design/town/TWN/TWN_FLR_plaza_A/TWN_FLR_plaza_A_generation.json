@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "id": "TWN-FLR-02",
+  "name": "广场石板",
+  "stem": "TWN_FLR_plaza_A",
+  "provider": "Meshy",
+  "endpoint": "/multi-image-to-3d",
+  "taskId": "01a1abea-7c77-711d-b995-5503977eb858",
+  "consumedCredits": 30,
+  "input": {
+    "settings": {
+      "ai_model": "meshy-7.1",
+      "geometry_resolution": "standard",
+      "should_texture": true,
+      "texture_model": "meshy-7",
+      "enable_pbr": true,
+      "texture_resolution": "2k",
+      "should_remesh": true,
+      "topology": "triangle",
+      "target_polycount": 600,
+      "image_enhancement": false,
+      "target_formats": [
+        "glb"
+      ],
+      "multi_view_thumbnails": true
+    },
+    "viewOrder": [
+      "front",
+      "side",
+      "top"
+    ],
+    "views": [
+      {
+        "file": "design/town/TWN/TWN_FLR_plaza_A/TWN_FLR_plaza_A_front.png",
+        "sha256": "42e76f5120ed2e9259846cafa58e6126a3b3655f568de0a5de50e25639336b4f"
+      },
+      {
+        "file": "design/town/TWN/TWN_FLR_plaza_A/TWN_FLR_plaza_A_side.png",
+        "sha256": "f3c1ab35221b00efeda7cfa302713622c65d6500a557d20228ce888b53cf9bff"
+      },
+      {
+        "file": "design/town/TWN/TWN_FLR_plaza_A/TWN_FLR_plaza_A_top.png",
+        "sha256": "4d4daa200ce54a01610ce1b7b6c27871131e5a083827175e92f63937fd6b6c8a"
+      }
+    ]
+  },
+  "glb": {
+    "meshes": 1,
+    "triangles": 552,
+    "materials": 1,
+    "embeddedImages": 3,
+    "sha256": "a066909a63bbe10c9d57eb7f355931ea0afb896acbe10899ec13258eca7bd0fc",
+    "bytes": 3899884
+  },
+  "targetDimensionsM": [
+    2.0,
+    2.0,
+    0.2
+  ],
+  "dimensionFieldsUnit": "meters (per source document)",
+  "gridCellM": 2,
+  "qa": {
+    "asset": "TWN_FLR_plaza_A",
+    "sha256": "a066909a63bbe10c9d57eb7f355931ea0afb896acbe10899ec13258eca7bd0fc",
+    "import": "passed",
+    "render": "passed",
+    "meshes": 1,
+    "triangles": 552,
+    "materials": 1,
+    "embeddedImages": 3,
+    "boundsMin": [
+      -0.951708972454071,
+      -0.945815920829773,
+      -0.07964392751455307
+    ],
+    "boundsMax": [
+      0.949230968952179,
+      0.9379659295082092,
+      0.09268602728843689
+    ],
+    "dimensionsUnscaled": [
+      1.90093994140625,
+      1.883781909942627,
+      0.17232996225357056
+    ]
+  },
+  "visualReview": {
+    "status": "passed",
+    "sha256": "a066909a63bbe10c9d57eb7f355931ea0afb896acbe10899ec13258eca7bd0fc",
+    "notes": [
+      "Compared concept/sheet and all four Meshy previews. Square flagstone thin slab with single gold edge retained; side profiles show closed flat bottom and appropriately small thickness. GLB accessor bounds independently confirmed by root: 1.9009 x 0.1723 x 1.8838. Material specularity and final dimensions belong to downstream processing."
+    ]
+  },
+  "previousAttempts": [],
+  "postProcessing": "pending: scale, bottom-center pivot, theme palette, final decimation and seams",
+  "sheetSource": {
+    "provider": "built-in image_gen",
+    "conceptSha256": "3cc16aa37857c9da8f1d25337c86da4909384bc594e2ecb2f062bafdda6a7f52",
+    "file": "design/town/TWN/TWN_FLR_plaza_A/TWN_FLR_plaza_A_sheet-source.png",
+    "sha256": "b73e38e67e6c2301fdd162e8d7a296db9c124b696e6c57244c9ff42f3d8830c9",
+    "dimensions": [
+      1536,
+      1024
+    ],
+    "basePrompt": "Orthographic reference sheet of square flat plaza tile of large pale sandstone flagstones with a thin tarnished gold inlay line along one edge, warm cream plaster walls with dark oak half-timber beams, weathered sandstone and grey cobblestone, slate-blue and terracotta roof tiles, tarnished gold trim, warm lantern-orange glowing windows, cozy underground-town palette of warm browns, cream and muted gold. Exactly the same object as the reference image, shown three times side by side from left to right: top-down view, front view, right side view. Same scale, aligned, each view centered in its own equal-width panel with generous empty space between views. low poly 3D game asset, flat shading, faceted geometry, clean hard edges, limited color palette, orthographic projection, no perspective distortion, even flat studio lighting, no cast shadows, no ambient occlusion, no reflections, plain pure white background, object fully visible with margin, no ground plane, no text, no labels",
+    "exportLayout": {
+      "method": "equal_panels",
+      "scale": 1.0
+    },
+    "productionNotes": "Reviewed strict top/front/right flat tile: square flagstone plan, gold along single front edge, thin slab edge elevations at same scale. No added structures."
+  }
+}

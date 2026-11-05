@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "id": "TWN-STR-03",
+  "name": "半盏灯酒馆",
+  "stem": "TWN_STR_tavern_A",
+  "provider": "Meshy",
+  "endpoint": "/multi-image-to-3d",
+  "taskId": "01a1abdc-931f-7227-a77e-b761ec4ff383",
+  "consumedCredits": 30,
+  "input": {
+    "settings": {
+      "ai_model": "meshy-7.1",
+      "geometry_resolution": "standard",
+      "should_texture": true,
+      "texture_model": "meshy-7",
+      "enable_pbr": true,
+      "texture_resolution": "2k",
+      "should_remesh": true,
+      "topology": "triangle",
+      "target_polycount": 6000,
+      "image_enhancement": false,
+      "target_formats": [
+        "glb"
+      ],
+      "multi_view_thumbnails": true
+    },
+    "viewOrder": [
+      "front",
+      "side",
+      "back"
+    ],
+    "views": [
+      {
+        "file": "design/town/TWN/TWN_STR_tavern_A/TWN_STR_tavern_A_front.png",
+        "sha256": "574c028986c2255814728a1967e7f26fc2c257272346e542a7991d3f6bb42018"
+      },
+      {
+        "file": "design/town/TWN/TWN_STR_tavern_A/TWN_STR_tavern_A_side.png",
+        "sha256": "6a3d8d790336acb3d518aa97613c283ca3c025b3bc8f3e9d264423fc5203620b"
+      },
+      {
+        "file": "design/town/TWN/TWN_STR_tavern_A/TWN_STR_tavern_A_back.png",
+        "sha256": "e90e158180bdb76f38ff39d1a0126f551363270ef9e45de1a5758a1cba21f04a"
+      }
+    ]
+  },
+  "glb": {
+    "meshes": 1,
+    "triangles": 5719,
+    "materials": 1,
+    "embeddedImages": 3,
+    "sha256": "389c5db6003ae7d3fc55d45445bb5fcdc4dac07252ef78bef8a3534189a99dd0",
+    "bytes": 8768720
+  },
+  "targetDimensionsM": [
+    14.0,
+    10.0,
+    8.0
+  ],
+  "dimensionFieldsUnit": "meters (per source document)",
+  "gridCellM": 2,
+  "qa": {
+    "asset": "TWN_STR_tavern_A",
+    "sha256": "389c5db6003ae7d3fc55d45445bb5fcdc4dac07252ef78bef8a3534189a99dd0",
+    "import": "passed",
+    "render": "passed",
+    "meshes": 1,
+    "triangles": 5719,
+    "materials": 1,
+    "embeddedImages": 3,
+    "boundsMin": [
+      -0.9506650567054749,
+      -0.6268900632858276,
+      -0.8227649927139282
+    ],
+    "boundsMax": [
+      0.9507790207862854,
+      0.6323790550231934,
+      0.8286540508270264
+    ],
+    "dimensionsUnscaled": [
+      1.9014440774917603,
+      1.259269118309021,
+      1.6514190435409546
+    ]
+  },
+  "visualReview": {
+    "status": "passed",
+    "sha256": "389c5db6003ae7d3fc55d45445bb5fcdc4dac07252ef78bef8a3534189a99dd0",
+    "notes": [
+      "Reviewed all four Meshy directions against concept and orthographic inputs. Whole two-storey tavern, roof gables, chimney and front porch/tables present.",
+      "Minor porch/window/beams distortion and softened detail remain for downstream art cleanup; no major part missing."
+    ]
+  },
+  "previousAttempts": [],
+  "postProcessing": "pending: scale, bottom-center pivot, theme palette, final decimation and seams",
+  "sheetSource": {
+    "provider": "built-in image_gen",
+    "conceptSha256": "b2e55380df5d675c185ca11b9be79d1aa6c3127050ee4bbd71b2c2a2921cdcac",
+    "file": "design/town/TWN/TWN_STR_tavern_A/TWN_STR_tavern_A_sheet-source.png",
+    "sha256": "6b39c9dd672f28cb78da38a3b986ac63d668a0a33398548b046f7bf2a04afc9f",
+    "dimensions": [
+      1536,
+      1024
+    ],
+    "basePrompt": "Orthographic turnaround reference sheet of a two-storey half-timbered tavern, cream plaster between dark beams, a wide covered porch with two long tables and benches in front, a wrought-iron sign arm holding a lantern broken in half, many warm-lit windows, a tall stone chimney, slightly crooked friendly silhouette, warm cream plaster walls with dark oak half-timber beams, weathered sandstone and grey cobblestone, slate-blue and terracotta roof tiles, tarnished gold trim, warm lantern-orange glowing windows, cozy underground-town palette of warm browns, cream and muted gold. Exactly the same object as the reference image, shown three times side by side from left to right: front view, right side view, back view. Same scale, same height, aligned on the same baseline, each view centered in its own equal-width panel with generous empty space between views. low poly 3D game asset, flat shading, faceted geometry, clean hard edges, limited color palette, orthographic projection, no perspective distortion, even flat studio lighting, no cast shadows, no ambient occlusion, no reflections, plain pure white background, object fully visible with margin, no ground plane, no text, no labels, no arrows",
+    "exportLayout": {
+      "method": "equal_panels"
+    },
+    "productionNotes": "Built-in image_gen, orthographic sheet reviewed and three views exported."
+  }
+}

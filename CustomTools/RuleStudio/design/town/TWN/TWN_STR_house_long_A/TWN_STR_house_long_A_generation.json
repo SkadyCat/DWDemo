@@ -1,0 +1,140 @@
+{
+  "schemaVersion": 1,
+  "id": "TWN-STR-11",
+  "name": "长条民房",
+  "stem": "TWN_STR_house_long_A",
+  "provider": "Meshy",
+  "endpoint": "/multi-image-to-3d",
+  "taskId": "01a1abe0-e62f-7188-bc52-4030481189f4",
+  "consumedCredits": 30,
+  "input": {
+    "settings": {
+      "ai_model": "meshy-7.1",
+      "geometry_resolution": "standard",
+      "should_texture": true,
+      "texture_model": "meshy-7",
+      "enable_pbr": true,
+      "texture_resolution": "2k",
+      "should_remesh": true,
+      "topology": "triangle",
+      "target_polycount": 6000,
+      "image_enhancement": false,
+      "target_formats": [
+        "glb"
+      ],
+      "multi_view_thumbnails": true
+    },
+    "viewOrder": [
+      "front",
+      "side",
+      "back"
+    ],
+    "views": [
+      {
+        "file": "design/town/TWN/TWN_STR_house_long_A/TWN_STR_house_long_A_front.png",
+        "sha256": "216c0addf5159a83c7ddf41847e48421c501785b11975966e6cd0ffafefa142d"
+      },
+      {
+        "file": "design/town/TWN/TWN_STR_house_long_A/TWN_STR_house_long_A_side.png",
+        "sha256": "55276f3a010c0f6e78ee34158d76263e40fb9659aaf61bea2aac50f12541444f"
+      },
+      {
+        "file": "design/town/TWN/TWN_STR_house_long_A/TWN_STR_house_long_A_back.png",
+        "sha256": "3910b5e774461ab7fd220bd75b413e64f858af53d2d4b604767ab42d518e1cb4"
+      }
+    ]
+  },
+  "glb": {
+    "meshes": 1,
+    "triangles": 5488,
+    "materials": 1,
+    "embeddedImages": 3,
+    "sha256": "1452b4adbf3605d19dbfa6e227cb4da68556f52733a2bf1ef81904b0212555d2",
+    "bytes": 8810032
+  },
+  "targetDimensionsM": [
+    6.0,
+    4.0,
+    4.5
+  ],
+  "dimensionFieldsUnit": "meters (per source document)",
+  "gridCellM": 2,
+  "qa": {
+    "asset": "TWN_STR_house_long_A",
+    "sha256": "1452b4adbf3605d19dbfa6e227cb4da68556f52733a2bf1ef81904b0212555d2",
+    "import": "passed",
+    "render": "passed",
+    "meshes": 1,
+    "triangles": 5488,
+    "materials": 1,
+    "embeddedImages": 3,
+    "boundsMin": [
+      -0.9517050385475159,
+      -0.5547741055488586,
+      -0.8287299871444702
+    ],
+    "boundsMax": [
+      0.9507300853729248,
+      0.557744026184082,
+      0.8270870447158813
+    ],
+    "dimensionsUnscaled": [
+      1.902435064315796,
+      1.112518072128296,
+      1.6558170318603516
+    ]
+  },
+  "visualReview": {
+    "status": "passed",
+    "sha256": "1452b4adbf3605d19dbfa6e227cb4da68556f52733a2bf1ef81904b0212555d2",
+    "notes": [
+      "Compared concept/sheet and all four model previews. Long mixed-tile roof with two dormers, two front doors, bench, chimney and timber frame present. Rear wall is closed and clean; source proportions preserved."
+    ]
+  },
+  "previousAttempts": [],
+  "postProcessing": "pending: scale, bottom-center pivot, theme palette, final decimation and seams",
+  "sheetSource": {
+    "provider": "built-in image_gen",
+    "conceptSha256": "6df8a8008ca05991a71b49dc8310fcb58570ddcef7bd887a1ceb3b43eb0f7032",
+    "file": "design/town/TWN/TWN_STR_house_long_A/TWN_STR_house_long_A_sheet-source.png",
+    "sha256": "07949cc2886328388cbf78c96e45fc3cb52e8e8ec76fa0b2b36f7a1ec35a3e18",
+    "dimensions": [
+      1536,
+      1024
+    ],
+    "basePrompt": "Orthographic turnaround reference sheet of a narrow low row house, half-timbered cream plaster, a long gable roof with two small dormer windows, two doors side by side, a bench under the front window, warm cream plaster walls with dark oak half-timber beams, weathered sandstone and grey cobblestone, slate-blue and terracotta roof tiles, tarnished gold trim, warm lantern-orange glowing windows, cozy underground-town palette of warm browns, cream and muted gold. Exactly the same object as the reference image, shown three times side by side from left to right: front view, right side view, back view. Same scale, same height, aligned on the same baseline, each view centered in its own equal-width panel with generous empty space between views. low poly 3D game asset, flat shading, faceted geometry, clean hard edges, limited color palette, orthographic projection, no perspective distortion, even flat studio lighting, no cast shadows, no ambient occlusion, no reflections, plain pure white background, object fully visible with margin, no ground plane, no text, no labels, no arrows",
+    "exportLayout": {
+      "method": "white_gutters_common_uniform_scale",
+      "sourceCuts": [
+        576,
+        957
+      ],
+      "sourceObjectBounds": [
+        [
+          47,
+          282,
+          532,
+          706
+        ],
+        [
+          621,
+          281,
+          908,
+          706
+        ],
+        [
+          1006,
+          282,
+          1489,
+          706
+        ]
+      ],
+      "sharedVerticalBounds": [
+        281,
+        706
+      ],
+      "scale": 0.9237113402061856
+    },
+    "productionNotes": "Reviewed exact front/right/back orthographic elevations. Source gutters clear; shared exporter repanelizes and preserves uniform scale."
+  }
+}

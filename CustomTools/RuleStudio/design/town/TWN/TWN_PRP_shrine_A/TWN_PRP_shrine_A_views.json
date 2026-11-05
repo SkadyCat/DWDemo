@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "stem": "TWN_PRP_shrine_A",
+  "viewOrder": [
+    "front",
+    "side",
+    "back"
+  ],
+  "files": [
+    {
+      "file": "design/town/TWN/TWN_PRP_shrine_A/TWN_PRP_shrine_A_sheet.png",
+      "sha256": "53d1740eca84147854c843f14663a182f0d8d3987534b1dbbe5eddc1bee463f3",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_PRP_shrine_A/TWN_PRP_shrine_A_front.png",
+      "sha256": "cffda01a67596564a32d283037c86a968266d3da9fb6ab5314a3812e9f90b357",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_PRP_shrine_A/TWN_PRP_shrine_A_side.png",
+      "sha256": "5d01e4606dd5861fa8b5675ebf64ee5d3a532b8a670c25210ccab206c7ee8fef",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_PRP_shrine_A/TWN_PRP_shrine_A_back.png",
+      "sha256": "9c7038b6faeb56cbca82608719116d8443a4107a925798c04eb7ee963c9279a2",
+      "width": 512,
+      "height": 1024
+    }
+  ]
+}

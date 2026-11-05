@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "stem": "TWN_STR_pier_A",
+  "viewOrder": [
+    "top",
+    "front",
+    "side"
+  ],
+  "files": [
+    {
+      "file": "design/town/TWN/TWN_STR_pier_A/TWN_STR_pier_A_sheet.png",
+      "sha256": "3721c23dcdd82cabcd8e05d2dbac616eaf6133da904c7a2f59a4f67cfe8d1682",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_STR_pier_A/TWN_STR_pier_A_top.png",
+      "sha256": "92fe5f0f6ddba43b8f100a68204773b72d017d2a827adf10620658033f9296b3",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_STR_pier_A/TWN_STR_pier_A_front.png",
+      "sha256": "72dfe5e9ef55c76979f535b86219276b377e9647ab100ce28b37780d6e579feb",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_STR_pier_A/TWN_STR_pier_A_side.png",
+      "sha256": "6b45711574754c83cff6e6475548bb2aa6cc5278df85a3f8c9a147d2a3498750",
+      "width": 512,
+      "height": 1024
+    }
+  ]
+}

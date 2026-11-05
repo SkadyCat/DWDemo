@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "stem": "TWN_WAL_cavern_A",
+  "viewOrder": [
+    "front",
+    "side",
+    "back"
+  ],
+  "files": [
+    {
+      "file": "design/town/TWN/TWN_WAL_cavern_A/TWN_WAL_cavern_A_sheet.png",
+      "sha256": "3e23039d2533ee50bbf381940371aa0ffcd16fba329029b079a2a24e1c2ec48f",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_WAL_cavern_A/TWN_WAL_cavern_A_front.png",
+      "sha256": "29cb42cf38b7b0c818c223eaa50d5453e16bb69fc9dc5efdc5d6304cda094925",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_WAL_cavern_A/TWN_WAL_cavern_A_side.png",
+      "sha256": "aa9296a9d566433e450a994110cae9a4c0f7f9349915320aa311a46a814514d9",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_WAL_cavern_A/TWN_WAL_cavern_A_back.png",
+      "sha256": "8288b7e03c16535b176b3fc784d15c94c202043eede9068c04be8842ce2f22fe",
+      "width": 512,
+      "height": 1024
+    }
+  ]
+}

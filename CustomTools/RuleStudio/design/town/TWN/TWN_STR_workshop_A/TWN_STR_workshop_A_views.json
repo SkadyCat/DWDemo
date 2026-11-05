@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "stem": "TWN_STR_workshop_A",
+  "viewOrder": [
+    "front",
+    "side",
+    "back"
+  ],
+  "files": [
+    {
+      "file": "design/town/TWN/TWN_STR_workshop_A/TWN_STR_workshop_A_sheet.png",
+      "sha256": "da8d177b3886f39fb35c970562606ec1e2118b5f35fa64dd170f74b561427242",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_STR_workshop_A/TWN_STR_workshop_A_front.png",
+      "sha256": "b3811f5e8fe2007e4a7e57e719de727f7764dc575af0d4668e153d516ddc3523",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_STR_workshop_A/TWN_STR_workshop_A_side.png",
+      "sha256": "e69ffbea1458489c78b7f06aef8d5842ae2761afd6314b902837857ac1d0be7a",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_STR_workshop_A/TWN_STR_workshop_A_back.png",
+      "sha256": "54329edf23193c119747d8d785dcf58e4dfe04aaa91bb1c5d89c0be7c34e7ef6",
+      "width": 512,
+      "height": 1024
+    }
+  ]
+}

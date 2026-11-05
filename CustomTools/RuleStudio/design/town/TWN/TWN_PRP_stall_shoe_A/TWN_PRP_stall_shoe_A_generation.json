@@ -1,0 +1,141 @@
+{
+  "schemaVersion": 1,
+  "id": "TWN-PRP-05",
+  "name": "修鞋摊",
+  "stem": "TWN_PRP_stall_shoe_A",
+  "provider": "Meshy",
+  "endpoint": "/multi-image-to-3d",
+  "taskId": "01a1abe5-73ac-7515-bd9b-236ce551117a",
+  "consumedCredits": 30,
+  "input": {
+    "settings": {
+      "ai_model": "meshy-7.1",
+      "geometry_resolution": "standard",
+      "should_texture": true,
+      "texture_model": "meshy-7",
+      "enable_pbr": true,
+      "texture_resolution": "2k",
+      "should_remesh": true,
+      "topology": "triangle",
+      "target_polycount": 1500,
+      "image_enhancement": false,
+      "target_formats": [
+        "glb"
+      ],
+      "multi_view_thumbnails": true
+    },
+    "viewOrder": [
+      "front",
+      "side",
+      "back"
+    ],
+    "views": [
+      {
+        "file": "design/town/TWN/TWN_PRP_stall_shoe_A/TWN_PRP_stall_shoe_A_front.png",
+        "sha256": "9e1155bc19289734a4af9170b6ad376e6eeac6d81eae425f2945ed33982f0fff"
+      },
+      {
+        "file": "design/town/TWN/TWN_PRP_stall_shoe_A/TWN_PRP_stall_shoe_A_side.png",
+        "sha256": "e158c89b4a61eae20559a582fd78e969acc91a60c3ac7f9af665cb8ab2984eb6"
+      },
+      {
+        "file": "design/town/TWN/TWN_PRP_stall_shoe_A/TWN_PRP_stall_shoe_A_back.png",
+        "sha256": "b036ac561a0a8c18fade3237d646c9c419b2ea17da48011bf037d7d9f28596b0"
+      }
+    ]
+  },
+  "glb": {
+    "meshes": 1,
+    "triangles": 1446,
+    "materials": 1,
+    "embeddedImages": 3,
+    "sha256": "9143a4dd38f8c5293d65eb68b275c8824bea6afcc291b22ab794b35791f18872",
+    "bytes": 7076424
+  },
+  "targetDimensionsM": [
+    2.0,
+    1.4,
+    2.2
+  ],
+  "dimensionFieldsUnit": "meters (per source document)",
+  "gridCellM": 2,
+  "qa": {
+    "asset": "TWN_PRP_stall_shoe_A",
+    "sha256": "9143a4dd38f8c5293d65eb68b275c8824bea6afcc291b22ab794b35791f18872",
+    "import": "passed",
+    "render": "passed",
+    "meshes": 1,
+    "triangles": 1446,
+    "materials": 1,
+    "embeddedImages": 3,
+    "boundsMin": [
+      -0.9507361054420471,
+      -0.5969660878181458,
+      -0.9396130442619324
+    ],
+    "boundsMax": [
+      0.9498599767684937,
+      0.6011280417442322,
+      0.9429029822349548
+    ],
+    "dimensionsUnscaled": [
+      1.9005961418151855,
+      1.198094129562378,
+      1.8825160264968872
+    ]
+  },
+  "visualReview": {
+    "status": "passed",
+    "sha256": "9143a4dd38f8c5293d65eb68b275c8824bea6afcc291b22ab794b35791f18872",
+    "notes": [
+      "Compared concept/sheet and all four model previews. Purple awning, three boot pairs, small red child shoe, stool and shoemaker last retained. Counter/awning open space remains open. No major missing element or extra slab."
+    ]
+  },
+  "previousAttempts": [],
+  "postProcessing": "pending: scale, bottom-center pivot, theme palette, final decimation and seams",
+  "sheetSource": {
+    "provider": "built-in image_gen",
+    "conceptSha256": "d64cefa38af5f680af077fb746549752f1122c82fc9ba40810e646df95effc02",
+    "file": "design/town/TWN/TWN_PRP_stall_shoe_A/TWN_PRP_stall_shoe_A_sheet-source.png",
+    "sha256": "5f27ed2625ae6199f7272653dad4b2bbc5273477005a44ac04598f134b6bc1a4",
+    "dimensions": [
+      1536,
+      1024
+    ],
+    "basePrompt": "Orthographic turnaround reference sheet of a cobbler stall with a purple awning, a low stool and a shoemaker last, pairs of mended boots lined up on the counter, a small child-size red shoe set apart at one end, warm cream plaster walls with dark oak half-timber beams, weathered sandstone and grey cobblestone, slate-blue and terracotta roof tiles, tarnished gold trim, warm lantern-orange glowing windows, cozy underground-town palette of warm browns, cream and muted gold. Exactly the same object as the reference image, shown three times side by side from left to right: front view, right side view, back view. Same scale, same height, aligned on the same baseline, each view centered in its own equal-width panel with generous empty space between views. low poly 3D game asset, flat shading, faceted geometry, clean hard edges, limited color palette, orthographic projection, no perspective distortion, even flat studio lighting, no cast shadows, no ambient occlusion, no reflections, plain pure white background, object fully visible with margin, no ground plane, no text, no labels, no arrows",
+    "exportLayout": {
+      "method": "white_gutters_common_uniform_scale",
+      "explicitCuts": false,
+      "sourceCuts": [
+        559,
+        958
+      ],
+      "sourceObjectBounds": [
+        [
+          35,
+          256,
+          540,
+          776
+        ],
+        [
+          578,
+          247,
+          919,
+          776
+        ],
+        [
+          998,
+          253,
+          1506,
+          775
+        ]
+      ],
+      "sharedVerticalBounds": [
+        247,
+        776
+      ],
+      "scale": 0.8818897637795275
+    },
+    "productionNotes": "Reviewed front/right/back elevations; three boot pairs and single red child shoe, stool and shoemaker last preserved with rear occlusion. Purple awning timber stall only."
+  }
+}

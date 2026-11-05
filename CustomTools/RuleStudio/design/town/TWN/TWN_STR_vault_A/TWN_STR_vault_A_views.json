@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "stem": "TWN_STR_vault_A",
+  "viewOrder": [
+    "front",
+    "side",
+    "back"
+  ],
+  "files": [
+    {
+      "file": "design/town/TWN/TWN_STR_vault_A/TWN_STR_vault_A_sheet.png",
+      "sha256": "b9b404b5595e879c885236ff482057fce08475ba5e33365542457881ea9d88aa",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_STR_vault_A/TWN_STR_vault_A_front.png",
+      "sha256": "6a5218fc944ffcb12b566b3b11fb4b742429e32b69cf70fa49b8c01b22603cb6",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_STR_vault_A/TWN_STR_vault_A_side.png",
+      "sha256": "059da843dbcf9cb60e00030ecc49a7a908dbb87934f7fa9c9a5b04e71295b81a",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_STR_vault_A/TWN_STR_vault_A_back.png",
+      "sha256": "05dbe399243f15a23350a0ff7bc76d83e09c77c265ccc8ce43572c0859285d12",
+      "width": 512,
+      "height": 1024
+    }
+  ]
+}

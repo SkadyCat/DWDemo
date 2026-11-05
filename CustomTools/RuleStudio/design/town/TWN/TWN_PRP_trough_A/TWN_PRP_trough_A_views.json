@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "stem": "TWN_PRP_trough_A",
+  "viewOrder": [
+    "front",
+    "side",
+    "back"
+  ],
+  "files": [
+    {
+      "file": "design/town/TWN/TWN_PRP_trough_A/TWN_PRP_trough_A_sheet.png",
+      "sha256": "69a3b8009581fd4af77cce0895578e1c17bae076b37b1498534020bb0588d6ca",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_PRP_trough_A/TWN_PRP_trough_A_front.png",
+      "sha256": "961c501a3b010cdd080f7f2a8fd74d8fc3cdba3db88ee8191d7ae29f7c2b3ef9",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_PRP_trough_A/TWN_PRP_trough_A_side.png",
+      "sha256": "a3ea14a09fbd524586dccc8bcceff1d6160d9d43733a074e236c21f7c53c3b9a",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_PRP_trough_A/TWN_PRP_trough_A_back.png",
+      "sha256": "d387a233745b3744d2511c34a1749a8c0cc9f00463a89352a791c121c44dee3a",
+      "width": 512,
+      "height": 1024
+    }
+  ]
+}

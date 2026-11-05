@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "stem": "TWN_PRP_streetlamp_A",
+  "viewOrder": [
+    "front",
+    "side",
+    "back"
+  ],
+  "files": [
+    {
+      "file": "design/town/TWN/TWN_PRP_streetlamp_A/TWN_PRP_streetlamp_A_sheet.png",
+      "sha256": "3597d271fb364e7537aaa103249e519a67d7ab2b37733d0f5d2f34cd807bdd67",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_PRP_streetlamp_A/TWN_PRP_streetlamp_A_front.png",
+      "sha256": "798e09811ebc0471445501cf73dec4db0dc97ee731fd76c218ae9d80276fd882",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_PRP_streetlamp_A/TWN_PRP_streetlamp_A_side.png",
+      "sha256": "8c3cf528bad538f4f4519866d73137453939e8310d985b60b7113a19f9a856b5",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_PRP_streetlamp_A/TWN_PRP_streetlamp_A_back.png",
+      "sha256": "5939c8918162254db3f0228f2cb62ae686c3dc060c7dd44cbaeb8876b94c82fc",
+      "width": 512,
+      "height": 1024
+    }
+  ]
+}

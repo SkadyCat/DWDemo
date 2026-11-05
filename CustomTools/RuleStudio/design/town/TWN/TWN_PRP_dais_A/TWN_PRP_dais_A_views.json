@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "stem": "TWN_PRP_dais_A",
+  "viewOrder": [
+    "top",
+    "front",
+    "side"
+  ],
+  "files": [
+    {
+      "file": "design/town/TWN/TWN_PRP_dais_A/TWN_PRP_dais_A_sheet.png",
+      "sha256": "273fc609cf1c904be6c7cccc099dd90e7cd7f7aba367ad8d78eb512f95713f4f",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_PRP_dais_A/TWN_PRP_dais_A_top.png",
+      "sha256": "bfc8076ea2371c37a48a451b1dd0f87c9636b509bbd92128bce89b4f500269bb",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_PRP_dais_A/TWN_PRP_dais_A_front.png",
+      "sha256": "b17ec30e9cd73ee370ec7e845e1531427b742b7a4d5727f68f9837e668d180c1",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_PRP_dais_A/TWN_PRP_dais_A_side.png",
+      "sha256": "01913195b263662b467975ebde75a7dc20cd6ed673b5237be55aa797529a77a7",
+      "width": 512,
+      "height": 1024
+    }
+  ]
+}

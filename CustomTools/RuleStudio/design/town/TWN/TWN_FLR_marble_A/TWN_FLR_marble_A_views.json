@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "stem": "TWN_FLR_marble_A",
+  "viewOrder": [
+    "top",
+    "front",
+    "side"
+  ],
+  "files": [
+    {
+      "file": "design/town/TWN/TWN_FLR_marble_A/TWN_FLR_marble_A_sheet.png",
+      "sha256": "9e907836664307ac14d5692ee11d2a922fa444ecde2087f116ce2fc6a03e490b",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_FLR_marble_A/TWN_FLR_marble_A_top.png",
+      "sha256": "b11eadf4d273fe50004dcee486e78db94004e6316a5b0afa5ca0957ccb464e08",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_FLR_marble_A/TWN_FLR_marble_A_front.png",
+      "sha256": "78b2305e1c6fdba21817fc578930178abb5387559b20cce8cad915923206e41b",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_FLR_marble_A/TWN_FLR_marble_A_side.png",
+      "sha256": "fcb8f006579e4cff2dc31186307f08ac276b30098a2cdca68aee53a2dae8fd7f",
+      "width": 512,
+      "height": 1024
+    }
+  ]
+}

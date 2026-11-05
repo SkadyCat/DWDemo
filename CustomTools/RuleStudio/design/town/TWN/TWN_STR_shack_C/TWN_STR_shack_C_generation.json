@@ -1,0 +1,142 @@
+{
+  "schemaVersion": 1,
+  "id": "TWN-STR-14",
+  "name": "棚屋",
+  "stem": "TWN_STR_shack_C",
+  "provider": "Meshy",
+  "endpoint": "/multi-image-to-3d",
+  "taskId": "01a1abe2-11cb-7755-b57e-1701b3cd2b3e",
+  "consumedCredits": 30,
+  "input": {
+    "settings": {
+      "ai_model": "meshy-7.1",
+      "geometry_resolution": "standard",
+      "should_texture": true,
+      "texture_model": "meshy-7",
+      "enable_pbr": true,
+      "texture_resolution": "2k",
+      "should_remesh": true,
+      "topology": "triangle",
+      "target_polycount": 6000,
+      "image_enhancement": false,
+      "target_formats": [
+        "glb"
+      ],
+      "multi_view_thumbnails": true
+    },
+    "viewOrder": [
+      "front",
+      "side",
+      "back"
+    ],
+    "views": [
+      {
+        "file": "design/town/TWN/TWN_STR_shack_C/TWN_STR_shack_C_front.png",
+        "sha256": "960874a99cef7d0f63e161f6cddd5e49eaf89be94ae818cfa84a87a3c186a80c"
+      },
+      {
+        "file": "design/town/TWN/TWN_STR_shack_C/TWN_STR_shack_C_side.png",
+        "sha256": "1491dbecf61ecbecda54e1641ee490675cc28511ed53e05b25a9488ee5f814bd"
+      },
+      {
+        "file": "design/town/TWN/TWN_STR_shack_C/TWN_STR_shack_C_back.png",
+        "sha256": "486dc9ec6ac43650a7b3d1081562e142eeb5c7607c3205ec2b58c1d5eddc6e56"
+      }
+    ]
+  },
+  "glb": {
+    "meshes": 1,
+    "triangles": 5976,
+    "materials": 1,
+    "embeddedImages": 3,
+    "sha256": "cf40c10bb50ce1f811f9376d9c0c189084a5aec4bfd1aa9ca529eb81e75e1312",
+    "bytes": 7834452
+  },
+  "targetDimensionsM": [
+    4.0,
+    4.0,
+    3.0
+  ],
+  "dimensionFieldsUnit": "meters (per source document)",
+  "gridCellM": 2,
+  "qa": {
+    "asset": "TWN_STR_shack_C",
+    "sha256": "cf40c10bb50ce1f811f9376d9c0c189084a5aec4bfd1aa9ca529eb81e75e1312",
+    "import": "passed",
+    "render": "passed",
+    "meshes": 1,
+    "triangles": 5976,
+    "materials": 1,
+    "embeddedImages": 3,
+    "boundsMin": [
+      -0.9497760534286499,
+      -0.6099470853805542,
+      -0.7325310707092285
+    ],
+    "boundsMax": [
+      0.9477800726890564,
+      0.6187019944190979,
+      0.7262920141220093
+    ],
+    "dimensionsUnscaled": [
+      1.8975560665130615,
+      1.2286491394042969,
+      1.4588230848312378
+    ]
+  },
+  "visualReview": {
+    "status": "passed",
+    "sha256": "cf40c10bb50ce1f811f9376d9c0c189084a5aec4bfd1aa9ca529eb81e75e1312",
+    "notes": [
+      "Concept/sheet and five Meshy directions compared.",
+      "Lean-to wooden frame, torn red roof tarp, full rear stone wall, firewood, stool/cooking pot and ground foundation all present; no major component omitted.",
+      "Rear and both side depth profiles consistent with shelter silhouette."
+    ]
+  },
+  "previousAttempts": [],
+  "postProcessing": "pending: scale, bottom-center pivot, theme palette, final decimation and seams",
+  "sheetSource": {
+    "provider": "built-in image_gen",
+    "conceptSha256": "b9767d74c8a9c4ce56578b85d65e29c35634edd989f824cd3708bd74712542dc",
+    "file": "design/town/TWN/TWN_STR_shack_C/TWN_STR_shack_C_sheet-source.png",
+    "sha256": "e545725d7ce0815d4718982dab20a0216c28ec70be0877594ca54e24ca50646a",
+    "dimensions": [
+      1536,
+      1024
+    ],
+    "basePrompt": "Orthographic turnaround reference sheet of a tiny lean-to shelter against a low stone wall, a slanted plank roof covered with a faded red cloth, a stack of firewood, a stool and a cooking pot outside, warm cream plaster walls with dark oak half-timber beams, weathered sandstone and grey cobblestone, slate-blue and terracotta roof tiles, tarnished gold trim, warm lantern-orange glowing windows, cozy underground-town palette of warm browns, cream and muted gold. Exactly the same object as the reference image, shown three times side by side from left to right: front view, right side view, back view. Same scale, same height, aligned on the same baseline, each view centered in its own equal-width panel with generous empty space between views. low poly 3D game asset, flat shading, faceted geometry, clean hard edges, limited color palette, orthographic projection, no perspective distortion, even flat studio lighting, no cast shadows, no ambient occlusion, no reflections, plain pure white background, object fully visible with margin, no ground plane, no text, no labels, no arrows",
+    "exportLayout": {
+      "method": "white_gutters_common_uniform_scale",
+      "sourceCuts": [
+        558,
+        976
+      ],
+      "sourceObjectBounds": [
+        [
+          25,
+          307,
+          536,
+          714
+        ],
+        [
+          581,
+          308,
+          954,
+          714
+        ],
+        [
+          999,
+          308,
+          1510,
+          714
+        ]
+      ],
+      "sharedVerticalBounds": [
+        307,
+        714
+      ],
+      "scale": 0.8767123287671232
+    },
+    "productionNotes": "Built-in image_gen; front/right/back orthographic lean-to matches reference; rear stone wall and red roof cloth retained; white-gutter crop normalized."
+  }
+}

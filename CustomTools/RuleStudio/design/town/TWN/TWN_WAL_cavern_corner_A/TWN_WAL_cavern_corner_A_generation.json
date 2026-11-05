@@ -1,0 +1,115 @@
+{
+  "schemaVersion": 1,
+  "id": "TWN-WAL-02",
+  "name": "洞壁转角",
+  "stem": "TWN_WAL_cavern_corner_A",
+  "provider": "Meshy",
+  "endpoint": "/multi-image-to-3d",
+  "taskId": "01a1abed-3674-7589-828b-171f22417415",
+  "consumedCredits": 30,
+  "input": {
+    "settings": {
+      "ai_model": "meshy-7.1",
+      "geometry_resolution": "standard",
+      "should_texture": true,
+      "texture_model": "meshy-7",
+      "enable_pbr": true,
+      "texture_resolution": "2k",
+      "should_remesh": true,
+      "topology": "triangle",
+      "target_polycount": 1200,
+      "image_enhancement": false,
+      "target_formats": [
+        "glb"
+      ],
+      "multi_view_thumbnails": true
+    },
+    "viewOrder": [
+      "front",
+      "side",
+      "back"
+    ],
+    "views": [
+      {
+        "file": "design/town/TWN/TWN_WAL_cavern_corner_A/TWN_WAL_cavern_corner_A_front.png",
+        "sha256": "16cc7d7b9e2e0366c8b3bfd6e7979abe134f7da9a6c1e13fc7078cbafd592f03"
+      },
+      {
+        "file": "design/town/TWN/TWN_WAL_cavern_corner_A/TWN_WAL_cavern_corner_A_side.png",
+        "sha256": "1983ed42c6c8a9d05fd5e176163326fd3fa73543da01c3d42fb2d5d14bebb5c8"
+      },
+      {
+        "file": "design/town/TWN/TWN_WAL_cavern_corner_A/TWN_WAL_cavern_corner_A_back.png",
+        "sha256": "9c248525e5e8cf8c2b604f89caa6fe54019b19cedeb6613b5c29e4a70b87890a"
+      }
+    ]
+  },
+  "glb": {
+    "meshes": 1,
+    "triangles": 1231,
+    "materials": 1,
+    "embeddedImages": 3,
+    "sha256": "bb8b98b6127137e88ff7b4f811a65a837da375667dfa091ec709790bdaa98c5a",
+    "bytes": 6122368
+  },
+  "targetDimensionsM": [
+    2.0,
+    2.0,
+    3.2
+  ],
+  "dimensionFieldsUnit": "meters (per source document)",
+  "gridCellM": 2,
+  "qa": {
+    "asset": "TWN_WAL_cavern_corner_A",
+    "sha256": "bb8b98b6127137e88ff7b4f811a65a837da375667dfa091ec709790bdaa98c5a",
+    "import": "passed",
+    "render": "passed",
+    "meshes": 1,
+    "triangles": 1231,
+    "materials": 1,
+    "embeddedImages": 3,
+    "boundsMin": [
+      -0.6583309769630432,
+      -0.6454709768295288,
+      -0.9517340660095215
+    ],
+    "boundsMax": [
+      0.6527400016784668,
+      0.6334850192070007,
+      0.9496809840202332
+    ],
+    "dimensionsUnscaled": [
+      1.3110709190368652,
+      1.2789559364318848,
+      1.9014151096343994
+    ]
+  },
+  "visualReview": {
+    "status": "passed",
+    "sha256": "bb8b98b6127137e88ff7b4f811a65a837da375667dfa091ec709790bdaa98c5a",
+    "notes": [
+      "Concept/sheet and five Meshy directions compared after root repaired truncated download from same task.",
+      "Inside view has two joined perpendicular wall wings and visible concave corner, outside views confirm substantial depth and exterior rock faces; not a straight slab.",
+      "Hanging roots and broken top rim preserved; root additionally checks offline top footprint.",
+      "Independently rendered Blender top image inspected; footprint clearly forms two perpendicular wings with open inner quadrant, confirming L shape."
+    ]
+  },
+  "previousAttempts": [],
+  "postProcessing": "pending: scale, bottom-center pivot, theme palette, final decimation and seams",
+  "sheetSource": {
+    "provider": "built-in image_gen",
+    "conceptSha256": "df3085ac93e4150113348406610507d41913fdac7c86c79bab4a7c76bb17fd5c",
+    "file": "design/town/TWN/TWN_WAL_cavern_corner_A/TWN_WAL_cavern_corner_A_sheet-source.png",
+    "sha256": "089946c73fc25313f3ef07ae0d3c7107bc5fd35bbf0dbbc6f778e08b8779eda0",
+    "dimensions": [
+      1536,
+      1024
+    ],
+    "basePrompt": "Orthographic turnaround reference sheet of L-shaped cavern rock wall corner piece, chunky faceted rock with a few hanging roots, warm cream plaster walls with dark oak half-timber beams, weathered sandstone and grey cobblestone, slate-blue and terracotta roof tiles, tarnished gold trim, warm lantern-orange glowing windows, cozy underground-town palette of warm browns, cream and muted gold. Exactly the same object as the reference image, shown three times side by side from left to right: front view, right side view, back view. Same scale, same height, aligned on the same baseline, each view centered in its own equal-width panel with generous empty space between views. low poly 3D game asset, flat shading, faceted geometry, clean hard edges, limited color palette, orthographic projection, no perspective distortion, even flat studio lighting, no cast shadows, no ambient occlusion, no reflections, plain pure white background, object fully visible with margin, no ground plane, no text, no labels, no arrows",
+    "exportLayout": {
+      "method": "equal_panels",
+      "scale": 1.0
+    },
+    "productionNotes": "Built-in image_gen third attempt; front interior roots, right exterior and rear exterior each broad wing projection; rejected duplicate and thin-side versions. L-shaped footprint must be checked on generated GLB because orthographic occlusion hides inner corner."
+  }
+}

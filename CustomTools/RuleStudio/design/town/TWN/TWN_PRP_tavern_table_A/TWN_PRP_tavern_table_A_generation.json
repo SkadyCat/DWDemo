@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 1,
+  "id": "TWN-PRP-15",
+  "name": "酒馆外桌",
+  "stem": "TWN_PRP_tavern_table_A",
+  "provider": "Meshy",
+  "endpoint": "/multi-image-to-3d",
+  "taskId": "01a1abe8-bf32-7310-b846-66e093448388",
+  "consumedCredits": 30,
+  "input": {
+    "settings": {
+      "ai_model": "meshy-7.1",
+      "geometry_resolution": "standard",
+      "should_texture": true,
+      "texture_model": "meshy-7",
+      "enable_pbr": true,
+      "texture_resolution": "2k",
+      "should_remesh": true,
+      "topology": "triangle",
+      "target_polycount": 1500,
+      "image_enhancement": false,
+      "target_formats": [
+        "glb"
+      ],
+      "multi_view_thumbnails": true
+    },
+    "viewOrder": [
+      "front",
+      "side",
+      "back"
+    ],
+    "views": [
+      {
+        "file": "design/town/TWN/TWN_PRP_tavern_table_A/TWN_PRP_tavern_table_A_front.png",
+        "sha256": "6bde42060882ede7c5bb4778099c4b6ca0b0d8545aa3002dc44f19eab287f854"
+      },
+      {
+        "file": "design/town/TWN/TWN_PRP_tavern_table_A/TWN_PRP_tavern_table_A_side.png",
+        "sha256": "c4e8041861c4982ca0c2c17eddb6c3a6c3bf436b55b23afe944d31e4b5db70ce"
+      },
+      {
+        "file": "design/town/TWN/TWN_PRP_tavern_table_A/TWN_PRP_tavern_table_A_back.png",
+        "sha256": "73335c69d564706fe7b6927623cfec28b8e0987ef7234c9ba14ca43c9f79e25b"
+      }
+    ]
+  },
+  "glb": {
+    "meshes": 1,
+    "triangles": 1524,
+    "materials": 1,
+    "embeddedImages": 3,
+    "sha256": "59526a1d1b7770a382301401568e02f56800d260178de2a263da0e306402151d",
+    "bytes": 6209876
+  },
+  "targetDimensionsM": [
+    1.6,
+    1.6,
+    0.8
+  ],
+  "dimensionFieldsUnit": "meters (per source document)",
+  "gridCellM": 2,
+  "qa": {
+    "asset": "TWN_PRP_tavern_table_A",
+    "sha256": "59526a1d1b7770a382301401568e02f56800d260178de2a263da0e306402151d",
+    "import": "passed",
+    "render": "passed",
+    "meshes": 1,
+    "triangles": 1524,
+    "materials": 1,
+    "embeddedImages": 3,
+    "boundsMin": [
+      -0.9498589634895325,
+      -0.3686870038509369,
+      -0.6430910229682922
+    ],
+    "boundsMax": [
+      0.9493209719657898,
+      0.36966800689697266,
+      0.5544779896736145
+    ],
+    "dimensionsUnscaled": [
+      1.8991799354553223,
+      0.7383550405502319,
+      1.1975690126419067
+    ]
+  },
+  "visualReview": {
+    "status": "passed",
+    "sha256": "59526a1d1b7770a382301401568e02f56800d260178de2a263da0e306402151d",
+    "notes": [
+      "Reviewed all four Meshy directions against concept and orthographic inputs. Complete table, two parallel benches, A-frame leg structure, two tankards and candle present.",
+      "Candle flame omitted and wood edges softened; no major component missing."
+    ]
+  },
+  "previousAttempts": [],
+  "postProcessing": "pending: scale, bottom-center pivot, theme palette, final decimation and seams",
+  "sheetSource": {
+    "provider": "built-in image_gen",
+    "conceptSha256": "2c0d89d3ad8102aece861f68517c785c0ff798706b688c1973abeaa9ec5d5363",
+    "file": "design/town/TWN/TWN_PRP_tavern_table_A/TWN_PRP_tavern_table_A_sheet-source.png",
+    "sha256": "77162f3f0998e4ba8257141b675ee3a07d99f660986e5eef0a18ecd736b975bc",
+    "dimensions": [
+      1536,
+      1024
+    ],
+    "basePrompt": "Orthographic turnaround reference sheet of a rough wooden table with two benches, a few tankards and a candle on the table, warm cream plaster walls with dark oak half-timber beams, weathered sandstone and grey cobblestone, slate-blue and terracotta roof tiles, tarnished gold trim, warm lantern-orange glowing windows, cozy underground-town palette of warm browns, cream and muted gold. Exactly the same object as the reference image, shown three times side by side from left to right: front view, right side view, back view. Same scale, same height, aligned on the same baseline, each view centered in its own equal-width panel with generous empty space between views. low poly 3D game asset, flat shading, faceted geometry, clean hard edges, limited color palette, orthographic projection, no perspective distortion, even flat studio lighting, no cast shadows, no ambient occlusion, no reflections, plain pure white background, object fully visible with margin, no ground plane, no text, no labels, no arrows",
+    "exportLayout": {
+      "method": "equal_panels",
+      "scale": 1.0
+    },
+    "productionNotes": "Built-in image_gen, orthographic sheet reviewed and three views exported."
+  }
+}

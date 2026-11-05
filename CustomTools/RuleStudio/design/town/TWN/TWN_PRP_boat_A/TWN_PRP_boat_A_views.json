@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "stem": "TWN_PRP_boat_A",
+  "viewOrder": [
+    "front",
+    "side",
+    "back"
+  ],
+  "files": [
+    {
+      "file": "design/town/TWN/TWN_PRP_boat_A/TWN_PRP_boat_A_sheet.png",
+      "sha256": "6f0a0c354be170e06d38df090299f3f2a0b3a4e1484fb5f5c4927f5ac5ea3310",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_PRP_boat_A/TWN_PRP_boat_A_front.png",
+      "sha256": "c1f7691a530c7f97e628b5562b562b157de48bb21f7c8640e3929cdb0e06de5c",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_PRP_boat_A/TWN_PRP_boat_A_side.png",
+      "sha256": "405aa8bf0bb0eeba3d0e1b5df38a881f65a7f397234f3f6869f6ed2a323210c5",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_PRP_boat_A/TWN_PRP_boat_A_back.png",
+      "sha256": "7071f3cd15116ba3e61224b3e89808dd3fab5fac31111ae573a5228ea8fedab0",
+      "width": 512,
+      "height": 1024
+    }
+  ]
+}

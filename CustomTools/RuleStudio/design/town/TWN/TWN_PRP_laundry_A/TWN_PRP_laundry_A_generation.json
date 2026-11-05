@@ -1,0 +1,142 @@
+{
+  "schemaVersion": 1,
+  "id": "TWN-PRP-12",
+  "name": "晾衣绳",
+  "stem": "TWN_PRP_laundry_A",
+  "provider": "Meshy",
+  "endpoint": "/multi-image-to-3d",
+  "taskId": "01a1abe7-25e9-7597-9df5-9aec6ad92fa5",
+  "consumedCredits": 30,
+  "input": {
+    "settings": {
+      "ai_model": "meshy-7.1",
+      "geometry_resolution": "standard",
+      "should_texture": true,
+      "texture_model": "meshy-7",
+      "enable_pbr": true,
+      "texture_resolution": "2k",
+      "should_remesh": true,
+      "topology": "triangle",
+      "target_polycount": 1500,
+      "image_enhancement": false,
+      "target_formats": [
+        "glb"
+      ],
+      "multi_view_thumbnails": true
+    },
+    "viewOrder": [
+      "front",
+      "side",
+      "back"
+    ],
+    "views": [
+      {
+        "file": "design/town/TWN/TWN_PRP_laundry_A/TWN_PRP_laundry_A_front.png",
+        "sha256": "5efb148f47f4c9aec08823270e6b8c6d14eb595551968285d5f4d4df3aef798f"
+      },
+      {
+        "file": "design/town/TWN/TWN_PRP_laundry_A/TWN_PRP_laundry_A_side.png",
+        "sha256": "5ecc98e4ce42d44e569ae296ac0ca2f24d16c73f7423ac3a477a8f25367e928c"
+      },
+      {
+        "file": "design/town/TWN/TWN_PRP_laundry_A/TWN_PRP_laundry_A_back.png",
+        "sha256": "e5c525ef72e6153e1a28b86292d91e3febd873240c7ff7c1fbf5deb0a41404b7"
+      }
+    ]
+  },
+  "glb": {
+    "meshes": 1,
+    "triangles": 1512,
+    "materials": 1,
+    "embeddedImages": 3,
+    "sha256": "2778e837b0e0effb1265bcb2997465859c840e5adcf2e859c86e2bf8dc7f9c4b",
+    "bytes": 6612264
+  },
+  "targetDimensionsM": [
+    4.0,
+    0.3,
+    2.0
+  ],
+  "dimensionFieldsUnit": "meters (per source document)",
+  "gridCellM": 2,
+  "qa": {
+    "asset": "TWN_PRP_laundry_A",
+    "sha256": "2778e837b0e0effb1265bcb2997465859c840e5adcf2e859c86e2bf8dc7f9c4b",
+    "import": "passed",
+    "render": "passed",
+    "meshes": 1,
+    "triangles": 1512,
+    "materials": 1,
+    "embeddedImages": 3,
+    "boundsMin": [
+      -0.9508130550384521,
+      -0.13036005198955536,
+      -0.48765403032302856
+    ],
+    "boundsMax": [
+      0.9494190812110901,
+      0.1305209845304489,
+      0.48656901717185974
+    ],
+    "dimensionsUnscaled": [
+      1.9002320766448975,
+      0.2608810365200043,
+      0.9742230176925659
+    ]
+  },
+  "visualReview": {
+    "status": "passed",
+    "sha256": "2778e837b0e0effb1265bcb2997465859c840e5adcf2e859c86e2bf8dc7f9c4b",
+    "notes": [
+      "Reviewed all four Meshy directions against concept and orthographic inputs. Both posts and stone feet, rope, pegs, six patched garments present from both sides.",
+      "Thin cloth geometry is expected for this asset; no extra giant backing plate or base."
+    ]
+  },
+  "previousAttempts": [],
+  "postProcessing": "pending: scale, bottom-center pivot, theme palette, final decimation and seams",
+  "sheetSource": {
+    "provider": "built-in image_gen",
+    "conceptSha256": "cd8f05cf6ac78cc56127f814e3166c2820f1da1f8eb0e94d761577a3cff8a9a9",
+    "file": "design/town/TWN/TWN_PRP_laundry_A/TWN_PRP_laundry_A_sheet-source.png",
+    "sha256": "559ecb0d78781342f8ce988eed615b1c75640f9899536c55f56120962539f89a",
+    "dimensions": [
+      1536,
+      1024
+    ],
+    "basePrompt": "Orthographic turnaround reference sheet of two wooden poles with a rope between them, colorful patched clothes and sheets hanging from the rope, warm cream plaster walls with dark oak half-timber beams, weathered sandstone and grey cobblestone, slate-blue and terracotta roof tiles, tarnished gold trim, warm lantern-orange glowing windows, cozy underground-town palette of warm browns, cream and muted gold. Exactly the same object as the reference image, shown three times side by side from left to right: front view, right side view, back view. Same scale, same height, aligned on the same baseline, each view centered in its own equal-width panel with generous empty space between views. low poly 3D game asset, flat shading, faceted geometry, clean hard edges, limited color palette, orthographic projection, no perspective distortion, even flat studio lighting, no cast shadows, no ambient occlusion, no reflections, plain pure white background, object fully visible with margin, no ground plane, no text, no labels, no arrows",
+    "exportLayout": {
+      "method": "white_gutters_common_uniform_scale",
+      "explicitCuts": true,
+      "sourceCuts": [
+        697,
+        838
+      ],
+      "sourceObjectBounds": [
+        [
+          24,
+          336,
+          665,
+          667
+        ],
+        [
+          729,
+          336,
+          808,
+          667
+        ],
+        [
+          872,
+          336,
+          1513,
+          667
+        ]
+      ],
+      "sharedVerticalBounds": [
+        336,
+        667
+      ],
+      "scale": 0.6989079563182528
+    },
+    "productionNotes": "Built-in image_gen, orthographic sheet reviewed and three views exported."
+  }
+}

@@ -1,0 +1,141 @@
+{
+  "schemaVersion": 1,
+  "id": "TWN-PRP-11",
+  "name": "木箱木桶堆",
+  "stem": "TWN_PRP_crates_A",
+  "provider": "Meshy",
+  "endpoint": "/multi-image-to-3d",
+  "taskId": "01a1abe6-b5cd-70a6-bcb1-ab22ff9fbe21",
+  "consumedCredits": 30,
+  "input": {
+    "settings": {
+      "ai_model": "meshy-7.1",
+      "geometry_resolution": "standard",
+      "should_texture": true,
+      "texture_model": "meshy-7",
+      "enable_pbr": true,
+      "texture_resolution": "2k",
+      "should_remesh": true,
+      "topology": "triangle",
+      "target_polycount": 1500,
+      "image_enhancement": false,
+      "target_formats": [
+        "glb"
+      ],
+      "multi_view_thumbnails": true
+    },
+    "viewOrder": [
+      "front",
+      "side",
+      "back"
+    ],
+    "views": [
+      {
+        "file": "design/town/TWN/TWN_PRP_crates_A/TWN_PRP_crates_A_front.png",
+        "sha256": "6343434b905999e4da713561cf4f4dd944e7984f7f3b189dd4d4a554d549a5d7"
+      },
+      {
+        "file": "design/town/TWN/TWN_PRP_crates_A/TWN_PRP_crates_A_side.png",
+        "sha256": "793683f088592cca22de3ae444b6c7c805af095eb9a22a3ffafe93c12512f3e9"
+      },
+      {
+        "file": "design/town/TWN/TWN_PRP_crates_A/TWN_PRP_crates_A_back.png",
+        "sha256": "6d93e48caa2d4f97f802ab5d1aba390aa4424db7e72d8054fb522381d07d4940"
+      }
+    ]
+  },
+  "glb": {
+    "meshes": 1,
+    "triangles": 1486,
+    "materials": 1,
+    "embeddedImages": 3,
+    "sha256": "1253cca0a4c37f0b80b4093769dee871207245f71598490b6540db386fb8f76f",
+    "bytes": 6677012
+  },
+  "targetDimensionsM": [
+    1.6,
+    1.0,
+    1.2
+  ],
+  "dimensionFieldsUnit": "meters (per source document)",
+  "gridCellM": 2,
+  "qa": {
+    "asset": "TWN_PRP_crates_A",
+    "sha256": "1253cca0a4c37f0b80b4093769dee871207245f71598490b6540db386fb8f76f",
+    "import": "passed",
+    "render": "passed",
+    "meshes": 1,
+    "triangles": 1486,
+    "materials": 1,
+    "embeddedImages": 3,
+    "boundsMin": [
+      -0.9518370628356934,
+      -0.5718681216239929,
+      -0.9406660199165344
+    ],
+    "boundsMax": [
+      0.9506610631942749,
+      0.6196810603141785,
+      0.9389749765396118
+    ],
+    "dimensionsUnscaled": [
+      1.9024981260299683,
+      1.1915491819381714,
+      1.879641056060791
+    ]
+  },
+  "visualReview": {
+    "status": "passed",
+    "sha256": "1253cca0a4c37f0b80b4093769dee871207245f71598490b6540db386fb8f76f",
+    "notes": [
+      "Compared concept/sheet and all four Meshy model previews. Two stacked crates, one barrel and one tied sack retained with appropriate overlap; crate side/back faces closed, no extra box or plinth."
+    ]
+  },
+  "previousAttempts": [],
+  "postProcessing": "pending: scale, bottom-center pivot, theme palette, final decimation and seams",
+  "sheetSource": {
+    "provider": "built-in image_gen",
+    "conceptSha256": "395dd41f35c122cfd5d28ec5270191cd7956f46115b6e204891eced4b77c579a",
+    "file": "design/town/TWN/TWN_PRP_crates_A/TWN_PRP_crates_A_sheet-source.png",
+    "sha256": "ef24c9c3a9aa5bf8348f9e3c28fbc10a5224792dfe4c0993f89827391221b3af",
+    "dimensions": [
+      1536,
+      1024
+    ],
+    "basePrompt": "Orthographic turnaround reference sheet of a small cluster of two wooden crates and a barrel, one crate stacked on another, a sack leaning on them, warm cream plaster walls with dark oak half-timber beams, weathered sandstone and grey cobblestone, slate-blue and terracotta roof tiles, tarnished gold trim, warm lantern-orange glowing windows, cozy underground-town palette of warm browns, cream and muted gold. Exactly the same object as the reference image, shown three times side by side from left to right: front view, right side view, back view. Same scale, same height, aligned on the same baseline, each view centered in its own equal-width panel with generous empty space between views. low poly 3D game asset, flat shading, faceted geometry, clean hard edges, limited color palette, orthographic projection, no perspective distortion, even flat studio lighting, no cast shadows, no ambient occlusion, no reflections, plain pure white background, object fully visible with margin, no ground plane, no text, no labels, no arrows",
+    "exportLayout": {
+      "method": "white_gutters_common_uniform_scale",
+      "explicitCuts": false,
+      "sourceCuts": [
+        590,
+        957
+      ],
+      "sourceObjectBounds": [
+        [
+          33,
+          230,
+          560,
+          751
+        ],
+        [
+          620,
+          230,
+          910,
+          751
+        ],
+        [
+          1003,
+          230,
+          1510,
+          751
+        ]
+      ],
+      "sharedVerticalBounds": [
+        230,
+        751
+      ],
+      "scale": 0.8500948766603416
+    },
+    "productionNotes": "Reviewed front/right/back cluster elevations. Exactly two stacked crates, one barrel and one tied sack; side/rear occlusion preserved. No added structures."
+  }
+}

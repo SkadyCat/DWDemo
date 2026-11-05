@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "stem": "TWN_PRP_stall_herb_A",
+  "viewOrder": [
+    "front",
+    "side",
+    "back"
+  ],
+  "files": [
+    {
+      "file": "design/town/TWN/TWN_PRP_stall_herb_A/TWN_PRP_stall_herb_A_sheet.png",
+      "sha256": "df46ee6f360dea7b49d79e1d498d17f5ff645755809dd187112142c76d988db9",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_PRP_stall_herb_A/TWN_PRP_stall_herb_A_front.png",
+      "sha256": "36bb8e10e0cd82b8686a23085be8949eda8e4238ff546187e98eab5b6bce9784",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_PRP_stall_herb_A/TWN_PRP_stall_herb_A_side.png",
+      "sha256": "a6dcc4721d82c2049f8261fe3037efad9d592343ce3108ce1130d09d41538651",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_PRP_stall_herb_A/TWN_PRP_stall_herb_A_back.png",
+      "sha256": "6eaf6fe379ad3e75f9e909a44dbd59e209060a6c56d56741c7b6641468e4b7ce",
+      "width": 512,
+      "height": 1024
+    }
+  ]
+}

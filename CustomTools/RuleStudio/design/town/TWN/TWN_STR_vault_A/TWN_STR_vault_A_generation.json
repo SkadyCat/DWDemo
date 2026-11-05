@@ -1,0 +1,154 @@
+{
+  "schemaVersion": 1,
+  "id": "TWN-STR-06",
+  "name": "库房",
+  "stem": "TWN_STR_vault_A",
+  "provider": "Meshy",
+  "endpoint": "/multi-image-to-3d",
+  "taskId": "01a1abe6-81d5-7464-afd0-38f62ccb4866",
+  "consumedCredits": 30,
+  "input": {
+    "settings": {
+      "ai_model": "meshy-7.1",
+      "geometry_resolution": "standard",
+      "should_texture": true,
+      "texture_model": "meshy-7",
+      "enable_pbr": true,
+      "texture_resolution": "2k",
+      "should_remesh": true,
+      "topology": "triangle",
+      "target_polycount": 6000,
+      "image_enhancement": false,
+      "target_formats": [
+        "glb"
+      ],
+      "multi_view_thumbnails": true
+    },
+    "viewOrder": [
+      "front",
+      "side",
+      "back",
+      "concept_three_quarter"
+    ],
+    "views": [
+      {
+        "file": "design/town/TWN/TWN_STR_vault_A/TWN_STR_vault_A_front.png",
+        "sha256": "6a5218fc944ffcb12b566b3b11fb4b742429e32b69cf70fa49b8c01b22603cb6"
+      },
+      {
+        "file": "design/town/TWN/TWN_STR_vault_A/TWN_STR_vault_A_side.png",
+        "sha256": "059da843dbcf9cb60e00030ecc49a7a908dbb87934f7fa9c9a5b04e71295b81a"
+      },
+      {
+        "file": "design/town/TWN/TWN_STR_vault_A/TWN_STR_vault_A_back.png",
+        "sha256": "05dbe399243f15a23350a0ff7bc76d83e09c77c265ccc8ce43572c0859285d12"
+      },
+      {
+        "file": "design/town/TWN/TWN_STR_vault_A/TWN_STR_vault_A_concept.png",
+        "sha256": "8f7a65ae0b110165e87395d3a298b9a173ea7a66f8bd55bdee11a419c66ef9d6"
+      }
+    ]
+  },
+  "glb": {
+    "meshes": 1,
+    "triangles": 5877,
+    "materials": 1,
+    "embeddedImages": 3,
+    "sha256": "f656e40dc3bf6ae8fd6ed69cc72cc65756d4547fc9bedbbd5e5ac9df960b8c30",
+    "bytes": 8305432
+  },
+  "targetDimensionsM": [
+    12.0,
+    12.0,
+    5.0
+  ],
+  "dimensionFieldsUnit": "meters (per source document)",
+  "gridCellM": 2,
+  "qa": {
+    "asset": "TWN_STR_vault_A",
+    "sha256": "f656e40dc3bf6ae8fd6ed69cc72cc65756d4547fc9bedbbd5e5ac9df960b8c30",
+    "import": "passed",
+    "render": "passed",
+    "meshes": 1,
+    "triangles": 5877,
+    "materials": 1,
+    "embeddedImages": 3,
+    "boundsMin": [
+      -0.952239990234375,
+      -0.9019309282302856,
+      -0.5380978584289551
+    ],
+    "boundsMax": [
+      0.9496899247169495,
+      0.9048489332199097,
+      0.5367529392242432
+    ],
+    "dimensionsUnscaled": [
+      1.9019298553466797,
+      1.8067798614501953,
+      1.0748507976531982
+    ]
+  },
+  "visualReview": {
+    "status": "passed",
+    "sha256": "f656e40dc3bf6ae8fd6ed69cc72cc65756d4547fc9bedbbd5e5ac9df960b8c30",
+    "notes": [
+      "Corrected model re-reviewed across all four Meshy directions against concept and inputs. Full side/back wall widths and warehouse depth restored; no longer collapsed facade.",
+      "Independent Blender high-angle render confirms the complete flat roof and warehouse volume."
+    ]
+  },
+  "previousAttempts": [
+    {
+      "taskId": "01a1abdf-9f9d-709f-9acc-ed83a7805d75",
+      "consumedCredits": 30,
+      "glbSha256": "5fdfaaa6dff7948ba7de88321a72e6a7b5bc6d2be8651426cd94c02fa91dc7c6",
+      "visualReview": "rejected",
+      "reason": "First GLB collapsed the warehouse into a thin facade. Corrected with concept as fourth view."
+    }
+  ],
+  "postProcessing": "pending: scale, bottom-center pivot, theme palette, final decimation and seams",
+  "sheetSource": {
+    "provider": "built-in image_gen",
+    "conceptSha256": "8f7a65ae0b110165e87395d3a298b9a173ea7a66f8bd55bdee11a419c66ef9d6",
+    "file": "design/town/TWN/TWN_STR_vault_A/TWN_STR_vault_A_sheet-source.png",
+    "sha256": "b8e5a605c29299cfee5d854d352c2e7c47202edcc27ff2d4275222d3fa3ea09c",
+    "dimensions": [
+      1536,
+      1024
+    ],
+    "basePrompt": "Orthographic turnaround reference sheet of a squat heavy stone warehouse, almost windowless, horizontal darker stone bands around the walls, a flat parapet roof, a huge iron-studded oak door crossed by three gold bands with a big round gold lock in the middle, a stone bench beside the door, warm cream plaster walls with dark oak half-timber beams, weathered sandstone and grey cobblestone, slate-blue and terracotta roof tiles, tarnished gold trim, warm lantern-orange glowing windows, cozy underground-town palette of warm browns, cream and muted gold. Exactly the same object as the reference image, shown three times side by side from left to right: front view, right side view, back view. Same scale, same height, aligned on the same baseline, each view centered in its own equal-width panel with generous empty space between views. low poly 3D game asset, flat shading, faceted geometry, clean hard edges, limited color palette, orthographic projection, no perspective distortion, even flat studio lighting, no cast shadows, no ambient occlusion, no reflections, plain pure white background, object fully visible with margin, no ground plane, no text, no labels, no arrows",
+    "exportLayout": {
+      "method": "white_gutters_common_uniform_scale",
+      "sourceCuts": [
+        569,
+        973
+      ],
+      "sourceObjectBounds": [
+        [
+          88,
+          435,
+          529,
+          692
+        ],
+        [
+          610,
+          435,
+          934,
+          692
+        ],
+        [
+          1011,
+          435,
+          1450,
+          692
+        ]
+      ],
+      "sharedVerticalBounds": [
+        435,
+        692
+      ],
+      "scale": 1.0
+    },
+    "productionNotes": "Built-in image_gen, orthographic sheet reviewed and three views exported."
+  }
+}

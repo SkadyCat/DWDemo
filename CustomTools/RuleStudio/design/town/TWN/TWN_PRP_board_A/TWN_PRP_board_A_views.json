@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "stem": "TWN_PRP_board_A",
+  "viewOrder": [
+    "front",
+    "side",
+    "back"
+  ],
+  "files": [
+    {
+      "file": "design/town/TWN/TWN_PRP_board_A/TWN_PRP_board_A_sheet.png",
+      "sha256": "9c438fbcfb668945af67be49f9b69ec5b24dff7b81915897d0053891f8176105",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_PRP_board_A/TWN_PRP_board_A_front.png",
+      "sha256": "98387fd45a8485925252e3c6a95998585a692577372df499e77ae9de2fb211c5",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_PRP_board_A/TWN_PRP_board_A_side.png",
+      "sha256": "eea33d2e85e8523edab7ae9e02ece203ea8efe73f29579b8278099694834bd8d",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_PRP_board_A/TWN_PRP_board_A_back.png",
+      "sha256": "db67e40a37630b6072b8fabb3fa7ce4b8d39955e3955de8df828b4b3d5d0535f",
+      "width": 512,
+      "height": 1024
+    }
+  ]
+}

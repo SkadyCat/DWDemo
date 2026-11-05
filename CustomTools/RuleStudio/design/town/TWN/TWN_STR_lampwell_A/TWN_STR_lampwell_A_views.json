@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "stem": "TWN_STR_lampwell_A",
+  "viewOrder": [
+    "front",
+    "side",
+    "back"
+  ],
+  "files": [
+    {
+      "file": "design/town/TWN/TWN_STR_lampwell_A/TWN_STR_lampwell_A_sheet.png",
+      "sha256": "977567c1d93a3d252f9a9e433f14e82e91b498821ec0ce40509eb4c8f8984286",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_STR_lampwell_A/TWN_STR_lampwell_A_front.png",
+      "sha256": "2e15d858e30fd02e53cb176cd18e08e3eceb20bfe5ecd97b04814c6c484c3e9a",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_STR_lampwell_A/TWN_STR_lampwell_A_side.png",
+      "sha256": "9ef7147be81cc510c6c566832955fa05086b265affa28e28d885033f94679adc",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_STR_lampwell_A/TWN_STR_lampwell_A_back.png",
+      "sha256": "c7f7e8796b61937de37c0010e141aa2595917661d259c60b19613a8bcc764fd2",
+      "width": 512,
+      "height": 1024
+    }
+  ]
+}

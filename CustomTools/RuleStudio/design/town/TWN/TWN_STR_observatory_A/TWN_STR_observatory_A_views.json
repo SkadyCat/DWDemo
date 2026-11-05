@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "stem": "TWN_STR_observatory_A",
+  "viewOrder": [
+    "front",
+    "side",
+    "back"
+  ],
+  "files": [
+    {
+      "file": "design/town/TWN/TWN_STR_observatory_A/TWN_STR_observatory_A_sheet.png",
+      "sha256": "1625e428c19145ba4fd3e0923ca47b7309252b412692b2806fa6ab9cf4576a2e",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_STR_observatory_A/TWN_STR_observatory_A_front.png",
+      "sha256": "92f4b5bad3180d25aa2b457955d90637a8f0c9546439fc3f2a7efd8ec66c03bb",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_STR_observatory_A/TWN_STR_observatory_A_side.png",
+      "sha256": "e2efc5411c89f533a708eb58a2a6ae5eba66302c5a688931f2378952e16d444f",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "file": "design/town/TWN/TWN_STR_observatory_A/TWN_STR_observatory_A_back.png",
+      "sha256": "d7a0d4fb43fb55d77128ce513635e8136f1e5586fc6b69e860d2d51577cf1d84",
+      "width": 512,
+      "height": 1024
+    }
+  ]
+}
